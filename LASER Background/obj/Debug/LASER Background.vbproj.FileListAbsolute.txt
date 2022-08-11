@@ -1,0 +1,26 @@
+D:\Documents\Visual Studio Projects\LASER System\LASER Background\obj\Debug\LASER Background.vbproj.AssemblyReference.cache
+D:\Documents\Visual Studio Projects\LASER System\LASER Background\obj\Debug\LASER Background.vbproj.SuggestedBindingRedirects.cache
+D:\Documents\Visual Studio Projects\LASER System\LASER Background\obj\Debug\LASER_Background.frmBGTasks.resources
+D:\Documents\Visual Studio Projects\LASER System\LASER Background\obj\Debug\LASER_Background.Resources.resources
+D:\Documents\Visual Studio Projects\LASER System\LASER Background\obj\Debug\LASER_Background.compMessageBox.resources
+D:\Documents\Visual Studio Projects\LASER System\LASER Background\obj\Debug\LASER Background.vbproj.GenerateResource.cache
+D:\Documents\Visual Studio Projects\LASER System\LASER Background\obj\Debug\LASER Background.vbproj.CoreCompileInputs.cache
+D:\Documents\Visual Studio Projects\LASER System\LASER Background\bin\Debug\LASER Background.exe.config
+D:\Documents\Visual Studio Projects\LASER System\LASER Background\bin\Debug\LASER Background.exe
+D:\Documents\Visual Studio Projects\LASER System\LASER Background\bin\Debug\LASER Background.pdb
+D:\Documents\Visual Studio Projects\LASER System\LASER Background\bin\Debug\LASER Background.xml
+D:\Documents\Visual Studio Projects\LASER System\LASER Background\bin\Debug\Guna.UI2.dll
+D:\Documents\Visual Studio Projects\LASER System\LASER Background\bin\Debug\Newtonsoft.Json.dll
+D:\Documents\Visual Studio Projects\LASER System\LASER Background\bin\Debug\zxing.dll
+D:\Documents\Visual Studio Projects\LASER System\LASER Background\bin\Debug\zxing.presentation.dll
+D:\Documents\Visual Studio Projects\LASER System\LASER Background\bin\Debug\Newtonsoft.Json.xml
+D:\Documents\Visual Studio Projects\LASER System\LASER Background\bin\Debug\zxing.xml
+D:\Documents\Visual Studio Projects\LASER System\LASER Background\bin\Debug\zxing.presentation.xml
+D:\Documents\Visual Studio Projects\LASER System\LASER Background\obj\Debug\LASER Background.vbproj.CopyComplete
+D:\Documents\Visual Studio Projects\LASER System\LASER Background\obj\Debug\LASER Background.exe
+D:\Documents\Visual Studio Projects\LASER System\LASER Background\obj\Debug\LASER Background.xml
+D:\Documents\Visual Studio Projects\LASER System\LASER Background\obj\Debug\LASER Background.pdb
+D:\Documents\Visual Studio Projects\LASER System\LASER Background\bin\Debug\LASER Background.exe.manifest
+D:\Documents\Visual Studio Projects\LASER System\LASER Background\bin\Debug\LASER Background.application
+D:\Documents\Visual Studio Projects\LASER System\LASER Background\obj\Debug\LASER Background.exe.manifest
+D:\Documents\Visual Studio Projects\LASER System\LASER Background\obj\Debug\LASER Background.application

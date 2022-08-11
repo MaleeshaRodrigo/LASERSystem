@@ -1,0 +1,26 @@
+D:\Documents\Visual Studio Projects\LASER System\LASER Background\bin\Release\LASER Background.exe.config
+D:\Documents\Visual Studio Projects\LASER System\LASER Background\bin\Release\LASER Background.exe
+D:\Documents\Visual Studio Projects\LASER System\LASER Background\bin\Release\LASER Background.pdb
+D:\Documents\Visual Studio Projects\LASER System\LASER Background\bin\Release\LASER Background.xml
+D:\Documents\Visual Studio Projects\LASER System\LASER Background\bin\Release\Guna.UI2.dll
+D:\Documents\Visual Studio Projects\LASER System\LASER Background\bin\Release\Newtonsoft.Json.dll
+D:\Documents\Visual Studio Projects\LASER System\LASER Background\bin\Release\zxing.dll
+D:\Documents\Visual Studio Projects\LASER System\LASER Background\bin\Release\zxing.presentation.dll
+D:\Documents\Visual Studio Projects\LASER System\LASER Background\bin\Release\Newtonsoft.Json.xml
+D:\Documents\Visual Studio Projects\LASER System\LASER Background\bin\Release\zxing.xml
+D:\Documents\Visual Studio Projects\LASER System\LASER Background\bin\Release\zxing.presentation.xml
+D:\Documents\Visual Studio Projects\LASER System\LASER Background\obj\Release\LASER Background.vbproj.AssemblyReference.cache
+D:\Documents\Visual Studio Projects\LASER System\LASER Background\obj\Release\LASER Background.vbproj.SuggestedBindingRedirects.cache
+D:\Documents\Visual Studio Projects\LASER System\LASER Background\obj\Release\LASER_Background.frmBGTasks.resources
+D:\Documents\Visual Studio Projects\LASER System\LASER Background\obj\Release\LASER_Background.Resources.resources
+D:\Documents\Visual Studio Projects\LASER System\LASER Background\obj\Release\LASER_Background.compMessageBox.resources
+D:\Documents\Visual Studio Projects\LASER System\LASER Background\obj\Release\LASER Background.vbproj.GenerateResource.cache
+D:\Documents\Visual Studio Projects\LASER System\LASER Background\obj\Release\LASER Background.vbproj.CoreCompileInputs.cache
+D:\Documents\Visual Studio Projects\LASER System\LASER Background\obj\Release\LASER Background.vbproj.CopyComplete
+D:\Documents\Visual Studio Projects\LASER System\LASER Background\obj\Release\LASER Background.exe
+D:\Documents\Visual Studio Projects\LASER System\LASER Background\obj\Release\LASER Background.xml
+D:\Documents\Visual Studio Projects\LASER System\LASER Background\obj\Release\LASER Background.pdb
+D:\Documents\Visual Studio Projects\LASER System\LASER Background\bin\Release\LASER Background.exe.manifest
+D:\Documents\Visual Studio Projects\LASER System\LASER Background\bin\Release\LASER Background.application
+D:\Documents\Visual Studio Projects\LASER System\LASER Background\obj\Release\LASER Background.exe.manifest
+D:\Documents\Visual Studio Projects\LASER System\LASER Background\obj\Release\LASER Background.application
