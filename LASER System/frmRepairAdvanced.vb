@@ -29,8 +29,7 @@ Public Class frmRepairAdvanced
     End Sub
 
     Private Sub cmdSave_Click(sender As Object, e As EventArgs) Handles cmdSave.Click
-        Dim AdminSend As Boolean = False
-        Dim Remarks As String = ""
+        Dim AdminPer As New AdminPermission
         If cmbRepNo.Text = "" Then
             MsgBox("Repair No හෝ RE-Repair No එක ඇතුලත් කරන්න.", vbExclamation + vbOKOnly)
         ElseIf CheckEmptyfield(txtAmount, "Advanced එකෙහි Amount එක ඇතුලත් කරන්න.") = False Then
@@ -39,23 +38,25 @@ Public Class frmRepairAdvanced
         Select Case cmdSave.Text
             Case "Save"
                 If (MdifrmMain.tslblUserType.Text <> "Admin" And DateAndTime.DateValue(txtAdDate.Value) <> DateTime.Today.Date) Then
-                    AdminSend = True
-                    Remarks = "අද දිනට නොමැති Repair එකෙහි " & txtAdNo.Text & " වන Advanced Payment එකක් ඇතුලත් කෙරුණි. "
+                    AdminPer.AdminSend = True
+                    AdminPer.Remarks = "අද දිනට නොමැති Repair එකෙහි " & txtAdNo.Text & " වන Advanced Payment එකක් ඇතුලත් කෙරුණි. "
                 End If
                 If rbRep.Checked = True Then
                     CMDUPDATE("Insert into RepairAdvanced(ADNo,ADDate,RepNo,RetNo,Amount,Remarks,UNo) Values(?PrimaryKey?RepairAdvanced?AdNo?,#" &
-                          txtAdDate.Value & "#," & cmbRepNo.Text & ",0," & txtAmount.Text & ",'" & txtRemarks.Text & "'," & MdifrmMain.Tag & ")", AdminSend, Remarks)
+                          txtAdDate.Value & "#," & cmbRepNo.Text & ",0," & txtAmount.Text & ",'" & txtRemarks.Text & "'," & MdifrmMain.Tag & ")",
+                              AdminPer)
                 Else
                     CMDUPDATE("Insert into RepairAdvanced(ADNo,ADDate,RepNo,RetNo,Amount,Remarks,UNo) Values(?PrimaryKey?RepairAdvanced?AdNo?,#" &
-                          txtAdDate.Value & "#,0," & cmbRepNo.Text & "," & txtAmount.Text & ",'" & txtRemarks.Text & "'," & MdifrmMain.Tag & ")", AdminSend, Remarks)
+                          txtAdDate.Value & "#,0," & cmbRepNo.Text & "," & txtAmount.Text & ",'" & txtRemarks.Text & "'," & MdifrmMain.Tag & ")",
+                              AdminPer)
                 End If
                 If MsgBox("Repair Advanced Invoice එක print කිරීමට අවශ්‍යද?", vbYesNo) = vbYes Then
                     PrintRepairAdvancedToolStripMenuItem_Click(sender, e)
                 End If
             Case "Edit"
                 If (MdifrmMain.tslblUserType.Text <> "Admin" And DateAndTime.DateValue(txtAdDate.Value) <> DateTime.Today.Date) Then
-                    AdminSend = True
-                    Remarks = "අද දිනට නොමැති Repair එකෙහි " & txtAdNo.Text & " වන Advanced Payment එකක් වෙනස් කෙරුණි. "
+                    AdminPer.AdminSend = True
+                    AdminPer.Remarks = "අද දිනට නොමැති Repair එකෙහි " & txtAdNo.Text & " වන Advanced Payment එකක් වෙනස් කෙරුණි. "
                 End If
                 If rbRep.Checked = True Then
                     CMDUPDATE("Update RepairAdvanced set ADDate=#" & txtAdDate.Value &
@@ -64,7 +65,7 @@ Public Class frmRepairAdvanced
                               ", Amount=" & txtAmount.Text &
                               ", Remarks='" & txtRemarks.Text &
                               "', UNo=" & MdifrmMain.Tag &
-                              " Where AdNo=" & txtAdNo.Text, AdminSend, Remarks)
+                              " Where AdNo=" & txtAdNo.Text, AdminPer)
                 Else
                     CMDUPDATE("Update RepairAdvanced set ADDate=#" & txtAdDate.Value &
                               "#, RetNo=" & cmbRepNo.Text &
@@ -72,7 +73,7 @@ Public Class frmRepairAdvanced
                               ", Amount=" & txtAmount.Text &
                               ", Remarks='" & txtRemarks.Text &
                               "', UNo=" & MdifrmMain.Tag &
-                              " Where AdNo=" & txtAdNo.Text, AdminSend, Remarks)
+                              " Where AdNo=" & txtAdNo.Text, AdminPer)
                 End If
         End Select
         cmdNew_Click(sender, e)
@@ -99,8 +100,10 @@ Public Class frmRepairAdvanced
         Dim DRRepAdv As OleDbDataReader = CMDRepAdv.ExecuteReader
         grdRepAdvanced.Rows.Clear()
         While DRRepAdv.Read
-            grdRepAdvanced.Rows.Add(DRRepAdv("ADNo").ToString, DRRepAdv("ADDate").ToString, DRRepAdv("RepNo").ToString, DRRepAdv("RetNo").ToString, DRRepAdv("Amount").ToString,
-                                DRRepAdv("Remarks").ToString, GetStrfromRelatedfield("Select UserName from [User] Where UNo=" & DRRepAdv("UNo").ToString, "UserName"))
+            grdRepAdvanced.Rows.Add(DRRepAdv("ADNo").ToString, DRRepAdv("ADDate").ToString, DRRepAdv("RepNo").ToString, DRRepAdv("RetNo").ToString,
+                                    DRRepAdv("Amount").ToString,
+                                DRRepAdv("Remarks").ToString, GetStrfromRelatedfield("Select UserName from [User] Where UNo=" &
+                                DRRepAdv("UNo").ToString))
         End While
         grdRepAdvanced.Refresh()
         CMDRepAdv.Cancel()
@@ -108,17 +111,16 @@ Public Class frmRepairAdvanced
     End Sub
 
     Private Sub cmdDelete_Click(sender As Object, e As EventArgs) Handles cmdDelete.Click
-        Dim AdminSend As Boolean = False
-        Dim Remarks As String = ""
+        Dim AdminPer As New AdminPermission
         If CheckExistData(txtAdNo, "Select AdNo from RepairAdvanced Where AdNo=" & txtAdNo.Text, "මෙම Advanced එක ඇතුලත් කර නොමැති එකකි." &
                              " කරුණාකර පරික්ෂා කර නැවත උත්සහ කරන්න.", False) = False Then
             Exit Sub
         End If
         If MdifrmMain.tslblUserType.Text <> "Admin" And Convert.ToDateTime(txtAdDate.Value).Date <> DateTime.Today.Date Then
-            AdminSend = True
-            Remarks = "Repair හි " & txtAdNo.Text & " Advanced Payment එකක් Delete කෙරුණි."
+            AdminPer.AdminSend = True
+            AdminPer.Remarks = "Repair හි " & txtAdNo.Text & " Advanced Payment එකක් Delete කෙරුණි."
         End If
-        CMDUPDATE("Delete from RepairAdvanced Where AdNo=" & txtAdNo.Text, AdminSend, Remarks)
+        CMDUPDATE("Delete from RepairAdvanced Where AdNo=" & txtAdNo.Text, AdminPer)
     End Sub
 
     Private Sub cmdClose_Click(sender As Object, e As EventArgs) Handles cmdClose.Click

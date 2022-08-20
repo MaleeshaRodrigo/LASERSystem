@@ -507,6 +507,7 @@ Partial Class frmDeliver
         '
         'MenuStrip
         '
+        Me.MenuStrip.BackColor = System.Drawing.Color.IndianRed
         Me.MenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OPTIONToolStripMenuItem, Me.VIEWToolStripMenuItem})
         Me.MenuStrip.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip.Name = "MenuStrip"
@@ -857,7 +858,7 @@ Partial Class frmDeliver
         'cmdCancel
         '
         Me.cmdCancel.Font = New System.Drawing.Font("Calibri", 12.0!)
-        Me.cmdCancel.Image = My.Resources.Resources.close
+        Me.cmdCancel.Image = Global.LASER_System.My.Resources.Resources.close
         Me.cmdCancel.Location = New System.Drawing.Point(389, 3)
         Me.cmdCancel.Name = "cmdCancel"
         Me.cmdCancel.Size = New System.Drawing.Size(34, 30)
@@ -870,7 +871,6 @@ Partial Class frmDeliver
         Me.pnlDSaveFinal.Controls.Add(Me.grpPaymentInfo)
         Me.pnlDSaveFinal.Location = New System.Drawing.Point(915, 80)
         Me.pnlDSaveFinal.Name = "pnlDSaveFinal"
-        Me.pnlDSaveFinal.ShadowDecoration.Parent = Me.pnlDSaveFinal
         Me.pnlDSaveFinal.Size = New System.Drawing.Size(443, 411)
         Me.pnlDSaveFinal.TabIndex = 83
         Me.pnlDSaveFinal.UseTransparentBackground = True
@@ -900,7 +900,6 @@ Partial Class frmDeliver
         Me.grpPaymentInfo.Name = "grpPaymentInfo"
         Me.grpPaymentInfo.ShadowDecoration.BorderRadius = 10
         Me.grpPaymentInfo.ShadowDecoration.Enabled = True
-        Me.grpPaymentInfo.ShadowDecoration.Parent = Me.grpPaymentInfo
         Me.grpPaymentInfo.Size = New System.Drawing.Size(426, 405)
         Me.grpPaymentInfo.TabIndex = 84
         Me.grpPaymentInfo.Text = "Payment Info"

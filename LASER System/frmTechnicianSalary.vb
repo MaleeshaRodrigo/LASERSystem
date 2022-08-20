@@ -320,7 +320,7 @@ Public Class frmTechnicianSalary
         End With
         RPT.Export()
         CMDUPDATE("Insert Into Mail(MailNo,MailDate,EmailTo,Subject,Body,Status,Attachment1) Values(" &
-                AutomaticPrimaryKeyStr("Mail", "MailNo") & ",#" & DateAndTime.Now &
+                AutomaticPrimaryKey("Mail", "MailNo") & ",#" & DateAndTime.Now &
                 "#,'" & DR("TEmail").ToString & "','Technician Salary (from " & txtTSFrom.Value.Date.ToString & " To " & txtTSTo.Value.Date.ToString &
                   ")','LASER System " + Application.ProductVersion + vbCrLf + vbCrLf +
                  "Name: " & DR("TName").ToString & vbCrLf +

@@ -57,10 +57,10 @@ Partial Class frmCustomer
         Me.tlpanelDetails = New System.Windows.Forms.TableLayoutPanel()
         Me.GroupBox5 = New System.Windows.Forms.GroupBox()
         Me.grdCuLoan = New System.Windows.Forms.DataGridView()
-        Me.GroupBox3 = New System.Windows.Forms.GroupBox()
-        Me.grdRepair = New System.Windows.Forms.DataGridView()
         Me.GroupBox4 = New System.Windows.Forms.GroupBox()
         Me.grdSale = New System.Windows.Forms.DataGridView()
+        Me.GroupBox3 = New System.Windows.Forms.GroupBox()
+        Me.grdRepair = New System.Windows.Forms.DataGridView()
         CType(Me.grdCustomer, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpSearch.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -69,10 +69,10 @@ Partial Class frmCustomer
         Me.tlpanelDetails.SuspendLayout()
         Me.GroupBox5.SuspendLayout()
         CType(Me.grdCuLoan, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GroupBox3.SuspendLayout()
-        CType(Me.grdRepair, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox4.SuspendLayout()
         CType(Me.grdSale, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.GroupBox3.SuspendLayout()
+        CType(Me.grdRepair, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Label11
@@ -369,6 +369,7 @@ Partial Class frmCustomer
         '
         'MenuStrip
         '
+        Me.MenuStrip.BackColor = System.Drawing.Color.DarkSlateBlue
         Me.MenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OPTIONToolStripMenuItem})
         Me.MenuStrip.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip.Name = "MenuStrip"
@@ -434,30 +435,6 @@ Partial Class frmCustomer
         Me.grdCuLoan.Size = New System.Drawing.Size(212, 60)
         Me.grdCuLoan.TabIndex = 0
         '
-        'GroupBox3
-        '
-        Me.GroupBox3.Controls.Add(Me.grdRepair)
-        Me.GroupBox3.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.GroupBox3.Location = New System.Drawing.Point(3, 3)
-        Me.GroupBox3.Name = "GroupBox3"
-        Me.GroupBox3.Size = New System.Drawing.Size(218, 166)
-        Me.GroupBox3.TabIndex = 0
-        Me.GroupBox3.TabStop = False
-        Me.GroupBox3.Text = "Repair Info"
-        '
-        'grdRepair
-        '
-        Me.grdRepair.AllowUserToAddRows = False
-        Me.grdRepair.AllowUserToDeleteRows = False
-        Me.grdRepair.AllowUserToOrderColumns = True
-        Me.grdRepair.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.grdRepair.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.grdRepair.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically
-        Me.grdRepair.Location = New System.Drawing.Point(3, 18)
-        Me.grdRepair.Name = "grdRepair"
-        Me.grdRepair.Size = New System.Drawing.Size(212, 145)
-        Me.grdRepair.TabIndex = 0
-        '
         'GroupBox4
         '
         Me.GroupBox4.Controls.Add(Me.grdSale)
@@ -481,6 +458,30 @@ Partial Class frmCustomer
         Me.grdSale.Name = "grdSale"
         Me.grdSale.Size = New System.Drawing.Size(212, 145)
         Me.grdSale.TabIndex = 0
+        '
+        'GroupBox3
+        '
+        Me.GroupBox3.Controls.Add(Me.grdRepair)
+        Me.GroupBox3.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.GroupBox3.Location = New System.Drawing.Point(3, 3)
+        Me.GroupBox3.Name = "GroupBox3"
+        Me.GroupBox3.Size = New System.Drawing.Size(218, 166)
+        Me.GroupBox3.TabIndex = 0
+        Me.GroupBox3.TabStop = False
+        Me.GroupBox3.Text = "Repair Info"
+        '
+        'grdRepair
+        '
+        Me.grdRepair.AllowUserToAddRows = False
+        Me.grdRepair.AllowUserToDeleteRows = False
+        Me.grdRepair.AllowUserToOrderColumns = True
+        Me.grdRepair.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.grdRepair.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.grdRepair.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically
+        Me.grdRepair.Location = New System.Drawing.Point(3, 18)
+        Me.grdRepair.Name = "grdRepair"
+        Me.grdRepair.Size = New System.Drawing.Size(212, 145)
+        Me.grdRepair.TabIndex = 0
         '
         'frmCustomer
         '
@@ -507,10 +508,10 @@ Partial Class frmCustomer
         Me.tlpanelDetails.ResumeLayout(False)
         Me.GroupBox5.ResumeLayout(False)
         CType(Me.grdCuLoan, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.GroupBox3.ResumeLayout(False)
-        CType(Me.grdRepair, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox4.ResumeLayout(False)
         CType(Me.grdSale, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GroupBox3.ResumeLayout(False)
+        CType(Me.grdRepair, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

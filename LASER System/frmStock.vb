@@ -217,7 +217,7 @@ Public Class frmStock
         If grdStock.Item("SAvailableStocks", e.RowIndex).Value Is Nothing Then grdStock.Item("SAvailableStocks", e.RowIndex).Value = "0"
         If grdStock.Item("SoutofStocks", e.RowIndex).Value Is Nothing Then grdStock.Item("SOutofStocks", e.RowIndex).Value = "0"
         If grdStock.Item(0, e.RowIndex).Value Is Nothing Then
-            grdStock.Item(0, e.RowIndex).Value = AutomaticPrimaryKeyStr("Stock", "SNo")
+            grdStock.Item(0, e.RowIndex).Value = AutomaticPrimaryKey("Stock", "SNo")
             CMDUPDATE("Insert into Stock(SNo, SAvailableStocks, SOutofstocks) Values(" & grdStock.Item(0, e.RowIndex).Value.ToString & ",0,0);")
         End If
         If grdStock.Item(e.ColumnIndex, e.RowIndex).Value <> grdStock.Item(e.ColumnIndex, e.RowIndex).Tag Then

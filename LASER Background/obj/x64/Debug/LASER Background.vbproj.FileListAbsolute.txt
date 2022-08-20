@@ -1,0 +1,27 @@
+E:\LASERSystem\LASER Background\bin\x64\Debug\LASER Background.exe.config
+E:\LASERSystem\LASER Background\bin\x64\Debug\LASER Background.exe.manifest
+E:\LASERSystem\LASER Background\bin\x64\Debug\LASER Background.application
+E:\LASERSystem\LASER Background\bin\x64\Debug\LASER Background.exe
+E:\LASERSystem\LASER Background\bin\x64\Debug\LASER Background.pdb
+E:\LASERSystem\LASER Background\bin\x64\Debug\LASER Background.xml
+E:\LASERSystem\LASER Background\bin\x64\Debug\Guna.UI2.dll
+E:\LASERSystem\LASER Background\bin\x64\Debug\Newtonsoft.Json.dll
+E:\LASERSystem\LASER Background\bin\x64\Debug\zxing.dll
+E:\LASERSystem\LASER Background\bin\x64\Debug\zxing.presentation.dll
+E:\LASERSystem\LASER Background\bin\x64\Debug\Newtonsoft.Json.xml
+E:\LASERSystem\LASER Background\bin\x64\Debug\zxing.xml
+E:\LASERSystem\LASER Background\bin\x64\Debug\zxing.presentation.xml
+E:\LASERSystem\LASER Background\obj\x64\Debug\LASER Background.vbproj.AssemblyReference.cache
+E:\LASERSystem\LASER Background\obj\x64\Debug\LASER Background.vbproj.SuggestedBindingRedirects.cache
+E:\LASERSystem\LASER Background\obj\x64\Debug\LASER_Background.frmBGTasks.resources
+E:\LASERSystem\LASER Background\obj\x64\Debug\LASER_Background.Resources.resources
+E:\LASERSystem\LASER Background\obj\x64\Debug\LASER_Background.compMessageBox.resources
+E:\LASERSystem\LASER Background\obj\x64\Debug\LASER Background.vbproj.GenerateResource.cache
+E:\LASERSystem\LASER Background\obj\x64\Debug\LASER Background.vbproj.CoreCompileInputs.cache
+E:\LASERSystem\LASER Background\obj\x64\Debug\LASER Background.TrustInfo.xml
+E:\LASERSystem\LASER Background\obj\x64\Debug\LASER Background.exe.manifest
+E:\LASERSystem\LASER Background\obj\x64\Debug\LASER Background.application
+E:\LASERSystem\LASER Background\obj\x64\Debug\LASER Background.vbproj.CopyComplete
+E:\LASERSystem\LASER Background\obj\x64\Debug\LASER Background.exe
+E:\LASERSystem\LASER Background\obj\x64\Debug\LASER Background.xml
+E:\LASERSystem\LASER Background\obj\x64\Debug\LASER Background.pdb

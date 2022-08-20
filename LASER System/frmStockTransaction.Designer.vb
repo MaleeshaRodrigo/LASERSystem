@@ -24,8 +24,6 @@ Partial Class frmStockTransaction
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmStockTransaction))
         Me.grpStock = New System.Windows.Forms.GroupBox()
-        Me.cmbSName = New Guna.UI2.WinForms.Guna2ComboBox()
-        Me.cmbSCategory = New Guna.UI2.WinForms.Guna2ComboBox()
         Me.txtSNo = New System.Windows.Forms.TextBox()
         Me.Label9 = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
@@ -68,8 +66,10 @@ Partial Class frmStockTransaction
         Me.cmdDone = New System.Windows.Forms.Button()
         Me.MenuStrip = New System.Windows.Forms.MenuStrip()
         Me.OPTIONToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.CloseToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DoneToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CloseToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.cmbSCategory = New System.Windows.Forms.ComboBox()
+        Me.cmbSName = New System.Windows.Forms.ComboBox()
         Me.grpStock.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         CType(Me.grdSupply, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -96,44 +96,6 @@ Partial Class frmStockTransaction
         Me.grpStock.TabIndex = 21
         Me.grpStock.TabStop = False
         Me.grpStock.Text = "Stock Details"
-        '
-        'cmbSName
-        '
-        Me.cmbSName.BackColor = System.Drawing.Color.Transparent
-        Me.cmbSName.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
-        Me.cmbSName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cmbSName.FocusedColor = System.Drawing.Color.Empty
-        Me.cmbSName.FocusedState.Parent = Me.cmbSName
-        Me.cmbSName.Font = New System.Drawing.Font("Segoe UI", 10.0!)
-        Me.cmbSName.ForeColor = System.Drawing.Color.FromArgb(CType(CType(68, Byte), Integer), CType(CType(88, Byte), Integer), CType(CType(112, Byte), Integer))
-        Me.cmbSName.FormattingEnabled = True
-        Me.cmbSName.HoverState.Parent = Me.cmbSName
-        Me.cmbSName.ItemHeight = 18
-        Me.cmbSName.ItemsAppearance.Parent = Me.cmbSName
-        Me.cmbSName.Location = New System.Drawing.Point(78, 53)
-        Me.cmbSName.Name = "cmbSName"
-        Me.cmbSName.ShadowDecoration.Parent = Me.cmbSName
-        Me.cmbSName.Size = New System.Drawing.Size(351, 24)
-        Me.cmbSName.TabIndex = 29
-        '
-        'cmbSCategory
-        '
-        Me.cmbSCategory.BackColor = System.Drawing.Color.Transparent
-        Me.cmbSCategory.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
-        Me.cmbSCategory.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cmbSCategory.FocusedColor = System.Drawing.Color.Empty
-        Me.cmbSCategory.FocusedState.Parent = Me.cmbSCategory
-        Me.cmbSCategory.Font = New System.Drawing.Font("Segoe UI", 10.0!)
-        Me.cmbSCategory.ForeColor = System.Drawing.Color.FromArgb(CType(CType(68, Byte), Integer), CType(CType(88, Byte), Integer), CType(CType(112, Byte), Integer))
-        Me.cmbSCategory.FormattingEnabled = True
-        Me.cmbSCategory.HoverState.Parent = Me.cmbSCategory
-        Me.cmbSCategory.ItemHeight = 18
-        Me.cmbSCategory.ItemsAppearance.Parent = Me.cmbSCategory
-        Me.cmbSCategory.Location = New System.Drawing.Point(78, 23)
-        Me.cmbSCategory.Name = "cmbSCategory"
-        Me.cmbSCategory.ShadowDecoration.Parent = Me.cmbSCategory
-        Me.cmbSCategory.Size = New System.Drawing.Size(220, 24)
-        Me.cmbSCategory.TabIndex = 28
         '
         'txtSNo
         '
@@ -510,19 +472,35 @@ Partial Class frmStockTransaction
         Me.OPTIONToolStripMenuItem.Size = New System.Drawing.Size(62, 20)
         Me.OPTIONToolStripMenuItem.Text = "OPTION"
         '
-        'CloseToolStripMenuItem
-        '
-        Me.CloseToolStripMenuItem.Name = "CloseToolStripMenuItem"
-        Me.CloseToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.F4), System.Windows.Forms.Keys)
-        Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.CloseToolStripMenuItem.Text = "Close"
-        '
         'DoneToolStripMenuItem
         '
         Me.DoneToolStripMenuItem.Name = "DoneToolStripMenuItem"
         Me.DoneToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.D), System.Windows.Forms.Keys)
-        Me.DoneToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.DoneToolStripMenuItem.Size = New System.Drawing.Size(145, 22)
         Me.DoneToolStripMenuItem.Text = "Done"
+        '
+        'CloseToolStripMenuItem
+        '
+        Me.CloseToolStripMenuItem.Name = "CloseToolStripMenuItem"
+        Me.CloseToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.F4), System.Windows.Forms.Keys)
+        Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(145, 22)
+        Me.CloseToolStripMenuItem.Text = "Close"
+        '
+        'cmbSCategory
+        '
+        Me.cmbSCategory.FormattingEnabled = True
+        Me.cmbSCategory.Location = New System.Drawing.Point(78, 22)
+        Me.cmbSCategory.Name = "cmbSCategory"
+        Me.cmbSCategory.Size = New System.Drawing.Size(220, 23)
+        Me.cmbSCategory.TabIndex = 29
+        '
+        'cmbSName
+        '
+        Me.cmbSName.FormattingEnabled = True
+        Me.cmbSName.Location = New System.Drawing.Point(78, 51)
+        Me.cmbSName.Name = "cmbSName"
+        Me.cmbSName.Size = New System.Drawing.Size(351, 23)
+        Me.cmbSName.TabIndex = 30
         '
         'frmStockTransaction
         '
@@ -599,10 +577,10 @@ Partial Class frmStockTransaction
     Friend WithEvents Rate As DataGridViewTextBoxColumn
     Friend WithEvents Qty As DataGridViewTextBoxColumn
     Friend WithEvents Total As DataGridViewTextBoxColumn
-    Friend WithEvents cmbSCategory As Guna.UI2.WinForms.Guna2ComboBox
-    Friend WithEvents cmbSName As Guna.UI2.WinForms.Guna2ComboBox
     Friend WithEvents MenuStrip As MenuStrip
     Friend WithEvents OPTIONToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents CloseToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents DoneToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents cmbSName As ComboBox
+    Friend WithEvents cmbSCategory As ComboBox
 End Class

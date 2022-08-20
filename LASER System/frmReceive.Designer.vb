@@ -492,6 +492,7 @@ Partial Class frmReceive
         '
         'MenuStrip
         '
+        Me.MenuStrip.BackColor = System.Drawing.Color.Green
         Me.MenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OPTIONToolStripMenuItem, Me.VIEWToolStripMenuItem})
         Me.MenuStrip.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip.Name = "MenuStrip"

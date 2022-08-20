@@ -131,11 +131,11 @@ Public Class frmReceive
                 MsgBox(row.Index + " වන තීරුවේ Repair No යන fild එක හිස්ව පවතින බැවින් Save කිරීමට අපොහොසත් විය. එම තීරුව ඉවත් කර නැවත ඇතුලත් කරන්න.", vbExclamation + vbOKOnly)
                 Exit Sub
             End If
-            If row.Cells(1).Value.ToString = "" Then
+            If row.Cells(1).Value Is Nothing OrElse row.Cells(1).Value.ToString = "" Then
                 MsgBox("Repair No: " + row.Cells(0).Value.ToString + " හි Product Category Field එක හිස්ව පවතියි. කරුණාකර එය සම්පුර්ණ කරන්න.", vbExclamation + vbOKOnly)
                 Exit Sub
             End If
-            If row.Cells(2).Value.ToString = "" Then
+            If row.Cells(2).Value Is Nothing OrElse row.Cells(2).Value.ToString = "" Then
                 MsgBox("Repair No: " + row.Cells(0).Value.ToString + " හි Product Name Field එක හිස්ව පවතියි. කරුණාකර එය සම්පුර්ණ කරන්න.", vbExclamation + vbOKOnly)
                 Exit Sub
             End If
@@ -171,7 +171,7 @@ Public Class frmReceive
         AcceptButton = cmdReceiptSticker
         cmdReceiptSticker.Focus()
     End Sub
-    Private Sub cmdReceiptSticker_Click(sender As Object, e As EventArgs) Handles cmdReceiptSticker.Click, cmdReceipt.Click, cmdSticker.Click
+    Private Sub cmdReceiptSticker_Click(sender As Object, e As EventArgs) Handles cmdReceiptSticker.Click, cmdReceipt.Click, cmdSticker.Click, cmdSaveOnly.Click
         SaveReceive()
         Dim RNo As Integer = txtRNo.Text
         cmdNew_Click(sender, e)
@@ -194,12 +194,12 @@ Public Class frmReceive
             DR.Read()
             CuNo = DR("CuNo")
         Else
-            CuNo = AutomaticPrimaryKeyStr("Customer", "CuNo")
+            CuNo = AutomaticPrimaryKey("Customer", "CuNo")
             CMDUPDATE("Insert into Customer(CuNo,CuName,CuTelNo1,CuTelNo2,CutelNo3) Values(" & CuNo & ",'" & cmbCuMr.Text & cmbCuName.Text & "','" &
                       txtCuTelNo1.Text & "','" & txtCuTelNo2.Text & "','" & txtCuTelNo3.Text & "')")
         End If
         If txtRDate.Value.Date = Today.Date Then txtRDate.Value = DateAndTime.Now
-        txtRNo.Text = AutomaticPrimaryKeyStr("Receive", "RNo")
+        txtRNo.Text = AutomaticPrimaryKey("Receive", "RNo")
         CMDUPDATE("Insert into Receive(RNo,RDate,CuNo,UNo) values(" & txtRNo.Text & ",#" & txtRDate.Value & "#," & CuNo & ",'" & MdifrmMain.Tag & "');")
         For Each row As DataGridViewRow In grdRepair.Rows
             If row.Index = grdRepair.Rows.Count - 1 Then Continue For
@@ -210,7 +210,7 @@ Public Class frmReceive
                 DR.Read()
                 PNo = DR("PNo")
             Else
-                PNo = AutomaticPrimaryKeyStr("Product", "PNo")
+                PNo = AutomaticPrimaryKey("Product", "PNo")
                 CMDUPDATE("Insert into Product(PNO,PCATEGORY,PNAME,PMODELNO,PDETAILS) " &
                           "Values(" & PNo & ",'" & row.Cells(1).Value & "','" & row.Cells(2).Value & "','" & row.Cells(3).Value & "','" &
                           row.Cells(5).Value & "');")
@@ -260,7 +260,7 @@ Public Class frmReceive
                 DR.Read()
                 PNo = DR("PNo")
             Else
-                PNo = AutomaticPrimaryKeyStr("Product", "PNo")
+                PNo = AutomaticPrimaryKey("Product", "PNo")
                 CMDUPDATE("Insert into Product(PNO,PCATEGORY,PNAME,PMODELNO,PDETAILS) " &
                           "Values(" & PNo & ",'" & row.Cells(2).Value & "','" & row.Cells(3).Value & "','" & row.Cells(4).Value &
                           "','" & row.Cells(6).Value & "');")
@@ -525,11 +525,6 @@ Where Receive.RNo = {RNo}", CNN)
         threadSticker.SetApartmentState(ApartmentState.STA)
         threadSticker.Priority = ThreadPriority.Highest
         threadSticker.Start()
-    End Sub
-
-    Private Sub cmdSaveOnly_Click(sender As Object, e As EventArgs) Handles cmdSaveOnly.Click
-        SaveReceive()
-        cmdNew_Click(sender, e)
     End Sub
 
     Private Sub cmdCancel_Click(sender As Object, e As EventArgs) Handles cmdCancel.Click

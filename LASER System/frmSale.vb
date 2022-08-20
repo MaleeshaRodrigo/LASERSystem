@@ -208,7 +208,7 @@ Public Class frmSale
             DR.Read()
             CuNo = DR("CuNo").ToString
         Else
-            CuNo = AutomaticPrimaryKeyStr("Customer", "CuNo")
+            CuNo = AutomaticPrimaryKey("Customer", "CuNo")
             CMDUPDATE("Insert into Customer(CuNo,CuName,CuTelNo1,CuTelNo2,CutelNo3) Values(" & CuNo & ",'" & cmbCuName.Text & "','" & txtCuTelNo1.Text & "','" &
                       txtCuTelNo2.Text & "','" & txtCuTelNo3.Text & "');")
         End If
@@ -232,7 +232,7 @@ Public Class frmSale
                     If row.Index = Int(grdSale.Rows.Count) - 1 Then Exit For
                     If row.Cells.Item(0).Value <> "" Then
                         CMDUPDATE("Insert into StockSale(SSaNo,SaNo,SNo,SCategory,SName,SaType,SaRate,SaUnits,SaTotal) Values(" &
-                                  AutomaticPrimaryKeyStr("StockSale", "SSaNo") & "," &
+                                  AutomaticPrimaryKey("StockSale", "SSaNo") & "," &
                                   txtSaNo.Text & "," &
                                   row.Cells(0).Value.ToString() & ",'" & row.Cells(1).Value.ToString & "','" & row.Cells(2).Value.ToString &
                                   "','" & row.Cells(3).Value.ToString() & "'," & row.Cells(4).Value.ToString() & "," & row.Cells(5).Value.ToString() & "," &
@@ -250,7 +250,7 @@ Public Class frmSale
                         End If
                     Else
                         CMDUPDATE("Insert into StockSale(SSaNo,SaNo,SCategory,SName,SaType,SaRate,SaUnits,SaTotal) Values(" &
-                                  AutomaticPrimaryKeyStr("StockSale", "SSaNo") & "," & txtSaNo.Text & ",'" &
+                                  AutomaticPrimaryKey("StockSale", "SSaNo") & "," & txtSaNo.Text & ",'" &
                                  row.Cells(1).Value.ToString & "','" & row.Cells(2).Value.ToString &
                                   "','" & row.Cells(3).Value.ToString() & "'," & row.Cells(4).Value.ToString() & "," & row.Cells(5).Value.ToString() & "," &
                                   row.Cells(6).Value.ToString() & ");")
@@ -323,7 +323,7 @@ Public Class frmSale
                     If row.Index = grdSale.Rows.Count - 1 Then Continue For
                     If row.Cells.Item(0).Value <> "" Then
                         CMDUPDATE("Insert into StockSale(SSaNo,SaNo,SNo,SCategory,SName,SaType,SaRate,SaUnits,SaTotal) Values(" &
-                                  AutomaticPrimaryKeyStr("StockSale", "SSaNo") & "," & txtSaNo.Text & "," &
+                                  AutomaticPrimaryKey("StockSale", "SSaNo") & "," & txtSaNo.Text & "," &
                                       row.Cells(0).Value.ToString() & ",'" & row.Cells(1).Value.ToString & "','" & row.Cells(2).Value.ToString &
                                       "','" & row.Cells(3).Value.ToString() & "'," & row.Cells(4).Value.ToString() & "," & row.Cells(5).Value.ToString() & "," &
                                       row.Cells(6).Value.ToString() & ");")
@@ -339,7 +339,7 @@ Public Class frmSale
                         End If
                     Else
                         CMDUPDATE("Insert into StockSale(SSaNo,SaNo,SCategory,SName,SaType,SaRate,SaUnits,SaTotal) Values(" &
-                                  AutomaticPrimaryKeyStr("StockSale", "SSaNo") & "," & txtSaNo.Text & ",'" &
+                                  AutomaticPrimaryKey("StockSale", "SSaNo") & "," & txtSaNo.Text & ",'" &
                                  row.Cells(1).Value.ToString & "','" & row.Cells(2).Value.ToString &
                                   "','" & row.Cells(3).Value.ToString() & "'," & row.Cells(4).Value.ToString() & "," & row.Cells(5).Value.ToString() & "," &
                                   row.Cells(6).Value.ToString() & ");")

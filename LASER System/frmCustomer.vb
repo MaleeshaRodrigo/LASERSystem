@@ -175,7 +175,7 @@ Public Class frmCustomer
                     Next
                 End If
                 If CheckExistData("Select CuNo from Customer where CuNo =" & txtCuNo.Text & ";") = True Then
-                    txtCuNo.Text = AutomaticPrimaryKeyStr("Customer", "CuNo")
+                    txtCuNo.Text = AutomaticPrimaryKey("Customer", "CuNo")
                 End If
                 CMDUPDATE("Insert into Customer(CuNo,CuName,CuTelNo1,CuTelNo2,CuTelNo3) Values(" & txtCuNo.Text & ",'" & cmbCuName.Text &
                           "','" & txtCuTelNo1.Text & "','" & txtCuTelNo2.Text & "','" & txtCuTelNo3.Text & "');")

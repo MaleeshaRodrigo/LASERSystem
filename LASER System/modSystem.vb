@@ -7,6 +7,8 @@ Imports System.Web.Security
 Imports Guna.UI2.WinForms
 Imports System.IO
 Imports System.Threading
+Imports Newtonsoft.Json
+
 Module modSystem
     Public CNN As New OleDb.OleDbConnection
     Public CMD As New OleDb.OleDbCommand
@@ -46,45 +48,105 @@ Module modSystem
             FrmSettings.ShowDialog()
         End Try
     End Sub
-    Public Sub CMDUPDATE(str As String, Optional ByVal DoesAdminSend As Boolean = False, Optional ByVal Remarks As String = "")
+
+    Public Sub CMDUPDATE(str As String)
+        'Replace a new index instead of command in `str` String in function
+        If str.Contains("?") = True Then
+            Dim splittxt() As String = str.Split("?")
+            For i As Integer = 0 To splittxt.Length
+                Select Case splittxt(i)
+                    Case "NewKey"
+                        str = str.Replace("?" + splittxt(i) + "?" + splittxt(i + 1) + "?" + splittxt(i + 2) + "?",
+                                              AutomaticPrimaryKey(splittxt(i + 1), splittxt(i + 2)))
+                        i += 2
+                End Select
+            Next
+        End If
+        Dim CMDUPDATEDB As OleDbCommand = New OleDb.OleDbCommand(str, CNN)
+        CMDUPDATEDB.ExecuteNonQuery()
+        Task.Run(Sub()
+                     CMDUPDATEDB = New OleDbCommand("Insert into OnlineDB(ODate,Command) Values(#" & DateAndTime.Now & "#,""" &
+                                       str.ToString.Replace("""", """""") & """)", CNN)
+                     CMDUPDATEDB.ExecuteNonQuery()
+                     WriteActivity(DateAndTime.Now + "- " + str)
+                     CMDUPDATEDB.Cancel()
+                 End Sub)
+    End Sub
+
+    ''' <summary>
+    ''' Update the given SQL Query to the database. If the Admin Permission needs to the SQL query, It won't apply to the database. After Admin 
+    ''' accept changes, Then it will apply.
+    ''' </summary>
+    ''' <param name="str">The SQL Query</param>
+    ''' <param name="AdminPer">The Admin Permission</param>
+    Public Sub CMDUPDATE(str As String, Optional AdminPer As AdminPermission = Nothing)
         Dim CMDUPDATEDB As OleDbCommand
-        If DoesAdminSend = True Then
-            Task.Run(Sub()
-                         CMDUPDATEDB = New OleDbCommand("Insert into AdminPermission(APNo,APDate,Status,Command,AppliedUNo,Remarks) Values(" &
-                                           AutomaticPrimaryKeyStr("AdminPermission", "APNo") &
-                                           ",#" & DateAndTime.Now.ToString &
-                                           "#,'Waiting',""" & str.ToString.Replace("""", """""") & """," & MdifrmMain.Tag & ",'" & Remarks & "')", CNN)
-                         CMDUPDATEDB.ExecuteNonQuery()
-                         CMDUPDATEDB.Cancel()
-                     End Sub)
-            Task.Run(Sub()
-                         CMDUPDATEDB = New OleDbCommand("Insert into OnlineDB(ID,ODate,Command) Values(" &
-                                           AutomaticPrimaryKeyStr("OnlineDB", "ID") & ",#" & DateAndTime.Now &
-                                           "#,""" &
-                                           "Insert into AdminPermission(APNo, APDate, Status, Command, AppliedUNo, Remarks) Values(" &
-                                           AutomaticPrimaryKeyStr("AdminPermission", "APNo") &
-                                           ",#" & DateAndTime.Now.ToString &
-                                           "#,'Waiting',""""" & str.ToString.Replace("""", """""") & """""," & MdifrmMain.Tag & ",'" & Remarks & "')" &
-                                           """)", CNN)
-                         CMDUPDATEDB.ExecuteNonQuery()
-                         CMDUPDATEDB.Cancel()
-                     End Sub)
+        If AdminPer IsNot Nothing And AdminPer.AdminSend = True Then
+            If Not CheckExistData($"Select APNo from AdminPermission Where APNo={AdminPer.APNo}") Then
+                Dim APCommand As String = $"Insert into AdminPermission(APNo,APDate,Status,AppliedUNo,Keys,Remarks)
+Values({AdminPer.APNo},#{DateAndTime.Now}#,'Waiting',{MdifrmMain.Tag},
+'{JsonConvert.SerializeObject(AdminPer.Keys, Formatting.Indented)}','{AdminPer.Remarks}')"
+
+                CMDUPDATEDB = New OleDbCommand(APCommand, CNN)
+                CMDUPDATEDB.ExecuteNonQuery()
+                CMDUPDATEDB.Cancel()
+                Dim CMDUPDATEDB1 As New OleDbCommand($"Insert into OnlineDB(ODate,Command) 
+Values(#{DateAndTime.Now}#,""{APCommand.Replace("""", """""")}"")", CNN)
+                CMDUPDATEDB1.ExecuteNonQuery()
+                CMDUPDATEDB1.Cancel()
+            End If
+            Dim APCCommand As String = $"Insert into APCommand(APNo,Commands) Values({AdminPer.APNo},'{str.ToString.Replace("'", "''")}')"
+            CMDUPDATEDB = New OleDbCommand(APCCommand, CNN)
+            CMDUPDATEDB.ExecuteNonQuery()
+            CMDUPDATEDB.Cancel()
+
+            Dim CMDUPDATEDB2 As New OleDbCommand($"Insert into OnlineDB(ODate,Command) 
+Values(#{DateAndTime.Now}#,""{APCCommand.Replace("""", """""")}"")", CNN)
+            CMDUPDATEDB2.ExecuteNonQuery()
+            CMDUPDATEDB2.Cancel()
         Else
+            'Replace a new index instead of command in keys dictionary in adminpermission
+            If AdminPer IsNot Nothing AndAlso AdminPer.Keys.Count > 0 Then
+                For Each kvp As KeyValuePair(Of String, String) In AdminPer.Keys
+                    If kvp.Value.Contains("?") = True Then
+                        Dim splittxt() As String = kvp.Value.Split("?")
+                        Select Case splittxt(1)
+                            Case "NewKey"
+                                AdminPer.Keys(kvp.Key) = kvp.Value.Replace("?" + splittxt(1) + "?" + splittxt(2) + "?" + splittxt(3) + "?",
+                                              AutomaticPrimaryKey(splittxt(2), splittxt(3)))
+                        End Select
+                    End If
+                Next
+
+            End If
+            'Replace a new index instead of command in `str` String in function
             If str.Contains("?") = True Then
                 Dim splittxt() As String = str.Split("?")
-                Select Case splittxt(1)
-                    Case "PrimaryKey"
-                        str = str.Replace("?" + splittxt(1) + "?" + splittxt(2) + "?" + splittxt(3) + "?", AutomaticPrimaryKeyStr(splittxt(2), splittxt(3)))
-                End Select
+                Dim i As Integer = 0
+                While i < splittxt.Length
+                    Select Case splittxt(i)
+                        Case "NewKey"
+                            str = str.Replace("?" + splittxt(i) + "?" + splittxt(i + 1) + "?" + splittxt(i + 2) + "?",
+                                                  AutomaticPrimaryKey(splittxt(i + 1), splittxt(i + 2)))
+                            i += 2
+                        Case "Key"
+                            If AdminPer.Keys.ContainsKey(splittxt(i + 1)) Then
+                                str = str.Replace($"?{splittxt(i)}?{splittxt(i + 1)}?", AdminPer.Keys.Item(splittxt(i + 1)))
+                                i += 1
+                            End If
+                    End Select
+                    i += 1
+                End While
             End If
             CMDUPDATEDB = New OleDb.OleDbCommand(str, CNN)
             CMDUPDATEDB.ExecuteNonQuery()
+            CMDUPDATEDB.Cancel()
             Task.Run(Sub()
-                         CMDUPDATEDB = New OleDbCommand("Insert into OnlineDB(ODate,Command) Values(#" & DateAndTime.Now & "#,""" &
+                         Dim CMDUPDATEDB3 As New OleDbCommand("Insert into OnlineDB(ODate,Command) Values(#" & DateAndTime.Now & "#,""" &
                                            str.ToString.Replace("""", """""") & """)", CNN)
-                         CMDUPDATEDB.ExecuteNonQuery()
+                         CMDUPDATEDB3.ExecuteNonQuery()
                          WriteActivity(DateAndTime.Now + "- " + str)
-                         CMDUPDATEDB.Cancel()
+                         CMDUPDATEDB3.Cancel()
                      End Sub)
         End If
     End Sub
@@ -113,13 +175,13 @@ Module modSystem
         DR0.Close()
     End Sub
 
-    Public Function AutomaticPrimaryKeyStr(TableName As String, ColumnName As String) As String
-        Dim CMD0 As OleDbCommand = New OleDbCommand("Select Top 1 " & ColumnName & " from " & TableName & " Order by " & ColumnName & " Desc", CNN)
+    Public Function AutomaticPrimaryKey(TableName As String, ColumnName As String) As Integer
+        Dim CMD0 As New OleDbCommand("Select Top 1 " & ColumnName & " from " & TableName & " Order by " & ColumnName & " Desc", CNN)
         Dim tmp As String = CMD0.ExecuteScalar()
         If tmp <> "" Then
             Return (Int(tmp) + 1)
         Else
-            Return ("1")
+            Return (1)
         End If
         CMD0.Cancel()
     End Function
@@ -157,8 +219,8 @@ Module modSystem
         OnlynumberQty(e)
     End Sub
 
-    Public Function GetStrfromRelatedfield(SQL As String, ColumnName As String) As String
-        Dim CMD0 As OleDb.OleDbCommand = New OleDb.OleDbCommand(SQL, CNN)
+    Public Function GetStrfromRelatedfield(SQL As String) As String
+        Dim CMD0 As New OleDb.OleDbCommand(SQL, CNN)
         If IsDBNull(CMD0.ExecuteScalar) = False Then
             Return CMD0.ExecuteScalar
         Else
@@ -195,7 +257,11 @@ Module modSystem
             Return False
         End If
     End Function
-
+    ''' <summary>
+    ''' Checking whether the given SQL query has rows or not
+    ''' </summary>
+    ''' <param name="SQL">The SQL Query</param>
+    ''' <returns>True, if there are rows in the SQL query, or false</returns>
     Public Function CheckExistData(SQL As String) As Boolean
         Dim CMD0 = New OleDbCommand(SQL, CNN)
         Dim DR0 As OleDbDataReader = CMD0.ExecuteReader()
@@ -612,3 +678,17 @@ Module modSystem
     End Function
 
 End Module
+
+Public Class AdminPermission
+    Public AdminSend As Boolean
+    Public Remarks As String
+    Public Keys As Dictionary(Of String, String)
+    Public APNo As Integer
+    Public Sub New()
+        Me.APNo = AutomaticPrimaryKey("AdminPermission", "APNo")
+        Me.AdminSend = False
+        Me.Remarks = ""
+        Me.Keys = New Dictionary(Of String, String)
+    End Sub
+End Class
+

@@ -130,14 +130,13 @@ Public Class frmTechnicianCost
             Exit Sub
         End If
         Dim tmp As String = ""
-        Dim Remarks As String = "අද දිනට නොමැති Technician Cost Data එකක් update කෙරුණි."
-        Dim AdminSend As Boolean = False
+        Dim AdminPer As New AdminPermission With {.Remarks = "අද දිනට නොමැති Technician Cost Data එකක් update කෙරුණි."}
         Select Case e.ColumnIndex
             Case 1
                 If Convert.ToDateTime(grdTechnicianCost.Item(1, e.RowIndex).Tag).Date <> Today.Date And
                     MdifrmMain.tslblUserType.Text <> "Admin" Then
-                    AdminSend = True
-                    Remarks = "අද දිනට නොමැති Technician Cost Data එකක Time එක update කෙරුණි."
+                    AdminPer.AdminSend = True
+                    AdminPer.Remarks = "අද දිනට නොමැති Technician Cost Data එකක Time එක update කෙරුණි."
                 Else
                     grdTechnicianCost.CurrentCell.Value = dtpDate.Value.ToString
                 End If
@@ -207,26 +206,26 @@ Public Class frmTechnicianCost
         If grdTechnicianCost.Item("Total", e.RowIndex).Value Is Nothing OrElse
             grdTechnicianCost.Item("Total", e.RowIndex).Value.ToString = "" Then grdTechnicianCost.Item("Total", e.RowIndex).Value = "0"
         If grdTechnicianCost.Item(0, e.RowIndex).Value Is Nothing Then
-            grdTechnicianCost.Item(0, e.RowIndex).Value = AutomaticPrimaryKeyStr("TechnicianCost", "TCNo")
+            grdTechnicianCost.Item(0, e.RowIndex).Value = AutomaticPrimaryKey("TechnicianCost", "TCNo")
         End If
         If CheckExistData("Select * from TechnicianCost Where TCNo=" & grdTechnicianCost.Item(0, e.RowIndex).Value) = False Then CMDUPDATE("Insert into TechnicianCost(TCNo,TNo,Rate,Qty,Total,UNo) Values(" & grdTechnicianCost.Item(0, e.RowIndex).Value & "," &
-                      GetStrfromRelatedfield("Select TNo from Technician Where TName='" & cmbTName.Text & "'", "TNo") & ",0,0,0," & MdifrmMain.Tag & ")")
+                      GetStrfromRelatedfield("Select TNo from Technician Where TName='" & cmbTName.Text & "'") & ",0,0,0," & MdifrmMain.Tag & ")")
         If Convert.ToDateTime(grdTechnicianCost.Item(1, e.RowIndex).Value).Date <> Today.Date Then
-            AdminSend = True
+            AdminPer.AdminSend = True
         End If
         Select Case e.ColumnIndex
             Case 1
                 CMDUPDATE("Update TechnicianCost set " & grdTechnicianCost.Columns(e.ColumnIndex).DataPropertyName & "=#" &
                           grdTechnicianCost.Item(e.ColumnIndex, e.RowIndex).Value & "# " & tmp & " Where TCNo=" &
-                          grdTechnicianCost.Item(0, e.RowIndex).Value, AdminSend, Remarks)
+                          grdTechnicianCost.Item(0, e.RowIndex).Value, AdminPer)
             Case 2, 5, 6, 7, 9, 10
                 CMDUPDATE("Update TechnicianCost set " & grdTechnicianCost.Columns(e.ColumnIndex).DataPropertyName & "=" &
                           grdTechnicianCost.Item(e.ColumnIndex, e.RowIndex).Value & " " & tmp & " Where TCNo=" &
-                          grdTechnicianCost.Item(0, e.RowIndex).Value, AdminSend, Remarks)
+                          grdTechnicianCost.Item(0, e.RowIndex).Value, AdminPer)
             Case 3, 4, 8
                 CMDUPDATE("Update TechnicianCost set " & grdTechnicianCost.Columns(e.ColumnIndex).DataPropertyName & "='" &
                           grdTechnicianCost.Item(e.ColumnIndex, e.RowIndex).Value & "' " & tmp & " Where TCNo=" &
-                          grdTechnicianCost.Item(0, e.RowIndex).Value, AdminSend, Remarks)
+                          grdTechnicianCost.Item(0, e.RowIndex).Value, AdminPer)
         End Select
         grdTechnicianCost.Item(e.ColumnIndex, e.RowIndex).Tag = ""
         cmdTCSearch_Click(sender, e)
