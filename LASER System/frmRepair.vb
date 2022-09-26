@@ -175,7 +175,7 @@ Public Class frmRepair
             grdRepRemarks1.Rows.Clear()
             While DRREPNO1.Read
                 grdRepRemarks1.Rows.Add(DRREPNO1("Rem1No").ToString, DRREPNO1("Rem1Date").ToString, DRREPNO1("Remarks").ToString,
-                                            GetStrfromRelatedfield("Select UserName from [User] Where UNo=" & DRREPNO1("UNo").ToString, "UserName"))
+                                            GetStrfromRelatedfield("Select UserName from [User] Where UNo=" & DRREPNO1("UNo").ToString))
                 If MdifrmMain.tslblUserType.Text <> "Admin" And txtDDate.Value.Month <> Today.Month Then
                     grdRepRemarks1.Rows.Item(grdRepRemarks1.Rows.Count - 1).ReadOnly = True
                 End If
@@ -191,7 +191,7 @@ Public Class frmRepair
             grdActivity.Rows.Clear()
             While DRREPNO1.Read
                 grdActivity.Rows.Add(DRREPNO1("RepANo").ToString, DRREPNO1("RepADate").ToString, DRREPNO1("Activity").ToString,
-                                            GetStrfromRelatedfield("Select UserName from [User] Where UNo=" & DRREPNO1("UNo").ToString, "UserName"))
+                                            GetStrfromRelatedfield("Select UserName from [User] Where UNo=" & DRREPNO1("UNo").ToString))
             End While
             CMDREPNO1 = New OleDbCommand("Select MsgNo,MsgDate,Action,Message,Status from Message where RepNo = " & cmbRepNo.Text, CNN)
             DRREPNO1 = CMDREPNO1.ExecuteReader
@@ -215,7 +215,7 @@ Public Class frmRepair
             grdRepRemarks2.Rows.Clear()
             While DRREPNO1.Read
                 grdRepRemarks2.Rows.Add(DRREPNO1("Rem2No").ToString, DRREPNO1("Rem2Date").ToString, DRREPNO1("Remarks").ToString,
-                                            GetStrfromRelatedfield("Select UserName from [User] Where UNo=" & DRREPNO1("UNo").ToString, "UserName"))
+                                            GetStrfromRelatedfield("Select UserName from [User] Where UNo=" & DRREPNO1("UNo").ToString))
                 If MdifrmMain.tslblUserType.Text <> "Admin" And txtDDate.Value.Month <> Today.Month Then
                     grdRepRemarks2.Rows.Item(grdRepRemarks2.Rows.Count - 1).ReadOnly = True
                 End If
@@ -234,7 +234,8 @@ Public Class frmRepair
             While DRREPNO1.Read
                 grdTechnicianCost.Rows.Add(DRREPNO1("TCNo").ToString, DRREPNO1("TCDate").ToString, DRREPNO1("SNo").ToString, DRREPNO1("SCategory").ToString, DRREPNO1("SName").ToString,
                                       DRREPNO1("Rate").ToString, DRREPNO1("Qty").ToString, DRREPNO1("Total").ToString, DRREPNO1("TCRemarks").ToString,
-                                      If(DRREPNO1("UNo").ToString <> "", GetStrfromRelatedfield("Select UserName from [User] Where UNo=" & DRREPNO1("UNo").ToString, "UserName"),
+                                      If(DRREPNO1("UNo").ToString <> "", GetStrfromRelatedfield("Select UserName from [User] Where UNo=" &
+                                      DRREPNO1("UNo").ToString),
                                       ""))
             End While
             CMDREPNO1.Cancel()
@@ -349,7 +350,7 @@ Public Class frmRepair
             grdRepRemarks1.Rows.Clear()
             While DRRETNo1.Read
                 grdRepRemarks1.Rows.Add(DRRETNo1("Rem1No").ToString, DRRETNo1("Rem1Date").ToString, DRRETNo1("Remarks").ToString,
-                                        GetStrfromRelatedfield("Select UserName from [User] Where UNo=" & DRRETNo1("UNo").ToString, "UserName"))
+                                        GetStrfromRelatedfield("Select UserName from [User] Where UNo=" & DRRETNo1("UNo").ToString))
             End While
             If File.Exists(Application.StartupPath & "\System Files\Images\" + "RET-" + cmbRetNo.Text + ".ls") Then
                 imgRepair.Image = Image.FromFile(Application.StartupPath & "\System Files\Images\" + "RET-" + cmbRetNo.Text + ".ls")
@@ -361,7 +362,7 @@ Public Class frmRepair
             grdActivity.Rows.Clear()
             While DRRETNo1.Read
                 grdActivity.Rows.Add(DRRETNo1("RepANo").ToString, DRRETNo1("RepADate").ToString, DRRETNo1("Activity").ToString,
-                                        GetStrfromRelatedfield("Select UserName from [User] Where UNo=" & DRRETNo1("UNo").ToString, "UserName"))
+                                        GetStrfromRelatedfield("Select UserName from [User] Where UNo=" & DRRETNo1("UNo").ToString))
             End While
             CMDRETNO1 = New OleDbCommand("Select MsgNo,MsgDate,Action,Message,Status from Message where RetNo = " & cmbRetNo.Text, CNN)
             DRRETNo1 = CMDRETNO1.ExecuteReader
@@ -385,7 +386,7 @@ Public Class frmRepair
             grdRepRemarks2.Rows.Clear()
             While DRRETNo1.Read
                 grdRepRemarks2.Rows.Add(DRRETNo1("Rem2No").ToString, DRRETNo1("Rem2Date").ToString, DRRETNo1("Remarks").ToString,
-                                        GetStrfromRelatedfield("Select UserName from [User] Where UNo=" & DRRETNo1("UNo").ToString, "UserName"))
+                                        GetStrfromRelatedfield("Select UserName from [User] Where UNo=" & DRRETNo1("UNo").ToString))
             End While
             CMDRETNO1.Cancel()
             DRRETNo1.Close()
@@ -474,7 +475,7 @@ Public Class frmRepair
         Else
             If cmbRetStatus.Text = "Received" Then Exit Sub
         End If
-        txtTNo.Text = GetStrfromRelatedfield("Select TNo from Technician Where TName='" & cmbTName.Text & "'", "TNo")
+        txtTNo.Text = GetStrfromRelatedfield("Select TNo from Technician Where TName='" & cmbTName.Text & "'")
     End Sub
 
     Private Sub CmdClose_Click(sender As Object, e As EventArgs) Handles cmdClose.Click
@@ -482,43 +483,43 @@ Public Class frmRepair
     End Sub
 
     Private Sub CmdSave_Click(sender As Object, e As EventArgs) Handles cmdSave.Click
-        Try
-            If CheckEmptyfield(txtCuNo, "මෙම Repair එක සඳහා ඔබ Customer කෙනෙකු තෝරා නොමැත. කරුණාකර එය ඇතුලත් කර නැවත උත්සහ කරන්න!") = False Then
-                Exit Try
-            ElseIf CheckEmptyfield(txtPNo, "මෙම Repair එක සඳහා ඔබ Product එකක් තෝරා නොමැත. කරුණාකර එය ඇතුලත් කර නැවත උත්සහ කරන්න!!") = False Then
-                Exit Try
-            End If
+        'Try
+        If CheckEmptyfield(txtCuNo, "මෙම Repair එක සඳහා ඔබ Customer කෙනෙකු තෝරා නොමැත. කරුණාකර එය ඇතුලත් කර නැවත උත්සහ කරන්න!") = False Then
+            Exit Sub
+        ElseIf CheckEmptyfield(txtPNo, "මෙම Repair එක සඳහා ඔබ Product එකක් තෝරා නොමැත. කරුණාකර එය ඇතුලත් කර නැවත උත්සහ කරන්න!!") = False Then
+            Exit Sub
+        End If
             Select Case tabRepair.SelectedTab.TabIndex
                 Case 0              'check empty fields which have filled to user
                     If cmbRepStatus.Text = "Hand Over to Technician" Or cmbRepStatus.Text = "Repairing" Or cmbRepStatus.Text = "Repaired Not Delivered" Or
                         cmbRepStatus.Text = "Repaired Delivered" Then
                         If CheckEmptyfield(cmbTName, "Technician කෙනෙකු තොරා නොමැත. කරුණාකර අදාළ Technician ව තෝරා දෙන්න.") = False Then
-                            Exit Try
-                        End If
+                        Exit Sub
+                    End If
                     End If
                     If cmbRepStatus.Text = "Repaired Not Delivered" Or cmbRepStatus.Text = "Repaired Delivered" Or cmbRepStatus.Text = "Returned Not Delivered" Or
                         cmbRepStatus.Text = "Returned Delivered" Then
                         If CheckEmptyfield(txtRepPrice, "Repair Price එකක් ඇතුලත් කර නොමැත කරුණාකර Repair Price එක ඇතුලත් කරන්න.") = False Then
-                            Exit Try
-                        End If
+                        Exit Sub
                     End If
-                    If Not ((DRREPNO("Status").ToString = "Repaired Delivered" Or DRREPNO("Status").ToString = "Returned Delivered" Or
-                        DRREPNO("Status").ToString = "Canceled") And (cmbRepStatus.Text = "Repaired Delivered" Or cmbRepStatus.Text = "Returned Delivered" Or
-                        cmbRepStatus.Text = "Canceled")) Then
+                    End If
+                    If (Not (DRREPNO("Status").ToString = "Repaired Delivered" Or DRREPNO("Status").ToString = "Returned Delivered" Or
+                        DRREPNO("Status").ToString = "Canceled") And (cmbRepStatus.Text = "Repaired Delivered" Or
+                        cmbRepStatus.Text = "Returned Delivered" Or cmbRepStatus.Text = "Canceled")) Then
                         MsgBox("මෙම Repair Form තුලින් මෙය සිදු කිරීමට නොහැකිය. Deliver Form එක භාවිතා කරන්න.", vbExclamation)
-                        Exit Try
-                    End If
+                    Exit Sub
+                End If
                     If DRREPNO("Status").ToString <> cmbRepStatus.Text Then
                         CMDUPDATE("update Repair set status ='" & cmbRepStatus.Text & "' where repno=" & cmbRepNo.Text & ";")
                         CMDUPDATE("Insert into RepairActivity(RepANo,RepNo,RepADate,Activity,UNo)" &
-                                  " Values(" & AutomaticPrimaryKeyStr("RepairActivity", "RepANo") & "," &
+                                  " Values(" & AutomaticPrimaryKey("RepairActivity", "RepANo") & "," &
                                   cmbRepNo.Text & ",#" & DateAndTime.Now & "#,'Status -> " & cmbRepStatus.Text & "'," & MdifrmMain.Tag & ")")
                     End If
 
                     If DRREPNO("CuNo").ToString <> txtCuNo.Text Then
                         CMDUPDATE("update Receive set cuno =" & txtCuNo.Text & " where rno = " & txtRNo.Text)
                         CMDUPDATE("Insert into RepairActivity(RepANo,RepNo,RepADate,Activity,UNo)" &
-                                  " Values(" & AutomaticPrimaryKeyStr("RepairActivity", "RepANo") & "," &
+                                  " Values(" & AutomaticPrimaryKey("RepairActivity", "RepANo") & "," &
                                   cmbRepNo.Text & ",#" & DateAndTime.Now & "#,'Customer -> Name= " & cmbCuName.Text & ", Telephone No 1= " & txtCuTelNo1.Text &
                                   ", Telephone No 2= " & txtCuTelNo2.Text & ", Telephone No 3= " & txtCuTelNo3.Text & "'," & MdifrmMain.Tag & ")")
                     End If
@@ -526,95 +527,95 @@ Public Class frmRepair
                     If DRREPNO("RDate").ToString <> txtRDate.Value.ToString Then
                         CMDUPDATE("update Receive set RDate=#" & txtRDate.Value.Date.ToString & "# where rno = " & txtRNo.Text)
                         CMDUPDATE("Insert into RepairActivity(RepANo,RepNo,RepADate,Activity,UNo)" &
-                                  " Values(" & AutomaticPrimaryKeyStr("RepairActivity", "RepANo") & "," &
+                                  " Values(" & AutomaticPrimaryKey("RepairActivity", "RepANo") & "," &
                                   cmbRepNo.Text & ",#" & DateAndTime.Now & "#,'Received Date -> " & txtRDate.Value.ToString & "'," & MdifrmMain.Tag & ")")
                     End If
                     If DRREPNO("PNo").ToString <> txtPNo.Text Then
                         CMDUPDATE("update Repair set pno = " & txtPNo.Text & " where repno = " & cmbRepNo.Text)
                         CMDUPDATE("Insert into RepairActivity(RepANo,RepNo,RepADate,Activity,UNo)" &
-                                  " Values(" & AutomaticPrimaryKeyStr("RepairActivity", "RepANo") & "," &
+                                  " Values(" & AutomaticPrimaryKey("RepairActivity", "RepANo") & "," &
                                   cmbRepNo.Text & ",#" & DateAndTime.Now & "#,'Product -> Category= " & cmbPCategory.Text & ", Name= " & cmbPName.Text &
                                   ", Model No= " & txtPModelNo.Text & ", Qty= " & txtPQty.Text & "'," & MdifrmMain.Tag & ")")
                     End If
                     If DRREPNO("PSerialNo").ToString <> txtPSerialNo.Text Then
                         CMDUPDATE("update Repair set pserialno ='" & txtPSerialNo.Text & "' where repno = " & cmbRepNo.Text)
                         CMDUPDATE("Insert into RepairActivity(RepANo,RepNo,RepADate,Activity,UNo)" &
-                                  " Values(" & AutomaticPrimaryKeyStr("RepairActivity", "RepANo") & "," &
+                                  " Values(" & AutomaticPrimaryKey("RepairActivity", "RepANo") & "," &
                                   cmbRepNo.Text & ",#" & DateAndTime.Now & "#,'Product Serial No -> " & txtPSerialNo.Text & "'," & MdifrmMain.Tag & ")")
                     End If
                     If DRREPNO("Problem").ToString <> txtPProblem.Text Then
                         CMDUPDATE("update Repair set Problem ='" & txtPProblem.Text & "' where repno = " & cmbRepNo.Text)
                         CMDUPDATE("Insert into RepairActivity(RepANo,RepNo,RepADate,Activity,UNo)" &
-                                  " Values(" & AutomaticPrimaryKeyStr("RepairActivity", "RepANo") & "," &
+                                  " Values(" & AutomaticPrimaryKey("RepairActivity", "RepANo") & "," &
                                   cmbRepNo.Text & ",#" & DateAndTime.Now & "#,'Problem -> " & txtPProblem.Text & "'," & MdifrmMain.Tag & ")")
                     End If
                     If DRREPNO("Location").ToString <> cmbLocation.Text Then
                         CMDUPDATE("update Repair set Location= '" & cmbLocation.Text & "' where repno = " & cmbRepNo.Text)
                         CMDUPDATE("Insert into RepairActivity(RepANo,RepNo,RepADate,Activity,UNo)" &
-                                  " Values(" & AutomaticPrimaryKeyStr("RepairActivity", "RepANo") & "," &
+                                  " Values(" & AutomaticPrimaryKey("RepairActivity", "RepANo") & "," &
                                   cmbRepNo.Text & ",#" & DateAndTime.Now & "#,'Location -> " & cmbLocation.Text & "'," & MdifrmMain.Tag & ")")
                     End If
                     If cmbRepStatus.Text = "Received" Or cmbRepStatus.Text = "Canceled" Then
                         MsgBox("Update successful!", vbInformation + vbOKOnly)
-                        Exit Try
-                    End If
+                    Exit Sub
+                End If
                     If DRREPNO("TNo").ToString <> txtTNo.Text Then
                         CMDUPDATE("update Repair set tno =" & txtTNo.Text & " where repno=" & cmbRepNo.Text & ";")
                         CMDUPDATE("Insert into RepairActivity(RepANo,RepNo,RepADate,Activity,UNo)" &
-                                  " Values(" & AutomaticPrimaryKeyStr("RepairActivity", "RepANo") & "," &
+                                  " Values(" & AutomaticPrimaryKey("RepairActivity", "RepANo") & "," &
                                   cmbRepNo.Text & ",#" & DateAndTime.Now & "#,'Technician -> " & cmbTName.Text & "'," & MdifrmMain.Tag & ")")
                     End If
 
                     If cmbRepStatus.Text.ToString = "Hand Over to Technician" Or cmbRepStatus.Text = "Repairing" Then
                         MsgBox("Update successful!", vbInformation + vbOKOnly)
-                        Exit Try
-                    End If
+                    Exit Sub
+                End If
 
                     If DRREPNO("Charge").ToString <> txtRepPrice.Text Then
                         CMDUPDATE("update Repair set charge=" & txtRepPrice.Text & " where repno=" & cmbRepNo.Text & ";")
                         CMDUPDATE("Insert into RepairActivity(RepANo,RepNo,RepADate,Activity,UNo)" &
-                                  " Values(" & AutomaticPrimaryKeyStr("RepairActivity", "RepANo") & "," &
+                                  " Values(" & AutomaticPrimaryKey("RepairActivity", "RepANo") & "," &
                                   cmbRepNo.Text & ",#" & DateAndTime.Now & "#,'Repair Charge -> " & txtRepPrice.Text & "'," & MdifrmMain.Tag & ")")
                     End If
                     If DRREPNO("RepDate").ToString <> txtRepDate.Value.ToString Then
                         CMDUPDATE("update Repair set repdate=#" & txtRepDate.Value.ToString & "# where repno=" & cmbRepNo.Text & ";")
                         CMDUPDATE("Insert into RepairActivity(RepANo,RepNo,RepADate,Activity,UNo)" &
-                                  " Values(" & AutomaticPrimaryKeyStr("RepairActivity", "RepANo") & "," &
+                                  " Values(" & AutomaticPrimaryKey("RepairActivity", "RepANo") & "," &
                                   cmbRepNo.Text & ",#" & DateAndTime.Now & "#,'Repaired Date -> " & txtRepDate.Value.ToString & "'," & MdifrmMain.Tag & ")")
                     End If
 
                     If Me.Tag = "" Then MsgBox("Update successful!", vbInformation + vbOKOnly)
 
-                    Exit Try
-                Case 1
+                Exit Sub
+            Case 1
                     If cmbRetStatus.Text = "Hand Over to Technician" Or "Repairing" Or "Repaired Not Delivered" Or "Repaired Delivered" Then
                         If CheckEmptyfield(txtTNo, "Technician කෙනෙකු තොරා නොමැත. කරුණාකර අදාළ Technician ව තෝරා දෙන්න.") = False Then
-                            Exit Try
-                        End If
+                        Exit Sub
+                    End If
                     End If
                     If cmbRetStatus.Text = "Repaired Not Delivered" Or "Repaired Delivered" Or "Returned Not Delivered" Or "Returned Delivered" Then
                         If CheckEmptyfield(txtRepPrice, "Repair Price එකක් ඇතුලත් කර නොමැත කරුණාකර Repair Price එක ඇතුලත් කරන්න.") = False Then
-                            Exit Try
-                        End If
+                        Exit Sub
+                    End If
                     End If
                     If Not ((DRREPNO("Status").ToString = "Repaired Delivered" Or DRREPNO("Status").ToString = "Returned Delivered" Or
                         DRREPNO("Status").ToString = "Canceled") And (cmbRetStatus.Text = "Repaired Delivered" Or cmbRetStatus.Text = "Returned Delivered" Or
                         cmbRetStatus.Text = "Canceled")) Then
                         MsgBox("මෙම Repair Form තුලින් මෙය සිදු කිරීමට නොහැකිය. Deliver Form එක භාවිතා කරන්න.", vbExclamation)
-                        Exit Try
-                    End If
+                    Exit Sub
+                End If
 
                     If DRREPNO("Status") <> cmbRetStatus.Text Then
                         CMDUPDATE("update Return set status ='" & cmbRetStatus.Text & "' where retno=" & cmbRetNo.Text & ";")
                         CMDUPDATE("Insert into RepairActivity(RepANo,RetNo,RepADate,Activity,UNo)" &
-                                  " Values(" & AutomaticPrimaryKeyStr("RepairActivity", "RepANo") & "," &
+                                  " Values(" & AutomaticPrimaryKey("RepairActivity", "RepANo") & "," &
                                   cmbRetNo.Text & ",#" & DateAndTime.Now & "#,'Status -> " & cmbRetStatus.Text & "'," & MdifrmMain.Tag & ")")
                     End If
 
                     If DRREPNO("CuNo") <> txtCuNo.Text Then
                         CMDUPDATE("update Receive set Cuno =" & txtCuNo.Text & " where rno = " & txtRNo.Text)
                         CMDUPDATE("Insert into RepairActivity(RepANo,RetNo,RepADate,Activity,UNo)" &
-                                  " Values(" & AutomaticPrimaryKeyStr("RepairActivity", "RepANo") & "," &
+                                  " Values(" & AutomaticPrimaryKey("RepairActivity", "RepANo") & "," &
                                   cmbRetNo.Text & ",#" & DateAndTime.Now & "#,'Customer -> Name= " & cmbCuName.Text & ", Telephone No 1= " & txtCuTelNo1.Text &
                                   ", Telephone No 2= " & txtCuTelNo2.Text & ", Telephone No 3= " & txtCuTelNo3.Text & "'," & MdifrmMain.Tag & ")")
                     End If
@@ -622,72 +623,72 @@ Public Class frmRepair
                     If DRREPNO("RDate") <> txtRDate.Value.ToString Then
                         CMDUPDATE("update Receive set RDate=#" & txtRDate.Value.Date.ToString & "# where rno = " & txtRNo.Text)
                         CMDUPDATE("Insert into RepairActivity(RepANo,RetNo,RepADate,Activity,UNo)" &
-                                  " Values(" & AutomaticPrimaryKeyStr("RepairActivity", "RepANo") & "," &
+                                  " Values(" & AutomaticPrimaryKey("RepairActivity", "RepANo") & "," &
                                   cmbRetNo.Text & ",#" & DateAndTime.Now & "#,'Received Date -> " & txtRDate.Value.ToString & "'," & MdifrmMain.Tag & ")")
                     End If
                     If DRREPNO("PNo") <> txtPNo.Text Then
                         CMDUPDATE("update Return set pno = " & txtPNo.Text & " where repno = " & cmbRepNo.Text)
                         CMDUPDATE("Insert into RepairActivity(RepANo,RetNo,RepADate,Activity,UNo)" &
-                                  " Values(" & AutomaticPrimaryKeyStr("RepairActivity", "RepANo") & "," &
+                                  " Values(" & AutomaticPrimaryKey("RepairActivity", "RepANo") & "," &
                                   cmbRetNo.Text & ",#" & DateAndTime.Now & "#,'Product -> Category= " & cmbPCategory.Text & ", Name= " & cmbPName.Text &
                                   ", Model No= " & txtPModelNo.Text & ", Qty= " & txtPQty.Text & "'," & MdifrmMain.Tag & ")")
                     End If
                     If DRREPNO("PSerialNo") <> txtPSerialNo.Text Then
                         CMDUPDATE("update Return set pserialno ='" & txtPSerialNo.Text & "' where retno = " & cmbRetNo.Text)
                         CMDUPDATE("Insert into RepairActivity(RepANo,RetNo,RepADate,Activity,UNo)" &
-                                  " Values(" & AutomaticPrimaryKeyStr("RepairActivity", "RepANo") & "," &
+                                  " Values(" & AutomaticPrimaryKey("RepairActivity", "RepANo") & "," &
                                   cmbRetNo.Text & ",#" & DateAndTime.Now & "#,'Product Serial No -> " & txtPSerialNo.Text & "'," & MdifrmMain.Tag & ")")
                     End If
                     If DRREPNO("Problem") <> txtPProblem.Text Then
                         CMDUPDATE("update Return set problem ='" & txtPProblem.Text & "' where retno = " & cmbRetNo.Text)
                         CMDUPDATE("Insert into RepairActivity(RepANo,RetNo,RepADate,Activity,UNo)" &
-                                  " Values(" & AutomaticPrimaryKeyStr("RepairActivity", "RepANo") & "," &
+                                  " Values(" & AutomaticPrimaryKey("RepairActivity", "RepANo") & "," &
                                   cmbRetNo.Text & ",#" & DateAndTime.Now & "#,'Problem -> " & txtPProblem.Text & "'," & MdifrmMain.Tag & ")")
                     End If
                     If DRREPNO("Location") <> cmbLocation.Text Then
                         CMDUPDATE("update Return set Location= '" & cmbLocation.Text & "' where repno = " & cmbRepNo.Text)
                         CMDUPDATE("Insert into RepairActivity(RepANo,RetNo,RepADate,Activity,UNo)" &
-                                  " Values(" & AutomaticPrimaryKeyStr("RepairActivity", "RepANo") & "," &
+                                  " Values(" & AutomaticPrimaryKey("RepairActivity", "RepANo") & "," &
                                   cmbRetNo.Text & ",#" & DateAndTime.Now & "#,'Location -> " & cmbLocation.Text & "'," & MdifrmMain.Tag & ")")
                     End If
                     If cmbRepStatus.Text = "Received" Or cmbRepStatus.Text = "Canceled" Then
                         MsgBox("Update successful!", vbInformation + vbOKOnly)
-                        Exit Try
-                    End If
+                    Exit Sub
+                End If
                     If DRREPNO("TNo") <> txtTNo.Text Then
                         CMDUPDATE("update Return set tno =" & txtTNo.Text & " where retno=" & cmbRetNo.Text & ";")
                         CMDUPDATE("Insert into RepairActivity(RepANo,RetNo,RepADate,Activity,UNo)" &
-                                  " Values(" & AutomaticPrimaryKeyStr("RepairActivity", "RepANo") & "," &
+                                  " Values(" & AutomaticPrimaryKey("RepairActivity", "RepANo") & "," &
                                   cmbRetNo.Text & ",#" & DateAndTime.Now & "#,'Technician -> " & cmbTName.Text & "'," & MdifrmMain.Tag & ")")
                     End If
 
                     If cmbRepStatus.Text = "Hand Over to Technician" Or cmbRepStatus.Text = "Repairing" Then
                         MsgBox("Update successful!", vbInformation + vbOKOnly)
-                        Exit Try
-                    End If
+                    Exit Sub
+                End If
 
                     If DRREPNO("Charge") <> txtRepPrice.Text Then
                         CMDUPDATE("update Return set charge=" & txtRepPrice.Text & " where retno=" & cmbRetNo.Text & ";")
                         CMDUPDATE("Insert into RepairActivity(RepANo,RetNo,RepADate,Activity,UNo)" &
-                                  " Values(" & AutomaticPrimaryKeyStr("RepairActivity", "RepANo") & "," &
+                                  " Values(" & AutomaticPrimaryKey("RepairActivity", "RepANo") & "," &
                                   cmbRetNo.Text & ",#" & DateAndTime.Now & "#,'Repair Charge -> " & txtRepPrice.Text & "'," & MdifrmMain.Tag & ")")
                     End If
                     If DRREPNO("RepDate") <> txtRepDate.Value.ToString Then
                         CMDUPDATE("update Return set repdate=#" & txtRepDate.Value.ToString & "# where retno=" & cmbRetNo.Text & ";")
                         CMDUPDATE("Insert into RepairActivity(RepANo,RetNo,RepADate,Activity,UNo)" &
-                                  " Values(" & AutomaticPrimaryKeyStr("RepairActivity", "RepANo") & "," &
+                                  " Values(" & AutomaticPrimaryKey("RepairActivity", "RepANo") & "," &
                                   cmbRetNo.Text & ",#" & DateAndTime.Now & "#,'Repaired Date -> " & txtRepDate.Value.ToString & "'," & MdifrmMain.Tag & ")")
                     End If
                     If Me.Tag = "" Then MsgBox("Update successful!", vbInformation + vbOKOnly)
-                    Exit Try
-            End Select
-        Catch ex As Exception
-            MsgBox(ex.Message, vbCritical + vbOKOnly)
-        Finally
-            If tabRepair.SelectedTab.TabIndex = 0 Then
+                Exit Sub
+        End Select
+        'Catch ex As Exception
+        '    MsgBox(ex.Message, vbCritical + vbOKOnly)
+        'Finally
+        If tabRepair.SelectedTab.TabIndex = 0 Then
                 CmbRepNo_SelectedIndexChanged(sender, e)
             End If
-        End Try
+        'End Try
     End Sub
 
     Public Sub CmbRetStatus_SelectionChangeCommitted(sender As Object, e As EventArgs) Handles cmbRetStatus.SelectionChangeCommitted
@@ -990,12 +991,11 @@ Public Class frmRepair
     End Sub
 
     Private Sub PrintRepairStickerToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PrintRepairStickerToolStripMenuItem.Click
-        frmReceive.PrintSticker(txtRNo.Text)
+        frmReceive.PrintSticker(txtRNo.Text, False, False, "RepairStickerReceipt")
     End Sub
 
     Private Sub PrintReceivedReceiptToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PrintReceivedReceiptToolStripMenuItem.Click
-
-        frmReceive.PrintReceipt(txtRNo.Text)
+        frmReceive.PrintReceipt(txtRNo.Text, False, False, "RepairReceivedReceipt")
     End Sub
 
     Private Sub PrintDeliverReceiptToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PrintDeliverReceiptToolStripMenuItem.Click
@@ -1033,22 +1033,21 @@ Public Class frmRepair
     Private Sub grdRepRemarks1_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs) Handles grdRepRemarks1.CellEndEdit
         If e.RowIndex < 0 Then Exit Sub
 
-        Dim AdminSend As Boolean = False
-        Dim Remarks As String = ""
+        Dim AdminPer As New AdminPermission
         If e.ColumnIndex = 1 Then
             grdRepRemarks1.CurrentCell.Value = dtpDate.Value.ToString
             dtpDate.Visible = False
             If grdRepRemarks1.Item(1, e.RowIndex).Tag IsNot Nothing AndAlso
                 Convert.ToDateTime(grdRepRemarks1.Item(1, e.RowIndex).Tag).Date <> DateTime.Today.Date Then
-                AdminSend = True
-                Remarks = "Repair Remarks 1 හිදි අද දිනට නොමැති Remarks එකක දිනයක් වෙනස් කෙරුණි."
+                AdminPer.AdminSend = True
+                AdminPer.Remarks = "Repair Remarks 1 හිදි අද දිනට නොමැති Remarks එකක දිනයක් වෙනස් කෙරුණි."
             End If
         ElseIf e.ColumnIndex = 2 And e.RowIndex <> (grdRepRemarks1.Rows.Count - 1) Then
             If (MdifrmMain.tslblUserType.Text <> "Admin" And grdRepRemarks1.Item(1, e.RowIndex).Value IsNot Nothing AndAlso
                 grdRepRemarks1.Item(1, e.RowIndex).Value.ToString <> "" AndAlso
                 DateAndTime.DateValue(grdRepRemarks1.Item(1, e.RowIndex).Value) <> DateTime.Today.Date) Then
-                AdminSend = True
-                Remarks = "Repair Remarks 1 හිදි අද දිනට නොමැති Remarks එකක් වෙනස් කෙරුණි."
+                AdminPer.AdminSend = True
+                AdminPer.Remarks = "Repair Remarks 1 හිදි අද දිනට නොමැති Remarks එකක් වෙනස් කෙරුණි."
             End If
             If grdRepRemarks1.Item(1, e.RowIndex).Value Is Nothing Or
                 grdRepRemarks1.Item(2, e.RowIndex).Value <> grdRepRemarks1.Item(2, e.RowIndex).Tag Then grdRepRemarks1.Item(1, e.RowIndex).Value = DateTime.Now
@@ -1063,7 +1062,7 @@ Public Class frmRepair
                 Exit Sub
             Else
                 If grdRepRemarks1.Item(0, e.RowIndex).Value Is Nothing Then grdRepRemarks1.Item(0, e.RowIndex).Value =
-                    AutomaticPrimaryKeyStr("RepairRemarks1", "Rem1No")
+                    AutomaticPrimaryKey("RepairRemarks1", "Rem1No")
             End If
         End If
         If e.RowIndex <> (grdRepRemarks1.Rows.Count - 1) And
@@ -1073,18 +1072,19 @@ Public Class frmRepair
                           If(tabRepair.SelectedTab.TabIndex = 0, "RepNo=" & cmbRepNo.Text, "RetNo=" & cmbRetNo.Text) &
                           ",Rem1Date=#" & grdRepRemarks1.Item(1, e.RowIndex).Value &
                           "#,Remarks='" & grdRepRemarks1.Item(2, e.RowIndex).Value &
-                          "',UNo=" & GetStrfromRelatedfield("Select UNo from [User] Where UserName='" & grdRepRemarks1.Item(3, e.RowIndex).Value & "'", "UNo") &
-                          " Where Rem1No=" & grdRepRemarks1.Item(0, e.RowIndex).Value, AdminSend, Remarks)
+                          "',UNo=" & GetStrfromRelatedfield("Select UNo from [User] Where UserName='" &
+                          grdRepRemarks1.Item(3, e.RowIndex).Value & "'") &
+                          " Where Rem1No=" & grdRepRemarks1.Item(0, e.RowIndex).Value, AdminPer)
             Else
                 CMDUPDATE("Insert into RepairRemarks1(Rem1No," & If(tabRepair.SelectedTab.TabIndex = 0, "RepNo", "RetNo") &
                           ", Rem1Date, Remarks, UNo) Values(" & grdRepRemarks1.Item(0, e.RowIndex).Value & "," &
                           If(tabRepair.SelectedTab.TabIndex = 0, cmbRepNo.Text, cmbRetNo.Text) & ",#" & grdRepRemarks1.Item(1, e.RowIndex).Value &
                           "#,'" & grdRepRemarks1.Item(2, e.RowIndex).Value & "'," &
-                          GetStrfromRelatedfield("Select UNo from [User] Where UserName='" & grdRepRemarks1.Item(3, e.RowIndex).Value & "'", "UNo") &
-                          ")", AdminSend, Remarks)
+                          GetStrfromRelatedfield("Select UNo from [User] Where UserName='" & grdRepRemarks1.Item(3, e.RowIndex).Value & "'") &
+                          ")", AdminPer)
             End If
         End If
-        If AdminSend = True Then
+        If AdminPer.AdminSend = True Then
             Dim E1 As New DataGridViewCellCancelEventArgs(e.ColumnIndex, e.RowIndex)
             grdRepRemarks1_RowValidating(sender, E1)
         End If
@@ -1092,14 +1092,13 @@ Public Class frmRepair
 
     Private Sub grdRepRemarks1_UserDeletingRow(sender As Object, e As DataGridViewRowCancelEventArgs) Handles grdRepRemarks1.UserDeletingRow
         If e.Row.Index < 0 Or e.Row.Index = (grdRepRemarks1.Rows.Count - 1) Then Exit Sub
-        Dim AdminSend As Boolean = False
-        Dim Remarks As String = ""
+        Dim AdminPer As New AdminPermission
         If MdifrmMain.tslblUserType.Text <> "Admin" And Convert.ToDateTime(grdRepRemarks1.Item(1, e.Row.Index).Value).Date <> DateTime.Today.Date Then
-            AdminSend = True
-            Remarks = "Repair Remarks 1 හි Field එකක් Delete කෙරුණි."
+            AdminPer.AdminSend = True
+            AdminPer.Remarks = "Repair Remarks 1 හි Field එකක් Delete කෙරුණි."
             e.Cancel = True
         End If
-        CMDUPDATE("Delete from RepairRemarks1 Where Rem1No=" & grdRepRemarks1.Item(0, e.Row.Index).Value, AdminSend, Remarks)
+        CMDUPDATE("Delete from RepairRemarks1 Where Rem1No=" & grdRepRemarks1.Item(0, e.Row.Index).Value, AdminPer)
     End Sub
 
     Private Sub grdRepRemarks1_RowValidating(sender As Object, e As DataGridViewCellCancelEventArgs) Handles grdRepRemarks1.RowValidating
@@ -1113,7 +1112,7 @@ Public Class frmRepair
             grdRepRemarks1.Item(1, e.RowIndex).Value = DR1("Rem1Date").ToString
             grdRepRemarks1.Item(2, e.RowIndex).Value = DR1("Remarks").ToString
             grdRepRemarks1.Item(3, e.RowIndex).Value = If(DR1("UNo").ToString <> "",
-                GetStrfromRelatedfield("Select UserName from [User] where Uno=" & DR1("UNo").ToString, "UserName"), "")
+                GetStrfromRelatedfield("Select UserName from [User] where Uno=" & DR1("UNo").ToString), "")
         Else
             grdRepRemarks1.Rows.RemoveAt(e.RowIndex)
         End If
@@ -1151,21 +1150,20 @@ Public Class frmRepair
     Private Sub grdRepRemarks2_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs) Handles grdRepRemarks2.CellEndEdit
         If e.RowIndex < 0 Then Exit Sub
 
-        Dim AdminSend As Boolean = False
-        Dim Remarks As String = ""
+        Dim AdminPer As New AdminPermission
         If grdRepRemarks2.Focused And e.ColumnIndex = 1 Then
             grdRepRemarks2.CurrentCell.Value = dtpDate.Value.ToString
             dtpDate.Visible = False
             If grdRepRemarks2.Item(1, e.RowIndex).Tag IsNot Nothing AndAlso
                 Convert.ToDateTime(grdRepRemarks2.Item(1, e.RowIndex).Tag).Date <> DateTime.Today.Date Then
-                AdminSend = True
-                Remarks = "Repair Remarks 2 හිදි අද දිනට නොමැති Remarks එකක දිනයක් වෙනස් කෙරුණි."
+                AdminPer.AdminSend = True
+                AdminPer.Remarks = "Repair Remarks 2 හිදි අද දිනට නොමැති Remarks එකක දිනයක් වෙනස් කෙරුණි."
             End If
         ElseIf e.ColumnIndex = 2 And e.RowIndex <> (grdRepRemarks2.Rows.Count - 1) Then
             If (MdifrmMain.tslblUserType.Text <> "Admin" And grdRepRemarks2.Item(1, e.RowIndex).Value IsNot Nothing AndAlso
            Convert.ToDateTime(grdRepRemarks2.Item(1, e.RowIndex).Value).Date <> DateTime.Today.Date) Then
-                AdminSend = True
-                Remarks = "Repair Remarks 2 හිදි අද දිනට නොමැති Remarks එකක් වෙනස් කෙරුණි."
+                AdminPer.AdminSend = True
+                AdminPer.Remarks = "Repair Remarks 2 හිදි අද දිනට නොමැති Remarks එකක් වෙනස් කෙරුණි."
             End If
             If grdRepRemarks2.Item(1, e.RowIndex).Value Is Nothing Or
                 grdRepRemarks2.Item(2, e.RowIndex).Value <> grdRepRemarks2.Item(2, e.RowIndex).Tag Then grdRepRemarks2.Item(1, e.RowIndex).Value = DateTime.Now
@@ -1179,7 +1177,7 @@ Public Class frmRepair
                 Exit Sub
             Else
                 If grdRepRemarks2.Item(0, e.RowIndex).Value Is Nothing Then
-                    grdRepRemarks2.Item(0, e.RowIndex).Value = AutomaticPrimaryKeyStr("RepairRemarks2", "Rem2No")
+                    grdRepRemarks2.Item(0, e.RowIndex).Value = AutomaticPrimaryKey("RepairRemarks2", "Rem2No")
                     For Each row As DataGridViewRow In grdRepRemarks2.Rows
                         If row.Index = e.RowIndex Or row.Index = (grdRepRemarks2.Rows.Count - 1) Then Continue For
                         If row.Cells(0).Value >= grdRepRemarks2.Item(0, e.RowIndex).Value Then
@@ -1194,33 +1192,33 @@ Public Class frmRepair
                 CMDUPDATE("Update RepairRemarks2 set " & If(tabRepair.SelectedTab.TabIndex = 0, "RepNo=" & cmbRepNo.Text, "RetNo=" & cmbRetNo.Text) &
                           ", Rem2Date =#" & grdRepRemarks2.Item(1, e.RowIndex).Value &
                           "#, Remarks ='" & grdRepRemarks2.Item(2, e.RowIndex).Value &
-                          "',UNo=" & GetStrfromRelatedfield("Select UNo from [User] Where UserName='" & grdRepRemarks2.Item(3, e.RowIndex).Value & "'", "UNo") &
-                          " Where Rem2No=" & grdRepRemarks2.Item(0, e.RowIndex).Value, AdminSend, Remarks)
+                          "',UNo=" & GetStrfromRelatedfield("Select UNo from [User] Where UserName='" &
+                          grdRepRemarks2.Item(3, e.RowIndex).Value & "'") &
+                          " Where Rem2No=" & grdRepRemarks2.Item(0, e.RowIndex).Value, AdminPer)
             Else
                 CMDUPDATE("Insert into RepairRemarks2(Rem2No," & If(tabRepair.SelectedTab.TabIndex = 0, "RepNo", "RetNo") &
                           ",Rem2Date,Remarks,UNo) Values(" & grdRepRemarks2.Item(0, e.RowIndex).Value & "," &
                           If(tabRepair.SelectedTab.TabIndex = 0, cmbRepNo.Text, cmbRetNo.Text) & ",#" & grdRepRemarks2.Item(1, e.RowIndex).Value &
                           "#,'" & grdRepRemarks2.Item(2, e.RowIndex).Value & "'," &
-                          GetStrfromRelatedfield("Select UNo from [User] Where UserName='" & grdRepRemarks2.Item(3, e.RowIndex).Value & "'", "UNo") &
-                          ")", AdminSend, Remarks)
+                          GetStrfromRelatedfield("Select UNo from [User] Where UserName='" & grdRepRemarks2.Item(3, e.RowIndex).Value & "'") &
+                          ")", AdminPer)
             End If
 
         End If
-        If AdminSend = True Then
+        If AdminPer.AdminSend = True Then
             Dim E1 As New DataGridViewCellCancelEventArgs(e.ColumnIndex, e.RowIndex)
             grdRepRemarks2_RowValidating(sender, E1)
         End If
     End Sub
     Private Sub grdRepRemarks2_UserDeletingRow(sender As Object, e As DataGridViewRowCancelEventArgs) Handles grdRepRemarks2.UserDeletingRow
         If e.Row.Index < 0 Or e.Row.Index = (grdRepRemarks2.Rows.Count - 1) Then Exit Sub
-        Dim AdminSend As Boolean = False
-        Dim Remarks As String = ""
+        Dim AdminPer As New AdminPermission
         If MdifrmMain.tslblUserType.Text <> "Admin" And Convert.ToDateTime(grdRepRemarks2.Item(1, e.Row.Index).Value).Date <> DateTime.Today.Date Then
-            AdminSend = True
-            Remarks = "Repair Remarks 2 හි Field එකක් Delete කෙරුණි."
+            AdminPer.AdminSend = True
+            AdminPer.Remarks = "Repair Remarks 2 හි Field එකක් Delete කෙරුණි."
             e.Cancel = True
         End If
-        CMDUPDATE("Delete from RepairRemarks2 Where Rem2No=" & grdRepRemarks2.Item(0, e.Row.Index).Value, AdminSend, Remarks)
+        CMDUPDATE("Delete from RepairRemarks2 Where Rem2No=" & grdRepRemarks2.Item(0, e.Row.Index).Value, AdminPer)
     End Sub
     Private Sub grdRepRemarks2_RowValidating(sender As Object, e As DataGridViewCellCancelEventArgs) Handles grdRepRemarks2.RowValidating
         If e.RowIndex < 0 Then Exit Sub
@@ -1233,7 +1231,7 @@ Public Class frmRepair
             grdRepRemarks2.Item(1, e.RowIndex).Value = DR1("Rem2Date").ToString
             grdRepRemarks2.Item(2, e.RowIndex).Value = DR1("Remarks").ToString
             grdRepRemarks2.Item(3, e.RowIndex).Value = If(DR1("UNo").ToString <> "",
-                GetStrfromRelatedfield("Select UserName from [User] where Uno=" & DR1("UNo").ToString, "UserName"), "")
+                GetStrfromRelatedfield("Select UserName from [User] where Uno=" & DR1("UNo").ToString), "")
         Else
             grdRepRemarks2.Rows.RemoveAt(e.RowIndex)
         End If
@@ -1257,16 +1255,15 @@ Public Class frmRepair
             End If
             Exit Sub
         End If
-        Dim AdminSend As Boolean = False
-        Dim Remarks As String = ""
+        Dim AdminPer As New AdminPermission
         Select Case e.ColumnIndex
             Case 1
                 grdTechnicianCost.CurrentCell.Value = dtpDate.Value.ToString
                 dtpDate.Visible = False
                 If grdTechnicianCost.Item(1, e.RowIndex).Tag IsNot Nothing AndAlso
                     Convert.ToDateTime(grdTechnicianCost.Item(1, e.RowIndex).Tag).Date <> DateTime.Today.Date Then
-                    AdminSend = True
-                    Remarks = "Repair හි Technician Cost හිදි අද දිනට නොමැති Technician Cost Data එකක දිනයක් වෙනස් කෙරුණි."
+                    AdminPer.AdminSend = True
+                    AdminPer.Remarks = "Repair හි Technician Cost හිදි අද දිනට නොමැති Technician Cost Data එකක දිනයක් වෙනස් කෙරුණි."
                 End If
             Case 2
                 If grdTechnicianCost.Item(2, e.RowIndex).Value Is Nothing Then Exit Sub
@@ -1305,19 +1302,19 @@ Public Class frmRepair
         End Select
         If MdifrmMain.tslblUserType.Text <> "Admin" And (grdTechnicianCost.Item(1, e.RowIndex).Value IsNot Nothing AndAlso
            Convert.ToDateTime(grdTechnicianCost.Item(1, e.RowIndex).Value).Date <> DateTime.Today.Date) Then
-            AdminSend = True
-            Remarks = "Repair හි Technician Cost හිදි අද දිනට නොමැති Technician Cost එකක් වෙනස් කෙරුණි."
+            AdminPer.AdminSend = True
+            AdminPer.Remarks = "Repair හි Technician Cost හිදි අද දිනට නොමැති Technician Cost එකක් වෙනස් කෙරුණි."
         End If
         If e.RowIndex = (grdTechnicianCost.Rows.Count - 1) Then Exit Sub
         If grdTechnicianCost.Item(1, e.RowIndex).Value Is Nothing Then grdTechnicianCost.Item(1, e.RowIndex).Value = DateAndTime.Now
         If grdTechnicianCost.Item(9, e.RowIndex).Value Is Nothing Or
             grdTechnicianCost.Item(e.ColumnIndex, e.RowIndex).Value <> grdTechnicianCost.Item(e.ColumnIndex, e.RowIndex).Tag Then grdTechnicianCost.Item(9, e.RowIndex).Value = MdifrmMain.tslblUserName.Text
         If grdTechnicianCost.Item(0, e.RowIndex).Value Is Nothing Then
-            grdTechnicianCost.Item(0, e.RowIndex).Value = AutomaticPrimaryKeyStr("TechnicianCost", "TCNo")
+            grdTechnicianCost.Item(0, e.RowIndex).Value = AutomaticPrimaryKey("TechnicianCost", "TCNo")
             CMDUPDATE("Insert into TechnicianCost(TCNo,TCDate,TNo,RepNo,UNo) Values(" & grdTechnicianCost.Item(0, e.RowIndex).Value & ",#" &
                 grdTechnicianCost.Item(1, e.RowIndex).Value & "#," & txtTNo.Text & "," & cmbRepNo.Text & "," &
-                GetStrfromRelatedfield("Select UNo from [User] Where UserName='" & grdTechnicianCost.Item("UNo", e.RowIndex).Value & "'", "UNo") & ")",
-                      AdminSend, Remarks)
+                GetStrfromRelatedfield("Select UNo from [User] Where UserName='" & grdTechnicianCost.Item("UNo", e.RowIndex).Value & "'") & ")",
+                      AdminPer)
         End If
         If CheckExistData("Select * from TechnicianCost Where TCNo=" & grdTechnicianCost.Item(0, e.RowIndex).Value) = True Then
             CMDUPDATE("Update TechnicianCost set TCDate=#" & grdTechnicianCost.Item("TCDate", e.RowIndex).Value &
@@ -1328,10 +1325,11 @@ Public Class frmRepair
                       ",Qty=" & grdTechnicianCost.Item("Qty", e.RowIndex).Value &
                       ",Total=" & grdTechnicianCost.Item("Total", e.RowIndex).Value &
                       ",TCRemarks='" & grdTechnicianCost.Item("TCRemarks", e.RowIndex).Value &
-                      "',UNo=" & GetStrfromRelatedfield("Select UNo from [User] Where UserName='" & grdTechnicianCost.Item("UNo", e.RowIndex).Value & "'", "UNo") &
-                      " Where TCNo=" & grdTechnicianCost.Item("TCNo", e.RowIndex).Value, AdminSend, Remarks)
+                      "',UNo=" & GetStrfromRelatedfield("Select UNo from [User] Where UserName='" &
+                      grdTechnicianCost.Item("UNo", e.RowIndex).Value & "'") &
+                      " Where TCNo=" & grdTechnicianCost.Item("TCNo", e.RowIndex).Value, AdminPer)
         End If
-        If AdminSend = True Then
+        If AdminPer.AdminSend = True Then
             Dim E1 As New DataGridViewCellCancelEventArgs(e.ColumnIndex, e.RowIndex)
             grdTechnicianCost_RowValidating(sender, E1)
         End If
@@ -1379,15 +1377,14 @@ Public Class frmRepair
 
     Private Sub grdTechnicianCost_UserDeletingRow(sender As Object, e As DataGridViewRowCancelEventArgs) Handles grdTechnicianCost.UserDeletingRow
         If e.Row.Index < 0 Or e.Row.Index = (grdTechnicianCost.Rows.Count - 1) Then Exit Sub
-        Dim AdminSend As Boolean = False
-        Dim Remarks As String = ""
+        Dim AdminPer As New AdminPermission
         If MdifrmMain.tslblUserType.Text <> "Admin" And Convert.ToDateTime(grdTechnicianCost.Item(1, e.Row.Index).Value).Date <>
             DateTime.Today.Date Then
-            AdminSend = True
-            Remarks = "Repair හි Technician Cost හි Field එකක් Delete කෙරුණි."
+            AdminPer.AdminSend = True
+            AdminPer.Remarks = "Repair හි Technician Cost හි Field එකක් Delete කෙරුණි."
             e.Cancel = True
         End If
-        CMDUPDATE("Delete from TechnicianCost Where TCNo=" & grdTechnicianCost.Item(0, e.Row.Index).Value, AdminSend, Remarks)
+        CMDUPDATE("Delete from TechnicianCost Where TCNo=" & grdTechnicianCost.Item(0, e.Row.Index).Value, AdminPer)
     End Sub
 
     Private Sub grdTechnicianCost_RowValidating(sender As Object, e As DataGridViewCellCancelEventArgs) Handles grdTechnicianCost.RowValidating
@@ -1406,7 +1403,7 @@ Public Class frmRepair
             grdTechnicianCost.Item(7, e.RowIndex).Value = DR1("Total").ToString
             grdTechnicianCost.Item(8, e.RowIndex).Value = DR1("TCRemarks").ToString
             grdTechnicianCost.Item(9, e.RowIndex).Value = If(DR1("UNo").ToString <> "",
-                GetStrfromRelatedfield("Select UserName from [User] where Uno=" & DR1("UNo").ToString, "UserName"), "")
+                GetStrfromRelatedfield("Select UserName from [User] where Uno=" & DR1("UNo").ToString), "")
         Else
             grdTechnicianCost.Rows.RemoveAt(e.RowIndex)
         End If

@@ -1,8 +1,4 @@
 ﻿Imports System.Data.OleDb
-Imports System.IO
-Imports System.Runtime.InteropServices
-Imports System.Net.Mail
-Imports System.Net
 
 Public Class frmLogin
     Dim frmMoveX, frmMoveY As Integer
@@ -20,7 +16,7 @@ Public Class frmLogin
         cmbUserName_DropDown(sender, e)
         CMD = New OleDbCommand("Select Top 1 UserName from [User] Order by LastLogin Desc;", CNN)
         cmbUserName.Text = CMD.ExecuteScalar
-        ActiveControl = cmbUserName
+        cmbUserName.Focus()
         '--------Developer Mode-------------
         If My.Settings.DeveloperMode = True Then
             txtPassword.Text = "cashier"
@@ -120,7 +116,7 @@ Public Class frmLogin
             For i As Integer = 1 To 5 ' 5 Letters generated
                 sPrefix &= ChrW(rdm.Next(65, 90))
             Next
-            CMDUPDATE("Insert Into Mail(MailNo,MailDate,EmailTo,Subject,Body,Status) Values(?PrimaryKey?Mail?MailNo?,#" &
+            CMDUPDATE("Insert Into Mail(MailNo,MailDate,EmailTo,Subject,Body,Status) Values(?NewKey?Mail?MailNo?,#" &
                       DateAndTime.Now & "#,'" & DR("Email").ToString & "','New Signed in Detected from your LASER System account','" &
                       "Please use the following security code for the LASER System account " & txtOTPUserName.Text & "." + vbCrLf + vbCrLf +
                         "Security code: " + sPrefix & "','Waiting');")

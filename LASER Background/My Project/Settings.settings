@@ -35,20 +35,23 @@
     <Setting Name="DBProvider" Type="System.String" Scope="User">
       <Value Profile="(Default)">Microsoft.ACE.OLEDB.12.0</Value>
     </Setting>
-    <Setting Name="OnlineDBCNN" Type="System.String" Scope="User">
-      <Value Profile="(Default)">http://localhost/LASERSystem/updater.php</Value>
-    </Setting>
-    <Setting Name="OnlineDBPass" Type="System.String" Scope="User">
+    <Setting Name="ODBPath" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="OnlineDBUser" Type="System.String" Scope="User">
+    <Setting Name="ODBPassword" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ODBUser" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="SendEmail" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="UserAgent" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko</Value>
+    <Setting Name="ODBActive" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ODBToken" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>

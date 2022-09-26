@@ -28,7 +28,8 @@ Public Class frmStock
         AcceptButton = btnSearch
         btnSearch_Click(Nothing, Nothing)
         If MdifrmMain.tslblUserType.Text = "Admin" Then
-            grdStock.Columns.Item("AdminCostPrice").Visible = True
+            grdStock.Columns.Item(7).ReadOnly = False
+            grdStock.Columns.Item(8).ReadOnly = False
         End If
     End Sub
 
@@ -140,13 +141,11 @@ Public Class frmStock
                 End If
                 Try
                     If File.Exists(Application.StartupPath & "\System Files\Images\" + "S-" + row("SNo").ToString + ".ls") = True Then
-                        Dim imgStream As MemoryStream = New MemoryStream()
+                        Dim imgStream As New MemoryStream()
                         Dim img As Image = Image.FromFile(Application.StartupPath & "\System Files\Images\" + "S-" + row("SNo").ToString + ".ls")
                         img.Save(imgStream, System.Drawing.Imaging.ImageFormat.Png)
                         imgStream.Close()
                         Dim byteArray As Byte() = imgStream.ToArray()
-                    Else
-                        row("SImage") = Nothing
                     End If
                 Catch ex As Exception
                     MsgBox(row(0).ToString + " හි Stock Image එකේ දෝෂයක් පවතියි." + vbCrLf +
@@ -176,6 +175,10 @@ Public Class frmStock
     End Sub
 
     Private Sub bgwStock_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles bgwStock.RunWorkerCompleted
+        If bgwStock.CancellationPending Then
+            bgwStock.RunWorkerAsync()
+            Exit Sub
+        End If
         grdStock.ScrollBars = ScrollBars.Both
     End Sub
 
@@ -217,7 +220,7 @@ Public Class frmStock
         If grdStock.Item("SAvailableStocks", e.RowIndex).Value Is Nothing Then grdStock.Item("SAvailableStocks", e.RowIndex).Value = "0"
         If grdStock.Item("SoutofStocks", e.RowIndex).Value Is Nothing Then grdStock.Item("SOutofStocks", e.RowIndex).Value = "0"
         If grdStock.Item(0, e.RowIndex).Value Is Nothing Then
-            grdStock.Item(0, e.RowIndex).Value = AutomaticPrimaryKeyStr("Stock", "SNo")
+            grdStock.Item(0, e.RowIndex).Value = AutomaticPrimaryKey("Stock", "SNo")
             CMDUPDATE("Insert into Stock(SNo, SAvailableStocks, SOutofstocks) Values(" & grdStock.Item(0, e.RowIndex).Value.ToString & ",0,0);")
         End If
         If grdStock.Item(e.ColumnIndex, e.RowIndex).Value <> grdStock.Item(e.ColumnIndex, e.RowIndex).Tag Then
@@ -408,8 +411,9 @@ Public Class frmStock
     End Sub
 
     Private Sub btnSearch_Click(sender As Object, e As EventArgs) Handles btnSearch.Click
-        If bgwStock.IsBusy Then bgwStock.CancelAsync()
-        If bgwStock.IsBusy = False Then
+        If bgwStock.IsBusy Then
+            bgwStock.CancelAsync()
+        Else
             grdStock.Rows.Clear()
             bgwStock.RunWorkerAsync()
         End If

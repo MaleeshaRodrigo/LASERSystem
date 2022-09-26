@@ -1,9 +1,7 @@
 ﻿Public Class frmDatagridviewTool
     Private grdParent As New DataGridView
     Private frmParent As New Form
-    Private txt As New TextBox
     Private grddt As New DataTable
-    Private dtpDate As New DateTimePicker
 
     Private Sub frm_Load(sender As Object, e As EventArgs) Handles Me.Load
         Me.Left = grdParent.PointToScreen(grdParent.GetCellDisplayRectangle(grdParent.CurrentCell.ColumnIndex, grdParent.CurrentCell.RowIndex, False).Location).X
@@ -60,9 +58,6 @@
                 Me.Left = Me.Left - (Me.Width - grdParent.CurrentCell.Size.Width)
             End If
         End If
-    End Sub
-    Public Sub passtext(txtValue As TextBox)
-        txt = txtValue
     End Sub
 
     Public Sub dgv_KeyDown(sender As Object, e As KeyEventArgs)

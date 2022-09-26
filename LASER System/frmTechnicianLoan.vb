@@ -56,21 +56,24 @@
             MsgBox("ඔබ හේතුවක් හෝ Stock එකක් ඇතුලත් කර නොමැත. කරුණාකර නැවත පරික්ෂා කරන්න.")
             Exit Sub
         End If
-        Dim AdminSend As Boolean = False
-        If MdifrmMain.tslblUserType.Text <> "Admin" And txtTLDate.Value.Date <> Today.Date Then AdminSend = True
+        Dim AdminPer As New AdminPermission
+        If MdifrmMain.tslblUserType.Text <> "Admin" And txtTLDate.Value.Date <> Today.Date Then
+            AdminPer.AdminSend = True
+            AdminPer.Remarks = "අද දිනට නොමැති Technician Loan එකක් Update කෙරුණි."
+        End If
         If txtTLDate.Value.Date = Today.Date Then txtTLDate.Value = DateAndTime.Now
         Dim TNo As Integer = Int(GetStrfromRelatedfield("Select TNo,TName from Technician where TName='" &
-                                                        cmbTName.Text & "'", "TNo"))
+                                                        cmbTName.Text & "'"))
         If cmdTLSave.Text = "Save" Then
             If txtSNo.Text <> "" Then
                 CMDUPDATE("Insert Into TechnicianLoan(TLNo,TNo,TLDate,SNo,SCategory,SName,TLReason,Rate,Qty,Total,UNo) " &
                         "Values(" & txtTLNo.Text & "," & TNo & ",#" & txtTLDate.Value & "#," & txtSNo.Text & ",'" &
                         cmbSCategory.Text & "','" & cmbSName.Text & "','" & txtTLReason.Text &
-                        "'," & txtSUnitPrice.Text & "," & txtSQty.Text & "," & txtTLAmount.Text & ",'" & MdifrmMain.Tag & "')", AdminSend)
+                        "'," & txtSUnitPrice.Text & "," & txtSQty.Text & "," & txtTLAmount.Text & ",'" & MdifrmMain.Tag & "')", AdminPer)
             Else
                 CMDUPDATE("Insert Into TechnicianLoan(TLNo,TNo,TLDate,TLReason,Total,UNo) " &
                         "Values(" & txtTLNo.Text & "," & TNo & ",#" & txtTLDate.Value & "#,'" & txtTLReason.Text & "'," &
-                        txtTLAmount.Text & ",'" & MdifrmMain.Tag & "')", AdminSend)
+                        txtTLAmount.Text & ",'" & MdifrmMain.Tag & "')", AdminPer)
             End If
             MsgBox("Save Successfull!", vbExclamation + vbOKOnly)
         ElseIf cmdTLSave.Text = "Edit" Then
@@ -83,7 +86,7 @@
                       "',Rate=" & txtSUnitPrice.Text &
                       ",Qty=" & txtSQty.Text &
                       ",Total=" & txtTLAmount.Text &
-                      ",UNo=" & MdifrmMain.Tag, AdminSend)
+                      ",UNo=" & MdifrmMain.Tag, AdminPer)
         End If
         Call AutomaticPrimaryKey(txtTLNo, "SELECT top 1 TLNo from TechnicianLoan ORDER BY TLNo Desc;", "TLNo")
         cmbSCategory.Text = ""
@@ -265,8 +268,11 @@
             MdifrmMain.cmdTechnicianLoan.PerformClick()
             Exit Sub
         End If
-        Dim AdminSend As Boolean = False
-        If MdifrmMain.tslblUserType.Text <> "Admin" And txtTLDate.Value.Date <> Today.Date Then AdminSend = True
+        Dim AdminPer As New AdminPermission
+        If MdifrmMain.tslblUserType.Text <> "Admin" And txtTLDate.Value.Date <> Today.Date Then
+            AdminPer.AdminSend = True
+            AdminPer.Remarks = "අද දිනට නොමැති Technician Loan data එකක් ඉවත් කෙරුණි."
+        End If
         CMD = New OleDb.OleDbCommand("Select * from TechnicianLoan Where TLNo=" & txtTLNo.Text, CNN)
         DR = CMD.ExecuteReader
         If DR.HasRows = True Then
@@ -278,21 +284,18 @@
                                       vbCr + vbCr + "Cancel - ඔබට ඉවත් වීමට අවශ්‍ය නම් 'Cancel' යන Button එක Click කරන්න.", vbYesNoCancel + vbExclamation)
                 If Response = vbYes Then
                     CMDUPDATE("Update Stock set SAvailablestocks=(SAvailableStocks + " & txtSQty.Text &
-                                                             ") where SNo=" & txtSNo.Text & "", AdminSend,
-                                                                                                "අද දිනට නොමැති Technician Loan data එකක් ඉවත් කෙරුණි.")
-                    CMDUPDATE("DELETE from TechnicianCost where TCNo=" & txtTLNo.Text, AdminSend,
-                              "අද දිනට නොමැති Technician Loan data එකක් ඉවත් කෙරුණි.")       'decrease unit from stock table 
+                                                             ") where SNo=" & txtSNo.Text & "", AdminPer)
+                    CMDUPDATE("DELETE from TechnicianCost where TCNo=" & txtTLNo.Text, AdminPer)       'decrease unit from stock table 
                 ElseIf Response = vbNo Then
                     CMDUPDATE("Update Stock set SOutofStocks=(SOutofStocks + " & txtSQty.Text &
-                                                             ") where SNo=" & txtSNo.Text & "", AdminSend, "අද දිනට නොමැති Technician Loan data එකක් ඉවත් කෙරුණි.")
-                    CMDUPDATE("DELETE from TechnicianCost where TCNo=" & txtTLNo.Text, AdminSend, "අද දිනට නොමැති Technician Loan data එකක් ඉවත් කෙරුණි.")       'delete data from technician loan 
+                                                             ") where SNo=" & txtSNo.Text & "", AdminPer)
+                    CMDUPDATE("DELETE from TechnicianCost where TCNo=" & txtTLNo.Text, AdminPer)       'delete data from technician loan 
                 Else
                     Exit Sub
                 End If
             Else
                 If MsgBox("Are you sure delete this Technician Cost?", vbYesNo + vbExclamation) = vbYes Then
-                    CMDUPDATE("DELETE from TechnicianCost where TCNo=" & txtTLNo.Text, AdminSend,
-                              "අද දිනට නොමැති Technician Loan data එකක් ඉවත් කෙරුණි.")       'delete data from technician loan 
+                    CMDUPDATE("DELETE from TechnicianCost where TCNo=" & txtTLNo.Text, AdminPer)       'delete data from technician loan 
                 End If
             End If
         Else

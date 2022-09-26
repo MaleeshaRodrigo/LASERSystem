@@ -1,5 +1,4 @@
 ﻿Imports System.IO
-Imports System.Net.Mail
 Public Class FrmSettings
     Public Sub FrmSettings_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
@@ -15,6 +14,8 @@ Public Class FrmSettings
             txtBillPaperName.Text = .BillPrinterPaperName
             cmbDBProvider.Text = .DBProvider
             chkDMode.Checked = .DeveloperMode
+            TxtBGWokerPath.Text = .BGWorkerPath
+            ChkCashDrawer.Checked = .CashDrawer
 
             cmbBSCOMPort1_DropDown(sender, e)
             chkBSCOMMode.Checked = .BarcodeScannerCOMMode
@@ -29,6 +30,8 @@ Public Class FrmSettings
     Private Sub FrmSettings_Leave(sender As Object, e As EventArgs) Handles Me.Leave
         If Me.Tag = "Login" Then
             End
+        Else
+            Me.Close()
         End If
     End Sub
 
@@ -37,7 +40,7 @@ Public Class FrmSettings
             tpDatabase.Select()
             Exit Sub
         ElseIf File.Exists(txtDBLoc.Text) = False Then
-            MsgBox("This file name couldn't be found. Please select correct file for using a database", vbExclamation + vbOKOnly)
+            MsgBox("The database file couldn't be found. Please select the correct file", vbExclamation + vbOKOnly)
             Exit Sub
         End If
 
@@ -54,6 +57,8 @@ Public Class FrmSettings
             .BarcodeScannerCOMMode = chkBSCOMMode.Checked
             .BarcodeScannerCOMPort1 = cmbBSCOMPort.Text
             .BarcodeScannerBaudRate = Int(txtBSBaudRate.Text)
+            .BGWorkerPath = TxtBGWokerPath.Text
+            .CashDrawer = ChkCashDrawer.Checked
             If txtDBPassword.Text <> "" Then .DBPassword = Simple.Encode(txtDBPassword.Text)
             .DBProvider = cmbDBProvider.Text
             .DeveloperMode = chkDMode.Checked
@@ -258,5 +263,14 @@ Public Class FrmSettings
         For Each StrPort As String In myPort
             cmbBSCOMPort.Items.Add(StrPort)
         Next
+    End Sub
+
+    Private Sub BtnBGWokerPath_Click(sender As Object, e As EventArgs) Handles BtnBGWokerPath.Click
+        ofdDatabase.Title = "Please select the Background Worker file"
+        ofdDatabase.InitialDirectory = Application.StartupPath
+        ofdDatabase.Filter = "EXE file|*.exe"
+        If ofdDatabase.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
+            TxtBGWokerPath.Text = ofdDatabase.FileName
+        End If
     End Sub
 End Class

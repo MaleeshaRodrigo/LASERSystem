@@ -247,14 +247,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="LASER System.exe" size="5512176">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="LASER System.exe" size="5682160">
       <assemblyIdentity name="LASER System" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>NE77bpJnrHVimWnbDGoiLBIZSpibXaD8pDcAvsnSWwY=</dsig:DigestValue>
+        <dsig:DigestValue>HRSItVVR6dGZyfklaWvtiexlvwXD5kRJtBH6Z/svRfc=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -266,7 +266,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>OSqrWJyUzjAhmDSiQw+61JKaL51zHjjVl6F2BOKHUGI=</dsig:DigestValue>
+        <dsig:DigestValue>eUjspNfqwQVzU+Xqt/RvIElTjWIcZ1cCWb1tRh0vRtI=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -339,13 +339,13 @@
       <dsig:DigestValue>x5tmJrkePq1dUKxmzBo6+Tn7Lf+dIE3Y7eZzeBEs4co=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="LASER System.exe.config" size="3520">
+  <file name="LASER System.exe.config" size="3759">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>BO7VHLHNVE7lxFRPk2gqoXidZY11UN3aL1vSHTgsqLI=</dsig:DigestValue>
+      <dsig:DigestValue>CNTLf1re5jxzJV/FB0oroLOP3F0C6HP7VNvtuuJZ7Fc=</dsig:DigestValue>
     </hash>
   </file>
 </asmv1:assembly>

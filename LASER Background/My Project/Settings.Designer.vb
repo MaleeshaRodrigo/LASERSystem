@@ -15,7 +15,7 @@ Option Explicit On
 Namespace My
     
     <Global.System.Runtime.CompilerServices.CompilerGeneratedAttribute(),  _
-     Global.System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.2.0.0"),  _
+     Global.System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.3.0.0"),  _
      Global.System.ComponentModel.EditorBrowsableAttribute(Global.System.ComponentModel.EditorBrowsableState.Advanced)>  _
     Partial Friend NotInheritable Class MySettings
         Inherits Global.System.Configuration.ApplicationSettingsBase
@@ -188,37 +188,37 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("http://localhost/LASERSystem/updater.php")>  _
-        Public Property OnlineDBCNN() As String
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property ODBPath() As String
             Get
-                Return CType(Me("OnlineDBCNN"),String)
+                Return CType(Me("ODBPath"),String)
             End Get
             Set
-                Me("OnlineDBCNN") = value
+                Me("ODBPath") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("")>  _
-        Public Property OnlineDBPass() As String
+        Public Property ODBPassword() As String
             Get
-                Return CType(Me("OnlineDBPass"),String)
+                Return CType(Me("ODBPassword"),String)
             End Get
             Set
-                Me("OnlineDBPass") = value
+                Me("ODBPassword") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("")>  _
-        Public Property OnlineDBUser() As String
+        Public Property ODBUser() As String
             Get
-                Return CType(Me("OnlineDBUser"),String)
+                Return CType(Me("ODBUser"),String)
             End Get
             Set
-                Me("OnlineDBUser") = value
+                Me("ODBUser") = value
             End Set
         End Property
         
@@ -236,13 +236,25 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko")>  _
-        Public Property UserAgent() As String
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property ODBActive() As Boolean
             Get
-                Return CType(Me("UserAgent"),String)
+                Return CType(Me("ODBActive"),Boolean)
             End Get
             Set
-                Me("UserAgent") = value
+                Me("ODBActive") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property ODBToken() As String
+            Get
+                Return CType(Me("ODBToken"),String)
+            End Get
+            Set
+                Me("ODBToken") = value
             End Set
         End Property
     End Class

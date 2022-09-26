@@ -107,8 +107,8 @@ Partial Class frmRepair
         Me.MessageToCustomerForRepairedProductsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RepairInfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.PRINTToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.PrintRepairStickerToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.PrintReceivedReceiptToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.PrintRepairStickerToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.PrintDeliverReceiptToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.cmdDone = New System.Windows.Forms.Button()
         Me.imgRepair = New System.Windows.Forms.PictureBox()
@@ -881,6 +881,7 @@ Partial Class frmRepair
         '
         'MenuStrip
         '
+        Me.MenuStrip.BackColor = System.Drawing.Color.Yellow
         Me.MenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OPTIONToolStripMenuItem, Me.VIEWToolStripMenuItem, Me.PRINTToolStripMenuItem})
         Me.MenuStrip.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip.Name = "MenuStrip"
@@ -965,17 +966,17 @@ Partial Class frmRepair
         Me.PRINTToolStripMenuItem.Size = New System.Drawing.Size(51, 20)
         Me.PRINTToolStripMenuItem.Text = "PRINT"
         '
-        'PrintRepairStickerToolStripMenuItem
-        '
-        Me.PrintRepairStickerToolStripMenuItem.Name = "PrintRepairStickerToolStripMenuItem"
-        Me.PrintRepairStickerToolStripMenuItem.Size = New System.Drawing.Size(191, 22)
-        Me.PrintRepairStickerToolStripMenuItem.Text = "Print Repair Sticker"
-        '
         'PrintReceivedReceiptToolStripMenuItem
         '
         Me.PrintReceivedReceiptToolStripMenuItem.Name = "PrintReceivedReceiptToolStripMenuItem"
         Me.PrintReceivedReceiptToolStripMenuItem.Size = New System.Drawing.Size(191, 22)
         Me.PrintReceivedReceiptToolStripMenuItem.Text = "Print Received Receipt"
+        '
+        'PrintRepairStickerToolStripMenuItem
+        '
+        Me.PrintRepairStickerToolStripMenuItem.Name = "PrintRepairStickerToolStripMenuItem"
+        Me.PrintRepairStickerToolStripMenuItem.Size = New System.Drawing.Size(191, 22)
+        Me.PrintRepairStickerToolStripMenuItem.Text = "Print Repair Sticker"
         '
         'PrintDeliverReceiptToolStripMenuItem
         '

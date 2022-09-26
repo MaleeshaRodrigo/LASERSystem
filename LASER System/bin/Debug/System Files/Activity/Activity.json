@@ -1,0 +1,64 @@
+{
+  "Table1": [
+    {
+      "ID": "1",
+      "Date": "2022-09-26 11:47:38 PM",
+      "Command": "2022-09-26 11:47:37 PM- Logon Successfull by Cashier as a Cashier"
+    },
+    {
+      "ID": "2",
+      "Date": "2022-09-26 11:50:42 PM",
+      "Command": "Update Stock Set SCostPrice =438,SSalePrice= 875, SMinSTocks = 2,SLocation = '', SModelNo = 'LR-BL-12W-QSLB',SDetails='' Where SNo = 197"
+    },
+    {
+      "ID": "3",
+      "Date": "2022-09-26 11:50:42 PM",
+      "Command": "Update Stock Set SCostPrice =204,SSalePrice= 272, SMinSTocks = 3,SLocation = '', SModelNo = '',SDetails='' Where SNo = 1170"
+    },
+    {
+      "ID": "4",
+      "Date": "2022-09-26 11:50:42 PM",
+      "Command": "Insert into Supply(SupNo, SupDate, SuNo, SupRemarks, SupStatus, SupPaidDate,UNo) Values(55,#2022-09-26 11:49:14 PM#,10,'','Paid',#2022-09-26 11:49:13 PM#,14);"
+    },
+    {
+      "ID": "5",
+      "Date": "2022-09-26 11:50:42 PM",
+      "Command": "Insert into StockSupply(SupNo,SNo,SupType,SupUnits,SupCostPrice,SupTotal) Values(55,197,'Supply',10,438,4380);"
+    },
+    {
+      "ID": "6",
+      "Date": "2022-09-26 11:50:43 PM",
+      "Command": "Update Stock set SAvailablestocks=(SAvailableStocks + 10) where SNo=197"
+    },
+    {
+      "ID": "7",
+      "Date": "2022-09-26 11:50:43 PM",
+      "Command": "Insert into StockSupply(SupNo,SNo,SupType,SupUnits,SupCostPrice,SupTotal) Values(55,1170,'Supply',10,204,2040);"
+    },
+    {
+      "ID": "8",
+      "Date": "2022-09-26 11:50:43 PM",
+      "Command": "Update Stock set SAvailablestocks=(SAvailableStocks + 10) where SNo=1170"
+    },
+    {
+      "ID": "9",
+      "Date": "2022-09-27 12:01:56 AM",
+      "Command": "2022-09-27 12:01:54 AM- Logon Successfull by Cashier as a Cashier"
+    },
+    {
+      "ID": "10",
+      "Date": "2022-09-27 12:06:16 AM",
+      "Command": "2022-09-27 12:06:16 AM- Logon Successfull by Cashier as a Cashier"
+    },
+    {
+      "ID": "11",
+      "Date": "2022-09-27 12:09:14 AM",
+      "Command": "2022-09-27 12:09:14 AM- Logon Successfull by Cashier as a Cashier"
+    },
+    {
+      "ID": "12",
+      "Date": "2022-09-27 12:11:45 AM",
+      "Command": "2022-09-27 12:11:44 AM- Logon Successfull by Cashier as a Cashier"
+    }
+  ]
+}

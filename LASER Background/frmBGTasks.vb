@@ -1,27 +1,26 @@
-﻿Imports System.Net.Mail
-Imports System.Net
-Imports System.Net.Http
-Imports System.Web
-Imports System.IO
-Imports System.ComponentModel
+﻿Imports System.ComponentModel
 Imports System.Data.OleDb
-Imports System.Runtime.InteropServices
+Imports System.IO
+Imports System.Net
+Imports System.Net.Mail
 Imports System.Security.Cryptography
 Imports System.Text
-Imports System.Web.Security
-Imports Guna.UI2.WinForms
+Imports System.Web
+Imports MaterialSkin
+Imports Newtonsoft.Json
 Imports Newtonsoft.Json.Linq
 
 Public Class frmBGTasks
     Private CNNBG As OleDbConnection
     Private CMDBG1, CMDBG2 As New OleDbCommand
     Private DRBG1, DRBG2 As OleDbDataReader
-    Private ReadOnly Simple As New Simple3Des("RandomKey45")
+    Public ReadOnly Simple As New Simple3Des("RandomKey45")
     Public Sub New()
 
         Me.Hide()
         ' This call is required by the designer.
         InitializeComponent()
+        ' Add any initialization after the InitializeComponent() call.
         Dim process As New Process()
         ' Pass your exe file path here.
         Dim path As String = Application.StartupPath + "\" + Application.ProductName + ".exe"
@@ -31,11 +30,15 @@ Public Class frmBGTasks
         If processName.Length > 1 Then
             End
         End If
-        ' Add any initialization after the InitializeComponent() call.
+
+        Dim SkinManager As MaterialSkinManager = MaterialSkinManager.Instance
+        SkinManager.AddFormToManage(Me)
+        SkinManager.Theme = MaterialSkinManager.Themes.DARK
+        SkinManager.ColorScheme = New ColorScheme(Primary.BlueGrey800, Primary.BlueGrey900, Primary.BlueGrey500, Accent.LightBlue200, TextShade.WHITE)
 
         With My.Settings
             txtDBLocation.Text = .DatabaseCNN
-            cmbDbProvider.Text = .DbProvider
+            cmbDbProvider.Text = .DBProvider
             txtDBLocation.Tag = .DatabaseCNN
             txtMApiKey.Text = .APIKey
             txtMApiToken.Text = .APIToken
@@ -45,40 +48,48 @@ Public Class frmBGTasks
             txtBackUpDB1.Text = .BackUpDB1
             txtBackUpDB2.Text = .BackUpDB2
             txtBackUpDB3.Text = .BackUpDB3
-            txtUserAgent.Text = .UserAgent
 
             If .AdminEmailPass <> "" Then txtMAdminPass.Text = Simple.Decode(.AdminEmailPass)
-            If .OnlineDBCNN = "" Then
-                chkOnlineDB.Checked = False
-                txtOnlineDB.Text = ""
-                txtOnlineDBUser.Text = ""
-                txtOnlineDBPass.Text = ""
-                chkOnlineDB_CheckedChanged(Nothing, Nothing)
+            chkOnlineDB.Checked = .ODBActive
+            If .ODBActive Then
+                txtOPath.Text = .ODBPath
+                txtOUser.Text = My.Settings.ODBUser
             Else
-                chkOnlineDB.Checked = True
-                txtOnlineDB.Text = .OnlineDBCNN
-                txtOnlineDBUser.Text = Simple.Decode(My.Settings.OnlineDBUser)
-                txtOnlineDBPass.Text = Simple.Decode(My.Settings.OnlineDBPass)
-                chkOnlineDB_CheckedChanged(Nothing, Nothing)
+                txtOPath.Text = ""
+                txtOUser.Text = ""
             End If
+            chkOnlineDB_CheckedChanged(Nothing, Nothing)
         End With
         If Not Directory.Exists(Application.StartupPath + "/System Files") Then My.Computer.FileSystem.CreateDirectory(Application.StartupPath +
                                                                                                                                "/System Files")
         If Not Directory.Exists(Application.StartupPath + "/System Files/Activity") Then My.Computer.FileSystem.CreateDirectory(Application.StartupPath +
                                                                                                                                "/System Files/Activity")
-        If Not File.Exists(Application.StartupPath + "/System Files/Activity/BGActivity.ls") Then
+        If Not File.Exists(Application.StartupPath + "/System Files/Activity/BGActivity.json") Then
             Dim d As FileStream
-            d = File.Create(Application.StartupPath & "/System Files/Activity/BGActivity.ls")
+            d = File.Create(Application.StartupPath & "/System Files/Activity/BGActivity.json")
             d.Close()
         End If
+        'Load the activity file
+        Dim JSONStr As String = File.ReadAllText(Application.StartupPath & "\System Files\Activity\BGActivity.json")
+        If String.IsNullOrEmpty(JSONStr) Then
+            GridActivity.Columns.Add("Date", "Date")
+            GridActivity.Columns.Item("Date").DataPropertyName = "Date"
+            GridActivity.Columns.Add("Command", "Command")
+            GridActivity.Columns.Item("Command").DataPropertyName = "Command"
+        Else
+            Dim DT As DataTable = JsonConvert.DeserializeObject(Of DataTable)(JSONStr)
+            GridActivity.DataSource = DT
+        End If
         tmrRefresh.Start()
-        txtActivity.Text = ""
-        txtActivity.Text = File.ReadAllText(Application.StartupPath & "\System Files\Activity\BGActivity.ls")
     End Sub
     Private Sub FrmBGTasks_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         System.Diagnostics.Process.GetCurrentProcess().PriorityClass = System.Diagnostics.ProcessPriorityClass.BelowNormal
         System.Windows.Forms.Control.CheckForIllegalCrossThreadCalls = False
         GetCNN()
+
+        If File.Exists(Application.StartupPath + "\ShutDown.txt") Then
+            File.Delete(Application.StartupPath + "\ShutDown.txt")
+        End If
     End Sub
 
     Private Sub FrmBGTasks_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
@@ -86,6 +97,7 @@ Public Class frmBGTasks
         bgworkerOnline.CancelAsync()
         tmrRefresh.Stop()
         Me.Hide()
+        Me.Tag = "Close"
 
         If bgworker.IsBusy = True Or bgworkerOnline.IsBusy = True Then
             e.Cancel = True
@@ -93,6 +105,11 @@ Public Class frmBGTasks
     End Sub
 
     Private Sub TmrRefresh_Tick(sender As Object, e As EventArgs) Handles tmrRefresh.Tick
+        If File.Exists(Application.StartupPath + "\ShutDown.txt") Then
+            File.Delete(Application.StartupPath + "\ShutDown.txt")
+            Me.Close()
+        End If
+
         For Each controlObject As Control In flpMessage.Controls
             If controlObject.Tag = "DBError" Then
                 tmrRefresh.Stop()
@@ -107,26 +124,66 @@ Public Class frmBGTasks
         ElseIf CNNBG Is Nothing OrElse CNNBG.State = ConnectionState.Closed Then
             GetCNN()
         End If
-        If bgworker.IsBusy = False Then bgworker.RunWorkerAsync()
-        If My.Settings.OnlineDBCNN <> "" Then
-            If bgworkerOnline.IsBusy = False Then bgworkerOnline.RunWorkerAsync()
-        Else
-
-        End If
+        If bgworker.IsBusy = False And PicBGStop.Tag = "Stop" Then bgworker.RunWorkerAsync()
+        If My.Settings.ODBActive And bgworkerOnline.IsBusy = False And
+            PicBGOStop.Tag = "Stop" Then bgworkerOnline.RunWorkerAsync()
     End Sub
 
     Private Sub BgWorker_DoWork(sender As Object, e As DoWorkEventArgs) Handles bgworker.DoWork
-        tslblLoad.Text = "Applying Admin Confirmed commands..."
+        bgworker.ReportProgress(0, "Applying Admin Confirmed commands...")
         Try
             For Each controlObject As Control In flpMessage.Controls
                 If controlObject.Tag = "AdminPermissionError" Then
-                    Exit Try
+                    Exit Sub
                 End If
             Next
             CMDBG1 = New OleDb.OleDbCommand("Select * from AdminPermission Where Status='Confirmed';", CNNBG)
             DRBG1 = CMDBG1.ExecuteReader
             While DRBG1.Read
-                CMDUPDATE(DRBG1("Command").ToString)
+                If bgworker.CancellationPending Then e.Cancel = True : Exit Sub
+                Dim Dict As Dictionary(Of String, String) = JsonConvert.DeserializeObject(Of Dictionary(Of String, String))(DRBG1("Keys").ToString)
+                'Replace a new index instead of command in keys dictionary 
+                If Dict.Count > 0 Then
+                    For Each key As String In Dict.Keys.ToList()
+                        If Dict(key).Contains("?") = True Then
+                            Dim splittxt() As String = Dict(key).Split("?")
+                            Select Case splittxt(1)
+                                Case "NewKey"
+                                    Dict(key) = Dict(key).Replace("?" + splittxt(1) + "?" + splittxt(2) + "?" + splittxt(3) + "?",
+AutomaticPrimaryKey(splittxt(2), splittxt(3)))
+                            End Select
+                        End If
+                    Next
+                    CMDUPDATE($"Update AdminPermission Set Keys='{JsonConvert.SerializeObject(Dict, Formatting.Indented)}' 
+Where APNo={DRBG1("APNo")}")
+                End If
+                CMDBG2 = New OleDbCommand($"Select * from APCommand Where APNo={DRBG1("APNo")}", CNNBG)
+                DRBG2 = CMDBG2.ExecuteReader()
+                While DRBG2.Read
+                    Dim Str As String = DRBG2("Commands")
+                    'Replace a new index instead of command
+                    If DRBG2("Commands").Contains("?") = True Then
+                        Dim splittxt() As String = Str.Split("?")
+                        Dim i As Integer = 0
+                        While i < splittxt.Length
+                            Select Case splittxt(i)
+                                Case "NewKey"
+                                    Str = Str.Replace("?" + splittxt(i) + "?" + splittxt(i + 1) +
+                                                                                  "?" + splittxt(i + 2) + "?",
+AutomaticPrimaryKey(splittxt(i + 1), splittxt(i + 2)))
+                                    i += 2
+                                Case "Key"
+                                    If Dict.ContainsKey(splittxt(i + 1)) Then
+                                        Str = Str.Replace($"?{splittxt(i)}?{splittxt(i + 1)}?", Dict.Item(splittxt(i + 1)))
+                                        i += 1
+                                    End If
+                            End Select
+                            i += 1
+                        End While
+                        CMDUPDATE($"Update APCommand Set Commands=""{Str}"" Where APCNo={DRBG2("APCNo")}")
+                    End If
+                    CMDUPDATE(Str)
+                End While
                 CMDUPDATE("Update AdminPermission set Status='Completed' Where APNo=" & DRBG1("APNo").ToString)
             End While
         Catch ex As Exception
@@ -139,7 +196,7 @@ Public Class frmBGTasks
             End If
         End Try
 
-        tslblLoad.Text = "Send Messages to Customers for Repaired Items..."
+        bgworker.ReportProgress(20, "Send Messages to Customers for Repaired Items...")
         Try
             If My.Settings.BGSendSMS = "OFF" Then Exit Try
             For Each controlObject As Control In flpMessage.Controls
@@ -152,27 +209,28 @@ Public Class frmBGTasks
                                           "And Rep.PNo = P.PNo And (Rep.Status='Repaired Not Delivered' or Rep.Status='Returned Not Delivered')", CNNBG)
             DRBG1 = CMDBG1.ExecuteReader
             While DRBG1.Read
+                If bgworker.CancellationPending Then e.Cancel = True : Exit Sub
                 If DRBG1("CuTelNo1").ToString.Replace(" ", "") = "" Then Continue While
                 CMDBG2 = New OleDb.OleDbCommand("Select * from Message where RepNo = " & DRBG1("RepNo").ToString, CNNBG)
                 DRBG2 = CMDBG2.ExecuteReader
                 If DRBG2.HasRows = False Then
                     If DRBG1("Status").ToString = "Repaired Not Delivered" Then
                         CMDUPDATE("Insert into Message(MsgNo,MsgDate,RepNo,CuTelNo,Message,`Status`) Values(" &
-                                          AutomaticPrimaryKeyStr("Message", "MsgNo") & ",#" & DateAndTime.Now & "#," &
+                                          AutomaticPrimaryKey("Message", "MsgNo") & ",#" & DateAndTime.Now & "#," &
                                           DRBG1("RepNo").ToString & ",'" & DRBG1("CuTelNo1").ToString & "','" &
                                     "ඔබ LASER Electronics ආයතනයට ලබාදුන් " + DRBG1("PName").ToString + " " + DRBG1("PCategory").ToString +
                                     " අයිතමය සාදා අවසන් බැවින් එය ගෙවා රැගෙනයන මෙන් ඉල්ලා සිටින අතර එහි ගාස්තුව Rs." + DRBG1("Charge").ToString + " වේ.','Waiting')")
                     ElseIf DRBG1("Status").ToString = "Returned Not Delivered" Then
                         If DRBG1("Charge").ToString = "0" Then
                             CMDUPDATE("Insert into Message(MsgNo,MsgDate,RepNo,CuTelNo,Message,`Status`) Values(" &
-                                          AutomaticPrimaryKeyStr("Message", "MsgNo") & ",#" & DateAndTime.Now & "#," & DRBG1("RepNo").ToString &
+                                          AutomaticPrimaryKey("Message", "MsgNo") & ",#" & DateAndTime.Now & "#," & DRBG1("RepNo").ToString &
                                           ",'" & DRBG1("CuTelNo1").ToString & "','" &
                                               "ඔබ LASER Electronics ආයතනයට ලබාදුන් " + DRBG1("PName").ToString + " " +
                                               DRBG1("PCategory").ToString +
                                               " අයිතමය සෑදීමට අවශ්‍ය අමතර කොටස් නොමැති බැවින් එය රැගෙන යන මෙන් ඉල්ලා සිටිමු.','Waiting')")
                         Else
                             CMDUPDATE("Insert into Message(MsgNo,MsgDate,RepNo,CuTelNo,Message,`Status`) Values(" &
-                                          AutomaticPrimaryKeyStr("Message", "MsgNo") & ",#" & DateAndTime.Now & "#," & DRBG1("RepNo").ToString &
+                                          AutomaticPrimaryKey("Message", "MsgNo") & ",#" & DateAndTime.Now & "#," & DRBG1("RepNo").ToString &
                                           ",'" & DRBG1("CuTelNo1").ToString & "','" &
                                                   "ඔබ LASER Electronics ආයතනයට ලබාදුන් " + DRBG1("PName").ToString + " " + DRBG1("PCategory").ToString +
                                                   " අයිතමය සෑදීමට අවශ්‍ය අමතර කොටස් නොමැති බැවින් එය රැගෙන යන මෙන් ඉල්ලා සිටින අතර ඒ සඳහා Rs." +
@@ -199,7 +257,7 @@ Public Class frmBGTasks
 
         If CheckForInternetConnection() = False Then Exit Sub
 
-        tslblLoad.Text = "Sending Emails...."
+        bgworker.ReportProgress(40, "Sending Emails...")
         Try
             For Each controlObject As Control In flpMessage.Controls
                 If controlObject.Tag = "SendEmailsError" Then
@@ -209,6 +267,7 @@ Public Class frmBGTasks
             CMDBG1 = New OleDb.OleDbCommand("Select * from Mail Where Status='Waiting';", CNNBG)
             DRBG1 = CMDBG1.ExecuteReader()
             While DRBG1.Read()
+                If bgworker.CancellationPending Then e.Cancel = True : Exit Sub
                 Dim mail As New MailMessage()
                 Dim SmtpServer As New SmtpClient("smtp.gmail.com")
                 mail.From = New MailAddress(My.Settings.AdminEmail)
@@ -257,25 +316,32 @@ Public Class frmBGTasks
             End If
         End Try
 
-        Try
-            Dim request As WebRequest = HttpWebRequest.Create("http://app.newsletters.lk/smsAPI?balance&apikey=" &
+        If My.Settings.BGSendSMS <> "OFF" Then
+            bgworker.ReportProgress(60, "Reloading Balance Amount of the SMS Service...")
+            Try
+                Dim request As WebRequest = HttpWebRequest.Create("http://app.newsletters.lk/smsAPI?balance&apikey=" &
                                                               My.Settings.APIKey & "&apitoken=" & My.Settings.APIToken)
-            Dim response As HttpWebResponse = DirectCast(request.GetResponse, HttpWebResponse)
-            Dim s As Stream = DirectCast(response.GetResponseStream(), Stream)
-            Dim readStream As New StreamReader(s)
-            Dim dataString As String = readStream.ReadToEnd()
-            Dim json As JObject = JObject.Parse(dataString)
-            lblBalance.Text = "Balance : Rs. " + json.SelectToken("balance").ToString
-        Catch ex As Exception
-            lblBalance.Text = "Balance : Rs. ###"
-        End Try
+                Dim response As HttpWebResponse = DirectCast(request.GetResponse, HttpWebResponse)
+                Dim s As Stream = DirectCast(response.GetResponseStream(), Stream)
+                Dim readStream As New StreamReader(s)
+                Dim dataString As String = readStream.ReadToEnd()
+                Dim json As JObject = JObject.Parse(dataString)
+                lblBalance.Text = "Balance : Rs. " + json.SelectToken("balance").ToString
+            Catch ex As Exception
+                lblBalance.Text = "Balance : Rs. ###"
+                Exit Sub
+            End Try
+        End If
     End Sub
 
-    Private Sub bgWorker_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles bgworker.RunWorkerCompleted
-        tslblLoad.Text = "Checking Error..."
+    Private Sub BgWorker_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles bgworker.RunWorkerCompleted
+        lblLoad.Text = "Checking Error..."
+        tsProBar.Value = 65
 
-        If bgworker.CancellationPending = True And bgworkerOnline.IsBusy = False Then
+        If e.Cancelled And bgworkerOnline.IsBusy = False And Me.Tag = "Close" Then
             End
+        ElseIf e.Cancelled Then
+            Exit Sub
         End If
         If e.Result IsNot Nothing Then
             Select Case e.Result(0)
@@ -297,7 +363,8 @@ Public Class frmBGTasks
             End Select
         End If
 
-        tslblLoad.Text = "Sending SMS Messages..."
+        lblLoad.Text = "Sending SMS Messages..."
+        tsProBar.Value = 70
         Try
             Dim CMDBG1 As New OleDbCommand
             Dim DRBG1 As OleDbDataReader
@@ -400,7 +467,7 @@ Public Class frmBGTasks
                             End If
                         End If
                     Next
-                    If Bool = True Then CreateSMSMsgPanel(Int(DRBG1("MsgNo").ToString))
+                    If Bool = True Then CreateMessagePanel(Int(DRBG1("MsgNo").ToString))
                 End While
                 Dim url As String
                 Dim host As String
@@ -493,8 +560,9 @@ Public Class frmBGTasks
             End If
         End Try
 
+        lblLoad.Text = "Backing up Database..."
+        tsProBar.Value = 90
         Try
-            tslblLoad.Text = "Backing up Database..."
             If IsFileInUse(My.Settings.DatabaseCNN) = False Then Exit Try
             For Each controlObject As Control In flpMessage.Controls
                 If controlObject.Tag = "SendSMSError" Then
@@ -551,211 +619,201 @@ Public Class frmBGTasks
             CreateMessagePanel("Database Back Up කිරීම බිද වැටී ඇත.", "ස්වයංක්‍රීයව Database Back Up කිරීමේ පද්ධතියේ යම් දෝෂයක් නිසා ක්‍රියාවිරහිත වී ඇත." +
             vbCrLf + vbCrLf + "Message: " + ex.Message + vbCrLf + "මේ පිළිබඳව Software Developer හට දැනුම් දෙන්න.", "SendSMSError")
         End Try
-        tslblLoad.Text = "Completed"
+
+        lblLoad.Text = "Restarting..."
+        tsProBar.Value = 100
     End Sub
 
     Private Sub bgworkerOnline_DoWork(sender As Object, e As DoWorkEventArgs) Handles bgworkerOnline.DoWork
-        lblBGLoad.Text = "Loading..."
-        Dim CMDOnlineDB As New OleDbCommand
-        Dim DROnlineDB As OleDbDataReader = Nothing
+        bgworkerOnline.ReportProgress(0, "Loading...")
+        Dim CMDODB As New OleDbCommand
+        Dim DRODB As OleDbDataReader = Nothing
+        Dim RowsCount, CurrentIndex As Integer
+        Dim OConfig As String = $"user={HashPassword(My.Settings.ODBUser, Simple.Decode(My.Settings.ODBToken))}&password={HashPassword(Simple.Decode(My.Settings.ODBPassword) + Format(Now(), "yyyy-MM-dd"), Simple.Decode(My.Settings.ODBToken))}"
+        'Check Internet Connection
+        If CheckForInternetConnection() = False Then Exit Sub
+
+        'Get the IP Address
+        lblIPAddress.Text = GETIPADDRESS()
+
+        If Not My.Settings.ODBActive Then Exit Sub
+
+        bgworkerOnline.ReportProgress(0, "Updating Local Database...")
         Try
-            lblBGLoad.Text = "Check Internet Connection..."
-            If CheckForInternetConnection() = False Then Exit Try
+            For Each controlObject As Control In flpMessage.Controls
+                If controlObject.Tag = "ODBDownloadError" Then
+                    Exit Try
+                End If
+            Next
 
-            lblIPAddress.Text = GETIPADDRESS()
-            'If lblIPAddress.Text.Replace("Current IP Address: ", "") <> My.Settings.IPAddress Then
-            '    CMDUPDATE("Insert Into Mail(MailNo,MailDate,EmailTo,Subject,Body,Status) Values(" &
-            '              AutomaticPrimaryKeyStr("Mail", "MailNo") & ",#" &
-            '              DateAndTime.Now & "#,'maleeshaachintha@gmail.com','LASER Shop Router එකේ IP Address එක මරු විය'," &
-            '              "'Dalugama LASER Shop එකේ Main Router එකේ IP Address එක මාරු වී ඇති බැවින් Online Database එක " &
-            '              "සඳහා Access ලබා දෙන්න. මෙය LASER System එකෙන් Auto Generate වෙන Email එකක් බව කාරුණිකව දැනුම් දෙමි." & vbCrLf &
-            '              vbCrLf & lblIPAddress.Text & "','Waiting')")
-            '    My.Settings.IPAddress = lblIPAddress.Text.Replace("Current IP Address: ", "")
-            '    My.Settings.Save()
-            'End If
-
-            If My.Settings.OnlineDBCNN = "" Then Exit Try
-
-            lblBGLoad.Text = "Applying Commands from Online Database to Local DB..."
-            ServicePointManager.Expect100Continue = True
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12
-
-            Dim client As New WebClient
-
-            client.Headers.Add("user-agent", My.Settings.UserAgent)
-            'client.Headers.Add("user-agent",
-            '              "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36 Edg/96.0.1054.29")
-            ' with proxy server only:
-            Dim proxy As IWebProxy = WebRequest.GetSystemWebProxy()
-            proxy.Credentials = CredentialCache.DefaultNetworkCredentials
-            client.Proxy = proxy
-
-            Dim baseurl1 As String = My.Settings.OnlineDBCNN &
-                                "?username=" & Simple.Decode(My.Settings.OnlineDBUser) &
-                                "&password=" & GetMD5Encoder(Simple.Decode(My.Settings.OnlineDBPass) +
-                                Format(Date.Today, "yyyy-MM-dd")) &
-                                "&action=reader"
-            Dim data1 As Stream
-            data1 = client.OpenRead(baseurl1)
-            Dim reader1 As StreamReader = New StreamReader(data1)
-            Dim strMyJson As String = reader1.ReadToEnd()
-            data1.Close()
-            reader1.Close()
-            If strMyJson = "UserName and Password is incorrect" Or strMyJson = "Please Enter an Action" Or strMyJson = "Please Enter the Command" Or
-            strMyJson = "Please Enter UserName and Password" Then
-                e.Result = New String() {"OnlineDBError", strMyJson}
-                Exit Try
+            Dim JSONResponse As String = GetResponse(My.Settings.ODBPath + "/view", $"{OConfig}&sql=SELECT * FROM `LocalDB` WHERE `Status`='Waiting' ORDER BY `Date`")
+            If JSONResponse.StartsWith("Error:") Then
+                e.Result = New String() {"ODBDownloadError", JSONResponse}
+                Exit Sub
             End If
-            Dim CMDBGOnline As New OleDbCommand
-            If strMyJson <> "[]" Then
-                Dim tbFinalObject As DataTable = Newtonsoft.Json.JsonConvert.DeserializeObject(Of DataTable)(strMyJson)
-                For Each row As DataRow In tbFinalObject.Rows
-                    If bgworkerOnline.CancellationPending = True Then Exit Try
-                    If row("Command").ToString.StartsWith("Insert Into") Then
-                        CMDUPDATE(row("Command").ToString)
+
+            Dim DicResult As Dictionary(Of String, Object) = JsonConvert.DeserializeObject(Of Dictionary(Of String, Object))(JSONResponse)
+            If DicResult.Item("status") = True Then
+                Dim BGDT As DataTable = JsonConvert.DeserializeObject(Of DataTable)(DicResult.Item("result").ToString)
+                RowsCount = BGDT.Rows.Count
+                CurrentIndex = 0
+                For Each DataRow As DataRow In BGDT.Rows
+                    'Check whether user needs to cancel the operation
+                    If bgworkerOnline.CancellationPending Then e.Cancel = True : Exit Sub
+                    'Applying the changes online users has made to the local db
+                    Dim Command As String = DataRow("Command").ToString.Trim
+                    If Command.StartsWith("Insert Into", True, Nothing) Then
+                        CMDUPDATE(Command)
                     Else
-                        CMDBGOnline = New OleDbCommand(row("Command").ToString, CNNBG)
+                        Dim CMDBGOnline As New OleDbCommand(Command, CNNBG)
                         CMDBGOnline.ExecuteNonQuery()
+                        CMDBGOnline.Dispose()
                     End If
-                    CMDBGOnline.Cancel()
-
-                    'CMDBGOnline = New OleDbCommand("Insert into OnlineDB(ID,ODate,Command) Values(" &
-                    '                           AutomaticPrimaryKeyStr("OnlineDB", "ID") &
-                    '                           ",#" & DateAndTime.Now & "#,""Update LocalDB Set Status='Done' Where ID=" & row("ID").ToString &
-                    '                           """)", CNNBG)
-                    'CMDBGOnline.ExecuteNonQuery()
-
-                    Dim baseurl As String = My.Settings.OnlineDBCNN &
-                                "?username=" & Simple.Decode(My.Settings.OnlineDBUser) &
-                                "&password=" & GetMD5Encoder(Simple.Decode(My.Settings.OnlineDBPass) +
-                                Format(Date.Today, "yyyy-MM-dd")) &
-                                "&action=updater" &
-                                "&Command=Update LocalDB set Status='Done' Where ID=" & row("ID").ToString
-                    ' with proxy server only:
-                    Dim data As Stream
-                    data = client.OpenRead(baseurl)
-                    Dim reader As StreamReader = New StreamReader(data)
-                    Dim result As String = reader.ReadToEnd()
-                    data.Close()
-                    reader.Close()
-
-                    If result <> "1" Then
-                        e.Result = New String() {"OnlineDBError", result}
-                        Exit Try
+                    'Mark online db that the changes has done
+                    JSONResponse = GetResponse(My.Settings.ODBPath + "/update",
+                                           $"{OConfig}&sql=UPDATE `LocalDB` Set `Status`='Done' WHERE ID={DataRow("ID").ToString}")
+                    If JSONResponse.StartsWith("Error:") Then
+                        e.Result = New String() {"ODBDownloadError", JSONResponse}
+                        Exit Sub
                     End If
+                    DicResult = JsonConvert.DeserializeObject(Of Dictionary(Of String, Object))(JSONResponse)
+                    If DicResult.Item("status") = False Then
+                        Dim ErrorMsg As String = ""
+                        For Each KeyPair As KeyValuePair(Of String, Object) In DicResult
+                            ErrorMsg += KeyPair.Key + ": " + KeyPair.Value.ToString + vbNewLine
+                        Next
+                        e.Result = New String() {"ODBDownloadError", ErrorMsg}
+                        Exit Sub
+                    End If
+                    'For updating UI
+                    CurrentIndex += 1
+                    bgworkerOnline.ReportProgress(Int((CurrentIndex / RowsCount) * 100),
+                                                  $"Updating Local Database ({CurrentIndex}/{RowsCount})...")
                 Next
+            Else
+                Dim ErrorMsg As String = ""
+                For Each KeyPair As KeyValuePair(Of String, Object) In DicResult
+                    ErrorMsg += KeyPair.Key + ": " + KeyPair.Value.ToString + vbNewLine
+                Next
+                e.Result = New String() {"ODBDownloadError", ErrorMsg}
             End If
-            lblBGLoad.Text = "Updating Online Database..."
-            CMDOnlineDB = New OleDb.OleDbCommand("Select * from OnlineDB order by ID", CNNBG)
-            DROnlineDB = CMDOnlineDB.ExecuteReader()
-            While DROnlineDB.Read
-                If bgworkerOnline.CancellationPending = True Then Exit Try
-                Dim strCommand As String = DROnlineDB("Command").ToString
-                strCommand = strCommand.Replace("#", "'")
-                strCommand = strCommand.Replace("\", "\\")
-                strCommand = HttpUtility.UrlEncode(strCommand)
+        Catch ex As Exception
+            e.Result = New String() {"ODBDownloadError", ex.Message}
+            Exit Sub
+        End Try
 
-                'Dim request As HttpWebRequest = CType(WebRequest.Create(My.Settings.OnlineDBCNN &
-                '                                                "?DB=" & My.Settings.DatabaseCNN &
-                '                                              "&username=" & Simple.Decode(My.Settings.OnlineDBUser) &
-                '                                              "&password=" & GetMD5Encoder(Simple.Decode(My.Settings.OnlineDBPass) +
-                '                                              Format(Date.Today, "yyyy-MM-dd")) &
-                '                                              "&action=updater" &
-                '                                              "&Command=" & strCommand), HttpWebRequest)
-                'txtActivity.Text += (vbCrLf + Command())
-                'request.UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.115 Safari/537.36"
-                'Dim response As HttpWebResponse = CType(request.GetResponse(), HttpWebResponse)
-                'Dim Temp As Stream = response.GetResponseStream()
-                'Dim Temp1 As New StreamReader(Temp)
-                'Dim result As String = Temp1.ReadToEnd
-                'Temp1.Close()
-                'Temp.Close()
-                'response.Close()
+        bgworkerOnline.ReportProgress(0, "Updating Online Database...")
+        Try
+            CMDODB = New OleDbCommand("Select * from OnlineDB order by ID", CNNBG)
+            'For get the count of rows 
+            Dim CMDODB1 As New OleDbCommand("Select Count(*) From OnlineDB", CNNBG)
+            RowsCount = CMDODB1.ExecuteScalar      'For updating the value of progressbar
+            CMDODB1.Cancel()
+            CurrentIndex = 0
+            DRODB = CMDODB.ExecuteReader()
+            While DRODB.Read
+                'Check whether user needs to cancel the operation
+                If bgworkerOnline.CancellationPending = True Then e.Cancel = True : Exit Sub
 
-                '// Add a user agent header in case the requested URI contains a query.
-                Dim baseurl As String = My.Settings.OnlineDBCNN &
-                                "?username=" & Simple.Decode(My.Settings.OnlineDBUser) &
-                                "&password=" & GetMD5Encoder(Simple.Decode(My.Settings.OnlineDBPass) +
-                                Format(Date.Today, "yyyy-MM-dd")) &
-                                "&action=updater" &
-                                "&Command=" & strCommand
-                ' with proxy server only:
-                Dim data As Stream
-                data = client.OpenRead(baseurl)
-                Dim reader As StreamReader = New StreamReader(data)
-                Dim result As String = reader.ReadToEnd()
-                data.Close()
-                reader.Close()
-
-                'Try
-                '    Dim MySQLCNN As New MySqlConnection("server=72.9.159.36;user id=lasertec_maleeshaachintha;" &
-                '                        "password=Achintha25581;database=lasertec_DLUDB;")
-                '        MySQLCNN.Open()
-                '        Dim MySQLCMD As New MySqlCommand(strCommand, MySQLCNN)
-                '        MySQLCMD.ExecuteNonQuery()
-
-                '        MySQLCMD.Cancel()
-                '        MySQLCNN.Close()
-
-                '    Dim wClient As New WebClient
-                '    Dim result As String = wClient.DownloadString(My.Settings.OnlineDBCNN &
-                '                                          "?username=" & Simple.Decode(My.Settings.OnlineDBUser) &
-                '                                          "&password=" & GetMD5Encoder(Simple.Decode(My.Settings.OnlineDBPass) +
-                '                                          Format(Date.Today, "yyyy-MM-dd")) &
-                '                                          "&action=updater" &
-                '                                          "&Command=" & Command())
-
-                If result = "1" Then
-                    Dim CMDOnlineDB1 As OleDbCommand = New OleDbCommand("Delete from OnlineDB Where ID=" & DROnlineDB("ID").ToString, CNNBG)
+                Dim Command As String = DRODB("Command").ToString.Replace("#", "'")
+                Dim JSONResponse As String = GetResponse(My.Settings.ODBPath + "/update",
+                                       $"{OConfig}&sql={Command}")
+                If JSONResponse.StartsWith("Error:") Then
+                    e.Result = New String() {"ODBUploadError", JSONResponse}
+                    Exit Sub
+                End If
+                Dim DicResult As Dictionary(Of String, Object) = JsonConvert.DeserializeObject(Of Dictionary(Of String, Object))(JSONResponse)
+                If DicResult.Item("status") = True Then
+                    Dim CMDOnlineDB1 As New OleDbCommand("Delete from OnlineDB Where ID=" & DRODB("ID").ToString, CNNBG)
                     CMDOnlineDB1.ExecuteNonQuery()
                     CMDOnlineDB1.Cancel()
                 Else
-                    e.Result = New String() {"OnlineDBError", result}
-                    Continue While
+                    Dim ErrorMsg As String = ""
+                    For Each KeyPair As KeyValuePair(Of String, Object) In DicResult
+                        ErrorMsg += KeyPair.Key + ": " + KeyPair.Value.ToString + vbNewLine
+                    Next
+                    e.Result = New String() {"ODBUploadError", ErrorMsg}
+                    Exit Sub
                 End If
-
-                'Catch ex As Exception
-                '    e.Result = New String() {"OnlineDBError", ex.Message}
-                '    lblBGLoad.Text = "Got an error! Online Updater has benn stopped temporarily"
-                '    Exit While
-                'End Try
+                'Update the value of progress bar
+                CurrentIndex += 1
+                bgworkerOnline.ReportProgress(Int((CurrentIndex / RowsCount) * 100),
+                                     $"Updating Online Database ({CurrentIndex}/{RowsCount})...")
             End While
         Catch ex As Exception
-            e.Result = New String() {"OnlineDBError", ex.Message}
-            lblBGLoad.Text = "Got an error! Online Updater has benn stopped temporarily"
-        Finally
-            If DROnlineDB IsNot Nothing AndAlso DROnlineDB.IsClosed = False Then
-            DROnlineDB.Close()
-            CMDOnlineDB.Cancel()
-        End If
+            e.Result = New String() {"ODBUploadError", ex.Message}
+            Exit Sub
         End Try
-        lblBGLoad.Text = "Completed"
+        If Not IsNothing(DRODB) AndAlso DRODB.IsClosed = False Then
+            DRODB.Close()
+            CMDODB.Cancel()
+        End If
+        bgworkerOnline.ReportProgress(100, "Completed")
     End Sub
 
     Private Sub bgworkerOnline_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles bgworkerOnline.RunWorkerCompleted
         lblBGLoad.Text = "Checking Errors..."
-        If bgworkerOnline.CancellationPending = True And bgworker.IsBusy = False Then
+        If e.Cancelled And bgworker.IsBusy = False And Me.Tag = "Close" Then
             End
+        ElseIf e.Cancelled Then
+            Exit Sub
         End If
         If e.Result IsNot Nothing Then
+            lblBGLoad.Text = "Freezed"
             Select Case e.Result(0)
-                Case "OnlineDBError"
+                Case "ODBDownloadError"
+                    CreateMessagePanel("Local Database එක Update කිරීමේදී ගැටලුවක් පැන නැගී ඇත.",
+                                       e.Result(1) + vbCrLf + "මේ පිළිබඳව Software Developer හට දැනුම් දෙන්න.", "ODBDownloadError")
+                Case "ODBUploadError"
                     For Each controlObject As Control In flpMessage.Controls
-                        If controlObject.Tag = "OnlineDBError" Then
+                        If controlObject.Tag = "ODBUploadError" Then
                             Exit Sub
                         End If
                     Next
                     CreateMessagePanel("Online Database එක Update කිරීමේදී ගැටලුවක් පැන නැගී ඇත.",
-            "Online Database එක Update කිරීමේදී ගැටලුවක් පැන නැගී ඇත." +
-            vbCrLf + vbCrLf + "Message: " + e.Result(1) + vbCrLf + "මේ පිළිබඳව Software Developer හට දැනුම් දෙන්න.", "OnlineDBError")
+                                       e.Result(1) + vbCrLf + "මේ පිළිබඳව Software Developer හට දැනුම් දෙන්න.", "ODBUploadError")
             End Select
         End If
     End Sub
 
-    Function GETIPADDRESS() As String
+    Public Function GetResponse(Path As String, Data As String) As String
+        Try
+            Dim s As HttpWebRequest
+            Dim enc As UTF8Encoding
+            Dim postdata As String
+            Dim postdatabytes As Byte()
+            s = HttpWebRequest.Create(Path)
+            enc = New System.Text.UTF8Encoding()
+
+            postdata = Data
+            postdatabytes = enc.GetBytes(postdata)
+            s.Method = "POST"
+            s.ContentType = "application/x-www-form-urlencoded"
+            s.ContentLength = postdatabytes.Length
+
+            Using stream = s.GetRequestStream()
+                stream.Write(postdatabytes, 0, postdatabytes.Length)
+            End Using
+            Dim result = s.GetResponse()
+            Dim reader As New StreamReader(result.GetResponseStream)
+            Return reader.ReadToEnd
+        Catch ex As Exception
+            Return "Error: " + ex.Message
+        End Try
+    End Function
+
+    Public Function HashPassword(ByVal Password As String, ByVal Salt As String) As String
+        Dim pwd As String = Password & Salt
+        Dim hasher As New System.Security.Cryptography.SHA256Managed()
+        Dim pwdb As Byte() = System.Text.Encoding.UTF8.GetBytes(pwd)
+        Dim pwdh As Byte() = hasher.ComputeHash(pwdb)
+        Return Convert.ToBase64String(pwdh)
+    End Function
+
+    Private Function GETIPADDRESS() As String
         Dim client As New WebClient
         '// Add a user agent header in case the requested URI contains a query.
-        client.Headers.Add("user-agent", My.Settings.UserAgent)
+        client.Headers.Add("user-agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko")
         Dim baseurl As String = "http://checkip.dyndns.org/"
         ' with proxy server only:
         Dim proxy As IWebProxy = WebRequest.GetSystemWebProxy()
@@ -785,11 +843,10 @@ Public Class frmBGTasks
     End Function
     Public Sub GetCNN()
         Try
-
             If File.Exists(My.Settings.DatabaseCNN) Then
-                CNNBG = New OleDbConnection("Provider=" & My.Settings.DbProvider & ";Data Source=" &
+                CNNBG = New OleDbConnection("Provider=" & My.Settings.DBProvider & ";Data Source=" &
                                             My.Settings.DatabaseCNN & ";Jet OLEDB:Database Password=" &
-                                            Simple.Decode(My.Settings.DbPassword) & ";")
+                                            Simple.Decode(My.Settings.DBPassword) & ";")
                 If CNNBG.State = ConnectionState.Closed Then
                     CNNBG.Open()
                 End If
@@ -807,154 +864,40 @@ Public Class frmBGTasks
     End Sub
 
 #Region "MessagePanel"
-    'Used to give unique control names such as label1, label2 etc
-    Private _MessagePanelsAddedCount As Integer = 0
 
     'Add Message panel to flow layout panel
     Public Sub CreateMessagePanel(Title As String, Message As String, Optional ByVal Tag As String = "")
-        Dim MessagePanel As New compMessageBox
-        'Add panel to flow layout panel
-        flpMessage.Controls.Add(MessagePanel)
+
         'Update panel variables
-        _MessagePanelsAddedCount += 1
-
-        MessagePanel.btnMessageDelete.Name = "btnMessageDelete" + (_MessagePanelsAddedCount).ToString
-
-        MessagePanel.lblTitle.Name = "lblTitle" + (_MessagePanelsAddedCount).ToString
-        MessagePanel.lblTitle.Text = Title
-
-        MessagePanel.lblMessage.Name = "lblMessage" + (_MessagePanelsAddedCount).ToString
-        MessagePanel.lblMessage.Text = Message
-
-        'Set panel properties
-        With MessagePanel
-            .Name = "pnlMessage" + (_MessagePanelsAddedCount).ToString
+        Dim MessagePanel As New MessageBox With {
+            .Title = Title,
+            .Message = Message,
             .Tag = Tag
-        End With
+        }
+        flpMessage.Controls.Add(MessagePanel)
 
         NotifyIcon.ShowBalloonTip(2000, Title, Message, ToolTipIcon.Info)
     End Sub
 
-    Public Sub CreateSMSMsgPanel(MsgNo As Integer)
+    Public Sub CreateMessagePanel(MsgNo As Integer)
         If MsgNo = Nothing Then Exit Sub
-        Dim MessagePanel As New Guna2Panel
-        MessagePanel.Width = flpMessage.Width - 30
-        MessagePanel.BorderRadius = 10
-        MessagePanel.UseTransparentBackground = True
-        MessagePanel.FillColor = Color.White
-        MessagePanel.Width = flpMessage.Width - 30
-        'Add panel to flow layout panel
-        flpMessage.Controls.Add(MessagePanel)
-
-        'Update panel variables
-        _MessagePanelsAddedCount += 1
-
-        Dim MessageDeleteButton As New PictureBox
-
-        'Set button properties
-        With MessageDeleteButton
-            .AutoSize = False
-            .Size = New Size(16, 16)
-            .Location = New Point(MessagePanel.Width - MessageDeleteButton.Width - 5, 5)
-            .Image = My.Resources.close
-            .Name = "btnMessageDelete" + (_MessagePanelsAddedCount).ToString
-        End With
-
-        'Add button to panel 
-        For Each controlObject As Control In flpMessage.Controls
-            If controlObject.Name = MessagePanel.Name Then
-                controlObject.Controls.Add(MessageDeleteButton)
-            End If
-        Next
-
-        'Add handler for click events
-        AddHandler MessageDeleteButton.Click, AddressOf DynamicButton_Click
-
-        Dim MessageTitleLabel As New Label
-
-        With MessageTitleLabel
-            .AutoSize = True
-            .Font = New Font("Calibri", 15, FontStyle.Bold)
-            .Location = New Point(5, 5)
-            .Name = "lblTitle" + (_MessagePanelsAddedCount).ToString
-            .Text = "Message එක Send කරන්නද?"
-            .ForeColor = Color.Black
-            .MaximumSize = New Size(MessagePanel.Width - 10, 0)
-        End With
-
-        For Each controlObject As Control In flpMessage.Controls
-            If controlObject.Name = MessagePanel.Name Then
-                controlObject.Controls.Add(MessageTitleLabel)
-            End If
-        Next
-
-        Dim MessageLabel As New Label
-
-        With MessageLabel
-            .AutoSize = True
-            .Font = New Font("Calibri", 12, FontStyle.Regular)
-            .Location = New Point(5, Int(MessageTitleLabel.Top) + Int(MessageTitleLabel.Height) + 5)
-            .Name = "lblMessage" + (_MessagePanelsAddedCount).ToString
-            .Text = "Telephone No: " & GetStrfromRelatedfield("Select CuTelNo from Message Where MsgNo=" & MsgNo, "CuTelNo") &
-                vbCrLf & "Message: " & GetStrfromRelatedfield("Select Message from Message Where MsgNo=" & MsgNo, "Message")
-            .ForeColor = Color.DarkGray
-            .MaximumSize = New Size(MessagePanel.Width - 10, 0)
-        End With
-
-        'Add button to panel 
-        For Each controlObject As Control In flpMessage.Controls
-            If controlObject.Name = MessagePanel.Name Then
-                controlObject.Controls.Add(MessageLabel)
-            End If
-        Next
-
-        Dim btnPrimary As New Button
-        With btnPrimary
-            .AutoSize = True
-            .Font = New Font("Calibri", 12, FontStyle.Regular)
-            .Location = New Point(5, Int(MessageLabel.Top) + Int(MessageLabel.Height) + 5)
-            .Name = "btnPrimary" + (_MessagePanelsAddedCount).ToString
-            .Text = "Send"
-            .Tag = MsgNo
-            .MaximumSize = New Size(((MessagePanel.Width - 10) / 2) - 5, 0)
-        End With
-
-        'Add button to panel 
-        For Each controlObject As Control In flpMessage.Controls
-            If controlObject.Name = MessagePanel.Name Then
-                controlObject.Controls.Add(btnPrimary)
-            End If
-        Next
-        'Add handler for click events
-        AddHandler btnPrimary.Click, AddressOf btnPrimary_Click
-
-        Dim btnSecondary As New Button
-        With btnSecondary
-            .AutoSize = True
-            .Font = New Font("Calibri", 12, FontStyle.Regular)
-            .Location = New Point(Int(btnPrimary.Left) + Int(btnPrimary.Width) + 5, Int(MessageLabel.Top) + Int(MessageLabel.Height) + 5)
-            .Name = "btnSecondary" + (_MessagePanelsAddedCount).ToString
-            .Text = "Don't Send"
-            .Tag = MsgNo
-            .MaximumSize = New Size(((MessagePanel.Width - 10) / 2) - 5, 0)
-        End With
-
-        'Add button to panel 
-        For Each controlObject As Control In flpMessage.Controls
-            If controlObject.Name = MessagePanel.Name Then
-                controlObject.Controls.Add(btnSecondary)
-            End If
-        Next
-        'Add handler for click events
-        AddHandler btnSecondary.Click, AddressOf btnSecondary_Click
+        Dim MessagePanel As New MessageBox With {
+            .Title = "Message එක Send කරන්නද?",
+            .Message = "Telephone No: " & GetStrfromRelatedfield("Select CuTelNo from Message Where MsgNo=" & MsgNo, "CuTelNo") &
+                vbCrLf & "Message: " & GetStrfromRelatedfield("Select Message from Message Where MsgNo=" & MsgNo, "Message"),
+            .Width = flpMessage.Width - 30,
+            .Tag = "SendSMSConfirmation" + MsgNo.ToString
+        }
 
         'Set panel properties
         With MessagePanel
-            .BackColor = Color.White
-            .Height = Int(btnPrimary.Top) + Int(btnPrimary.Height) + 5
-            .Name = "pnlMessage" + (_MessagePanelsAddedCount).ToString
-            .Tag = "SendSMSConfirmation" + MsgNo.ToString
+            .PanelAction.Visible = True
+            .Btn1.Text = "Send"
+            .Btn2.Text = "Don't Send"
         End With
+
+        'Add panel to flow layout panel
+        flpMessage.Controls.Add(MessagePanel)
     End Sub
 
     Private Sub btnSecondary_Click(sender As Object, e As EventArgs)
@@ -1076,14 +1019,6 @@ Public Class frmBGTasks
             End Try
         End Function
     End Class
-    Public Function GetMD5Encoder(theInput As String) As String
-        ' Convert to byte array and get hash
-#Disable Warning BC40000 ' Type or member is obsolete
-        Dim dbytes As Byte() = Encoding.UTF8.GetBytes(FormsAuthentication.HashPasswordForStoringInConfigFile(theInput, "MD5"))
-#Enable Warning BC40000 ' Type or member is obsolete
-
-        Return Convert.ToBase64String(dbytes)
-    End Function
 #End Region
 
     Public Sub CMDUPDATE(str As String, Optional ByVal DoesAdminSend As Boolean = False, Optional ByVal Remarks As String = "")
@@ -1091,22 +1026,43 @@ Public Class frmBGTasks
         If str.Contains("?") = True Then
             Dim splittxt() As String = str.Split("?")
             If splittxt(1) = "PrimaryKey" Then
-                str = str.Replace("?" + splittxt(1) + "?" + splittxt(2) + "?" + splittxt(3) + "?", AutomaticPrimaryKeyStr(splittxt(2), splittxt(3)))
+                str = str.Replace("?" + splittxt(1) + "?" + splittxt(2) + "?" + splittxt(3) + "?", AutomaticPrimaryKey(splittxt(2), splittxt(3)))
             End If
         End If
         CMDUPDATEDB = New OleDb.OleDbCommand(str, CNNBG)
         CMDUPDATEDB.ExecuteNonQuery()
         CMDUPDATEDB = New OleDbCommand("Insert into OnlineDB(ID,ODate,Command) Values(" &
-                                           AutomaticPrimaryKeyStr("OnlineDB", "ID") & ",#" & DateAndTime.Now & "#,""" &
+                                           AutomaticPrimaryKey("OnlineDB", "ID") & ",#" & DateAndTime.Now & "#,""" &
                                            str.Replace("""", """""") & """)", CNNBG)
         CMDUPDATEDB.ExecuteNonQuery()
-        WriteActivity(DateAndTime.Now + "- " + str)
+        WriteActivity(str)
         CMDUPDATEDB.Cancel()
     End Sub
     Public Sub WriteActivity(txt As String)
-        File.AppendAllText(Application.StartupPath & "\System Files\Activity\BGActivity.ls", txt + vbNewLine)
-        txtActivity.AppendText(txt + vbNewLine)
+        Dim DT As New DataTable
+        Dim newID As Integer
+        Dim Rjson As String = File.ReadAllText(Application.StartupPath & "\System Files\Activity\BGActivity.json")
+        If String.IsNullOrEmpty(Rjson) Then
+            DT.Columns.Add("ID")
+            DT.Columns.Add("Date")
+            DT.Columns.Add("Command")
+            newID = 1
+        Else
+            DT = JsonConvert.DeserializeObject(Of DataTable)(Rjson)
+            newID = DT.Rows(DT.Rows.Count - 1)(0) + 1
+        End If
+        DT.Rows.Add(newID, Now, txt)
+
+        Dim Wjson As String = JsonConvert.SerializeObject(DT, Formatting.Indented)
+        File.WriteAllText(Application.StartupPath & "\System Files\Activity\BGActivity.json", Wjson)
     End Sub
+
+    Public Function GetRowsCount(CMDBG As OleDbCommand) As Integer
+        Dim DA0 As New OleDbDataAdapter(CMDBG)
+        Dim DT0 As New DataTable
+        DA0.Fill(DT0)
+        Return DT0.Rows.Count
+    End Function
 
     Public Function GetStrfromRelatedfield(SQL As String, ColumnName As String) As String
         Dim CMD0 = New OleDb.OleDbCommand(SQL, CNNBG)
@@ -1119,7 +1075,7 @@ Public Class frmBGTasks
         End If
     End Function
 
-    Public Function AutomaticPrimaryKeyStr(TableName As String, ColumnName As String) As String
+    Public Function AutomaticPrimaryKey(TableName As String, ColumnName As String) As String
         Dim CMD0 = New OleDbCommand("Select Top 1 " & ColumnName & " from " & TableName & " Order By " & ColumnName & " Desc;", CNNBG)
         Dim DR0 As OleDbDataReader = CMD0.ExecuteReader()
         If DR0.HasRows = True Then
@@ -1169,17 +1125,19 @@ Public Class frmBGTasks
             .BackUpDB1 = txtBackUpDB1.Text
             .BackUpDB2 = txtBackUpDB2.Text
             .BackUpDB3 = txtBackUpDB3.Text
-            .UserAgent = txtUserAgent.Text
-            If txtDbPassword.Text <> "" Then .DbPassword = Simple.Encode(txtDbPassword.Text)
-            .DbProvider = cmbDbProvider.Text
-            If chkOnlineDB.CheckState = False Then
-                .OnlineDBCNN = ""
-                .OnlineDBUser = ""
-                .OnlineDBPass = ""
+            If txtDbPassword.Text <> "" Then .DBPassword = Simple.Encode(txtDbPassword.Text)
+            .DBProvider = cmbDbProvider.Text
+            .ODBActive = chkOnlineDB.Checked
+            If chkOnlineDB.CheckState Then
+                .ODBPath = txtOPath.Text
+                .ODBUser = txtOUser.Text
+                If txtOPassword.Text <> "" Then .ODBPassword = Simple.Encode(txtOPassword.Text)
+                If TxtOToken.Text <> "" Then .ODBToken = Simple.Encode(TxtOToken.Text)
             Else
-                .OnlineDBCNN = txtOnlineDB.Text
-                .OnlineDBUser = Simple.Encode(txtOnlineDBUser.Text)
-                .OnlineDBPass = Simple.Encode(txtOnlineDBPass.Text)
+                .ODBPath = ""
+                .ODBUser = ""
+                .ODBPassword = ""
+                .ODBToken = ""
             End If
             .Save()
         End With
@@ -1205,13 +1163,13 @@ Public Class frmBGTasks
 
     Private Sub chkOnlineDB_CheckedChanged(sender As Object, e As EventArgs) Handles chkOnlineDB.CheckedChanged
         If chkOnlineDB.Checked = True Then
-            txtOnlineDB.Enabled = True
-            txtOnlineDBPass.Enabled = True
-            txtOnlineDBUser.Enabled = True
+            txtOPath.Enabled = True
+            txtOPassword.Enabled = True
+            txtOUser.Enabled = True
         Else
-            txtOnlineDB.Enabled = False
-            txtOnlineDBPass.Enabled = False
-            txtOnlineDBUser.Enabled = False
+            txtOPath.Enabled = False
+            txtOPassword.Enabled = False
+            txtOUser.Enabled = False
         End If
     End Sub
 
@@ -1253,16 +1211,6 @@ Public Class frmBGTasks
         Cursor = Cursors.Default
     End Sub
 
-    Private Sub frmBGTasks_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-        CNNBG.Close()
-        End
-    End Sub
-
-    Private Sub NotifyIcon_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles NotifyIcon.MouseDoubleClick
-        Me.Show()
-        Me.WindowState = FormWindowState.Maximized
-    End Sub
-
     Private Sub frmBGTasks_Deactivate(sender As Object, e As EventArgs) Handles Me.Deactivate
         If chkActive.Checked = False Then Me.Hide()
     End Sub
@@ -1293,5 +1241,144 @@ Public Class frmBGTasks
         End Try
         Return False
     End Function
+
+    Private Sub bgworker_ProgressChanged(sender As Object, e As ProgressChangedEventArgs) Handles bgworker.ProgressChanged
+        lblLoad.Text = e.UserState
+        tsProBar.Value = e.ProgressPercentage
+    End Sub
+
+    Private Sub bgworkerOnline_ProgressChanged(sender As Object, e As ProgressChangedEventArgs) Handles bgworkerOnline.ProgressChanged
+        lblBGLoad.Text = e.UserState
+        tsBGProBar.Value = e.ProgressPercentage
+    End Sub
+
+    Private Sub PicStop_Click(sender As Object, e As EventArgs) Handles PicBGOStop.Click, PicBGStop.Click
+        If sender Is PicBGStop Then
+            If PicBGStop.Tag = "Stop" Then bgworker.CancelAsync()
+            lblLoad.Text = "Stoped"
+        Else
+            If PicBGOStop.Tag = "Stop" Then bgworkerOnline.CancelAsync()
+            lblBGLoad.Text = "Stoped"
+        End If
+        If sender.Tag = "Stop" Then
+            sender.Image = My.Resources.Play24
+            sender.tag = "Play"
+        Else
+            sender.Image = My.Resources.Stop24
+            sender.tag = "Stop"
+        End If
+    End Sub
+    Private Sub BtnOpenAdvDB_Click(sender As Object, e As EventArgs) Handles BtnOpenAdvDB.Click
+        FrmAdvDB.Show()
+    End Sub
+
+    Private Sub NotifyIcon_BalloonTipClicked(sender As Object, e As EventArgs) Handles NotifyIcon.BalloonTipClicked, NotifyIcon.Click
+        Me.Visible = True
+        Me.WindowState = FormWindowState.Maximized
+    End Sub
 End Class
 
+'updating Online DB to Local DB ------------------------------------------------------------------------
+'ServicePointManager.Expect100Continue = True
+'ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12
+
+'Dim client As New WebClient
+
+'client.Headers.Add("user-agent", My.Settings.UserAgent)
+''client.Headers.Add("user-agent",
+''              "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36 Edg/96.0.1054.29")
+'' with proxy server only:
+'Dim proxy As IWebProxy = WebRequest.GetSystemWebProxy()
+'proxy.Credentials = CredentialCache.DefaultNetworkCredentials
+'client.Proxy = proxy
+
+'Dim baseurl1 As String = My.Settings.ODBServer &
+'                    "?username=" & Simple.Decode(My.Settings.ODBUser) &
+'                    "&password=" & GetMD5Encoder(Simple.Decode(My.Settings.ODBPassword) +
+'                    Format(Date.Today, "yyyy-MM-dd")) &
+'                    "&action=reader"
+'Dim data1 As Stream
+'data1 = client.OpenRead(baseurl1)
+'Dim reader1 As New StreamReader(data1)
+'Dim strMyJson As String = reader1.ReadToEnd()
+'data1.Close()
+'reader1.Close()
+'If strMyJson = "UserName and Password is incorrect" Or strMyJson = "Please Enter an Action" Or strMyJson = "Please Enter the Command" Or
+'strMyJson = "Please Enter UserName and Password" Then
+'    e.Result = New String() {"OnlineDBError", strMyJson}
+'    Exit Try
+'End If
+'Dim CurrentIndex As Integer, RowsCount As Integer   'For updating the value of the progress bar
+'Dim CMDBGOnline As New OleDbCommand
+'If strMyJson <> "[]" Then
+'    Dim tbFinalObject As DataTable = JsonConvert.DeserializeObject(Of DataTable)(strMyJson)
+'    RowsCount = tbFinalObject.Rows.Count    'For updating the value of the progress bar
+'    For Each row As DataRow In tbFinalObject.Rows
+'        If bgworkerOnline.CancellationPending = True Then Exit Try
+'        If row("Command").ToString.StartsWith("Insert Into") Then
+'            CMDUPDATE(row("Command").ToString)
+'        Else
+'            CMDBGOnline = New OleDbCommand(row("Command").ToString, CNNBG)
+'            CMDBGOnline.ExecuteNonQuery()
+'        End If
+'        CMDBGOnline.Cancel()
+
+'        Dim baseurl As String = My.Settings.ODBServer &
+'                    "?username=" & Simple.Decode(My.Settings.ODBUser) &
+'                    "&password=" & GetMD5Encoder(Simple.Decode(My.Settings.ODBPassword) +
+'                    Format(Date.Today, "yyyy-MM-dd")) &
+'                    "&action=updater" &
+'                    "&Command=Update LocalDB set Status='Done' Where ID=" & row("ID").ToString
+'        ' with proxy server only:
+'        Dim data As Stream
+'        data = client.OpenRead(baseurl)
+'        Dim reader As New StreamReader(data)
+'        Dim result As String = reader.ReadToEnd()
+'        data.Close()
+'        reader.Close()
+
+'        If result <> "1" Then
+'            e.Result = New String() {"OnlineDBError", result}
+'            Exit Try
+'        End If
+
+'        'Update the value of progress bar
+'        CurrentIndex += 1
+'        bgworkerOnline.ReportProgress(20 + Int((CurrentIndex / RowsCount) * 30),
+'                                      $"Applying Commands from Online Database to Local DB ({CurrentIndex}/{RowsCount})...")
+'    Next
+'End If
+
+'Update Local DB to Online DB--------------------------------------------------------------------------------
+'Dim strCommand As String = DROnlineDB("Command").ToString
+'strCommand = strCommand.Replace("#", "'")
+'strCommand = strCommand.Replace("\", "\\")
+'strCommand = HttpUtility.UrlEncode(strCommand)
+
+''// Add a user agent header in case the requested URI contains a query.
+'Dim baseurl As String = My.Settings.OnlineDBCNN &
+'                "?username=" & Simple.Decode(My.Settings.OnlineDBUser) &
+'                "&password=" & GetMD5Encoder(Simple.Decode(My.Settings.OnlineDBPass) +
+'                Format(Date.Today, "yyyy-MM-dd")) &
+'                "&action=updater" &
+'                "&Command=" & strCommand
+'' with proxy server only:
+'Dim data As Stream
+'data = client.OpenRead(baseurl)
+'Dim reader As New StreamReader(data)
+'Dim result As String = reader.ReadToEnd()
+'data.Close()
+'reader.Close()
+
+'Dim MySQLCNN As New MySqlConnection("server=72.9.159.36;user id=lasertec_maleeshaachintha;" &
+'                    "password=Achintha25581;database=lasertec_DLUDB;")
+'MySQLCNN.Open()
+
+
+'Dim wClient As New WebClient
+'Dim result As String = wClient.DownloadString(My.Settings.OnlineDBCNN &
+'                                                          "?username=" & Simple.Decode(My.Settings.OnlineDBUser) &
+'                                                          "&password=" & GetMD5Encoder(Simple.Decode(My.Settings.OnlineDBPass) +
+'                                                          Format(Date.Today, "yyyy-MM-dd")) &
+'                                                          "&action=updater" &
+'                                                          "&Command=" & Command())

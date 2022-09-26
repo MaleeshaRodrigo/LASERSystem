@@ -24,3 +24,156 @@ D:\Documents\Visual Studio Projects\LASER System\LASER Background\bin\Debug\LASE
 D:\Documents\Visual Studio Projects\LASER System\LASER Background\bin\Debug\LASER Background.application
 D:\Documents\Visual Studio Projects\LASER System\LASER Background\obj\Debug\LASER Background.exe.manifest
 D:\Documents\Visual Studio Projects\LASER System\LASER Background\obj\Debug\LASER Background.application
+E:\LASERSystem\LASER Background\bin\Debug\LASER Background.exe.config
+E:\LASERSystem\LASER Background\bin\Debug\LASER Background.exe.manifest
+E:\LASERSystem\LASER Background\bin\Debug\LASER Background.application
+E:\LASERSystem\LASER Background\bin\Debug\LASER Background.exe
+E:\LASERSystem\LASER Background\bin\Debug\LASER Background.pdb
+E:\LASERSystem\LASER Background\bin\Debug\LASER Background.xml
+E:\LASERSystem\LASER Background\bin\Debug\Newtonsoft.Json.dll
+E:\LASERSystem\LASER Background\bin\Debug\zxing.dll
+E:\LASERSystem\LASER Background\bin\Debug\zxing.presentation.dll
+E:\LASERSystem\LASER Background\bin\Debug\Newtonsoft.Json.xml
+E:\LASERSystem\LASER Background\bin\Debug\zxing.xml
+E:\LASERSystem\LASER Background\bin\Debug\zxing.presentation.xml
+E:\LASERSystem\LASER Background\obj\Debug\LASER Background.vbproj.AssemblyReference.cache
+E:\LASERSystem\LASER Background\obj\Debug\LASER Background.vbproj.SuggestedBindingRedirects.cache
+E:\LASERSystem\LASER Background\obj\Debug\LASER_Background.frmBGTasks.resources
+E:\LASERSystem\LASER Background\obj\Debug\LASER_Background.Resources.resources
+E:\LASERSystem\LASER Background\obj\Debug\LASER Background.vbproj.GenerateResource.cache
+E:\LASERSystem\LASER Background\obj\Debug\LASER Background.vbproj.CoreCompileInputs.cache
+E:\LASERSystem\LASER Background\obj\Debug\LASER Background.exe.manifest
+E:\LASERSystem\LASER Background\obj\Debug\LASER Background.application
+E:\LASERSystem\LASER Background\obj\Debug\LASER Background.vbproj.CopyComplete
+E:\LASERSystem\LASER Background\obj\Debug\LASER Background.exe
+E:\LASERSystem\LASER Background\obj\Debug\LASER Background.xml
+E:\LASERSystem\LASER Background\obj\Debug\LASER Background.pdb
+E:\LASERSystem\LASER Background\obj\Debug\LASER Background.TrustInfo.xml
+E:\LASERSystem\LASER Background\bin\Debug\BouncyCastle.Crypto.dll
+E:\LASERSystem\LASER Background\bin\Debug\Google.Protobuf.dll
+E:\LASERSystem\LASER Background\bin\Debug\K4os.Compression.LZ4.dll
+E:\LASERSystem\LASER Background\bin\Debug\K4os.Compression.LZ4.Streams.dll
+E:\LASERSystem\LASER Background\bin\Debug\K4os.Hash.xxHash.dll
+E:\LASERSystem\LASER Background\bin\Debug\MaterialSkin.dll
+E:\LASERSystem\LASER Background\bin\Debug\MySql.Data.dll
+E:\LASERSystem\LASER Background\bin\Debug\System.Buffers.dll
+E:\LASERSystem\LASER Background\bin\Debug\System.Memory.dll
+E:\LASERSystem\LASER Background\bin\Debug\System.Numerics.Vectors.dll
+E:\LASERSystem\LASER Background\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+E:\LASERSystem\LASER Background\bin\Debug\Ubiety.Dns.Core.dll
+E:\LASERSystem\LASER Background\bin\Debug\ZstdNet.dll
+E:\LASERSystem\LASER Background\bin\Debug\BouncyCastle.Crypto.xml
+E:\LASERSystem\LASER Background\bin\Debug\Google.Protobuf.pdb
+E:\LASERSystem\LASER Background\bin\Debug\Google.Protobuf.xml
+E:\LASERSystem\LASER Background\bin\Debug\K4os.Compression.LZ4.xml
+E:\LASERSystem\LASER Background\bin\Debug\K4os.Compression.LZ4.Streams.xml
+E:\LASERSystem\LASER Background\bin\Debug\K4os.Hash.xxHash.xml
+E:\LASERSystem\LASER Background\bin\Debug\MySql.Data.xml
+E:\LASERSystem\LASER Background\bin\Debug\System.Buffers.xml
+E:\LASERSystem\LASER Background\bin\Debug\System.Memory.xml
+E:\LASERSystem\LASER Background\bin\Debug\System.Numerics.Vectors.xml
+E:\LASERSystem\LASER Background\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+E:\LASERSystem\LASER Background\obj\Debug\LASER_Background.FrmAdvDB.resources
+E:\LASERSystem\LASER Background\obj\Debug\LASER_Background.MessageBox.resources
+D:\Documents\LASERSystem\LASER Background\bin\Debug\LASER Background.exe.config
+D:\Documents\LASERSystem\LASER Background\bin\Debug\LASER Background.exe.manifest
+D:\Documents\LASERSystem\LASER Background\bin\Debug\LASER Background.application
+D:\Documents\LASERSystem\LASER Background\bin\Debug\LASER Background.exe
+D:\Documents\LASERSystem\LASER Background\bin\Debug\LASER Background.pdb
+D:\Documents\LASERSystem\LASER Background\bin\Debug\LASER Background.xml
+D:\Documents\LASERSystem\LASER Background\bin\Debug\BouncyCastle.Crypto.dll
+D:\Documents\LASERSystem\LASER Background\bin\Debug\Google.Protobuf.dll
+D:\Documents\LASERSystem\LASER Background\bin\Debug\K4os.Compression.LZ4.dll
+D:\Documents\LASERSystem\LASER Background\bin\Debug\K4os.Compression.LZ4.Streams.dll
+D:\Documents\LASERSystem\LASER Background\bin\Debug\K4os.Hash.xxHash.dll
+D:\Documents\LASERSystem\LASER Background\bin\Debug\MaterialSkin.dll
+D:\Documents\LASERSystem\LASER Background\bin\Debug\MySql.Data.dll
+D:\Documents\LASERSystem\LASER Background\bin\Debug\Newtonsoft.Json.dll
+D:\Documents\LASERSystem\LASER Background\bin\Debug\System.Buffers.dll
+D:\Documents\LASERSystem\LASER Background\bin\Debug\System.Memory.dll
+D:\Documents\LASERSystem\LASER Background\bin\Debug\System.Numerics.Vectors.dll
+D:\Documents\LASERSystem\LASER Background\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+D:\Documents\LASERSystem\LASER Background\bin\Debug\Ubiety.Dns.Core.dll
+D:\Documents\LASERSystem\LASER Background\bin\Debug\ZstdNet.dll
+D:\Documents\LASERSystem\LASER Background\bin\Debug\zxing.dll
+D:\Documents\LASERSystem\LASER Background\bin\Debug\zxing.presentation.dll
+D:\Documents\LASERSystem\LASER Background\bin\Debug\BouncyCastle.Crypto.xml
+D:\Documents\LASERSystem\LASER Background\bin\Debug\Google.Protobuf.pdb
+D:\Documents\LASERSystem\LASER Background\bin\Debug\Google.Protobuf.xml
+D:\Documents\LASERSystem\LASER Background\bin\Debug\K4os.Compression.LZ4.xml
+D:\Documents\LASERSystem\LASER Background\bin\Debug\K4os.Compression.LZ4.Streams.xml
+D:\Documents\LASERSystem\LASER Background\bin\Debug\K4os.Hash.xxHash.xml
+D:\Documents\LASERSystem\LASER Background\bin\Debug\MySql.Data.xml
+D:\Documents\LASERSystem\LASER Background\bin\Debug\Newtonsoft.Json.xml
+D:\Documents\LASERSystem\LASER Background\bin\Debug\System.Buffers.xml
+D:\Documents\LASERSystem\LASER Background\bin\Debug\System.Memory.xml
+D:\Documents\LASERSystem\LASER Background\bin\Debug\System.Numerics.Vectors.xml
+D:\Documents\LASERSystem\LASER Background\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+D:\Documents\LASERSystem\LASER Background\bin\Debug\zxing.xml
+D:\Documents\LASERSystem\LASER Background\bin\Debug\zxing.presentation.xml
+D:\Documents\LASERSystem\LASER Background\obj\Debug\LASER Background.vbproj.AssemblyReference.cache
+D:\Documents\LASERSystem\LASER Background\obj\Debug\LASER Background.vbproj.SuggestedBindingRedirects.cache
+D:\Documents\LASERSystem\LASER Background\obj\Debug\LASER_Background.FrmAdvDB.resources
+D:\Documents\LASERSystem\LASER Background\obj\Debug\LASER_Background.frmBGTasks.resources
+D:\Documents\LASERSystem\LASER Background\obj\Debug\LASER_Background.Resources.resources
+D:\Documents\LASERSystem\LASER Background\obj\Debug\LASER_Background.MessageBox.resources
+D:\Documents\LASERSystem\LASER Background\obj\Debug\LASER Background.vbproj.GenerateResource.cache
+D:\Documents\LASERSystem\LASER Background\obj\Debug\LASER Background.vbproj.CoreCompileInputs.cache
+D:\Documents\LASERSystem\LASER Background\obj\Debug\LASER Background.TrustInfo.xml
+D:\Documents\LASERSystem\LASER Background\obj\Debug\LASER Background.exe.manifest
+D:\Documents\LASERSystem\LASER Background\obj\Debug\LASER Background.application
+D:\Documents\LASERSystem\LASER Background\obj\Debug\LASER Background.vbproj.CopyComplete
+D:\Documents\LASERSystem\LASER Background\obj\Debug\LASER Background.exe
+D:\Documents\LASERSystem\LASER Background\obj\Debug\LASER Background.xml
+D:\Documents\LASERSystem\LASER Background\obj\Debug\LASER Background.pdb
+F:\LASERSystem\LASER Background\bin\Debug\LASER Background.exe.config
+F:\LASERSystem\LASER Background\bin\Debug\LASER Background.exe.manifest
+F:\LASERSystem\LASER Background\bin\Debug\LASER Background.application
+F:\LASERSystem\LASER Background\bin\Debug\LASER Background.exe
+F:\LASERSystem\LASER Background\bin\Debug\LASER Background.pdb
+F:\LASERSystem\LASER Background\bin\Debug\LASER Background.xml
+F:\LASERSystem\LASER Background\bin\Debug\BouncyCastle.Crypto.dll
+F:\LASERSystem\LASER Background\bin\Debug\Google.Protobuf.dll
+F:\LASERSystem\LASER Background\bin\Debug\K4os.Compression.LZ4.dll
+F:\LASERSystem\LASER Background\bin\Debug\K4os.Compression.LZ4.Streams.dll
+F:\LASERSystem\LASER Background\bin\Debug\K4os.Hash.xxHash.dll
+F:\LASERSystem\LASER Background\bin\Debug\MaterialSkin.dll
+F:\LASERSystem\LASER Background\bin\Debug\MySql.Data.dll
+F:\LASERSystem\LASER Background\bin\Debug\Newtonsoft.Json.dll
+F:\LASERSystem\LASER Background\bin\Debug\System.Buffers.dll
+F:\LASERSystem\LASER Background\bin\Debug\System.Memory.dll
+F:\LASERSystem\LASER Background\bin\Debug\System.Numerics.Vectors.dll
+F:\LASERSystem\LASER Background\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+F:\LASERSystem\LASER Background\bin\Debug\Ubiety.Dns.Core.dll
+F:\LASERSystem\LASER Background\bin\Debug\ZstdNet.dll
+F:\LASERSystem\LASER Background\bin\Debug\zxing.dll
+F:\LASERSystem\LASER Background\bin\Debug\zxing.presentation.dll
+F:\LASERSystem\LASER Background\bin\Debug\BouncyCastle.Crypto.xml
+F:\LASERSystem\LASER Background\bin\Debug\Google.Protobuf.pdb
+F:\LASERSystem\LASER Background\bin\Debug\Google.Protobuf.xml
+F:\LASERSystem\LASER Background\bin\Debug\K4os.Compression.LZ4.xml
+F:\LASERSystem\LASER Background\bin\Debug\K4os.Compression.LZ4.Streams.xml
+F:\LASERSystem\LASER Background\bin\Debug\K4os.Hash.xxHash.xml
+F:\LASERSystem\LASER Background\bin\Debug\MySql.Data.xml
+F:\LASERSystem\LASER Background\bin\Debug\Newtonsoft.Json.xml
+F:\LASERSystem\LASER Background\bin\Debug\System.Buffers.xml
+F:\LASERSystem\LASER Background\bin\Debug\System.Memory.xml
+F:\LASERSystem\LASER Background\bin\Debug\System.Numerics.Vectors.xml
+F:\LASERSystem\LASER Background\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+F:\LASERSystem\LASER Background\bin\Debug\zxing.xml
+F:\LASERSystem\LASER Background\bin\Debug\zxing.presentation.xml
+F:\LASERSystem\LASER Background\obj\Debug\LASER Background.vbproj.AssemblyReference.cache
+F:\LASERSystem\LASER Background\obj\Debug\LASER Background.vbproj.SuggestedBindingRedirects.cache
+F:\LASERSystem\LASER Background\obj\Debug\LASER_Background.FrmAdvDB.resources
+F:\LASERSystem\LASER Background\obj\Debug\LASER_Background.frmBGTasks.resources
+F:\LASERSystem\LASER Background\obj\Debug\LASER_Background.Resources.resources
+F:\LASERSystem\LASER Background\obj\Debug\LASER_Background.MessageBox.resources
+F:\LASERSystem\LASER Background\obj\Debug\LASER Background.vbproj.GenerateResource.cache
+F:\LASERSystem\LASER Background\obj\Debug\LASER Background.vbproj.CoreCompileInputs.cache
+F:\LASERSystem\LASER Background\obj\Debug\LASER Background.TrustInfo.xml
+F:\LASERSystem\LASER Background\obj\Debug\LASER Background.exe.manifest
+F:\LASERSystem\LASER Background\obj\Debug\LASER Background.application
+F:\LASERSystem\LASER Background\obj\Debug\LASER Background.vbproj.CopyComplete
+F:\LASERSystem\LASER Background\obj\Debug\LASER Background.exe
+F:\LASERSystem\LASER Background\obj\Debug\LASER Background.xml
+F:\LASERSystem\LASER Background\obj\Debug\LASER Background.pdb

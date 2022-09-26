@@ -60,16 +60,6 @@ Partial Class frmReceive
         Me.PRemarks = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.GroupBox4 = New System.Windows.Forms.GroupBox()
         Me.grdReRepair = New System.Windows.Forms.DataGridView()
-        Me.RERepaiNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.RetRepNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.RETPCategory = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.RETPName = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.RETPModelNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.RETPSerialNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.RETPDescription = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.RETQty = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.RETProblem = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.RETRemarks = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.MenuStrip = New System.Windows.Forms.MenuStrip()
         Me.OPTIONToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.NewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -86,6 +76,16 @@ Partial Class frmReceive
         Me.cmdReceiptSticker = New System.Windows.Forms.Button()
         Me.cmdSticker = New System.Windows.Forms.Button()
         Me.cmdReceipt = New System.Windows.Forms.Button()
+        Me.RERepairNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.RetRepNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.RETPCategory = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.RETPName = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.RETPModelNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.RETPSerialNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.RETPDescription = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.RETQty = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.RETProblem = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.RETRemarks = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
@@ -412,86 +412,16 @@ Partial Class frmReceive
         'grdReRepair
         '
         Me.grdReRepair.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.grdReRepair.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.RERepaiNo, Me.RetRepNo, Me.RETPCategory, Me.RETPName, Me.RETPModelNo, Me.RETPSerialNo, Me.RETPDescription, Me.RETQty, Me.RETProblem, Me.RETRemarks})
+        Me.grdReRepair.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.RERepairNo, Me.RetRepNo, Me.RETPCategory, Me.RETPName, Me.RETPModelNo, Me.RETPSerialNo, Me.RETPDescription, Me.RETQty, Me.RETProblem, Me.RETRemarks})
         Me.grdReRepair.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter
         Me.grdReRepair.Location = New System.Drawing.Point(6, 21)
         Me.grdReRepair.Name = "grdReRepair"
         Me.grdReRepair.Size = New System.Drawing.Size(1320, 191)
         Me.grdReRepair.TabIndex = 7
         '
-        'RERepaiNo
-        '
-        Me.RERepaiNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        Me.RERepaiNo.HeaderText = "Re-Repair No"
-        Me.RERepaiNo.Name = "RERepaiNo"
-        Me.RERepaiNo.ReadOnly = True
-        Me.RERepaiNo.Width = 99
-        '
-        'RetRepNo
-        '
-        Me.RetRepNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        Me.RetRepNo.HeaderText = "Repair No"
-        Me.RetRepNo.Name = "RetRepNo"
-        Me.RetRepNo.Width = 82
-        '
-        'RETPCategory
-        '
-        Me.RETPCategory.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.RETPCategory.HeaderText = "Product Category"
-        Me.RETPCategory.Name = "RETPCategory"
-        Me.RETPCategory.ReadOnly = True
-        '
-        'RETPName
-        '
-        Me.RETPName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.RETPName.HeaderText = "Product Name"
-        Me.RETPName.Name = "RETPName"
-        Me.RETPName.ReadOnly = True
-        '
-        'RETPModelNo
-        '
-        Me.RETPModelNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.RETPModelNo.HeaderText = "Product Model No"
-        Me.RETPModelNo.Name = "RETPModelNo"
-        Me.RETPModelNo.ReadOnly = True
-        '
-        'RETPSerialNo
-        '
-        Me.RETPSerialNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.RETPSerialNo.HeaderText = "Product Serial No"
-        Me.RETPSerialNo.Name = "RETPSerialNo"
-        '
-        'RETPDescription
-        '
-        Me.RETPDescription.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.RETPDescription.HeaderText = "Product Description"
-        Me.RETPDescription.Name = "RETPDescription"
-        Me.RETPDescription.ReadOnly = True
-        '
-        'RETQty
-        '
-        Me.RETQty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        DataGridViewCellStyle5.NullValue = "1"
-        Me.RETQty.DefaultCellStyle = DataGridViewCellStyle5
-        Me.RETQty.HeaderText = "Qty"
-        Me.RETQty.Name = "RETQty"
-        Me.RETQty.ReadOnly = True
-        Me.RETQty.Width = 53
-        '
-        'RETProblem
-        '
-        Me.RETProblem.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.RETProblem.HeaderText = "Problem"
-        Me.RETProblem.Name = "RETProblem"
-        '
-        'RETRemarks
-        '
-        Me.RETRemarks.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.RETRemarks.HeaderText = "Remarks"
-        Me.RETRemarks.Name = "RETRemarks"
-        '
         'MenuStrip
         '
+        Me.MenuStrip.BackColor = System.Drawing.Color.Green
         Me.MenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OPTIONToolStripMenuItem, Me.VIEWToolStripMenuItem})
         Me.MenuStrip.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip.Name = "MenuStrip"
@@ -632,6 +562,77 @@ Partial Class frmReceive
         Me.cmdReceipt.Text = "බිල්පතක් පමණක් අවශ්‍යයි."
         Me.cmdReceipt.UseVisualStyleBackColor = True
         '
+        'RERepairNo
+        '
+        Me.RERepairNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
+        Me.RERepairNo.HeaderText = "Re-Repair No"
+        Me.RERepairNo.Name = "RERepairNo"
+        Me.RERepairNo.ReadOnly = True
+        Me.RERepairNo.Width = 108
+        '
+        'RetRepNo
+        '
+        Me.RetRepNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
+        Me.RetRepNo.HeaderText = "Repair No"
+        Me.RetRepNo.Name = "RetRepNo"
+        Me.RetRepNo.Width = 89
+        '
+        'RETPCategory
+        '
+        Me.RETPCategory.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.RETPCategory.HeaderText = "Product Category"
+        Me.RETPCategory.Name = "RETPCategory"
+        Me.RETPCategory.ReadOnly = True
+        '
+        'RETPName
+        '
+        Me.RETPName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.RETPName.HeaderText = "Product Name"
+        Me.RETPName.Name = "RETPName"
+        Me.RETPName.ReadOnly = True
+        '
+        'RETPModelNo
+        '
+        Me.RETPModelNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.RETPModelNo.HeaderText = "Product Model No"
+        Me.RETPModelNo.Name = "RETPModelNo"
+        Me.RETPModelNo.ReadOnly = True
+        '
+        'RETPSerialNo
+        '
+        Me.RETPSerialNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.RETPSerialNo.HeaderText = "Product Serial No"
+        Me.RETPSerialNo.Name = "RETPSerialNo"
+        '
+        'RETPDescription
+        '
+        Me.RETPDescription.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.RETPDescription.HeaderText = "Product Description"
+        Me.RETPDescription.Name = "RETPDescription"
+        Me.RETPDescription.ReadOnly = True
+        '
+        'RETQty
+        '
+        Me.RETQty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
+        DataGridViewCellStyle5.NullValue = "1"
+        Me.RETQty.DefaultCellStyle = DataGridViewCellStyle5
+        Me.RETQty.HeaderText = "Qty"
+        Me.RETQty.Name = "RETQty"
+        Me.RETQty.ReadOnly = True
+        Me.RETQty.Width = 53
+        '
+        'RETProblem
+        '
+        Me.RETProblem.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.RETProblem.HeaderText = "Problem"
+        Me.RETProblem.Name = "RETProblem"
+        '
+        'RETRemarks
+        '
+        Me.RETRemarks.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.RETRemarks.HeaderText = "Remarks"
+        Me.RETRemarks.Name = "RETRemarks"
+        '
         'frmReceive
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 14.0!)
@@ -708,16 +709,6 @@ Partial Class frmReceive
     Friend WithEvents cmdReceiptSticker As Button
     Friend WithEvents grpComInfo As GroupBox
     Friend WithEvents cmdCancel As Button
-    Friend WithEvents RERepaiNo As DataGridViewTextBoxColumn
-    Friend WithEvents RetRepNo As DataGridViewTextBoxColumn
-    Friend WithEvents RETPCategory As DataGridViewTextBoxColumn
-    Friend WithEvents RETPName As DataGridViewTextBoxColumn
-    Friend WithEvents RETPModelNo As DataGridViewTextBoxColumn
-    Friend WithEvents RETPSerialNo As DataGridViewTextBoxColumn
-    Friend WithEvents RETPDescription As DataGridViewTextBoxColumn
-    Friend WithEvents RETQty As DataGridViewTextBoxColumn
-    Friend WithEvents RETProblem As DataGridViewTextBoxColumn
-    Friend WithEvents RETRemarks As DataGridViewTextBoxColumn
     Friend WithEvents RepairNo As DataGridViewTextBoxColumn
     Friend WithEvents PCategory As DataGridViewTextBoxColumn
     Friend WithEvents PName As DataGridViewTextBoxColumn
@@ -728,4 +719,14 @@ Partial Class frmReceive
     Friend WithEvents PProblem As DataGridViewTextBoxColumn
     Friend WithEvents PRemarks As DataGridViewTextBoxColumn
     Friend WithEvents cmbCuMr As ComboBox
+    Friend WithEvents RERepairNo As DataGridViewTextBoxColumn
+    Friend WithEvents RetRepNo As DataGridViewTextBoxColumn
+    Friend WithEvents RETPCategory As DataGridViewTextBoxColumn
+    Friend WithEvents RETPName As DataGridViewTextBoxColumn
+    Friend WithEvents RETPModelNo As DataGridViewTextBoxColumn
+    Friend WithEvents RETPSerialNo As DataGridViewTextBoxColumn
+    Friend WithEvents RETPDescription As DataGridViewTextBoxColumn
+    Friend WithEvents RETQty As DataGridViewTextBoxColumn
+    Friend WithEvents RETProblem As DataGridViewTextBoxColumn
+    Friend WithEvents RETRemarks As DataGridViewTextBoxColumn
 End Class

@@ -1,7 +1,5 @@
-﻿Imports System.ComponentModel
+﻿Imports System.Data.OleDb
 Imports System.IO
-Imports Microsoft.Office.Interop
-Imports System.Data.OleDb
 Public NotInheritable Class FrmSplash
     Dim C As Integer
     Dim flName As Object
@@ -41,14 +39,14 @@ Public NotInheritable Class FrmSplash
                                                                                                                                "/System Files/Images")
                 If Not Directory.Exists(Application.StartupPath + "/System Files/Activity") Then My.Computer.FileSystem.CreateDirectory(Application.StartupPath +
                                                                                                                                "/System Files/Activity")
-                If Not File.Exists(Application.StartupPath + "/System Files/Activity/Activity.ls") Then
+                If Not File.Exists(Application.StartupPath + "/System Files/Activity/Activity.json") Then
                     Dim d As FileStream
-                    d = File.Create(Application.StartupPath & "/System Files/Activity/Activity.ls")
+                    d = File.Create(Application.StartupPath & "/System Files/Activity/Activity.json")
                     d.Close()
                 End If
             Case 20
-                If File.Exists(Application.StartupPath + "/LASER Background Tasks.exe") Then
-                    Process.Start(Application.StartupPath + "/LASER Background Tasks.exe")
+                If File.Exists(My.Settings.BGWorkerPath) Then
+                    Process.Start(My.Settings.BGWorkerPath)
                 End If
             Case 30
                 txtLoad.Text = "Resolving Database Errors..."
@@ -102,16 +100,16 @@ Public NotInheritable Class FrmSplash
                         .lblQtyRRepNo.Visible = True
                         .lblQtyRRetNo.Visible = True
                         .lblTodayIncomeNo.Visible = True
-                        .txtActivity.Width = .tabChart.Width + .tabChart.Left - .txtActivity.Left - 2
-                        .txtActivity.Left = .lblTodayIncomeNo.Left + .lblTodayIncomeNo.Width + 5
+                        .GrdActivity.Width = .tabChart.Width + .tabChart.Left - .GrdActivity.Left - 2
+                        .GrdActivity.Left = .lblTodayIncomeNo.Left + .lblTodayIncomeNo.Width + 5
                     Else
                         .cmdSalesRepair.Enabled = False
                         .tabChart.TabPages.Remove(.pageIncomevsDate)
                         .tabChart.TabPages.Remove(.pageReceivedRepvsDate)
                         .tabChart.TabPages.Remove(.pageCashier)
                         .tabChart.TabPages.Add(.pageCashier)
-                        .txtActivity.Width = .tabChart.Width
-                        .txtActivity.Left = .tabChart.Left
+                        .GrdActivity.Width = .tabChart.Width
+                        .GrdActivity.Left = .tabChart.Left
                         .lblQtyRRepDetails.Visible = False
                         .lblTodayIncomeDetails.Visible = False
                         .lblQtyRRepNo.Visible = False
@@ -122,8 +120,6 @@ Public NotInheritable Class FrmSplash
             Case 70
                 With MdifrmMain
                     .Hide()
-                    MdifrmMain.txtActivity.Text = ""
-                    MdifrmMain.txtActivity.AppendText(File.ReadAllText(Application.StartupPath & "\System Files\Activity\Activity.ls"))
                     LoadingBar.Value += 5
                     txtLoad.Text = "Getting Message to the Message Panel in Main Menu..."
                     CMD = New OleDb.OleDbCommand("Select COUNT(SNo) as SNoCount from [Stock] Where SAvailableStocks < SMinStocks", CNN)
@@ -174,9 +170,9 @@ Public NotInheritable Class FrmSplash
                         .lblQtyRRepNo.Visible = False
                         .lblQtyRRetNo.Visible = False
                         .lblTodayIncomeNo.Visible = False
-                        .txtActivity.Left = .tabChart.Left
+                        .GrdActivity.Left = .tabChart.Left
                     Else
-                        .txtActivity.Left = .lblTodayIncomeNo.Left + .lblTodayIncomeNo.Width + 5
+                        .GrdActivity.Left = .lblTodayIncomeNo.Left + .lblTodayIncomeNo.Width + 5
                     End If
                 End With
             Case 99

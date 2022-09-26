@@ -1,4 +1,5 @@
-﻿Imports System.Drawing.Drawing2D
+﻿Imports System.Threading
+
 Public Class frmSale
     Public Sub New()
         ' This call is required by the designer.
@@ -29,13 +30,13 @@ Public Class frmSale
                 cmdReceipt_Click(sender, e)
             ElseIf (e.KeyCode And Not Keys.Modifiers) = Keys.D2 AndAlso e.Modifiers = Keys.Control Then
                 chkCashDrawer.Checked = True
-                cmdNotReceipt_Click(sender, e)
+                CmdNotReceipt_Click(sender, e)
             ElseIf (e.KeyCode And Not Keys.Modifiers) = Keys.D3 AndAlso e.Modifiers = Keys.Control Then
                 chkCashDrawer.Checked = False
                 cmdReceipt_Click(sender, e)
             ElseIf (e.KeyCode And Not Keys.Modifiers) = Keys.D4 AndAlso e.Modifiers = Keys.Control Then
                 chkCashDrawer.Checked = False
-                cmdNotReceipt_Click(sender, e)
+                CmdNotReceipt_Click(sender, e)
             End If
         End If
     End Sub
@@ -99,7 +100,7 @@ Public Class frmSale
     End Sub
 
     Private Sub cmdSave_Click(sender As Object, e As EventArgs) Handles cmdSave.Click
-        grdSale.EndEdit()
+        grdSale.EndEdit()   'The Edit mode of datagridview which is grdSale is ended.
         cmdSave.Focus()
 
         If txtCAmount.Text = "" Or txtCAmount.Text = "0" Then
@@ -115,8 +116,9 @@ Public Class frmSale
             txtCuLAmount.Text = "0"
             txtCuLNo.Text = "0"
         End If
-        If CheckEmptyfield(cmbCuName, "ඔබ Customer Name එක ඇතුලත් කර නොමැත. කරුණාකර එය ඇතුලත් කර නැවත උත්සහ කරන්න.") = False Then
-            Exit Sub
+        If cmbCuName.Text = "" Then
+            cmbCuName.Text = "No Name"
+            cmbCuName_SelectedIndexChanged(sender, e)
         ElseIf grdSale.Rows.Count < 2 Then
             MsgBox("Cart එක තවමත් හිස්ව පවතියි. කරුණාකර එය පුරවා නැවත උත්සහ කරන්න.", vbOKOnly + vbExclamation)
             grdSale.Focus()
@@ -125,6 +127,13 @@ Public Class frmSale
 
         txtSubTotal.Text = "0"
         For Each Row As DataGridViewRow In grdSale.Rows
+            If Row.Index = grdSale.Rows.Count - 1 Then Continue For
+            If String.IsNullOrEmpty(Row.Cells(1).Value) Then
+                Row.Cells(1).Value = "No Category"
+            End If
+            If String.IsNullOrEmpty(Row.Cells(2).Value) Then
+                Row.Cells(2).Value = "No Name"
+            End If
             If Row.Cells(6).Value <> Nothing Then
                 If Row.Cells(3).Value = "Return to Available Units" Or Row.Cells(3).Value = "Return to Damaged Units" Then
                     txtSubTotal.Text -= Int(Row.Cells(6).Value)
@@ -137,6 +146,7 @@ Public Class frmSale
             txtDue.Text = Int(txtSubTotal.Text) - Int(txtLess.Text)
             txtCAmount.Text = txtDue.Text
         End If
+        chkCashDrawer.Checked = My.Settings.CashDrawer
         txtLess_TextChanged(sender, e)
         AutomaticPrimaryKey(txtCuLNo, "Select Top 1 CuLNo from CustomerLoan Order by CuLNo Desc", "CuLNo")
         pnlSaSaveFinal.Dock = DockStyle.Fill
@@ -151,38 +161,56 @@ Public Class frmSale
 
     Private Sub cmdReceipt_Click(sender As Object, e As EventArgs) Handles cmdReceipt.Click
         If SaveSale() = True Then
-            Dim rpt As New rptSale 'The report you created.
-            Dim DT As New DataTable
-            Cursor = Cursors.WaitCursor
-            Dim DA As New OleDb.OleDbDataAdapter("SELECT Sale.SaNo,Sale.SaDate,Sale.CuNo,Customer.CuName,Customer.CuTelNo1,Customer.CuTelNo2,Customer.CuTelNo3," &
-                                                 "SCategory, SName, StockSale.SaType,StockSale.SaUnits, StockSale.SaRate, StockSale.SaTotal,Sale.SaSubTotal," &
-                                                 "Sale.SaLess,Sale.SaDue,Sale.CReceived,Sale.CBalance,Sale.CAmount,Sale.CPInvoiceNo,Sale.CPAmount,Sale.CuLNo," &
-                                                 "sale.CuLAmount FROM ((StockSale Inner Join SALE ON StockSale.SaNo= Sale.SaNo) " &
-                                                 "INNER JOIN Customer ON Sale.CuNo = Customer.CuNo) where StockSale.SaNo=" & txtSaNo.Text, CNN)
-            DA.Fill(DT)
-            rpt.SetDataSource(DT)
-            rpt.SetParameterValue("Cashier Name", MdifrmMain.tslblUserName.Text) 'Set Cashier Name to Parameter Value
-            frmReport.ReportViewer.ReportSource = rpt
-            Dim c As Integer
-            Dim doctoprint As New System.Drawing.Printing.PrintDocument()
-            doctoprint.PrinterSettings.PrinterName = "Zonerich AB-220K"
-            Dim rawKind As Integer
-            For c = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
-                If doctoprint.PrinterSettings.PaperSizes(c).PaperName = "76mm * 297mm" Then
-                    rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(c).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(c)))
-                    Exit For
-                End If
-            Next
-            rpt.PrintOptions.PaperOrientation = CrystalDecisions.Shared.PaperOrientation.Portrait
-            rpt.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
-            rpt.PrintToPrinter(1, False, 1, 1)
-            frmReport.Show(Me)
-            Cursor = Cursors.Default
+            PrintSaleInvoice(txtSaNo.Text)
             cmdNew_Click(sender, e)
         End If
     End Sub
 
-    Private Sub cmdNotReceipt_Click(sender As Object, e As EventArgs) Handles cmdNotReceipt.Click
+    Public Sub PrintSaleInvoice(SaNo As Integer)
+        Dim UserName As String = MdifrmMain.tslblUserName.Text
+        Cursor = Cursors.WaitCursor
+        Dim threadSaleInvoice As New Thread(
+            Sub()
+                Dim rpt As New rptSale 'The report you created.
+                Dim DT As New DataTable
+                Dim DA As New OleDb.OleDbDataAdapter($"SELECT Sale.SaNo,Sale.SaDate,Sale.CuNo,Customer.CuName,Customer.CuTelNo1,Customer.CuTelNo2,Customer.CuTelNo3,
+                                             SCategory, SName, StockSale.SaType,StockSale.SaUnits, StockSale.SaRate, StockSale.SaTotal,Sale.SaSubTotal,
+                                             Sale.SaLess,Sale.SaDue,Sale.CReceived,Sale.CBalance,Sale.CAmount,Sale.CPInvoiceNo,Sale.CPAmount,Sale.CuLNo,
+                                             sale.CuLAmount FROM ((StockSale Inner Join SALE ON StockSale.SaNo= Sale.SaNo) 
+                                             INNER JOIN Customer ON Sale.CuNo = Customer.CuNo) where StockSale.SaNo={SaNo}", CNN)
+                DA.Fill(DT)
+                rpt.SetDataSource(DT)
+                rpt.SetParameterValue("Cashier Name", UserName) 'Set Cashier Name to Parameter Value
+                frmReport.ReportViewer.ReportSource = rpt
+
+                Dim rawKind1 As Integer
+                Dim c1 As Integer
+                Dim doctoprint1 As New Printing.PrintDocument()
+                doctoprint1.PrinterSettings.PrinterName = My.Settings.BillPrinterName
+                For c1 = 0 To doctoprint1.PrinterSettings.PaperSizes.Count - 1
+                    If doctoprint1.PrinterSettings.PaperSizes(c1).PaperName = My.Settings.BillPrinterPaperName Then
+                        rawKind1 = CInt(doctoprint1.PrinterSettings.PaperSizes(c1).
+                                                  GetType().GetField("kind", Reflection.BindingFlags.Instance Or
+                                                  Reflection.BindingFlags.NonPublic).GetValue(doctoprint1.PrinterSettings.PaperSizes(c1)))
+                        Exit For
+                    End If
+                Next
+                rpt.PrintOptions.PaperSize = CType(rawKind1, CrystalDecisions.Shared.PaperSize)
+
+                rpt.PrintOptions.PaperOrientation = CrystalDecisions.Shared.PaperOrientation.Portrait
+                rpt.PrintToPrinter(1, False, 1, 1)
+                frmReport.Show(Me)
+            End Sub) With {
+                .Name = "showSaleInvoiceReport",
+                .IsBackground = False
+                                            }
+        threadSaleInvoice.SetApartmentState(ApartmentState.STA)
+        threadSaleInvoice.Priority = ThreadPriority.Highest
+        threadSaleInvoice.Start()
+        Cursor = Cursors.Default
+    End Sub
+
+    Private Sub CmdNotReceipt_Click(sender As Object, e As EventArgs) Handles cmdNotReceipt.Click
         If SaveSale() = True Then
             cmdNew_Click(sender, e)
         End If
@@ -190,8 +218,6 @@ Public Class frmSale
 
     Private Function SaveSale() As Boolean
         SaveSale = True
-        Dim CMD1 As New OleDb.OleDbCommand
-        Dim DR1 As OleDb.OleDbDataReader
         If Val(txtDue.Text) <> Val(txtCAmount.Text) + Val(txtCPAmount.Text) + Val(txtCuLAmount.Text) Then
             MsgBox("Due Amount එක Cash Amount, Card Payment Amount සහ Customer Loan Amount එකෙ එකතුවට අසමාන බැවින්, කරුණාකර එය නිවැරදි කර නැවත උත්සහ කරන්න.", vbCritical + vbOKOnly)
             Return False
@@ -208,7 +234,7 @@ Public Class frmSale
             DR.Read()
             CuNo = DR("CuNo").ToString
         Else
-            CuNo = AutomaticPrimaryKeyStr("Customer", "CuNo")
+            CuNo = AutomaticPrimaryKey("Customer", "CuNo")
             CMDUPDATE("Insert into Customer(CuNo,CuName,CuTelNo1,CuTelNo2,CutelNo3) Values(" & CuNo & ",'" & cmbCuName.Text & "','" & txtCuTelNo1.Text & "','" &
                       txtCuTelNo2.Text & "','" & txtCuTelNo3.Text & "');")
         End If
@@ -218,13 +244,14 @@ Public Class frmSale
                 'Add Values into Sale
                 CMDUPDATE("Insert into Sale(SaNo,SaDate,CuNo,SaSubTotal,SaLess,SaDue,CAmount,CReceived,CBalance," &
                        "CPInvoiceNo,CPAmount,CuLNo,CuLAmount,SaRemarks,UNo)" &
-                       "Values(" & txtSaNo.Text & ",'" & txtSaDate.Value & "'," & CuNo & "," & txtSubTotal.Text & "," & txtLess.Text &
+                       "Values(?NewKey?Sale?SaNo?,'" & txtSaDate.Value & "'," & CuNo & "," & txtSubTotal.Text & "," & txtLess.Text &
                        "," & txtDue.Text & "," & txtCAmount.Text & "," & txtCReceived.Text & "," & txtCBalance.Text & "," &
                        txtCPInvoiceNo.Text & "," & txtCPAmount.Text & "," & txtCuLNo.Text & "," & txtCuLAmount.Text & ",'" &
                        txtSaRemarks.Text & "'," & MdifrmMain.Tag & ");")
                 If txtCuLAmount.Text <> "0" Then
                     AutomaticPrimaryKey(txtCuLNo, "Select Top 1 CuLNo from CustomerLoan Order by CuLNo Desc", "CuLNo")
-                    CMDUPDATE("Insert into CustomerLoan(CuLNo,CuLDate,CuNo,CuLAmount,SaNo,Status) Values(" & txtCuLNo.Text & ",#" & txtSaDate.Value & "#," & CuNo & "," &
+                    CMDUPDATE("Insert into CustomerLoan(CuLNo,CuLDate,CuNo,CuLAmount,SaNo,Status) Values(" & txtCuLNo.Text & ",#" & txtSaDate.Value &
+                              "#," & CuNo & "," &
                               txtCuLAmount.Text & "," & txtSaNo.Text & ",'Not Paid')")
                 End If
                 'Add Values into StockSale
@@ -232,7 +259,7 @@ Public Class frmSale
                     If row.Index = Int(grdSale.Rows.Count) - 1 Then Exit For
                     If row.Cells.Item(0).Value <> "" Then
                         CMDUPDATE("Insert into StockSale(SSaNo,SaNo,SNo,SCategory,SName,SaType,SaRate,SaUnits,SaTotal) Values(" &
-                                  AutomaticPrimaryKeyStr("StockSale", "SSaNo") & "," &
+                                  AutomaticPrimaryKey("StockSale", "SSaNo") & "," &
                                   txtSaNo.Text & "," &
                                   row.Cells(0).Value.ToString() & ",'" & row.Cells(1).Value.ToString & "','" & row.Cells(2).Value.ToString &
                                   "','" & row.Cells(3).Value.ToString() & "'," & row.Cells(4).Value.ToString() & "," & row.Cells(5).Value.ToString() & "," &
@@ -250,7 +277,7 @@ Public Class frmSale
                         End If
                     Else
                         CMDUPDATE("Insert into StockSale(SSaNo,SaNo,SCategory,SName,SaType,SaRate,SaUnits,SaTotal) Values(" &
-                                  AutomaticPrimaryKeyStr("StockSale", "SSaNo") & "," & txtSaNo.Text & ",'" &
+                                  AutomaticPrimaryKey("StockSale", "SSaNo") & "," & txtSaNo.Text & ",'" &
                                  row.Cells(1).Value.ToString & "','" & row.Cells(2).Value.ToString &
                                   "','" & row.Cells(3).Value.ToString() & "'," & row.Cells(4).Value.ToString() & "," & row.Cells(5).Value.ToString() & "," &
                                   row.Cells(6).Value.ToString() & ");")
@@ -323,7 +350,7 @@ Public Class frmSale
                     If row.Index = grdSale.Rows.Count - 1 Then Continue For
                     If row.Cells.Item(0).Value <> "" Then
                         CMDUPDATE("Insert into StockSale(SSaNo,SaNo,SNo,SCategory,SName,SaType,SaRate,SaUnits,SaTotal) Values(" &
-                                  AutomaticPrimaryKeyStr("StockSale", "SSaNo") & "," & txtSaNo.Text & "," &
+                                  AutomaticPrimaryKey("StockSale", "SSaNo") & "," & txtSaNo.Text & "," &
                                       row.Cells(0).Value.ToString() & ",'" & row.Cells(1).Value.ToString & "','" & row.Cells(2).Value.ToString &
                                       "','" & row.Cells(3).Value.ToString() & "'," & row.Cells(4).Value.ToString() & "," & row.Cells(5).Value.ToString() & "," &
                                       row.Cells(6).Value.ToString() & ");")
@@ -339,7 +366,7 @@ Public Class frmSale
                         End If
                     Else
                         CMDUPDATE("Insert into StockSale(SSaNo,SaNo,SCategory,SName,SaType,SaRate,SaUnits,SaTotal) Values(" &
-                                  AutomaticPrimaryKeyStr("StockSale", "SSaNo") & "," & txtSaNo.Text & ",'" &
+                                  AutomaticPrimaryKey("StockSale", "SSaNo") & "," & txtSaNo.Text & ",'" &
                                  row.Cells(1).Value.ToString & "','" & row.Cells(2).Value.ToString &
                                   "','" & row.Cells(3).Value.ToString() & "'," & row.Cells(4).Value.ToString() & "," & row.Cells(5).Value.ToString() & "," &
                                   row.Cells(6).Value.ToString() & ");")
@@ -453,14 +480,14 @@ Public Class frmSale
                     grdSale.Rows.RemoveAt(grdSale.CurrentRow.Index)
                 End If
             Case 4, 5
-                If grdSale.Item(5, e.RowIndex).Value IsNot Nothing And grdSale.Item(4, e.RowIndex).Value IsNot Nothing Then
-                    grdSale.Item(6, e.RowIndex).Value = Int(grdSale.Item(4, e.RowIndex).Value) * Int(grdSale.Item(5, e.RowIndex).Value)
+                If grdSale.Item(4, e.RowIndex).Value IsNot Nothing And grdSale.Item(5, e.RowIndex).Value IsNot Nothing Then
+                    grdSale.Item(6, e.RowIndex).Value = Val(grdSale.Item(4, e.RowIndex).Value) * Val(grdSale.Item(5, e.RowIndex).Value)
                 End If
                 If grdSale.Item(1, e.RowIndex).Value Is Nothing Then
                     grdSale.Item(1, e.RowIndex).Value = "No Category"
                 End If
                 If grdSale.Item(2, e.RowIndex).Value Is Nothing Then
-                    grdSale.Item(2, e.RowIndex).Value = "No Category"
+                    grdSale.Item(2, e.RowIndex).Value = "No Name"
                 End If
         End Select
         txtSubTotal.Text = "0"
