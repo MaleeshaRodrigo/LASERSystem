@@ -25,6 +25,11 @@ Partial Class FrmSettings
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmSettings))
         Me.tcSettings = New System.Windows.Forms.TabControl()
         Me.tpGeneral = New System.Windows.Forms.TabPage()
+        Me.ChkCashDrawer = New System.Windows.Forms.CheckBox()
+        Me.TxtBGWokerPath = New System.Windows.Forms.TextBox()
+        Me.BtnBGWokerPath = New System.Windows.Forms.Button()
+        Me.Label11 = New System.Windows.Forms.Label()
+        Me.chkDMode = New System.Windows.Forms.CheckBox()
         Me.Guna2GroupBox4 = New Guna.UI2.WinForms.Guna2GroupBox()
         Me.txtBSBaudRate = New System.Windows.Forms.TextBox()
         Me.cmbBSCOMPort = New System.Windows.Forms.ComboBox()
@@ -90,7 +95,6 @@ Partial Class FrmSettings
         Me.cmdApply = New System.Windows.Forms.Button()
         Me.cmdOK = New System.Windows.Forms.Button()
         Me.ofdDatabase = New System.Windows.Forms.OpenFileDialog()
-        Me.chkDMode = New System.Windows.Forms.CheckBox()
         Me.tcSettings.SuspendLayout()
         Me.tpGeneral.SuspendLayout()
         Me.Guna2GroupBox4.SuspendLayout()
@@ -123,6 +127,10 @@ Partial Class FrmSettings
         '
         'tpGeneral
         '
+        Me.tpGeneral.Controls.Add(Me.ChkCashDrawer)
+        Me.tpGeneral.Controls.Add(Me.TxtBGWokerPath)
+        Me.tpGeneral.Controls.Add(Me.BtnBGWokerPath)
+        Me.tpGeneral.Controls.Add(Me.Label11)
         Me.tpGeneral.Controls.Add(Me.chkDMode)
         Me.tpGeneral.Controls.Add(Me.Guna2GroupBox4)
         Me.tpGeneral.Controls.Add(Me.Guna2GroupBox3)
@@ -134,6 +142,54 @@ Partial Class FrmSettings
         Me.tpGeneral.Text = "General"
         Me.tpGeneral.UseVisualStyleBackColor = True
         '
+        'ChkCashDrawer
+        '
+        Me.ChkCashDrawer.AutoSize = True
+        Me.ChkCashDrawer.Location = New System.Drawing.Point(513, 170)
+        Me.ChkCashDrawer.Name = "ChkCashDrawer"
+        Me.ChkCashDrawer.Size = New System.Drawing.Size(116, 17)
+        Me.ChkCashDrawer.TabIndex = 28
+        Me.ChkCashDrawer.Text = "Cash Drawer Active"
+        Me.ChkCashDrawer.UseVisualStyleBackColor = True
+        '
+        'TxtBGWokerPath
+        '
+        Me.TxtBGWokerPath.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TxtBGWokerPath.Location = New System.Drawing.Point(141, 169)
+        Me.TxtBGWokerPath.Name = "TxtBGWokerPath"
+        Me.TxtBGWokerPath.Size = New System.Drawing.Size(335, 21)
+        Me.TxtBGWokerPath.TabIndex = 27
+        '
+        'BtnBGWokerPath
+        '
+        Me.BtnBGWokerPath.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.BtnBGWokerPath.Location = New System.Drawing.Point(482, 168)
+        Me.BtnBGWokerPath.Name = "BtnBGWokerPath"
+        Me.BtnBGWokerPath.Size = New System.Drawing.Size(25, 21)
+        Me.BtnBGWokerPath.TabIndex = 26
+        Me.BtnBGWokerPath.Text = "..."
+        Me.BtnBGWokerPath.UseVisualStyleBackColor = True
+        '
+        'Label11
+        '
+        Me.Label11.AutoSize = True
+        Me.Label11.Location = New System.Drawing.Point(9, 171)
+        Me.Label11.Name = "Label11"
+        Me.Label11.Size = New System.Drawing.Size(126, 13)
+        Me.Label11.TabIndex = 25
+        Me.Label11.Text = "Background Worker Path:"
+        '
+        'chkDMode
+        '
+        Me.chkDMode.AutoSize = True
+        Me.chkDMode.Location = New System.Drawing.Point(595, 330)
+        Me.chkDMode.Name = "chkDMode"
+        Me.chkDMode.Size = New System.Drawing.Size(104, 17)
+        Me.chkDMode.TabIndex = 24
+        Me.chkDMode.Text = "Developer Mode"
+        Me.chkDMode.UseVisualStyleBackColor = True
+        '
         'Guna2GroupBox4
         '
         Me.Guna2GroupBox4.Controls.Add(Me.txtBSBaudRate)
@@ -143,15 +199,15 @@ Partial Class FrmSettings
         Me.Guna2GroupBox4.Controls.Add(Me.chkBSCOMMode)
         Me.Guna2GroupBox4.Font = New System.Drawing.Font("Segoe UI", 9.0!)
         Me.Guna2GroupBox4.ForeColor = System.Drawing.Color.FromArgb(CType(CType(125, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(149, Byte), Integer))
-        Me.Guna2GroupBox4.Location = New System.Drawing.Point(6, 169)
+        Me.Guna2GroupBox4.Location = New System.Drawing.Point(377, 7)
         Me.Guna2GroupBox4.Name = "Guna2GroupBox4"
-        Me.Guna2GroupBox4.Size = New System.Drawing.Size(365, 108)
+        Me.Guna2GroupBox4.Size = New System.Drawing.Size(322, 155)
         Me.Guna2GroupBox4.TabIndex = 22
         Me.Guna2GroupBox4.Text = "Barcode Scanner Info"
         '
         'txtBSBaudRate
         '
-        Me.txtBSBaudRate.Location = New System.Drawing.Point(243, 74)
+        Me.txtBSBaudRate.Location = New System.Drawing.Point(85, 103)
         Me.txtBSBaudRate.Name = "txtBSBaudRate"
         Me.txtBSBaudRate.Size = New System.Drawing.Size(81, 23)
         Me.txtBSBaudRate.TabIndex = 4
@@ -168,7 +224,7 @@ Partial Class FrmSettings
         'Label6
         '
         Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(174, 77)
+        Me.Label6.Location = New System.Drawing.Point(16, 106)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(63, 15)
         Me.Label6.TabIndex = 2
@@ -767,16 +823,6 @@ Partial Class FrmSettings
         Me.cmdOK.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.cmdOK.UseVisualStyleBackColor = True
         '
-        'chkDMode
-        '
-        Me.chkDMode.AutoSize = True
-        Me.chkDMode.Location = New System.Drawing.Point(6, 283)
-        Me.chkDMode.Name = "chkDMode"
-        Me.chkDMode.Size = New System.Drawing.Size(104, 17)
-        Me.chkDMode.TabIndex = 24
-        Me.chkDMode.Text = "Developer Mode"
-        Me.chkDMode.UseVisualStyleBackColor = True
-        '
         'FrmSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -884,4 +930,8 @@ Partial Class FrmSettings
     Friend WithEvents Label10 As Label
     Friend WithEvents cmbDBProvider As ComboBox
     Friend WithEvents chkDMode As CheckBox
+    Friend WithEvents TxtBGWokerPath As TextBox
+    Friend WithEvents BtnBGWokerPath As Button
+    Friend WithEvents Label11 As Label
+    Friend WithEvents ChkCashDrawer As CheckBox
 End Class

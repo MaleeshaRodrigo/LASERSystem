@@ -131,11 +131,11 @@ Public Class frmReceive
                 MsgBox(row.Index + " වන තීරුවේ Repair No යන fild එක හිස්ව පවතින බැවින් Save කිරීමට අපොහොසත් විය. එම තීරුව ඉවත් කර නැවත ඇතුලත් කරන්න.", vbExclamation + vbOKOnly)
                 Exit Sub
             End If
-            If row.Cells(1).Value.ToString = "" Then
+            If row.Cells(1).Value Is Nothing OrElse row.Cells(1).Value.ToString = "" Then
                 MsgBox("Repair No: " + row.Cells(0).Value.ToString + " හි Product Category Field එක හිස්ව පවතියි. කරුණාකර එය සම්පුර්ණ කරන්න.", vbExclamation + vbOKOnly)
                 Exit Sub
             End If
-            If row.Cells(2).Value.ToString = "" Then
+            If row.Cells(2).Value Is Nothing OrElse row.Cells(2).Value.ToString = "" Then
                 MsgBox("Repair No: " + row.Cells(0).Value.ToString + " හි Product Name Field එක හිස්ව පවතියි. කරුණාකර එය සම්පුර්ණ කරන්න.", vbExclamation + vbOKOnly)
                 Exit Sub
             End If
@@ -171,15 +171,15 @@ Public Class frmReceive
         AcceptButton = cmdReceiptSticker
         cmdReceiptSticker.Focus()
     End Sub
-    Private Sub cmdReceiptSticker_Click(sender As Object, e As EventArgs) Handles cmdReceiptSticker.Click, cmdReceipt.Click, cmdSticker.Click
+    Private Sub cmdReceiptSticker_Click(sender As Object, e As EventArgs) Handles cmdReceiptSticker.Click, cmdReceipt.Click, cmdSticker.Click, cmdSaveOnly.Click
         SaveReceive()
         Dim RNo As Integer = txtRNo.Text
         cmdNew_Click(sender, e)
-        If sender IsNot cmdSticker Then
-            PrintReceipt(RNo, True, True)
+        If sender Is cmdReceipt Or sender Is cmdReceiptSticker Then
+            PrintReceipt(RNo, True, True, "ReceivedReceipt")
         End If
-        If sender IsNot cmdReceipt Then
-            PrintSticker(RNo, True, True)
+        If sender Is cmdSticker Or sender Is cmdReceiptSticker Then
+            PrintSticker(RNo, True, True, "ReceivedSticker")
         End If
     End Sub
 
@@ -194,12 +194,12 @@ Public Class frmReceive
             DR.Read()
             CuNo = DR("CuNo")
         Else
-            CuNo = AutomaticPrimaryKeyStr("Customer", "CuNo")
+            CuNo = AutomaticPrimaryKey("Customer", "CuNo")
             CMDUPDATE("Insert into Customer(CuNo,CuName,CuTelNo1,CuTelNo2,CutelNo3) Values(" & CuNo & ",'" & cmbCuMr.Text & cmbCuName.Text & "','" &
                       txtCuTelNo1.Text & "','" & txtCuTelNo2.Text & "','" & txtCuTelNo3.Text & "')")
         End If
         If txtRDate.Value.Date = Today.Date Then txtRDate.Value = DateAndTime.Now
-        txtRNo.Text = AutomaticPrimaryKeyStr("Receive", "RNo")
+        txtRNo.Text = AutomaticPrimaryKey("Receive", "RNo")
         CMDUPDATE("Insert into Receive(RNo,RDate,CuNo,UNo) values(" & txtRNo.Text & ",#" & txtRDate.Value & "#," & CuNo & ",'" & MdifrmMain.Tag & "');")
         For Each row As DataGridViewRow In grdRepair.Rows
             If row.Index = grdRepair.Rows.Count - 1 Then Continue For
@@ -210,7 +210,7 @@ Public Class frmReceive
                 DR.Read()
                 PNo = DR("PNo")
             Else
-                PNo = AutomaticPrimaryKeyStr("Product", "PNo")
+                PNo = AutomaticPrimaryKey("Product", "PNo")
                 CMDUPDATE("Insert into Product(PNO,PCATEGORY,PNAME,PMODELNO,PDETAILS) " &
                           "Values(" & PNo & ",'" & row.Cells(1).Value & "','" & row.Cells(2).Value & "','" & row.Cells(3).Value & "','" &
                           row.Cells(5).Value & "');")
@@ -219,7 +219,7 @@ Public Class frmReceive
                                         "Values(" & row.Cells(0).Value & "," & txtRNo.Text & "," & PNo & ",'" & row.Cells(4).Value & "'," &
                                         row.Cells(6).Value & ",'" & row.Cells(7).Value & "','Received');")
             CMDUPDATE("Insert into RepairActivity(RepANo,RepNo,RepADate,Activity,UNo)" &
-                      " Values(?PrimaryKey?RepairActivity?RepANo?," &
+                      " Values(?NewKey?RepairActivity?RepANo?," &
                       row.Cells(0).Value & ",#" & DateAndTime.Now &
                       "#,'Received Date -> " & txtRDate.Value & vbCrLf &
                       ", Name -> " & cmbCuMr.Text & cmbCuName.Text &
@@ -232,7 +232,7 @@ Public Class frmReceive
                       ", Serial No -> " & row.Cells(4).Value &
                       ", Problem -> " & row.Cells(5).Value & ".'," & MdifrmMain.Tag & ")")
             If row.Cells(8).Value IsNot Nothing Then
-                CMDUPDATE("Insert into RepairRemarks1(Rem1No,Rem1Date,RepNo,Remarks,UNo) Values(?PrimaryKey?RepairRemarks1?Rem1No?,#" & DateAndTime.Now & "#," &
+                CMDUPDATE("Insert into RepairRemarks1(Rem1No,Rem1Date,RepNo,Remarks,UNo) Values(?NewKey?RepairRemarks1?Rem1No?,#" & DateAndTime.Now & "#," &
                       row.Cells(0).Value & ",'" & row.Cells(8).Value & "'," & MdifrmMain.Tag & ")")
             End If
             If Me.Tag = "Deliver" Then
@@ -260,7 +260,7 @@ Public Class frmReceive
                 DR.Read()
                 PNo = DR("PNo")
             Else
-                PNo = AutomaticPrimaryKeyStr("Product", "PNo")
+                PNo = AutomaticPrimaryKey("Product", "PNo")
                 CMDUPDATE("Insert into Product(PNO,PCATEGORY,PNAME,PMODELNO,PDETAILS) " &
                           "Values(" & PNo & ",'" & row.Cells(2).Value & "','" & row.Cells(3).Value & "','" & row.Cells(4).Value &
                           "','" & row.Cells(6).Value & "');")
@@ -269,14 +269,14 @@ Public Class frmReceive
             "Values(" & row.Cells(0).Value & "," & txtRNo.Text & "," & row.Cells(1).Value & "," & PNo & ",'" & row.Cells(5).Value & "'," &
             row.Cells(7).Value & ",'" & row.Cells(8).Value & "','Received','" & row.Cells(9).Value & "');")
             CMDUPDATE("Insert into RepairActivity(RepANo,RetNo,RepADate,Activity,UNo)" &
-                      " Values(?PrimaryKey?RepairActivity?RepANo?," &
+                      " Values(?NewKey?RepairActivity?RepANo?," &
                       row.Cells(0).Value & ",#" & DateAndTime.Now & "#,'Received Date -> " & txtRDate.Value & vbCrLf & ", Name -> " & cmbCuMr.Text & cmbCuName.Text &
                       ", Telephone No1 -> " & txtCuTelNo1.Text & ", Telephone No2 -> " & txtCuTelNo2.Text & ", Telephone No3 -> " & txtCuTelNo3.Text &
                       vbCrLf & ", Product Category -> " & row.Cells(2).Value &
                       ", Product Name -> " & row.Cells(3).Value & ", Model No -> " & row.Cells(4).Value & ", Serial No -> " & row.Cells(5).Value &
                       ", Problem -> " & row.Cells(6).Value & ".'," & MdifrmMain.Tag & ")")
             If row.Cells(9).Value IsNot Nothing Then
-                CMDUPDATE("Insert into RepairRemarks1(Rem1No,Rem1Date,RetNo,Remarks,UNo) Values(?PrimaryKey?RepairRemarks1?Rem1No?,#" & DateAndTime.Now & "#," &
+                CMDUPDATE("Insert into RepairRemarks1(Rem1No,Rem1Date,RetNo,Remarks,UNo) Values(?NewKey?RepairRemarks1?Rem1No?,#" & DateAndTime.Now & "#," &
                       row.Cells(0).Value & ",'" & row.Cells(9).Value & "'," & MdifrmMain.Tag & ")")
             End If
             If Me.Tag = "Deliver" Then
@@ -297,15 +297,14 @@ Public Class frmReceive
         Cursor = Cursors.Default
     End Sub
 
-    Public Sub PrintReceipt(RNo As String, Optional boolPrint As Boolean = False, Optional boolClosed As Boolean = False)
-
+    Public Sub PrintReceipt(RNo As String, Optional boolPrint As Boolean = False, Optional boolClosed As Boolean = False, Optional formTag As String = "")
         If IsNumeric(RNo) = False Or RNo = "" Then Exit Sub
         Dim UserName As String = MdifrmMain.tslblUserName.Text
         Dim threadInvoice As New Thread(
             Sub()
                 'Try
                 Dim frm1 As New frmReport
-                Dim RPT As New rptReceiveRepair
+                Dim RPT As New rptReceive
                 Dim DT1 As New DataTable
                 Dim DA1 As New OleDb.OleDbDataAdapter($"SELECT RDate,CuName,CuTelNo1,CuTelNo2,CuTelNo3,'' as RetNo, RepNo, PCategory, PName, PModelNo, 
 PSerialNo, Qty, Problem, '' as RepRemarks1 from (((Repair Inner Join Receive On Receive.RNo =Repair.RNo) Left Join Product On Product.PNo=Repair.PNo) 
@@ -326,27 +325,28 @@ Where Receive.RNo = {RNo}", CNN)
                 RPT.SetDataSource(DT1)
 
                 RPT.SetParameterValue("Cashier Name", UserName)
-                If boolPrint Then
-                    Dim rawKind1 As Integer
-                    Dim c1 As Integer
-                    Dim doctoprint1 As New Printing.PrintDocument()
-                    doctoprint1.PrinterSettings.PrinterName = My.Settings.BillPrinterName
-                    For c1 = 0 To doctoprint1.PrinterSettings.PaperSizes.Count - 1
-                        If doctoprint1.PrinterSettings.PaperSizes(c1).PaperName = My.Settings.BillPrinterPaperName Then
-                            rawKind1 = CInt(doctoprint1.PrinterSettings.PaperSizes(c1).
-                                                  GetType().GetField("kind", Reflection.BindingFlags.Instance Or
-                                                  Reflection.BindingFlags.NonPublic).GetValue(doctoprint1.PrinterSettings.PaperSizes(c1)))
-                            Exit For
-                        End If
-                    Next
-                    RPT.PrintOptions.PaperSize = CType(rawKind1, CrystalDecisions.Shared.PaperSize)
-                    RPT.PrintOptions.PaperOrientation = CrystalDecisions.Shared.PaperOrientation.Portrait
+                Dim rawKind1 As Integer
+                Dim c1 As Integer
+                Dim doctoprint1 As New Printing.PrintDocument()
+                doctoprint1.PrinterSettings.PrinterName = My.Settings.BillPrinterName
+                For c1 = 0 To doctoprint1.PrinterSettings.PaperSizes.Count - 1
+                    If doctoprint1.PrinterSettings.PaperSizes(c1).PaperName = My.Settings.BillPrinterPaperName Then
+                        rawKind1 = CInt(doctoprint1.PrinterSettings.PaperSizes(c1).
+                                                GetType().GetField("kind", Reflection.BindingFlags.Instance Or
+                                                Reflection.BindingFlags.NonPublic).GetValue(doctoprint1.PrinterSettings.PaperSizes(c1)))
+                        Exit For
+                    End If
+                Next
+                RPT.PrintOptions.PaperSize = CType(rawKind1, CrystalDecisions.Shared.PaperSize)
+                RPT.PrintOptions.PaperOrientation = CrystalDecisions.Shared.PaperOrientation.Portrait
+                If boolPrint Then   'Choose the printer and paper size. Then, print the report
                     RPT.PrintToPrinter(1, False, 0, 0)
                 End If
                 With frm1
                     .ReportViewer.ReportSource = RPT
                     .Name = "frmReport" + NextfrmNo(frmReport).ToString
-                    If boolClosed = True Then .Tag = "ReceivedRecipt"
+                    .boolClosed = boolClosed
+                    .Tag = formTag
                     .WindowState = FormWindowState.Normal
                     .Text = "Report - Received Receipt"
                     Application.Run(frm1)
@@ -451,7 +451,7 @@ Where Receive.RNo = {RNo}", CNN)
     '    threadInvoice.Start()
     'End Sub
 
-    Public Sub PrintSticker(RNo As String, Optional boolPrint As Boolean = False, Optional boolClosed As Boolean = False)
+    Public Sub PrintSticker(RNo As String, Optional boolPrint As Boolean = False, Optional boolClosed As Boolean = False, Optional formTag As String = "")
         'Try
         If IsNumeric(RNo) = False Or RNo = "" Then Exit Sub
         Dim threadSticker As New Thread(
@@ -491,25 +491,26 @@ Where Receive.RNo = {RNo}", CNN)
             If DT.Rows.Count < 1 Then Exit Sub
             Dim frm2 As New frmReport
             frm2.ReportViewer.ReportSource = rpt3
+            Dim c2 As Integer
+            Dim doctoprint2 As New System.Drawing.Printing.PrintDocument()
+            doctoprint2.PrinterSettings.PrinterName = My.Settings.StickerPrinterName
+            Dim rawKind As Integer
+            For c2 = 0 To doctoprint2.PrinterSettings.PaperSizes.Count - 1
+                If doctoprint2.PrinterSettings.PaperSizes(c2).PaperName = My.Settings.RepairStickerPrinterPaperName Then
+                    rawKind = CInt(doctoprint2.PrinterSettings.PaperSizes(c2).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint2.PrinterSettings.PaperSizes(c2)))
+                    Exit For
+                End If
+            Next
+            rpt3.PrintOptions.PaperOrientation = CrystalDecisions.Shared.PaperOrientation.Portrait
+            rpt3.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
             If boolPrint Then
-                Dim c2 As Integer
-                Dim doctoprint2 As New System.Drawing.Printing.PrintDocument()
-                doctoprint2.PrinterSettings.PrinterName = My.Settings.StickerPrinterName
-                Dim rawKind As Integer
-                For c2 = 0 To doctoprint2.PrinterSettings.PaperSizes.Count - 1
-                    If doctoprint2.PrinterSettings.PaperSizes(c2).PaperName = My.Settings.RepairStickerPrinterPaperName Then
-                        rawKind = CInt(doctoprint2.PrinterSettings.PaperSizes(c2).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint2.PrinterSettings.PaperSizes(c2)))
-                        Exit For
-                    End If
-                Next
-                rpt3.PrintOptions.PaperOrientation = CrystalDecisions.Shared.PaperOrientation.Portrait
-                rpt3.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
                 rpt3.PrintToPrinter(1, False, 0, 0)
             End If
             With frm2
                 .Name = "frmReport" + NextfrmNo(frmReport).ToString
-                If boolClosed = True Then .Tag = "ReceivedSticker"
-                .WindowState = FormWindowState.Normal
+                .boolClosed = boolClosed
+                .Tag = formTag
+                    .WindowState = FormWindowState.Normal
                 .Text = "Report - Received Sticker/s"
                 Application.Run(frm2)
             End With
@@ -525,11 +526,6 @@ Where Receive.RNo = {RNo}", CNN)
         threadSticker.SetApartmentState(ApartmentState.STA)
         threadSticker.Priority = ThreadPriority.Highest
         threadSticker.Start()
-    End Sub
-
-    Private Sub cmdSaveOnly_Click(sender As Object, e As EventArgs) Handles cmdSaveOnly.Click
-        SaveReceive()
-        cmdNew_Click(sender, e)
     End Sub
 
     Private Sub cmdCancel_Click(sender As Object, e As EventArgs) Handles cmdCancel.Click

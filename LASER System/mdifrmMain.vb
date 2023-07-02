@@ -1,7 +1,6 @@
-﻿Imports System.IO
-Imports System.ComponentModel
-Imports CrystalDecisions.Shared
-Imports System.Net.Mail
+﻿Imports System.ComponentModel
+Imports System.IO
+Imports Microsoft.VisualBasic.FileIO
 
 Public Class MdifrmMain
     Private Sub mdifrmMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -11,6 +10,14 @@ Public Class MdifrmMain
     End Sub
 
     Private Sub MdifrmMain_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
+        'Create the shutdown.txt for close the BackgroundWorker
+        If Not String.IsNullOrEmpty(My.Settings.BGWorkerPath) And File.Exists(My.Settings.BGWorkerPath) Then
+            Dim fileName As String = My.Settings.BGWorkerPath
+            Dim fi As New IO.FileInfo(fileName)
+            Dim directoryName As String = SpecialDirectories.MyDocuments + "\LASER System\LASER Background"
+            File.Create(directoryName + "\ShutDown.txt")
+        End If
+
         BarCodePort.Close()
         End
     End Sub
@@ -420,6 +427,15 @@ Public Class MdifrmMain
     Private Sub SerialPort_DataReceived(sender As Object, e As Ports.SerialDataReceivedEventArgs) Handles BarCodePort.DataReceived
         Dim str As String = BarCodePort.ReadExisting
         If BarCodePort.IsOpen = True AndAlso str <> "" Then
+            Dim CurrentForm As Form = My.Application.OpenForms.Item(My.Application.OpenForms.Count - 1)
+            If CurrentForm.Name.StartsWith(frmSearch.Name) And CurrentForm.Tag = "Repair" Then
+                Dim frmSearch_Repair As frmSearch = CurrentForm
+                frmSearch_Repair.txtTSSearch.Text = str
+                Me.BeginInvoke(New EventHandler(Sub()
+                                                    frmSearch_Repair.cmdTSSearch.PerformClick()
+                                                End Sub))
+                Exit Sub
+            End If
             If Application.OpenForms().OfType(Of frmSale)().Count < 1 Then
                 Me.BeginInvoke(New EventHandler(Sub()
                                                     cmdSale.PerformClick()

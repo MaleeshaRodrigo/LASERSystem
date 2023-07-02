@@ -127,7 +127,7 @@
             txtTTelNo2.Text = DR("TTelNo2").ToString
             txtTTelNo3.Text = DR("TTelNo3").ToString
             txtTRemarks.Text = DR("TRemarks").ToString
-            chkActive.Text = DR("TActive").ToString
+            chkActive.Checked = DR("TActive")
         End If
         cmdSave.Text = "Edit"
         cmdDone.Text = "Done"

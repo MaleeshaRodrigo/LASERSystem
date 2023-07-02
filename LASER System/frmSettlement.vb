@@ -1,4 +1,5 @@
 ﻿Imports CrystalDecisions.Shared
+Imports Microsoft.VisualBasic.FileIO
 Imports System.IO
 Public Class frmSettlement
 
@@ -49,10 +50,10 @@ Public Class frmSettlement
                     Exit Try
                 End If
             Next
-            If File.Exists(Path.Combine(Application.StartupPath & "\Reports", "SettlementSheet " & Today.Year.ToString & " - " &
-                                            Today.Month.ToString & " - " & Today.Day.ToString & ".pdf")) Or File.Exists(Path.Combine(Application.StartupPath &
+            If File.Exists(Path.Combine(SpecialDirectories.MyDocuments & "\Reports", "SettlementSheet " & Today.Year.ToString & " - " &
+                                            Today.Month.ToString & " - " & Today.Day.ToString & ".pdf")) Or File.Exists(Path.Combine(SpecialDirectories.MyDocuments &
                                             "\Reports", "TechnicianCost " & Today.Year.ToString & " - " & Today.Month.ToString & " - " & Today.Day.ToString &
-                                            ".pdf")) Or File.Exists(Path.Combine(Application.StartupPath & "\Reports", "TechinicianLoan " & Today.Year.ToString &
+                                            ".pdf")) Or File.Exists(Path.Combine(SpecialDirectories.MyDocuments & "\Reports", "TechinicianLoan " & Today.Year.ToString &
                                             " - " & Today.Month.ToString & " - " & Today.Day.ToString & ".pdf")) Then Exit Sub
             MdifrmMain.tsProBar.Visible = True
             MdifrmMain.tsProBar.Value = 0
@@ -164,7 +165,7 @@ Public Class frmSettlement
                 Dim CrExportOptions As ExportOptions
                 Dim CrDiskFileDestinationOptions As New DiskFileDestinationOptions()
                 Dim CrFormatTypeOptions As New PdfRtfWordFormatOptions
-                CrDiskFileDestinationOptions.DiskFileName = Path.Combine(Application.StartupPath & "\Reports", "SettlementSheet " &
+                CrDiskFileDestinationOptions.DiskFileName = Path.Combine(SpecialDirectories.MyDocuments & "\Reports", "SettlementSheet " &
                                                                              Today.Year.ToString & " - " & Today.Month.ToString & " - " &
                                                                              Today.Day.ToString & ".pdf")
                 CrExportOptions = RPT.ExportOptions
@@ -183,7 +184,7 @@ Public Class frmSettlement
                 Dim CrExportOptions1 As ExportOptions
                 Dim CrDiskFileDestinationOptions1 As New DiskFileDestinationOptions()
                 Dim CrFormatTypeOptions1 As New PdfRtfWordFormatOptions
-                CrDiskFileDestinationOptions1.DiskFileName = Path.Combine(Application.StartupPath & "\Reports", "TechnicianCost " &
+                CrDiskFileDestinationOptions1.DiskFileName = Path.Combine(SpecialDirectories.MyDocuments & "\Reports", "TechnicianCost " &
                                                                               Today.Year.ToString & " - " & Today.Month.ToString & " - " &
                                                                               Today.Day.ToString & ".pdf")
                 CrExportOptions1 = RPT1.ExportOptions
@@ -202,7 +203,7 @@ Public Class frmSettlement
                 Dim CrExportOptions2 As ExportOptions
                 Dim CrDiskFileDestinationOptions2 As New DiskFileDestinationOptions()
                 Dim CrFormatTypeOptions2 As New PdfRtfWordFormatOptions
-                CrDiskFileDestinationOptions2.DiskFileName = Path.Combine(Application.StartupPath & "\Reports", "TechnicianLoan " &
+                CrDiskFileDestinationOptions2.DiskFileName = Path.Combine(SpecialDirectories.MyDocuments & "\Reports", "TechnicianLoan " &
                                                                               Today.Year.ToString & " - " & Today.Month.ToString & " - " &
                                                                               Today.Day.ToString & ".pdf")
                 CrExportOptions2 = RPT2.ExportOptions
@@ -221,17 +222,17 @@ Public Class frmSettlement
                 MdifrmMain.tsProBar.Value = 80
                 MdifrmMain.tslblLoad.Text = "Sending Email..."
                 CMDUPDATE("Insert Into Mail(MailNo,MailDate,EmailTo,Subject,Body,Status,Attachment1,Attachment2,Attachment3) Values(" &
-                                AutomaticPrimaryKeyStr("Mail", "MailNo") & ",#" & DateAndTime.Now &
+                                AutomaticPrimaryKey("Mail", "MailNo") & ",#" & DateAndTime.Now &
                                 "#,'" & My.Settings.AdminEmail & "','Settlement " & Today.Date.ToString & "','මෙය LASER System එකෙන් Automatically පැමිණන Email " &
                               "එකක් බැවින් ඔබට මෙය නැවැත්වීමට අවශ්‍යනම්, අපගේ Programe Developer හට දැනුම් දෙන්න.','Waiting','" &
-                    If(File.Exists(Application.StartupPath & "\Reports\SettlementSheet " & Today.Year.ToString & " - " & Today.Month.ToString & " - " &
-                                   Today.Day.ToString & ".pdf"), Application.StartupPath & "\Reports\SettlementSheet " & Today.Year.ToString & " - " &
+                    If(File.Exists(SpecialDirectories.MyDocuments & "\Reports\SettlementSheet " & Today.Year.ToString & " - " & Today.Month.ToString & " - " &
+                                   Today.Day.ToString & ".pdf"), SpecialDirectories.MyDocuments & "\Reports\SettlementSheet " & Today.Year.ToString & " - " &
                                                                     Today.Month.ToString & " - " & Today.Day.ToString & ".pdf", "") & "','" &
-                    If(File.Exists(Application.StartupPath & "\Reports\TechnicianCost " & Today.Year.ToString & " - " & Today.Month.ToString & " - " &
-                                   Today.Day.ToString & ".pdf"), Application.StartupPath & "\Reports\TechnicianCost " & Today.Year.ToString & " - " &
+                    If(File.Exists(SpecialDirectories.MyDocuments & "\Reports\TechnicianCost " & Today.Year.ToString & " - " & Today.Month.ToString & " - " &
+                                   Today.Day.ToString & ".pdf"), SpecialDirectories.MyDocuments & "\Reports\TechnicianCost " & Today.Year.ToString & " - " &
                                                                      Today.Month.ToString & " - " & Today.Day.ToString & ".pdf", "") & "','" &
-                    If(File.Exists(Application.StartupPath & "\Reports\TechnicianLoan " & Today.Year.ToString & " - " & Today.Month.ToString & " - " &
-                                   Today.Day.ToString & ".pdf"), Application.StartupPath & "\Reports\TechnicianLoan " & Today.Year.ToString & " - " &
+                    If(File.Exists(SpecialDirectories.MyDocuments & "\Reports\TechnicianLoan " & Today.Year.ToString & " - " & Today.Month.ToString & " - " &
+                                   Today.Day.ToString & ".pdf"), SpecialDirectories.MyDocuments & "\Reports\TechnicianLoan " & Today.Year.ToString & " - " &
                                                                      Today.Month.ToString & " - " & Today.Day.ToString & ".pdf", "") & "')")
             End If
             MdifrmMain.tsProBar.Value = 100
@@ -419,23 +420,26 @@ Public Class frmSettlement
         ElseIf CheckEmptyfield(txtTAAmount, "Transactions Amount is empty. Please fill it and try again") = False Then
             Exit Sub
         End If
-        Dim AdminSend As Boolean = False
-        Dim Remarks As String = "අද දිනට නොමැති " & txtTANo.Text & " වන Transaction Data එක Edit කෙරුණි."
 
-        If dtpTADate.Value.Date = Today.Date Then dtpTADate.Value = DateAndTime.Now
-        If dtpTADate.Value.Date <> Today.Date And MdifrmMain.tslblUserType.Text <> "Admin" Then
-            AdminSend = True
+        Dim AdminPer As New AdminPermission With {
+            .Remarks = "අද දිනට නොමැති " & txtTANo.Text & " වන Transaction Data එක Edit කෙරුණි."
+        }
+
+        If dtpTADate.Value.Date = Today.Date Then
+            dtpTADate.Value = DateAndTime.Now
+        ElseIf MdifrmMain.tslblUserType.Text <> "Admin" Then
+            AdminPer.AdminSend = True
         End If
         Select Case cmdSave.Text
             Case "Save"
                 AutomaticPrimaryKey(txtTANo, "Select Top 1 TANo from [Transaction] order by TANo Desc;", "TANo")
-                CMDUPDATE("Insert into [Transaction](TANo, TADate,TADetails, TAAmount) Values(" & txtTANo.Text & ",#" &
-                                             dtpTADate.Value.ToString & "#,'" & txtTADetails.Text & "', " & txtTAAmount.Text & ");")
+                CMDUPDATE("Insert into `Transaction`(TANo, TADate,TADetails, TAAmount) Values(?NewKey?Transaction?TANo?,#" &
+                                             dtpTADate.Value.ToString & "#,'" & txtTADetails.Text & "', " & txtTAAmount.Text & ");", AdminPer)
             Case "Edit"
-                CMDUPDATE("UPDATE [Transaction] SET TADate=#" & dtpTADate.Value.ToString & "#," &
+                CMDUPDATE("UPDATE `Transaction` SET TADate=#" & dtpTADate.Value.ToString & "#," &
                                                  "TADetails'" & txtTADetails.Text & "'," &
                                                  "TAAmount=" & txtTAAmount.Text &
-                                                 " WHERE TANO = " & txtTANo.Text, AdminSend, Remarks)
+                                                 " WHERE TANO = " & txtTANo.Text, AdminPer)
         End Select
         grdTransaction.Refresh()
         CmdTANew_Click(sender, e)
@@ -443,17 +447,16 @@ Public Class frmSettlement
     End Sub
 
     Private Sub CmdTADelete_Click(sender As Object, e As EventArgs) Handles cmdTADelete.Click
-        Dim Remarks As String
-        Dim AdminSend As Boolean
-        Remarks = "අද දිනට නොමැති Transaction එකෙහි " & txtTANo.Text & " වන Data එක Delete කෙරුණි."
+        Dim AdminPer As New AdminPermission With {
+        .Remarks = "අද දිනට නොමැති Transaction එකෙහි " & txtTANo.Text & " වන Data එක Delete කෙරුණි."}
         If dtpTADate.Value.Date <> Today.Date And MdifrmMain.tslblUserType.Text <> "Admin" Then
-            AdminSend = True
+            AdminPer.AdminSend = True
         End If
         If CheckEmptyfield(txtTANo, "Transactions No is empty. Please fill it and try again") = False Then
             Exit Sub
         End If
         If MsgBox("Are you sure delete this transaction?", vbInformation + vbYesNo) = vbYes Then
-            CMDUPDATE("DELETE from [Transaction] where TANO = " & txtTANo.Text, AdminSend, Remarks)
+            CMDUPDATE("DELETE from `Transaction` where TANO = " & txtTANo.Text, AdminPer)
         End If
         CmdTANew_Click(sender, e)
     End Sub

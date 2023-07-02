@@ -8,10 +8,6 @@ Public Class frmSearch
     Private ReadOnly grdsubsearch2 As New DataGridView
     Private ReadOnly dtpDate As New DateTimePicker
 
-    Private Sub txtTSSearch_TextChanged(sender As Object, e As EventArgs) Handles txtTSSearch.TextChanged
-        'Call cmdTSSearch_Click(sender, e)
-    End Sub
-
     Private Sub frmSearch_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         GetCNN()
         MenuStrip1.Items.Add(mnustrpMENU)
@@ -772,51 +768,12 @@ Remarks {cmdLIKE.Text} '{Symbol}{Search}{Symbol}' Union Select RepNo,Remarks fro
                                                DRSearch1("Status").ToString, DRSearch1("TName").ToString, DRSearch1("RepRemarks2").ToString, DRSearch1("RepDate").ToString,
                                                DRSearch1("Charge").ToString, DRSearch1("DDate").ToString, DRSearch1("PaidPrice").ToString)
                 Case "Repair", "DeliverRepair"
-                    'If grdSearch.InvokeRequired Then
-                    '    grdSearch.Invoke(Sub()
-                    'grdSearch.Rows.Add(DRSearch1("RepNo").ToString(), DRSearch1("RDate").ToString(), DRSearch1("CuName").ToString(),
-                    '                                                 DRSearch1("CuTelNo1").ToString(),
-                    '        DRSearch1("CuTelNo2").ToString(), DRSearch1("CuTelNo3").ToString(), DRSearch1("PCategory").ToString(), DRSearch1("PName").ToString(),
-                    '        DRSearch1("PModelNo").ToString(), DRSearch1("PSerialNo").ToString(), DRSearch1("Problem").ToString(), DRSearch1("Location").ToString(),
-                    '        DRSearch1("Qty").ToString(), "",
-                    '        DRSearch1("Status").ToString(), DRSearch1("TName").ToString(), "", DRSearch1("RepDate").ToString(), DRSearch1("Charge").ToString(),
-                    '        DRSearch1("DDate").ToString(), DRSearch1("PaidPrice").ToString())
-                    '                     End Sub)
-                    'Else
                     grdSearch.Rows.Add(DRSearch1("RepNo").ToString(), DRSearch1("RDate").ToString(), DRSearch1("CuName").ToString(), DRSearch1("CuTelNo1").ToString(),
                             DRSearch1("CuTelNo2").ToString(), DRSearch1("CuTelNo3").ToString(), DRSearch1("PCategory").ToString(), DRSearch1("PName").ToString(),
                             DRSearch1("PModelNo").ToString(), DRSearch1("PSerialNo").ToString(), DRSearch1("Problem").ToString(), DRSearch1("Location").ToString(),
                             DRSearch1("Qty").ToString(), "",
                             DRSearch1("Status").ToString(), DRSearch1("TName").ToString(), "", DRSearch1("RepDate").ToString(), DRSearch1("Charge").ToString(),
                             DRSearch1("DDate").ToString(), DRSearch1("PaidPrice").ToString())
-                    'End If
-
-                    'bgwSearch.ReportProgress((i * 100) / Rows_Count, New Object() {DRSearch1("RepNo").ToString(), DRSearch1("RDate").ToString(), DRSearch1("CuName").ToString(), DRSearch1("CuTelNo1").ToString(),
-                    '        DRSearch1("CuTelNo2").ToString(), DRSearch1("CuTelNo3").ToString(), DRSearch1("PCategory").ToString(), DRSearch1("PName").ToString(),
-                    '        DRSearch1("PModelNo").ToString(), DRSearch1("PSerialNo").ToString(), DRSearch1("Problem").ToString(), DRSearch1("Location").ToString(),
-                    '        DRSearch1("Qty").ToString(), "",
-                    '        DRSearch1("Status").ToString(), DRSearch1("TName").ToString(), "", DRSearch1("RepDate").ToString(), DRSearch1("Charge").ToString(),
-                    '        DRSearch1("DDate").ToString(), DRSearch1("PaidPrice").ToString()})
-
-                    'grdSearch.Rows.Add(CheckNull(DRSearch1("RepNo")),
-                    '                   CheckNull(DRSearch1("RDate")),
-                    '                    CheckNull(DRSearch1("CuName")),
-                    '                   CheckNull(DRSearch1("CuTelNo1")),
-                    '                    CheckNull(DRSearch1("CuTelNo2")),
-                    '                   CheckNull(DRSearch1("CuTelNo3")),
-                    '                   CheckNull(DRSearch1("PCategory")),
-                    '                   CheckNull(DRSearch1("PName")),
-                    '                   CheckNull(DRSearch1("PModelNo")),
-                    '                   CheckNull(DRSearch1("PSerialNo")),
-                    '                   CheckNull(DRSearch1("Problem")),
-                    '                   CheckNull(DRSearch1("Location")),
-                    '                   CheckNull(DRSearch1("Qty")), "",
-                    '                   CheckNull(DRSearch1("Status")),
-                    '                   CheckNull(DRSearch1("TName")), "",
-                    '                   CheckNull(DRSearch1("RepDate")),
-                    '                   CheckNull(DRSearch1("Charge")),
-                    '                   CheckNull(DRSearch1("DDate")),
-                    '                   CheckNull(DRSearch1("PaidPrice")))
                     If (grdSearch.Item("Status", grdSearch.Rows.Count - 1).Value = "Repaired Delivered" Or
                             grdSearch.Item("Status", grdSearch.Rows.Count - 1).Value = "Returned Delivered") Then
                         grdSearch.Rows.Item(grdSearch.Rows.Count - 1).ReadOnly = True
@@ -1013,7 +970,28 @@ end_for_loop:
 
     Private Sub grdSearch_SelectionChanged(sender As Object, e As EventArgs) Handles grdSearch.SelectionChanged
         Select Case Me.Tag
-            Case "Deliver"
+            Case "Repair"
+                frmDatagridviewTool.frm_Close()
+                If grdSearch.CurrentCell.ColumnIndex = 13 Then
+                    Dim DT As New DataTable
+                    Dim DA = New OleDb.OleDbDataAdapter("Select Rem1Date as [Date],Remarks,UserName as [User] from ([RepairRemarks1] RepRem1 Left join " &
+                                                        "[User] U on U.Uno= RepRem1.UNo) Where RepNo=" & grdSearch.Item(0, grdSearch.CurrentRow.Index).Value, CNN)
+                    DA.Fill(DT)
+                    If DT.Rows.Count > 0 Then
+                        frmDatagridviewTool.Tag = "RepRem"
+                        frmDatagridviewTool.frm_Open(grdSearch, Me, DT)
+                    End If
+                ElseIf grdSearch.CurrentCell.ColumnIndex = 16 Then
+                        Dim DT As New DataTable
+                    Dim DA = New OleDb.OleDbDataAdapter("Select Rem2Date as [Date],Remarks,UserName as [User] from ([RepairRemarks2] RepRem2 Left join " &
+                                                        "[User] U on U.Uno= RepRem2.UNo) Where RepNo=" & grdSearch.Item(0, grdSearch.CurrentRow.Index).Value, CNN)
+                    DA.Fill(DT)
+                    If DT.Rows.Count > 0 Then
+                        frmDatagridviewTool.Tag = "RepRem"
+                        frmDatagridviewTool.frm_Open(grdSearch, Me, DT)
+                    End If
+                End If
+                    Case "Deliver"
                 CMD = New OleDb.OleDbCommand("Select RepNo,PCategory,PName,Qty,PaidPrice,TName,Status from (((Repair Rep Inner Join Deliver D On D.DNo=Rep.DNo) " &
                                              "Inner Join Product P On p.pno = Rep.pno) Inner Join Technician T On T.TNo = Rep.TNo) Where D.DNo = " &
                                              grdSearch.Item(0, grdSearch.CurrentRow.Index).Value.ToString, CNN)
@@ -1083,24 +1061,7 @@ end_for_loop:
 
     Private Sub grdSearch_EditingControlShowing(sender As Object, e As DataGridViewEditingControlShowingEventArgs) Handles grdSearch.EditingControlShowing
         If Me.Tag = "Repair" Then
-            If grdSearch.CurrentCell.ColumnIndex = 13 Then
-                Dim DT As New DataTable
-                Dim DA = New OleDb.OleDbDataAdapter("Select Rem1Date as [Date],Remarks,UserName as [User] from ([RepairRemarks1] RepRem1 Left join " &
-                                                    "[User] U on U.Uno= RepRem1.UNo) Where RepNo=" & grdSearch.Item(0, grdSearch.CurrentRow.Index).Value, CNN)
-                DA.Fill(DT)
-                frmDatagridviewTool.Tag = "RepRem"
-                Dim tb As TextBox = TryCast(e.Control, TextBox)
-                frmDatagridviewTool.passtext(tb)
-                AddHandler tb.KeyDown, AddressOf frmDatagridviewTool.dgv_KeyDown
-                frmDatagridviewTool.frm_Open(grdSearch, Me, DT)
-            ElseIf grdSearch.CurrentCell.ColumnIndex = 16 Then
-                Dim DT As New DataTable
-                Dim DA = New OleDb.OleDbDataAdapter("Select Rem2Date as [Date],Remarks,UserName as [User] from ([RepairRemarks2] RepRem2 Left join " &
-                                                    "[User] U on U.Uno= RepRem2.UNo) Where RepNo=" & grdSearch.Item(0, grdSearch.CurrentRow.Index).Value, CNN)
-                DA.Fill(DT)
-                frmDatagridviewTool.Tag = "RepRem"
-                frmDatagridviewTool.frm_Open(grdSearch, Me, DT)
-            ElseIf grdSearch.CurrentCell.ColumnIndex = 17 Then
+            If grdSearch.CurrentCell.ColumnIndex = 17 Then
                 dtpDate.Location = grdSearch.GetCellDisplayRectangle(grdSearch.CurrentCell.ColumnIndex, grdSearch.CurrentCell.RowIndex, True).Location
                 dtpDate.Size = New Size(grdSearch.Columns.Item(grdSearch.CurrentCell.ColumnIndex).Width, grdSearch.Rows.Item(grdSearch.CurrentCell.RowIndex).Height)
             ElseIf grdSearch.CurrentCell.ColumnIndex = 11 Then
@@ -1247,8 +1208,8 @@ end_for_loop:
                         Dim DR1 As OleDb.OleDbDataReader = CMD1.ExecuteReader()
                         .grdRepair.Rows.Clear()
                         While DR1.Read
-                            .grdRepair.Rows.Add(DR1("RepNo").ToString, DR1("PCategory").ToString, DR1("PName").ToString, DR1("Qty").ToString, DR1("PaidPrice").ToString,
-                                                DR1("TName").ToString, DR1("Status").ToString)
+                            .grdRepair.Rows.Add(DR1("RepNo").ToString, DR1("PCategory").ToString, DR1("PName").ToString, DR1("Qty").ToString,
+                                                DR1("PaidPrice").ToString, DR1("TName").ToString, DR1("Status").ToString)
 
                         End While
                         CMD1 = New OleDb.OleDbCommand("Select RetNo,RepNo,RET.PNo,PCategory,PName,Qty,Status,RET.TNo, TName,PaidPrice from " &
@@ -1258,8 +1219,8 @@ end_for_loop:
                         DR1 = CMD1.ExecuteReader()
                         .grdRERepair.Rows.Clear()
                         While DR1.Read
-                            .grdRERepair.Rows.Add(DR1("RetNo").ToString, DR1("RepNo").ToString, DR1("PCategory").ToString, DR1("PName").ToString, DR1("Qty").ToString,
-                                                  DR1("PaidPrice").ToString, DR1("TName").ToString, DR1("Status").ToString)
+                            .grdRERepair.Rows.Add(DR1("RetNo").ToString, DR1("RepNo").ToString, DR1("PCategory").ToString, DR1("PName").ToString,
+                                                  DR1("Qty").ToString, DR1("PaidPrice").ToString, DR1("TName").ToString, DR1("Status").ToString)
 
                         End While
                     End If
@@ -1311,83 +1272,83 @@ end_for_loop:
         If grdSearch.Item(e.ColumnIndex, e.RowIndex).Tag IsNot Nothing Then previousvalue = grdSearch.Item(e.ColumnIndex, e.RowIndex).Tag
         Dim UNo As Integer = MdifrmMain.Tag
         If Me.Tag = "Repair" Then
-            Task.Run(
-                Sub()
-                    Select Case e.ColumnIndex
-                        Case 9, 10, 11, 14
-                            If e.ColumnIndex = 11 Then frmSearchDropDown.frm_Close()
-                            If previousvalue <> currentvalue Then
-                                CMDUPDATE("UPDATE Repair SET " & grdSearch.Columns(e.ColumnIndex).Name & " ='" & currentvalue & "' where repno = " &
-                          grdSearch.Item(0, e.RowIndex).Value)
-                                CMDUPDATE("Insert into RepairActivity(RepNo,RepADate,Activity,UNo)" &
-         " Values(" &
-         grdSearch.Item(0, e.RowIndex).Value & ",#" & DateAndTime.Now & "#,'" & grdSearch.Columns(e.ColumnIndex).HeaderText & " -> " &
-         currentvalue & "'," & UNo & ")")
-                            End If
-                        Case 13    'Remarks by Customer
-                            frmDatagridviewTool.frm_Close()
-                            If currentvalue <> "" Then
-                                CMDUPDATE("Insert into RepairRemarks1(Rem1No,RepNo,Rem1Date,Remarks,UNo) Values(" &
-                                  AutomaticPrimaryKeyStr("RepairRemarks1", "Rem1No") & "," &
-                          grdSearch.Item(0, e.RowIndex).Value & ",#" & DateAndTime.Now & "#,'" & grdSearch.Item(13, e.RowIndex).Value & "'," &
-                          UNo & ")")
-                                grdSearch.Item(13, e.RowIndex).Value = ""
-                            End If
-                        Case 15    'Technician Name
-                            Dim tmp As String = ""
-                            If currentvalue <> "" And grdSearch.Item("Status", e.RowIndex).Value = "Received" Then
-                                grdSearch.Item("Status", e.RowIndex).Value = "Hand Over to Technician"
-                                tmp = ",Status = 'Hand Over to Technician'"
-                            End If
-                            If previousvalue <> currentvalue Then
-                                Dim TNo As String = GetStrfromRelatedfield("Select TNo from Technician WHERE TNAME='" & grdSearch.Item("TName", e.RowIndex).Value & "'", "TNo")
-                                CMDUPDATE($"update Repair set tno ={TNo}{tmp} where repno=" & grdSearch.Item(0, e.RowIndex).Value & ";")
-                                CMDUPDATE($"Insert into RepairActivity(RepNo,RepADate,Activity,UNo)
+            If e.ColumnIndex = 11 Then frmSearchDropDown.frm_Close()
+            If e.ColumnIndex = 13 Or e.ColumnIndex = 16 Then frmDatagridviewTool.frm_Close()
+            Task.Run(Sub()
+                         Select Case e.ColumnIndex
+                             Case 9, 10, 11, 14
+                                 If previousvalue <> currentvalue Then
+                                     CMDUPDATE("UPDATE Repair SET " & grdSearch.Columns(e.ColumnIndex).Name & " ='" & currentvalue & "' where repno = " &
+                  grdSearch.Item(0, e.RowIndex).Value)
+                                     CMDUPDATE("Insert into RepairActivity(RepNo,RepADate,Activity,UNo)" &
+ " Values(" &
+ grdSearch.Item(0, e.RowIndex).Value & ",#" & DateAndTime.Now & "#,'" & grdSearch.Columns(e.ColumnIndex).HeaderText & " -> " &
+ currentvalue & "'," & UNo & ")")
+                                 End If
+                             Case 13    'Remarks by Customer
+                                 If currentvalue <> "" Then
+                                     CMDUPDATE("Insert into RepairRemarks1(Rem1No,RepNo,Rem1Date,Remarks,UNo) Values(" &
+                          AutomaticPrimaryKey("RepairRemarks1", "Rem1No") & "," &
+                  grdSearch.Item(0, e.RowIndex).Value & ",#" & DateAndTime.Now & "#,'" & grdSearch.Item(13, e.RowIndex).Value & "'," &
+                  UNo & ")")
+                                     grdSearch.Item(13, e.RowIndex).Value = ""
+                                 End If
+                             Case 15    'Technician Name
+                                 Dim tmp As String = ""
+                                 If currentvalue <> "" And grdSearch.Item("Status", e.RowIndex).Value = "Received" Then
+                                     grdSearch.Item("Status", e.RowIndex).Value = "Hand Over to Technician"
+                                     tmp = ",Status = 'Hand Over to Technician'"
+                                 End If
+                                 If previousvalue <> currentvalue Then
+                                     Dim TNo As String = GetStrfromRelatedfield("Select TNo from Technician WHERE TNAME='" &
+                                                                                grdSearch.Item("TName", e.RowIndex).Value & "'")
+                                     CMDUPDATE($"update Repair set tno ={TNo}{tmp} where repno=" & grdSearch.Item(0, e.RowIndex).Value & ";")
+                                     CMDUPDATE($"Insert into RepairActivity(RepNo,RepADate,Activity,UNo)
                                 Values({grdSearch.Item(0, e.RowIndex).Value},#{ DateAndTime.Now }#,
                                 'Technician -> {grdSearch.Item("TName", e.RowIndex).Value}{tmp.Replace("'", "")}',
                                 " & UNo & ")")
-                            End If
-                        Case 16    'Remarks by Technician
-                            frmDatagridviewTool.frm_Close()
-                            If currentvalue <> "" Then
-                                CMDUPDATE("Insert into RepairRemarks2(Rem2No,RepNo,Rem2Date,Remarks,UNo) Values(" &
-                                  AutomaticPrimaryKeyStr("RepairRemarks2", "Rem2No") & "," &
-                          grdSearch.Item(0, e.RowIndex).Value & ",#" & DateAndTime.Now & "#,'" & grdSearch.Item(16, e.RowIndex).Value & "'," &
-                          UNo & ")")
-                                grdSearch.Item(16, e.RowIndex).Value = ""
-                            End If
-                        Case 17    'Repaired Date
-                            grdSearch.CurrentCell.Value = dtpDate.Value.ToString
-                            dtpDate.Visible = False
-                            If GetStrfromRelatedfield("Select RepDate from Repair Where RepNo=" & grdSearch.Item(0, e.RowIndex).Value, "RepDate") <> currentvalue Then
-                                CMDUPDATE("update Repair set repdate=#" & currentvalue & "# where repno=" & grdSearch.Item(0, e.RowIndex).Value & ";")
-                                CMDUPDATE("Insert into RepairActivity(RepNo,RepADate,Activity,UNo)" &
-                                  " Values(" &
-                                  grdSearch.Item(0, e.RowIndex).Value & ",#" & DateAndTime.Now & "#,'Repaired Date එක " & currentvalue &
-                                  " වෙනස් කෙරුණි.'," & UNo & ")")
-                            End If
-                        Case 18    'Repair Charge
-                            If currentvalue <> previousvalue Then
-                                grdSearch.Item(17, e.RowIndex).Value = DateAndTime.Now
-                                If currentvalue = "0" Then
-                                    grdSearch.Item(14, e.RowIndex).Value = "Returned Not Delivered"
-                                Else
-                                    grdSearch.Item(14, e.RowIndex).Value = "Repaired Not Delivered"
-                                End If
-                                CMDUPDATE("UPDATE Repair set Status ='" & grdSearch.Item(14, e.RowIndex).Value &
-                                      "',RepDate=#" & grdSearch.Item(17, e.RowIndex).Value &
-                                      "#,Charge=" & currentvalue & " where repno=" &
-                                      grdSearch.Item(0, e.RowIndex).Value & ";")
-                                CMDUPDATE("Insert into RepairActivity(RepNo,RepADate,Activity,UNo)" &
-                     " Values(" &
-                     grdSearch.Item(0, e.RowIndex).Value & ",#" & DateAndTime.Now & "#,'" &
-                     "Repaired Date -> " & grdSearch.Item(17, e.RowIndex).Value &
-                     ", Status -> " & grdSearch.Item(14, e.RowIndex).Value &
-                     ", Repair Charge -> " & currentvalue &
-                     "'," & UNo & ")")
-                            End If
-                    End Select
-                End Sub)
+                                 End If
+                             Case 16    'Remarks by Technician
+                                 If currentvalue <> "" Then
+                                     CMDUPDATE("Insert into RepairRemarks2(Rem2No,RepNo,Rem2Date,Remarks,UNo) Values(" &
+                          AutomaticPrimaryKey("RepairRemarks2", "Rem2No") & "," &
+                  grdSearch.Item(0, e.RowIndex).Value & ",#" & DateAndTime.Now & "#,'" & grdSearch.Item(16, e.RowIndex).Value & "'," &
+                  UNo & ")")
+                                     grdSearch.Item(16, e.RowIndex).Value = ""
+                                 End If
+                             Case 17    'Repaired Date
+                                 grdSearch.CurrentCell.Value = dtpDate.Value.ToString
+                                 dtpDate.Visible = False
+                                 If GetStrfromRelatedfield("Select RepDate from Repair Where RepNo=" & grdSearch.Item(0, e.RowIndex).Value) <>
+                                 currentvalue Then
+                                     CMDUPDATE("update Repair set repdate=#" & currentvalue & "# where repno=" & grdSearch.Item(0, e.RowIndex).Value & ";")
+                                     CMDUPDATE("Insert into RepairActivity(RepNo,RepADate,Activity,UNo)" &
+                          " Values(" &
+                          grdSearch.Item(0, e.RowIndex).Value & ",#" & DateAndTime.Now & "#,'Repaired Date එක " & currentvalue &
+                          " වෙනස් කෙරුණි.'," & UNo & ")")
+                                 End If
+                             Case 18    'Repair Charge
+                                 If currentvalue <> previousvalue Then
+                                     grdSearch.Item(17, e.RowIndex).Value = DateAndTime.Now
+                                     If currentvalue = "0" Then
+                                         grdSearch.Item(14, e.RowIndex).Value = "Returned Not Delivered"
+                                     Else
+                                         grdSearch.Item(14, e.RowIndex).Value = "Repaired Not Delivered"
+                                     End If
+                                     CMDUPDATE("UPDATE Repair set Status ='" & grdSearch.Item(14, e.RowIndex).Value &
+                              "',RepDate=#" & grdSearch.Item(17, e.RowIndex).Value &
+                              "#,Charge=" & currentvalue & " where repno=" &
+                              grdSearch.Item(0, e.RowIndex).Value & ";")
+                                     CMDUPDATE("Insert into RepairActivity(RepNo,RepADate,Activity,UNo)" &
+             " Values(" &
+             grdSearch.Item(0, e.RowIndex).Value & ",#" & DateAndTime.Now & "#,'" &
+             "Repaired Date -> " & grdSearch.Item(17, e.RowIndex).Value &
+             ", Status -> " & grdSearch.Item(14, e.RowIndex).Value &
+             ", Repair Charge -> " & currentvalue &
+             "'," & UNo & ")")
+                                 End If
+                         End Select
+                     End Sub)
         End If
     End Sub
 

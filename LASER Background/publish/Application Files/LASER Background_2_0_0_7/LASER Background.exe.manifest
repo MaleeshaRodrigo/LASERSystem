@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
+  <asmv1:assemblyIdentity name="LASER Background.exe" version="2.0.0.7" publicKeyToken="cd1dba76d28c872e" language="neutral" processorArchitecture="amd64" type="win32" />
+  <description asmv2:iconFile="refresh.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
+  <application />
+  <entryPoint>
+    <assemblyIdentity name="LASER Background" version="1.0.0.0" language="neutral" processorArchitecture="amd64" />
+    <commandLine file="LASER Background.exe" parameters="" />
+  </entryPoint>
+  <trustInfo>
+    <security>
+      <applicationRequestMinimum>
+        <PermissionSet version="1" class="System.Security.NamedPermissionSet" Name="LocalIntranet" Description="Default rights given to applications on the local intranet" Unrestricted="true" ID="Custom" SameSite="site" />
+        <defaultAssemblyRequest permissionSetReference="Custom" />
+      </applicationRequestMinimum>
+      <requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3">
+        <!-- UAC Manifest Options
+             If you want to change the Windows User Account Control level replace the 
+             requestedExecutionLevel node with one of the following.
+
+        <requestedExecutionLevel  level="asInvoker" uiAccess="false" />
+        <requestedExecutionLevel  level="requireAdministrator" uiAccess="false" />
+        <requestedExecutionLevel  level="highestAvailable" uiAccess="false" />
+
+            Specifying requestedExecutionLevel element will disable file and registry virtualization. 
+            Remove this element if your application requires this virtualization for backwards
+            compatibility.
+        -->
+        <requestedExecutionLevel level="asInvoker" uiAccess="false" />
+      </requestedPrivileges>
+    </security>
+  </trustInfo>
+  <dependency>
+    <dependentOS>
+      <osVersionInfo>
+        <os majorVersion="5" minorVersion="1" buildNumber="2600" servicePackMajor="0" />
+      </osVersionInfo>
+    </dependentOS>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="preRequisite" allowDelayedBinding="true">
+      <assemblyIdentity name="Microsoft.Windows.CommonLanguageRuntime" version="4.0.30319.0" />
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="LASER Background.exe" size="437232">
+      <assemblyIdentity name="LASER Background" version="1.0.0.0" language="neutral" processorArchitecture="amd64" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>LKlvYnvwu+3lHygo6HSbJ6d8hCyIEVK9rqeHhx6emSM=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="MaterialSkin.dll" size="6742528">
+      <assemblyIdentity name="MaterialSkin" version="2.3.1.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>PwdVUuKeWHNv+W4AyCippMsowWM3dEtpxRFBlq141Z4=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Newtonsoft.Json.dll" size="701992">
+      <assemblyIdentity name="Newtonsoft.Json" version="13.0.0.0" publicKeyToken="30AD4FE6B2A6AEED" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>tiSUnfiw46YVP9+3MKfG9JkLZZLuDZIuF4hDPSdmEPM=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <file name="LASER Background.exe.config" size="3177">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>LWlVsTsLzcazSCUzLLaoJzGTBQbdP9B9VA2mzvekN0A=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="refresh.ico" size="101433">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>AN5jlUexvaGVQi8wOvobTPlFMiuEsBuAXCReO+xEzJ4=</dsig:DigestValue>
+    </hash>
+  </file>
+  <compatibility xmlns="urn:schemas-microsoft-com:compatibility.v1">
+    <application>
+      <!-- A list of the Windows versions that this application has been tested on
+           and is designed to work with. Uncomment the appropriate elements
+           and Windows will automatically select the most compatible environment. -->
+      <!-- Windows Vista -->
+      <!--<supportedOS Id="{e2011457-1546-43c5-a5fe-008deee3d3f0}" />-->
+      <!-- Windows 7 -->
+      <!--<supportedOS Id="{35138b9a-5d96-4fbd-8e2d-a2440225f93a}" />-->
+      <!-- Windows 8 -->
+      <!--<supportedOS Id="{4a2f28e3-53b9-4441-ba9c-d69d4a4a6e38}" />-->
+      <!-- Windows 8.1 -->
+      <!--<supportedOS Id="{1f676c76-80e1-4239-95bb-83d0f6d0da78}" />-->
+      <!-- Windows 10 -->
+      <!--<supportedOS Id="{8e0f7a12-bfb3-4fe8-b9a5-48fd50a15a9a}" />-->
+    </application>
+  </compatibility>
+<publisherIdentity name="CN=MALEESHALAPTOP\Maleesha" issuerKeyHash="468c6f66e5c6bd7bb20eec34a52e61293bac8ea0" /><Signature Id="StrongNameSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>jP8/P3tBDvKb0vdDc2jqAB6OE8aPm2xqhpzCefj3GuU=</DigestValue></Reference></SignedInfo><SignatureValue>CP8n2c0mHiP2gAHpblOwPoHKFGAcSopbi0iY2Etji7whkStbo3GJZ+tc4W1PYMh730mjfbACSCqUBBcpPavQrbE6458k0+FK1cKJAWMEWa4X7w79jwJXwNzRo9LaLTlRq+suJRJ4IwuBGgZATMX0Xf+dtA3VU0aikUDvd0rQQ2U=</SignatureValue><KeyInfo Id="StrongNameKeyInfo"><KeyValue><RSAKeyValue><Modulus>tWpByyVAjE+sMtgnjmQnpZBTeq/X6a9p8wbUbkKRDBARpr4ctenX8D38upaEgsJOZAgQtnO04m7rXJaZe+YFPxWXSVrLHC7iATni3YUD3Vp7r7nUg+boOwNHYGwD8oS4Og3vvUiVvndYhPEIzWUnbWFmCZ8fJiZKsh6iVD2uVV0=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><msrel:RelData xmlns:msrel="http://schemas.microsoft.com/windows/rel/2005/reldata"><r:license xmlns:r="urn:mpeg:mpeg21:2003:01-REL-R-NS" xmlns:as="http://schemas.microsoft.com/windows/pki/2005/Authenticode"><r:grant><as:ManifestInformation Hash="e51af7f879c29c866a6c9b8fc6138e1e00ea687343f7d29bf20e417b3f3fff8c" Description="" Url=""><as:assemblyIdentity name="LASER Background.exe" version="2.0.0.7" publicKeyToken="cd1dba76d28c872e" language="neutral" processorArchitecture="amd64" type="win32" /></as:ManifestInformation><as:SignedBy /><as:AuthenticodePublisher><as:X509SubjectName>CN=MALEESHALAPTOP\Maleesha</as:X509SubjectName></as:AuthenticodePublisher></r:grant><r:issuer><Signature Id="AuthenticodeSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>OK378mJi4Qc87sTAVEOx0k8JXJ43jwfvtLCYVgGpdxI=</DigestValue></Reference></SignedInfo><SignatureValue>VHqpxq5/bCtieMv4FYlzmIkKLe30N5rukZZYrQ8e3IDPj9U4xSUNeJCgMF/35nZQ0cm4gW623aRZ71fIgG3A+KVgh7N+I/dFdRUKozr1RWkYLV3UxENPQ4LNEc5LRskm0gNkhezmo2zx2M69mvE5qAAWOZi0nLo/5IUrWOVY3BY=</SignatureValue><KeyInfo><KeyValue><RSAKeyValue><Modulus>tWpByyVAjE+sMtgnjmQnpZBTeq/X6a9p8wbUbkKRDBARpr4ctenX8D38upaEgsJOZAgQtnO04m7rXJaZe+YFPxWXSVrLHC7iATni3YUD3Vp7r7nUg+boOwNHYGwD8oS4Og3vvUiVvndYhPEIzWUnbWFmCZ8fJiZKsh6iVD2uVV0=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><X509Data><X509Certificate>MIIB9TCCAV6gAwIBAgIQHnMxcx0DZ6pBBlu7zNPYIjANBgkqhkiG9w0BAQsFADA5MTcwNQYDVQQDHi4ATQBBAEwARQBFAFMASABBAEwAQQBQAFQATwBQAFwATQBhAGwAZQBlAHMAaABhMB4XDTIyMDcwNDA2NDkxNloXDTIzMDcwNDEyNDkxNlowOTE3MDUGA1UEAx4uAE0AQQBMAEUARQBTAEgAQQBMAEEAUABUAE8AUABcAE0AYQBsAGUAZQBzAGgAYTCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEAtWpByyVAjE+sMtgnjmQnpZBTeq/X6a9p8wbUbkKRDBARpr4ctenX8D38upaEgsJOZAgQtnO04m7rXJaZe+YFPxWXSVrLHC7iATni3YUD3Vp7r7nUg+boOwNHYGwD8oS4Og3vvUiVvndYhPEIzWUnbWFmCZ8fJiZKsh6iVD2uVV0CAwEAATANBgkqhkiG9w0BAQsFAAOBgQCZpEbVF3S1hH37yp61di2Z12AE0q+XafgzFMUaPrFR9KajQKbmzShwJJbH9rzjaP0k+qk2Xhtb4oOsV0WbPIsc0jnJjSo9Mj6yMNwAtal61ZBPg3UO8FNFq0Ofy4cJrOqcilzYnnuIJ7+gPxJ+PF61j2sS4/Rv+6Lam8L9t0ni9Q==</X509Certificate></X509Data></KeyInfo></Signature></r:issuer></r:license></msrel:RelData></KeyInfo></Signature></asmv1:assembly>

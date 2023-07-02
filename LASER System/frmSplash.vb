@@ -1,7 +1,7 @@
-﻿Imports System.ComponentModel
+﻿Imports System.Data.OleDb
 Imports System.IO
-Imports Microsoft.Office.Interop
-Imports System.Data.OleDb
+Imports Microsoft.VisualBasic.FileIO
+
 Public NotInheritable Class FrmSplash
     Dim C As Integer
     Dim flName As Object
@@ -33,22 +33,22 @@ Public NotInheritable Class FrmSplash
         Select Case LoadingBar.Value
             Case 1
                 txtLoad.Text = "Checking System Files..."
-                If Not Directory.Exists(Application.StartupPath + "/Reports") Then My.Computer.FileSystem.CreateDirectory(Application.StartupPath +
-                                                                                                                          "/Reports")
-                If Not Directory.Exists(Application.StartupPath + "/System Files") Then My.Computer.FileSystem.CreateDirectory(Application.StartupPath +
-                                                                                                                               "/System Files")
-                If Not Directory.Exists(Application.StartupPath + "/System Files/Images") Then My.Computer.FileSystem.CreateDirectory(Application.StartupPath +
-                                                                                                                               "/System Files/Images")
-                If Not Directory.Exists(Application.StartupPath + "/System Files/Activity") Then My.Computer.FileSystem.CreateDirectory(Application.StartupPath +
-                                                                                                                               "/System Files/Activity")
-                If Not File.Exists(Application.StartupPath + "/System Files/Activity/Activity.ls") Then
+                If Not Directory.Exists(SpecialDirectories.MyDocuments + "/LASER System") Then My.Computer.FileSystem.CreateDirectory(SpecialDirectories.MyDocuments +
+                                                                                                                               "/LASER System")
+                If Not Directory.Exists(SpecialDirectories.MyDocuments + "/LASER System/Reports") Then My.Computer.FileSystem.CreateDirectory(SpecialDirectories.MyDocuments +
+                                                                                                                          "/LASER System/Reports")
+                If Not Directory.Exists(SpecialDirectories.MyDocuments + "/LASER System/Images") Then My.Computer.FileSystem.CreateDirectory(SpecialDirectories.MyDocuments +
+                                                                                                                               "/LASER System/Images")
+                If Not Directory.Exists(SpecialDirectories.MyDocuments + "/LASER System/Activity") Then My.Computer.FileSystem.CreateDirectory(SpecialDirectories.MyDocuments +
+                                                                                                                               "/LASER System/Activity")
+                If Not File.Exists(SpecialDirectories.MyDocuments + "/LASER System/Activity/Activity.json") Then
                     Dim d As FileStream
-                    d = File.Create(Application.StartupPath & "/System Files/Activity/Activity.ls")
+                    d = File.Create(SpecialDirectories.MyDocuments & "/LASER System/Activity/Activity.json")
                     d.Close()
                 End If
             Case 20
-                If File.Exists(Application.StartupPath + "/LASER Background Tasks.exe") Then
-                    Process.Start(Application.StartupPath + "/LASER Background Tasks.exe")
+                If File.Exists(My.Settings.BGWorkerPath) Then
+                    Process.Start(My.Settings.BGWorkerPath)
                 End If
             Case 30
                 txtLoad.Text = "Resolving Database Errors..."
@@ -85,7 +85,7 @@ Public NotInheritable Class FrmSplash
             Case 60
                 txtLoad.Text = "Setting Main Menu..."
                 With MdifrmMain
-                    WriteActivity(DateAndTime.Now + "- Logon Successfull by " + .tslblUserName.Text + " as a " + .tslblUserType.Text)
+                    WriteActivity("Logged In Successfull by " + .tslblUserName.Text + " as a " + .tslblUserType.Text)
                     If .tslblUserType.Text = "Admin" Then
                         .tabChart.TabPages.Remove(.pageIncomevsDate)
                         .tabChart.TabPages.Remove(.pageReceivedRepvsDate)
@@ -102,16 +102,16 @@ Public NotInheritable Class FrmSplash
                         .lblQtyRRepNo.Visible = True
                         .lblQtyRRetNo.Visible = True
                         .lblTodayIncomeNo.Visible = True
-                        .txtActivity.Width = .tabChart.Width + .tabChart.Left - .txtActivity.Left - 2
-                        .txtActivity.Left = .lblTodayIncomeNo.Left + .lblTodayIncomeNo.Width + 5
+                        .GrdActivity.Width = .tabChart.Width + .tabChart.Left - .GrdActivity.Left - 2
+                        .GrdActivity.Left = .lblTodayIncomeNo.Left + .lblTodayIncomeNo.Width + 5
                     Else
                         .cmdSalesRepair.Enabled = False
                         .tabChart.TabPages.Remove(.pageIncomevsDate)
                         .tabChart.TabPages.Remove(.pageReceivedRepvsDate)
                         .tabChart.TabPages.Remove(.pageCashier)
                         .tabChart.TabPages.Add(.pageCashier)
-                        .txtActivity.Width = .tabChart.Width
-                        .txtActivity.Left = .tabChart.Left
+                        .GrdActivity.Width = .tabChart.Width
+                        .GrdActivity.Left = .tabChart.Left
                         .lblQtyRRepDetails.Visible = False
                         .lblTodayIncomeDetails.Visible = False
                         .lblQtyRRepNo.Visible = False
@@ -122,8 +122,6 @@ Public NotInheritable Class FrmSplash
             Case 70
                 With MdifrmMain
                     .Hide()
-                    MdifrmMain.txtActivity.Text = ""
-                    MdifrmMain.txtActivity.AppendText(File.ReadAllText(Application.StartupPath & "\System Files\Activity\Activity.ls"))
                     LoadingBar.Value += 5
                     txtLoad.Text = "Getting Message to the Message Panel in Main Menu..."
                     CMD = New OleDb.OleDbCommand("Select COUNT(SNo) as SNoCount from [Stock] Where SAvailableStocks < SMinStocks", CNN)
@@ -141,8 +139,8 @@ Public NotInheritable Class FrmSplash
                         .lblUEmail.Text = "Email: " + DR("Email").ToString
                         .lblULastLogin.Text = "Last Login: " + DR("LastLogin").ToString
                         .lblULoginCount.Text = "Login Count: " + DR("LoginCount").ToString
-                        If File.Exists(Application.StartupPath + "\System Files\Images\U-" & DR("UNo").ToString & ".ls") Then
-                            .picUImage.Image = Image.FromFile(Application.StartupPath + "\System Files\Images\U-" & DR("UNo").ToString & ".ls")
+                        If File.Exists(SpecialDirectories.MyDocuments + "\Images\U-" & DR("UNo").ToString & ".ls") Then
+                            .picUImage.Image = Image.FromFile(SpecialDirectories.MyDocuments + "\Images\U-" & DR("UNo").ToString & ".ls")
                         End If
                     End If
                     .TmrReload_Tick(Nothing, Nothing)
@@ -174,9 +172,9 @@ Public NotInheritable Class FrmSplash
                         .lblQtyRRepNo.Visible = False
                         .lblQtyRRetNo.Visible = False
                         .lblTodayIncomeNo.Visible = False
-                        .txtActivity.Left = .tabChart.Left
+                        .GrdActivity.Left = .tabChart.Left
                     Else
-                        .txtActivity.Left = .lblTodayIncomeNo.Left + .lblTodayIncomeNo.Width + 5
+                        .GrdActivity.Left = .lblTodayIncomeNo.Left + .lblTodayIncomeNo.Width + 5
                     End If
                 End With
             Case 99

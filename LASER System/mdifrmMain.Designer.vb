@@ -33,6 +33,7 @@ Partial Class MdifrmMain
         Dim ChartArea2 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
         Dim Legend2 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
         Dim Series4 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.StatusStrip = New System.Windows.Forms.StatusStrip()
         Me.ToolStripStatusLabel2 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.tslblUserName = New System.Windows.Forms.ToolStripStatusLabel()
@@ -81,7 +82,6 @@ Partial Class MdifrmMain
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
         Me.flpMessage = New System.Windows.Forms.FlowLayoutPanel()
         Me.pnlLeft = New System.Windows.Forms.Panel()
-        Me.txtActivity = New System.Windows.Forms.TextBox()
         Me.lblTodayIncomeDetails = New System.Windows.Forms.Label()
         Me.lblTodayIncomeNo = New System.Windows.Forms.Label()
         Me.lblQtyRRetDetails = New System.Windows.Forms.Label()
@@ -107,6 +107,10 @@ Partial Class MdifrmMain
         Me.lblUEmail = New System.Windows.Forms.Label()
         Me.lblUName = New System.Windows.Forms.Label()
         Me.picUImage = New System.Windows.Forms.PictureBox()
+        Me.GrdActivity = New System.Windows.Forms.DataGridView()
+        Me.AID = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.ADate = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.ACommand = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.StatusStrip.SuspendLayout()
         Me.ToolStrip.SuspendLayout()
         Me.MenuStrip.SuspendLayout()
@@ -119,6 +123,7 @@ Partial Class MdifrmMain
         CType(Me.chtReceivedRepvsDate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pageCashier.SuspendLayout()
         CType(Me.picUImage, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.GrdActivity, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'StatusStrip
@@ -487,17 +492,19 @@ Partial Class MdifrmMain
         Me.flpMessage.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.flpMessage.BackColor = System.Drawing.Color.Black
         Me.flpMessage.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.flpMessage.FlowDirection = System.Windows.Forms.FlowDirection.TopDown
         Me.flpMessage.Location = New System.Drawing.Point(957, 3)
         Me.flpMessage.Name = "flpMessage"
         Me.flpMessage.Padding = New System.Windows.Forms.Padding(5, 5, 0, 0)
         Me.flpMessage.Size = New System.Drawing.Size(404, 600)
         Me.flpMessage.TabIndex = 24
+        Me.flpMessage.WrapContents = False
         '
         'pnlLeft
         '
         Me.pnlLeft.AutoScroll = True
         Me.pnlLeft.BackColor = System.Drawing.Color.Transparent
-        Me.pnlLeft.Controls.Add(Me.txtActivity)
+        Me.pnlLeft.Controls.Add(Me.GrdActivity)
         Me.pnlLeft.Controls.Add(Me.lblTodayIncomeDetails)
         Me.pnlLeft.Controls.Add(Me.lblTodayIncomeNo)
         Me.pnlLeft.Controls.Add(Me.lblQtyRRetDetails)
@@ -510,19 +517,6 @@ Partial Class MdifrmMain
         Me.pnlLeft.Name = "pnlLeft"
         Me.pnlLeft.Size = New System.Drawing.Size(948, 600)
         Me.pnlLeft.TabIndex = 23
-        '
-        'txtActivity
-        '
-        Me.txtActivity.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txtActivity.Font = New System.Drawing.Font("Calibri", 10.0!)
-        Me.txtActivity.Location = New System.Drawing.Point(426, 374)
-        Me.txtActivity.Multiline = True
-        Me.txtActivity.Name = "txtActivity"
-        Me.txtActivity.ReadOnly = True
-        Me.txtActivity.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.txtActivity.Size = New System.Drawing.Size(515, 144)
-        Me.txtActivity.TabIndex = 23
         '
         'lblTodayIncomeDetails
         '
@@ -835,6 +829,54 @@ Partial Class MdifrmMain
         Me.picUImage.TabIndex = 0
         Me.picUImage.TabStop = False
         '
+        'GrdActivity
+        '
+        Me.GrdActivity.AllowUserToAddRows = False
+        Me.GrdActivity.AllowUserToDeleteRows = False
+        Me.GrdActivity.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GrdActivity.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders
+        Me.GrdActivity.BackgroundColor = System.Drawing.Color.Black
+        Me.GrdActivity.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.GrdActivity.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.AID, Me.ADate, Me.ACommand})
+        Me.GrdActivity.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically
+        Me.GrdActivity.GridColor = System.Drawing.Color.White
+        Me.GrdActivity.Location = New System.Drawing.Point(424, 375)
+        Me.GrdActivity.Name = "GrdActivity"
+        Me.GrdActivity.ReadOnly = True
+        Me.GrdActivity.RowHeadersVisible = False
+        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.GrdActivity.RowsDefaultCellStyle = DataGridViewCellStyle1
+        Me.GrdActivity.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
+        Me.GrdActivity.Size = New System.Drawing.Size(517, 144)
+        Me.GrdActivity.TabIndex = 23
+        '
+        'AID
+        '
+        Me.AID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
+        Me.AID.DataPropertyName = "ID"
+        Me.AID.HeaderText = "ID"
+        Me.AID.Name = "AID"
+        Me.AID.ReadOnly = True
+        Me.AID.Width = 42
+        '
+        'ADate
+        '
+        Me.ADate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
+        Me.ADate.DataPropertyName = "Date"
+        Me.ADate.HeaderText = "Date"
+        Me.ADate.Name = "ADate"
+        Me.ADate.ReadOnly = True
+        Me.ADate.Width = 55
+        '
+        'ACommand
+        '
+        Me.ACommand.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.ACommand.DataPropertyName = "Command"
+        Me.ACommand.HeaderText = "Command"
+        Me.ACommand.Name = "ACommand"
+        Me.ACommand.ReadOnly = True
+        '
         'MdifrmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -860,7 +902,6 @@ Partial Class MdifrmMain
         Me.TableLayoutPanel1.ResumeLayout(False)
         Me.TableLayoutPanel1.PerformLayout()
         Me.pnlLeft.ResumeLayout(False)
-        Me.pnlLeft.PerformLayout()
         Me.tabChart.ResumeLayout(False)
         Me.pageIncomevsDate.ResumeLayout(False)
         Me.pageIncomevsDate.PerformLayout()
@@ -871,6 +912,7 @@ Partial Class MdifrmMain
         Me.pageCashier.ResumeLayout(False)
         Me.pageCashier.PerformLayout()
         CType(Me.picUImage, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.GrdActivity, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -923,7 +965,6 @@ Partial Class MdifrmMain
     Friend WithEvents TableLayoutPanel1 As TableLayoutPanel
     Friend WithEvents flpMessage As FlowLayoutPanel
     Friend WithEvents pnlLeft As Panel
-    Friend WithEvents txtActivity As TextBox
     Friend WithEvents lblTodayIncomeDetails As Label
     Friend WithEvents lblTodayIncomeNo As Label
     Friend WithEvents lblQtyRRetDetails As Label
@@ -949,4 +990,8 @@ Partial Class MdifrmMain
     Friend WithEvents lblUEmail As Label
     Friend WithEvents lblUName As Label
     Friend WithEvents picUImage As PictureBox
+    Friend WithEvents GrdActivity As DataGridView
+    Friend WithEvents AID As DataGridViewTextBoxColumn
+    Friend WithEvents ADate As DataGridViewTextBoxColumn
+    Friend WithEvents ACommand As DataGridViewTextBoxColumn
 End Class
