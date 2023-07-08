@@ -304,7 +304,7 @@ Public Class frmReceive
             Sub()
                 'Try
                 Dim frm1 As New frmReport
-                Dim RPT As New rptReceiveRepair
+                Dim RPT As New rptReceive
                 Dim DT1 As New DataTable
                 Dim DA1 As New OleDb.OleDbDataAdapter($"SELECT RDate,CuName,CuTelNo1,CuTelNo2,CuTelNo3,'' as RetNo, RepNo, PCategory, PName, PModelNo, 
 PSerialNo, Qty, Problem, '' as RepRemarks1 from (((Repair Inner Join Receive On Receive.RNo =Repair.RNo) Left Join Product On Product.PNo=Repair.PNo) 

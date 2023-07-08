@@ -1,5 +1,7 @@
 ﻿Imports System.Data.OleDb
 Imports System.IO
+Imports Microsoft.VisualBasic.FileIO
+
 Public NotInheritable Class FrmSplash
     Dim C As Integer
     Dim flName As Object
@@ -39,9 +41,9 @@ Public NotInheritable Class FrmSplash
                                                                                                                                "/System Files/Images")
                 If Not Directory.Exists(Application.StartupPath + "/System Files/Activity") Then My.Computer.FileSystem.CreateDirectory(Application.StartupPath +
                                                                                                                                "/System Files/Activity")
-                If Not File.Exists(Application.StartupPath + "/System Files/Activity/Activity.json") Then
+                If Not File.Exists(Application.StartupPath + "/System Files/Activity/Activity.ls") Then
                     Dim d As FileStream
-                    d = File.Create(Application.StartupPath & "/System Files/Activity/Activity.json")
+                    d = File.Create(Application.StartupPath & "/System Files/Activity/Activity.ls")
                     d.Close()
                 End If
             Case 20
@@ -83,7 +85,7 @@ Public NotInheritable Class FrmSplash
             Case 60
                 txtLoad.Text = "Setting Main Menu..."
                 With MdifrmMain
-                    WriteActivity(DateAndTime.Now + "- Logon Successfull by " + .tslblUserName.Text + " as a " + .tslblUserType.Text)
+                    WriteActivity("Logged In Successfull by " + .tslblUserName.Text + " as a " + .tslblUserType.Text)
                     If .tslblUserType.Text = "Admin" Then
                         .tabChart.TabPages.Remove(.pageIncomevsDate)
                         .tabChart.TabPages.Remove(.pageReceivedRepvsDate)
@@ -137,8 +139,8 @@ Public NotInheritable Class FrmSplash
                         .lblUEmail.Text = "Email: " + DR("Email").ToString
                         .lblULastLogin.Text = "Last Login: " + DR("LastLogin").ToString
                         .lblULoginCount.Text = "Login Count: " + DR("LoginCount").ToString
-                        If File.Exists(Application.StartupPath + "\System Files\Images\U-" & DR("UNo").ToString & ".ls") Then
-                            .picUImage.Image = Image.FromFile(Application.StartupPath + "\System Files\Images\U-" & DR("UNo").ToString & ".ls")
+                        If File.Exists(SpecialDirectories.MyDocuments + "\Images\U-" & DR("UNo").ToString & ".ls") Then
+                            .picUImage.Image = Image.FromFile(SpecialDirectories.MyDocuments + "\Images\U-" & DR("UNo").ToString & ".ls")
                         End If
                     End If
                     .TmrReload_Tick(Nothing, Nothing)

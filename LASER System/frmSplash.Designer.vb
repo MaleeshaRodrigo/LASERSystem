@@ -92,7 +92,7 @@ Partial Class FrmSplash
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(251, 17)
         Me.Label2.TabIndex = 4
-        Me.Label2.Text = "Copyright © 2018 - 2020 All Right Reserved"
+        Me.Label2.Text = "Copyright © 2018 - 2022 All Right Reserved"
         '
         'txtLoad
         '

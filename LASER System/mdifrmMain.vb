@@ -1,5 +1,6 @@
 ﻿Imports System.ComponentModel
 Imports System.IO
+Imports Microsoft.VisualBasic.FileIO
 
 Public Class MdifrmMain
     Private Sub mdifrmMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -13,7 +14,7 @@ Public Class MdifrmMain
         If Not String.IsNullOrEmpty(My.Settings.BGWorkerPath) And File.Exists(My.Settings.BGWorkerPath) Then
             Dim fileName As String = My.Settings.BGWorkerPath
             Dim fi As New IO.FileInfo(fileName)
-            Dim directoryName As String = fi.DirectoryName
+            Dim directoryName As String = SpecialDirectories.MyDocuments + "\LASER System\LASER Background"
             File.Create(directoryName + "\ShutDown.txt")
         End If
 

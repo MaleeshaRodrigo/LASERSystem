@@ -1,6 +1,8 @@
 ﻿Imports System.ComponentModel
 Imports System.IO
 Imports System.Data.OleDb
+Imports Microsoft.VisualBasic.FileIO
+
 Public Class frmStock
     Public Property Caller As String = ""
 
@@ -140,9 +142,9 @@ Public Class frmStock
                     Exit Sub
                 End If
                 Try
-                    If File.Exists(Application.StartupPath & "\System Files\Images\" + "S-" + row("SNo").ToString + ".ls") = True Then
+                    If File.Exists(SpecialDirectories.MyDocuments & "\LASER System\Images\" + "S-" + row("SNo").ToString + ".ls") = True Then
                         Dim imgStream As New MemoryStream()
-                        Dim img As Image = Image.FromFile(Application.StartupPath & "\System Files\Images\" + "S-" + row("SNo").ToString + ".ls")
+                        Dim img As Image = Image.FromFile(SpecialDirectories.MyDocuments & "\LASER System\Images\" + "S-" + row("SNo").ToString + ".ls")
                         img.Save(imgStream, System.Drawing.Imaging.ImageFormat.Png)
                         imgStream.Close()
                         Dim byteArray As Byte() = imgStream.ToArray()
@@ -245,8 +247,8 @@ Public Class frmStock
 
     Private Sub ClearToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles ClearToolStripMenuItem1.Click
         grdStock.Item("SImage", grdStock.CurrentRow.Index).Value = Nothing
-        If File.Exists(Application.StartupPath & "\System Files\Images\" + "S-" + grdStock.Item(0, grdStock.CurrentRow.Index).Value.ToString + ".ls") Then
-            File.Delete(Application.StartupPath & "\System Files\Images\" + "S-" + grdStock.Item(0, grdStock.CurrentRow.Index).Value.ToString + ".ls")
+        If File.Exists(SpecialDirectories.MyDocuments & "\LASER System\Images\" + "S-" + grdStock.Item(0, grdStock.CurrentRow.Index).Value.ToString + ".ls") Then
+            File.Delete(SpecialDirectories.MyDocuments & "\LASER System\Images\" + "S-" + grdStock.Item(0, grdStock.CurrentRow.Index).Value.ToString + ".ls")
         End If
         grdStock.CurrentRow.Height = 20
         GC.Collect()
@@ -274,7 +276,7 @@ Public Class frmStock
                 Dim byteArray As Byte() = imgStream.ToArray()
                 grdStock.Item(11, grdStock.CurrentRow.Index).Value = byteArray
                 grdStock.CurrentRow.Height = 50
-                img.Save(Application.StartupPath & "\System Files\Images\" + "S-" + grdStock.Item(0, grdStock.CurrentRow.Index).Value.ToString + ".ls", System.Drawing.Imaging.ImageFormat.Jpeg)
+                img.Save(SpecialDirectories.MyDocuments & "\LASER System\Images\" + "S-" + grdStock.Item(0, grdStock.CurrentRow.Index).Value.ToString + ".ls", System.Drawing.Imaging.ImageFormat.Jpeg)
                 'Catch fileException As Exception
                 '    Throw fileException
                 'End Try
@@ -370,7 +372,7 @@ Public Class frmStock
     End Sub
 
     Private Sub ViewToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles ViewToolStripMenuItem1.Click
-        If File.Exists(Application.StartupPath & "\System Files\Images\" + "S-" + grdStock.Item(0, grdStock.CurrentRow.Index).Value.ToString + ".ls") Then
+        If File.Exists(SpecialDirectories.MyDocuments & "\LASER System\Images\" + "S-" + grdStock.Item(0, grdStock.CurrentRow.Index).Value.ToString + ".ls") Then
             Dim frmImage As New Form
             frmImage.Name = "frmImage"
             frmImage.Text = "LASER System - Image Viewer [S-" & grdStock.Item(0, grdStock.CurrentRow.Index).Value.ToString & "]"
@@ -385,7 +387,7 @@ Public Class frmStock
             img.Left = 0
             img.Dock = DockStyle.Fill
             img.SizeMode = PictureBoxSizeMode.Zoom
-            img.Image = Image.FromFile(Application.StartupPath & "\System Files\Images\" + "S-" + grdStock.Item(0, grdStock.CurrentRow.Index).Value.ToString + ".ls")
+            img.Image = Image.FromFile(SpecialDirectories.MyDocuments & "\LASER System\Images\" + "S-" + grdStock.Item(0, grdStock.CurrentRow.Index).Value.ToString + ".ls")
             If frmImage.Visible = False Then
                 frmImage.Show(Me)
                 frmImage.Controls.Add(img)

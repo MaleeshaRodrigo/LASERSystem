@@ -1,18 +1,12 @@
 ﻿Imports System.Data.OleDb
-Imports Microsoft.Office.Interop
-Imports ZXing
-Imports System.Drawing
 Imports System.IO
-Imports System.IO.Ports
-Imports System.Diagnostics
-Imports System.Globalization
-Imports System.Windows.Forms
-Imports System.ComponentModel
-Imports System.Threading
+Imports Microsoft.VisualBasic.FileIO
 
 Public Class frmRepair
-    Private dtpDate As New DateTimePicker
-    Private DRREPNO, DRRETNO As OleDb.OleDbDataReader
+    Private ReadOnly DtpDate As New DateTimePicker
+    Private DRREPNO As OleDbDataReader
+    Private ReadOnly DRRETNO As OleDbDataReader
+
     Public Sub New()
 
         ' This call is required by the designer.
@@ -35,8 +29,8 @@ Public Class frmRepair
                 columns.Visible = True
             Next
             For Each ctrl As Control In {txtRNo, txtPNo, txtCuNo, txtDNo}
-                    ctrl.Visible = True
-                Next
+                ctrl.Visible = True
+            Next
         End If
 
     End Sub
@@ -86,7 +80,7 @@ Public Class frmRepair
     Private Sub FrmRepair_Leave(sender As Object, e As EventArgs) Handles Me.Leave
         Me.Tag = ""
         DRREPNO.Close()
-        dtpDate.Dispose()
+        DtpDate.Dispose()
         Me.Close()
     End Sub
 
@@ -180,8 +174,8 @@ Public Class frmRepair
                     grdRepRemarks1.Rows.Item(grdRepRemarks1.Rows.Count - 1).ReadOnly = True
                 End If
             End While
-            If File.Exists(Application.StartupPath & "\System Files\Images\" + "REP-" + cmbRepNo.Text + ".ls") Then
-                imgRepair.Image = Image.FromFile(Application.StartupPath & "\System Files\Images\" + "REP-" + cmbRepNo.Text + ".ls")
+            If File.Exists(SpecialDirectories.MyDocuments & "\LASER System\Images\" + "REP-" + cmbRepNo.Text + ".ls") Then
+                imgRepair.Image = Image.FromFile(SpecialDirectories.MyDocuments & "\LASER System\Images\" + "REP-" + cmbRepNo.Text + ".ls")
             Else
                 imgRepair.Image = Nothing
             End If
@@ -208,7 +202,6 @@ Public Class frmRepair
             boxTechnician.Visible = True
             lblRepRemarks2.Visible = True
             grdRepRemarks2.Visible = True
-            txtTNo.Text = DRREPNO("TNo").ToString
             cmbTName.Text = DRREPNO("TName").ToString 'fill fields Technician details
             CMDREPNO1 = New OleDbCommand("Select * from RepairRemarks2 Where RepNo=" & cmbRepNo.Text, CNN)
             DRREPNO1 = CMDREPNO1.ExecuteReader()
@@ -352,8 +345,8 @@ Public Class frmRepair
                 grdRepRemarks1.Rows.Add(DRRETNo1("Rem1No").ToString, DRRETNo1("Rem1Date").ToString, DRRETNo1("Remarks").ToString,
                                         GetStrfromRelatedfield("Select UserName from [User] Where UNo=" & DRRETNo1("UNo").ToString))
             End While
-            If File.Exists(Application.StartupPath & "\System Files\Images\" + "RET-" + cmbRetNo.Text + ".ls") Then
-                imgRepair.Image = Image.FromFile(Application.StartupPath & "\System Files\Images\" + "RET-" + cmbRetNo.Text + ".ls")
+            If File.Exists(SpecialDirectories.MyDocuments & "\LASER System\Images\" + "RET-" + cmbRetNo.Text + ".ls") Then
+                imgRepair.Image = Image.FromFile(SpecialDirectories.MyDocuments & "\LASER System\Images\" + "RET-" + cmbRetNo.Text + ".ls")
             Else
                 imgRepair.Image = Nothing
             End If
@@ -379,7 +372,6 @@ Public Class frmRepair
             boxTechnician.Visible = True
             lblRepRemarks2.Visible = True
             grdRepRemarks2.Visible = True       'fill fields Technician details
-            txtTNo.Text = DRREPNO("TNo").ToString
             cmbTName.Text = DRREPNO("TName").ToString
             CMDRETNO1 = New OleDbCommand("Select * from RepairRemarks2 Where RetNo=" & cmbRetNo.Text, CNN)
             DRRETNo1 = CMDRETNO1.ExecuteReader()
@@ -475,7 +467,6 @@ Public Class frmRepair
         Else
             If cmbRetStatus.Text = "Received" Then Exit Sub
         End If
-        txtTNo.Text = GetStrfromRelatedfield("Select TNo from Technician Where TName='" & cmbTName.Text & "'")
     End Sub
 
     Private Sub CmdClose_Click(sender As Object, e As EventArgs) Handles cmdClose.Click
@@ -483,32 +474,32 @@ Public Class frmRepair
     End Sub
 
     Private Sub CmdSave_Click(sender As Object, e As EventArgs) Handles cmdSave.Click
-        'Try
-        If CheckEmptyfield(txtCuNo, "මෙම Repair එක සඳහා ඔබ Customer කෙනෙකු තෝරා නොමැත. කරුණාකර එය ඇතුලත් කර නැවත උත්සහ කරන්න!") = False Then
-            Exit Sub
-        ElseIf CheckEmptyfield(txtPNo, "මෙම Repair එක සඳහා ඔබ Product එකක් තෝරා නොමැත. කරුණාකර එය ඇතුලත් කර නැවත උත්සහ කරන්න!!") = False Then
-            Exit Sub
-        End If
+        Try
+            If CheckEmptyfield(txtCuNo, "මෙම Repair එක සඳහා ඔබ Customer කෙනෙකු තෝරා නොමැත. කරුණාකර එය ඇතුලත් කර නැවත උත්සහ කරන්න!") = False Then
+                Exit Sub
+            ElseIf CheckEmptyfield(txtPNo, "මෙම Repair එක සඳහා ඔබ Product එකක් තෝරා නොමැත. කරුණාකර එය ඇතුලත් කර නැවත උත්සහ කරන්න!!") = False Then
+                Exit Sub
+            End If
             Select Case tabRepair.SelectedTab.TabIndex
                 Case 0              'check empty fields which have filled to user
                     If cmbRepStatus.Text = "Hand Over to Technician" Or cmbRepStatus.Text = "Repairing" Or cmbRepStatus.Text = "Repaired Not Delivered" Or
                         cmbRepStatus.Text = "Repaired Delivered" Then
                         If CheckEmptyfield(cmbTName, "Technician කෙනෙකු තොරා නොමැත. කරුණාකර අදාළ Technician ව තෝරා දෙන්න.") = False Then
-                        Exit Sub
-                    End If
+                            Exit Sub
+                        End If
                     End If
                     If cmbRepStatus.Text = "Repaired Not Delivered" Or cmbRepStatus.Text = "Repaired Delivered" Or cmbRepStatus.Text = "Returned Not Delivered" Or
                         cmbRepStatus.Text = "Returned Delivered" Then
                         If CheckEmptyfield(txtRepPrice, "Repair Price එකක් ඇතුලත් කර නොමැත කරුණාකර Repair Price එක ඇතුලත් කරන්න.") = False Then
-                        Exit Sub
-                    End If
+                            Exit Sub
+                        End If
                     End If
                     If (Not (DRREPNO("Status").ToString = "Repaired Delivered" Or DRREPNO("Status").ToString = "Returned Delivered" Or
                         DRREPNO("Status").ToString = "Canceled") And (cmbRepStatus.Text = "Repaired Delivered" Or
                         cmbRepStatus.Text = "Returned Delivered" Or cmbRepStatus.Text = "Canceled")) Then
                         MsgBox("මෙම Repair Form තුලින් මෙය සිදු කිරීමට නොහැකිය. Deliver Form එක භාවිතා කරන්න.", vbExclamation)
-                    Exit Sub
-                End If
+                        Exit Sub
+                    End If
                     If DRREPNO("Status").ToString <> cmbRepStatus.Text Then
                         CMDUPDATE("update Repair set status ='" & cmbRepStatus.Text & "' where repno=" & cmbRepNo.Text & ";")
                         CMDUPDATE("Insert into RepairActivity(RepANo,RepNo,RepADate,Activity,UNo)" &
@@ -557,10 +548,11 @@ Public Class frmRepair
                     End If
                     If cmbRepStatus.Text = "Received" Or cmbRepStatus.Text = "Canceled" Then
                         MsgBox("Update successful!", vbInformation + vbOKOnly)
-                    Exit Sub
-                End If
-                    If DRREPNO("TNo").ToString <> txtTNo.Text Then
-                        CMDUPDATE("update Repair set tno =" & txtTNo.Text & " where repno=" & cmbRepNo.Text & ";")
+                        Exit Sub
+                    End If
+                    Dim TNo As Integer = GetStrfromRelatedfield("SELECT TNo FROM Technician WHERE TName='" & cmbTName.Text & "'")
+                    If DRREPNO("TNo").ToString <> TNo Then
+                        CMDUPDATE("update Repair set tno =" & TNo & " where repno=" & cmbRepNo.Text & ";")
                         CMDUPDATE("Insert into RepairActivity(RepANo,RepNo,RepADate,Activity,UNo)" &
                                   " Values(" & AutomaticPrimaryKey("RepairActivity", "RepANo") & "," &
                                   cmbRepNo.Text & ",#" & DateAndTime.Now & "#,'Technician -> " & cmbTName.Text & "'," & MdifrmMain.Tag & ")")
@@ -568,8 +560,8 @@ Public Class frmRepair
 
                     If cmbRepStatus.Text.ToString = "Hand Over to Technician" Or cmbRepStatus.Text = "Repairing" Then
                         MsgBox("Update successful!", vbInformation + vbOKOnly)
-                    Exit Sub
-                End If
+                        Exit Sub
+                    End If
 
                     If DRREPNO("Charge").ToString <> txtRepPrice.Text Then
                         CMDUPDATE("update Repair set charge=" & txtRepPrice.Text & " where repno=" & cmbRepNo.Text & ";")
@@ -586,24 +578,24 @@ Public Class frmRepair
 
                     If Me.Tag = "" Then MsgBox("Update successful!", vbInformation + vbOKOnly)
 
-                Exit Sub
-            Case 1
+                    Exit Sub
+                Case 1
                     If cmbRetStatus.Text = "Hand Over to Technician" Or "Repairing" Or "Repaired Not Delivered" Or "Repaired Delivered" Then
                         If CheckEmptyfield(txtTNo, "Technician කෙනෙකු තොරා නොමැත. කරුණාකර අදාළ Technician ව තෝරා දෙන්න.") = False Then
-                        Exit Sub
-                    End If
+                            Exit Sub
+                        End If
                     End If
                     If cmbRetStatus.Text = "Repaired Not Delivered" Or "Repaired Delivered" Or "Returned Not Delivered" Or "Returned Delivered" Then
                         If CheckEmptyfield(txtRepPrice, "Repair Price එකක් ඇතුලත් කර නොමැත කරුණාකර Repair Price එක ඇතුලත් කරන්න.") = False Then
-                        Exit Sub
-                    End If
+                            Exit Sub
+                        End If
                     End If
                     If Not ((DRREPNO("Status").ToString = "Repaired Delivered" Or DRREPNO("Status").ToString = "Returned Delivered" Or
                         DRREPNO("Status").ToString = "Canceled") And (cmbRetStatus.Text = "Repaired Delivered" Or cmbRetStatus.Text = "Returned Delivered" Or
                         cmbRetStatus.Text = "Canceled")) Then
                         MsgBox("මෙම Repair Form තුලින් මෙය සිදු කිරීමට නොහැකිය. Deliver Form එක භාවිතා කරන්න.", vbExclamation)
-                    Exit Sub
-                End If
+                        Exit Sub
+                    End If
 
                     If DRREPNO("Status") <> cmbRetStatus.Text Then
                         CMDUPDATE("update Return set status ='" & cmbRetStatus.Text & "' where retno=" & cmbRetNo.Text & ";")
@@ -653,8 +645,8 @@ Public Class frmRepair
                     End If
                     If cmbRepStatus.Text = "Received" Or cmbRepStatus.Text = "Canceled" Then
                         MsgBox("Update successful!", vbInformation + vbOKOnly)
-                    Exit Sub
-                End If
+                        Exit Sub
+                    End If
                     If DRREPNO("TNo") <> txtTNo.Text Then
                         CMDUPDATE("update Return set tno =" & txtTNo.Text & " where retno=" & cmbRetNo.Text & ";")
                         CMDUPDATE("Insert into RepairActivity(RepANo,RetNo,RepADate,Activity,UNo)" &
@@ -664,8 +656,8 @@ Public Class frmRepair
 
                     If cmbRepStatus.Text = "Hand Over to Technician" Or cmbRepStatus.Text = "Repairing" Then
                         MsgBox("Update successful!", vbInformation + vbOKOnly)
-                    Exit Sub
-                End If
+                        Exit Sub
+                    End If
 
                     If DRREPNO("Charge") <> txtRepPrice.Text Then
                         CMDUPDATE("update Return set charge=" & txtRepPrice.Text & " where retno=" & cmbRetNo.Text & ";")
@@ -680,12 +672,12 @@ Public Class frmRepair
                                   cmbRetNo.Text & ",#" & DateAndTime.Now & "#,'Repaired Date -> " & txtRepDate.Value.ToString & "'," & MdifrmMain.Tag & ")")
                     End If
                     If Me.Tag = "" Then MsgBox("Update successful!", vbInformation + vbOKOnly)
-                Exit Sub
-        End Select
-        'Catch ex As Exception
-        '    MsgBox(ex.Message, vbCritical + vbOKOnly)
-        'Finally
-        If tabRepair.SelectedTab.TabIndex = 0 Then
+                    Exit Sub
+            End Select
+        Catch ex As Exception
+            MsgBox(ex.Message, vbCritical + vbOKOnly)
+        Finally
+            If tabRepair.SelectedTab.TabIndex = 0 Then
                 CmbRepNo_SelectedIndexChanged(sender, e)
             End If
         'End Try
@@ -1007,16 +999,16 @@ Public Class frmRepair
     Private Sub grdRepRemarks1_CellBeginEdit(sender As Object, e As DataGridViewCellCancelEventArgs) Handles grdRepRemarks1.CellBeginEdit
         If e.RowIndex < 0 Then Exit Sub
         If e.ColumnIndex = 1 Then
-            grdRepRemarks1.Controls.Add(dtpDate)
-            dtpDate.Location = grdRepRemarks1.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, False).Location
-            dtpDate.Size = New Size(grdRepRemarks1.Columns.Item(e.ColumnIndex).Width, grdRepRemarks1.Rows.Item(e.RowIndex).Height)
-            dtpDate.Format = DateTimePickerFormat.Custom
-            dtpDate.CustomFormat = "yyyy-MM-dd hh:mm:ss tt"
-            dtpDate.Visible = True
+            grdRepRemarks1.Controls.Add(DtpDate)
+            DtpDate.Location = grdRepRemarks1.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, False).Location
+            DtpDate.Size = New Size(grdRepRemarks1.Columns.Item(e.ColumnIndex).Width, grdRepRemarks1.Rows.Item(e.RowIndex).Height)
+            DtpDate.Format = DateTimePickerFormat.Custom
+            DtpDate.CustomFormat = "yyyy-MM-dd hh:mm:ss tt"
+            DtpDate.Visible = True
             If grdRepRemarks1.CurrentCell.Value Is Nothing Then
-                dtpDate.Value = DateTime.Now
+                DtpDate.Value = DateTime.Now
             Else
-                dtpDate.Value = Convert.ToDateTime(grdRepRemarks1.CurrentCell.Value)
+                DtpDate.Value = Convert.ToDateTime(grdRepRemarks1.CurrentCell.Value)
             End If
         End If
         grdRepRemarks1.Item(e.ColumnIndex, e.RowIndex).Tag = grdRepRemarks1.Item(e.ColumnIndex, e.RowIndex).Value
@@ -1025,8 +1017,8 @@ Public Class frmRepair
     Private Sub grdRepRemarks1_EditingControlShowing(sender As Object, e As DataGridViewEditingControlShowingEventArgs) Handles grdRepRemarks1.EditingControlShowing
         If grdRepRemarks1.CurrentCell.RowIndex < 0 Then Exit Sub
         If grdRepRemarks1.Focused And grdRepRemarks1.CurrentCell.ColumnIndex = 1 Then
-            dtpDate.Location = grdRepRemarks1.GetCellDisplayRectangle(grdRepRemarks1.CurrentCell.ColumnIndex, grdRepRemarks1.CurrentCell.RowIndex, True).Location
-            dtpDate.Size = New Size(grdRepRemarks1.Columns.Item(grdRepRemarks1.CurrentCell.ColumnIndex).Width, grdRepRemarks1.Rows.Item(grdRepRemarks1.CurrentCell.RowIndex).Height)
+            DtpDate.Location = grdRepRemarks1.GetCellDisplayRectangle(grdRepRemarks1.CurrentCell.ColumnIndex, grdRepRemarks1.CurrentCell.RowIndex, True).Location
+            DtpDate.Size = New Size(grdRepRemarks1.Columns.Item(grdRepRemarks1.CurrentCell.ColumnIndex).Width, grdRepRemarks1.Rows.Item(grdRepRemarks1.CurrentCell.RowIndex).Height)
         End If
     End Sub
 
@@ -1035,8 +1027,8 @@ Public Class frmRepair
 
         Dim AdminPer As New AdminPermission
         If e.ColumnIndex = 1 Then
-            grdRepRemarks1.CurrentCell.Value = dtpDate.Value.ToString
-            dtpDate.Visible = False
+            grdRepRemarks1.CurrentCell.Value = DtpDate.Value.ToString
+            DtpDate.Visible = False
             If grdRepRemarks1.Item(1, e.RowIndex).Tag IsNot Nothing AndAlso
                 Convert.ToDateTime(grdRepRemarks1.Item(1, e.RowIndex).Tag).Date <> DateTime.Today.Date Then
                 AdminPer.AdminSend = True
@@ -1124,16 +1116,16 @@ Public Class frmRepair
 #Region "grdRepRemarks2Property"
     Private Sub grdRepRemarks2_CellBeginEdit(sender As Object, e As DataGridViewCellCancelEventArgs) Handles grdRepRemarks2.CellBeginEdit
         If grdRepRemarks2.Focused And e.ColumnIndex = 1 And e.RowIndex > -1 Then
-            grdRepRemarks2.Controls.Add(dtpDate)
-            dtpDate.Location = grdRepRemarks2.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, False).Location
-            dtpDate.Size = New Size(grdRepRemarks2.Columns.Item(e.ColumnIndex).Width, grdRepRemarks2.Rows.Item(e.RowIndex).Height)
-            dtpDate.Format = DateTimePickerFormat.Custom
-            dtpDate.CustomFormat = "yyyy-MM-dd hh:mm:ss tt"
-            dtpDate.Visible = True
+            grdRepRemarks2.Controls.Add(DtpDate)
+            DtpDate.Location = grdRepRemarks2.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, False).Location
+            DtpDate.Size = New Size(grdRepRemarks2.Columns.Item(e.ColumnIndex).Width, grdRepRemarks2.Rows.Item(e.RowIndex).Height)
+            DtpDate.Format = DateTimePickerFormat.Custom
+            DtpDate.CustomFormat = "yyyy-MM-dd hh:mm:ss tt"
+            DtpDate.Visible = True
             If grdRepRemarks2.CurrentCell.Value IsNot Nothing Then
-                dtpDate.Value = Convert.ToDateTime(grdRepRemarks2.CurrentCell.Value)
+                DtpDate.Value = Convert.ToDateTime(grdRepRemarks2.CurrentCell.Value)
             Else
-                dtpDate.Value = DateTime.Now
+                DtpDate.Value = DateTime.Now
             End If
         End If
         grdRepRemarks2.Item(e.ColumnIndex, e.RowIndex).Tag = grdRepRemarks2.Item(e.ColumnIndex, e.RowIndex).Value
@@ -1142,8 +1134,8 @@ Public Class frmRepair
     Private Sub grdRepRemarks2_EditingControlShowing(sender As Object, e As DataGridViewEditingControlShowingEventArgs) Handles grdRepRemarks2.EditingControlShowing
         If grdRepRemarks2.CurrentCell.RowIndex < 0 Then Exit Sub
         If grdRepRemarks2.Focused And grdRepRemarks2.CurrentCell.ColumnIndex = 1 Then
-            dtpDate.Location = grdRepRemarks2.GetCellDisplayRectangle(grdRepRemarks2.CurrentCell.ColumnIndex, grdRepRemarks2.CurrentCell.RowIndex, True).Location
-            dtpDate.Size = New Size(grdRepRemarks2.Columns.Item(grdRepRemarks2.CurrentCell.ColumnIndex).Width, grdRepRemarks2.Rows.Item(grdRepRemarks2.CurrentCell.RowIndex).Height)
+            DtpDate.Location = grdRepRemarks2.GetCellDisplayRectangle(grdRepRemarks2.CurrentCell.ColumnIndex, grdRepRemarks2.CurrentCell.RowIndex, True).Location
+            DtpDate.Size = New Size(grdRepRemarks2.Columns.Item(grdRepRemarks2.CurrentCell.ColumnIndex).Width, grdRepRemarks2.Rows.Item(grdRepRemarks2.CurrentCell.RowIndex).Height)
         End If
     End Sub
 
@@ -1152,8 +1144,8 @@ Public Class frmRepair
 
         Dim AdminPer As New AdminPermission
         If grdRepRemarks2.Focused And e.ColumnIndex = 1 Then
-            grdRepRemarks2.CurrentCell.Value = dtpDate.Value.ToString
-            dtpDate.Visible = False
+            grdRepRemarks2.CurrentCell.Value = DtpDate.Value.ToString
+            DtpDate.Visible = False
             If grdRepRemarks2.Item(1, e.RowIndex).Tag IsNot Nothing AndAlso
                 Convert.ToDateTime(grdRepRemarks2.Item(1, e.RowIndex).Tag).Date <> DateTime.Today.Date Then
                 AdminPer.AdminSend = True
@@ -1258,8 +1250,8 @@ Public Class frmRepair
         Dim AdminPer As New AdminPermission
         Select Case e.ColumnIndex
             Case 1
-                grdTechnicianCost.CurrentCell.Value = dtpDate.Value.ToString
-                dtpDate.Visible = False
+                grdTechnicianCost.CurrentCell.Value = DtpDate.Value.ToString
+                DtpDate.Visible = False
                 If grdTechnicianCost.Item(1, e.RowIndex).Tag IsNot Nothing AndAlso
                     Convert.ToDateTime(grdTechnicianCost.Item(1, e.RowIndex).Tag).Date <> DateTime.Today.Date Then
                     AdminPer.AdminSend = True
@@ -1311,14 +1303,13 @@ Public Class frmRepair
             grdTechnicianCost.Item(e.ColumnIndex, e.RowIndex).Value <> grdTechnicianCost.Item(e.ColumnIndex, e.RowIndex).Tag Then grdTechnicianCost.Item(9, e.RowIndex).Value = MdifrmMain.tslblUserName.Text
         If grdTechnicianCost.Item(0, e.RowIndex).Value Is Nothing Then
             grdTechnicianCost.Item(0, e.RowIndex).Value = AutomaticPrimaryKey("TechnicianCost", "TCNo")
-            CMDUPDATE("Insert into TechnicianCost(TCNo,TCDate,TNo,RepNo,UNo) Values(" & grdTechnicianCost.Item(0, e.RowIndex).Value & ",#" &
-                grdTechnicianCost.Item(1, e.RowIndex).Value & "#," & txtTNo.Text & "," & cmbRepNo.Text & "," &
-                GetStrfromRelatedfield("Select UNo from [User] Where UserName='" & grdTechnicianCost.Item("UNo", e.RowIndex).Value & "'") & ")",
+            CMDUPDATE("Insert into TechnicianCost(TCNo) Values(" & grdTechnicianCost.Item(0, e.RowIndex).Value & ")",
                       AdminPer)
         End If
         If CheckExistData("Select * from TechnicianCost Where TCNo=" & grdTechnicianCost.Item(0, e.RowIndex).Value) = True Then
             CMDUPDATE("Update TechnicianCost set TCDate=#" & grdTechnicianCost.Item("TCDate", e.RowIndex).Value &
-                      "#,SNo=" & grdTechnicianCost.Item("SNo", e.RowIndex).Value &
+                      "#,TNo" = GetStrfromRelatedfield($"SELECT TNo from Technician WHERE TName='{cmbTName.Text}'") &
+                      ",SNo=" & grdTechnicianCost.Item("SNo", e.RowIndex).Value &
                       ",SCategory='" & grdTechnicianCost.Item("SCategory", e.RowIndex).Value &
                       "',SName='" & grdTechnicianCost.Item("SName", e.RowIndex).Value &
                       "',Rate=" & grdTechnicianCost.Item("Rate", e.RowIndex).Value &
@@ -1339,18 +1330,18 @@ Public Class frmRepair
         If e.RowIndex < 0 Then Exit Sub
         Select Case e.ColumnIndex
             Case 1
-                grdTechnicianCost.Controls.Add(dtpDate)
-                dtpDate.Location = grdTechnicianCost.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, False).Location
-                dtpDate.Size = New Size(grdTechnicianCost.Columns.Item(e.ColumnIndex).Width, grdTechnicianCost.Rows.Item(e.RowIndex).Height)
-                dtpDate.Format = DateTimePickerFormat.Custom
-                dtpDate.CustomFormat = "yyyy-MM-dd hh:mm:ss tt"
-                dtpDate.Visible = True
+                grdTechnicianCost.Controls.Add(DtpDate)
+                DtpDate.Location = grdTechnicianCost.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, False).Location
+                DtpDate.Size = New Size(grdTechnicianCost.Columns.Item(e.ColumnIndex).Width, grdTechnicianCost.Rows.Item(e.RowIndex).Height)
+                DtpDate.Format = DateTimePickerFormat.Custom
+                DtpDate.CustomFormat = "yyyy-MM-dd hh:mm:ss tt"
+                DtpDate.Visible = True
                 If grdTechnicianCost.CurrentCell.Value Is Nothing Then
-                    dtpDate.Value = DateAndTime.Now
+                    DtpDate.Value = DateAndTime.Now
                 Else
-                    dtpDate.Value = Convert.ToDateTime(grdTechnicianCost.CurrentCell.Value)
+                    DtpDate.Value = Convert.ToDateTime(grdTechnicianCost.CurrentCell.Value)
                 End If
-                dtpDate.Focus()
+                DtpDate.Focus()
         End Select
         grdTechnicianCost.Item(e.ColumnIndex, e.RowIndex).Tag = grdTechnicianCost.Item(e.ColumnIndex, e.RowIndex).Value
     End Sub
@@ -1359,8 +1350,8 @@ Public Class frmRepair
         If grdTechnicianCost.CurrentCell.RowIndex < 0 Then Exit Sub
         Select Case grdTechnicianCost.CurrentCell.ColumnIndex
             Case 1
-                dtpDate.Location = grdTechnicianCost.GetCellDisplayRectangle(grdTechnicianCost.CurrentCell.ColumnIndex, grdTechnicianCost.CurrentCell.RowIndex, True).Location
-                dtpDate.Size = New Size(grdTechnicianCost.Columns.Item(grdTechnicianCost.CurrentCell.ColumnIndex).Width, grdTechnicianCost.Rows.Item(grdTechnicianCost.CurrentCell.RowIndex).Height)
+                DtpDate.Location = grdTechnicianCost.GetCellDisplayRectangle(grdTechnicianCost.CurrentCell.ColumnIndex, grdTechnicianCost.CurrentCell.RowIndex, True).Location
+                DtpDate.Size = New Size(grdTechnicianCost.Columns.Item(grdTechnicianCost.CurrentCell.ColumnIndex).Width, grdTechnicianCost.Rows.Item(grdTechnicianCost.CurrentCell.RowIndex).Height)
             Case 3
                 Dim tb As TextBox = TryCast(e.Control, TextBox)
                 frmSearchDropDown.passtext(tb)

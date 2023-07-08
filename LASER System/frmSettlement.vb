@@ -1,4 +1,5 @@
 ﻿Imports CrystalDecisions.Shared
+Imports Microsoft.VisualBasic.FileIO
 Imports System.IO
 Public Class frmSettlement
 
@@ -49,10 +50,10 @@ Public Class frmSettlement
                     Exit Try
                 End If
             Next
-            If File.Exists(Path.Combine(Application.StartupPath & "\Reports", "SettlementSheet " & Today.Year.ToString & " - " &
-                                            Today.Month.ToString & " - " & Today.Day.ToString & ".pdf")) Or File.Exists(Path.Combine(Application.StartupPath &
+            If File.Exists(Path.Combine(SpecialDirectories.MyDocuments & "\Reports", "SettlementSheet " & Today.Year.ToString & " - " &
+                                            Today.Month.ToString & " - " & Today.Day.ToString & ".pdf")) Or File.Exists(Path.Combine(SpecialDirectories.MyDocuments &
                                             "\Reports", "TechnicianCost " & Today.Year.ToString & " - " & Today.Month.ToString & " - " & Today.Day.ToString &
-                                            ".pdf")) Or File.Exists(Path.Combine(Application.StartupPath & "\Reports", "TechinicianLoan " & Today.Year.ToString &
+                                            ".pdf")) Or File.Exists(Path.Combine(SpecialDirectories.MyDocuments & "\Reports", "TechinicianLoan " & Today.Year.ToString &
                                             " - " & Today.Month.ToString & " - " & Today.Day.ToString & ".pdf")) Then Exit Sub
             MdifrmMain.tsProBar.Visible = True
             MdifrmMain.tsProBar.Value = 0
@@ -164,7 +165,7 @@ Public Class frmSettlement
                 Dim CrExportOptions As ExportOptions
                 Dim CrDiskFileDestinationOptions As New DiskFileDestinationOptions()
                 Dim CrFormatTypeOptions As New PdfRtfWordFormatOptions
-                CrDiskFileDestinationOptions.DiskFileName = Path.Combine(Application.StartupPath & "\Reports", "SettlementSheet " &
+                CrDiskFileDestinationOptions.DiskFileName = Path.Combine(SpecialDirectories.MyDocuments & "\Reports", "SettlementSheet " &
                                                                              Today.Year.ToString & " - " & Today.Month.ToString & " - " &
                                                                              Today.Day.ToString & ".pdf")
                 CrExportOptions = RPT.ExportOptions
@@ -183,7 +184,7 @@ Public Class frmSettlement
                 Dim CrExportOptions1 As ExportOptions
                 Dim CrDiskFileDestinationOptions1 As New DiskFileDestinationOptions()
                 Dim CrFormatTypeOptions1 As New PdfRtfWordFormatOptions
-                CrDiskFileDestinationOptions1.DiskFileName = Path.Combine(Application.StartupPath & "\Reports", "TechnicianCost " &
+                CrDiskFileDestinationOptions1.DiskFileName = Path.Combine(SpecialDirectories.MyDocuments & "\Reports", "TechnicianCost " &
                                                                               Today.Year.ToString & " - " & Today.Month.ToString & " - " &
                                                                               Today.Day.ToString & ".pdf")
                 CrExportOptions1 = RPT1.ExportOptions
@@ -202,7 +203,7 @@ Public Class frmSettlement
                 Dim CrExportOptions2 As ExportOptions
                 Dim CrDiskFileDestinationOptions2 As New DiskFileDestinationOptions()
                 Dim CrFormatTypeOptions2 As New PdfRtfWordFormatOptions
-                CrDiskFileDestinationOptions2.DiskFileName = Path.Combine(Application.StartupPath & "\Reports", "TechnicianLoan " &
+                CrDiskFileDestinationOptions2.DiskFileName = Path.Combine(SpecialDirectories.MyDocuments & "\Reports", "TechnicianLoan " &
                                                                               Today.Year.ToString & " - " & Today.Month.ToString & " - " &
                                                                               Today.Day.ToString & ".pdf")
                 CrExportOptions2 = RPT2.ExportOptions
@@ -224,14 +225,14 @@ Public Class frmSettlement
                                 AutomaticPrimaryKey("Mail", "MailNo") & ",#" & DateAndTime.Now &
                                 "#,'" & My.Settings.AdminEmail & "','Settlement " & Today.Date.ToString & "','මෙය LASER System එකෙන් Automatically පැමිණන Email " &
                               "එකක් බැවින් ඔබට මෙය නැවැත්වීමට අවශ්‍යනම්, අපගේ Programe Developer හට දැනුම් දෙන්න.','Waiting','" &
-                    If(File.Exists(Application.StartupPath & "\Reports\SettlementSheet " & Today.Year.ToString & " - " & Today.Month.ToString & " - " &
-                                   Today.Day.ToString & ".pdf"), Application.StartupPath & "\Reports\SettlementSheet " & Today.Year.ToString & " - " &
+                    If(File.Exists(SpecialDirectories.MyDocuments & "\Reports\SettlementSheet " & Today.Year.ToString & " - " & Today.Month.ToString & " - " &
+                                   Today.Day.ToString & ".pdf"), SpecialDirectories.MyDocuments & "\Reports\SettlementSheet " & Today.Year.ToString & " - " &
                                                                     Today.Month.ToString & " - " & Today.Day.ToString & ".pdf", "") & "','" &
-                    If(File.Exists(Application.StartupPath & "\Reports\TechnicianCost " & Today.Year.ToString & " - " & Today.Month.ToString & " - " &
-                                   Today.Day.ToString & ".pdf"), Application.StartupPath & "\Reports\TechnicianCost " & Today.Year.ToString & " - " &
+                    If(File.Exists(SpecialDirectories.MyDocuments & "\Reports\TechnicianCost " & Today.Year.ToString & " - " & Today.Month.ToString & " - " &
+                                   Today.Day.ToString & ".pdf"), SpecialDirectories.MyDocuments & "\Reports\TechnicianCost " & Today.Year.ToString & " - " &
                                                                      Today.Month.ToString & " - " & Today.Day.ToString & ".pdf", "") & "','" &
-                    If(File.Exists(Application.StartupPath & "\Reports\TechnicianLoan " & Today.Year.ToString & " - " & Today.Month.ToString & " - " &
-                                   Today.Day.ToString & ".pdf"), Application.StartupPath & "\Reports\TechnicianLoan " & Today.Year.ToString & " - " &
+                    If(File.Exists(SpecialDirectories.MyDocuments & "\Reports\TechnicianLoan " & Today.Year.ToString & " - " & Today.Month.ToString & " - " &
+                                   Today.Day.ToString & ".pdf"), SpecialDirectories.MyDocuments & "\Reports\TechnicianLoan " & Today.Year.ToString & " - " &
                                                                      Today.Month.ToString & " - " & Today.Day.ToString & ".pdf", "") & "')")
             End If
             MdifrmMain.tsProBar.Value = 100

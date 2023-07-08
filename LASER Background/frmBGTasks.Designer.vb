@@ -69,6 +69,7 @@ Partial Class frmBGTasks
         Me.GroupBox1 = New MaterialSkin.Controls.MaterialCard()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
         Me.GroupBox3 = New MaterialSkin.Controls.MaterialCard()
+        Me.TxtOToken = New MaterialSkin.Controls.MaterialTextBox2()
         Me.TabPage3 = New System.Windows.Forms.TabPage()
         Me.GroupBox2 = New MaterialSkin.Controls.MaterialCard()
         Me.TabPage4 = New System.Windows.Forms.TabPage()
@@ -84,7 +85,6 @@ Partial Class frmBGTasks
         Me.cmdApply = New MaterialSkin.Controls.MaterialButton()
         Me.flpMessage = New System.Windows.Forms.FlowLayoutPanel()
         Me.bgworkerOnline = New System.ComponentModel.BackgroundWorker()
-        Me.TxtOToken = New MaterialSkin.Controls.MaterialTextBox2()
         Me.Guna2GroupBox1.SuspendLayout()
         Me.Guna2GroupBox2.SuspendLayout()
         Me.pnlMain.SuspendLayout()
@@ -1000,6 +1000,38 @@ Partial Class frmBGTasks
         Me.GroupBox3.TabIndex = 71
         Me.GroupBox3.Text = "Online Database Info"
         '
+        'TxtOToken
+        '
+        Me.TxtOToken.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TxtOToken.AnimateReadOnly = False
+        Me.TxtOToken.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
+        Me.TxtOToken.CharacterCasing = System.Windows.Forms.CharacterCasing.Normal
+        Me.TxtOToken.Cursor = System.Windows.Forms.Cursors.IBeam
+        Me.TxtOToken.Depth = 0
+        Me.TxtOToken.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.TxtOToken.HideSelection = True
+        Me.TxtOToken.Hint = "API Token"
+        Me.TxtOToken.LeadingIcon = Nothing
+        Me.TxtOToken.Location = New System.Drawing.Point(17, 122)
+        Me.TxtOToken.MaxLength = 32767
+        Me.TxtOToken.MouseState = MaterialSkin.MouseState.OUT
+        Me.TxtOToken.Name = "TxtOToken"
+        Me.TxtOToken.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
+        Me.TxtOToken.PrefixSuffixText = Nothing
+        Me.TxtOToken.ReadOnly = False
+        Me.TxtOToken.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.TxtOToken.SelectedText = ""
+        Me.TxtOToken.SelectionLength = 0
+        Me.TxtOToken.SelectionStart = 0
+        Me.TxtOToken.ShortcutsEnabled = True
+        Me.TxtOToken.Size = New System.Drawing.Size(314, 48)
+        Me.TxtOToken.TabIndex = 46
+        Me.TxtOToken.TabStop = False
+        Me.TxtOToken.TextAlign = System.Windows.Forms.HorizontalAlignment.Left
+        Me.TxtOToken.TrailingIcon = Nothing
+        Me.TxtOToken.UseSystemPasswordChar = False
+        '
         'TabPage3
         '
         Me.TabPage3.Controls.Add(Me.GroupBox2)
@@ -1212,38 +1244,6 @@ Partial Class frmBGTasks
         '
         Me.bgworkerOnline.WorkerReportsProgress = True
         Me.bgworkerOnline.WorkerSupportsCancellation = True
-        '
-        'TxtOToken
-        '
-        Me.TxtOToken.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TxtOToken.AnimateReadOnly = False
-        Me.TxtOToken.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
-        Me.TxtOToken.CharacterCasing = System.Windows.Forms.CharacterCasing.Normal
-        Me.TxtOToken.Cursor = System.Windows.Forms.Cursors.IBeam
-        Me.TxtOToken.Depth = 0
-        Me.TxtOToken.Font = New System.Drawing.Font("Segoe UI", 9.0!)
-        Me.TxtOToken.HideSelection = True
-        Me.TxtOToken.Hint = "API Token"
-        Me.TxtOToken.LeadingIcon = Nothing
-        Me.TxtOToken.Location = New System.Drawing.Point(17, 122)
-        Me.TxtOToken.MaxLength = 32767
-        Me.TxtOToken.MouseState = MaterialSkin.MouseState.OUT
-        Me.TxtOToken.Name = "TxtOToken"
-        Me.TxtOToken.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
-        Me.TxtOToken.PrefixSuffixText = Nothing
-        Me.TxtOToken.ReadOnly = False
-        Me.TxtOToken.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.TxtOToken.SelectedText = ""
-        Me.TxtOToken.SelectionLength = 0
-        Me.TxtOToken.SelectionStart = 0
-        Me.TxtOToken.ShortcutsEnabled = True
-        Me.TxtOToken.Size = New System.Drawing.Size(314, 48)
-        Me.TxtOToken.TabIndex = 46
-        Me.TxtOToken.TabStop = False
-        Me.TxtOToken.TextAlign = System.Windows.Forms.HorizontalAlignment.Left
-        Me.TxtOToken.TrailingIcon = Nothing
-        Me.TxtOToken.UseSystemPasswordChar = False
         '
         'frmBGTasks
         '

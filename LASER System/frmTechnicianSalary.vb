@@ -151,7 +151,7 @@ Public Class frmTechnicianSalary
         ElseIf CheckExistData(txtTSNo, "Select TSNo from TechnicianSalary where TSNo =" & txtTSNo.Text, "This operation couldn't be done because 'Technician Salary No' was exist in the database. Something was wrong. Please find why that was or call developer of this system.", True) = True Then
             txtTSNo.Focus()
             Exit Sub
-        ElseIf CheckExistData(cmbTName, "Select TName from Technician Where TName='" & cmbTName.Text & "'", "Technician Name එක සොයා ගැනීමට නොහැකි විය. කරුණාකර ඔබ ඇතුලත් කල Technician නිවැරදි දැයි පරික්ෂා කරන්න.", True) = False Then
+        ElseIf CheckExistData(cmbTName, "Select TName from Technician Where TName='" & cmbTName.Text & "'", "Technician Name එක සොයා ගැනීමට නොහැකි විය. කරුණාකර ඔබ ඇතුලත් කල Technician නිවැරදි දැයි පරික්ෂා කරන්න.", False) = False Then
             cmbTName.Focus()
             Exit Sub
         End If

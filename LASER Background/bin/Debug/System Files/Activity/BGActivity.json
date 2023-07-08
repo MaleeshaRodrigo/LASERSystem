@@ -1033,5 +1033,280 @@
     "ID": "207",
     "Date": "2022-09-24 2:36:35 PM",
     "Command": "Insert Into RepairActivity(RepANo,RepNo,RepADate,Activity,UNo)\r\n                Values(29020,11689,'2022-09-19 08:26:48 PM','Repair -> Charge = 9500',11)"
+  },
+  {
+    "ID": "208",
+    "Date": "2022-10-18 04:56:28 PM",
+    "Command": "Update AdminPermission Set Keys='{\r\n  \"DNo\": \"7106\"\r\n}' \r\nWhere APNo=11"
+  },
+  {
+    "ID": "209",
+    "Date": "2022-10-18 05:04:57 PM",
+    "Command": "Update AdminPermission Set Keys='{\r\n  \"DNo\": \"7106\"\r\n}' \r\nWhere APNo=11"
+  },
+  {
+    "ID": "210",
+    "Date": "2022-10-18 05:17:29 PM",
+    "Command": "Update AdminPermission Set Keys='{\r\n  \"DNo\": \"7107\"\r\n}' \r\nWhere APNo=11"
+  },
+  {
+    "ID": "211",
+    "Date": "2022-10-18 05:18:41 PM",
+    "Command": "Update AdminPermission Set Keys='{\r\n  \"DNo\": \"7107\"\r\n}' \r\nWhere APNo=11"
+  },
+  {
+    "ID": "212",
+    "Date": "2022-10-18 05:18:41 PM",
+    "Command": "Update APCommand Set Commands=\"Insert into Deliver(DNo,DDate,Cuno,DGrandTotal,CAmount,CReceived,CBalance,CPINvoiceNo,CPAmount,CuLNO,CuLAmount,DRemarks) Values(7107,#2022-10-14#,7754,2800,2800,0,0,0,0,0,0,'');\" Where APCNo=94"
+  },
+  {
+    "ID": "213",
+    "Date": "2022-10-18 05:18:41 PM",
+    "Command": "Insert into Deliver(DNo,DDate,Cuno,DGrandTotal,CAmount,CReceived,CBalance,CPINvoiceNo,CPAmount,CuLNO,CuLAmount,DRemarks) Values(7107,#2022-10-14#,7754,2800,2800,0,0,0,0,0,0,'');"
+  },
+  {
+    "ID": "214",
+    "Date": "2022-10-18 05:18:41 PM",
+    "Command": "Update Repair set RepDate = #2022-10-14#,Charge=2800 where RepNo= 12211"
+  },
+  {
+    "ID": "215",
+    "Date": "2022-10-18 05:18:41 PM",
+    "Command": "Update APCommand Set Commands=\"Update Repair set PaidPrice = 2800,TNo = 3,Status='Repaired Delivered',DNo = 7107 where RepNo= 12211\" Where APCNo=96"
+  },
+  {
+    "ID": "216",
+    "Date": "2022-10-18 05:18:41 PM",
+    "Command": "Update Repair set PaidPrice = 2800,TNo = 3,Status='Repaired Delivered',DNo = 7107 where RepNo= 12211"
+  },
+  {
+    "ID": "217",
+    "Date": "2022-10-18 05:18:42 PM",
+    "Command": "Update AdminPermission set Status='Completed' Where APNo=11"
+  },
+  {
+    "ID": "218",
+    "Date": "2022-10-18 05:18:42 PM",
+    "Command": "Update AdminPermission Set Keys='{\r\n  \"DNo\": \"7108\"\r\n}' \r\nWhere APNo=12"
+  },
+  {
+    "ID": "219",
+    "Date": "2022-10-18 05:18:42 PM",
+    "Command": "Update APCommand Set Commands=\"Insert into Deliver(DNo,DDate,Cuno,DGrandTotal,CAmount,CReceived,CBalance,CPINvoiceNo,CPAmount,CuLNO,CuLAmount,DRemarks) Values(7108,#2022-10-15#,7761,24000,24000,0,0,0,0,0,0,'');\" Where APCNo=97"
+  },
+  {
+    "ID": "220",
+    "Date": "2022-10-18 05:18:42 PM",
+    "Command": "Insert into Deliver(DNo,DDate,Cuno,DGrandTotal,CAmount,CReceived,CBalance,CPINvoiceNo,CPAmount,CuLNO,CuLAmount,DRemarks) Values(7108,#2022-10-15#,7761,24000,24000,0,0,0,0,0,0,'');"
+  },
+  {
+    "ID": "221",
+    "Date": "2022-10-18 05:18:42 PM",
+    "Command": "Update Repair set RepDate = #2022-10-15#,Charge=2200 where RepNo= 7381"
+  },
+  {
+    "ID": "222",
+    "Date": "2022-10-18 05:18:42 PM",
+    "Command": "Update APCommand Set Commands=\"Update Repair set PaidPrice = 2200,TNo = 11,Status='Repaired Delivered',DNo = 7108 where RepNo= 7381\" Where APCNo=99"
+  },
+  {
+    "ID": "223",
+    "Date": "2022-10-18 05:18:43 PM",
+    "Command": "Update Repair set PaidPrice = 2200,TNo = 11,Status='Repaired Delivered',DNo = 7108 where RepNo= 7381"
+  },
+  {
+    "ID": "224",
+    "Date": "2022-10-18 05:18:43 PM",
+    "Command": "Update Repair set RepDate = #2022-10-15#,Charge=3800 where RepNo= 12109"
+  },
+  {
+    "ID": "225",
+    "Date": "2022-10-18 05:18:43 PM",
+    "Command": "Update APCommand Set Commands=\"Update Repair set PaidPrice = 3800,TNo = 30,Status='Repaired Delivered',DNo = 7108 where RepNo= 12109\" Where APCNo=101"
+  },
+  {
+    "ID": "226",
+    "Date": "2022-10-18 05:18:43 PM",
+    "Command": "Update Repair set PaidPrice = 3800,TNo = 30,Status='Repaired Delivered',DNo = 7108 where RepNo= 12109"
+  },
+  {
+    "ID": "227",
+    "Date": "2022-10-18 05:18:43 PM",
+    "Command": "Update Repair set RepDate = #2022-10-15#,Charge=5800 where RepNo= 12108"
+  },
+  {
+    "ID": "228",
+    "Date": "2022-10-18 05:18:44 PM",
+    "Command": "Update APCommand Set Commands=\"Update Repair set PaidPrice = 5800,TNo = 11,Status='Repaired Delivered',DNo = 7108 where RepNo= 12108\" Where APCNo=103"
+  },
+  {
+    "ID": "229",
+    "Date": "2022-10-18 05:18:44 PM",
+    "Command": "Update Repair set PaidPrice = 5800,TNo = 11,Status='Repaired Delivered',DNo = 7108 where RepNo= 12108"
+  },
+  {
+    "ID": "230",
+    "Date": "2022-10-18 05:18:44 PM",
+    "Command": "Update Repair set RepDate = #2022-10-15#,Charge=4500 where RepNo= 11818"
+  },
+  {
+    "ID": "231",
+    "Date": "2022-10-18 05:18:44 PM",
+    "Command": "Update APCommand Set Commands=\"Update Repair set PaidPrice = 4500,TNo = 5,Status='Repaired Delivered',DNo = 7108 where RepNo= 11818\" Where APCNo=105"
+  },
+  {
+    "ID": "232",
+    "Date": "2022-10-18 05:18:45 PM",
+    "Command": "Update Repair set PaidPrice = 4500,TNo = 5,Status='Repaired Delivered',DNo = 7108 where RepNo= 11818"
+  },
+  {
+    "ID": "233",
+    "Date": "2022-10-18 05:18:45 PM",
+    "Command": "Update Repair set RepDate = #2022-10-15#,Charge=5500 where RepNo= 12212"
+  },
+  {
+    "ID": "234",
+    "Date": "2022-10-18 05:18:46 PM",
+    "Command": "Update APCommand Set Commands=\"Update Repair set PaidPrice = 5500,TNo = 3,Status='Repaired Delivered',DNo = 7108 where RepNo= 12212\" Where APCNo=107"
+  },
+  {
+    "ID": "235",
+    "Date": "2022-10-18 05:18:46 PM",
+    "Command": "Update Repair set PaidPrice = 5500,TNo = 3,Status='Repaired Delivered',DNo = 7108 where RepNo= 12212"
+  },
+  {
+    "ID": "236",
+    "Date": "2022-10-18 05:18:46 PM",
+    "Command": "Update Repair set RepDate = #2022-10-15#,Charge=2200 where RepNo= 12223"
+  },
+  {
+    "ID": "237",
+    "Date": "2022-10-18 05:18:46 PM",
+    "Command": "Update APCommand Set Commands=\"Update Repair set PaidPrice = 2200,TNo = 30,Status='Repaired Delivered',DNo = 7108 where RepNo= 12223\" Where APCNo=109"
+  },
+  {
+    "ID": "238",
+    "Date": "2022-10-18 05:18:46 PM",
+    "Command": "Update Repair set PaidPrice = 2200,TNo = 30,Status='Repaired Delivered',DNo = 7108 where RepNo= 12223"
+  },
+  {
+    "ID": "239",
+    "Date": "2022-10-18 05:18:47 PM",
+    "Command": "Update AdminPermission set Status='Completed' Where APNo=12"
+  },
+  {
+    "ID": "240",
+    "Date": "2022-10-18 05:18:47 PM",
+    "Command": "Update AdminPermission Set Keys='{\r\n  \"DNo\": \"7109\"\r\n}' \r\nWhere APNo=14"
+  },
+  {
+    "ID": "241",
+    "Date": "2022-10-18 05:18:47 PM",
+    "Command": "Update APCommand Set Commands=\"Insert into Deliver(DNo,DDate,Cuno,DGrandTotal,CAmount,CReceived,CBalance,CPINvoiceNo,CPAmount,CuLNO,CuLAmount,DRemarks) Values(7109,#2022-10-17#,7659,22300,22300,0,0,0,0,0,0,'');\" Where APCNo=119"
+  },
+  {
+    "ID": "242",
+    "Date": "2022-10-18 05:18:47 PM",
+    "Command": "Insert into Deliver(DNo,DDate,Cuno,DGrandTotal,CAmount,CReceived,CBalance,CPINvoiceNo,CPAmount,CuLNO,CuLAmount,DRemarks) Values(7109,#2022-10-17#,7659,22300,22300,0,0,0,0,0,0,'');"
+  },
+  {
+    "ID": "243",
+    "Date": "2022-10-18 05:18:47 PM",
+    "Command": "Update Repair set RepDate = #2022-10-17#,Charge=7700 where RepNo= 12251"
+  },
+  {
+    "ID": "244",
+    "Date": "2022-10-18 05:18:47 PM",
+    "Command": "Update APCommand Set Commands=\"Update Repair set PaidPrice = 7700,TNo = 4,Status='Repaired Delivered',DNo = 7109 where RepNo= 12251\" Where APCNo=121"
+  },
+  {
+    "ID": "245",
+    "Date": "2022-10-18 05:18:48 PM",
+    "Command": "Update Repair set PaidPrice = 7700,TNo = 4,Status='Repaired Delivered',DNo = 7109 where RepNo= 12251"
+  },
+  {
+    "ID": "246",
+    "Date": "2022-10-18 05:18:48 PM",
+    "Command": "Update Repair set RepDate = #2022-10-17#,Charge=5800 where RepNo= 12256"
+  },
+  {
+    "ID": "247",
+    "Date": "2022-10-18 05:18:48 PM",
+    "Command": "Update APCommand Set Commands=\"Update Repair set PaidPrice = 5800,TNo = 11,Status='Repaired Delivered',DNo = 7109 where RepNo= 12256\" Where APCNo=123"
+  },
+  {
+    "ID": "248",
+    "Date": "2022-10-18 05:18:48 PM",
+    "Command": "Update Repair set PaidPrice = 5800,TNo = 11,Status='Repaired Delivered',DNo = 7109 where RepNo= 12256"
+  },
+  {
+    "ID": "249",
+    "Date": "2022-10-18 05:18:48 PM",
+    "Command": "Update Repair set RepDate = #2022-10-17#,Charge=4000 where RepNo= 12198"
+  },
+  {
+    "ID": "250",
+    "Date": "2022-10-18 05:18:50 PM",
+    "Command": "Update APCommand Set Commands=\"Update Repair set PaidPrice = 4000,TNo = 5,Status='Repaired Delivered',DNo = 7109 where RepNo= 12198\" Where APCNo=125"
+  },
+  {
+    "ID": "251",
+    "Date": "2022-10-18 05:18:50 PM",
+    "Command": "Update Repair set PaidPrice = 4000,TNo = 5,Status='Repaired Delivered',DNo = 7109 where RepNo= 12198"
+  },
+  {
+    "ID": "252",
+    "Date": "2022-10-18 05:18:50 PM",
+    "Command": "Update Repair set RepDate = #2022-10-17#,Charge=4800 where RepNo= 12000"
+  },
+  {
+    "ID": "253",
+    "Date": "2022-10-18 05:18:50 PM",
+    "Command": "Update APCommand Set Commands=\"Update Repair set PaidPrice = 4800,TNo = 5,Status='Repaired Delivered',DNo = 7109 where RepNo= 12000\" Where APCNo=127"
+  },
+  {
+    "ID": "254",
+    "Date": "2022-10-18 05:18:50 PM",
+    "Command": "Update Repair set PaidPrice = 4800,TNo = 5,Status='Repaired Delivered',DNo = 7109 where RepNo= 12000"
+  },
+  {
+    "ID": "255",
+    "Date": "2022-10-18 05:18:51 PM",
+    "Command": "Update AdminPermission set Status='Completed' Where APNo=14"
+  },
+  {
+    "ID": "256",
+    "Date": "2022-10-18 05:18:51 PM",
+    "Command": "Update AdminPermission Set Keys='{\r\n  \"DNo\": \"7110\"\r\n}' \r\nWhere APNo=15"
+  },
+  {
+    "ID": "257",
+    "Date": "2022-10-18 05:18:51 PM",
+    "Command": "Update APCommand Set Commands=\"Insert into Deliver(DNo,DDate,Cuno,DGrandTotal,CAmount,CReceived,CBalance,CPINvoiceNo,CPAmount,CuLNO,CuLAmount,DRemarks) Values(7110,#2022-10-17#,5008,0,0,0,0,0,0,0,0,'');\" Where APCNo=128"
+  },
+  {
+    "ID": "258",
+    "Date": "2022-10-18 05:18:51 PM",
+    "Command": "Insert into Deliver(DNo,DDate,Cuno,DGrandTotal,CAmount,CReceived,CBalance,CPINvoiceNo,CPAmount,CuLNO,CuLAmount,DRemarks) Values(7110,#2022-10-17#,5008,0,0,0,0,0,0,0,0,'');"
+  },
+  {
+    "ID": "259",
+    "Date": "2022-10-18 05:18:53 PM",
+    "Command": "Update Repair set RepDate = #2022-10-17#,Charge=0 where RepNo= 12231"
+  },
+  {
+    "ID": "260",
+    "Date": "2022-10-18 05:18:53 PM",
+    "Command": "Update APCommand Set Commands=\"Update Repair set PaidPrice = 0,TNo = 3,Status='Returned Delivered',DNo = 7110 where RepNo= 12231\" Where APCNo=130"
+  },
+  {
+    "ID": "261",
+    "Date": "2022-10-18 05:18:53 PM",
+    "Command": "Update Repair set PaidPrice = 0,TNo = 3,Status='Returned Delivered',DNo = 7110 where RepNo= 12231"
+  },
+  {
+    "ID": "262",
+    "Date": "2022-10-18 05:18:53 PM",
+    "Command": "Update AdminPermission set Status='Completed' Where APNo=15"
   }
 ]

@@ -1,4 +1,5 @@
 ﻿Imports System.Data.OleDb
+Imports Microsoft.VisualBasic.FileIO
 
 Public Class frmLogin
     Dim frmMoveX, frmMoveY As Integer
@@ -10,7 +11,7 @@ Public Class frmLogin
 
     Private Sub FrmLogin_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         System.Diagnostics.Process.GetCurrentProcess().PriorityClass = System.Diagnostics.ProcessPriorityClass.High
-        If My.Settings.DatabaseCNN = "" Then My.Settings.DatabaseCNN = Application.StartupPath + "\Database.accdb"
+        If My.Settings.DatabaseCNN = "" Then My.Settings.DatabaseCNN = SpecialDirectories.MyDocuments + "\Database.accdb"
         GetCNN()
         Me.AcceptButton = cmdLogin
         cmbUserName_DropDown(sender, e)

@@ -58,7 +58,6 @@ Partial Class frmRepair
         Me.txtPProblem = New System.Windows.Forms.TextBox()
         Me.lblPProblem = New System.Windows.Forms.Label()
         Me.boxTechnician = New System.Windows.Forms.GroupBox()
-        Me.txtTNo = New System.Windows.Forms.TextBox()
         Me.cmdTView = New System.Windows.Forms.Button()
         Me.cmbTName = New System.Windows.Forms.ComboBox()
         Me.Label19 = New System.Windows.Forms.Label()
@@ -498,7 +497,6 @@ Partial Class frmRepair
         '
         Me.boxTechnician.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.boxTechnician.Controls.Add(Me.txtTNo)
         Me.boxTechnician.Controls.Add(Me.cmdTView)
         Me.boxTechnician.Controls.Add(Me.cmbTName)
         Me.boxTechnician.Controls.Add(Me.Label19)
@@ -509,14 +507,6 @@ Partial Class frmRepair
         Me.boxTechnician.TabIndex = 32
         Me.boxTechnician.TabStop = False
         Me.boxTechnician.Text = "Technician Info"
-        '
-        'txtTNo
-        '
-        Me.txtTNo.Enabled = False
-        Me.txtTNo.Location = New System.Drawing.Point(315, 20)
-        Me.txtTNo.Name = "txtTNo"
-        Me.txtTNo.Size = New System.Drawing.Size(33, 22)
-        Me.txtTNo.TabIndex = 5
         '
         'cmdTView
         '
@@ -809,7 +799,7 @@ Partial Class frmRepair
         Me.boxDeliver.Controls.Add(Me.Label31)
         Me.boxDeliver.Location = New System.Drawing.Point(338, 575)
         Me.boxDeliver.Name = "boxDeliver"
-        Me.boxDeliver.Size = New System.Drawing.Size(328, 104)
+        Me.boxDeliver.Size = New System.Drawing.Size(328, 81)
         Me.boxDeliver.TabIndex = 59
         Me.boxDeliver.TabStop = False
         Me.boxDeliver.Text = "Delivered Info"
@@ -818,7 +808,7 @@ Partial Class frmRepair
         '
         Me.Label33.BackColor = System.Drawing.SystemColors.AppWorkspace
         Me.Label33.Font = New System.Drawing.Font("Calibri", 9.0!)
-        Me.Label33.Location = New System.Drawing.Point(79, 74)
+        Me.Label33.Location = New System.Drawing.Point(79, 49)
         Me.Label33.Name = "Label33"
         Me.Label33.Size = New System.Drawing.Size(24, 22)
         Me.Label33.TabIndex = 78
@@ -828,7 +818,7 @@ Partial Class frmRepair
         'txtDPaidPrice
         '
         Me.txtDPaidPrice.Enabled = False
-        Me.txtDPaidPrice.Location = New System.Drawing.Point(104, 74)
+        Me.txtDPaidPrice.Location = New System.Drawing.Point(104, 49)
         Me.txtDPaidPrice.Name = "txtDPaidPrice"
         Me.txtDPaidPrice.Size = New System.Drawing.Size(89, 22)
         Me.txtDPaidPrice.TabIndex = 31
@@ -836,7 +826,7 @@ Partial Class frmRepair
         'Label21
         '
         Me.Label21.AutoSize = True
-        Me.Label21.Location = New System.Drawing.Point(7, 77)
+        Me.Label21.Location = New System.Drawing.Point(7, 52)
         Me.Label21.Name = "Label21"
         Me.Label21.Size = New System.Drawing.Size(63, 14)
         Me.Label21.TabIndex = 74
@@ -855,7 +845,7 @@ Partial Class frmRepair
         'txtDNo
         '
         Me.txtDNo.Enabled = False
-        Me.txtDNo.Location = New System.Drawing.Point(269, 74)
+        Me.txtDNo.Location = New System.Drawing.Point(269, 49)
         Me.txtDNo.Name = "txtDNo"
         Me.txtDNo.Size = New System.Drawing.Size(53, 22)
         Me.txtDNo.TabIndex = 7
@@ -1040,7 +1030,7 @@ Partial Class frmRepair
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.grpAdvancePay.Controls.Add(Me.grdAdvance)
         Me.grpAdvancePay.Cursor = System.Windows.Forms.Cursors.Default
-        Me.grpAdvancePay.Location = New System.Drawing.Point(6, 685)
+        Me.grpAdvancePay.Location = New System.Drawing.Point(6, 662)
         Me.grpAdvancePay.Name = "grpAdvancePay"
         Me.grpAdvancePay.Size = New System.Drawing.Size(661, 99)
         Me.grpAdvancePay.TabIndex = 83
@@ -1098,7 +1088,7 @@ Partial Class frmRepair
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.grpActivity.Controls.Add(Me.grdActivity)
         Me.grpActivity.Cursor = System.Windows.Forms.Cursors.Default
-        Me.grpActivity.Location = New System.Drawing.Point(7, 939)
+        Me.grpActivity.Location = New System.Drawing.Point(6, 919)
         Me.grpActivity.Name = "grpActivity"
         Me.grpActivity.Size = New System.Drawing.Size(660, 157)
         Me.grpActivity.TabIndex = 82
@@ -1163,7 +1153,7 @@ Partial Class frmRepair
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.grpRepTask.Controls.Add(Me.grdRepTask)
         Me.grpRepTask.Cursor = System.Windows.Forms.Cursors.Default
-        Me.grpRepTask.Location = New System.Drawing.Point(7, 790)
+        Me.grpRepTask.Location = New System.Drawing.Point(6, 767)
         Me.grpRepTask.Name = "grpRepTask"
         Me.grpRepTask.Size = New System.Drawing.Size(660, 146)
         Me.grpRepTask.TabIndex = 81
@@ -1582,7 +1572,6 @@ Partial Class frmRepair
     Friend WithEvents AdvancePayDate As DataGridViewTextBoxColumn
     Friend WithEvents AdvancePayPrice As DataGridViewTextBoxColumn
     Friend WithEvents AdvancePayRemarks As DataGridViewTextBoxColumn
-    Friend WithEvents txtTNo As TextBox
     Friend WithEvents TCNo As DataGridViewTextBoxColumn
     Friend WithEvents TCDate As DataGridViewTextBoxColumn
     Friend WithEvents Sno As DataGridViewTextBoxColumn
