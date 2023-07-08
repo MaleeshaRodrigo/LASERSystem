@@ -171,37 +171,41 @@ Public Class frmSale
         Cursor = Cursors.WaitCursor
         Dim threadSaleInvoice As New Thread(
             Sub()
-                Dim rpt As New rptSale 'The report you created.
-                Dim DT As New DataTable
-                Dim DA As New OleDb.OleDbDataAdapter($"SELECT Sale.SaNo,Sale.SaDate,Sale.CuNo,Customer.CuName,Customer.CuTelNo1,Customer.CuTelNo2,Customer.CuTelNo3,
+                Try
+                    Dim rpt As New rptSale 'The report you created.
+                    Dim DT As New DataTable
+                    Dim DA As New OleDb.OleDbDataAdapter($"SELECT Sale.SaNo,Sale.SaDate,Sale.CuNo,Customer.CuName,Customer.CuTelNo1,Customer.CuTelNo2,Customer.CuTelNo3,
                                              SCategory, SName, StockSale.SaType,StockSale.SaUnits, StockSale.SaRate, StockSale.SaTotal,Sale.SaSubTotal,
                                              Sale.SaLess,Sale.SaDue,Sale.CReceived,Sale.CBalance,Sale.CAmount,Sale.CPInvoiceNo,Sale.CPAmount,Sale.CuLNo,
                                              sale.CuLAmount FROM ((StockSale Inner Join SALE ON StockSale.SaNo= Sale.SaNo) 
                                              INNER JOIN Customer ON Sale.CuNo = Customer.CuNo) where StockSale.SaNo={SaNo}", CNN)
-                DA.Fill(DT)
-                rpt.SetDataSource(DT)
-                rpt.SetParameterValue("Cashier Name", UserName) 'Set Cashier Name to Parameter Value
-                frmReport.ReportViewer.ReportSource = rpt
+                    DA.Fill(DT)
+                    rpt.SetDataSource(DT)
+                    rpt.SetParameterValue("Cashier Name", UserName) 'Set Cashier Name to Parameter Value
+                    frmReport.ReportViewer.ReportSource = rpt
 
-                Dim rawKind1 As Integer = -1
-                Dim c1 As Integer
-                Dim doctoprint1 As New Printing.PrintDocument()
-                doctoprint1.PrinterSettings.PrinterName = My.Settings.BillPrinterName
-                For c1 = 0 To doctoprint1.PrinterSettings.PaperSizes.Count - 1
-                    If doctoprint1.PrinterSettings.PaperSizes(c1).PaperName = My.Settings.BillPrinterPaperName Then
-                        rawKind1 = CInt(doctoprint1.PrinterSettings.PaperSizes(c1).
+                    Dim rawKind1 As Integer = -1
+                    Dim c1 As Integer
+                    Dim doctoprint1 As New Printing.PrintDocument()
+                    doctoprint1.PrinterSettings.PrinterName = My.Settings.BillPrinterName
+                    For c1 = 0 To doctoprint1.PrinterSettings.PaperSizes.Count - 1
+                        If doctoprint1.PrinterSettings.PaperSizes(c1).PaperName = My.Settings.BillPrinterPaperName Then
+                            rawKind1 = CInt(doctoprint1.PrinterSettings.PaperSizes(c1).
                                                   GetType().GetField("kind", Reflection.BindingFlags.Instance Or
                                                   Reflection.BindingFlags.NonPublic).GetValue(doctoprint1.PrinterSettings.PaperSizes(c1)))
-                        Exit For
+                            Exit For
+                        End If
+                    Next
+                    If rawKind1 <> -1 Then
+                        rpt.PrintOptions.PaperSize = CType(rawKind1, CrystalDecisions.Shared.PaperSize)
                     End If
-                Next
-                If rawKind1 <> -1 Then
-                    rpt.PrintOptions.PaperSize = CType(rawKind1, CrystalDecisions.Shared.PaperSize)
-                End If
 
-                rpt.PrintOptions.PaperOrientation = CrystalDecisions.Shared.PaperOrientation.Portrait
-                rpt.PrintToPrinter(1, False, 1, 1)
-                frmReport.Show(Me)
+                    rpt.PrintOptions.PaperOrientation = CrystalDecisions.Shared.PaperOrientation.Portrait
+                    rpt.PrintToPrinter(1, False, 1, 1)
+                    frmReport.Show(Me)
+                Catch ex As Exception
+                    MsgBox("Sale Bill එක print කිරීමට අපොහොසත් විය​.", vbExclamation)
+                End Try
             End Sub) With {
                 .Name = "showSaleInvoiceReport",
                 .IsBackground = False
