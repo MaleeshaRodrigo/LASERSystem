@@ -167,8 +167,9 @@ Public Class frmDeliver
 
     Private Sub cmdReceipt_Click(sender As Object, e As EventArgs) Handles cmdReceipt.Click, cmdNotReceipt.Click
         If SaveDeliver() = True Then
+            Dim DNo As Integer = txtDNo.Text
             Dim threadDeliver As New Thread(Sub()
-                                                If sender Is cmdReceipt Then PrintDeliveryReceipt(txtDNo.Text, True)
+                                                If sender Is cmdReceipt Then PrintDeliveryReceipt(DNo, True)
                                                 AutomatedDeliver(txtDNo.Text)
                                             End Sub)
             threadDeliver.Name = "showDeliverReceiptReport"

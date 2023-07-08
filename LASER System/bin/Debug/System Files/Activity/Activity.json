@@ -204,6 +204,96 @@
       "ID": "41",
       "Date": "2023-07-02 10:52:02 AM",
       "Command": "Insert into RepairRemarks1(Rem1No,Rem1Date,RepNo,Remarks,UNo) Values(8734,#2023-07-02 10:52:02 AM#,16747,'loku eke cup eka nh',1)"
+    },
+    {
+      "ID": "42",
+      "Date": "2023-07-08 02:14:44 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "43",
+      "Date": "2023-07-08 02:15:27 PM",
+      "Command": "Insert into Sale(SaNo,SaDate,CuNo,SaSubTotal,SaLess,SaDue,CAmount,CReceived,CBalance,CPInvoiceNo,CPAmount,CuLNo,CuLAmount,SaRemarks,UNo)Values(5198,'2023-07-08 02:15:27 PM',7115,140,0,140,140,140,0,0,0,18,0,'',1);"
+    },
+    {
+      "ID": "44",
+      "Date": "2023-07-08 02:15:27 PM",
+      "Command": "Insert into StockSale(SSaNo,SaNo,SCategory,SName,SaType,SaRate,SaUnits,SaTotal) Values(7208,5198,'Battery','AA','Sale',140,1,140);"
+    },
+    {
+      "ID": "45",
+      "Date": "2023-07-08 02:18:14 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "46",
+      "Date": "2023-07-08 02:19:07 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "47",
+      "Date": "2023-07-08 02:19:19 PM",
+      "Command": "Insert into Sale(SaNo,SaDate,CuNo,SaSubTotal,SaLess,SaDue,CAmount,CReceived,CBalance,CPInvoiceNo,CPAmount,CuLNo,CuLAmount,SaRemarks,UNo)Values(5199,'2023-07-08 02:19:19 PM',7115,140,0,140,140,140,0,0,0,18,0,'',1);"
+    },
+    {
+      "ID": "48",
+      "Date": "2023-07-08 02:19:20 PM",
+      "Command": "Insert into StockSale(SSaNo,SaNo,SCategory,SName,SaType,SaRate,SaUnits,SaTotal) Values(7209,5199,'Battery','AA','Sale',140,1,140);"
+    },
+    {
+      "ID": "49",
+      "Date": "2023-07-08 02:21:45 PM",
+      "Command": "Insert into Deliver(DNo,DDate,Cuno,DGrandTotal,CAmount,CReceived,CBalance,CPINvoiceNo,CPAmount,CuLNO,CuLAmount,DRemarks) Values(8879,#2023-07-08 02:21:45 PM#,6526,1300,1300,2000,700,0,0,0,0,'');"
+    },
+    {
+      "ID": "50",
+      "Date": "2023-07-08 02:21:45 PM",
+      "Command": "Update Repair set PaidPrice = 1300,TNo = 11,Status='Repaired Delivered',DNo = 8879 where RepNo= 10001"
+    },
+    {
+      "ID": "51",
+      "Date": "2023-07-08 02:23:37 PM",
+      "Command": "Insert into Deliver(DNo,DDate,Cuno,DGrandTotal,CAmount,CReceived,CBalance,CPINvoiceNo,CPAmount,CuLNO,CuLAmount,DRemarks) Values(8880,#2023-07-08 02:23:37 PM#,182,750,750,1000,250,0,0,0,0,'');"
+    },
+    {
+      "ID": "52",
+      "Date": "2023-07-08 02:23:37 PM",
+      "Command": "Update Repair set PaidPrice = 750,TNo = 11,Status='Repaired Delivered',DNo = 8880 where RepNo= 10040"
+    },
+    {
+      "ID": "53",
+      "Date": "2023-07-08 02:31:03 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "54",
+      "Date": "2023-07-08 02:31:24 PM",
+      "Command": "Insert into Deliver(DNo,DDate,Cuno,DGrandTotal,CAmount,CReceived,CBalance,CPINvoiceNo,CPAmount,CuLNO,CuLAmount,DRemarks) Values(8881,#2023-07-08 02:31:24 PM#,6252,1500,1500,1500,0,0,0,0,0,'');"
+    },
+    {
+      "ID": "55",
+      "Date": "2023-07-08 02:31:24 PM",
+      "Command": "Update Repair set RepDate = #2023-07-08 02:31:24 PM#,Charge=1500 where RepNo= 10004"
+    },
+    {
+      "ID": "56",
+      "Date": "2023-07-08 02:31:24 PM",
+      "Command": "Update Repair set PaidPrice = 1500,TNo = 3,Status='Repaired Delivered',DNo = 8881 where RepNo= 10004"
+    },
+    {
+      "ID": "57",
+      "Date": "2023-07-08 02:38:16 PM",
+      "Command": "Insert into Deliver(DNo,DDate,Cuno,DGrandTotal,CAmount,CReceived,CBalance,CPINvoiceNo,CPAmount,CuLNO,CuLAmount,DRemarks) Values(8882,#2023-07-08 02:38:16 PM#,4253,500,500,500,0,0,0,0,0,'');"
+    },
+    {
+      "ID": "58",
+      "Date": "2023-07-08 02:38:16 PM",
+      "Command": "Update Repair set RepDate = #2023-07-08 02:38:16 PM#,Charge=500 where RepNo= 10005"
+    },
+    {
+      "ID": "59",
+      "Date": "2023-07-08 02:38:16 PM",
+      "Command": "Update Repair set PaidPrice = 500,TNo = 15,Status='Repaired Delivered',DNo = 8882 where RepNo= 10005"
     }
   ]
 }
