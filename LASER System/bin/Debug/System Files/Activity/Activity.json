@@ -294,6 +294,11 @@
       "ID": "59",
       "Date": "2023-07-08 02:38:16 PM",
       "Command": "Update Repair set PaidPrice = 500,TNo = 15,Status='Repaired Delivered',DNo = 8882 where RepNo= 10005"
+    },
+    {
+      "ID": "60",
+      "Date": "2023-07-08 04:06:33 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
     }
   ]
 }
