@@ -51,7 +51,7 @@ Public Class Database
     ''' <param name="SQL">The SQL Query</param>
     ''' <param name="AdminPer">The Admin Permission</param>
     Public Sub Update(SQL As String, Optional AdminPer As AdminPermission = Nothing)
-        Connect()
+        If CNN.State <> ConnectionState.Open Then Connect()
         Dim CMDUPDATEDB As OleDbCommand
         If AdminPer IsNot Nothing And AdminPer.AdminSend = True Then
             If GetRowsCount($"Select APNo from AdminPermission Where APNo={AdminPer.APNo}") = 0 Then
@@ -111,33 +111,30 @@ Values({AdminPer.APNo},#{DateAndTime.Now}#,'Waiting',{MdifrmMain.Tag},
             UpdateOnlineTable(SQL)
             WriteActivity(SQL)
         End If
-        Disconnect()
     End Sub
 
     Private Sub UpdateOnlineTable(Sql As String)
         Task.Run(Sub()
-                     Connect()
+                     If CNN.State <> ConnectionState.Open Then Connect()
                      Dim Query As String = $"Insert into OnlineDB(ODate,Command) 
                 Values(#{DateAndTime.Now}#,""{Sql.Replace("""", """""")}"")"
                      Dim Command As New OleDbCommand(Query, CNN)
                      Command.ExecuteNonQuery()
                      Command.Cancel()
-                     Disconnect()
                  End Sub)
     End Sub
 
     Public Function GetDataTable(Sql As String) As DataTable
-        Connect()
+        If CNN.State <> ConnectionState.Open Then Connect()
         Dim DataTable As New DataTable
         Dim DataAdapter As New OleDbDataAdapter(Sql, CNN)
         DataAdapter.Fill(DataTable)
-        Disconnect()
         DataAdapter.Dispose()
         Return DataTable
     End Function
 
     Public Function GetSpecificColumnArray(SQL As String, ColumnName As String) As List(Of String)
-        Connect()
+        If CNN.State <> ConnectionState.Open Then Connect()
         Dim Command = New OleDbCommand(SQL, CNN)
         Dim DataReader As OleDbDataReader = Command.ExecuteReader()
         Dim Output As New List(Of String)
@@ -147,11 +144,10 @@ Values({AdminPer.APNo},#{DateAndTime.Now}#,'Waiting',{MdifrmMain.Tag},
         Return (Output)
         Command.Cancel()
         DataReader.Close()
-        Disconnect()
     End Function
 
     Public Function GetNextKey(Table As String, Column As String) As Integer
-        Connect()
+        If CNN.State <> ConnectionState.Open Then Connect()
         Dim Output As Integer
         Dim Command As New OleDbCommand($"Select Top 1 {Column} from {Table} Order by {Column} Desc", CNN)
         Dim DataReader As OleDbDataReader = Command.ExecuteReader
@@ -162,12 +158,11 @@ Values({AdminPer.APNo},#{DateAndTime.Now}#,'Waiting',{MdifrmMain.Tag},
             Output = 1
         End If
         DataReader.Close()
-        Disconnect()
         Return Output
     End Function
 
     Public Function GetRowsCount(Sql As String) As Integer
-        Connect()
+        If CNN.State <> ConnectionState.Open Then Connect()
         Dim Command As New OleDbCommand(Sql, CNN)
         Dim DataReader As OleDbDataReader = Command.ExecuteReader
         Dim DataTable As New DataTable
@@ -175,7 +170,6 @@ Values({AdminPer.APNo},#{DateAndTime.Now}#,'Waiting',{MdifrmMain.Tag},
         Dim Output As Integer = DataTable.Rows.Count
         DataReader.Close()
         DataTable.Clear()
-        Disconnect()
         Return (Output)
     End Function
 
