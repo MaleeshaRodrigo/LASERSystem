@@ -225,8 +225,8 @@
     End Sub
 
     Private Sub cmdIView_Click(sender As Object, e As EventArgs) Handles cmdIView.Click
-        frmStock.Tag = "TechnicianCost"
-        frmStock.Show()
+        FormStock.Tag = "TechnicianCost"
+        FormStock.Show()
     End Sub
 
     Private Sub cmdTView_Click(sender As Object, e As EventArgs) Handles cmdTView.Click

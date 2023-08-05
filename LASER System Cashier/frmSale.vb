@@ -615,10 +615,10 @@ Public Class frmSale
     End Sub
 
     Private Sub StockDetailsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles StockDetailsToolStripMenuItem.Click
-        Dim frm As New frmStock
+        Dim frm As New FormStock
         With frm
             .Caller = Me.Name.ToString
-            .Name = "frmStock" + NextfrmNo(frmStock).ToString
+            .Name = "frmStock" + NextfrmNo(FormStock).ToString
             .Tag = "Sale"
             .Show(Me)
             .txtSearch.Focus()

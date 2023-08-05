@@ -43,7 +43,7 @@ Public Class frmSettlement
 
         Try
             If CheckForInternetConnection() = False Then Exit Try
-            Dim Simple As New Simple3Des("RandomKey45")
+            Dim Simple As New Encoder()
             If My.Settings.SendSettlementEmail = "False" Then Exit Try
             For Each controlObject As Control In MdifrmMain.flpMessage.Controls
                 If controlObject.Tag = "SendAdminsSettlementError" Then

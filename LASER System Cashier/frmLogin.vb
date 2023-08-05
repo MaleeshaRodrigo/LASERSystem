@@ -33,7 +33,7 @@ Public Class frmLogin
             Exit Sub
         End If
         If cmbUserName.Text = "admin" And txtPassword.Text = "123" Then
-            frmStock.Show()
+            FormStock.Show()
             Me.Tag = ""
             Me.Close()
             Exit Sub

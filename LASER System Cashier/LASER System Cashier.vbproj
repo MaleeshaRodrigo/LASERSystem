@@ -141,7 +141,7 @@
     <Compile Include="ApplicationEvents.vb" />
     <Compile Include="Classes\AdminPermission.vb" />
     <Compile Include="Classes\Database.vb" />
-    <Compile Include="Classes\Encode.vb" />
+    <Compile Include="Classes\Encoder.vb" />
     <Compile Include="Classes\MessagePanel.vb" />
     <Compile Include="Stock\Components\ControlStockInfo.Designer.vb">
       <DependentUpon>ControlStockInfo.vb</DependentUpon>
@@ -251,12 +251,6 @@
       <DependentUpon>frmSplash.vb</DependentUpon>
     </Compile>
     <Compile Include="frmSplash.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmStock.Designer.vb">
-      <DependentUpon>frmStock.vb</DependentUpon>
-    </Compile>
-    <Compile Include="frmStock.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmStockSticker.Designer.vb">
@@ -457,12 +451,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmSplash.resx">
       <DependentUpon>frmSplash.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmStock.resx">
-      <DependentUpon>frmStock.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmStock.si.resx">
-      <DependentUpon>frmStock.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmStockSticker.resx">
       <DependentUpon>frmStockSticker.vb</DependentUpon>

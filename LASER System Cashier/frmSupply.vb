@@ -278,7 +278,7 @@ Public Class frmSupply
     End Sub
 
     Private Sub StockInfoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles StockInfoToolStripMenuItem.Click
-        Dim frm As New frmStock
+        Dim frm As New FormStock
         frm.Tag = "Supply"
         frm.ShowDialog()
         frm.txtSearch.Focus()

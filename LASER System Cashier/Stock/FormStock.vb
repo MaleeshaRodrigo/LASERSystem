@@ -22,7 +22,7 @@ Public Class FormStock
         DB.Connect()
     End Sub
 
-    Private Sub frmStock_Leave(sender As Object, e As EventArgs) Handles Me.Leave
+    Private Sub FormStock_Leave(sender As Object, e As EventArgs) Handles Me.Leave
         Me.Tag = ""
         Me.Close()
     End Sub
@@ -56,15 +56,15 @@ Public Class FormStock
                     .grdTechnicianCost_CellEndEdit(sender, E1)
                 End With
         End Select
-        Call frmStock_Leave(sender, e)
+        Call FormStock_Leave(sender, e)
     End Sub
 
-    Private Sub frmStock_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub FormStock_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         GetCNN()
     End Sub
 
     Private Sub CloseToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CloseToolStripMenuItem.Click
-        frmStock_Leave(sender, e)
+        FormStock_Leave(sender, e)
     End Sub
 
     Private Sub ViewStockTransactionDetailsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ViewStockTransactionDetailsToolStripMenuItem.Click
@@ -388,14 +388,14 @@ Public Class FormStock
         End If
     End Sub
 
-    Private Sub frmStock_Move(sender As Object, e As EventArgs) Handles Me.Move
+    Private Sub FormStock_Move(sender As Object, e As EventArgs) Handles Me.Move
         frmSearchDropDown.frm_Move()
     End Sub
     Private Sub grdStock_Scroll(sender As Object, e As ScrollEventArgs) Handles grdStock.Scroll
         frmSearchDropDown.frm_Move()
     End Sub
 
-    Private Sub frmStock_Resize(sender As Object, e As EventArgs) Handles Me.Resize
+    Private Sub FormStock_Resize(sender As Object, e As EventArgs) Handles Me.Resize
         frmSearchDropDown.frm_Move()
     End Sub
 

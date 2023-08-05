@@ -6,26 +6,27 @@ Imports LASER_System.My
 Imports Newtonsoft.Json
 
 Public Class Database
-    Private ReadOnly Provider As String
-    Private ReadOnly DataSource As String
-    Private ReadOnly Password As String
-    Private Connection As New OleDbConnection
+    Private ReadOnly _Provider As String
+    Private ReadOnly _DataSource As String
+    Private ReadOnly _Password As String
+    Private _Connection As New OleDbConnection
 
     Public Sub New()
-        Me.Provider = Settings.DBProvider
-        Me.DataSource = Settings.DatabaseCNN
-        Me.Password = Settings.DBPassword
-        If File.Exists(Me.DataSource) = False Then
+        Me._Provider = Settings.DBProvider
+        Me._DataSource = Settings.DatabaseCNN
+        Me._Password = Settings.DBPassword
+        If File.Exists(Me._DataSource) = False Then
             Throw New Exception("Database Path එක සොයා ගැනීමට නොහැකි විය.")
         End If
     End Sub
 
     Public Sub Connect()
-        If Connection.State = ConnectionState.Open Then Exit Sub
+        If _Connection.State = ConnectionState.Open Then Exit Sub
+        Dim Encoder As New Encoder()
         For i As Integer = 0 To 3
             Try
-                Connection = New OleDbConnection($"Provider={Provider};Data Source={DataSource};Jet OLEDB:Database Password={Password};")
-                Connection.Open()
+                _Connection = New OleDbConnection($"Provider={_Provider};Data Source={_DataSource};Jet OLEDB:Database Password={Encoder.Decode(_Password)};")
+                _Connection.Open()
                 Exit For
             Catch ex As FileNotFoundException
                 Thread.Sleep(1000)
@@ -35,8 +36,8 @@ Public Class Database
     End Sub
 
     Public Sub Disconnect()
-        If Connection.State = ConnectionState.Closed Then Exit Sub
-        Connection.Close()
+        If _Connection.State = ConnectionState.Closed Then Exit Sub
+        _Connection.Close()
     End Sub
 
     ''' <summary>
@@ -53,14 +54,14 @@ Public Class Database
 Values({AdminPer.APNo},#{DateAndTime.Now}#,'Waiting',{MdifrmMain.Tag},
 '{JsonConvert.SerializeObject(AdminPer.Keys, Formatting.Indented)}','{AdminPer.Remarks}')"
 
-                CMDUPDATEDB = New OleDbCommand(APCommand, Connection)
+                CMDUPDATEDB = New OleDbCommand(APCommand, _Connection)
                 CMDUPDATEDB.ExecuteNonQuery()
                 CMDUPDATEDB.Cancel()
 
                 UpdateOnlineTable(APCommand)
             End If
             Dim APCCommand As String = $"Insert into APCommand(APNo,Commands) Values({AdminPer.APNo},'{SQL.ToString.Replace("'", "''")}')"
-            CMDUPDATEDB = New OleDbCommand(APCCommand, Connection)
+            CMDUPDATEDB = New OleDbCommand(APCCommand, _Connection)
             CMDUPDATEDB.ExecuteNonQuery()
             CMDUPDATEDB.Cancel()
 
@@ -99,7 +100,7 @@ Values({AdminPer.APNo},#{DateAndTime.Now}#,'Waiting',{MdifrmMain.Tag},
                     i += 1
                 End While
             End If
-            CMDUPDATEDB = New OleDb.OleDbCommand(SQL, Connection)
+            CMDUPDATEDB = New OleDb.OleDbCommand(SQL, _Connection)
             CMDUPDATEDB.ExecuteNonQuery()
             CMDUPDATEDB.Cancel()
             UpdateOnlineTable(SQL)
@@ -108,7 +109,7 @@ Values({AdminPer.APNo},#{DateAndTime.Now}#,'Waiting',{MdifrmMain.Tag},
     End Sub
 
     Public Sub DirectUpdate(Query As String)
-        Dim Command As New OleDb.OleDbCommand(Query, Connection)
+        Dim Command As New OleDb.OleDbCommand(Query, _Connection)
         Command.ExecuteNonQuery()
         Command.Cancel()
     End Sub
@@ -117,7 +118,7 @@ Values({AdminPer.APNo},#{DateAndTime.Now}#,'Waiting',{MdifrmMain.Tag},
         Task.Run(Sub()
                      Dim Query As String = $"Insert into OnlineDB(ODate,Command) 
                 Values(#{DateAndTime.Now}#,""{Sql.Replace("""", """""")}"")"
-                     Dim Command As New OleDbCommand(Query, Connection)
+                     Dim Command As New OleDbCommand(Query, _Connection)
                      Command.ExecuteNonQuery()
                      Command.Cancel()
                  End Sub)
@@ -125,14 +126,14 @@ Values({AdminPer.APNo},#{DateAndTime.Now}#,'Waiting',{MdifrmMain.Tag},
 
     Public Function GetDataTable(Sql As String) As DataTable
         Dim DataTable As New DataTable
-        Dim DataAdapter As New OleDbDataAdapter(Sql, Connection)
+        Dim DataAdapter As New OleDbDataAdapter(Sql, _Connection)
         DataAdapter.Fill(DataTable)
         DataAdapter.Dispose()
         Return DataTable
     End Function
 
     Public Function GetSpecificColumnArray(Query As String, ColumnName As String) As List(Of String)
-        Dim Command = New OleDbCommand(Query, Connection)
+        Dim Command = New OleDbCommand(Query, _Connection)
         Dim DataReader As OleDbDataReader = Command.ExecuteReader()
         Dim Output As New List(Of String)
         While DataReader.Read
@@ -145,7 +146,7 @@ Values({AdminPer.APNo},#{DateAndTime.Now}#,'Waiting',{MdifrmMain.Tag},
 
     Public Function GetNextKey(Table As String, Column As String) As Integer
         Dim Output As Integer
-        Dim Command As New OleDbCommand($"Select Top 1 {Column} from {Table} Order by {Column} Desc", Connection)
+        Dim Command As New OleDbCommand($"Select Top 1 {Column} from {Table} Order by {Column} Desc", _Connection)
         Dim DataReader As OleDbDataReader = Command.ExecuteReader
         If DataReader.HasRows = True Then
             DataReader.Read()
@@ -158,7 +159,7 @@ Values({AdminPer.APNo},#{DateAndTime.Now}#,'Waiting',{MdifrmMain.Tag},
     End Function
 
     Public Function GetRowsCount(Sql As String) As Integer
-        Dim Command As New OleDbCommand(Sql, Connection)
+        Dim Command As New OleDbCommand(Sql, _Connection)
         Dim DataReader As OleDbDataReader = Command.ExecuteReader
         Dim DataTable As New DataTable
         DataTable.Load(DataReader)
@@ -169,7 +170,7 @@ Values({AdminPer.APNo},#{DateAndTime.Now}#,'Waiting',{MdifrmMain.Tag},
     End Function
 
     Public Function GetDataReader(Sql As String) As OleDbDataReader
-        CMD = New OleDb.OleDbCommand(Sql, Connection)
+        CMD = New OleDb.OleDbCommand(Sql, _Connection)
         Return (CMD.ExecuteReader())
     End Function
 
