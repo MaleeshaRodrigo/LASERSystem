@@ -1106,9 +1106,9 @@ end_for_loop:
                                 .txtCuLNo.Text = selectedrow.Cells(15).Value.ToString
                                 .txtCuLAmount.Text = selectedrow.Cells(16).Value.ToString
                                 .txtSaRemarks.Text = selectedrow.Cells(17).Value.ToString
-                                modSystem.CMD = New OleDb.OleDbCommand("Select Stock.SNo,Stock.SCategory,Stock.SName,StockSale.SaType,StockSale.SaUnits,StockSale.SaRate," &
+                                Utils.CMD = New OleDb.OleDbCommand("Select Stock.SNo,Stock.SCategory,Stock.SName,StockSale.SaType,StockSale.SaUnits,StockSale.SaRate," &
                                                                        "SaTotal from StockSale,Stock where StockSale.SNo = Stock.SNo And SaNo = " & .txtSaNo.Text & ";", CNN)
-                                DR = modSystem.CMD.ExecuteReader()
+                                DR = Utils.CMD.ExecuteReader()
                                 If DR.HasRows = True Then
                                     While DR.Read
                                         .grdSale.Rows.Add(DR("SNo").ToString(), DR("SCategory").ToString(), DR("SName").ToString(), DR("SaType").ToString(),
@@ -1137,10 +1137,10 @@ end_for_loop:
                         .cmbSupStatus.Text = selectedrow.Cells("SupStatus").Value.ToString
                         If selectedrow.Cells("SupPaidDate").Value <> "" And
                             selectedrow.Cells("SupStatus").Value = "Paid" Then .txtSupPaidDate.Value = selectedrow.Cells("SupPaidDate").Value
-                        modSystem.CMD = New OleDb.OleDbCommand("Select Stock.SNo,Stock.SCategory,Stock.SName,StockSupply.SupType,StockSupply.SupUnits," &
+                        Utils.CMD = New OleDb.OleDbCommand("Select Stock.SNo,Stock.SCategory,Stock.SName,StockSupply.SupType,StockSupply.SupUnits," &
                                                                "StockSupply.SupCostPrice from StockSupply,Stock where StockSupply.SNo = Stock.SNo And SupNo=" &
                                                                .txtSupNo.Text & ";", CNN)
-                        DR = modSystem.CMD.ExecuteReader()
+                        DR = Utils.CMD.ExecuteReader()
                         If DR.HasRows = True Then
                             While DR.Read
                                 .grdSupply.Rows.Add(DR("SNo").ToString(), DR("SCategory").ToString(), DR("SName").ToString(), DR("SupType").ToString(),

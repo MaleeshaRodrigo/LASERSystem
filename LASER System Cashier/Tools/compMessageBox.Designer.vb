@@ -22,8 +22,6 @@ Partial Class compMessageBox
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container()
-        Me.Guna2Elipse1 = New Guna.UI2.WinForms.Guna2Elipse(Me.components)
         Me.btnMessageDelete = New System.Windows.Forms.PictureBox()
         Me.lblTitle = New System.Windows.Forms.Label()
         Me.lblMessage = New System.Windows.Forms.Label()
@@ -31,11 +29,6 @@ Partial Class compMessageBox
         CType(Me.btnMessageDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TableLayoutPanel1.SuspendLayout()
         Me.SuspendLayout()
-        '
-        'Guna2Elipse1
-        '
-        Me.Guna2Elipse1.BorderRadius = 10
-        Me.Guna2Elipse1.TargetControl = Me
         '
         'btnMessageDelete
         '
@@ -56,7 +49,7 @@ Partial Class compMessageBox
         Me.lblTitle.Location = New System.Drawing.Point(5, 5)
         Me.lblTitle.Margin = New System.Windows.Forms.Padding(5)
         Me.lblTitle.Name = "lblTitle"
-        Me.lblTitle.Size = New System.Drawing.Size(54, 25)
+        Me.lblTitle.Size = New System.Drawing.Size(66, 29)
         Me.lblTitle.TabIndex = 1
         Me.lblTitle.Text = "Title"
         '
@@ -67,10 +60,10 @@ Partial Class compMessageBox
         Me.TableLayoutPanel1.SetColumnSpan(Me.lblMessage, 2)
         Me.lblMessage.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lblMessage.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblMessage.Location = New System.Drawing.Point(5, 40)
+        Me.lblMessage.Location = New System.Drawing.Point(5, 44)
         Me.lblMessage.Margin = New System.Windows.Forms.Padding(5, 5, 5, 10)
         Me.lblMessage.Name = "lblMessage"
-        Me.lblMessage.Size = New System.Drawing.Size(194, 22)
+        Me.lblMessage.Size = New System.Drawing.Size(194, 25)
         Me.lblMessage.TabIndex = 2
         Me.lblMessage.Text = "Message"
         '
@@ -80,7 +73,7 @@ Partial Class compMessageBox
         Me.TableLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.TableLayoutPanel1.ColumnCount = 2
         Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle())
-        Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
+        Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 128.0!))
         Me.TableLayoutPanel1.Controls.Add(Me.lblTitle, 0, 0)
         Me.TableLayoutPanel1.Controls.Add(Me.lblMessage, 0, 1)
         Me.TableLayoutPanel1.Controls.Add(Me.btnMessageDelete, 1, 0)
@@ -95,7 +88,7 @@ Partial Class compMessageBox
         '
         'compMessageBox
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 17.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
         Me.Controls.Add(Me.TableLayoutPanel1)
@@ -109,8 +102,6 @@ Partial Class compMessageBox
         Me.PerformLayout()
 
     End Sub
-
-    Friend WithEvents Guna2Elipse1 As Guna.UI2.WinForms.Guna2Elipse
     Friend WithEvents btnMessageDelete As PictureBox
     Friend WithEvents lblTitle As Label
     Friend WithEvents lblMessage As Label

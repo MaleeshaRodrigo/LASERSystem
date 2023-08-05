@@ -3,11 +3,12 @@ Imports System.IO
 Imports Microsoft.VisualBasic.FileIO
 
 Public NotInheritable Class FrmSplash
-    Dim C As Integer
-    Dim flName As Object
+    Public Db As New Database
+    Private C As Integer
+    Private flName As Object
 
     Private Sub FrmSplash_Load(sender As Object, e As EventArgs) Handles Me.Load
-        GetCNN()
+        Db.Connect()
         imgSplash.Top = 0
         imgSplash.Left = 0
         C = 0
@@ -33,14 +34,18 @@ Public NotInheritable Class FrmSplash
         Select Case LoadingBar.Value
             Case 1
                 txtLoad.Text = "Checking System Files..."
-                If Not Directory.Exists(Application.StartupPath + "/Reports") Then My.Computer.FileSystem.CreateDirectory(Application.StartupPath +
-                                                                                                                          "/Reports")
-                If Not Directory.Exists(Application.StartupPath + "/System Files") Then My.Computer.FileSystem.CreateDirectory(Application.StartupPath +
-                                                                                                                               "/System Files")
-                If Not Directory.Exists(Application.StartupPath + "/System Files/Images") Then My.Computer.FileSystem.CreateDirectory(Application.StartupPath +
-                                                                                                                               "/System Files/Images")
-                If Not Directory.Exists(Application.StartupPath + "/System Files/Activity") Then My.Computer.FileSystem.CreateDirectory(Application.StartupPath +
-                                                                                                                               "/System Files/Activity")
+                If Not Directory.Exists(Application.StartupPath + "/Reports") Then
+                    My.Computer.FileSystem.CreateDirectory(Application.StartupPath + "/Reports")
+                End If
+                If Not Directory.Exists(Application.StartupPath + "/System Files") Then
+                    My.Computer.FileSystem.CreateDirectory(Application.StartupPath + "/System Files")
+                End If
+                If Not Directory.Exists(Application.StartupPath + "/System Files/Images") Then
+                    My.Computer.FileSystem.CreateDirectory(Application.StartupPath + "/System Files/Images")
+                End If
+                If Not Directory.Exists(Application.StartupPath + "/System Files/Activity") Then
+                    My.Computer.FileSystem.CreateDirectory(Application.StartupPath + "/System Files/Activity")
+                End If
                 If Not File.Exists(Application.StartupPath + "/System Files/Activity/Activity.ls") Then
                     Dim d As FileStream
                     d = File.Create(Application.StartupPath & "/System Files/Activity/Activity.ls")
@@ -50,34 +55,7 @@ Public NotInheritable Class FrmSplash
                 If File.Exists(My.Settings.BGWorkerPath) Then
                     Process.Start(My.Settings.BGWorkerPath)
                 End If
-            Case 30
-                txtLoad.Text = "Resolving Database Errors..."
-                CMD = New OleDb.OleDbCommand("Select CuName,Count(CuName) from Customer Group By CuName Having Count(CuName) > 1", CNN)
-                DR = CMD.ExecuteReader()
-                While DR.Read
-                    Dim CMD1 As New OleDb.OleDbCommand("Select * from Customer Where CuName='" & DR("CuName").ToString & "'", CNN)
-                    Dim DR1 As OleDbDataReader = CMD1.ExecuteReader()
-                    While DR1.Read
-                        For i As Integer = 0 To 1000
-                            Dim CMD2 As New OleDb.OleDbCommand("Select CuName from Customer Where CuName = '" & DR("CuName").ToString & " " & i.ToString & "'", CNN)
-                            Dim DR2 As OleDbDataReader = CMD2.ExecuteReader
-                            If DR2.HasRows = False Then
-                                Dim CMD3 As New OleDb.OleDbCommand("Update Customer Set CuName='" & DR("CuName").ToString + " " + i.ToString &
-                                                                    "' Where CuNo=" & DR1("CuNo").ToString, CNN)
-                                CMD3.ExecuteNonQuery()
-                                CMD3.Cancel()
-                                Exit For
-                            End If
-                            CMD2.Cancel()
-                            DR2.Close()
-                        Next
-                    End While
-                    DR1.Close()
-                    CMD1.Cancel()
-                End While
-                CMD.Cancel()
-                DR.Close()
-            Case 50
+            Case 40
                 txtLoad.Text = "Optimizing Report Viewer for printing..."
                 frmReport.WindowState = FormWindowState.Minimized
                 frmReport.Show()
@@ -124,13 +102,15 @@ Public NotInheritable Class FrmSplash
                     .Hide()
                     LoadingBar.Value += 5
                     txtLoad.Text = "Getting Message to the Message Panel in Main Menu..."
-                    CMD = New OleDb.OleDbCommand("Select COUNT(SNo) as SNoCount from [Stock] Where SAvailableStocks < SMinStocks", CNN)
-                    DR = CMD.ExecuteReader()
-                    If DR.HasRows Then
-                        DR.Read()
-                        CreateMessagePanel("Stocks Report", DR("SNoCount").ToString & " Stocks නැවත පිරවීමට ඇති බැවින් බඩු ගැනීමට පැමිණි පාරිභෝගිකයන් නැවත හරවා " &
-                                                      "නොයැවීමට නම් මෙම stocks නැවත පිරවීම සඳහා පියවර ගන්න.")
-                    End If
+                    '                    DR = Db.GetDataReader("Select COUNT(SNo) as SNoCount from [Stock] Where SAvailableStocks < SMinStocks")
+                    '                    If DR.HasRows Then
+                    '                        DR.Read()
+                    '                        Dim MessagePanel As New MessagePanel(
+                    '                        "Stocks Report",
+                    '                        DR("SNoCount").ToString & " Stocks නැවත පිරවීමට ඇති බැවින් බඩු ගැනීමට පැමිණි පාරිභෝගිකයන් නැවත 
+                    'හරවා  නොයැවීමට නම් මෙම stocks නැවත පිරවීම සඳහා පියවර ගන්න.")
+                    '                        MessagePanel.Add()
+                    '                    End If
                     CMD = New OleDbCommand("Select * from [User] Where UserName='" & .tslblUserName.Text & "'", CNN)
                     DR = CMD.ExecuteReader()
                     If DR.HasRows Then

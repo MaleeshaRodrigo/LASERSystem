@@ -680,7 +680,7 @@ Public Class frmRepair
             If tabRepair.SelectedTab.TabIndex = 0 Then
                 CmbRepNo_SelectedIndexChanged(sender, e)
             End If
-        'End Try
+        End Try
     End Sub
 
     Public Sub CmbRetStatus_SelectionChangeCommitted(sender As Object, e As EventArgs) Handles cmbRetStatus.SelectionChangeCommitted

@@ -1,0 +1,40 @@
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System Cashier\obj\Debug\LASER System Cashier.vbproj.AssemblyReference.cache
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System Cashier\obj\Debug\LASER System Cashier.vbproj.SuggestedBindingRedirects.cache
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System Cashier\obj\Debug\LASER System Cashier.vbproj.ResolveComReference.cache
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System Cashier\obj\Debug\LASER_System.frmCustomer.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System Cashier\obj\Debug\LASER_System.frmCustomerLoan.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System Cashier\obj\Debug\LASER_System.frmDeliver.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System Cashier\obj\Debug\LASER_System.frmLogin.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System Cashier\obj\Debug\LASER_System.frmMessage.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System Cashier\obj\Debug\LASER_System.frmProduct.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System Cashier\obj\Debug\LASER_System.frmReceive.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System Cashier\obj\Debug\LASER_System.frmRepair.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System Cashier\obj\Debug\LASER_System.frmRepairAdvanced.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System Cashier\obj\Debug\LASER_System.frmReport.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System Cashier\obj\Debug\LASER_System.frmSale.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System Cashier\obj\Debug\LASER_System.frmSalesRepair.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System Cashier\obj\Debug\LASER_System.frmSearch.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System Cashier\obj\Debug\LASER_System.FrmSettings.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System Cashier\obj\Debug\LASER_System.frmSettlement.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System Cashier\obj\Debug\LASER_System.FrmSplash.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System Cashier\obj\Debug\LASER_System.frmStock.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System Cashier\obj\Debug\LASER_System.frmStockSticker.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System Cashier\obj\Debug\LASER_System.frmStockTransaction.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System Cashier\obj\Debug\LASER_System.frmSupplier.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System Cashier\obj\Debug\LASER_System.frmSupply.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System Cashier\obj\Debug\LASER_System.frmTechnician.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System Cashier\obj\Debug\LASER_System.frmTechnicianCost.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System Cashier\obj\Debug\LASER_System.frmTechnicianLoan.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System Cashier\obj\Debug\LASER_System.frmTechnicianSalary.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System Cashier\obj\Debug\LASER_System.MdifrmMain.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System Cashier\obj\Debug\LASER_System.Resources.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System Cashier\obj\Debug\LASER_System.ControlStockInfo.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System Cashier\obj\Debug\LASER_System.FormStock.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System Cashier\obj\Debug\LASER_System.compMessageBox.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System Cashier\obj\Debug\LASER_System.frmStock.si.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System Cashier\obj\Debug\LASER_System.FormStock.si.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System Cashier\obj\Debug\LASER System Cashier.vbproj.GenerateResource.cache
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System Cashier\obj\Debug\LASER System Cashier.vbproj.CoreCompileInputs.cache
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System Cashier\obj\Debug\LASER System.exe
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System Cashier\obj\Debug\LASER System.xml
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System Cashier\obj\Debug\LASER System.pdb

@@ -138,10 +138,25 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationEvents.vb" />
     <Compile Include="Classes\AdminPermission.vb" />
     <Compile Include="Classes\Database.vb" />
     <Compile Include="Classes\Encode.vb" />
-    <Compile Include="Enums\EnumTables.vb" />
+    <Compile Include="Classes\MessagePanel.vb" />
+    <Compile Include="Stock\Components\ControlStockInfo.Designer.vb">
+      <DependentUpon>ControlStockInfo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Stock\Components\ControlStockInfo.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Stock\FormStock.Designer.vb">
+      <DependentUpon>FormStock.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Stock\FormStock.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Structures\StructureDbStock.vb" />
+    <Compile Include="Structures\StructureDbTables.vb" />
     <Compile Include="frmCustomer.Designer.vb">
       <DependentUpon>frmCustomer.vb</DependentUpon>
     </Compile>
@@ -298,7 +313,7 @@
     <Compile Include="mdifrmMain.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="modSystem.vb" />
+    <Compile Include="Utils.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -521,6 +536,15 @@
     <EmbeddedResource Include="Reports\rptTechnicianSalary.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>rptTechnicianSalary.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Stock\Components\ControlStockInfo.resx">
+      <DependentUpon>ControlStockInfo.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Stock\FormStock.resx">
+      <DependentUpon>FormStock.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Stock\FormStock.si.resx">
+      <DependentUpon>FormStock.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Tools\compMessageBox.resx">
       <DependentUpon>compMessageBox.vb</DependentUpon>
