@@ -460,14 +460,6 @@ Values(#{DateAndTime.Now}#,""{APCCommand.Replace("""", """""")}"")", CNN)
         End Try
     End Function
 
-    <Obsolete>
-    Public Function GetMD5Encoder(theInput As String) As String
-        ' Convert to byte array and get hash
-        Dim dbytes As Byte() = Encoding.UTF8.GetBytes(FormsAuthentication.HashPasswordForStoringInConfigFile(theInput, "MD5"))
-
-        Return Convert.ToBase64String(dbytes)
-    End Function
-
     Public Function mnustrpMENU() As ToolStripMenuItem
         Dim cmdStock As ToolStripMenuItem = New ToolStripMenuItem("Stock")
         Dim cmdCustomer As ToolStripMenuItem = New ToolStripMenuItem("Customer")

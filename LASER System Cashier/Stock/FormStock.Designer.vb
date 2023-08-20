@@ -25,11 +25,10 @@ Partial Class FormStock
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormStock))
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.GrpSearch = New System.Windows.Forms.GroupBox()
         Me.btnSearch = New System.Windows.Forms.Button()
         Me.cmbFilter = New System.Windows.Forms.ComboBox()
@@ -48,7 +47,6 @@ Partial Class FormStock
         Me.SOutofstocks = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.SMinStocks = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.SDetails = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.SImage = New System.Windows.Forms.DataGridViewImageColumn()
         Me.OpenFileDialog = New System.Windows.Forms.OpenFileDialog()
         Me.MenuStrip = New System.Windows.Forms.MenuStrip()
         Me.OPTIONToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -59,7 +57,7 @@ Partial Class FormStock
         Me.ChangeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ViewToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ClearToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.bgwStock = New System.ComponentModel.BackgroundWorker()
+        Me.WorkerStock = New System.ComponentModel.BackgroundWorker()
         Me.GrpSearch.SuspendLayout()
         CType(Me.grdStock, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.MenuStrip.SuspendLayout()
@@ -88,7 +86,7 @@ Partial Class FormStock
         Me.btnSearch.BackColor = System.Drawing.SystemColors.ButtonFace
         Me.btnSearch.Font = New System.Drawing.Font("Segoe UI", 9.0!)
         Me.btnSearch.ForeColor = System.Drawing.Color.Black
-        Me.btnSearch.Location = New System.Drawing.Point(226, 22)
+        Me.btnSearch.Location = New System.Drawing.Point(306, 26)
         Me.btnSearch.Name = "btnSearch"
         Me.btnSearch.Size = New System.Drawing.Size(84, 27)
         Me.btnSearch.TabIndex = 27
@@ -105,7 +103,7 @@ Partial Class FormStock
         Me.cmbFilter.FormattingEnabled = True
         Me.cmbFilter.ItemHeight = 16
         Me.cmbFilter.Items.AddRange(New Object() {"by Stock Code", "by Stock Category", "by Stock Name", "by Stock Model No", "by Stock Location"")", "by Stock Cost Price", "by Stock Sale Price", "by Stock Reorder Point", "by Stock Details", "by All"})
-        Me.cmbFilter.Location = New System.Drawing.Point(368, 27)
+        Me.cmbFilter.Location = New System.Drawing.Point(448, 31)
         Me.cmbFilter.Name = "cmbFilter"
         Me.cmbFilter.Size = New System.Drawing.Size(249, 22)
         Me.cmbFilter.TabIndex = 26
@@ -115,16 +113,15 @@ Partial Class FormStock
         Me.txtSearch.Cursor = System.Windows.Forms.Cursors.IBeam
         Me.txtSearch.Font = New System.Drawing.Font("Segoe UI", 9.0!)
         Me.txtSearch.ForeColor = System.Drawing.Color.Black
-        Me.txtSearch.Location = New System.Drawing.Point(6, 22)
+        Me.txtSearch.Location = New System.Drawing.Point(12, 26)
         Me.txtSearch.Name = "txtSearch"
-        Me.txtSearch.Size = New System.Drawing.Size(215, 27)
+        Me.txtSearch.Size = New System.Drawing.Size(288, 27)
         Me.txtSearch.TabIndex = 25
         '
         'Label11
         '
-        Me.Label11.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label11.AutoSize = True
-        Me.Label11.Location = New System.Drawing.Point(316, 26)
+        Me.Label11.Location = New System.Drawing.Point(396, 30)
         Me.Label11.Name = "Label11"
         Me.Label11.Size = New System.Drawing.Size(46, 21)
         Me.Label11.TabIndex = 24
@@ -135,7 +132,7 @@ Partial Class FormStock
         Me.cmdNew.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.cmdNew.Font = New System.Drawing.Font("Calibri", 10.0!)
         Me.cmdNew.Image = CType(resources.GetObject("cmdNew.Image"), System.Drawing.Image)
-        Me.cmdNew.Location = New System.Drawing.Point(953, 13)
+        Me.cmdNew.Location = New System.Drawing.Point(947, 26)
         Me.cmdNew.Name = "cmdNew"
         Me.cmdNew.Size = New System.Drawing.Size(85, 32)
         Me.cmdNew.TabIndex = 27
@@ -145,10 +142,13 @@ Partial Class FormStock
         '
         'grdStock
         '
+        Me.grdStock.AllowUserToAddRows = False
+        Me.grdStock.AllowUserToDeleteRows = False
         Me.grdStock.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.grdStock.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells
+        Me.grdStock.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells
         Me.grdStock.BackgroundColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.grdStock.BorderStyle = System.Windows.Forms.BorderStyle.None
         DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
@@ -160,32 +160,32 @@ Partial Class FormStock
         DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
         Me.grdStock.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         Me.grdStock.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.grdStock.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.SNo, Me.SCategory, Me.SName, Me.SModelNo, Me.SLocation, Me.SCostPrice, Me.SSalePrice, Me.SAvailableStocks, Me.SOutofstocks, Me.SMinStocks, Me.SDetails, Me.SImage})
+        Me.grdStock.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.SNo, Me.SCategory, Me.SName, Me.SModelNo, Me.SLocation, Me.SCostPrice, Me.SSalePrice, Me.SAvailableStocks, Me.SOutofstocks, Me.SMinStocks, Me.SDetails})
+        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle3.BackColor = System.Drawing.Color.White
+        DataGridViewCellStyle3.Font = New System.Drawing.Font("Calibri", 9.75!)
+        DataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black
+        DataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.DodgerBlue
+        DataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
+        Me.grdStock.DefaultCellStyle = DataGridViewCellStyle3
+        Me.grdStock.GridColor = System.Drawing.Color.White
+        Me.grdStock.Location = New System.Drawing.Point(6, 70)
+        Me.grdStock.Name = "grdStock"
         DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle4.BackColor = System.Drawing.Color.White
         DataGridViewCellStyle4.Font = New System.Drawing.Font("Calibri", 9.75!)
         DataGridViewCellStyle4.ForeColor = System.Drawing.Color.Black
-        DataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.DodgerBlue
+        DataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.DarkBlue
         DataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
-        Me.grdStock.DefaultCellStyle = DataGridViewCellStyle4
-        Me.grdStock.GridColor = System.Drawing.Color.White
-        Me.grdStock.Location = New System.Drawing.Point(6, 70)
-        Me.grdStock.Name = "grdStock"
-        DataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.grdStock.RowHeadersDefaultCellStyle = DataGridViewCellStyle4
+        Me.grdStock.RowHeadersWidth = 51
         DataGridViewCellStyle5.BackColor = System.Drawing.Color.White
-        DataGridViewCellStyle5.Font = New System.Drawing.Font("Calibri", 9.75!)
         DataGridViewCellStyle5.ForeColor = System.Drawing.Color.Black
         DataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.DarkBlue
-        DataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.grdStock.RowHeadersDefaultCellStyle = DataGridViewCellStyle5
-        Me.grdStock.RowHeadersWidth = 51
-        DataGridViewCellStyle6.BackColor = System.Drawing.Color.White
-        DataGridViewCellStyle6.ForeColor = System.Drawing.Color.Black
-        DataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.DarkBlue
-        DataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.White
-        Me.grdStock.RowsDefaultCellStyle = DataGridViewCellStyle6
+        DataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.White
+        Me.grdStock.RowsDefaultCellStyle = DataGridViewCellStyle5
         Me.grdStock.RowTemplate.DefaultCellStyle.BackColor = System.Drawing.Color.White
         Me.grdStock.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Black
         Me.grdStock.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.DarkBlue
@@ -288,19 +288,6 @@ Partial Class FormStock
         Me.SDetails.Name = "SDetails"
         Me.SDetails.Width = 86
         '
-        'SImage
-        '
-        Me.SImage.DataPropertyName = "SImage"
-        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle3.NullValue = Nothing
-        DataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.SImage.DefaultCellStyle = DataGridViewCellStyle3
-        Me.SImage.HeaderText = "Picture"
-        Me.SImage.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom
-        Me.SImage.MinimumWidth = 6
-        Me.SImage.Name = "SImage"
-        Me.SImage.Width = 65
-        '
         'OpenFileDialog
         '
         Me.OpenFileDialog.Filter = "(*.jpg)|*.jpg|(*.png)|*.png|(*.jpg)|*.jpg|All files|*.*"
@@ -368,10 +355,10 @@ Partial Class FormStock
         Me.ClearToolStripMenuItem1.Size = New System.Drawing.Size(177, 24)
         Me.ClearToolStripMenuItem1.Text = "Clear"
         '
-        'bgwStock
+        'WorkerStock
         '
-        Me.bgwStock.WorkerReportsProgress = True
-        Me.bgwStock.WorkerSupportsCancellation = True
+        Me.WorkerStock.WorkerReportsProgress = True
+        Me.WorkerStock.WorkerSupportsCancellation = True
         '
         'FormStock
         '
@@ -412,8 +399,9 @@ Partial Class FormStock
     Friend WithEvents txtSearch As TextBox
     Friend WithEvents grdStock As DataGridView
     Friend WithEvents cmbFilter As ComboBox
-    Friend WithEvents bgwStock As System.ComponentModel.BackgroundWorker
+    Friend WithEvents WorkerStock As System.ComponentModel.BackgroundWorker
     Friend WithEvents btnSearch As Button
+    Friend WithEvents cmdNew As Button
     Friend WithEvents SNo As DataGridViewTextBoxColumn
     Friend WithEvents SCategory As DataGridViewTextBoxColumn
     Friend WithEvents SName As DataGridViewTextBoxColumn
@@ -425,6 +413,4 @@ Partial Class FormStock
     Friend WithEvents SOutofstocks As DataGridViewTextBoxColumn
     Friend WithEvents SMinStocks As DataGridViewTextBoxColumn
     Friend WithEvents SDetails As DataGridViewTextBoxColumn
-    Friend WithEvents SImage As DataGridViewImageColumn
-    Friend WithEvents cmdNew As Button
 End Class

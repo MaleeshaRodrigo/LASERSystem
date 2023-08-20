@@ -3,6 +3,7 @@ Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Threading
 Imports LASER_System.My
+Imports Microsoft.Office.Interop.Access.Dao
 Imports Newtonsoft.Json
 
 Public Class Database
@@ -41,14 +42,35 @@ Public Class Database
     End Sub
 
     ''' <summary>
+    ''' Check whether the result for the given data has rows or not
+    ''' </summary>
+    ''' <param name="Table">Table Name</param>
+    ''' <param name="FieldName">Field Name</param>
+    ''' <param name="Value">Value of field</param>
+    ''' <returns>True, if there are rows in the SQL query, or false</returns>
+    Public Function CheckDataIsExist(Table As String, FieldName As String, Value As String) As Boolean
+        Dim DR As OleDbDataReader = Nothing
+        Try
+            Dim Command = New OleDbCommand($"SELECT {FieldName} FROM {Table} WHERE {FieldName} = @VALUE", _Connection)
+            Command.Parameters.AddWithValue("@VALUE", Value)
+            DR = Command.ExecuteReader()
+            Return DR.HasRows
+        Catch ex As Exception
+            Throw ex
+        Finally
+            If DR IsNot Nothing Then DR.Close()
+        End Try
+    End Function
+
+    ''' <summary>
     ''' Update the given SQL Query to the database. If the Admin Permission needs to the SQL query, It won't apply to the database. After Admin 
     ''' accept changes, Then it will apply.
     ''' </summary>
-    ''' <param name="SQL">The SQL Query</param>
+    ''' <param name="Query">The SQL Query</param>
     ''' <param name="AdminPer">The Admin Permission</param>
-    Public Sub Update(SQL As String, Optional AdminPer As AdminPermission = Nothing)
+    Public Sub Execute(Query As String, Optional Parameters() As OleDbParameter = Nothing, Optional AdminPer As AdminPermission = Nothing)
         Dim CMDUPDATEDB As OleDbCommand
-        If AdminPer IsNot Nothing And AdminPer.AdminSend = True Then
+        If AdminPer IsNot Nothing AndAlso AdminPer.AdminSend = True Then
             If GetRowsCount($"Select APNo from AdminPermission Where APNo={AdminPer.APNo}") = 0 Then
                 Dim APCommand As String = $"Insert into AdminPermission(APNo,APDate,`Status`,AppliedUNo,`Keys`,Remarks)
 Values({AdminPer.APNo},#{DateAndTime.Now}#,'Waiting',{MdifrmMain.Tag},
@@ -60,7 +82,7 @@ Values({AdminPer.APNo},#{DateAndTime.Now}#,'Waiting',{MdifrmMain.Tag},
 
                 UpdateOnlineTable(APCommand)
             End If
-            Dim APCCommand As String = $"Insert into APCommand(APNo,Commands) Values({AdminPer.APNo},'{SQL.ToString.Replace("'", "''")}')"
+            Dim APCCommand As String = $"Insert into APCommand(APNo,Commands) Values({AdminPer.APNo},'{Query.ToString.Replace("'", "''")}')"
             CMDUPDATEDB = New OleDbCommand(APCCommand, _Connection)
             CMDUPDATEDB.ExecuteNonQuery()
             CMDUPDATEDB.Cancel()
@@ -82,33 +104,36 @@ Values({AdminPer.APNo},#{DateAndTime.Now}#,'Waiting',{MdifrmMain.Tag},
 
             End If
             'Replace a new index instead of command in `str` String in function
-            If SQL.Contains("?") = True Then
-                Dim splittxt() As String = SQL.Split("?")
+            If Query.Contains("?") = True Then
+                Dim splittxt() As String = Query.Split("?")
                 Dim i As Integer = 0
                 While i < splittxt.Length
                     Select Case splittxt(i)
                         Case "NewKey"
-                            SQL = SQL.Replace("?" + splittxt(i) + "?" + splittxt(i + 1) + "?" + splittxt(i + 2) + "?",
+                            Query = Query.Replace("?" + splittxt(i) + "?" + splittxt(i + 1) + "?" + splittxt(i + 2) + "?",
                                                   GetNextKey(splittxt(i + 1), splittxt(i + 2)))
                             i += 2
                         Case "Key"
                             If AdminPer.Keys.ContainsKey(splittxt(i + 1)) Then
-                                SQL = SQL.Replace($"?{splittxt(i)}?{splittxt(i + 1)}?", AdminPer.Keys.Item(splittxt(i + 1)))
+                                Query = Query.Replace($"?{splittxt(i)}?{splittxt(i + 1)}?", AdminPer.Keys.Item(splittxt(i + 1)))
                                 i += 1
                             End If
                     End Select
                     i += 1
                 End While
             End If
-            CMDUPDATEDB = New OleDb.OleDbCommand(SQL, _Connection)
+            CMDUPDATEDB = New OleDb.OleDbCommand(Query, _Connection)
+            For Each Parameter As OleDbParameter In Parameters
+                CMDUPDATEDB.Parameters.AddWithValue(Parameter.ParameterName, Parameter.Value)
+            Next
             CMDUPDATEDB.ExecuteNonQuery()
             CMDUPDATEDB.Cancel()
-            UpdateOnlineTable(SQL)
-            WriteActivity(SQL)
+            UpdateOnlineTable(Query)
+            WriteActivity(Query)
         End If
     End Sub
 
-    Public Sub DirectUpdate(Query As String)
+    Public Sub DirectExecute(Query As String)
         Dim Command As New OleDb.OleDbCommand(Query, _Connection)
         Command.ExecuteNonQuery()
         Command.Cancel()

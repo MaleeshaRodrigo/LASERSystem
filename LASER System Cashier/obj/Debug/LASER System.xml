@@ -352,12 +352,21 @@ LASER System
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
 </member>
-<member name="M:LASER_System.Database.Update(System.String,LASER_System.AdminPermission)">
+<member name="M:LASER_System.Database.CheckDataIsExist(System.String,System.String,System.String)">
+ <summary>
+ Check whether the result for the given data has rows or not
+ </summary>
+ <param name="Table">Table Name</param>
+ <param name="FieldName">Field Name</param>
+ <param name="Value">Value of field</param>
+ <returns>True, if there are rows in the SQL query, or false</returns>
+</member>
+<member name="M:LASER_System.Database.Execute(System.String,System.Data.OleDb.OleDbParameter[],LASER_System.AdminPermission)">
  <summary>
  Update the given SQL Query to the database. If the Admin Permission needs to the SQL query, It won't apply to the database. After Admin 
  accept changes, Then it will apply.
  </summary>
- <param name="SQL">The SQL Query</param>
+ <param name="Query">The SQL Query</param>
  <param name="AdminPer">The Admin Permission</param>
 </member>
 <member name="M:LASER_System.Utils.CMDUPDATE(System.String,LASER_System.AdminPermission)">

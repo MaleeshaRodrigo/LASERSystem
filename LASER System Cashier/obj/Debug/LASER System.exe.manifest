@@ -247,14 +247,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="LASER System.exe" size="5435904">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="LASER System.exe" size="5435392">
       <assemblyIdentity name="LASER System" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>aDAlzKLTyjRjKl9cj0qo29kZtRufNqi+uCUfKREPzp0=</dsig:DigestValue>
+        <dsig:DigestValue>95jwtzqakwFYOmEbSY6qv2PsjQD2b0mTlqoS1uhDOEU=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -266,7 +266,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>n/9crxxl7jZND5PPnsQKM/TxhO7wVA6x7GbIhSjyk6Y=</dsig:DigestValue>
+        <dsig:DigestValue>60De1TUa7ykNqGD/tI1g23onj1CoSaxsVe2PWYlB8tQ=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
