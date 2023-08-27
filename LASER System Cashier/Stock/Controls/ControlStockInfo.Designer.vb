@@ -22,7 +22,6 @@ Partial Class ControlStockInfo
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ControlStockInfo))
         Me.GrpInfo = New System.Windows.Forms.GroupBox()
         Me.TxtDetails = New System.Windows.Forms.TextBox()
@@ -52,14 +51,9 @@ Partial Class ControlStockInfo
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
-        Me.DBDataSet = New LASER_System.DBDataSet()
-        Me.StockBindingSource = New System.Windows.Forms.BindingSource(Me.components)
-        Me.StockTableAdapter = New LASER_System.DBDataSetTableAdapters.StockTableAdapter()
         Me.GrpInfo.SuspendLayout()
         Me.TlpSImages.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.DBDataSet, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.StockBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'GrpInfo
@@ -246,26 +240,20 @@ Partial Class ControlStockInfo
         '
         'CmbName
         '
-        Me.CmbName.DataSource = Me.StockBindingSource
-        Me.CmbName.DisplayMember = "SName"
         Me.CmbName.FormattingEnabled = True
         Me.CmbName.Location = New System.Drawing.Point(141, 93)
         Me.CmbName.Name = "CmbName"
         Me.CmbName.Size = New System.Drawing.Size(324, 27)
         Me.CmbName.TabIndex = 12
-        Me.CmbName.ValueMember = "SName"
         '
         'CmbCategory
         '
         Me.CmbCategory.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest
         Me.CmbCategory.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems
-        Me.CmbCategory.DataSource = Me.StockBindingSource
-        Me.CmbCategory.DisplayMember = "SCategory"
         Me.CmbCategory.Location = New System.Drawing.Point(141, 60)
         Me.CmbCategory.Name = "CmbCategory"
         Me.CmbCategory.Size = New System.Drawing.Size(324, 27)
         Me.CmbCategory.TabIndex = 11
-        Me.CmbCategory.ValueMember = "SCategory"
         '
         'TxtSNo
         '
@@ -375,20 +363,6 @@ Partial Class ControlStockInfo
         Me.Label1.Text = "Code:"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
-        'DBDataSet
-        '
-        Me.DBDataSet.DataSetName = "DBDataSet"
-        Me.DBDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema
-        '
-        'StockBindingSource
-        '
-        Me.StockBindingSource.DataMember = "Stock"
-        Me.StockBindingSource.DataSource = Me.DBDataSet
-        '
-        'StockTableAdapter
-        '
-        Me.StockTableAdapter.ClearBeforeFill = True
-        '
         'ControlStockInfo
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
@@ -401,8 +375,6 @@ Partial Class ControlStockInfo
         Me.GrpInfo.PerformLayout()
         Me.TlpSImages.ResumeLayout(False)
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.DBDataSet, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.StockBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -435,7 +407,4 @@ Partial Class ControlStockInfo
     Friend WithEvents PictureBox1 As PictureBox
     Friend WithEvents TxtDetails As TextBox
     Friend WithEvents Label11 As Label
-    Friend WithEvents StockBindingSource As BindingSource
-    Friend WithEvents DBDataSet As DBDataSet
-    Friend WithEvents StockTableAdapter As DBDataSetTableAdapters.StockTableAdapter
 End Class

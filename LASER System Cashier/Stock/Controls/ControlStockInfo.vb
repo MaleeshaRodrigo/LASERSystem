@@ -51,68 +51,68 @@ Public Class ControlStockInfo
         End With
 
         If DB.CheckDataIsExist(StructureDbTables.Stock, StructureDbStock.Code, TxtSNo.Text) AndAlso MsgBox("ඔබට මෙම Record එක Update කිරිමට අවශ්‍යද?", vbInformation + vbYesNo) = vbYes Then
-            'DB.Execute($"UPDATE {StructureDbTables.Stock} SET 
-            '{StructureDbStock.Category} = @CATEGORY,
-            '{StructureDbStock.Name} = @NAME,
-            '{StructureDbStock.ModelNo} = @MODELNO,
-            '{StructureDbStock.Location} = @LOCATION,
-            '{StructureDbStock.Details} = @DETAILS,
-            '{StructureDbStock.SalePrice} = @SALEPRICE,
-            '{StructureDbStock.CostPrice} = @COSTPRICE,
-            '{StructureDbStock.ReorderPoint} = @REORDERPOINT
-            'WHERE {StructureDbStock.Code} = @CODE;", {
-            '    New OleDbParameter("@CATEGORY", CmbCategory.Text),
-            '    New OleDbParameter("@NAME", CmbName.Text),
-            '    New OleDbParameter("@MODELNO", TxtModelNo.Text),
-            '    New OleDbParameter("@LOCATION", CmbLocation.Text),
-            '    New OleDbParameter("@DETAILS", TxtDetails.Text),
-            '    New OleDbParameter("@SALEPRICE", TxtSalePrice.Text),
-            '    New OleDbParameter("@COSTPRICE", TxtCostPrice.Text),
-            '    New OleDbParameter("@REORDERPOINT", TxtReorderPoint.Text),
-            '    New OleDbParameter("@CODE", TxtSNo.Text)
-            '})
+            DB.Execute($"UPDATE {StructureDbTables.Stock} SET 
+            {StructureDbStock.Category} = @CATEGORY,
+            {StructureDbStock.Name} = @NAME,
+            {StructureDbStock.ModelNo} = @MODELNO,
+            {StructureDbStock.Location} = @LOCATION,
+            {StructureDbStock.Details} = @DETAILS,
+            {StructureDbStock.SalePrice} = @SALEPRICE,
+            {StructureDbStock.CostPrice} = @COSTPRICE,
+            {StructureDbStock.ReorderPoint} = @REORDERPOINT
+            WHERE {StructureDbStock.Code} = @CODE;", {
+                New OleDbParameter("@CATEGORY", CmbCategory.Text),
+                New OleDbParameter("@NAME", CmbName.Text),
+                New OleDbParameter("@MODELNO", TxtModelNo.Text),
+                New OleDbParameter("@LOCATION", CmbLocation.Text),
+                New OleDbParameter("@DETAILS", TxtDetails.Text),
+                New OleDbParameter("@SALEPRICE", TxtSalePrice.Text),
+                New OleDbParameter("@COSTPRICE", TxtCostPrice.Text),
+                New OleDbParameter("@REORDERPOINT", TxtReorderPoint.Text),
+                New OleDbParameter("@CODE", TxtSNo.Text)
+            })
 
 
         Else
-            Dim StockRow As DBDataSet.StockRow
-            StockRow = DBDataSet.Stock.NewStockRow()
-            With StockRow
-                .Sno = TxtSNo.Text
-                .SCategory = CmbCategory.Text
-                .SName = CmbName.Text
-                .SModelNo = TxtModelNo.Text
-                .SLocation = CmbLocation.Text
-                .SDetails = TxtDetails.Text
-                .SSalePrice = TxtSalePrice.Text
-                .SCostPrice = TxtCostPrice.Text
-                .SMinStocks = TxtReorderPoint.Text
-            End With
+            'Dim StockRow As DBDataSet.StockRow
+            'StockRow = DBDataSet.Stock.NewStockRow()
+            'With StockRow
+            '    .Sno = TxtSNo.Text
+            '    .SCategory = CmbCategory.Text
+            '    .SName = CmbName.Text
+            '    .SModelNo = TxtModelNo.Text
+            '    .SLocation = CmbLocation.Text
+            '    .SDetails = TxtDetails.Text
+            '    .SSalePrice = TxtSalePrice.Text
+            '    .SCostPrice = TxtCostPrice.Text
+            '    .SMinStocks = TxtReorderPoint.Text
+            'End With
 
-            DBDataSet.Stock.Rows.Add(StockRow)
-            StockTableAdapter.Update(DBDataSet.Stock)
-            '    DB.Execute($"INSERT INTO {StructureDbTables.Stock}(
-            '    {StructureDbStock.Code},
-            '    {StructureDbStock.Category},
-            '    {StructureDbStock.Name},
-            '    {StructureDbStock.ModelNo},
-            '    {StructureDbStock.Location},
-            '    {StructureDbStock.Details},
-            '    {StructureDbStock.SalePrice},
-            '    {StructureDbStock.CostPrice},
-            '    {StructureDbStock.AvailableUnits},
-            '    {StructureDbStock.DamagedUnits},
-            '    {StructureDbStock.ReorderPoint}
-            ') Values(@CODE,@CATEGORY,@NAME,@MODELNO,@LOCATION,@DETAILS,@SALEPRICE,@COSTPRICE,0,0,@REORDERPOINT);", {
-            '        New OleDbParameter("@CODE", TxtSNo.Text),
-            '        New OleDbParameter("@CATEGORY", CmbCategory.Text),
-            '        New OleDbParameter("@NAME", CmbName.Text),
-            '        New OleDbParameter("@MODELNO", TxtModelNo.Text),
-            '        New OleDbParameter("@LOCATION", CmbLocation.Text),
-            '        New OleDbParameter("@DETAILS", TxtDetails.Text),
-            '        New OleDbParameter("@SALEPRICE", TxtSalePrice.Text),
-            '        New OleDbParameter("@COSTPRICE", TxtCostPrice.Text),
-            '        New OleDbParameter("@REORDERPOINT", TxtReorderPoint.Text)
-            '    })
+            'DBDataSet.Stock.Rows.Add(StockRow)
+            'DBDataSetTableAdapters.StockTableAdapter.Update(DBDataSet.Stock)
+            DB.Execute($"INSERT INTO {StructureDbTables.Stock}(
+                {StructureDbStock.Code},
+                {StructureDbStock.Category},
+                {StructureDbStock.Name},
+                {StructureDbStock.ModelNo},
+                {StructureDbStock.Location},
+                {StructureDbStock.Details},
+                {StructureDbStock.SalePrice},
+                {StructureDbStock.CostPrice},
+                {StructureDbStock.AvailableUnits},
+                {StructureDbStock.DamagedUnits},
+                {StructureDbStock.ReorderPoint}
+            ) Values(@CODE,@CATEGORY,@NAME,@MODELNO,@LOCATION,@DETAILS,@SALEPRICE,@COSTPRICE,0,0,@REORDERPOINT);", {
+                New OleDbParameter("@CODE", TxtSNo.Text),
+                New OleDbParameter("@CATEGORY", CmbCategory.Text),
+                New OleDbParameter("@NAME", CmbName.Text),
+                New OleDbParameter("@MODELNO", TxtModelNo.Text),
+                New OleDbParameter("@LOCATION", CmbLocation.Text),
+                New OleDbParameter("@DETAILS", TxtDetails.Text),
+                New OleDbParameter("@SALEPRICE", TxtSalePrice.Text),
+                New OleDbParameter("@COSTPRICE", TxtCostPrice.Text),
+                New OleDbParameter("@REORDERPOINT", TxtReorderPoint.Text)
+            })
         End If
     End Sub
 

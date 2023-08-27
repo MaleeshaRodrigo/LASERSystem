@@ -12,9 +12,9 @@
 
     Public Function Execute() As Boolean Implements IValidator.Execute
         If _Condition Then
-            Return True
+            MsgBox(_Message, _MsgBoxStyle)
+            Return False
         End If
-        MsgBox(_Message, _MsgBoxStyle)
-        Return False
+        Return True
     End Function
 End Class
