@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class ControlStockInfo
     Inherits System.Windows.Forms.UserControl
 
     'UserControl overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,10 +20,13 @@ Partial Class ControlStockInfo
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ControlStockInfo))
         Me.GrpInfo = New System.Windows.Forms.GroupBox()
+        Me.TxtDetails = New System.Windows.Forms.TextBox()
+        Me.Label11 = New System.Windows.Forms.Label()
         Me.TlpSImages = New System.Windows.Forms.TableLayoutPanel()
         Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.CmdClose = New System.Windows.Forms.Button()
@@ -49,15 +52,19 @@ Partial Class ControlStockInfo
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
-        Me.TxtDetails = New System.Windows.Forms.TextBox()
-        Me.Label11 = New System.Windows.Forms.Label()
+        Me.DBDataSet = New LASER_System.DBDataSet()
+        Me.StockBindingSource = New System.Windows.Forms.BindingSource(Me.components)
+        Me.StockTableAdapter = New LASER_System.DBDataSetTableAdapters.StockTableAdapter()
         Me.GrpInfo.SuspendLayout()
         Me.TlpSImages.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.DBDataSet, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.StockBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'GrpInfo
         '
+        Me.GrpInfo.BackColor = System.Drawing.SystemColors.Control
         Me.GrpInfo.Controls.Add(Me.TxtDetails)
         Me.GrpInfo.Controls.Add(Me.Label11)
         Me.GrpInfo.Controls.Add(Me.TlpSImages)
@@ -91,6 +98,25 @@ Partial Class ControlStockInfo
         Me.GrpInfo.TabIndex = 24
         Me.GrpInfo.TabStop = False
         Me.GrpInfo.Text = "Info"
+        '
+        'TxtDetails
+        '
+        Me.TxtDetails.Location = New System.Drawing.Point(141, 362)
+        Me.TxtDetails.Multiline = True
+        Me.TxtDetails.Name = "TxtDetails"
+        Me.TxtDetails.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
+        Me.TxtDetails.Size = New System.Drawing.Size(324, 118)
+        Me.TxtDetails.TabIndex = 34
+        '
+        'Label11
+        '
+        Me.Label11.AutoSize = True
+        Me.Label11.Location = New System.Drawing.Point(6, 371)
+        Me.Label11.Name = "Label11"
+        Me.Label11.Size = New System.Drawing.Size(62, 21)
+        Me.Label11.TabIndex = 33
+        Me.Label11.Text = "Details:"
+        Me.Label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'TlpSImages
         '
@@ -163,6 +189,7 @@ Partial Class ControlStockInfo
         '
         'TxtDamagedUnits
         '
+        Me.TxtDamagedUnits.Enabled = False
         Me.TxtDamagedUnits.Location = New System.Drawing.Point(139, 329)
         Me.TxtDamagedUnits.Name = "TxtDamagedUnits"
         Me.TxtDamagedUnits.Size = New System.Drawing.Size(55, 27)
@@ -171,6 +198,7 @@ Partial Class ControlStockInfo
         '
         'TxtAvailableUnits
         '
+        Me.TxtAvailableUnits.Enabled = False
         Me.TxtAvailableUnits.Location = New System.Drawing.Point(139, 296)
         Me.TxtAvailableUnits.Name = "TxtAvailableUnits"
         Me.TxtAvailableUnits.Size = New System.Drawing.Size(55, 27)
@@ -218,22 +246,30 @@ Partial Class ControlStockInfo
         '
         'CmbName
         '
+        Me.CmbName.DataSource = Me.StockBindingSource
+        Me.CmbName.DisplayMember = "SName"
         Me.CmbName.FormattingEnabled = True
         Me.CmbName.Location = New System.Drawing.Point(141, 93)
         Me.CmbName.Name = "CmbName"
         Me.CmbName.Size = New System.Drawing.Size(324, 27)
         Me.CmbName.TabIndex = 12
+        Me.CmbName.ValueMember = "SName"
         '
         'CmbCategory
         '
-        Me.CmbCategory.FormattingEnabled = True
+        Me.CmbCategory.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest
+        Me.CmbCategory.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems
+        Me.CmbCategory.DataSource = Me.StockBindingSource
+        Me.CmbCategory.DisplayMember = "SCategory"
         Me.CmbCategory.Location = New System.Drawing.Point(141, 60)
         Me.CmbCategory.Name = "CmbCategory"
         Me.CmbCategory.Size = New System.Drawing.Size(324, 27)
         Me.CmbCategory.TabIndex = 11
+        Me.CmbCategory.ValueMember = "SCategory"
         '
         'TxtSNo
         '
+        Me.TxtSNo.Enabled = False
         Me.TxtSNo.Location = New System.Drawing.Point(141, 27)
         Me.TxtSNo.Name = "TxtSNo"
         Me.TxtSNo.Size = New System.Drawing.Size(67, 27)
@@ -339,29 +375,25 @@ Partial Class ControlStockInfo
         Me.Label1.Text = "Code:"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
-        'TxtDetails
+        'DBDataSet
         '
-        Me.TxtDetails.Location = New System.Drawing.Point(141, 362)
-        Me.TxtDetails.Multiline = True
-        Me.TxtDetails.Name = "TxtDetails"
-        Me.TxtDetails.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.TxtDetails.Size = New System.Drawing.Size(324, 118)
-        Me.TxtDetails.TabIndex = 34
+        Me.DBDataSet.DataSetName = "DBDataSet"
+        Me.DBDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema
         '
-        'Label11
+        'StockBindingSource
         '
-        Me.Label11.AutoSize = True
-        Me.Label11.Location = New System.Drawing.Point(6, 371)
-        Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(62, 21)
-        Me.Label11.TabIndex = 33
-        Me.Label11.Text = "Details:"
-        Me.Label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.StockBindingSource.DataMember = "Stock"
+        Me.StockBindingSource.DataSource = Me.DBDataSet
+        '
+        'StockTableAdapter
+        '
+        Me.StockTableAdapter.ClearBeforeFill = True
         '
         'ControlStockInfo
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.BackColor = System.Drawing.SystemColors.Control
         Me.Controls.Add(Me.GrpInfo)
         Me.Name = "ControlStockInfo"
         Me.Size = New System.Drawing.Size(947, 557)
@@ -369,6 +401,8 @@ Partial Class ControlStockInfo
         Me.GrpInfo.PerformLayout()
         Me.TlpSImages.ResumeLayout(False)
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.DBDataSet, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.StockBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -401,4 +435,7 @@ Partial Class ControlStockInfo
     Friend WithEvents PictureBox1 As PictureBox
     Friend WithEvents TxtDetails As TextBox
     Friend WithEvents Label11 As Label
+    Friend WithEvents StockBindingSource As BindingSource
+    Friend WithEvents DBDataSet As DBDataSet
+    Friend WithEvents StockTableAdapter As DBDataSetTableAdapters.StockTableAdapter
 End Class

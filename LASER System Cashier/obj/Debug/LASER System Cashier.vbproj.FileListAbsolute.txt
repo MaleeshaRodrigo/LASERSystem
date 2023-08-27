@@ -72,3 +72,4 @@ C:\Users\MaleeshaR\Documents\LASERSystem\LASER System Cashier\obj\Debug\si\LASER
 C:\Users\MaleeshaR\Documents\LASERSystem\LASER System Cashier\obj\Debug\LASER System.exe.manifest
 C:\Users\MaleeshaR\Documents\LASERSystem\LASER System Cashier\obj\Debug\LASER System.application
 C:\Users\MaleeshaR\Documents\LASERSystem\LASER System Cashier\obj\Debug\LASER System Cashier.vbproj.CopyComplete
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System Cashier\bin\Debug\Database.accdb

@@ -1,5 +1,5 @@
 ﻿Public Class ExecuteValidators
-    Private _Validators As ArrayList
+    Private _Validators As New ArrayList
 
     Public Sub AddValidator(Validator As IValidator)
         Me._Validators.Add(Validator)

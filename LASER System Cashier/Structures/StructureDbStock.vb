@@ -10,5 +10,4 @@
     Const AvailableUnits = "SAvailableStocks"
     Const DamagedUnits = "SOutofStocks"
     Const ReorderPoint = "SMinStocks"
-    Const Image = "SImg"
 End Structure

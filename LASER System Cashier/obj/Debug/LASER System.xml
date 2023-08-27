@@ -369,6 +369,651 @@ LASER System
  <param name="Query">The SQL Query</param>
  <param name="AdminPer">The Admin Permission</param>
 </member>
+<member name="T:LASER_System.DBDataSet">
+<summary>
+Represents a strongly typed in-memory cache of data.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.AdminPermissionDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.APCommandDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.CustomerDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.CustomerLoanDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.DeliverDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.MailDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.MessageDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.OnlineDBDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.ProductDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.ReceiveDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.RepairDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.RepairActivityDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.RepairAdvancedDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.RepairRemarks1DataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.RepairRemarks2DataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.ReturnDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.SaleDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.SalesRepairDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.SettlementDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.StockDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.StockSaleDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.StockSupplyDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.SupplierDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.SupplyDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.TechnicianDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.TechnicianCostDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.TechnicianLoanDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.TechnicianSalaryDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.TransactionDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.UserDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.AdminPermissionRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.APCommandRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.CustomerRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.CustomerLoanRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.DeliverRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.MailRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.MessageRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.OnlineDBRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.ProductRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.ReceiveRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.RepairRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.RepairActivityRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.RepairAdvancedRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.RepairRemarks1Row">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.RepairRemarks2Row">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.ReturnRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.SaleRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.SalesRepairRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.SettlementRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.StockRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.StockSaleRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.StockSupplyRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.SupplierRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.SupplyRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.TechnicianRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.TechnicianCostRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.TechnicianLoanRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.TechnicianSalaryRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.TransactionRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.UserRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.AdminPermissionRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.APCommandRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.CustomerRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.CustomerLoanRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.DeliverRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.MailRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.MessageRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.OnlineDBRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.ProductRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.ReceiveRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.RepairRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.RepairActivityRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.RepairAdvancedRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.RepairRemarks1RowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.RepairRemarks2RowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.ReturnRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.SaleRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.SalesRepairRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.SettlementRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.StockRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.StockSaleRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.StockSupplyRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.SupplierRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.SupplyRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.TechnicianRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.TechnicianCostRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.TechnicianLoanRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.TechnicianSalaryRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.TransactionRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSet.UserRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSetTableAdapters.AdminPermissionTableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSetTableAdapters.APCommandTableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSetTableAdapters.CustomerTableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSetTableAdapters.CustomerLoanTableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSetTableAdapters.DeliverTableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSetTableAdapters.MailTableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSetTableAdapters.MessageTableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSetTableAdapters.OnlineDBTableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSetTableAdapters.ProductTableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSetTableAdapters.ReceiveTableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSetTableAdapters.RepairTableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSetTableAdapters.RepairActivityTableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSetTableAdapters.RepairAdvancedTableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSetTableAdapters.RepairRemarks1TableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSetTableAdapters.RepairRemarks2TableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSetTableAdapters.ReturnTableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSetTableAdapters.SaleTableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSetTableAdapters.SalesRepairTableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSetTableAdapters.SettlementTableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSetTableAdapters.StockTableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSetTableAdapters.StockSaleTableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSetTableAdapters.StockSupplyTableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSetTableAdapters.SupplierTableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSetTableAdapters.SupplyTableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSetTableAdapters.TechnicianTableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSetTableAdapters.TechnicianCostTableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSetTableAdapters.TechnicianLoanTableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSetTableAdapters.TechnicianSalaryTableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSetTableAdapters.TransactionTableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSetTableAdapters.UserTableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSetTableAdapters.TableAdapterManager">
+<summary>
+TableAdapterManager is used to coordinate TableAdapters in the dataset to enable Hierarchical Update scenarios
+</summary>
+</member>
+<member name="M:LASER_System.DBDataSetTableAdapters.TableAdapterManager.UpdateUpdatedRows(LASER_System.DBDataSet,System.Collections.Generic.List{System.Data.DataRow},System.Collections.Generic.List{System.Data.DataRow})">
+<summary>
+Update rows in top-down order.
+</summary>
+</member>
+<member name="M:LASER_System.DBDataSetTableAdapters.TableAdapterManager.UpdateInsertedRows(LASER_System.DBDataSet,System.Collections.Generic.List{System.Data.DataRow})">
+<summary>
+Insert rows in top-down order.
+</summary>
+</member>
+<member name="M:LASER_System.DBDataSetTableAdapters.TableAdapterManager.UpdateDeletedRows(LASER_System.DBDataSet,System.Collections.Generic.List{System.Data.DataRow})">
+<summary>
+Delete rows in bottom-up order.
+</summary>
+</member>
+<member name="M:LASER_System.DBDataSetTableAdapters.TableAdapterManager.GetRealUpdatedRows(System.Data.DataRow[],System.Collections.Generic.List{System.Data.DataRow})">
+<summary>
+Remove inserted rows that become updated rows after calling TableAdapter.Update(inserted rows) first
+</summary>
+</member>
+<member name="M:LASER_System.DBDataSetTableAdapters.TableAdapterManager.UpdateAll(LASER_System.DBDataSet)">
+<summary>
+Update all changes to the dataset.
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSetTableAdapters.TableAdapterManager.UpdateOrderOption">
+<summary>
+Update Order Option
+</summary>
+</member>
+<member name="T:LASER_System.DBDataSetTableAdapters.TableAdapterManager.SelfReferenceComparer">
+<summary>
+Used to sort self-referenced table's rows
+</summary>
+</member>
 <member name="M:LASER_System.Utils.CMDUPDATE(System.String,LASER_System.AdminPermission)">
  <summary>
  Update the given SQL Query to the database. If the Admin Permission needs to the SQL query, It won't apply to the database. After Admin 

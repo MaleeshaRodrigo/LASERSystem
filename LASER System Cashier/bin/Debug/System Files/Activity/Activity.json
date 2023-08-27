@@ -389,6 +389,56 @@
       "ID": "78",
       "Date": "2023-08-19 7:18:10 PM",
       "Command": "INSERT INTO Stock(\r\n            SNo,\r\n            SCategory,\r\n            SName,\r\n            SModelNo,\r\n            SLocation,\r\n            SDetails,\r\n            SSalePrice,\r\n            SCostPrice,\r\n            SAvailableStocks,\r\n            SOutofStocks,\r\n            SMinStocks\r\n        ) Values(@CODE,@CATEGORY,@NAME,@MODELNO,@LOCATION,@DETAILS,@SALEPRICE,@COSTPRICE,@AVAILABLEUNITS,@DAMAGEDUNITS,@REORDERPOINT);"
+    },
+    {
+      "ID": "79",
+      "Date": "2023-08-20 11:35:02 AM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "80",
+      "Date": "2023-08-20 11:36:50 AM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "81",
+      "Date": "2023-08-20 12:23:36 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "82",
+      "Date": "2023-08-20 1:12:20 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "83",
+      "Date": "2023-08-20 1:21:25 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "84",
+      "Date": "2023-08-20 2:26:20 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "85",
+      "Date": "2023-08-20 3:00:14 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "86",
+      "Date": "2023-08-20 3:03:52 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "87",
+      "Date": "2023-08-20 3:07:13 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "88",
+      "Date": "2023-08-20 4:24:26 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
     }
   ]
 }

@@ -20,6 +20,8 @@ Public Class FormStock
     End Sub
 
     Private Sub FormStock_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        'TODO: This line of code loads data into the 'DBDataSet.Stock' table. You can move, or remove it, as needed.
+        Me.StockTableAdapter.Fill(Me.DBDataSet.Stock)
         DB.Connect()
     End Sub
 
@@ -28,7 +30,7 @@ Public Class FormStock
     End Sub
 
     Private Sub grdStock_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles grdStock.CellDoubleClick
-        If Me.Tag = "" Then Exit Sub
+        Dim CurrentRow = grdStock.Rows.Item(e.RowIndex)
         Select Case Me.Tag
             Case "Sale"
                 For Each oForm As frmSale In Application.OpenForms().OfType(Of frmSale)()
@@ -41,22 +43,43 @@ Public Class FormStock
                         Exit For
                     End If
                 Next
+                Call FormStock_Leave(sender, e)
             Case "Supply"
                 With frmSupply
-                    .grdSupply.Rows.Add(grdStock.Item(0, grdStock.CurrentRow.Index).Value, grdStock.Item(1, grdStock.CurrentRow.Index).Value,
-                                        grdStock.Item(2, grdStock.CurrentRow.Index).Value, grdStock.Item(3, grdStock.CurrentRow.Index).Value,
-                                        grdStock.Item(4, grdStock.CurrentRow.Index).Value, grdStock.Item(6, grdStock.CurrentRow.Index).Value,
-                                        grdStock.Item(9, grdStock.CurrentRow.Index).Value, "Supply", grdStock.Item(5, grdStock.CurrentRow.Index).Value,
-                                        "1", Int(grdStock.Item(5, grdStock.CurrentRow.Index).Value) * 1, grdStock.Item(10, grdStock.CurrentRow.Index).Value)
+                    .grdSupply.Rows.Add(grdStock.Item(0, e.RowIndex).Value, grdStock.Item(1, e.RowIndex).Value,
+                                        grdStock.Item(2, e.RowIndex).Value, grdStock.Item(3, e.RowIndex).Value,
+                                        grdStock.Item(4, e.RowIndex).Value, grdStock.Item(6, e.RowIndex).Value,
+                                        grdStock.Item(9, e.RowIndex).Value, "Supply", grdStock.Item(5, e.RowIndex).Value,
+                                        "1", Int(grdStock.Item(5, e.RowIndex).Value) * 1, grdStock.Item(10, e.RowIndex).Value)
                 End With
+                Call FormStock_Leave(sender, e)
             Case "TechnicianCost"
                 With frmTechnicianCost
                     .grdTechnicianCost.Item("SNo", .grdTechnicianCost.Rows.Count - 1).Value = grdStock.Item(0, grdStock.CurrentRow.Index).Value
                     Dim E1 As New DataGridViewCellEventArgs("SNo", .grdTechnicianCost.Rows.Count - 1)
                     .grdTechnicianCost_CellEndEdit(sender, E1)
                 End With
+                Call FormStock_Leave(sender, e)
+            Case Else
+                ControlStockInfo = New ControlStockInfo(DB)
+                With ControlStockInfo
+                    Me.Controls.Add(ControlStockInfo)
+                    .ClearControls()
+                    .TxtSNo.Text = CurrentRow.Cells.Item(StructureDbStock.Code).Value
+                    .CmbCategory.Text = CurrentRow.Cells.Item(StructureDbStock.Category).Value
+                    .CmbName.Text = CurrentRow.Cells.Item(StructureDbStock.Name).Value
+                    .TxtModelNo.Text = CurrentRow.Cells.Item(StructureDbStock.ModelNo).Value
+                    .CmbLocation.Text = CurrentRow.Cells.Item(StructureDbStock.Location).Value
+                    .TxtCostPrice.Text = CurrentRow.Cells.Item(StructureDbStock.CostPrice).Value
+                    .TxtSalePrice.Text = CurrentRow.Cells.Item(StructureDbStock.SalePrice).Value
+                    .TxtAvailableUnits.Text = CurrentRow.Cells.Item(StructureDbStock.AvailableUnits).Value
+                    .TxtDamagedUnits.Text = CurrentRow.Cells.Item(StructureDbStock.DamagedUnits).Value
+                    .TxtReorderPoint.Text = CurrentRow.Cells.Item(StructureDbStock.ReorderPoint).Value
+                    .TxtDetails.Text = CurrentRow.Cells.Item(StructureDbStock.Details).Value
+                    .Dock = DockStyle.Fill
+                    .BringToFront()
+                End With
         End Select
-        Call FormStock_Leave(sender, e)
     End Sub
 
     Private Sub CloseToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CloseToolStripMenuItem.Click
