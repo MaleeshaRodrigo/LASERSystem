@@ -97,6 +97,11 @@ LASER System
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
 </member>
+<member name="P:LASER_System.My.Resources.Resources.empty">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
 <member name="P:LASER_System.My.Resources.Resources.Get_Data">
 <summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
