@@ -509,3 +509,4 @@ C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Debug\si\LASER System.
 C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Debug\LASER System.exe.manifest
 C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Debug\LASER System.application
 C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Debug\LASER System.vbproj.CopyComplete
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Debug\LASER_System.ControlStockInfo.resources

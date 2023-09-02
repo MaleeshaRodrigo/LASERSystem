@@ -23,11 +23,11 @@ Partial Class FormStock
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormStock))
-        Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle8 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle9 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle10 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle7 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.GrpSearch = New System.Windows.Forms.GroupBox()
         Me.btnSearch = New System.Windows.Forms.Button()
         Me.cmbFilter = New System.Windows.Forms.ComboBox()
@@ -68,9 +68,9 @@ Partial Class FormStock
         Me.GrpSearch.Controls.Add(Me.grdStock)
         Me.GrpSearch.Dock = System.Windows.Forms.DockStyle.Fill
         Me.GrpSearch.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.GrpSearch.Location = New System.Drawing.Point(0, 28)
+        Me.GrpSearch.Location = New System.Drawing.Point(0, 30)
         Me.GrpSearch.Name = "GrpSearch"
-        Me.GrpSearch.Size = New System.Drawing.Size(1044, 636)
+        Me.GrpSearch.Size = New System.Drawing.Size(800, 311)
         Me.GrpSearch.TabIndex = 21
         Me.GrpSearch.TabStop = False
         Me.GrpSearch.Text = "Stock View"
@@ -91,7 +91,7 @@ Partial Class FormStock
         '
         Me.cmbFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cmbFilter.ItemHeight = 19
-        Me.cmbFilter.Items.AddRange(New Object() {"by Stock Code", "by Stock Category", "by Stock Name", "by Stock Model No", "by Stock Location"")", "by Stock Cost Price", "by Stock Sale Price", "by Stock Reorder Point", "by Stock Details", "by All"})
+        Me.cmbFilter.Items.AddRange(New Object() {"by All", "by Stock Code", "by Stock Category", "by Stock Name", "by Stock Model No", "by Stock Location"")", "by Stock Cost Price", "by Stock Sale Price", "by Stock Reorder Point", "by Stock Details"})
         Me.cmbFilter.Location = New System.Drawing.Point(448, 31)
         Me.cmbFilter.Name = "cmbFilter"
         Me.cmbFilter.Size = New System.Drawing.Size(249, 27)
@@ -121,7 +121,7 @@ Partial Class FormStock
         Me.cmdNew.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.cmdNew.Font = New System.Drawing.Font("Calibri", 10.0!)
         Me.cmdNew.Image = CType(resources.GetObject("cmdNew.Image"), System.Drawing.Image)
-        Me.cmdNew.Location = New System.Drawing.Point(947, 26)
+        Me.cmdNew.Location = New System.Drawing.Point(703, 26)
         Me.cmdNew.Name = "cmdNew"
         Me.cmdNew.Size = New System.Drawing.Size(85, 32)
         Me.cmdNew.TabIndex = 27
@@ -140,47 +140,47 @@ Partial Class FormStock
         Me.grdStock.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells
         Me.grdStock.BackgroundColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.grdStock.BorderStyle = System.Windows.Forms.BorderStyle.None
-        DataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle6.Font = New System.Drawing.Font("Calibri", 9.75!)
-        DataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.DodgerBlue
-        DataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.grdStock.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle6
+        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle1.Font = New System.Drawing.Font("Calibri", 9.75!)
+        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.DodgerBlue
+        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.grdStock.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         Me.grdStock.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.grdStock.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.SNo, Me.SCategory, Me.SName, Me.SModelNo, Me.SLocation, Me.SCostPrice, Me.SSalePrice, Me.SAvailableStocks, Me.SOutofstocks, Me.SMinStocks, Me.SDetails})
-        DataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle8.BackColor = System.Drawing.Color.White
-        DataGridViewCellStyle8.Font = New System.Drawing.Font("Calibri", 9.75!)
-        DataGridViewCellStyle8.ForeColor = System.Drawing.Color.Black
-        DataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.DodgerBlue
-        DataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
-        Me.grdStock.DefaultCellStyle = DataGridViewCellStyle8
+        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle3.BackColor = System.Drawing.Color.White
+        DataGridViewCellStyle3.Font = New System.Drawing.Font("Calibri", 9.75!)
+        DataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black
+        DataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.DodgerBlue
+        DataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
+        Me.grdStock.DefaultCellStyle = DataGridViewCellStyle3
         Me.grdStock.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically
         Me.grdStock.GridColor = System.Drawing.Color.White
         Me.grdStock.Location = New System.Drawing.Point(6, 70)
         Me.grdStock.Name = "grdStock"
-        DataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle9.BackColor = System.Drawing.Color.White
-        DataGridViewCellStyle9.Font = New System.Drawing.Font("Calibri", 9.75!)
-        DataGridViewCellStyle9.ForeColor = System.Drawing.Color.Black
-        DataGridViewCellStyle9.SelectionBackColor = System.Drawing.Color.DarkBlue
-        DataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.grdStock.RowHeadersDefaultCellStyle = DataGridViewCellStyle9
+        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle4.BackColor = System.Drawing.Color.White
+        DataGridViewCellStyle4.Font = New System.Drawing.Font("Calibri", 9.75!)
+        DataGridViewCellStyle4.ForeColor = System.Drawing.Color.Black
+        DataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.DarkBlue
+        DataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.grdStock.RowHeadersDefaultCellStyle = DataGridViewCellStyle4
         Me.grdStock.RowHeadersWidth = 51
-        DataGridViewCellStyle10.BackColor = System.Drawing.Color.White
-        DataGridViewCellStyle10.ForeColor = System.Drawing.Color.Black
-        DataGridViewCellStyle10.SelectionBackColor = System.Drawing.Color.DarkBlue
-        DataGridViewCellStyle10.SelectionForeColor = System.Drawing.Color.White
-        Me.grdStock.RowsDefaultCellStyle = DataGridViewCellStyle10
+        DataGridViewCellStyle5.BackColor = System.Drawing.Color.White
+        DataGridViewCellStyle5.ForeColor = System.Drawing.Color.Black
+        DataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.DarkBlue
+        DataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.White
+        Me.grdStock.RowsDefaultCellStyle = DataGridViewCellStyle5
         Me.grdStock.RowTemplate.DefaultCellStyle.BackColor = System.Drawing.Color.White
         Me.grdStock.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Black
         Me.grdStock.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.DarkBlue
         Me.grdStock.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.White
-        Me.grdStock.Size = New System.Drawing.Size(1032, 560)
+        Me.grdStock.Size = New System.Drawing.Size(788, 235)
         Me.grdStock.TabIndex = 18
         '
         'SNo
@@ -268,8 +268,8 @@ Partial Class FormStock
         'SDetails
         '
         Me.SDetails.DataPropertyName = "SDetails"
-        DataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.SDetails.DefaultCellStyle = DataGridViewCellStyle7
+        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.SDetails.DefaultCellStyle = DataGridViewCellStyle2
         Me.SDetails.HeaderText = "Details"
         Me.SDetails.MinimumWidth = 6
         Me.SDetails.Name = "SDetails"
@@ -286,7 +286,7 @@ Partial Class FormStock
         Me.MenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OPTIONToolStripMenuItem, Me.VIEWToolStripMenuItem})
         Me.MenuStrip.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip.Name = "MenuStrip"
-        Me.MenuStrip.Size = New System.Drawing.Size(1044, 28)
+        Me.MenuStrip.Size = New System.Drawing.Size(800, 30)
         Me.MenuStrip.TabIndex = 22
         Me.MenuStrip.Text = "MenuStrip"
         '
@@ -294,21 +294,21 @@ Partial Class FormStock
         '
         Me.OPTIONToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CloseToolStripMenuItem})
         Me.OPTIONToolStripMenuItem.Name = "OPTIONToolStripMenuItem"
-        Me.OPTIONToolStripMenuItem.Size = New System.Drawing.Size(76, 24)
+        Me.OPTIONToolStripMenuItem.Size = New System.Drawing.Size(76, 26)
         Me.OPTIONToolStripMenuItem.Text = "OPTION"
         '
         'CloseToolStripMenuItem
         '
         Me.CloseToolStripMenuItem.Name = "CloseToolStripMenuItem"
         Me.CloseToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.F4), System.Windows.Forms.Keys)
-        Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(181, 26)
+        Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(224, 26)
         Me.CloseToolStripMenuItem.Text = "Close"
         '
         'VIEWToolStripMenuItem
         '
         Me.VIEWToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ViewStockTransactionDetailsToolStripMenuItem})
         Me.VIEWToolStripMenuItem.Name = "VIEWToolStripMenuItem"
-        Me.VIEWToolStripMenuItem.Size = New System.Drawing.Size(58, 24)
+        Me.VIEWToolStripMenuItem.Size = New System.Drawing.Size(58, 26)
         Me.VIEWToolStripMenuItem.Text = "VIEW"
         '
         'ViewStockTransactionDetailsToolStripMenuItem
@@ -328,11 +328,12 @@ Partial Class FormStock
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.AutoScroll = True
         Me.BackColor = System.Drawing.SystemColors.Control
-        Me.ClientSize = New System.Drawing.Size(1044, 664)
+        Me.ClientSize = New System.Drawing.Size(800, 341)
         Me.Controls.Add(Me.GrpSearch)
         Me.Controls.Add(Me.MenuStrip)
         Me.Font = New System.Drawing.Font("Calibri", 9.75!)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+        Me.MinimumSize = New System.Drawing.Size(818, 388)
         Me.Name = "FormStock"
         Me.Text = "LASER System - Stock"
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized

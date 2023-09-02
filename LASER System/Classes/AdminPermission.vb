@@ -5,9 +5,9 @@
     Public APNo As Integer
 
     Public Sub New()
-        Me.APNo = AutomaticPrimaryKey("AdminPermission", "APNo")
-        Me.AdminSend = False
-        Me.Remarks = ""
-        Me.Keys = New Dictionary(Of String, String)
+        APNo = AutomaticPrimaryKey("AdminPermission", "APNo")
+        AdminSend = False
+        Remarks = ""
+        Keys = New Dictionary(Of String, String)
     End Sub
 End Class

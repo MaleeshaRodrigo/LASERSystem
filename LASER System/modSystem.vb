@@ -14,7 +14,7 @@ Module modSystem
     Public DA As OleDb.OleDbDataAdapter
     Public DT As DataTable
     Public DS As DataSet
-    Public Simple As New Simple3Des("RandomKey45")
+    Public Simple As New Encoder
 
     Public Sub GetCNN()
         Try

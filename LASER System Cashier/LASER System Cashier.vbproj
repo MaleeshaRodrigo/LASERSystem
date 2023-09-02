@@ -805,6 +805,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="favicon.ico" />
+    <None Include="Resources\empty.jpg" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />

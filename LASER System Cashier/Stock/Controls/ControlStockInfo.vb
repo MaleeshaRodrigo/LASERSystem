@@ -50,7 +50,8 @@ Public Class ControlStockInfo
             If Not .Execute() Then Exit Sub
         End With
 
-        If DB.CheckDataIsExist(StructureDbTables.Stock, StructureDbStock.Code, TxtSNo.Text) AndAlso MsgBox("ඔබට මෙම Record එක Update කිරිමට අවශ්‍යද?", vbInformation + vbYesNo) = vbYes Then
+        If DB.CheckDataIsExist(StructureDbTables.Stock, StructureDbStock.Code, TxtSNo.Text) And
+            MsgBox("ඔබට මෙම Record එක Update කිරිමට අවශ්‍යද?", vbInformation + vbYesNo) = vbYes Then
             DB.Execute($"UPDATE {StructureDbTables.Stock} SET 
             {StructureDbStock.Category} = @CATEGORY,
             {StructureDbStock.Name} = @NAME,
@@ -71,25 +72,8 @@ Public Class ControlStockInfo
                 New OleDbParameter("@REORDERPOINT", TxtReorderPoint.Text),
                 New OleDbParameter("@CODE", TxtSNo.Text)
             })
-
-
+            Me.Dispose()
         Else
-            'Dim StockRow As DBDataSet.StockRow
-            'StockRow = DBDataSet.Stock.NewStockRow()
-            'With StockRow
-            '    .Sno = TxtSNo.Text
-            '    .SCategory = CmbCategory.Text
-            '    .SName = CmbName.Text
-            '    .SModelNo = TxtModelNo.Text
-            '    .SLocation = CmbLocation.Text
-            '    .SDetails = TxtDetails.Text
-            '    .SSalePrice = TxtSalePrice.Text
-            '    .SCostPrice = TxtCostPrice.Text
-            '    .SMinStocks = TxtReorderPoint.Text
-            'End With
-
-            'DBDataSet.Stock.Rows.Add(StockRow)
-            'DBDataSetTableAdapters.StockTableAdapter.Update(DBDataSet.Stock)
             DB.Execute($"INSERT INTO {StructureDbTables.Stock}(
                 {StructureDbStock.Code},
                 {StructureDbStock.Category},
@@ -113,6 +97,7 @@ Public Class ControlStockInfo
                 New OleDbParameter("@COSTPRICE", TxtCostPrice.Text),
                 New OleDbParameter("@REORDERPOINT", TxtReorderPoint.Text)
             })
+            Me.Dispose()
         End If
     End Sub
 
@@ -139,6 +124,7 @@ Public Class ControlStockInfo
             DB.Execute($"DELETE FROM {StructureDbTables.Stock} WHERE {StructureDbStock.Code}=@SNo", {
                     New OleDbParameter("@SNo", TxtSNo.Text)
                 })
+            Me.Dispose()
         End If
     End Sub
 End Class

@@ -464,6 +464,41 @@
       "ID": "93",
       "Date": "2023-08-27 1:32:39 PM",
       "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "94",
+      "Date": "2023-08-30 2:53:30 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "95",
+      "Date": "2023-08-30 3:03:14 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "96",
+      "Date": "2023-09-02 2:37:22 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "97",
+      "Date": "2023-09-02 2:42:47 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "98",
+      "Date": "2023-09-02 2:44:31 PM",
+      "Command": "INSERT INTO Stock(\r\n                SNo,\r\n                SCategory,\r\n                SName,\r\n                SModelNo,\r\n                SLocation,\r\n                SDetails,\r\n                SSalePrice,\r\n                SCostPrice,\r\n                SAvailableStocks,\r\n                SOutofStocks,\r\n                SMinStocks\r\n            ) Values(@CODE,@CATEGORY,@NAME,@MODELNO,@LOCATION,@DETAILS,@SALEPRICE,@COSTPRICE,0,0,@REORDERPOINT);"
+    },
+    {
+      "ID": "99",
+      "Date": "2023-09-02 2:44:54 PM",
+      "Command": "UPDATE Stock SET \r\n            SCategory = @CATEGORY,\r\n            SName = @NAME,\r\n            SModelNo = @MODELNO,\r\n            SLocation = @LOCATION,\r\n            SDetails = @DETAILS,\r\n            SSalePrice = @SALEPRICE,\r\n            SCostPrice = @COSTPRICE,\r\n            SMinStocks = @REORDERPOINT\r\n            WHERE SNo = @CODE;"
+    },
+    {
+      "ID": "100",
+      "Date": "2023-09-02 2:46:05 PM",
+      "Command": "UPDATE Stock SET \r\n            SCategory = @CATEGORY,\r\n            SName = @NAME,\r\n            SModelNo = @MODELNO,\r\n            SLocation = @LOCATION,\r\n            SDetails = @DETAILS,\r\n            SSalePrice = @SALEPRICE,\r\n            SCostPrice = @COSTPRICE,\r\n            SMinStocks = @REORDERPOINT\r\n            WHERE SNo = @CODE;"
     }
   ]
 }

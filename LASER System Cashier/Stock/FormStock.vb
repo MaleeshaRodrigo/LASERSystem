@@ -20,6 +20,8 @@ Public Class FormStock
 
     Private Sub FormStock_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         DB.Connect()
+        cmbFilter.SelectedIndex = 0
+        WorkerStock.RunWorkerAsync()
     End Sub
     Private Sub grdStock_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles grdStock.CellDoubleClick
         Dim CurrentRow = grdStock.Rows.Item(e.RowIndex)
