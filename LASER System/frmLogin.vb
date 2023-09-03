@@ -4,7 +4,7 @@ Imports Microsoft.VisualBasic.FileIO
 Public Class frmLogin
     Private frmMoveX, frmMoveY As Integer
     Private newpoint As New Point
-    Private Db As Database
+    Private Db As New Database
     Private Sub FrmLogin_Leave(sender As Object, e As EventArgs) Handles Me.Leave
         Db.Disconnect()
         End

@@ -8,18 +8,12 @@ Imports System.Web.Security
 Imports Newtonsoft.Json
 
 Module Utils
-    Public CNN As New OleDb.OleDbConnection
-    Public CMD As New OleDb.OleDbCommand
-    Public DR As OleDb.OleDbDataReader
-    Public DA As OleDb.OleDbDataAdapter
-    Public DT As DataTable
-    Public DS As DataSet
-    Public Simple As New Encoder
+    Private Db As New Database
 
     Public Sub CmbDropDown(cmb As ComboBox, SQL As String, ColumnName As String)
         cmb.Items.Clear()
         Dim DT0 As New DataTable
-        Dim DA0 As New OleDbDataAdapter(SQL, CNN)
+        Dim DA0 As New OleDbDataAdapter = 
         DA0.Fill(DT0)
         Dim items = DT0.AsEnumerable().Select(Function(d) DirectCast(d(0).ToString(), Object)).ToArray()
         cmb.Items.AddRange(items)
@@ -323,7 +317,7 @@ Module Utils
 
     'Add Message panel to flow layout panel
     Public Sub CreateMessagePanel(Title As String, Message As String, Optional ByVal Tag As String = "")
-        Dim MessagePanel As New compMessageBox
+        Dim MessagePanel As New ControlMessageBox
         'Add panel to flow layout panel
         MdifrmMain.flpMessage.Controls.Add(MessagePanel)
 

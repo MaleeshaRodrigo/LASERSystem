@@ -385,10 +385,10 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Structures\StructureDatabase.vb" />
-    <Compile Include="Controls\compMessageBox.Designer.vb">
-      <DependentUpon>compMessageBox.vb</DependentUpon>
+    <Compile Include="Controls\ControlMessageBox.Designer.vb">
+      <DependentUpon>ControlMessageBox.vb</DependentUpon>
     </Compile>
-    <Compile Include="Controls\compMessageBox.vb">
+    <Compile Include="Controls\ControlMessageBox.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\frmDatagridviewTool.Designer.vb">
@@ -535,8 +535,8 @@
     <EmbeddedResource Include="Stock\frmStock.si.resx">
       <DependentUpon>frmStock.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\compMessageBox.resx">
-      <DependentUpon>compMessageBox.vb</DependentUpon>
+    <EmbeddedResource Include="Controls\ControlMessageBox.resx">
+      <DependentUpon>ControlMessageBox.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

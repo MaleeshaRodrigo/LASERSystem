@@ -2,7 +2,7 @@
 Imports System.Threading
 
 Public Class frmDeliver
-    Private Db As Database
+    Private Db As New Database
     Public Sub New()
         ' This call is required by the designer.
         InitializeComponent()
