@@ -13,7 +13,7 @@ Public Class ControlStockInfo
     End Sub
 
     Public Sub ClearControls()
-        TxtSNo.Text = DB.GetNextKey(StructureDatabase.Stock, StructureDbStock.Code)
+        TxtSNo.Text = DB.GetNextKey(StructureDatabase.Tables.Stock, StructureDatabase.Stock.Code)
         CmbCategory.Text = ""
         CmbName.Text = ""
         TxtModelNo.Text = ""
@@ -50,20 +50,20 @@ Public Class ControlStockInfo
             If Not .Execute() Then Exit Sub
         End With
 
-        If DB.CheckDataIsExist(StructureDatabase.Stock, StructureDbStock.Code, TxtSNo.Text) And
+        If DB.CheckDataIsExist(StructureDatabase.Tables.Stock, StructureDatabase.Stock.Code, TxtSNo.Text) And
             MsgBox("ඔබට මෙම Record එක Update කිරිමට අවශ්‍යද?", vbInformation + vbYesNo) = vbYes Then
-            DB.Execute($"UPDATE {StructureDatabase.Stock} SET 
-            {StructureDbStock.Category} = @CATEGORY,
-            {StructureDbStock.Name} = @NAME,
-            {StructureDbStock.ModelNo} = @MODELNO,
-            {StructureDbStock.Location} = @LOCATION,
-            {StructureDbStock.Details} = @DETAILS,
-            {StructureDbStock.SalePrice} = @SALEPRICE,
-            {StructureDbStock.CostPrice} = @COSTPRICE,
-            {StructureDbStock.AvailableUnits} = @AVAILABLEUNITS,
-            {StructureDbStock.DamagedUnits} = @DAMAGEDUNITS,
-            {StructureDbStock.ReorderPoint} = @REORDERPOINT
-            WHERE {StructureDbStock.Code} = @CODE;", {
+            DB.Execute($"UPDATE {StructureDatabase.Tables.Stock} SET 
+            {StructureDatabase.Stock.Category} = @CATEGORY,
+            {StructureDatabase.Stock.Name} = @NAME,
+            {StructureDatabase.Stock.ModelNo} = @MODELNO,
+            {StructureDatabase.Stock.Location} = @LOCATION,
+            {StructureDatabase.Stock.Details} = @DETAILS,
+            {StructureDatabase.Stock.SalePrice} = @SALEPRICE,
+            {StructureDatabase.Stock.CostPrice} = @COSTPRICE,
+            {StructureDatabase.Stock.AvailableUnits} = @AVAILABLEUNITS,
+            {StructureDatabase.Stock.DamagedUnits} = @DAMAGEDUNITS,
+            {StructureDatabase.Stock.ReorderPoint} = @REORDERPOINT
+            WHERE {StructureDatabase.Stock.Code} = @CODE;", {
                 New OleDbParameter("@CATEGORY", CmbCategory.Text),
                 New OleDbParameter("@NAME", CmbName.Text),
                 New OleDbParameter("@MODELNO", TxtModelNo.Text),
@@ -78,18 +78,18 @@ Public Class ControlStockInfo
             })
             Me.Dispose()
         Else
-            DB.Execute($"INSERT INTO {StructureDatabase.Stock}(
-                {StructureDbStock.Code},
-                {StructureDbStock.Category},
-                {StructureDbStock.Name},
-                {StructureDbStock.ModelNo},
-                {StructureDbStock.Location},
-                {StructureDbStock.Details},
-                {StructureDbStock.SalePrice},
-                {StructureDbStock.CostPrice},
-                {StructureDbStock.AvailableUnits},
-                {StructureDbStock.DamagedUnits},
-                {StructureDbStock.ReorderPoint}
+            DB.Execute($"INSERT INTO {StructureDatabase.Tables.Stock}(
+                {StructureDatabase.Stock.Code},
+                {StructureDatabase.Stock.Category},
+                {StructureDatabase.Stock.Name},
+                {StructureDatabase.Stock.ModelNo},
+                {StructureDatabase.Stock.Location},
+                {StructureDatabase.Stock.Details},
+                {StructureDatabase.Stock.SalePrice},
+                {StructureDatabase.Stock.CostPrice},
+                {StructureDatabase.Stock.AvailableUnits},
+                {StructureDatabase.Stock.DamagedUnits},
+                {StructureDatabase.Stock.ReorderPoint}
             ) Values(@CODE,@CATEGORY,@NAME,@MODELNO,@LOCATION,@DETAILS,@SALEPRICE,@COSTPRICE,
                 @AVAILABLEUNITS,@DAMAGEDUNITS,@REORDERPOINT);", {
                 New OleDbParameter("@CODE", TxtSNo.Text),
@@ -110,25 +110,25 @@ Public Class ControlStockInfo
 
     Private Sub CmbCategory_DropDown(sender As Object, e As EventArgs) Handles CmbCategory.DropDown
         CmbDropDown(CmbCategory,
-                    $"SELECT {StructureDbStock.Category} FROM {StructureDatabase.Stock} GROUP BY {StructureDbStock.Category};",
-                    StructureDbStock.Category)
+                    $"SELECT {StructureDatabase.Stock.Category} FROM {StructureDatabase.Tables.Stock} GROUP BY {StructureDatabase.Stock.Category};",
+                    StructureDatabase.Stock.Category)
     End Sub
 
     Private Sub CmbName_DropDown(sender As Object, e As EventArgs) Handles CmbName.DropDown
         CmbDropDown(CmbName,
-                    $"SELECT {StructureDbStock.Name} FROM {StructureDatabase.Stock} GROUP BY {StructureDbStock.Name};",
-                    StructureDbStock.Name)
+                    $"SELECT {StructureDatabase.Stock.Name} FROM {StructureDatabase.Tables.Stock} GROUP BY {StructureDatabase.Stock.Name};",
+                    StructureDatabase.Stock.Name)
     End Sub
 
     Private Sub CmbLocation_DropDown(sender As Object, e As EventArgs) Handles CmbLocation.DropDown
         CmbDropDown(CmbLocation,
-                    $"SELECT {StructureDbStock.Location} FROM {StructureDatabase.Stock} GROUP BY {StructureDbStock.Location};",
-                    StructureDbStock.Location)
+                    $"SELECT {StructureDatabase.Stock.Location} FROM {StructureDatabase.Tables.Stock} GROUP BY {StructureDatabase.Stock.Location};",
+                    StructureDatabase.Stock.Location)
     End Sub
 
     Private Sub CmdDelete_Click(sender As Object, e As EventArgs) Handles CmdDelete.Click
-        If DB.CheckDataIsExist(StructureDatabase.Stock, StructureDbStock.Code, TxtSNo.Text) AndAlso MsgBox("ඔබට මෙම Record එක Delete කිරිමට අවශ්‍යද?", vbInformation + vbYesNo) = vbYes Then
-            DB.Execute($"DELETE FROM {StructureDatabase.Stock} WHERE {StructureDbStock.Code}=@SNo", {
+        If DB.CheckDataIsExist(StructureDatabase.Tables.Stock, StructureDatabase.Stock.Code, TxtSNo.Text) AndAlso MsgBox("ඔබට මෙම Record එක Delete කිරිමට අවශ්‍යද?", vbInformation + vbYesNo) = vbYes Then
+            DB.Execute($"DELETE FROM {StructureDatabase.Tables.Stock} WHERE {StructureDatabase.Stock.Code}=@SNo", {
                     New OleDbParameter("@SNo", TxtSNo.Text)
                 })
             Me.Dispose()

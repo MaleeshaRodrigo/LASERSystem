@@ -59,17 +59,17 @@ Public Class frmStock
                 With ControlStockInfo
                     Me.Controls.Add(ControlStockInfo)
                     .ClearControls()
-                    .TxtSNo.Text = CurrentRow.Cells.Item(StructureDbStock.Code).Value
-                    .CmbCategory.Text = CurrentRow.Cells.Item(StructureDbStock.Category).Value
-                    .CmbName.Text = CurrentRow.Cells.Item(StructureDbStock.Name).Value
-                    .TxtModelNo.Text = CurrentRow.Cells.Item(StructureDbStock.ModelNo).Value
-                    .CmbLocation.Text = CurrentRow.Cells.Item(StructureDbStock.Location).Value
-                    .TxtCostPrice.Text = CurrentRow.Cells.Item(StructureDbStock.CostPrice).Value
-                    .TxtSalePrice.Text = CurrentRow.Cells.Item(StructureDbStock.SalePrice).Value
-                    .TxtAvailableUnits.Text = CurrentRow.Cells.Item(StructureDbStock.AvailableUnits).Value
-                    .TxtDamagedUnits.Text = CurrentRow.Cells.Item(StructureDbStock.DamagedUnits).Value
-                    .TxtReorderPoint.Text = CurrentRow.Cells.Item(StructureDbStock.ReorderPoint).Value
-                    .TxtDetails.Text = CurrentRow.Cells.Item(StructureDbStock.Details).Value
+                    .TxtSNo.Text = CurrentRow.Cells.Item(StructureDatabase.Stock.Code).Value
+                    .CmbCategory.Text = CurrentRow.Cells.Item(StructureDatabase.Stock.Category).Value
+                    .CmbName.Text = CurrentRow.Cells.Item(StructureDatabase.Stock.Name).Value
+                    .TxtModelNo.Text = CurrentRow.Cells.Item(StructureDatabase.Stock.ModelNo).Value
+                    .CmbLocation.Text = CurrentRow.Cells.Item(StructureDatabase.Stock.Location).Value
+                    .TxtCostPrice.Text = CurrentRow.Cells.Item(StructureDatabase.Stock.CostPrice).Value
+                    .TxtSalePrice.Text = CurrentRow.Cells.Item(StructureDatabase.Stock.SalePrice).Value
+                    .TxtAvailableUnits.Text = CurrentRow.Cells.Item(StructureDatabase.Stock.AvailableUnits).Value
+                    .TxtDamagedUnits.Text = CurrentRow.Cells.Item(StructureDatabase.Stock.DamagedUnits).Value
+                    .TxtReorderPoint.Text = CurrentRow.Cells.Item(StructureDatabase.Stock.ReorderPoint).Value
+                    .TxtDetails.Text = CurrentRow.Cells.Item(StructureDatabase.Stock.Details).Value
                     .Dock = DockStyle.Fill
                     .BringToFront()
                 End With
