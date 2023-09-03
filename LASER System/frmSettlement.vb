@@ -420,26 +420,19 @@ Public Class frmSettlement
         ElseIf CheckEmptyfield(txtTAAmount, "Transactions Amount is empty. Please fill it and try again") = False Then
             Exit Sub
         End If
-
-        Dim AdminPer As New AdminPermission With {
-            .Remarks = "අද දිනට නොමැති " & txtTANo.Text & " වන Transaction Data එක Edit කෙරුණි."
-        }
-
         If dtpTADate.Value.Date = Today.Date Then
             dtpTADate.Value = DateAndTime.Now
-        ElseIf MdifrmMain.tslblUserType.Text <> "Admin" Then
-            AdminPer.AdminSend = True
         End If
         Select Case cmdSave.Text
             Case "Save"
                 AutomaticPrimaryKey(txtTANo, "Select Top 1 TANo from [Transaction] order by TANo Desc;", "TANo")
                 Db.Execute("Insert into `Transaction`(TANo, TADate,TADetails, TAAmount) Values(?NewKey?Transaction?TANo?,#" &
-                                             dtpTADate.Value.ToString & "#,'" & txtTADetails.Text & "', " & txtTAAmount.Text & ");", AdminPer)
+                                             dtpTADate.Value.ToString & "#,'" & txtTADetails.Text & "', " & txtTAAmount.Text & ");")
             Case "Edit"
                 Db.Execute("UPDATE `Transaction` SET TADate=#" & dtpTADate.Value.ToString & "#," &
                                                  "TADetails'" & txtTADetails.Text & "'," &
                                                  "TAAmount=" & txtTAAmount.Text &
-                                                 " WHERE TANO = " & txtTANo.Text, AdminPer)
+                                                 " WHERE TANO = " & txtTANo.Text)
         End Select
         grdTransaction.Refresh()
         CmdTANew_Click(sender, e)
@@ -447,16 +440,11 @@ Public Class frmSettlement
     End Sub
 
     Private Sub CmdTADelete_Click(sender As Object, e As EventArgs) Handles cmdTADelete.Click
-        Dim AdminPer As New AdminPermission With {
-        .Remarks = "අද දිනට නොමැති Transaction එකෙහි " & txtTANo.Text & " වන Data එක Delete කෙරුණි."}
-        If dtpTADate.Value.Date <> Today.Date And MdifrmMain.tslblUserType.Text <> "Admin" Then
-            AdminPer.AdminSend = True
-        End If
         If CheckEmptyfield(txtTANo, "Transactions No is empty. Please fill it and try again") = False Then
             Exit Sub
         End If
         If MsgBox("Are you sure delete this transaction?", vbInformation + vbYesNo) = vbYes Then
-            Db.Execute("DELETE from `Transaction` where TANO = " & txtTANo.Text, AdminPer)
+            Db.Execute("DELETE from `Transaction` where TANO = " & txtTANo.Text)
         End If
         CmdTANew_Click(sender, e)
     End Sub

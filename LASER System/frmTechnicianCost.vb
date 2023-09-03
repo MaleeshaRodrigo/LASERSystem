@@ -131,14 +131,9 @@ Public Class frmTechnicianCost
             Exit Sub
         End If
         Dim tmp As String = ""
-        Dim AdminPer As New AdminPermission With {.Remarks = "අද දිනට නොමැති Technician Cost Data එකක් update කෙරුණි."}
         Select Case e.ColumnIndex
             Case 1
-                If Convert.ToDateTime(grdTechnicianCost.Item(1, e.RowIndex).Tag).Date <> Today.Date And
-                    MdifrmMain.tslblUserType.Text <> "Admin" Then
-                    AdminPer.AdminSend = True
-                    AdminPer.Remarks = "අද දිනට නොමැති Technician Cost Data එකක Time එක update කෙරුණි."
-                Else
+                If Convert.ToDateTime(grdTechnicianCost.Item(1, e.RowIndex).Tag).Date = Today.Date Then
                     grdTechnicianCost.CurrentCell.Value = dtpDate.Value.ToString
                 End If
                 dtpDate.Visible = False
@@ -211,22 +206,19 @@ Public Class frmTechnicianCost
         End If
         If CheckExistData("Select * from TechnicianCost Where TCNo=" & grdTechnicianCost.Item(0, e.RowIndex).Value) = False Then Db.Execute("Insert into TechnicianCost(TCNo,TNo,Rate,Qty,Total,UNo) Values(" & grdTechnicianCost.Item(0, e.RowIndex).Value & "," &
                       GetStrfromRelatedfield("Select TNo from Technician Where TName='" & cmbTName.Text & "'") & ",0,0,0," & MdifrmMain.Tag & ")")
-        If Convert.ToDateTime(grdTechnicianCost.Item(1, e.RowIndex).Value).Date <> Today.Date Then
-            AdminPer.AdminSend = True
-        End If
         Select Case e.ColumnIndex
             Case 1
                 Db.Execute("Update TechnicianCost set " & grdTechnicianCost.Columns(e.ColumnIndex).DataPropertyName & "=#" &
                           grdTechnicianCost.Item(e.ColumnIndex, e.RowIndex).Value & "# " & tmp & " Where TCNo=" &
-                          grdTechnicianCost.Item(0, e.RowIndex).Value, AdminPer)
+                          grdTechnicianCost.Item(0, e.RowIndex).Value)
             Case 2, 5, 6, 7, 9, 10
                 Db.Execute("Update TechnicianCost set " & grdTechnicianCost.Columns(e.ColumnIndex).DataPropertyName & "=" &
                           grdTechnicianCost.Item(e.ColumnIndex, e.RowIndex).Value & " " & tmp & " Where TCNo=" &
-                          grdTechnicianCost.Item(0, e.RowIndex).Value, AdminPer)
+                          grdTechnicianCost.Item(0, e.RowIndex).Value)
             Case 3, 4, 8
                 Db.Execute("Update TechnicianCost set " & grdTechnicianCost.Columns(e.ColumnIndex).DataPropertyName & "='" &
                           grdTechnicianCost.Item(e.ColumnIndex, e.RowIndex).Value & "' " & tmp & " Where TCNo=" &
-                          grdTechnicianCost.Item(0, e.RowIndex).Value, AdminPer)
+                          grdTechnicianCost.Item(0, e.RowIndex).Value)
         End Select
         grdTechnicianCost.Item(e.ColumnIndex, e.RowIndex).Tag = ""
         cmdTCSearch_Click(sender, e)
