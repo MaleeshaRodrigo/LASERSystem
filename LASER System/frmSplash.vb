@@ -3,11 +3,12 @@ Imports System.IO
 Imports Microsoft.VisualBasic.FileIO
 
 Public NotInheritable Class FrmSplash
+    Private Db As New Database
     Dim C As Integer
     Dim flName As Object
 
     Private Sub FrmSplash_Load(sender As Object, e As EventArgs) Handles Me.Load
-        GetCNN()
+        Db.Connect()
         imgSplash.Top = 0
         imgSplash.Left = 0
         C = 0
@@ -181,5 +182,9 @@ Public NotInheritable Class FrmSplash
                 MdifrmMain.Visible = True
         End Select
         tmrSplash.Start()
+    End Sub
+
+    Private Sub FrmSplash_Leave(sender As Object, e As EventArgs) Handles Me.Leave
+        Db.Disconnect()
     End Sub
 End Class

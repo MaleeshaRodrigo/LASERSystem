@@ -138,9 +138,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\AdminPermission.vb" />
     <Compile Include="Classes\Database.vb" />
-    <Compile Include="Classes\Encode.vb" />
     <Compile Include="Classes\Encoder.vb" />
     <Compile Include="Classes\MessagePanel.vb" />
     <Compile Include="Classes\Validators\CustomValidator.vb" />
@@ -297,7 +295,7 @@
     <Compile Include="mdifrmMain.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="modSystem.vb" />
+    <Compile Include="Utils.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -386,24 +384,23 @@
     <Compile Include="Stock\frmStock.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Structures\StructureDbStock.vb" />
-    <Compile Include="Structures\StructureDbTables.vb" />
-    <Compile Include="Tools\compMessageBox.Designer.vb">
+    <Compile Include="Structures\StructureDatabase.vb" />
+    <Compile Include="Controls\compMessageBox.Designer.vb">
       <DependentUpon>compMessageBox.vb</DependentUpon>
     </Compile>
-    <Compile Include="Tools\compMessageBox.vb">
+    <Compile Include="Controls\compMessageBox.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Tools\frmDatagridviewTool.Designer.vb">
+    <Compile Include="Controls\frmDatagridviewTool.Designer.vb">
       <DependentUpon>frmDatagridviewTool.vb</DependentUpon>
     </Compile>
-    <Compile Include="Tools\frmDatagridviewTool.vb">
+    <Compile Include="Controls\frmDatagridviewTool.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Tools\frmSearchDropDown.Designer.vb">
+    <Compile Include="Controls\frmSearchDropDown.Designer.vb">
       <DependentUpon>frmSearchDropDown.vb</DependentUpon>
     </Compile>
-    <Compile Include="Tools\frmSearchDropDown.vb">
+    <Compile Include="Controls\frmSearchDropDown.vb">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>
@@ -538,7 +535,7 @@
     <EmbeddedResource Include="Stock\frmStock.si.resx">
       <DependentUpon>frmStock.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Tools\compMessageBox.resx">
+    <EmbeddedResource Include="Controls\compMessageBox.resx">
       <DependentUpon>compMessageBox.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>

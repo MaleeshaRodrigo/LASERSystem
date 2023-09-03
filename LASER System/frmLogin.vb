@@ -2,17 +2,18 @@
 Imports Microsoft.VisualBasic.FileIO
 
 Public Class frmLogin
-    Dim frmMoveX, frmMoveY As Integer
-    Dim newpoint As New Point
+    Private frmMoveX, frmMoveY As Integer
+    Private newpoint As New Point
+    Private Db As Database
     Private Sub FrmLogin_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-        CNN.Close()
+        Db.Disconnect()
         End
     End Sub
 
     Private Sub FrmLogin_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         System.Diagnostics.Process.GetCurrentProcess().PriorityClass = System.Diagnostics.ProcessPriorityClass.High
         If My.Settings.DatabaseCNN = "" Then My.Settings.DatabaseCNN = SpecialDirectories.MyDocuments + "\Database.accdb"
-        GetCNN()
+        Db.Connect()
         Me.AcceptButton = cmdLogin
         cmbUserName_DropDown(sender, e)
         CMD = New OleDbCommand("Select Top 1 UserName from [User] Order by LastLogin Desc;", CNN)
@@ -117,7 +118,7 @@ Public Class frmLogin
             For i As Integer = 1 To 5 ' 5 Letters generated
                 sPrefix &= ChrW(rdm.Next(65, 90))
             Next
-            CMDUPDATE("Insert Into Mail(MailNo,MailDate,EmailTo,Subject,Body,Status) Values(?NewKey?Mail?MailNo?,#" &
+            Db.Execute("Insert Into Mail(MailNo,MailDate,EmailTo,Subject,Body,Status) Values(?NewKey?Mail?MailNo?,#" &
                       DateAndTime.Now & "#,'" & DR("Email").ToString & "','New Signed in Detected from your LASER System account','" &
                       "Please use the following security code for the LASER System account " & txtOTPUserName.Text & "." + vbCrLf + vbCrLf +
                         "Security code: " + sPrefix & "','Waiting');")

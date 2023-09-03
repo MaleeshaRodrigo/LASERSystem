@@ -4,6 +4,7 @@ Imports System.Drawing
 Imports System.IO
 
 Public Class frmStockSticker
+    Private Db As New Database
     Public Sub grdStock_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs) Handles grdStock.CellEndEdit
         If e.ColumnIndex = 0 Then
             If grdStock.Item(0, e.RowIndex).Value = "" Then Exit Sub
@@ -131,7 +132,7 @@ Public Class frmStockSticker
     End Sub
 
     Private Sub frmStockSticker_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        GetCNN()
+        Db.Connect()
     End Sub
 
     Private Sub frmStockSticker_Resize(sender As Object, e As EventArgs) Handles Me.Resize

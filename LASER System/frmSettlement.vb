@@ -2,9 +2,10 @@
 Imports Microsoft.VisualBasic.FileIO
 Imports System.IO
 Public Class frmSettlement
+    Private Db As New Database
 
     Private Sub frmSettlement_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        GetCNN()
+        Db.Connect()
         MenuStrip.Items.Add(mnustrpMENU)
         txtFrom.Value = Today
         txtTo.Value = Today
@@ -26,14 +27,14 @@ Public Class frmSettlement
         CMD = New OleDb.OleDbCommand("Select * from Settlement where SetDate=#" & txtFrom.Value.Date & "#", CNN)
         DR = CMD.ExecuteReader()
         If DR.HasRows = True Then
-            CMDUPDATE("Update Settlement Set SaTotal =" & txtTotalofSales.Text & ", RepTotal = " & txtTotalofRepairs.Text & ",TATotal=" & txtTotalofTransactions.Text &
+            Db.Execute("Update Settlement Set SaTotal =" & txtTotalofSales.Text & ", RepTotal = " & txtTotalofRepairs.Text & ",TATotal=" & txtTotalofTransactions.Text &
                                               ",SetGrandTotal=" & txtIncome.Text & ",CTotal=" & txtCTotal.Text & ",CPTotal =" & txtCPTotal.Text & ",CuLTotal =" & txtCuLTotal.Text &
                                               ",CPReceiptQty=" & txtCPQtyInvoice.Text & ",CashinLocker=" & txtLockerCash.Text & ",SetChange = " & txtChange.Text &
                                               ",LKR5000=" & txtLKR5000.Text & ",LKR1000=" & txtLKR1000.Text & ",LKR500=" & txtLKR500.Text & ",LKR100=" & txtLKR100.Text &
                                               ",LKR50=" & txtLKR50.Text & ",LKR20=" & txtLKR20.Text & ",LKR10=" & txtLKR10.Text & ",LKR5=" & txtLKR5.Text & ",LKR2=" & txtLKR2.Text &
                                               ",LKR1=" & txtLKR1.Text & " Where SetDate =#" & txtFrom.Value.Date & "#;")
         Else
-            CMDUPDATE("Insert into Settlement(SetDate,SaTotal,RepTotal,TATotal,SetGrandTotal,CTotal,CPTotal,CuLTotal,CPReceiptQty,CashinLocker,SetChange," &
+            Db.Execute("Insert into Settlement(SetDate,SaTotal,RepTotal,TATotal,SetGrandTotal,CTotal,CPTotal,CuLTotal,CPReceiptQty,CashinLocker,SetChange," &
                                               "LKR5000,LKR1000,LKR500,LKR100,LKR50,LKR20,LKR10,LKR5,LKR2,LKR1) Values(#" & txtFrom.Value.Date & "#," & txtTotalofSales.Text & "," &
                                               txtTotalofRepairs.Text & "," & txtTotalofTransactions.Text & "," & txtIncome.Text & "," & txtCTotal.Text & "," & txtCPTotal.Text & "," &
                                               txtCuLTotal.Text & "," & txtCPQtyInvoice.Text & "," & txtLockerCash.Text & "," & txtChange.Text & "," & txtLKR5000.Text & "," & txtLKR1000.Text &
@@ -43,7 +44,6 @@ Public Class frmSettlement
 
         Try
             If CheckForInternetConnection() = False Then Exit Try
-            Dim Simple As New Simple3Des("RandomKey45")
             If My.Settings.SendSettlementEmail = "False" Then Exit Try
             For Each controlObject As Control In MdifrmMain.flpMessage.Controls
                 If controlObject.Tag = "SendAdminsSettlementError" Then
@@ -221,7 +221,7 @@ Public Class frmSettlement
                     DS2.Tables("TechnicianLoan").Rows.Count > 0 Then
                 MdifrmMain.tsProBar.Value = 80
                 MdifrmMain.tslblLoad.Text = "Sending Email..."
-                CMDUPDATE("Insert Into Mail(MailNo,MailDate,EmailTo,Subject,Body,Status,Attachment1,Attachment2,Attachment3) Values(" &
+                Db.Execute("Insert Into Mail(MailNo,MailDate,EmailTo,Subject,Body,Status,Attachment1,Attachment2,Attachment3) Values(" &
                                 AutomaticPrimaryKey("Mail", "MailNo") & ",#" & DateAndTime.Now &
                                 "#,'" & My.Settings.AdminEmail & "','Settlement " & Today.Date.ToString & "','මෙය LASER System එකෙන් Automatically පැමිණන Email " &
                               "එකක් බැවින් ඔබට මෙය නැවැත්වීමට අවශ්‍යනම්, අපගේ Programe Developer හට දැනුම් දෙන්න.','Waiting','" &
@@ -433,10 +433,10 @@ Public Class frmSettlement
         Select Case cmdSave.Text
             Case "Save"
                 AutomaticPrimaryKey(txtTANo, "Select Top 1 TANo from [Transaction] order by TANo Desc;", "TANo")
-                CMDUPDATE("Insert into `Transaction`(TANo, TADate,TADetails, TAAmount) Values(?NewKey?Transaction?TANo?,#" &
+                Db.Execute("Insert into `Transaction`(TANo, TADate,TADetails, TAAmount) Values(?NewKey?Transaction?TANo?,#" &
                                              dtpTADate.Value.ToString & "#,'" & txtTADetails.Text & "', " & txtTAAmount.Text & ");", AdminPer)
             Case "Edit"
-                CMDUPDATE("UPDATE `Transaction` SET TADate=#" & dtpTADate.Value.ToString & "#," &
+                Db.Execute("UPDATE `Transaction` SET TADate=#" & dtpTADate.Value.ToString & "#," &
                                                  "TADetails'" & txtTADetails.Text & "'," &
                                                  "TAAmount=" & txtTAAmount.Text &
                                                  " WHERE TANO = " & txtTANo.Text, AdminPer)
@@ -456,7 +456,7 @@ Public Class frmSettlement
             Exit Sub
         End If
         If MsgBox("Are you sure delete this transaction?", vbInformation + vbYesNo) = vbYes Then
-            CMDUPDATE("DELETE from `Transaction` where TANO = " & txtTANo.Text, AdminPer)
+            Db.Execute("DELETE from `Transaction` where TANO = " & txtTANo.Text, AdminPer)
         End If
         CmdTANew_Click(sender, e)
     End Sub
@@ -654,5 +654,9 @@ Public Class frmSettlement
 
     Private Sub CloseToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CloseToolStripMenuItem.Click
         cmdClose_Click(sender, e)
+    End Sub
+
+    Private Sub frmSettlement_Leave(sender As Object, e As EventArgs) Handles Me.Leave
+        Db.Disconnect()
     End Sub
 End Class

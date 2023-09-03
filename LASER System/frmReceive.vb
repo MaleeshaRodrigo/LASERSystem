@@ -7,6 +7,7 @@ Imports System.ComponentModel
 Imports System.Threading
 
 Public Class frmReceive
+    Private Db As New Database
     Public Property Caller As String
     Public Sub New()
 
@@ -22,7 +23,7 @@ Public Class frmReceive
 
     End Sub
     Private Sub FrmReceive_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        GetCNN()
+        Db.Connect()
         txtCuTelNo1.Focus()
     End Sub
     Private Sub frmReceive_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
@@ -195,12 +196,12 @@ Public Class frmReceive
             CuNo = DR("CuNo")
         Else
             CuNo = AutomaticPrimaryKey("Customer", "CuNo")
-            CMDUPDATE("Insert into Customer(CuNo,CuName,CuTelNo1,CuTelNo2,CutelNo3) Values(" & CuNo & ",'" & cmbCuMr.Text & cmbCuName.Text & "','" &
+            Db.Execute("Insert into Customer(CuNo,CuName,CuTelNo1,CuTelNo2,CutelNo3) Values(" & CuNo & ",'" & cmbCuMr.Text & cmbCuName.Text & "','" &
                       txtCuTelNo1.Text & "','" & txtCuTelNo2.Text & "','" & txtCuTelNo3.Text & "')")
         End If
         If txtRDate.Value.Date = Today.Date Then txtRDate.Value = DateAndTime.Now
         txtRNo.Text = AutomaticPrimaryKey("Receive", "RNo")
-        CMDUPDATE("Insert into Receive(RNo,RDate,CuNo,UNo) values(" & txtRNo.Text & ",#" & txtRDate.Value & "#," & CuNo & ",'" & MdifrmMain.Tag & "');")
+        Db.Execute("Insert into Receive(RNo,RDate,CuNo,UNo) values(" & txtRNo.Text & ",#" & txtRDate.Value & "#," & CuNo & ",'" & MdifrmMain.Tag & "');")
         For Each row As DataGridViewRow In grdRepair.Rows
             If row.Index = grdRepair.Rows.Count - 1 Then Continue For
             'Product Management
@@ -211,14 +212,14 @@ Public Class frmReceive
                 PNo = DR("PNo")
             Else
                 PNo = AutomaticPrimaryKey("Product", "PNo")
-                CMDUPDATE("Insert into Product(PNO,PCATEGORY,PNAME,PMODELNO,PDETAILS) " &
+                Db.Execute("Insert into Product(PNO,PCATEGORY,PNAME,PMODELNO,PDETAILS) " &
                           "Values(" & PNo & ",'" & row.Cells(1).Value & "','" & row.Cells(2).Value & "','" & row.Cells(3).Value & "','" &
                           row.Cells(5).Value & "');")
             End If
-            CMDUPDATE("Insert into Repair(RepNo,RNo,PNo,PSerialNo,Qty,Problem,Status)" &
+            Db.Execute("Insert into Repair(RepNo,RNo,PNo,PSerialNo,Qty,Problem,Status)" &
                                         "Values(" & row.Cells(0).Value & "," & txtRNo.Text & "," & PNo & ",'" & row.Cells(4).Value & "'," &
                                         row.Cells(6).Value & ",'" & row.Cells(7).Value & "','Received');")
-            CMDUPDATE("Insert into RepairActivity(RepANo,RepNo,RepADate,Activity,UNo)" &
+            Db.Execute("Insert into RepairActivity(RepANo,RepNo,RepADate,Activity,UNo)" &
                       " Values(?NewKey?RepairActivity?RepANo?," &
                       row.Cells(0).Value & ",#" & DateAndTime.Now &
                       "#,'Received Date -> " & txtRDate.Value & vbCrLf &
@@ -232,7 +233,7 @@ Public Class frmReceive
                       ", Serial No -> " & row.Cells(4).Value &
                       ", Problem -> " & row.Cells(5).Value & ".'," & MdifrmMain.Tag & ")")
             If row.Cells(8).Value IsNot Nothing Then
-                CMDUPDATE("Insert into RepairRemarks1(Rem1No,Rem1Date,RepNo,Remarks,UNo) Values(?NewKey?RepairRemarks1?Rem1No?,#" & DateAndTime.Now & "#," &
+                Db.Execute("Insert into RepairRemarks1(Rem1No,Rem1Date,RepNo,Remarks,UNo) Values(?NewKey?RepairRemarks1?Rem1No?,#" & DateAndTime.Now & "#," &
                       row.Cells(0).Value & ",'" & row.Cells(8).Value & "'," & MdifrmMain.Tag & ")")
             End If
             If Me.Tag = "Deliver" Then
@@ -261,14 +262,14 @@ Public Class frmReceive
                 PNo = DR("PNo")
             Else
                 PNo = AutomaticPrimaryKey("Product", "PNo")
-                CMDUPDATE("Insert into Product(PNO,PCATEGORY,PNAME,PMODELNO,PDETAILS) " &
+                Db.Execute("Insert into Product(PNO,PCATEGORY,PNAME,PMODELNO,PDETAILS) " &
                           "Values(" & PNo & ",'" & row.Cells(2).Value & "','" & row.Cells(3).Value & "','" & row.Cells(4).Value &
                           "','" & row.Cells(6).Value & "');")
             End If
-            CMDUPDATE("Insert Into `Return`(RetNo,RNo,RepNo,PNo,PSerialNo,Qty,Problem,Status,RetRemarks1) " &
+            Db.Execute("Insert Into `Return`(RetNo,RNo,RepNo,PNo,PSerialNo,Qty,Problem,Status,RetRemarks1) " &
             "Values(" & row.Cells(0).Value & "," & txtRNo.Text & "," & row.Cells(1).Value & "," & PNo & ",'" & row.Cells(5).Value & "'," &
             row.Cells(7).Value & ",'" & row.Cells(8).Value & "','Received','" & row.Cells(9).Value & "');")
-            CMDUPDATE("Insert into RepairActivity(RepANo,RetNo,RepADate,Activity,UNo)" &
+            Db.Execute("Insert into RepairActivity(RepANo,RetNo,RepADate,Activity,UNo)" &
                       " Values(?NewKey?RepairActivity?RepANo?," &
                       row.Cells(0).Value & ",#" & DateAndTime.Now & "#,'Received Date -> " & txtRDate.Value & vbCrLf & ", Name -> " & cmbCuMr.Text & cmbCuName.Text &
                       ", Telephone No1 -> " & txtCuTelNo1.Text & ", Telephone No2 -> " & txtCuTelNo2.Text & ", Telephone No3 -> " & txtCuTelNo3.Text &
@@ -276,7 +277,7 @@ Public Class frmReceive
                       ", Product Name -> " & row.Cells(3).Value & ", Model No -> " & row.Cells(4).Value & ", Serial No -> " & row.Cells(5).Value &
                       ", Problem -> " & row.Cells(6).Value & ".'," & MdifrmMain.Tag & ")")
             If row.Cells(9).Value IsNot Nothing Then
-                CMDUPDATE("Insert into RepairRemarks1(Rem1No,Rem1Date,RetNo,Remarks,UNo) Values(?NewKey?RepairRemarks1?Rem1No?,#" & DateAndTime.Now & "#," &
+                Db.Execute("Insert into RepairRemarks1(Rem1No,Rem1Date,RetNo,Remarks,UNo) Values(?NewKey?RepairRemarks1?Rem1No?,#" & DateAndTime.Now & "#," &
                       row.Cells(0).Value & ",'" & row.Cells(9).Value & "'," & MdifrmMain.Tag & ")")
             End If
             If Me.Tag = "Deliver" Then
@@ -510,7 +511,7 @@ Where Receive.RNo = {RNo}", CNN)
                 .Name = "frmReport" + NextfrmNo(frmReport).ToString
                 .boolClosed = boolClosed
                 .Tag = formTag
-                    .WindowState = FormWindowState.Normal
+                .WindowState = FormWindowState.Normal
                 .Text = "Report - Received Sticker/s"
                 Application.Run(frm2)
             End With
@@ -721,7 +722,7 @@ Where Receive.RNo = {RNo}", CNN)
     End Sub
 
     Private Sub frmReceive_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-        Me.Close()
+        Db.Disconnect()
     End Sub
 
     Private Sub txtCuTelNo1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtCuTelNo1.KeyPress, txtCuTelNo2.KeyPress, txtCuTelNo3.KeyPress
@@ -811,15 +812,15 @@ Where Receive.RNo = {RNo}", CNN)
     End Sub
 
     Public Sub cmbCuName_Text(CuName As String)
-            cmbCuName.Text = CuName
-            CuName = CuName.TrimStart(" ")
-            For Each strTmp As String In cmbCuMr.Items
-                If CuName.StartsWith(strTmp) Then
-                    Dim str As String() = CuName.Split(". ")
-                    cmbCuMr.Text = str.GetValue(0) & ". "
-                    cmbCuName.Text = CuName.Remove(0, cmbCuMr.Text.Length)
-                    Exit For
-                End If
-            Next
-        End Sub
-    End Class
+        cmbCuName.Text = CuName
+        CuName = CuName.TrimStart(" ")
+        For Each strTmp As String In cmbCuMr.Items
+            If CuName.StartsWith(strTmp) Then
+                Dim str As String() = CuName.Split(". ")
+                cmbCuMr.Text = str.GetValue(0) & ". "
+                cmbCuName.Text = CuName.Remove(0, cmbCuMr.Text.Length)
+                Exit For
+            End If
+        Next
+    End Sub
+End Class

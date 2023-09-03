@@ -1,4 +1,5 @@
 ﻿Public Class frmSupplier
+    Private Db As New Database
 
     Private Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click
         CMD = New OleDb.OleDbCommand("SELECT top 1 SuNo from Supplier ORDER BY SuNo Desc;", CNN)
@@ -15,11 +16,11 @@
     End Sub
 
     Private Sub frmSupplier_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-        Me.Close()
+        Db.Disconnect()
     End Sub
 
     Private Sub frmSupplier_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        GetCNN()
+        Db.Connect()
         MenuStrip1.Items.Add(mnustrpMENU)
         If Me.Tag = "" Then
             cmdDone.Enabled = False
@@ -94,7 +95,7 @@
                 ElseIf CheckExistData(cmbSuName, "Select SuName from Supplier where SuName ='" & cmbSuName.Text & "';", "Supplier Name is exist", True) = True Then
                     Exit Sub
                 End If
-                CMDUPDATE("Insert into Supplier(SuNo,SuName,SuAddress, SuEmail, SuTelNo1, SuTelNo2, SuTelNo3,SuRemarks)" &
+                Db.Execute("Insert into Supplier(SuNo,SuName,SuAddress, SuEmail, SuTelNo1, SuTelNo2, SuTelNo3,SuRemarks)" &
                                              "Values(" & txtSuNo.Text & ",'" & cmbSuName.Text & "','" & txtSuAddress.Text & "','" & txtSuEmail.Text & "','" & txtSuTelNo1.Text & "','" & txtSuTelNo2.Text & "','" & txtSuTelNo3.Text & "','" & txtSuRemarks.Text & "');")
                 Call txtSearch_TextChanged(sender, e)
                 cmdSave.Text = "Edit"
@@ -108,7 +109,7 @@
                     Exit Sub
                 End If
                 If MsgBox("Are you sure edit?", vbYesNo + vbInformation) = vbYes Then
-                    CMDUPDATE("Update Supplier set SuNo=" & txtSuNo.Text &
+                    Db.Execute("Update Supplier set SuNo=" & txtSuNo.Text &
                                                  ",SuName = '" & cmbSuName.Text & "'" &
                                                  ",SuAddress = '" & txtSuAddress.Text & "'" &
                                                  ",SuEmail = '" & txtSuEmail.Text & "'" &
@@ -137,7 +138,7 @@
             Exit Sub
         End If
         If MsgBox("Are you sure delete?", vbYesNo + vbInformation) = vbYes Then
-            CMDUPDATE("DELETE from Supplier where SuNo=" & txtSuNo.Text)
+            Db.Execute("DELETE from Supplier where SuNo=" & txtSuNo.Text)
             WriteActivity("Supplier No " + txtSuNo.Text + " was deleted in 'Supplier' table on " + DateTime.Now)
             Call txtSearch_TextChanged(sender, e)
             Call cmdNew_Click(sender, e)

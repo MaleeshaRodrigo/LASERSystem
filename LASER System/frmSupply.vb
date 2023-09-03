@@ -4,13 +4,13 @@ Imports System.Drawing
 Imports System.IO
 
 Public Class frmSupply
-
+    Private Db As New Database
     Private Sub frmSupply_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-        Me.Close()
+        Db.Disconnect()
     End Sub
 
     Private Sub frmSupply_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        GetCNN()
+        Db.Connect()
         MenuStrip.Items.Add(mnustrpMENU)
         Call cmdNew_Click(sender, e)
     End Sub
@@ -73,33 +73,33 @@ Public Class frmSupply
                     DR = CMD.ExecuteReader
                     Dim CMD1 As New OleDb.OleDbCommand
                     If DR.HasRows = False Then
-                        CMDUPDATE("Insert into Stock(SNo,SCategory,SName,SModelNo,SLocation,SDetails,SSalePrice,SCostPrice,SAvailableStocks,SOutofStocks,SMinStocks) " &
+                        Db.Execute("Insert into Stock(SNo,SCategory,SName,SModelNo,SLocation,SDetails,SSalePrice,SCostPrice,SAvailableStocks,SOutofStocks,SMinStocks) " &
                                   "Values(" & row.Cells(0).Value & ",'" & row.Cells(1).Value & "','" & row.Cells(2).Value & "','" & row.Cells(3).Value & "','" & row.Cells(4).Value &
                                   "','" & row.Cells(11).Value & "'," & row.Cells(5).Value & "," & row.Cells(8).Value & ",0,0," & row.Cells(6).Value & ");")
                     Else
-                        CMDUPDATE("Update Stock Set SCostPrice =" & row.Cells(8).Value &
+                        Db.Execute("Update Stock Set SCostPrice =" & row.Cells(8).Value &
                                                            ",SSalePrice= " & row.Cells(5).Value & ", SMinSTocks = " & row.Cells(6).Value &
                                                            ",SLocation = '" & row.Cells(4).Value & "', SModelNo = '" & row.Cells(3).Value &
                                                            "',SDetails='" & row.Cells(11).Value & "' Where SNo = " & row.Cells(0).Value)
                     End If
                 Next
                 If cmbSupStatus.Text = "Paid" Then
-                    CMDUPDATE("Insert into Supply(SupNo, SupDate, SuNo, SupRemarks, SupStatus, SupPaidDate,UNo) " &
+                    Db.Execute("Insert into Supply(SupNo, SupDate, SuNo, SupRemarks, SupStatus, SupPaidDate,UNo) " &
                               "Values(" & txtSupNo.Text & ",#" & txtSupDate.Value & "#," & SuNo & ",'" & txtSupRemarks.Text & "','" & cmbSupStatus.Text & "',#" &
                               txtSupPaidDate.Value & "#," & MdifrmMain.Tag & ");")
                 Else
-                    CMDUPDATE("Insert into Supply(SupNo,SupDate,SuNo,SupRemarks,SupStatus,UName) " &
+                    Db.Execute("Insert into Supply(SupNo,SupDate,SuNo,SupRemarks,SupStatus,UName) " &
                               "Values(" & txtSupNo.Text & ",#" & txtSupDate.Value & "#," & SuNo & ",'" & txtSupRemarks.Text & "','" & cmbSupStatus.Text & "','" & MdifrmMain.Tag & "');")
                 End If
                 For Each row As DataGridViewRow In grdSupply.Rows
                     If grdSupply.Rows.Count - 1 = row.Index Then Continue For
-                    CMDUPDATE("Insert into StockSupply(SupNo,SNo,SupType,SupUnits,SupCostPrice,SupTotal) " &
+                    Db.Execute("Insert into StockSupply(SupNo,SNo,SupType,SupUnits,SupCostPrice,SupTotal) " &
                               "Values(" & txtSupNo.Text & "," & row.Cells(0).Value.ToString() & ",'" & row.Cells(7).Value.ToString() & "'," & row.Cells(9).Value.ToString() & "," & row.Cells(8).Value.ToString() & "," & row.Cells(10).Value.ToString() & ");")
                     If row.Cells(7).Value.ToString = "Supply" Then
-                        CMDUPDATE("Update Stock set SAvailablestocks=(SAvailableStocks + " & row.Cells(9).Value.ToString &
+                        Db.Execute("Update Stock set SAvailablestocks=(SAvailableStocks + " & row.Cells(9).Value.ToString &
                                   ") where SNo=" & row.Cells(0).Value.ToString & "")
                     Else
-                        CMDUPDATE("Update Stock set SOutofstocks=(SOutofstocks - " & row.Cells(9).Value.ToString &
+                        Db.Execute("Update Stock set SOutofstocks=(SOutofstocks - " & row.Cells(9).Value.ToString &
                                   ") where SNo=" & row.Cells(0).Value.ToString & "")
                     End If
                 Next
@@ -171,7 +171,7 @@ Public Class frmSupply
             Exit Sub
         End If
         If MsgBox("Are you sure delete this supply record?", vbYesNo + vbExclamation) = vbYes Then
-            CMDUPDATE("Delete from Supply where SupNo = " & txtSupNo.Text)
+            Db.Execute("Delete from Supply where SupNo = " & txtSupNo.Text)
         End If
     End Sub
 

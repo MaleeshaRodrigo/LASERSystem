@@ -63,74 +63,34 @@ Public Class Database
     End Function
 
     ''' <summary>
-    ''' Update the given SQL Query to the database. If the Admin Permission needs to the SQL query, It won't apply to the database. After Admin 
-    ''' accept changes, Then it will apply.
+    ''' Update the given SQL Query to the database. 
     ''' </summary>
     ''' <param name="Query">The SQL Query</param>
-    ''' <param name="AdminPer">The Admin Permission</param>
-    Public Sub Execute(Query As String, Optional Parameters() As OleDbParameter = Nothing, Optional AdminPer As AdminPermission = Nothing)
+    ''' <param name="Parameters">Query Parameters</param>
+    Public Sub Execute(Query As String, Optional Parameters() As OleDbParameter = Nothing)
         Dim CMDUPDATEDB As OleDbCommand
-        If AdminPer IsNot Nothing AndAlso AdminPer.AdminSend = True Then
-            If GetRowsCount($"Select APNo from AdminPermission Where APNo={AdminPer.APNo}") = 0 Then
-                Dim APCommand As String = $"Insert into AdminPermission(APNo,APDate,`Status`,AppliedUNo,`Keys`,Remarks)
-Values({AdminPer.APNo},#{DateAndTime.Now}#,'Waiting',{MdifrmMain.Tag},
-'{JsonConvert.SerializeObject(AdminPer.Keys, Formatting.Indented)}','{AdminPer.Remarks}')"
-
-                CMDUPDATEDB = New OleDbCommand(APCommand, _Connection)
-                CMDUPDATEDB.ExecuteNonQuery()
-                CMDUPDATEDB.Cancel()
-
-                UpdateOnlineTable(APCommand)
-            End If
-            Dim APCCommand As String = $"Insert into APCommand(APNo,Commands) Values({AdminPer.APNo},'{Query.ToString.Replace("'", "''")}')"
-            CMDUPDATEDB = New OleDbCommand(APCCommand, _Connection)
-            CMDUPDATEDB.ExecuteNonQuery()
-            CMDUPDATEDB.Cancel()
-
-            UpdateOnlineTable(APCCommand)
-        Else
-            'Replace a new index instead of command in keys dictionary in adminpermission
-            If AdminPer IsNot Nothing AndAlso AdminPer.Keys.Count > 0 Then
-                For Each key As String In AdminPer.Keys.Keys.ToList
-                    If AdminPer.Keys(key).Contains("?") = True Then
-                        Dim splittxt() As String = AdminPer.Keys(key).Split("?")
-                        Select Case splittxt(1)
-                            Case "NewKey"
-                                AdminPer.Keys(key) = AdminPer.Keys(key).Replace("?" + splittxt(1) + "?" + splittxt(2) + "?" + splittxt(3) + "?",
-                                              GetNextKey(splittxt(2), splittxt(3)))
-                        End Select
-                    End If
-                Next
-
-            End If
-            'Replace a new index instead of command in `str` String in function
-            If Query.Contains("?") = True Then
-                Dim splittxt() As String = Query.Split("?")
-                Dim i As Integer = 0
-                While i < splittxt.Length
-                    Select Case splittxt(i)
-                        Case "NewKey"
-                            Query = Query.Replace("?" + splittxt(i) + "?" + splittxt(i + 1) + "?" + splittxt(i + 2) + "?",
-                                                  GetNextKey(splittxt(i + 1), splittxt(i + 2)))
-                            i += 2
-                        Case "Key"
-                            If AdminPer.Keys.ContainsKey(splittxt(i + 1)) Then
-                                Query = Query.Replace($"?{splittxt(i)}?{splittxt(i + 1)}?", AdminPer.Keys.Item(splittxt(i + 1)))
-                                i += 1
-                            End If
-                    End Select
-                    i += 1
-                End While
-            End If
-            CMDUPDATEDB = New OleDb.OleDbCommand(Query, _Connection)
-            For Each Parameter As OleDbParameter In Parameters
-                CMDUPDATEDB.Parameters.AddWithValue(Parameter.ParameterName, Parameter.Value)
-            Next
-            CMDUPDATEDB.ExecuteNonQuery()
-            CMDUPDATEDB.Cancel()
-            UpdateOnlineTable(Query)
-            WriteActivity(Query)
+        'Replace a new index instead of command in `str` String in function
+        If Query.Contains("?") = True Then
+            Dim splittxt() As String = Query.Split("?")
+            Dim i As Integer = 0
+            While i < splittxt.Length
+                Select Case splittxt(i)
+                    Case "NewKey"
+                        Query = Query.Replace("?" + splittxt(i) + "?" + splittxt(i + 1) + "?" + splittxt(i + 2) + "?",
+                                              GetNextKey(splittxt(i + 1), splittxt(i + 2)))
+                        i += 2
+                End Select
+                i += 1
+            End While
         End If
+        CMDUPDATEDB = New OleDb.OleDbCommand(Query, _Connection)
+        For Each Parameter As OleDbParameter In Parameters
+            CMDUPDATEDB.Parameters.AddWithValue(Parameter.ParameterName, Parameter.Value)
+        Next
+        CMDUPDATEDB.ExecuteNonQuery()
+        CMDUPDATEDB.Cancel()
+        UpdateOnlineTable(Query)
+        WriteActivity(Query)
     End Sub
 
     Public Sub DirectExecute(Query As String)

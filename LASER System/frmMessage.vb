@@ -6,6 +6,7 @@ Imports System.Web
 Imports Newtonsoft.Json.Linq
 
 Public Class frmMessage
+    Private Db As New Database
     Public Sub New()
         ' This call is required by the designer.
         InitializeComponent()
@@ -16,11 +17,11 @@ Public Class frmMessage
     End Sub
 
     Private Sub frmMessage_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-        Me.Close()
+        Db.Disconnect()
     End Sub
 
     Private Sub frmMessage_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        GetCNN()
+        Db.Connect()
         System.Windows.Forms.Control.CheckForIllegalCrossThreadCalls = False
         Select Case Me.Tag
             Case "Message"
@@ -61,13 +62,13 @@ Public Class frmMessage
                "Message: " + txtMessage.Text & vbCr &
                "SMS එක යැවීම සඳහා තහවුරු කරන්න.", vbYesNo + vbExclamation) = False Then Exit Sub
         If cmbField.Text = "Repair" Then
-            CMDUPDATE("Insert Into Message(MsgNo,REPNo,CuTelNo,Message,Status) Values(" &
+            Db.Execute("Insert Into Message(MsgNo,REPNo,CuTelNo,Message,Status) Values(" &
                   txtMsgNo.Text & "," & cmbRepNo.Text & ",'" & txtPhoneNo.Text & "','" & txtMessage.Text & "','Waiting');")
         ElseIf cmbField.Text = "RERepair" Then
-            CMDUPDATE("Insert Into Message(MsgNo,RETNo,CuTelNo,Message,Status) Values(" &
+            Db.Execute("Insert Into Message(MsgNo,RETNo,CuTelNo,Message,Status) Values(" &
                   txtMsgNo.Text & "," & cmbRepNo.Text & ",'" & txtPhoneNo.Text & "','" & txtMessage.Text & "','Waiting');")
         Else
-            CMDUPDATE("Insert Into Message(MsgNo,CuTelNo,Message,Status) Values(" &
+            Db.Execute("Insert Into Message(MsgNo,CuTelNo,Message,Status) Values(" &
                   txtMsgNo.Text & ",'" & txtPhoneNo.Text & "','" & txtMessage.Text & "','Waiting');")
         End If
     End Sub

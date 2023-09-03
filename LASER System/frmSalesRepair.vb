@@ -1,4 +1,5 @@
 ﻿Public Class frmSalesRepair
+    Private Db As New Database
 
     Private Sub cmbTName_DropDown(sender As Object, e As EventArgs) Handles cmbTName.DropDown
         CmbDropDown(cmbTName, "Select TName from Technician group by TName;", "TName")
@@ -16,7 +17,7 @@
     End Sub
 
     Private Sub frmSalesRepair_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        GetCNN()
+        Db.connect
         Call cmdSaRepNew_Click(sender, e)
     End Sub
 
@@ -64,6 +65,6 @@
     End Sub
 
     Private Sub frmSalesRepair_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-        Me.Close()
+        Db.Disconnect()
     End Sub
 End Class

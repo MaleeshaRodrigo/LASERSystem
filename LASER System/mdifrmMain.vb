@@ -3,9 +3,10 @@ Imports System.IO
 Imports Microsoft.VisualBasic.FileIO
 
 Public Class MdifrmMain
+    Private Db As New Database
     Private Sub mdifrmMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         System.Windows.Forms.Control.CheckForIllegalCrossThreadCalls = False
-        GetCNN()
+        Db.Connect()
         MenuStrip.Items.Add(mnustrpMENU)
     End Sub
 
@@ -260,6 +261,7 @@ Public Class MdifrmMain
     End Sub
 
     Private Sub MdifrmMain_Leave(sender As Object, e As EventArgs) Handles Me.Leave
+        Db.Disconnect()
         End
     End Sub
 #End Region

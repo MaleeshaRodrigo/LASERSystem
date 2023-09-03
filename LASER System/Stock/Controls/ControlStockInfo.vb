@@ -13,7 +13,7 @@ Public Class ControlStockInfo
     End Sub
 
     Public Sub ClearControls()
-        TxtSNo.Text = DB.GetNextKey(StructureDbTables.Stock, StructureDbStock.Code)
+        TxtSNo.Text = DB.GetNextKey(StructureDatabase.Stock, StructureDbStock.Code)
         CmbCategory.Text = ""
         CmbName.Text = ""
         TxtModelNo.Text = ""
@@ -50,9 +50,9 @@ Public Class ControlStockInfo
             If Not .Execute() Then Exit Sub
         End With
 
-        If DB.CheckDataIsExist(StructureDbTables.Stock, StructureDbStock.Code, TxtSNo.Text) And
+        If DB.CheckDataIsExist(StructureDatabase.Stock, StructureDbStock.Code, TxtSNo.Text) And
             MsgBox("ඔබට මෙම Record එක Update කිරිමට අවශ්‍යද?", vbInformation + vbYesNo) = vbYes Then
-            DB.Execute($"UPDATE {StructureDbTables.Stock} SET 
+            DB.Execute($"UPDATE {StructureDatabase.Stock} SET 
             {StructureDbStock.Category} = @CATEGORY,
             {StructureDbStock.Name} = @NAME,
             {StructureDbStock.ModelNo} = @MODELNO,
@@ -78,7 +78,7 @@ Public Class ControlStockInfo
             })
             Me.Dispose()
         Else
-            DB.Execute($"INSERT INTO {StructureDbTables.Stock}(
+            DB.Execute($"INSERT INTO {StructureDatabase.Stock}(
                 {StructureDbStock.Code},
                 {StructureDbStock.Category},
                 {StructureDbStock.Name},
@@ -110,25 +110,25 @@ Public Class ControlStockInfo
 
     Private Sub CmbCategory_DropDown(sender As Object, e As EventArgs) Handles CmbCategory.DropDown
         CmbDropDown(CmbCategory,
-                    $"SELECT {StructureDbStock.Category} FROM {StructureDbTables.Stock} GROUP BY {StructureDbStock.Category};",
+                    $"SELECT {StructureDbStock.Category} FROM {StructureDatabase.Stock} GROUP BY {StructureDbStock.Category};",
                     StructureDbStock.Category)
     End Sub
 
     Private Sub CmbName_DropDown(sender As Object, e As EventArgs) Handles CmbName.DropDown
         CmbDropDown(CmbName,
-                    $"SELECT {StructureDbStock.Name} FROM {StructureDbTables.Stock} GROUP BY {StructureDbStock.Name};",
+                    $"SELECT {StructureDbStock.Name} FROM {StructureDatabase.Stock} GROUP BY {StructureDbStock.Name};",
                     StructureDbStock.Name)
     End Sub
 
     Private Sub CmbLocation_DropDown(sender As Object, e As EventArgs) Handles CmbLocation.DropDown
         CmbDropDown(CmbLocation,
-                    $"SELECT {StructureDbStock.Location} FROM {StructureDbTables.Stock} GROUP BY {StructureDbStock.Location};",
+                    $"SELECT {StructureDbStock.Location} FROM {StructureDatabase.Stock} GROUP BY {StructureDbStock.Location};",
                     StructureDbStock.Location)
     End Sub
 
     Private Sub CmdDelete_Click(sender As Object, e As EventArgs) Handles CmdDelete.Click
-        If DB.CheckDataIsExist(StructureDbTables.Stock, StructureDbStock.Code, TxtSNo.Text) AndAlso MsgBox("ඔබට මෙම Record එක Delete කිරිමට අවශ්‍යද?", vbInformation + vbYesNo) = vbYes Then
-            DB.Execute($"DELETE FROM {StructureDbTables.Stock} WHERE {StructureDbStock.Code}=@SNo", {
+        If DB.CheckDataIsExist(StructureDatabase.Stock, StructureDbStock.Code, TxtSNo.Text) AndAlso MsgBox("ඔබට මෙම Record එක Delete කිරිමට අවශ්‍යද?", vbInformation + vbYesNo) = vbYes Then
+            DB.Execute($"DELETE FROM {StructureDatabase.Stock} WHERE {StructureDbStock.Code}=@SNo", {
                     New OleDbParameter("@SNo", TxtSNo.Text)
                 })
             Me.Dispose()

@@ -1,12 +1,11 @@
 ﻿Imports System.Data.OleDb
 
 Public Class frmCustomer
+    Private Db As New Database
     Public Property Caller As String = ""
     Public Sub New()
-
-        ' This call is required by the designer.
         InitializeComponent()
-        ' Add any initialization after the InitializeComponent() call.
+
         MenuStrip.Items.Add(mnustrpMENU)
         cmbFilter.Items.Clear()     'add values of cmdFilters
         cmbFilter.Items.Add("by Customer Name")
@@ -20,17 +19,13 @@ Public Class frmCustomer
         Call cmdNew_Click(Nothing, Nothing)
         Call cmbCuName_DropDown(Nothing, Nothing)
     End Sub
-    Private Sub frmCustomer_Leave(sender As Object, e As EventArgs) Handles Me.Leave, cmdClose.Click, CloseToolStripMenuItem.Click
-        Me.Close()
-        Me.Tag = ""
-    End Sub
 
     Private Sub cmbCuName_DropDown(sender As Object, e As EventArgs) Handles cmbCuName.DropDown
         CmbDropDown(cmbCuName, "Select CuName from Customer group by  CuName;", "CuName")
     End Sub
 
     Private Sub frmCustomer_Load(sender As Object, e As EventArgs) Handles Me.Load
-        GetCNN()
+        Db.Connect()
         If Me.Tag = "" Then
             cmdDone.Enabled = False
         Else
@@ -177,8 +172,13 @@ Public Class frmCustomer
                 If CheckExistData("Select CuNo from Customer where CuNo =" & txtCuNo.Text & ";") = True Then
                     txtCuNo.Text = AutomaticPrimaryKey("Customer", "CuNo")
                 End If
-                CMDUPDATE("Insert into Customer(CuNo,CuName,CuTelNo1,CuTelNo2,CuTelNo3) Values(" & txtCuNo.Text & ",'" & cmbCuName.Text &
-                          "','" & txtCuTelNo1.Text & "','" & txtCuTelNo2.Text & "','" & txtCuTelNo3.Text & "');")
+                Db.Execute("Insert into Customer(CuNo,CuName,CuTelNo1,CuTelNo2,CuTelNo3) Values(@NO, @NAME, @TELNO1, @TELNO2, @TELNO3);", {
+                        New OleDbParameter("@NO", txtCuNo.Text),
+                        New OleDbParameter("@NAME", cmbCuName.Text),
+                        New OleDbParameter("@TELNO1", txtCuTelNo1.Text),
+                        New OleDbParameter("@TELNO2", txtCuTelNo2.Text),
+                        New OleDbParameter("@TELNO3", txtCuTelNo3.Text)
+                })
                 Call txtSearch_TextChanged(sender, e)
                 cmdSave.Text = "Edit"
                 SaveToolStripMenuItem.Text = cmdSave.Text
@@ -186,7 +186,7 @@ Public Class frmCustomer
                 DeleteToolStripMenuItem.Enabled = True
                 MsgBox("Save Successful", vbExclamation + vbOKOnly)
             Case "Edit"
-                CMDUPDATE("Update Customer set CuName = '" & cmbCuName.Text & "'" &
+                Db.Execute("Update Customer set CuName = '" & cmbCuName.Text & "'" &
                         ",CuTelNo1 =  '" & txtCuTelNo1.Text & "'" &
                         ",CuTelNo2 =  '" & txtCuTelNo2.Text & "'" &
                         ",CuTelNo3 =  '" & txtCuTelNo3.Text & "'" &
@@ -237,7 +237,7 @@ Public Class frmCustomer
             Exit Sub
         End If
         If MsgBox("Are you sure delete?", vbYesNo + vbInformation) = vbYes Then
-            CMDUPDATE("DELETE from Customer where CuNo=" & txtCuNo.Text)
+            Db.Execute("DELETE from Customer where CuNo=" & txtCuNo.Text)
             Call txtSearch_TextChanged(sender, e)
             Call cmdNew_Click(sender, e)
         End If
@@ -345,5 +345,9 @@ Public Class frmCustomer
                                          End Sub)
             If tlpanelDetails.Visible = False Then frmCustomer_Resize(sender, e)
         End If
+    End Sub
+
+    Private Sub frmCustomer_Leave(sender As Object, e As EventArgs) Handles Me.Leave
+        Db.Disconnect()
     End Sub
 End Class

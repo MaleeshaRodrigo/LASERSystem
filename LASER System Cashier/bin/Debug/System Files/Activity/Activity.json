@@ -499,6 +499,11 @@
       "ID": "100",
       "Date": "2023-09-02 2:46:05 PM",
       "Command": "UPDATE Stock SET \r\n            SCategory = @CATEGORY,\r\n            SName = @NAME,\r\n            SModelNo = @MODELNO,\r\n            SLocation = @LOCATION,\r\n            SDetails = @DETAILS,\r\n            SSalePrice = @SALEPRICE,\r\n            SCostPrice = @COSTPRICE,\r\n            SMinStocks = @REORDERPOINT\r\n            WHERE SNo = @CODE;"
+    },
+    {
+      "ID": "101",
+      "Date": "2023-09-02 7:05:18 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
     }
   ]
 }

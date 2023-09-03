@@ -2,6 +2,7 @@
 Imports Microsoft.VisualBasic.FileIO
 
 Public Class FrmSettings
+    Private Db As New Database()
     Public Sub FrmSettings_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         With My.Settings
@@ -30,6 +31,7 @@ Public Class FrmSettings
     End Sub
 
     Private Sub FrmSettings_Leave(sender As Object, e As EventArgs) Handles Me.Leave
+        Db.Disconnect()
         If Me.Tag = "Login" Then
             End
         Else
@@ -78,7 +80,7 @@ Public Class FrmSettings
         End With
 
         If Me.Tag = "Login" Then
-            GetCNN()
+            Db.connect()
         End If
     End Sub
 
@@ -174,7 +176,7 @@ Public Class FrmSettings
         End If
         Select Case cmdUASave.Text
             Case "Save"
-                CMDUPDATE("Insert Into [User]([UNo],[UserName],[Password],[Type],[Email]) Values(" & txtUAUNo.Text & ",'" & txtUAUserName.Text & "','" &
+                Db.Execute("Insert Into [User]([UNo],[UserName],[Password],[Type],[Email]) Values(" & txtUAUNo.Text & ",'" & txtUAUserName.Text & "','" &
                           txtUANewPW.Text & "','" & cmbUAType.Text & "','" & txtUAEmail.Text & "');")
             Case "Edit"
                 If CheckEmptyfield(txtUACurrentPW, "Current Password යන Field එක හිස්ව පවතියි. කරුණාකර එය සම්පූර්ණ කරන්න.") = False Then
@@ -187,7 +189,7 @@ Public Class FrmSettings
                     txtUAUserName.Focus()
                     Exit Sub
                 End If
-                CMDUPDATE("Update [User] set UserName='" & txtUAUserName.Text &
+                Db.Execute("Update [User] set UserName='" & txtUAUserName.Text &
                           "',Password='" & txtUANewPW.Text &
                           "',Type='" & cmbUAType.Text &
                           "',Email='" & txtUAEmail.Text & "' Where UNo=" & txtUAUNo.Text)
@@ -240,7 +242,7 @@ Public Class FrmSettings
             MsgBox("ඔබ අදාල User ව නිවැරදිව තෝරා ගෙන නොමැත. නැවත උත්සහ කරන්න.", vbExclamation + vbOKOnly)
             Exit Sub
         End If
-        CMDUPDATE("DELETE from [User] where UNo=" & txtUAUNo.Text)
+        Db.Execute("DELETE from [User] where UNo=" & txtUAUNo.Text)
     End Sub
 
     Private Sub txtMEmailTime_KeyPress(sender As Object, e As KeyPressEventArgs)
