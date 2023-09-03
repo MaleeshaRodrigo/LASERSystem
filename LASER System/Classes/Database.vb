@@ -84,12 +84,10 @@ Public Class Database
             End While
         End If
         CMDUPDATEDB = New OleDb.OleDbCommand(Query, _Connection)
-        For Each Parameter As OleDbParameter In Parameters
-            CMDUPDATEDB.Parameters.AddWithValue(Parameter.ParameterName, Parameter.Value)
-        Next
+        CMDUPDATEDB.Parameters.AddRange(Parameters)
         CMDUPDATEDB.ExecuteNonQuery()
         CMDUPDATEDB.Cancel()
-        UpdateOnlineTable(Query)
+        StoreQueryForOnlineDb(Query)
         WriteActivity(Query)
     End Sub
 
@@ -99,11 +97,14 @@ Public Class Database
         Command.Cancel()
     End Sub
 
-    Private Sub UpdateOnlineTable(Sql As String)
+    Private Sub StoreQueryForOnlineDb(Sql As String)
         Task.Run(Sub()
-                     Dim Query As String = $"Insert into OnlineDB(ODate,Command) 
-                Values(#{DateAndTime.Now}#,""{Sql.Replace("""", """""")}"")"
+                     Dim Query As String = $"Insert into OnlineDB(ODate,Command) Values(@DATE,@COMMAND)"
                      Dim Command As New OleDbCommand(Query, _Connection)
+                     Command.Parameters.AddRange({
+                                                New OleDbParameter("@DATE", DateAndTime.Now),
+                                                New OleDbParameter("@COMMAND", Sql)
+                                                })
                      Command.ExecuteNonQuery()
                      Command.Cancel()
                  End Sub)
@@ -124,9 +125,9 @@ Public Class Database
         While DataReader.Read
             Output.Add(DataReader(ColumnName).ToString)
         End While
-        Return (Output)
         Command.Cancel()
         DataReader.Close()
+        Return (Output)
     End Function
 
     Public Function GetNextKey(Table As String, Column As String) As Integer
@@ -155,8 +156,13 @@ Public Class Database
     End Function
 
     Public Function GetDataReader(Sql As String) As OleDbDataReader
-        CMD = New OleDb.OleDbCommand(Sql, _Connection)
+        CMD = New OleDbCommand(Sql, _Connection)
         Return (CMD.ExecuteReader())
+    End Function
+
+    Public Function GetDataAdapter(Query As String) As OleDbDataAdapter
+        Dim DA As New OleDbDataAdapter(Query, _Connection)
+        Return DA
     End Function
 
 End Class
