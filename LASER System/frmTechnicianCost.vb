@@ -199,10 +199,10 @@ Public Class frmTechnicianCost
         If grdTechnicianCost.Item("Total", e.RowIndex).Value Is Nothing OrElse
             grdTechnicianCost.Item("Total", e.RowIndex).Value.ToString = "" Then grdTechnicianCost.Item("Total", e.RowIndex).Value = "0"
         If grdTechnicianCost.Item(0, e.RowIndex).Value Is Nothing Then
-            grdTechnicianCost.Item(0, e.RowIndex).Value = AutomaticPrimaryKey("TechnicianCost", "TCNo")
+            grdTechnicianCost.Item(0, e.RowIndex).Value = Db.GetNextKey("TechnicianCost", "TCNo")
         End If
         If CheckExistData("Select * from TechnicianCost Where TCNo=" & grdTechnicianCost.Item(0, e.RowIndex).Value) = False Then Db.Execute("Insert into TechnicianCost(TCNo,TNo,Rate,Qty,Total,UNo) Values(" & grdTechnicianCost.Item(0, e.RowIndex).Value & "," &
-                      GetStrfromRelatedfield("Select TNo from Technician Where TName='" & cmbTName.Text & "'") & ",0,0,0," & MdifrmMain.Tag & ")")
+                      Db.GetData("Select TNo from Technician Where TName='" & cmbTName.Text & "'") & ",0,0,0," & MdifrmMain.Tag & ")")
         Select Case e.ColumnIndex
             Case 1
                 Db.Execute("Update TechnicianCost set " & grdTechnicianCost.Columns(e.ColumnIndex).DataPropertyName & "=#" &

@@ -3,7 +3,7 @@
     Private Sub frmTechnicianLoan_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Db.Connect()
         MenuStrip1.Items.Add(mnustrpMENU)
-        Call AutomaticPrimaryKey(txtTLNo, "SELECT top 1 TLNo from TechnicianLoan ORDER BY TLNo Desc;", "TLNo")
+        Call SetNextKey(Db, txtTLNo, "SELECT top 1 TLNo from TechnicianLoan ORDER BY TLNo Desc;", "TLNo")
         txtTLFrom.Value = "" & Date.Today.Year & "-" & Date.Today.Month & "-01"
         txtTLTo.Value = Date.Today
         Call cmdTLSearch_Click(sender, e)
@@ -55,7 +55,7 @@
             Exit Sub
         End If
         If txtTLDate.Value.Date = Today.Date Then txtTLDate.Value = DateAndTime.Now
-        Dim TNo As Integer = Int(GetStrfromRelatedfield("Select TNo,TName from Technician where TName='" &
+        Dim TNo As Integer = Int(Db.GetData("Select TNo,TName from Technician where TName='" &
                                                         cmbTName.Text & "'"))
         If cmdTLSave.Text = "Save" Then
             If txtSNo.Text <> "" Then
@@ -81,7 +81,7 @@
                       ",Total=" & txtTLAmount.Text &
                       ",UNo=" & MdifrmMain.Tag)
         End If
-        Call AutomaticPrimaryKey(txtTLNo, "SELECT top 1 TLNo from TechnicianLoan ORDER BY TLNo Desc;", "TLNo")
+        Call SetNextKey(Db, txtTLNo, "SELECT top 1 TLNo from TechnicianLoan ORDER BY TLNo Desc;", "TLNo")
         cmbSCategory.Text = ""
         cmbSName.Text = ""
         txtSNo.Text = ""
@@ -94,7 +94,7 @@
 
     Private Sub cmdTLNew_Click(sender As Object, e As EventArgs) Handles cmdTLNew.Click
         'Prepare form for adding new values
-        Call AutomaticPrimaryKey(txtTLNo, "SELECT top 1 TLNo from TechnicianLoan ORDER BY TLNo Desc;", "TLNo")
+        Call SetNextKey(Db, txtTLNo, "SELECT top 1 TLNo from TechnicianLoan ORDER BY TLNo Desc;", "TLNo")
         txtTLDate.Value = Today
         cmbTName.Text = ""
         cmbSCategory.Text = ""

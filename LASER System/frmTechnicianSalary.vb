@@ -12,7 +12,7 @@ Public Class frmTechnicianSalary
 
     Private Sub FrmTechnicianSalary_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Db.Connect()
-        AutomaticPrimaryKey(txtTSNo, "Select Top 1 TSNo from TechnicianSalary order by TSNo desc;", "TSNo")
+        SetNextKey(Db, txtTSNo, "Select Top 1 TSNo from TechnicianSalary order by TSNo desc;", "TSNo")
         MenuStrip.Items.Add(mnustrpMENU)
         txtTSFrom.Value = "" & Date.Today.Year & "-" & Date.Today.Month & "-01"
         txtTSTo.Value = Date.Today
@@ -181,7 +181,7 @@ Public Class frmTechnicianSalary
         End If
         Db.Execute("Insert Into TechnicianLoan(TLNo,TNo,TLDate,TLReason,TLAmount) Values(" & TLNo & "," & TSalaryTNo.ToString & ",#" & txtTSDate.Value & "#, 'This Loan was paid from Technician Salary No called " & txtTSNo.Text & "',-" & txt5.Text & ");")
         MsgBox("Salary Submit Successful!", vbExclamation + vbOKOnly)
-        AutomaticPrimaryKey(txtTSNo, "Select Top 1 TSNo from TechnicianSalary order by TSNo desc;", "TSNo")
+        SetNextKey(Db, txtTSNo, "Select Top 1 TSNo from TechnicianSalary order by TSNo desc;", "TSNo")
         Call CmdTSSearch_Click(sender, e)
     End Sub
 
@@ -303,7 +303,7 @@ Public Class frmTechnicianSalary
         End With
         RPT.Export()
         Db.Execute("Insert Into Mail(MailNo,MailDate,EmailTo,Subject,Body,Status,Attachment1) Values(" &
-                AutomaticPrimaryKey("Mail", "MailNo") & ",#" & DateAndTime.Now &
+                Db.GetNextKey("Mail", "MailNo") & ",#" & DateAndTime.Now &
                 "#,'" & DR("TEmail").ToString & "','Technician Salary (from " & txtTSFrom.Value.Date.ToString & " To " & txtTSTo.Value.Date.ToString &
                   ")','LASER System " + Application.ProductVersion + vbCrLf + vbCrLf +
                  "Name: " & DR("TName").ToString & vbCrLf +

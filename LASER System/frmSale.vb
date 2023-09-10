@@ -56,7 +56,7 @@ Public Class frmSale
 
     Private Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click
         Cursor = Cursors.WaitCursor
-        AutomaticPrimaryKey(txtSaNo, "SELECT top 1 SaNo from Sale ORDER BY SaNo Desc;", "SaNo")
+        SetNextKey(Db, txtSaNo, "SELECT top 1 SaNo from Sale ORDER BY SaNo Desc;", "SaNo")
         cmbCuName.Text = "No Name"             'clear customer fileds
         cmbCuName_SelectedIndexChanged(sender, e)
         txtSubTotal.Text = "0"
@@ -68,7 +68,7 @@ Public Class frmSale
         txtCPAmount.Text = "0"
         txtCPInvoiceNo.Text = "0"
         txtCuLAmount.Text = "0"
-        AutomaticPrimaryKey(txtCuLNo, "Select top 1 CuLNo from CustomerLoan order by CuLNo Desc;", "CuLNo")
+        SetNextKey(Db, txtCuLNo, "Select top 1 CuLNo from CustomerLoan order by CuLNo Desc;", "CuLNo")
         grdSale.Rows.Clear()
         cmdSave.Text = "Save"
         SaveToolStripMenuItem.Text = "Save"
@@ -148,7 +148,7 @@ Public Class frmSale
         End If
         chkCashDrawer.Checked = My.Settings.CashDrawer
         txtLess_TextChanged(sender, e)
-        AutomaticPrimaryKey(txtCuLNo, "Select Top 1 CuLNo from CustomerLoan Order by CuLNo Desc", "CuLNo")
+        SetNextKey(Db, txtCuLNo, "Select Top 1 CuLNo from CustomerLoan Order by CuLNo Desc", "CuLNo")
         pnlSaSaveFinal.Dock = DockStyle.Fill
         pnlSaSaveFinal.BringToFront()
         pnlSaSaveFinal.Visible = True
@@ -238,13 +238,13 @@ Public Class frmSale
             DR.Read()
             CuNo = DR("CuNo").ToString
         Else
-            CuNo = AutomaticPrimaryKey("Customer", "CuNo")
+            CuNo = Db.GetNextKey("Customer", "CuNo")
             Db.Execute("Insert into Customer(CuNo,CuName,CuTelNo1,CuTelNo2,CutelNo3) Values(" & CuNo & ",'" & cmbCuName.Text & "','" & txtCuTelNo1.Text & "','" &
                       txtCuTelNo2.Text & "','" & txtCuTelNo3.Text & "');")
         End If
         Select Case cmdSave.Text
             Case "Save"
-                AutomaticPrimaryKey(txtSaNo, "SELECT top 1 SaNo from Sale ORDER BY SaNo Desc;", "SaNo")
+                SetNextKey(Db, txtSaNo, "SELECT top 1 SaNo from Sale ORDER BY SaNo Desc;", "SaNo")
                 'Add Values into Sale
                 Db.Execute("Insert into Sale(SaNo,SaDate,CuNo,SaSubTotal,SaLess,SaDue,CAmount,CReceived,CBalance," &
                        "CPInvoiceNo,CPAmount,CuLNo,CuLAmount,SaRemarks,UNo)" &
@@ -253,7 +253,7 @@ Public Class frmSale
                        txtCPInvoiceNo.Text & "," & txtCPAmount.Text & "," & txtCuLNo.Text & "," & txtCuLAmount.Text & ",'" &
                        txtSaRemarks.Text & "'," & MdifrmMain.Tag & ");")
                 If txtCuLAmount.Text <> "0" Then
-                    AutomaticPrimaryKey(txtCuLNo, "Select Top 1 CuLNo from CustomerLoan Order by CuLNo Desc", "CuLNo")
+                    SetNextKey(Db, txtCuLNo, "Select Top 1 CuLNo from CustomerLoan Order by CuLNo Desc", "CuLNo")
                     Db.Execute("Insert into CustomerLoan(CuLNo,CuLDate,CuNo,CuLAmount,SaNo,Status) Values(" & txtCuLNo.Text & ",#" & txtSaDate.Value &
                               "#," & CuNo & "," &
                               txtCuLAmount.Text & "," & txtSaNo.Text & ",'Not Paid')")
@@ -263,7 +263,7 @@ Public Class frmSale
                     If row.Index = Int(grdSale.Rows.Count) - 1 Then Exit For
                     If row.Cells.Item(0).Value <> "" Then
                         Db.Execute("Insert into StockSale(SSaNo,SaNo,SNo,SCategory,SName,SaType,SaRate,SaUnits,SaTotal) Values(" &
-                                  AutomaticPrimaryKey("StockSale", "SSaNo") & "," &
+                                  Db.GetNextKey("StockSale", "SSaNo") & "," &
                                   txtSaNo.Text & "," &
                                   row.Cells(0).Value.ToString() & ",'" & row.Cells(1).Value.ToString & "','" & row.Cells(2).Value.ToString &
                                   "','" & row.Cells(3).Value.ToString() & "'," & row.Cells(4).Value.ToString() & "," & row.Cells(5).Value.ToString() & "," &
@@ -281,7 +281,7 @@ Public Class frmSale
                         End If
                     Else
                         Db.Execute("Insert into StockSale(SSaNo,SaNo,SCategory,SName,SaType,SaRate,SaUnits,SaTotal) Values(" &
-                                  AutomaticPrimaryKey("StockSale", "SSaNo") & "," & txtSaNo.Text & ",'" &
+                                  Db.GetNextKey("StockSale", "SSaNo") & "," & txtSaNo.Text & ",'" &
                                  row.Cells(1).Value.ToString & "','" & row.Cells(2).Value.ToString &
                                   "','" & row.Cells(3).Value.ToString() & "'," & row.Cells(4).Value.ToString() & "," & row.Cells(5).Value.ToString() & "," &
                                   row.Cells(6).Value.ToString() & ");")
@@ -354,7 +354,7 @@ Public Class frmSale
                     If row.Index = grdSale.Rows.Count - 1 Then Continue For
                     If row.Cells.Item(0).Value <> "" Then
                         Db.Execute("Insert into StockSale(SSaNo,SaNo,SNo,SCategory,SName,SaType,SaRate,SaUnits,SaTotal) Values(" &
-                                  AutomaticPrimaryKey("StockSale", "SSaNo") & "," & txtSaNo.Text & "," &
+                                  Db.GetNextKey("StockSale", "SSaNo") & "," & txtSaNo.Text & "," &
                                       row.Cells(0).Value.ToString() & ",'" & row.Cells(1).Value.ToString & "','" & row.Cells(2).Value.ToString &
                                       "','" & row.Cells(3).Value.ToString() & "'," & row.Cells(4).Value.ToString() & "," & row.Cells(5).Value.ToString() & "," &
                                       row.Cells(6).Value.ToString() & ");")
@@ -370,7 +370,7 @@ Public Class frmSale
                         End If
                     Else
                         Db.Execute("Insert into StockSale(SSaNo,SaNo,SCategory,SName,SaType,SaRate,SaUnits,SaTotal) Values(" &
-                                  AutomaticPrimaryKey("StockSale", "SSaNo") & "," & txtSaNo.Text & ",'" &
+                                  Db.GetNextKey("StockSale", "SSaNo") & "," & txtSaNo.Text & ",'" &
                                  row.Cells(1).Value.ToString & "','" & row.Cells(2).Value.ToString &
                                   "','" & row.Cells(3).Value.ToString() & "'," & row.Cells(4).Value.ToString() & "," & row.Cells(5).Value.ToString() & "," &
                                   row.Cells(6).Value.ToString() & ");")

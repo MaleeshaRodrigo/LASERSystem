@@ -16,8 +16,7 @@ Public Class frmLogin
         Db.Connect()
         Me.AcceptButton = cmdLogin
         cmbUserName_DropDown(sender, e)
-        CMD = Db.GetDataReader("Select Top 1 UserName from [User] Order by LastLogin Desc;")
-        cmbUserName.Text = CMD.ExecuteScalar
+        cmbUserName.Text = Db.GetData("Select Top 1 UserName from [User] Order by LastLogin Desc;")
         cmbUserName.Focus()
         '--------Developer Mode-------------
         If My.Settings.DeveloperMode = True Then
@@ -39,12 +38,10 @@ Public Class frmLogin
             Me.Close()
             Exit Sub
         End If
-        CMD = New OleDb.OleDbCommand("Select * from [User] where UserName ='" & cmbUserName.Text & "'")
-        DR = CMD.ExecuteReader()
+        DR = Db.GetDataReader("Select * from [User] where UserName ='" & cmbUserName.Text & "'")
         If DR.HasRows = True Then
-            CMD = New OleDb.OleDbCommand("Select * from [User] where  StrComp('" & cmbUserName.Text & "',UserName,0)=0 and " &
+            DR = Db.GetDataReader("Select * from [User] where  StrComp('" & cmbUserName.Text & "',UserName,0)=0 and " &
                                          "StrComp(Password,'" & txtPassword.Text & "',0)=0")
-            DR = CMD.ExecuteReader()
             If DR.HasRows = True Then
                 DR.Read()
                 Db.Execute("Update [User] set LogInCount='0' Where LoginCount IS NULL")

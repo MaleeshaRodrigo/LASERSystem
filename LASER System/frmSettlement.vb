@@ -220,7 +220,7 @@ Public Class frmSettlement
                 MdifrmMain.tsProBar.Value = 80
                 MdifrmMain.tslblLoad.Text = "Sending Email..."
                 Db.Execute("Insert Into Mail(MailNo,MailDate,EmailTo,Subject,Body,Status,Attachment1,Attachment2,Attachment3) Values(" &
-                                AutomaticPrimaryKey("Mail", "MailNo") & ",#" & DateAndTime.Now &
+                                Db.GetNextKey("Mail", "MailNo") & ",#" & DateAndTime.Now &
                                 "#,'" & My.Settings.AdminEmail & "','Settlement " & Today.Date.ToString & "','මෙය LASER System එකෙන් Automatically පැමිණන Email " &
                               "එකක් බැවින් ඔබට මෙය නැවැත්වීමට අවශ්‍යනම්, අපගේ Programe Developer හට දැනුම් දෙන්න.','Waiting','" &
                     If(File.Exists(SpecialDirectories.MyDocuments & "\Reports\SettlementSheet " & Today.Year.ToString & " - " & Today.Month.ToString & " - " &
@@ -394,7 +394,7 @@ Public Class frmSettlement
 
     Private Sub CmdTANew_Click(sender As Object, e As EventArgs) Handles cmdTANew.Click
         txtTANo.Text = ""
-        AutomaticPrimaryKey(txtTANo, "Select Top 1 TANo from [Transaction] order by TANo Desc;", "TANO")
+        SetNextKey(Db, txtTANo, "Select Top 1 TANo from [Transaction] order by TANo Desc;", "TANO")
         txtTADetails.Text = ""
         txtTAAmount.Text = ""
         grdTransaction.Refresh()
@@ -413,7 +413,7 @@ Public Class frmSettlement
         End If
         Select Case cmdSave.Text
             Case "Save"
-                AutomaticPrimaryKey(txtTANo, "Select Top 1 TANo from [Transaction] order by TANo Desc;", "TANo")
+                SetNextKey(Db, txtTANo, "Select Top 1 TANo from [Transaction] order by TANo Desc;", "TANo")
                 Db.Execute("Insert into `Transaction`(TANo, TADate,TADetails, TAAmount) Values(?NewKey?Transaction?TANo?,#" &
                                              dtpTADate.Value.ToString & "#,'" & txtTADetails.Text & "', " & txtTAAmount.Text & ");")
             Case "Edit"

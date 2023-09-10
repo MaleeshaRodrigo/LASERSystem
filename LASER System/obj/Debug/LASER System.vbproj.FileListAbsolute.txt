@@ -466,7 +466,6 @@ C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Debug\LASER_System.frm
 C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Debug\LASER_System.frmTechnicianSalary.resources
 C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Debug\LASER_System.MdifrmMain.resources
 C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Debug\LASER_System.Resources.resources
-C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Debug\LASER_System.compMessageBox.resources
 C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Debug\LASER_System.frmStock.si.resources
 C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Debug\LASER System.vbproj.GenerateResource.cache
 C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Debug\LASER System.vbproj.CoreCompileInputs.cache

@@ -8,10 +8,10 @@ Imports System.Web.Security
 Imports Newtonsoft.Json
 
 Module Utils
-    Public Sub ComboBoxDropDown(DB As Database, cmb As ComboBox, SQL As String)
+    Public Sub ComboBoxDropDown(Db As Database, cmb As ComboBox, SQL As String)
         cmb.Items.Clear()
         Dim DT0 As New DataTable
-        Dim DA0 As OleDbDataAdapter = DB.GetDataAdapter(SQL)
+        Dim DA0 As OleDbDataAdapter = Db.GetDataAdapter(SQL)
         DA0.Fill(DT0)
         Dim items = DT0.AsEnumerable().Select(Function(d) DirectCast(d(0).ToString(), Object)).ToArray()
         cmb.Items.AddRange(items)
@@ -19,7 +19,7 @@ Module Utils
         DA0.Dispose()
     End Sub
 
-    Public Sub AutomaticPrimaryKey(txt As TextBox, SQL As String, ColumnName As String)
+    Public Sub SetNextKey(Db As Database, txt As TextBox, SQL As String, ColumnName As String)
         Dim DR0 As OleDbDataReader = Db.GetDataReader(SQL)
         If DR0.HasRows = True Then
             DR0.Read()
@@ -29,17 +29,6 @@ Module Utils
         End If
         DR0.Close()
     End Sub
-
-    Public Function AutomaticPrimaryKey(TableName As String, ColumnName As String) As Integer
-        Dim CMD0 As New OleDbCommand("Select Top 1 " & ColumnName & " from " & TableName & " Order by " & ColumnName & " Desc")
-        Dim tmp As String = CMD0.ExecuteScalar()
-        If tmp <> "" Then
-            Return (Int(tmp) + 1)
-        Else
-            Return (1)
-        End If
-        CMD0.Cancel()
-    End Function
 
     Public Function GetRowsCount(Cmd As OleDbCommand) As Integer
         Dim DR0 As OleDbDataReader = Cmd.ExecuteReader
@@ -73,16 +62,6 @@ Module Utils
     Public Sub TextBoxQty_keyPress(ByVal sender As Object, ByVal e As KeyPressEventArgs)
         OnlynumberQty(e)
     End Sub
-
-    Public Function GetStrfromRelatedfield(SQL As String) As String
-        Dim CMD0 As New OleDb.OleDbCommand(SQL)
-        If IsDBNull(CMD0.ExecuteScalar) = False Then
-            Return CMD0.ExecuteScalar
-        Else
-            Return ""
-        End If
-        CMD0.Cancel()
-    End Function
 
     Public Function GetArrayfromSQL(SQL As String, ColumnName As String) As List(Of String)
         Dim CMD0 = New OleDbCommand(SQL)

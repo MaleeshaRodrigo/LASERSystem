@@ -61,7 +61,7 @@ Public Class frmDeliver
 
     Private Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click
         Cursor = Cursors.WaitCursor
-        Call AutomaticPrimaryKey(txtDNo, "SELECT top 1 DNo from Deliver ORDER BY DNo Desc;", "DNo")
+        Call SetNextKey(Db, txtDNo, "SELECT top 1 DNo from Deliver ORDER BY DNo Desc;", "DNo")
         For Each obj As Object In {cmbCuName, txtCuTelNo1, txtCuTelNo2, txtCuTelNo3, txtDRemarks}
             obj.text = ""
         Next
@@ -81,7 +81,7 @@ Public Class frmDeliver
         grdtxt1.DataSource = items
 
         cmdSave.Enabled = True
-        Call AutomaticPrimaryKey(txtCuLNo, "SELECT top 1 CuLNo from CustomerLoan ORDER BY CuLNo Desc;", "CuLNo")
+        Call SetNextKey(Db, txtCuLNo, "SELECT top 1 CuLNo from CustomerLoan ORDER BY CuLNo Desc;", "CuLNo")
         grdRepair.Focus()
         grdRepair.CurrentCell = grdRepair.Item(0, grdRepair.Rows.Count - 1)
         cmdCancel_Click(sender, e)
@@ -237,7 +237,7 @@ Public Class frmDeliver
         If cmdSave.Text = "Edit" And MdifrmMain.tslblUserType.Text <> "Admin" Then
         End If
         If (Val(txtCAmount.Text) > 0 Or Val(txtCPAmount.Text) > 0) And chkCashDrawer.Checked = True Then OpenCashdrawer()
-        AutomaticPrimaryKey(txtCuLNo, "Select Top 1 CulNo from CustomerLoan order by CuLNo Desc;", "CuLNo")
+        SetNextKey(Db, txtCuLNo, "Select Top 1 CulNo from CustomerLoan order by CuLNo Desc;", "CuLNo")
         If txtCAmount.Text = "" Or txtCAmount.Text = "0" Then
             txtCAmount.Text = "0"
             txtCReceived.Text = "0"
@@ -333,7 +333,7 @@ Public Class frmDeliver
                     End If
                 End If
                 Db.Execute("Update Repair set PaidPrice = " & Row1.Cells(4).Value.ToString &
-                                             ",TNo = " & GetStrfromRelatedfield("Select TNo from Technician Where TName='" &
+                                             ",TNo = " & Db.GetData("Select TNo from Technician Where TName='" &
                                              Row1.Cells(5).Value & "'") &
                                              ",Status='" & Row1.Cells(6).Value.ToString & "'" &
                                              ",DNo = " & DNo & " where RepNo= " & Row1.Cells(0).Value.ToString)
@@ -352,7 +352,7 @@ Public Class frmDeliver
                     End If
                 End If
                 Db.Execute("Update `Return` set PaidPrice = " & Row.Cells(5).Value.ToString &
-                        ",TNo = " & GetStrfromRelatedfield("Select TNo from Technician Where TName='" & Row.Cells(6).Value & "'") &
+                        ",TNo = " & Db.GetData("Select TNo from Technician Where TName='" & Row.Cells(6).Value & "'") &
                         ",Status='" & Row.Cells(7).Value.ToString & "'" &
                         ",DNo = " & DNo & " where RetNo= " & Row.Cells(0).Value.ToString)
             Next

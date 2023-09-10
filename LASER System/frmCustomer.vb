@@ -165,7 +165,7 @@ Public Class frmCustomer
                     Next
                 End If
                 If CheckExistData("Select CuNo from Customer where CuNo =" & txtCuNo.Text & ";") = True Then
-                    txtCuNo.Text = AutomaticPrimaryKey("Customer", "CuNo")
+                    txtCuNo.Text = Db.GetNextKey("Customer", "CuNo")
                 End If
                 Db.Execute("Insert into Customer(CuNo,CuName,CuTelNo1,CuTelNo2,CuTelNo3) Values(@NO, @NAME, @TELNO1, @TELNO2, @TELNO3);", {
                         New OleDbParameter("@NO", txtCuNo.Text),
@@ -199,7 +199,7 @@ Public Class frmCustomer
     End Sub
 
     Private Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click, NewToolStripMenuItem.Click
-        Call AutomaticPrimaryKey(txtCuNo, "SELECT top 1 CuNo from Customer ORDER BY CuNo Desc;", "CuNo")
+        Call SetNextKey(Db, txtCuNo, "SELECT top 1 CuNo from Customer ORDER BY CuNo Desc;", "CuNo")
         cmbCuName.Text = ""
         txtCuTelNo1.Text = ""
         txtCuTelNo2.Text = ""

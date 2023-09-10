@@ -118,7 +118,7 @@ Public Class Database
         Return DataTable
     End Function
 
-    Public Function GetSpecificColumnArray(Query As String, ColumnName As String) As List(Of String)
+    Public Function GetArray(Query As String, ColumnName As String) As List(Of String)
         Dim Command = New OleDbCommand(Query, _Connection)
         Dim DataReader As OleDbDataReader = Command.ExecuteReader()
         Dim Output As New List(Of String)
@@ -163,6 +163,11 @@ Public Class Database
     Public Function GetDataAdapter(Query As String) As OleDbDataAdapter
         Dim DA As New OleDbDataAdapter(Query, _Connection)
         Return DA
+    End Function
+
+    Public Function GetData(Query As String) As Object
+        Dim Command As New OleDbCommand(Query, _Connection)
+        Return Command.ExecuteScalar()
     End Function
 
 End Class

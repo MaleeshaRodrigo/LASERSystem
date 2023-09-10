@@ -66,7 +66,7 @@
     End Sub
 
     Private Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click
-        AutomaticPrimaryKey(txtCuLNo, "SELECT top 1 CuLNo from CustomerLoan ORDER BY CuLNo Desc;", "CuLNO")
+        SetNextKey(Db, txtCuLNo, "SELECT top 1 CuLNo from CustomerLoan ORDER BY CuLNo Desc;", "CuLNO")
         txtCuLAmount.Text = ""
         cmbCuName.Text = ""
         txtCuTelNo1.Text = ""
@@ -94,7 +94,7 @@
         ElseIf CheckExistData(cmbCuName, "Select CuName from Customer Where CuName='" & cmbCuName.Text & "'", "Customer ව Database එක තුල සොයා ගැනීමට නොහැකි විය. කරුණාකර නැවත පරික්ෂා කරන්න.", False) = False Then
             Exit Sub
         End If
-        Dim CuNo As Integer = Int(GetStrfromRelatedfield("Select CuNo from Customer Where CuName='" & cmbCuName.Text & "'"))
+        Dim CuNo As Integer = Int(Db.GetData("Select CuNo from Customer Where CuName='" & cmbCuName.Text & "'"))
         Select Case cmdSave.Text
             Case "Save"
                 If CheckExistData(txtCuLNo, "SELECT CULNO FROM CUSTOMERLOAN WHERE CULNO = " & txtCuLNo.Text & ";", "Something was wrong. This Customer Loan No is already exist in the database. Please Check it and try again. Otherwise you can contact a software developer.", True) = True Then

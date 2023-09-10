@@ -5,7 +5,7 @@
     End Sub
 
     Private Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click
-        Call AutomaticPrimaryKey(txtTNo, "SELECT top 1 TNo from Technician ORDER BY TNo Desc;", "TNo")
+        Call SetNextKey(Db, txtTNo, "SELECT top 1 TNo from Technician ORDER BY TNo Desc;", "TNo")
         cmbTName.Text = ""
         txtTFullName.Text = ""
         txtTNICNo.Text = ""

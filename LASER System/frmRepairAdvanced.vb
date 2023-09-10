@@ -18,7 +18,7 @@ Public Class frmRepairAdvanced
     End Sub
 
     Private Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click
-        AutomaticPrimaryKey(txtAdNo, "Select Top 1 AdNo from RepairAdvanced Order by AdNo Desc", "AdNo")
+        SetNextKey(Db, txtAdNo, "Select Top 1 AdNo from RepairAdvanced Order by AdNo Desc", "AdNo")
         txtAdDate.Value = DateAndTime.Now
         cmbRepNo.Text = "0"
         txtAmount.Text = ""
@@ -92,7 +92,7 @@ Public Class frmRepairAdvanced
         While DRRepAdv.Read
             grdRepAdvanced.Rows.Add(DRRepAdv("ADNo").ToString, DRRepAdv("ADDate").ToString, DRRepAdv("RepNo").ToString, DRRepAdv("RetNo").ToString,
                                     DRRepAdv("Amount").ToString,
-                                DRRepAdv("Remarks").ToString, GetStrfromRelatedfield("Select UserName from [User] Where UNo=" &
+                                DRRepAdv("Remarks").ToString, Db.GetData("Select UserName from [User] Where UNo=" &
                                 DRRepAdv("UNo").ToString))
         End While
         grdRepAdvanced.Refresh()
