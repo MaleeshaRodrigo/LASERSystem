@@ -203,6 +203,7 @@ Partial Class ControlStockInfo
         'TxtDamagedUnits
         '
         Me.TxtDamagedUnits.Location = New System.Drawing.Point(139, 329)
+        Me.TxtDamagedUnits.Maximum = New Decimal(New Integer() {10000000, 0, 0, 0})
         Me.TxtDamagedUnits.Name = "TxtDamagedUnits"
         Me.TxtDamagedUnits.Size = New System.Drawing.Size(55, 27)
         Me.TxtDamagedUnits.TabIndex = 19
@@ -210,6 +211,7 @@ Partial Class ControlStockInfo
         'TxtAvailableUnits
         '
         Me.TxtAvailableUnits.Location = New System.Drawing.Point(139, 296)
+        Me.TxtAvailableUnits.Maximum = New Decimal(New Integer() {10000000, 0, 0, 0})
         Me.TxtAvailableUnits.Name = "TxtAvailableUnits"
         Me.TxtAvailableUnits.Size = New System.Drawing.Size(55, 27)
         Me.TxtAvailableUnits.TabIndex = 18
@@ -217,6 +219,7 @@ Partial Class ControlStockInfo
         'TxtReorderPoint
         '
         Me.TxtReorderPoint.Location = New System.Drawing.Point(141, 263)
+        Me.TxtReorderPoint.Maximum = New Decimal(New Integer() {10000000, 0, 0, 0})
         Me.TxtReorderPoint.Name = "TxtReorderPoint"
         Me.TxtReorderPoint.Size = New System.Drawing.Size(55, 27)
         Me.TxtReorderPoint.TabIndex = 17
@@ -227,6 +230,7 @@ Partial Class ControlStockInfo
         Me.TxtSalePrice.DecimalPlaces = 2
         Me.TxtSalePrice.Increment = New Decimal(New Integer() {50, 0, 0, 0})
         Me.TxtSalePrice.Location = New System.Drawing.Point(141, 230)
+        Me.TxtSalePrice.Maximum = New Decimal(New Integer() {10000000, 0, 0, 0})
         Me.TxtSalePrice.Name = "TxtSalePrice"
         Me.TxtSalePrice.Size = New System.Drawing.Size(96, 27)
         Me.TxtSalePrice.TabIndex = 16
@@ -237,6 +241,7 @@ Partial Class ControlStockInfo
         Me.TxtCostPrice.DecimalPlaces = 2
         Me.TxtCostPrice.Increment = New Decimal(New Integer() {50, 0, 0, 0})
         Me.TxtCostPrice.Location = New System.Drawing.Point(141, 197)
+        Me.TxtCostPrice.Maximum = New Decimal(New Integer() {10000000, 0, 0, 0})
         Me.TxtCostPrice.Name = "TxtCostPrice"
         Me.TxtCostPrice.Size = New System.Drawing.Size(96, 27)
         Me.TxtCostPrice.TabIndex = 15
