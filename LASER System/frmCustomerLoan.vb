@@ -1,10 +1,11 @@
 ﻿Public Class frmCustomerLoan
+    Private Db As New Database
     Private Sub cmbCuName_DropDown(sender As Object, e As EventArgs) Handles cmbCuName.DropDown
-        Call CmbDropDown(cmbCuName, "Select CuName from Customer order by CuName;", "CuName")
+        Call ComboBoxDropDown(Db, cmbCuName, "Select CuName from Customer order by CuName;")
     End Sub
 
     Private Sub cmbCuName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbCuName.SelectedIndexChanged
-        CMD = New OleDb.OleDbCommand("SELECT * from Customer where CuName='" & cmbCuName.Text & "';", CNN)
+        CMD = New OleDb.OleDbCommand("SELECT * from Customer where CuName='" & cmbCuName.Text & "';")
         DR = CMD.ExecuteReader()
         If DR.HasRows = True Then
             DR.Read()
@@ -20,11 +21,11 @@
     End Sub
 
     Private Sub frmCustomerLoan_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-        Me.Close()
+        Db.Disconnect()
     End Sub
 
     Private Sub frmCustomerLoan_Load(sender As Object, e As EventArgs) Handles Me.Load
-        GetCNN()
+        Db.Connect()
         MenuStrip1.Items.Add(mnustrpMENU)
         cmbCuLStatus.SelectedIndex = 1
         cmbFilter.Items.Clear()
@@ -46,7 +47,7 @@
     End Sub
 
     Private Sub txtDNo_TextChanged(sender As Object, e As EventArgs) Handles txtDNo.TextChanged
-        CMD = New OleDb.OleDbCommand("SELECT DDate from Deliver where DNo =" & txtDNo.Text & ";", CNN)
+        CMD = New OleDb.OleDbCommand("SELECT DDate from Deliver where DNo =" & txtDNo.Text & ";")
         DR = CMD.ExecuteReader()
         If DR.HasRows = True Then
             DR.Read()
@@ -56,7 +57,7 @@
 
     Private Sub txtSaNo_TextChanged(sender As Object, e As EventArgs) Handles txtSaNo.TextChanged
         If txtSaNo.Text = "" Then Exit Sub
-        CMD = New OleDb.OleDbCommand("SELECT SaDate from SAle where SaNo =" & txtSaNo.Text & ";", CNN)
+        CMD = New OleDb.OleDbCommand("SELECT SaDate from SAle where SaNo =" & txtSaNo.Text & ";")
         DR = CMD.ExecuteReader()
         If DR.HasRows = True Then
             DR.Read()
@@ -65,7 +66,7 @@
     End Sub
 
     Private Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click
-        AutomaticPrimaryKey(txtCuLNo, "SELECT top 1 CuLNo from CustomerLoan ORDER BY CuLNo Desc;", "CuLNO")
+        SetNextKey(Db, txtCuLNo, "SELECT top 1 CuLNo from CustomerLoan ORDER BY CuLNo Desc;", "CuLNO")
         txtCuLAmount.Text = ""
         cmbCuName.Text = ""
         txtCuTelNo1.Text = ""
@@ -93,32 +94,32 @@
         ElseIf CheckExistData(cmbCuName, "Select CuName from Customer Where CuName='" & cmbCuName.Text & "'", "Customer ව Database එක තුල සොයා ගැනීමට නොහැකි විය. කරුණාකර නැවත පරික්ෂා කරන්න.", False) = False Then
             Exit Sub
         End If
-        Dim CuNo As Integer = Int(GetStrfromRelatedfield("Select CuNo from Customer Where CuName='" & cmbCuName.Text & "'"))
+        Dim CuNo As Integer = Int(Db.GetData("Select CuNo from Customer Where CuName='" & cmbCuName.Text & "'"))
         Select Case cmdSave.Text
             Case "Save"
                 If CheckExistData(txtCuLNo, "SELECT CULNO FROM CUSTOMERLOAN WHERE CULNO = " & txtCuLNo.Text & ";", "Something was wrong. This Customer Loan No is already exist in the database. Please Check it and try again. Otherwise you can contact a software developer.", True) = True Then
                     Exit Sub
                 End If
-                CMDUPDATE("Insert into CustomerLoan(CuLNo,CuLDate,CuNo,CuLAmount,Status,CuLRemarks) " &
+                Db.Execute("Insert into CustomerLoan(CuLNo,CuLDate,CuNo,CuLAmount,Status,CuLRemarks) " &
                                              "Values(" & txtCuLNo.Text & ",#" & txtCuLDate.Value.Date & "#," & CuNo.ToString & "," & txtCuLAmount.Text & ",'" & cmbCuLStatus.Text & "','" & txtCuLRemarks.Text & "');")
                 If txtDNo.Text <> "" Then
-                    CMDUPDATE("Update CustomerLoan set DNo = " & txtDNo.Text & " where CuLNO = " & txtCuLNo.Text)
+                    Db.Execute("Update CustomerLoan set DNo = " & txtDNo.Text & " where CuLNO = " & txtCuLNo.Text)
                     If MsgBox("Will the Deliver Section be updated ? ", vbInformation + vbYesNo) = vbYes Then
-                        CMDUPDATE("Update Deliver set CuLNO = " & txtCuLNo.Text &
+                        Db.Execute("Update Deliver set CuLNO = " & txtCuLNo.Text &
                                                      ", CuLAmount = " & txtCuLAmount.Text &
                                                      " Where DNo = " & txtDNo.Text)
                     End If
                 End If
                 If txtSaNo.Text <> "" Then
-                    CMDUPDATE("Update CustomerLoan set SANo = " & txtSaNo.Text & " where CuLNO = " & txtCuLNo.Text)
+                    Db.Execute("Update CustomerLoan set SANo = " & txtSaNo.Text & " where CuLNO = " & txtCuLNo.Text)
                     If MsgBox("Will the Sale Section be updated ? ", vbInformation + vbYesNo) = vbYes Then
-                        CMDUPDATE("Update Sale set CuLNo = " & txtCuLNo.Text &
+                        Db.Execute("Update Sale set CuLNo = " & txtCuLNo.Text &
                                                      ", CuLAmount = " & txtCuLAmount.Text &
                                                      " Where SaNo = " & txtSaNo.Text)
                     End If
                 End If
             Case "Edit"
-                CMDUPDATE("Update CustomerLoan set CuLDate = #" & txtCuLDate.Text &
+                Db.Execute("Update CustomerLoan set CuLDate = #" & txtCuLDate.Text &
                                              "#,CuNo = " & CuNo &
                                              If(txtSaNo.Text <> "", ",SaNo = " & txtSaNo.Text, "") &
                                              If(txtDNo.Text <> "", ",DNo = " & txtDNo.Text, "") &
@@ -128,14 +129,14 @@
                                              "' Where CuLNO = " & txtCuLNo.Text)
                 If txtDNo.Text = "" Then
                     If MsgBox("Will the Deliver Section be changed ? ", vbInformation + vbYesNo) = vbYes Then
-                        CMDUPDATE("Update Deliver set CuLNO = " & txtCuLNo.Text &
+                        Db.Execute("Update Deliver set CuLNO = " & txtCuLNo.Text &
                                                      ", CuLAmount = " & txtCuLAmount.Text &
                                                      " Where DNo = " & txtDNo.Text)
                     End If
                 End If
                 If txtSaNo.Text = "" Then
                     If MsgBox("Will the Sale Section be changed ? ", vbInformation + vbYesNo) = vbYes Then
-                        CMDUPDATE("Update Sale set CuLNo = " & txtCuLNo.Text &
+                        Db.Execute("Update Sale set CuLNo = " & txtCuLNo.Text &
                                                      ", CuLAmount = " & txtCuLAmount.Text &
                                                      " Where SaNo = " & txtSaNo.Text)
                     End If
@@ -150,7 +151,7 @@
         If index >= 0 Then
             selectedrow = grdCustomerLoan.Rows(index)
             txtCuLNo.Text = selectedrow.Cells(0).Value.ToString
-            CMD = New OleDb.OleDbCommand("Select CUL.CuLNo,CuLDate,CuL.CuNo,CuName,CuTelNo1,CuTelNo2,CuTelNo3,Sa.SaNo,Sa.SaDate,D.DNo,D.DDate,CuL.CuLAmount,Status,CuLRemarks from (((CustomerLoan CUL INNER JOIN Customer CU ON CU.CUNO = CUL.CUNO) LEFT JOIN DELIVER D ON D.DNO = CUL.DNO) LEFT JOIN SALE SA ON SA.SANO = CUL.SANO) WHERE CuL.CuLNO =" & txtCuLNo.Text, CNN)
+            CMD = New OleDb.OleDbCommand("Select CUL.CuLNo,CuLDate,CuL.CuNo,CuName,CuTelNo1,CuTelNo2,CuTelNo3,Sa.SaNo,Sa.SaDate,D.DNo,D.DDate,CuL.CuLAmount,Status,CuLRemarks from (((CustomerLoan CUL INNER JOIN Customer CU ON CU.CUNO = CUL.CUNO) LEFT JOIN DELIVER D ON D.DNO = CUL.DNO) LEFT JOIN SALE SA ON SA.SANO = CUL.SANO) WHERE CuL.CuLNO =" & txtCuLNo.Text)
             DR = CMD.ExecuteReader()
             If DR.HasRows = True Then
                 DR.Read()
@@ -177,7 +178,6 @@
 
 
     Private Sub cmdSearch_Click(sender As Object, e As EventArgs) Handles cmdSearch.Click
-        Dim dt As New DataTable
         Dim x As String = ""
         If txtSearch.Text <> "" Then
             Select Case cmbFilter.Text
@@ -215,13 +215,12 @@
         Else
             x = " Order by CUL.CuLNo"
         End If
-        Dim da As New OleDb.OleDbDataAdapter("SELECT CuL.CuLNo as [Customer Loan No],CuLDate as [Customer Loan Date],CuL.CuNo as [No]," &
+        Dim DT As DataTable = Db.GetDataTable("SELECT CuL.CuLNo as [Customer Loan No],CuLDate as [Customer Loan Date],CuL.CuNo as [No]," &
                                              "CuName as [Name],CuTelNo1 as [Telephone No 1],CuTelNo2 as [Telephone No 2],CuTelNo3 as " &
                                              "[Telephone No 3],CuL.SaNo as [Sale No],SaDate as [Sale Date], CuL.DNo as [Deliver No], " &
                                              "DDate as [Deliver Date], Status,CuLRemarks as [Remarks] from (((CustomerLoan CUL INNER JOIN " &
                                              "CUSTOMER CU ON CU.CUNO = CUL.CUNO) LEFT JOIN SALE SA ON SA.SANO = CUL.SANO) LEFT JOIN " &
-                                             "DELIVER D ON D.DNO = CUL.DNO) " & x & ";", CNN)
-        da.Fill(dt)
+                                             "DELIVER D ON D.DNO = CUL.DNO) " & x & ";")
         Me.grdCustomerLoan.DataSource = dt
         For Each Row As DataGridViewRow In grdCustomerLoan.Rows
             If Row.Cells("Status").Value = "Paid" Then

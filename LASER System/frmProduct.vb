@@ -1,11 +1,11 @@
 ﻿Public Class frmProduct
-
+    Private Db As New Database
     Private Sub cmdClose_Click(sender As Object, e As EventArgs) Handles cmdClose.Click
         Call frmProduct_Leave(sender, e)
     End Sub
 
     Private Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click
-        CMD = New OleDb.OleDbCommand("SELECT top 1 PNO from PRODUCT ORDER BY PNO Desc;", CNN)
+        CMD = New OleDb.OleDbCommand("SELECT top 1 PNO from PRODUCT ORDER BY PNO Desc;")
         DR = CMD.ExecuteReader(CommandBehavior.CloseConnection)
         If DR.HasRows = True Then
             DR.Read()
@@ -32,7 +32,6 @@
     End Sub
 
     Private Sub txtSearch_TextChanged(sender As Object, e As EventArgs) Handles txtSearch.TextChanged
-        Dim dt As New DataTable
         Dim x As String = ""
         grdProduct.ClearSelection()
         If txtSearch.Text <> "" Then
@@ -53,19 +52,17 @@
         Else
             x = "Order by PNo"
         End If
-        Dim da As New OleDb.OleDbDataAdapter("SELECT PNO as [No],PCategory as [Category],PName as [Name],PModelNo as [Model No],PDetails as [Details] from Product " & x & ";", CNN)
-        da.Fill(dt)
-        Me.grdProduct.DataSource = dt
+        Dim DT As DataTable = Db.GetDataTable("SELECT PNO as [No],PCategory as [Category],PName as [Name],PModelNo as [Model No],PDetails as [Details] from Product " & x & ";")
+        Me.grdProduct.DataSource = DT
         grdProduct.Refresh()
     End Sub
 
     Private Sub frmProduct_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-        Me.Tag = ""
-        Me.Close()
+        Db.Disconnect()
     End Sub
 
     Private Sub frmProduct_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        GetCNN()
+        Db.Connect()
         MenuStrip.Items.Add(mnustrpMENU)
         cmbFilter.Items.Clear()
         cmbFilter.Items.Add("by Product No")
@@ -108,25 +105,25 @@
         End If
         Select Case cmdSave.Text
             Case "Save"
-                CMD = New OleDb.OleDbCommand("Select PNo from Product where PNo =" & txtPNo.Text & ";", CNN)
+                CMD = New OleDb.OleDbCommand("Select PNo from Product where PNo =" & txtPNo.Text & ";")
                 DR = CMD.ExecuteReader()
                 If DR.HasRows = True Then
                     MsgBox("Product No is exist", vbOKOnly + vbExclamation)
                     txtPNo.Focus()
                     Exit Sub
                 End If
-                CMD = New OleDb.OleDbCommand("Select PCategory,PName from Product where PCategory = '" & cmbPCategory.Text & "' and PName ='" & cmbPName.Text & "';", CNN)
+                CMD = New OleDb.OleDbCommand("Select PCategory,PName from Product where PCategory = '" & cmbPCategory.Text & "' and PName ='" & cmbPName.Text & "';")
                 DR = CMD.ExecuteReader()
                 If DR.HasRows = True Then
                     MsgBox("Product category and product name are exist", vbOKOnly + vbExclamation)
                     cmbPCategory.Focus()
                     Exit Sub
                 End If
-                CMDUPDATE("Insert into Product(PNo,PCategory,PName,PModelNo,PDetails) Values(" & txtPNo.Text & ",'" & cmbPCategory.Text & "','" & cmbPName.Text & "','" & txtPModelNo.Text & "','" & txtPDetails.Text & "');")
+                Db.Execute("Insert into Product(PNo,PCategory,PName,PModelNo,PDetails) Values(" & txtPNo.Text & ",'" & cmbPCategory.Text & "','" & cmbPName.Text & "','" & txtPModelNo.Text & "','" & txtPDetails.Text & "');")
                 Call txtSearch_TextChanged(sender, e)
                 MsgBox("Save Successful", vbExclamation + vbOKOnly)
             Case "Edit"
-                CMDUPDATE("Update Product set PNo=" & txtPNo.Text &
+                Db.Execute("Update Product set PNo=" & txtPNo.Text &
                                                  ",PCategory = '" & cmbPCategory.Text & "'" &
                                                  ",PName = '" & cmbPName.Text & "'" &
                                                  ",PModelNo =  '" & txtPModelNo.Text & "'" &
@@ -150,7 +147,7 @@
             txtPNo.Focus()
             Exit Sub
         End If
-        CMD = New OleDb.OleDbCommand("Select * from Product where Pno =" & txtPNo.Text & "", CNN)
+        CMD = New OleDb.OleDbCommand("Select * from Product where Pno =" & txtPNo.Text & "")
         DR = CMD.ExecuteReader()
         If DR.HasRows = False Then
             MsgBox("Product isn't in the database", vbExclamation + vbOKOnly)
@@ -163,7 +160,7 @@
             Exit Sub
         End If
         If MsgBox("Are you sure delete?", vbYesNo + vbInformation) = vbYes Then
-            CMDUPDATE("DELETE from Product where PNo=" & txtPNo.Text)
+            Db.Execute("DELETE from Product where PNo=" & txtPNo.Text)
             WriteActivity("Product no " + txtPNo.Text + " was deleted successful in 'Product' table on " + DateAndTime.Now)
             Call txtSearch_TextChanged(sender, e)
             Call cmdNew_Click(sender, e)
@@ -171,7 +168,7 @@
     End Sub
 
     Private Sub cmbPCategory_DropDown(sender As Object, e As EventArgs) Handles cmbPCategory.DropDown
-        Call CmbDropDown(cmbPCategory, "Select PCategory from Product group by  PCategory;", "PCategory")
+        Call ComboBoxDropDown(Db, cmbPCategory, "Select PCategory from Product group by  PCategory;")
     End Sub
 
     Private Sub cmbPCategory_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbPCategory.SelectedIndexChanged
@@ -180,11 +177,11 @@
     End Sub
 
     Private Sub cmbPName_DropDown(sender As Object, e As EventArgs) Handles cmbPName.DropDown
-        Call CmbDropDown(cmbPName, "Select PName from Product where PCategory='" & cmbPCategory.Text & "' group by  PName;", "PName")
+        Call ComboBoxDropDown(Db, cmbPName, "Select PName from Product where PCategory='" & cmbPCategory.Text & "' group by  PName;")
     End Sub
 
     Public Sub cmbPName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbPName.SelectedIndexChanged
-        CMD = New OleDb.OleDbCommand("SELECT * from Product where PCategory = '" & cmbPCategory.Text & "' and PName='" & cmbPName.Text & "';", CNN)
+        CMD = New OleDb.OleDbCommand("SELECT * from Product where PCategory = '" & cmbPCategory.Text & "' and PName='" & cmbPName.Text & "';")
         DR = CMD.ExecuteReader()
         If DR.HasRows = True Then
             DR.Read()

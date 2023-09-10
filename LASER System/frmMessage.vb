@@ -6,6 +6,7 @@ Imports System.Web
 Imports Newtonsoft.Json.Linq
 
 Public Class frmMessage
+    Private Db As New Database
     Public Sub New()
         ' This call is required by the designer.
         InitializeComponent()
@@ -16,11 +17,11 @@ Public Class frmMessage
     End Sub
 
     Private Sub frmMessage_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-        Me.Close()
+        Db.Disconnect()
     End Sub
 
     Private Sub frmMessage_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        GetCNN()
+        Db.Connect()
         System.Windows.Forms.Control.CheckForIllegalCrossThreadCalls = False
         Select Case Me.Tag
             Case "Message"
@@ -43,12 +44,10 @@ Public Class frmMessage
                         End If
                     End If
                 End With
-                AutomaticPrimaryKey(txtMsgNo, "Select Top 1 MsgNo from Message order by MsgNo Desc;", "MsgNo")
+                SetNextKey(Db, txtMsgNo, "Select Top 1 MsgNo from Message order by MsgNo Desc;", "MsgNo")
             Case "MessagetoCu"
                 TabControl.TabPages.Add(tabMsgHistory)
-                Dim DA = New OleDb.OleDbDataAdapter("Select * from Message Order by MsgDate;", CNN)
-                Dim DT As New DataTable
-                DA.Fill(DT)
+                Dim DT As DataTable = Db.GetDataTable("Select * from Message Order by MsgDate;")
                 grdMsgHistory.DataSource = DT
                 grdMsgHistory.Refresh()
             Case "RepTask"
@@ -61,21 +60,21 @@ Public Class frmMessage
                "Message: " + txtMessage.Text & vbCr &
                "SMS එක යැවීම සඳහා තහවුරු කරන්න.", vbYesNo + vbExclamation) = False Then Exit Sub
         If cmbField.Text = "Repair" Then
-            CMDUPDATE("Insert Into Message(MsgNo,REPNo,CuTelNo,Message,Status) Values(" &
+            Db.Execute("Insert Into Message(MsgNo,REPNo,CuTelNo,Message,Status) Values(" &
                   txtMsgNo.Text & "," & cmbRepNo.Text & ",'" & txtPhoneNo.Text & "','" & txtMessage.Text & "','Waiting');")
         ElseIf cmbField.Text = "RERepair" Then
-            CMDUPDATE("Insert Into Message(MsgNo,RETNo,CuTelNo,Message,Status) Values(" &
+            Db.Execute("Insert Into Message(MsgNo,RETNo,CuTelNo,Message,Status) Values(" &
                   txtMsgNo.Text & "," & cmbRepNo.Text & ",'" & txtPhoneNo.Text & "','" & txtMessage.Text & "','Waiting');")
         Else
-            CMDUPDATE("Insert Into Message(MsgNo,CuTelNo,Message,Status) Values(" &
+            Db.Execute("Insert Into Message(MsgNo,CuTelNo,Message,Status) Values(" &
                   txtMsgNo.Text & ",'" & txtPhoneNo.Text & "','" & txtMessage.Text & "','Waiting');")
         End If
     End Sub
     Private Sub cmbRepNo_DropDown(sender As Object, e As EventArgs) Handles cmbRepNo.DropDown
         If cmbField.Text = "Repair" Then
-            CmbDropDown(cmbRepNo, "Select REPNo from Repair Order by RePNO Desc;", "REPNO")
+            ComboBoxDropDown(Db, cmbRepNo, "Select REPNo from Repair Order by RePNO Desc;")
         ElseIf cmbField.Text = "RERepair" Then
-            CmbDropDown(cmbRepNo, "Select RetNo from Return Order by RetNO Desc;", "RETNO")
+            ComboBoxDropDown(Db, cmbRepNo, "Select RetNo from Return Order by RetNO Desc;")
         End If
     End Sub
 
@@ -84,7 +83,7 @@ Public Class frmMessage
             CMD = New OleDb.OleDbCommand("Select RepNo, RDate, CuName, CuTElNo1, PCategory, PName, Charge, Qty, TName, Status, '' as Message " &
                                             "from ((((Repair REP INNER JOIN Product P ON P.PNO = REP.PNO) INNER JOIN Receive R ON R.RNo = REP.RNo) " &
                                             "INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNo=REP.TNo) where RepNo = " &
-                                            grdMsgHistory.Item(e.ColumnIndex, e.RowIndex).Value & ";", CNN)
+                                            grdMsgHistory.Item(e.ColumnIndex, e.RowIndex).Value & ";")
             DR = CMD.ExecuteReader
             If DR.HasRows = True Then
                 DR.Read()
@@ -111,7 +110,7 @@ Public Class frmMessage
             End If
         ElseIf e.ColumnIndex = 1 Then
             CMD = New OleDb.OleDbCommand("Select RetNo,RDate,CuName, CuTelNo1, PCategory,PName,Charge,Qty,TName, Status, '' as Message " &
-                                           "from ((((RETURN RET INNER JOIN Product P ON P.PNO = RET.PNO) INNER JOIN Receive R ON R.RNo = RET.RNo) INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNo=RET.TNo) where ReTNo = " & grdMsgHistory.Item(1, e.RowIndex).Value & ";", CNN)
+                                           "from ((((RETURN RET INNER JOIN Product P ON P.PNO = RET.PNO) INNER JOIN Receive R ON R.RNo = RET.RNo) INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNo=RET.TNo) where ReTNo = " & grdMsgHistory.Item(1, e.RowIndex).Value & ";")
             DR = CMD.ExecuteReader
             If DR.HasRows = True Then
                 DR.Read()
@@ -159,15 +158,14 @@ Public Class frmMessage
 
     Private Sub bgworker_DoWork(sender As Object, e As ComponentModel.DoWorkEventArgs) Handles bgworker.DoWork
         If Me.Tag = "RepTask" Then
-            Dim CMD1 As OleDb.OleDbCommand = New OleDb.OleDbCommand("Select RepNo,RDate,CuName, CuTelNo1, PCategory,PName,Charge,Qty,TName, Status " &
+            Dim DR1 As OleDb.OleDbDataReader = Db.GetDataReader("Select RepNo,RDate,CuName, CuTelNo1, PCategory,PName,Charge,Qty,TName, Status " &
                                             "from ((((Repair REP INNER JOIN Product P ON P.PNO = REP.PNO) INNER JOIN Receive R ON R.RNo = REP.RNo) " &
                                             "INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNo=REP.TNo) where Status='Received' " &
-                                            "or Status='Hand Over to Technician' or Status='Repairing'", CNN)
-            Dim DR1 As OleDb.OleDbDataReader = CMD1.ExecuteReader
+                                            "or Status='Hand Over to Technician' or Status='Repairing'")
             While DR1.Read
                 If bgworker.CancellationPending = True Then Exit Sub
                 Dim CMD2 As OleDb.OleDbCommand = New OleDb.OleDbCommand("Select * from Message Where RepNo=" & DR1("RepNo").ToString &
-                                                                        " And MsgDate < #" & DateTime.Today.AddDays(-7).Date & "#;", CNN)
+                                                                        " And MsgDate < #" & DateTime.Today.AddDays(-7).Date & "#;")
                 Dim DR2 As OleDb.OleDbDataReader = CMD2.ExecuteReader()
                 If DR2.HasRows = False Then
                     grdRepairTask.Rows.Add("", DR1("RepNo").ToString, DR1("CuName").ToString, DR1("CuTelNo1").ToString, DR1("PCategory").ToString,
@@ -176,7 +174,6 @@ Public Class frmMessage
                 CMD2.Cancel()
                 DR2.Close()
             End While
-            CMD1.Cancel()
             DR1.Close()
         End If
     End Sub
