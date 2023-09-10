@@ -48,7 +48,7 @@
     Private Sub frm_Load(sender As Object, e As EventArgs) Handles Me.Load
         Me.Font = grd.Font
         lst.Items.Clear()
-        CMD = New OleDb.OleDbCommand(SQL, CNN)
+        CMD = New OleDb.OleDbCommand(SQL)
         DR = CMD.ExecuteReader()
         While DR.Read
             If DR(ColumnName).ToString <> "" AndAlso DR(ColumnName).ToLower().Contains(txt.Text.ToLower) = True Then
@@ -90,7 +90,7 @@
     Private Sub txtType_TextChanged(sender As Object, e As EventArgs) Handles txtType.TextChanged
         If Me.Visible = True Then
             lst.Items.Clear()
-            CMD = New OleDb.OleDbCommand(SQL, CNN)
+            CMD = New OleDb.OleDbCommand(SQL)
             DR = CMD.ExecuteReader()
             While DR.Read
                 If DR(ColumnName).ToString = "" Then Continue While

@@ -8,12 +8,10 @@ Imports System.Web.Security
 Imports Newtonsoft.Json
 
 Module Utils
-    Private Db As New Database
-
-    Public Sub CmbDropDown(cmb As ComboBox, SQL As String, ColumnName As String)
+    Public Sub ComboBoxDropDown(DB As Database, cmb As ComboBox, SQL As String)
         cmb.Items.Clear()
         Dim DT0 As New DataTable
-        Dim DA0 As New OleDbDataAdapter = 
+        Dim DA0 As OleDbDataAdapter = DB.GetDataAdapter(SQL)
         DA0.Fill(DT0)
         Dim items = DT0.AsEnumerable().Select(Function(d) DirectCast(d(0).ToString(), Object)).ToArray()
         cmb.Items.AddRange(items)
@@ -22,7 +20,7 @@ Module Utils
     End Sub
 
     Public Sub AutomaticPrimaryKey(txt As TextBox, SQL As String, ColumnName As String)
-        Dim CMD0 = New OleDbCommand(SQL, CNN)
+        Dim CMD0 = New OleDbCommand(SQL)
         Dim DR0 As OleDbDataReader = CMD0.ExecuteReader()
         If DR0.HasRows = True Then
             DR0.Read()
@@ -35,7 +33,7 @@ Module Utils
     End Sub
 
     Public Function AutomaticPrimaryKey(TableName As String, ColumnName As String) As Integer
-        Dim CMD0 As New OleDbCommand("Select Top 1 " & ColumnName & " from " & TableName & " Order by " & ColumnName & " Desc", CNN)
+        Dim CMD0 As New OleDbCommand("Select Top 1 " & ColumnName & " from " & TableName & " Order by " & ColumnName & " Desc")
         Dim tmp As String = CMD0.ExecuteScalar()
         If tmp <> "" Then
             Return (Int(tmp) + 1)
@@ -79,7 +77,7 @@ Module Utils
     End Sub
 
     Public Function GetStrfromRelatedfield(SQL As String) As String
-        Dim CMD0 As New OleDb.OleDbCommand(SQL, CNN)
+        Dim CMD0 As New OleDb.OleDbCommand(SQL)
         If IsDBNull(CMD0.ExecuteScalar) = False Then
             Return CMD0.ExecuteScalar
         Else
@@ -89,7 +87,7 @@ Module Utils
     End Function
 
     Public Function GetArrayfromSQL(SQL As String, ColumnName As String) As List(Of String)
-        Dim CMD0 = New OleDbCommand(SQL, CNN)
+        Dim CMD0 = New OleDbCommand(SQL)
         Dim DR0 As OleDbDataReader = CMD0.ExecuteReader()
         Dim arr As New List(Of String)
         While DR0.Read
@@ -122,7 +120,7 @@ Module Utils
     ''' <param name="SQL">The SQL Query</param>
     ''' <returns>True, if there are rows in the SQL query, or false</returns>
     Public Function CheckExistData(SQL As String) As Boolean
-        Dim CMD0 = New OleDbCommand(SQL, CNN)
+        Dim CMD0 = New OleDbCommand(SQL)
         Dim DR0 As OleDbDataReader = CMD0.ExecuteReader()
         If DR0.HasRows = True Then
             Return True
@@ -134,7 +132,7 @@ Module Utils
     End Function
 
     Public Function CheckExistData(cmb As Control, SQL As String, msg As String, IsDataExist As Boolean) As Boolean
-        Dim CMD0 = New OleDbCommand(SQL, CNN)
+        Dim CMD0 = New OleDbCommand(SQL)
         Dim DR0 As OleDbDataReader = CMD0.ExecuteReader()
         If DR0.HasRows = True Then
             If IsDataExist = True Then
@@ -182,7 +180,7 @@ Module Utils
 
     Public Function CheckExistRelationsforDelete(SQl As String, FieldName As String, msg As String) As Boolean
         CheckExistRelationsforDelete = True
-        CMD = New OleDb.OleDbCommand(SQl, CNN)
+        CMD = New OleDb.OleDbCommand(SQl)
         DR = CMD.ExecuteReader
         Dim tmp As String = ""
         If DR.HasRows = True Then

@@ -8,7 +8,7 @@ Public Class frmTechnicianCost
     End Sub
 
     Private Sub cmbTName_DropDown(sender As Object, e As EventArgs) Handles cmbTName.DropDown
-        Call CmbDropDown(cmbTName, "Select TName from Technician Where TActive = True group by TName;", "TName")
+        Call ComboBoxDropDown(Db, cmbTName, "Select TName from Technician Where TActive = True group by TName;")
     End Sub
 
     Private Sub cmbTName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbTName.SelectedIndexChanged
@@ -32,7 +32,7 @@ Public Class frmTechnicianCost
             grdTechnicianCost.Rows.Clear()
             Exit Sub
         End If
-        CMD = New OleDbCommand("Select TCNo,TCDate,RepNo,RetNo,TCRemarks,SNo,SCategory,SName,Rate, Qty,Total,UserName from " &
+        DR = Db.GetDataReader("Select TCNo,TCDate,RepNo,RetNo,TCRemarks,SNo,SCategory,SName,Rate, Qty,Total,UserName from " &
                                 "((TechnicianCost TC Inner Join Technician T On T.Tno = TC.TNo) Left Join [User] U ON U.Uno = TC.UNo) where TName='" &
                                 cmbTName.Text & "' And TCDate BETWEEN #" & Format(txtTCFrom.Value, "yyyy-MM-dd") & " 00:00:00# And #" &
                                 Format(txtTCTo.Value, "yyyy-MM-dd") & " 23:59:59#" &
@@ -40,8 +40,7 @@ Public Class frmTechnicianCost
                                 " And (TCDate Like '%" & txtSearch.Text & "%' or TCRemarks Like '%" & txtSearch.Text & "%' or " &
                                 "SNo Like '%" & txtSearch.Text & "%' or SCategory Like '%" & txtSearch.Text & "%' or SName Like '%" &
                                 txtSearch.Text & "%' or Rate Like '%" & txtSearch.Text & "%' or Qty Like '%" & txtSearch.Text & "%' or " &
-                                "Total Like '%" & txtSearch.Text & "%' or UserName Like '%" & txtSearch.Text & "%')", "") & ";", CNN)
-        DR = CMD.ExecuteReader
+                                "Total Like '%" & txtSearch.Text & "%' or UserName Like '%" & txtSearch.Text & "%')", "") & ";")
         grdTechnicianCost.Rows.Clear()
         While DR.Read
             grdTechnicianCost.Rows.Add(DR("TCNo").ToString, DR("TCDate").ToString, DR("SNo").ToString, DR("SCategory").ToString,
@@ -139,9 +138,8 @@ Public Class frmTechnicianCost
                 dtpDate.Visible = False
             Case 2
                 If grdTechnicianCost.Item(2, e.RowIndex).Value Is Nothing Then Exit Sub
-                CMD = New OleDbCommand("Select SNo,SCategory,SName,SSalePrice from Stock Where SNo=" &
-                                       grdTechnicianCost.Item(2, e.RowIndex).Value.ToString, CNN)
-                DR = CMD.ExecuteReader
+                DR = Db.GetDataReader("Select SNo,SCategory,SName,SSalePrice from Stock Where SNo=" &
+                                       grdTechnicianCost.Item(2, e.RowIndex).Value.ToString)
                 If DR.HasRows Then
                     DR.Read()
                     grdTechnicianCost.Item(3, e.RowIndex).Value = DR("SCategory").ToString
@@ -155,9 +153,8 @@ Public Class frmTechnicianCost
             Case 3, 4
                 frmSearchDropDown.frm_Close()
                 If grdTechnicianCost.Item(3, e.RowIndex).Value Is Nothing Or grdTechnicianCost.Item(4, e.RowIndex).Value Is Nothing Then Exit Sub
-                CMD = New OleDbCommand("Select SNo,SCategory,SName,SSalePrice from Stock Where SCategory='" & grdTechnicianCost.Item(3, e.RowIndex).Value &
-                                       "' and SName='" & grdTechnicianCost.Item(4, e.RowIndex).Value & "';", CNN)
-                DR = CMD.ExecuteReader
+                DR = Db.GetDataReader("Select SNo,SCategory,SName,SSalePrice from Stock Where SCategory='" & grdTechnicianCost.Item(3, e.RowIndex).Value &
+                                       "' and SName='" & grdTechnicianCost.Item(4, e.RowIndex).Value & "';")
                 If DR.HasRows Then
                     DR.Read()
                     grdTechnicianCost.Item(2, e.RowIndex).Value = DR("SNo").ToString
@@ -231,8 +228,7 @@ Public Class frmTechnicianCost
             Exit Sub
         End If
         If MdifrmMain.tslblUserType.Text = "Admin" Then
-            CMD = New OleDb.OleDbCommand("Select TCNo from TechnicianCost Where TCNo=" & grdTechnicianCost.Item("TCNo", e.Row.Index).Value, CNN)
-            DR = CMD.ExecuteReader
+            DR = Db.GetDataReader("Select TCNo from TechnicianCost Where TCNo=" & grdTechnicianCost.Item("TCNo", e.Row.Index).Value)
             If DR.HasRows = True Then
                 DR.Read()
                 If DR("SNo").ToString <> "" Then
@@ -264,8 +260,7 @@ Public Class frmTechnicianCost
 
     Private Sub grdTechnicianCost_RowValidating(sender As Object, e As DataGridViewCellCancelEventArgs) Handles grdTechnicianCost.RowValidating
         If e.RowIndex < 0 Or e.RowIndex > (grdTechnicianCost.Rows.Count - 2) Then Exit Sub
-        Dim CMDTC As New OleDbCommand("Select TC.*,UserName from TechnicianCost TC Left Join `User` U On U.Uno = TC.UNo Where TCNo=" & grdTechnicianCost.Item(0, e.RowIndex).Value, CNN)
-        Dim DRTC As OleDbDataReader = CMDTC.ExecuteReader()
+        Dim DRTC As OleDbDataReader = Db.GetDataReader("Select TC.*,UserName from TechnicianCost TC Left Join `User` U On U.Uno = TC.UNo Where TCNo=" & grdTechnicianCost.Item(0, e.RowIndex).Value)
         If DRTC.HasRows Then
             DRTC.Read()
             grdTechnicianCost.Item(1, e.RowIndex).Value = DRTC("TCDate").ToString
@@ -280,7 +275,6 @@ Public Class frmTechnicianCost
             grdTechnicianCost.Item(10, e.RowIndex).Value = DRTC("RetNo").ToString
             grdTechnicianCost.Item(11, e.RowIndex).Value = DRTC("UserName").ToString
         End If
-        CMDTC.Cancel()
         DRTC.Close()
     End Sub
 End Class

@@ -16,7 +16,7 @@ Public Class frmLogin
         Db.Connect()
         Me.AcceptButton = cmdLogin
         cmbUserName_DropDown(sender, e)
-        CMD = New OleDbCommand("Select Top 1 UserName from [User] Order by LastLogin Desc;", CNN)
+        CMD = New OleDbCommand("Select Top 1 UserName from [User] Order by LastLogin Desc;")
         cmbUserName.Text = CMD.ExecuteScalar
         cmbUserName.Focus()
         '--------Developer Mode-------------
@@ -39,19 +39,19 @@ Public Class frmLogin
             Me.Close()
             Exit Sub
         End If
-        CMD = New OleDb.OleDbCommand("Select * from [User] where UserName ='" & cmbUserName.Text & "'", CNN)
+        CMD = New OleDb.OleDbCommand("Select * from [User] where UserName ='" & cmbUserName.Text & "'")
         DR = CMD.ExecuteReader()
         If DR.HasRows = True Then
             CMD = New OleDb.OleDbCommand("Select * from [User] where  StrComp('" & cmbUserName.Text & "',UserName,0)=0 and " &
-                                         "StrComp(Password,'" & txtPassword.Text & "',0)=0", CNN)
+                                         "StrComp(Password,'" & txtPassword.Text & "',0)=0")
             DR = CMD.ExecuteReader()
             If DR.HasRows = True Then
                 DR.Read()
-                Dim CMD1 As New OleDbCommand("Update [User] set LogInCount='0' Where LoginCount IS NULL", CNN)
+                Dim CMD1 As New OleDbCommand("Update [User] set LogInCount='0' Where LoginCount IS NULL")
                 CMD1.ExecuteNonQuery()
-                CMD1 = New OleDbCommand("Update [User] set LogInCount= (LogInCount + 1) Where UNo = " & DR("UNo").ToString, CNN)
+                CMD1 = New OleDbCommand("Update [User] set LogInCount= (LogInCount + 1) Where UNo = " & DR("UNo").ToString)
                 CMD1.ExecuteNonQuery()
-                CMD1 = New OleDbCommand("Update [User] set LastLogin=#" & DateAndTime.Now & "# Where UNo = " & DR("UNo").ToString, CNN)
+                CMD1 = New OleDbCommand("Update [User] set LastLogin=#" & DateAndTime.Now & "# Where UNo = " & DR("UNo").ToString)
                 CMD1.ExecuteNonQuery()
                 CMD1.Cancel()
                 Select Case Me.Tag
@@ -104,7 +104,7 @@ Public Class frmLogin
         ElseIf CheckExistData(txtOTPUserName, "Select UserName from [User] Where UserName='" & txtOTPUserName.Text & "'", "ඔබ ඇතුලත් කල User Name එක වැරදි කරුණාකර නිවැරදි User Name එක ඇතුලත් කරන්න.", False) = False Then
             Exit Sub
         End If
-        CMD = New OleDbCommand("Select Email from [User] Where UserName='" & txtOTPUserName.Text & "'", CNN)
+        CMD = New OleDbCommand("Select Email from [User] Where UserName='" & txtOTPUserName.Text & "'")
         DR = CMD.ExecuteReader()
         If DR.HasRows = True Then
             DR.Read()
@@ -134,7 +134,7 @@ Public Class frmLogin
         End If
         If txtOTPCode.Text = txtOTPCode.Tag Then
             cmbUserName.Text = txtOTPUserName.Text
-            CMD = New OleDbCommand("Select Password from [User] Where UserName='" & cmbUserName.Text & "'", CNN)
+            CMD = New OleDbCommand("Select Password from [User] Where UserName='" & cmbUserName.Text & "'")
             DR = CMD.ExecuteReader()
             If DR.HasRows = True Then
                 DR.Read()
@@ -171,7 +171,7 @@ Public Class frmLogin
     End Sub
 
     Private Sub cmbUserName_DropDown(sender As Object, e As EventArgs) Handles cmbUserName.DropDown
-        CmbDropDown(cmbUserName, "Select UserName from [User] group by UserName", "UserName")
+        ComboBoxDropDown(Db, cmbUserName, "Select UserName from [User] group by UserName")
     End Sub
 
     Private Sub cmdClose_Click(sender As Object, e As EventArgs) Handles cmdClose.Click

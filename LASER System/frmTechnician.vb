@@ -61,7 +61,6 @@
     End Sub
 
     Private Sub txtSearch_TextChanged(sender As Object, e As EventArgs) Handles txtSearch.TextChanged
-        Dim DT As New DataTable
         Dim x As String
         Select Case cmbFilter.Text
             Case "Technician No"
@@ -87,8 +86,7 @@
             Case Else
                 x = "Where TNo like '%" & txtSearch.Text & "%' or TName like '%" & txtSearch.Text & "%' or TFullName like '%" & txtSearch.Text & "%' or TAddress like '%" & txtSearch.Text & "%' or TNICNo like '%" & txtSearch.Text & "%' or TEmail like '%" & txtSearch.Text & "%' or TTelNo1 like '%" & txtSearch.Text & "%' or TTElNo2 like '%" & txtSearch.Text & "%' or TTelNo3 like '%" & txtSearch.Text & "%'"
         End Select
-        Dim DA As New OleDb.OleDbDataAdapter("Select * from Technician " & x, CNN)
-        DA.Fill(dt)
+        Dim DT As DataTable = Db.GetDataTable("Select * from Technician " & x)
         Me.grdTechnician.DataSource = DT
         grdTechnician.Refresh()
     End Sub
@@ -109,12 +107,11 @@
     End Sub
 
     Private Sub cmbTName_DropDown(sender As Object, e As EventArgs) Handles cmbTName.DropDown
-        Call CmbDropDown(cmbTName, "Select TName from Technician group by TName;", "TName")
+        Call ComboBoxDropDown(Db, cmbTName, "Select TName from Technician group by TName;")
     End Sub
 
     Private Sub cmbTName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbTName.SelectedIndexChanged
-        CMD = New OleDb.OleDbCommand("Select * from Technician where TName ='" & cmbTName.Text & "';", CNN)
-        DR = CMD.ExecuteReader
+        DR = Db.GetDataReader("Select * from Technician where TName ='" & cmbTName.Text & "';")
         If DR.HasRows = True Then
             DR.Read()
             txtTNo.Text = DR("TNo").ToString

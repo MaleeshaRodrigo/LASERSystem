@@ -21,7 +21,7 @@ Public Class frmCustomer
     End Sub
 
     Private Sub cmbCuName_DropDown(sender As Object, e As EventArgs) Handles cmbCuName.DropDown
-        CmbDropDown(cmbCuName, "Select CuName from Customer group by  CuName;", "CuName")
+        ComboBoxDropDown(Db, cmbCuName, "Select CuName from Customer group by  CuName;")
     End Sub
 
     Private Sub frmCustomer_Load(sender As Object, e As EventArgs) Handles Me.Load
@@ -58,16 +58,13 @@ Public Class frmCustomer
         Else
             x = "Order by CuNo"
         End If
-        Dim da As New OleDb.OleDbDataAdapter("SELECT CuNo as [No],CuName as [Name],CuTelNo1 as [Telephone No 1],CuTelNo2 as [Telephone No 2]," &
-                                             "CuTelNo3 as [Telephone No 3] from Customer " & x & ";", CNN)
-        da.Fill(dt)
-        Me.grdCustomer.DataSource = dt
+        Me.grdCustomer.DataSource = Db.GetDataTable("SELECT CuNo as [No],CuName as [Name],CuTelNo1 as [Telephone No 1],CuTelNo2 as [Telephone No 2]," &
+                                             "CuTelNo3 as [Telephone No 3] from Customer " & x & ";")
         grdCustomer.Refresh()
     End Sub
 
     Public Sub cmbCuName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbCuName.SelectedIndexChanged
-        CMD = New OleDb.OleDbCommand("SELECT * from Customer where CuName='" & cmbCuName.Text & "';", CNN)
-        DR = CMD.ExecuteReader()
+        DR = Db.GetDataReader("SELECT * from Customer where CuName='" & cmbCuName.Text & "';")
         If DR.HasRows = True Then
             DR.Read()
             txtCuNo.Text = DR("CuNo").ToString
@@ -157,12 +154,10 @@ Public Class frmCustomer
         End If
         Select Case cmdSave.Text
             Case "Save"
-                CMD = New OleDbCommand("Select CuName from Customer where CuName ='" & cmbCuName.Text & "';", CNN)
-                DR = CMD.ExecuteReader
+                DR = Db.GetDataReader("Select CuName from Customer where CuName ='" & cmbCuName.Text & "';")
                 If DR.HasRows = True Then
                     For i As Integer = 0 To 1000
-                        CMD = New OleDb.OleDbCommand("Select CuName from Customer Where CuName = '" & cmbCuName.Text & " " & i.ToString & "'", CNN)
-                        DR = CMD.ExecuteReader
+                        DR = Db.GetDataReader("Select CuName from Customer Where CuName = '" & cmbCuName.Text & " " & i.ToString & "'")
                         If DR.HasRows = False Then
                             cmbCuName.Text = cmbCuName.Text + " " + i.ToString
                             Exit For
@@ -220,14 +215,12 @@ Public Class frmCustomer
     Private Sub cmdDelete_Click(sender As Object, e As EventArgs) Handles cmdDelete.Click, DeleteToolStripMenuItem.Click
         Dim C As Integer = 0
         Dim tmp As String = ""
-        CMD = New OleDb.OleDbCommand("Select * from Sale where CuNo= " & txtCuNo.Text & ";", CNN)
-        DR = CMD.ExecuteReader()
+        DR = Db.GetDataReader("Select * from Sale where CuNo= " & txtCuNo.Text & ";")
         While DR.Read
             C = C + 1
             tmp = tmp + "Sale: " + DR("SaNo").ToString + vbCrLf
         End While
-        CMD = New OleDb.OleDbCommand("Select * from Receive where CuNo= " & txtCuNo.Text & ";", CNN)
-        DR = CMD.ExecuteReader()
+        DR = Db.GetDataReader("Select * from Receive where CuNo= " & txtCuNo.Text & ";")
         While DR.Read
             C = C + 1
             tmp = tmp + "Receive: " + DR("RNo").ToString + vbCrLf
@@ -245,8 +238,7 @@ Public Class frmCustomer
 
     Private Sub txtCuTelNo1_KeyUp(sender As Object, e As KeyEventArgs) Handles txtCuTelNo1.KeyUp
         If txtCuTelNo1.Text.Trim.Length < 10 Then Exit Sub
-        CMD = New OleDb.OleDbCommand("Select * from Customer where CuTelNo1='" & txtCuTelNo1.Text & "' or CuTelNo2='" & txtCuTelNo1.Text & "' or CuTelNo3='" & txtCuTelNo1.Text & "';", CNN)
-        DR = CMD.ExecuteReader()
+        DR = Db.GetDataReader("Select * from Customer where CuTelNo1='" & txtCuTelNo1.Text & "' or CuTelNo2='" & txtCuTelNo1.Text & "' or CuTelNo3='" & txtCuTelNo1.Text & "';")
         If DR.HasRows = True Then
             If MsgBox("මෙම Telephone No එකට Customer කෙනෙකු ලියාපදිංචි වී ඇත. එය විවෘත කරන්නද?", vbYesNo + vbCritical) = vbYes Then
                 DR.Read()
@@ -258,8 +250,7 @@ Public Class frmCustomer
 
     Private Sub txtCuTelNo2_KeyUp(sender As Object, e As KeyEventArgs) Handles txtCuTelNo2.KeyUp
         If txtCuTelNo2.Text.Trim.Length < 10 Then Exit Sub
-        CMD = New OleDb.OleDbCommand("Select * from Customer where CuTelNo1='" & txtCuTelNo2.Text & "' or CuTelNo2='" & txtCuTelNo2.Text & "' or CuTelNo3='" & txtCuTelNo2.Text & "';", CNN)
-        DR = CMD.ExecuteReader()
+        DR = Db.GetDataReader("Select * from Customer where CuTelNo1='" & txtCuTelNo2.Text & "' or CuTelNo2='" & txtCuTelNo2.Text & "' or CuTelNo3='" & txtCuTelNo2.Text & "';")
         If DR.HasRows = True Then
             If MsgBox("මෙම Telephone No එකට Customer කෙනෙකු ලියාපදිංචි වී ඇත. එය විවෘත කරන්නද?", vbYesNo + vbCritical) = vbYes Then
                 DR.Read()
@@ -271,8 +262,7 @@ Public Class frmCustomer
 
     Private Sub txtCuTelNo3_KeyUp(sender As Object, e As KeyEventArgs) Handles txtCuTelNo3.KeyUp
         If txtCuTelNo3.Text.Trim.Length < 10 Then Exit Sub
-        CMD = New OleDb.OleDbCommand("Select * from Customer where CuTelNo1='" & txtCuTelNo3.Text & "' or CuTelNo2='" & txtCuTelNo3.Text & "' or CuTelNo3='" & txtCuTelNo3.Text & "';", CNN)
-        DR = CMD.ExecuteReader()
+        DR = Db.GetDataReader("Select * from Customer where CuTelNo1='" & txtCuTelNo3.Text & "' or CuTelNo2='" & txtCuTelNo3.Text & "' or CuTelNo3='" & txtCuTelNo3.Text & "';")
         If DR.HasRows = True Then
             If MsgBox("Another Customer was found assigned this Telephone No. Will it be opened?", vbYesNo + vbCritical) = vbYes Then
                 DR.Read()
@@ -298,47 +288,35 @@ Public Class frmCustomer
     Private Sub TxtCuNo_TextChanged(sender As Object, e As EventArgs) Handles txtCuNo.TextChanged
         If Me.WindowState = FormWindowState.Maximized AndAlso CheckExistData("Select CuNo from Customer Where CuNo=" & txtCuNo.Text) = True Then
             Dim task1 As Task = Task.Run(Sub()
-                                             Dim CuDT1 As New DataTable
-                                             Dim CuDA1 As New OleDbDataAdapter("SELECT RepNo as [Repair No],RDate as [Received Date],PCategory as [Product Category]," &
+                                             grdRepair.DataSource = Db.GetDataTable("SELECT RepNo as [Repair No],RDate as [Received Date],PCategory as [Product Category]," &
                                       "PName as [Product Name], PModelNo as [Product Model No], " &
                                     "PSerialNo as [Product Serial No],Problem,Location,Qty,Status,TName as [Technician Name],RepDate as [Repaired Date]," &
                                     "Charge, DDate as [Delivered Date], PaidPrice as [Paid Charge]" &
                                     "from (((((Repair REP INNER JOIN RECEIVE R ON R.RNO = REP.RNO) INNER JOIN PRODUCT  P ON P.PNO = REP.PNO) " &
                                     "INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = REP.TNO) LEFT JOIN DELIVER D " &
-                                    "ON D.DNO = REP.DNO) WHERE R.CuNo=" & txtCuNo.Text, CNN)
-                                             CuDA1.Fill(CuDT1)
+                                    "ON D.DNO = REP.DNO) WHERE R.CuNo=" & txtCuNo.Text)
                                              grdRepair.ScrollBars = ScrollBars.None
-                                             grdRepair.DataSource = CuDT1
-                                             CuDA1.Dispose()
                                          End Sub)
             task1.GetAwaiter.OnCompleted(Sub()
                                              grdRepair.ScrollBars = ScrollBars.Both
                                          End Sub)
             Dim task2 As Task = Task.Run(Sub()
-                                             Dim CuDT2 As New DataTable
-                                             Dim CuDA2 As New OleDbDataAdapter("SELECT Sa.SaNo as [Sale No],SaDate as [Sold Date],SCategory as [Stock Category],SName as [Stock Name]," &
+                                             grdSale.DataSource = Db.GetDataTable("SELECT Sa.SaNo as [Sale No],SaDate as [Sold Date],SCategory as [Stock Category],SName as [Stock Name]," &
                                       "SaRate as [Rate], SaUnits as [Qty],SaTotal as [Total]  from (StockSale SSa INNER JOIN Sale Sa ON " &
-                                      "Sa.SaNo = SSa.SaNo) INNER JOIN Customer Cu ON Cu.CuNo = Sa.CuNo where Cu.CuNo=" & txtCuNo.Text, CNN)
-                                             CuDA2.Fill(CuDT2)
+                                      "Sa.SaNo = SSa.SaNo) INNER JOIN Customer Cu ON Cu.CuNo = Sa.CuNo where Cu.CuNo=" & txtCuNo.Text)
                                              grdSale.ScrollBars = ScrollBars.None
-                                             grdSale.DataSource = CuDT2
-                                             CuDA2.Dispose()
                                          End Sub)
             task2.GetAwaiter.OnCompleted(Sub()
                                              grdSale.ScrollBars = ScrollBars.Both
                                          End Sub)
             Dim task3 As Task = Task.Run(Sub()
-                                             Dim CuDT3 As New DataTable
-                                             Dim CuDA3 As New OleDbDataAdapter("SELECT CuL.CuLNo as [Customer Loan No],CuLDate as [Customer Loan Date],CuL.CuNo as [No]," &
+                                             grdCuLoan.DataSource = Db.GetDataTable("SELECT CuL.CuLNo as [Customer Loan No],CuLDate as [Customer Loan Date],CuL.CuNo as [No]," &
                                     "CuName as [Name],CuTelNo1 as [Telephone No 1],CuTelNo2 as [Telephone No 2],CuTelNo3 as " &
                                     "[Telephone No 3],CuL.SaNo as [Sale No],SaDate as [Sale Date], CuL.DNo as [Deliver No], " &
                                     "DDate as [Deliver Date], Status,CuLRemarks as [Remarks] from (((CustomerLoan CUL INNER JOIN " &
                                     "CUSTOMER CU ON CU.CUNO = CUL.CUNO) LEFT JOIN SALE SA ON SA.SANO = CUL.SANO) LEFT JOIN " &
-                                    "DELIVER D ON D.DNO = CUL.DNO) WHERE CuL.CuNo=" & txtCuNo.Text, CNN)
-                                             CuDA3.Fill(CuDT3)
+                                    "DELIVER D ON D.DNO = CUL.DNO) WHERE CuL.CuNo=" & txtCuNo.Text)
                                              grdCuLoan.ScrollBars = ScrollBars.None
-                                             grdCuLoan.DataSource = CuDT3
-                                             CuDA3.Dispose()
                                          End Sub)
             task3.GetAwaiter.OnCompleted(Sub()
                                              grdCuLoan.ScrollBars = ScrollBars.Both

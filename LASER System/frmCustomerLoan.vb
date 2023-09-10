@@ -1,11 +1,11 @@
 ﻿Public Class frmCustomerLoan
     Private Db As New Database
     Private Sub cmbCuName_DropDown(sender As Object, e As EventArgs) Handles cmbCuName.DropDown
-        Call CmbDropDown(cmbCuName, "Select CuName from Customer order by CuName;", "CuName")
+        Call ComboBoxDropDown(Db, cmbCuName, "Select CuName from Customer order by CuName;")
     End Sub
 
     Private Sub cmbCuName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbCuName.SelectedIndexChanged
-        CMD = New OleDb.OleDbCommand("SELECT * from Customer where CuName='" & cmbCuName.Text & "';", CNN)
+        CMD = New OleDb.OleDbCommand("SELECT * from Customer where CuName='" & cmbCuName.Text & "';")
         DR = CMD.ExecuteReader()
         If DR.HasRows = True Then
             DR.Read()
@@ -47,7 +47,7 @@
     End Sub
 
     Private Sub txtDNo_TextChanged(sender As Object, e As EventArgs) Handles txtDNo.TextChanged
-        CMD = New OleDb.OleDbCommand("SELECT DDate from Deliver where DNo =" & txtDNo.Text & ";", CNN)
+        CMD = New OleDb.OleDbCommand("SELECT DDate from Deliver where DNo =" & txtDNo.Text & ";")
         DR = CMD.ExecuteReader()
         If DR.HasRows = True Then
             DR.Read()
@@ -57,7 +57,7 @@
 
     Private Sub txtSaNo_TextChanged(sender As Object, e As EventArgs) Handles txtSaNo.TextChanged
         If txtSaNo.Text = "" Then Exit Sub
-        CMD = New OleDb.OleDbCommand("SELECT SaDate from SAle where SaNo =" & txtSaNo.Text & ";", CNN)
+        CMD = New OleDb.OleDbCommand("SELECT SaDate from SAle where SaNo =" & txtSaNo.Text & ";")
         DR = CMD.ExecuteReader()
         If DR.HasRows = True Then
             DR.Read()
@@ -151,7 +151,7 @@
         If index >= 0 Then
             selectedrow = grdCustomerLoan.Rows(index)
             txtCuLNo.Text = selectedrow.Cells(0).Value.ToString
-            CMD = New OleDb.OleDbCommand("Select CUL.CuLNo,CuLDate,CuL.CuNo,CuName,CuTelNo1,CuTelNo2,CuTelNo3,Sa.SaNo,Sa.SaDate,D.DNo,D.DDate,CuL.CuLAmount,Status,CuLRemarks from (((CustomerLoan CUL INNER JOIN Customer CU ON CU.CUNO = CUL.CUNO) LEFT JOIN DELIVER D ON D.DNO = CUL.DNO) LEFT JOIN SALE SA ON SA.SANO = CUL.SANO) WHERE CuL.CuLNO =" & txtCuLNo.Text, CNN)
+            CMD = New OleDb.OleDbCommand("Select CUL.CuLNo,CuLDate,CuL.CuNo,CuName,CuTelNo1,CuTelNo2,CuTelNo3,Sa.SaNo,Sa.SaDate,D.DNo,D.DDate,CuL.CuLAmount,Status,CuLRemarks from (((CustomerLoan CUL INNER JOIN Customer CU ON CU.CUNO = CUL.CUNO) LEFT JOIN DELIVER D ON D.DNO = CUL.DNO) LEFT JOIN SALE SA ON SA.SANO = CUL.SANO) WHERE CuL.CuLNO =" & txtCuLNo.Text)
             DR = CMD.ExecuteReader()
             If DR.HasRows = True Then
                 DR.Read()
@@ -178,7 +178,6 @@
 
 
     Private Sub cmdSearch_Click(sender As Object, e As EventArgs) Handles cmdSearch.Click
-        Dim dt As New DataTable
         Dim x As String = ""
         If txtSearch.Text <> "" Then
             Select Case cmbFilter.Text
@@ -216,13 +215,12 @@
         Else
             x = " Order by CUL.CuLNo"
         End If
-        Dim da As New OleDb.OleDbDataAdapter("SELECT CuL.CuLNo as [Customer Loan No],CuLDate as [Customer Loan Date],CuL.CuNo as [No]," &
+        Dim DT As DataTable = Db.GetDataTable("SELECT CuL.CuLNo as [Customer Loan No],CuLDate as [Customer Loan Date],CuL.CuNo as [No]," &
                                              "CuName as [Name],CuTelNo1 as [Telephone No 1],CuTelNo2 as [Telephone No 2],CuTelNo3 as " &
                                              "[Telephone No 3],CuL.SaNo as [Sale No],SaDate as [Sale Date], CuL.DNo as [Deliver No], " &
                                              "DDate as [Deliver Date], Status,CuLRemarks as [Remarks] from (((CustomerLoan CUL INNER JOIN " &
                                              "CUSTOMER CU ON CU.CUNO = CUL.CUNO) LEFT JOIN SALE SA ON SA.SANO = CUL.SANO) LEFT JOIN " &
-                                             "DELIVER D ON D.DNO = CUL.DNO) " & x & ";", CNN)
-        da.Fill(dt)
+                                             "DELIVER D ON D.DNO = CUL.DNO) " & x & ";")
         Me.grdCustomerLoan.DataSource = dt
         For Each Row As DataGridViewRow In grdCustomerLoan.Rows
             If Row.Cells("Status").Value = "Paid" Then

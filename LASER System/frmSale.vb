@@ -82,11 +82,11 @@ Public Class frmSale
     End Sub
 
     Private Sub cmbCuName_DropDown(sender As Object, e As EventArgs) Handles cmbCuName.DropDown
-        CmbDropDown(cmbCuName, "Select CuName from Customer group by  CuName;", "CuName")
+        ComboBoxDropDown(Db, cmbCuName, "Select CuName from Customer group by  CuName;")
     End Sub
 
     Private Sub cmbCuName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbCuName.SelectedIndexChanged
-        CMD = New OleDb.OleDbCommand("SELECT * from Customer where CuName='" & cmbCuName.Text & "';", CNN)
+        CMD = New OleDb.OleDbCommand("SELECT * from Customer where CuName='" & cmbCuName.Text & "';")
         DR = CMD.ExecuteReader()
         If DR.HasRows = True Then
             txtCuTelNo1.Tag = "1"
@@ -173,13 +173,11 @@ Public Class frmSale
             Sub()
                 Try
                     Dim rpt As New rptSale 'The report you created.
-                    Dim DT As New DataTable
-                    Dim DA As New OleDb.OleDbDataAdapter($"SELECT Sale.SaNo,Sale.SaDate,Sale.CuNo,Customer.CuName,Customer.CuTelNo1,Customer.CuTelNo2,Customer.CuTelNo3,
+                    Dim DT As DataTable = Db.GetDataTable($"Select Sale.SaNo,Sale.SaDate,Sale.CuNo,Customer.CuName,Customer.CuTelNo1,Customer.CuTelNo2,Customer.CuTelNo3,
                                              SCategory, SName, StockSale.SaType,StockSale.SaUnits, StockSale.SaRate, StockSale.SaTotal,Sale.SaSubTotal,
                                              Sale.SaLess,Sale.SaDue,Sale.CReceived,Sale.CBalance,Sale.CAmount,Sale.CPInvoiceNo,Sale.CPAmount,Sale.CuLNo,
                                              sale.CuLAmount FROM ((StockSale Inner Join SALE ON StockSale.SaNo= Sale.SaNo) 
-                                             INNER JOIN Customer ON Sale.CuNo = Customer.CuNo) where StockSale.SaNo={SaNo}", CNN)
-                    DA.Fill(DT)
+                                             INNER Join Customer ON Sale.CuNo = Customer.CuNo) where StockSale.SaNo={SaNo}")
                     rpt.SetDataSource(DT)
                     rpt.SetParameterValue("Cashier Name", UserName) 'Set Cashier Name to Parameter Value
                     frmReport.ReportViewer.ReportSource = rpt
@@ -234,7 +232,7 @@ Public Class frmSale
         If (Val(txtCAmount.Text) > 0 Or Val(txtCPAmount.Text) > 0) And chkCashDrawer.Checked = True Then OpenCashdrawer()
         'Customer Management
         Dim CuNo As Integer
-        CMD = New OleDb.OleDbCommand("Select * from Customer where CuName='" & cmbCuName.Text & "' and CuTelNo1='" & txtCuTelNo1.Text & "' and CuTelNo2 ='" & txtCuTelNo2.Text & "' and CuTelNo3='" & txtCuTelNo3.Text & "'", CNN)
+        CMD = New OleDb.OleDbCommand("Select * from Customer where CuName='" & cmbCuName.Text & "' and CuTelNo1='" & txtCuTelNo1.Text & "' and CuTelNo2 ='" & txtCuTelNo2.Text & "' and CuTelNo3='" & txtCuTelNo3.Text & "'")
         DR = CMD.ExecuteReader
         If DR.HasRows = True Then
             DR.Read()
@@ -290,7 +288,7 @@ Public Class frmSale
                     End If
                 Next
             Case "Edit"
-                CMD = New OleDb.OleDbCommand("SELECT * from Sale where SaNo=" & txtSaNo.Text & ";", CNN)
+                CMD = New OleDb.OleDbCommand("SELECT * from Sale where SaNo=" & txtSaNo.Text & ";")
                 DR = CMD.ExecuteReader()
                 If DR.HasRows = True Then
                     DR.Read()
@@ -309,13 +307,13 @@ Public Class frmSale
                     End If
                 End If
                 'Delete old Customer if there is no records about that customer
-                CMD = New OleDb.OleDbCommand("Select CuNo from Sale where SaNo=" & txtSaNo.Text, CNN)
+                CMD = New OleDb.OleDbCommand("Select CuNo from Sale where SaNo=" & txtSaNo.Text)
                 DR = CMD.ExecuteReader
                 If DR.HasRows = True Then
                     DR.Read()
-                    CMD1 = New OleDb.OleDbCommand("Select CuNo from Sale Where CuNo = " & DR("CuNo").ToString, CNN)
+                    CMD1 = New OleDb.OleDbCommand("Select CuNo from Sale Where CuNo = " & DR("CuNo").ToString)
                     DR1 = CMD1.ExecuteReader()
-                    Dim CMD2 As New OleDb.OleDbCommand("Select CuNo from Receive where CuNo = " & DR("CuNo").ToString, CNN)
+                    Dim CMD2 As New OleDb.OleDbCommand("Select CuNo from Receive where CuNo = " & DR("CuNo").ToString)
                     Dim DR2 As OleDb.OleDbDataReader = CMD2.ExecuteReader()
                     If DR1.HasRows = False And DR2.HasRows = False Then
                         Db.Execute("Delete from Customer where CuNo=" & DR("CuNo").ToString)
@@ -336,7 +334,7 @@ Public Class frmSale
                                         ",CuLAmount=" & txtCuLAmount.Text &
                                         ",SaRemarks='" & txtSaRemarks.Text & "' Where SaNo = " & txtSaNo.Text)
                 'Delete and update stocksale and stock old data
-                CMD1 = New OleDb.OleDbCommand("Select * from StockSale where SaNo = " & txtSaNo.Text & "", CNN)
+                CMD1 = New OleDb.OleDbCommand("Select * from StockSale where SaNo = " & txtSaNo.Text & "")
                 DR1 = CMD1.ExecuteReader()
                 While DR1.Read
                     If DR1("SaType").ToString = "Sale" Then
@@ -437,7 +435,7 @@ Public Class frmSale
                 My.Computer.Audio.PlaySystemSound(Media.SystemSounds.Hand)
                 'If IsNumeric(grdSale.Item(0, e.RowIndex).Value) = False Then grdSale.Rows.RemoveAt(e.RowIndex)
                 If grdSale.Item(0, e.RowIndex).Value Is Nothing Then Exit Sub
-                CMD = New OleDb.OleDbCommand("Select * from Stock where SNo =" & grdSale.Item(0, e.RowIndex).Value.ToString, CNN)
+                CMD = New OleDb.OleDbCommand("Select * from Stock where SNo =" & grdSale.Item(0, e.RowIndex).Value.ToString)
                 DR = CMD.ExecuteReader
                 If DR.HasRows = True Then
                     DR.Read()
@@ -464,7 +462,7 @@ Public Class frmSale
                 End If
             Case 1, 2
                 frmSearchDropDown.frm_Close()
-                CMD = New OleDb.OleDbCommand("Select * from Stock where SCategory='" & grdSale.Item(1, e.RowIndex).Value & "' and SName='" & grdSale.Item(2, e.RowIndex).Value & "';", CNN)
+                CMD = New OleDb.OleDbCommand("Select * from Stock where SCategory='" & grdSale.Item(1, e.RowIndex).Value & "' and SName='" & grdSale.Item(2, e.RowIndex).Value & "';")
                 DR = CMD.ExecuteReader()
                 If DR.HasRows = True Then
                     DR.Read()
@@ -556,7 +554,7 @@ Public Class frmSale
 
     Private Sub txtCuTelNo1_TextChanged(sender As Object, e As EventArgs) Handles txtCuTelNo1.TextChanged
         If txtCuTelNo1.Text = "          " Or txtCuTelNo1.Tag = "1" Then Exit Sub
-        Dim SaCMD As New OleDb.OleDbCommand("Select * from Customer where CuTelNo1='" & txtCuTelNo1.Text & "' or CuTelNo2='" & txtCuTelNo1.Text & "' or CuTelNo3='" & txtCuTelNo1.Text & "';", CNN)
+        Dim SaCMD As New OleDb.OleDbCommand("Select * from Customer where CuTelNo1='" & txtCuTelNo1.Text & "' or CuTelNo2='" & txtCuTelNo1.Text & "' or CuTelNo3='" & txtCuTelNo1.Text & "';")
         Dim SaDR As OleDb.OleDbDataReader = SaCMD.ExecuteReader()
         If SaDR.HasRows = True Then
             txtCuTelNo1.Tag = "1"
@@ -576,7 +574,7 @@ Public Class frmSale
 
     Private Sub txtCuTelNo2_TextChanged(sender As Object, e As EventArgs) Handles txtCuTelNo2.TextChanged
         If txtCuTelNo2.Text = "          " Or txtCuTelNo1.Tag = "1" Then Exit Sub
-        Dim SaCMD As New OleDb.OleDbCommand("Select * from Customer where CuTelNo1='" & txtCuTelNo2.Text & "' or CuTelNo2='" & txtCuTelNo2.Text & "' or CuTelNo3='" & txtCuTelNo2.Text & "';", CNN)
+        Dim SaCMD As New OleDb.OleDbCommand("Select * from Customer where CuTelNo1='" & txtCuTelNo2.Text & "' or CuTelNo2='" & txtCuTelNo2.Text & "' or CuTelNo3='" & txtCuTelNo2.Text & "';")
         Dim SaDR As OleDb.OleDbDataReader = SaCMD.ExecuteReader()
         If SaDR.HasRows = True Then
             txtCuTelNo1.Tag = "1"
@@ -596,7 +594,7 @@ Public Class frmSale
 
     Private Sub txtCuTelNo3_TextChanged(sender As Object, e As EventArgs) Handles txtCuTelNo3.TextChanged
         If txtCuTelNo3.Text = "          " Or txtCuTelNo1.Tag = "1" Then Exit Sub
-        Dim SaCMD As New OleDb.OleDbCommand("Select * from Customer where CuTelNo1='" & txtCuTelNo3.Text & "' or CuTelNo2='" & txtCuTelNo3.Text & "' or CuTelNo3='" & txtCuTelNo3.Text & "';", CNN)
+        Dim SaCMD As New OleDb.OleDbCommand("Select * from Customer where CuTelNo1='" & txtCuTelNo3.Text & "' or CuTelNo2='" & txtCuTelNo3.Text & "' or CuTelNo3='" & txtCuTelNo3.Text & "';")
         Dim SaDR As OleDb.OleDbDataReader = SaCMD.ExecuteReader()
         If SaDR.HasRows = True Then
             txtCuTelNo1.Tag = "1"

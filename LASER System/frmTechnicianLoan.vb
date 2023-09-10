@@ -13,7 +13,7 @@
     End Sub
 
     Private Sub cmbTName_DropDown(sender As Object, e As EventArgs) Handles cmbTName.DropDown
-        Call CmbDropDown(cmbTName, "Select TName from Technician Where TActive=True group by TName;", "TName")
+        Call ComboBoxDropDown(Db, cmbTName, "Select TName from Technician Where TActive=True group by TName;")
     End Sub
 
     Private Sub cmdClose_Click(sender As Object, e As EventArgs)
@@ -21,17 +21,15 @@
     End Sub
 
     Private Sub cmdTLSearch_Click(sender As Object, e As EventArgs) Handles cmdTLSearch.Click
-        Dim dt As New DataTable
         If cmbTName.Text = "" Then
             grdTLSearch.Rows.Clear()
             Exit Sub
         End If
-        Dim da As New OleDb.OleDbDataAdapter("Select TLNo as [Technician Loan No],TLDate as [Date],SCategory as [Stock Category],SName as [Stock Name],TLReason as [Reason]," &
+        Dim DT As DataTable = Db.GetDataTable("Select TLNo as [Technician Loan No],TLDate as [Date],SCategory as [Stock Category],SName as [Stock Name],TLReason as [Reason]," &
                                              "Rate,Qty,Total from (TechnicianLoan Inner Join Technician On Technician.TNO = TechnicianLoan.TNo) " &
                                              "where TName='" & cmbTName.Text & "' and TLDate BETWEEN #" & txtTLFrom.Value.Date & " 00:00:00# AND #" &
-                                             txtTLTo.Value.Date & " 23:59:59#", CNN)
-        da.Fill(dt)
-        Me.grdTLSearch.DataSource = dt
+                                             txtTLTo.Value.Date & " 23:59:59#")
+        Me.grdTLSearch.DataSource = DT
         grdTLSearch.Refresh()
         txtTLSubTotal.Text = "0"
         For Each Row As DataGridViewRow In grdTLSearch.Rows
@@ -112,16 +110,17 @@
     End Sub
 
     Private Sub cmbSCategory_DropDown(sender As Object, e As EventArgs) Handles cmbSCategory.DropDown
-        CmbDropDown(cmbSCategory, "Select SCategory from Stock group by SCategory;", "Scategory")
+        ComboBoxDropDown(Db, cmbSCategory, "Select SCategory from Stock group by SCategory;")
     End Sub
 
     Private Sub cmbSName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbSName.SelectedIndexChanged
+        Dim Sql As String
         If cmbSCategory.Text = "" Then
-            CMD = New OleDb.OleDbCommand("Select * from Stock Where SName='" & cmbSName.Text & "'", CNN)
+            Sql = "Select * from Stock Where SName='" & cmbSName.Text & "'"
         Else
-            CMD = New OleDb.OleDbCommand("SElect * from Stock Where Scategory='" & cmbSCategory.Text & "' and SName ='" & cmbSName.Text & "'", CNN)
+            Sql = "Select * from Stock Where Scategory='" & cmbSCategory.Text & "' and SName ='" & cmbSName.Text & "'"
         End If
-        DR = CMD.ExecuteReader
+        DR = Db.GetDataReader(Sql)
         If DR.HasRows = True Then
             DR.Read()
             txtSNo.Text = DR("SNo").ToString
@@ -136,7 +135,7 @@
     End Sub
 
     Private Sub cmbSName_DropDown(sender As Object, e As EventArgs) Handles cmbSName.DropDown
-        CmbDropDown(cmbSName, "Select SName from Stock Where SCategory='" & cmbSCategory.Text & "' group by SName;", "SName")
+        ComboBoxDropDown(Db, cmbSName, "Select SName from Stock Where SCategory='" & cmbSCategory.Text & "' group by SName;")
     End Sub
 
     Private Sub txtSUnitPrice_TextChanged(sender As Object, e As EventArgs) Handles txtSUnitPrice.TextChanged
@@ -172,8 +171,7 @@
             txtTLAmount.Text = "0"
             Exit Sub
         End If
-        Dim CMD1 = New OleDb.OleDbCommand("Select SCategory,SName,SNo from [Stock] where SNo =" & txtSNo.Text & ";", CNN)
-        Dim DR1 As OleDb.OleDbDataReader = CMD1.ExecuteReader
+        Dim DR1 As OleDb.OleDbDataReader = Db.GetDataReader("Select SCategory,SName,SNo from [Stock] where SNo =" & txtSNo.Text & ";")
         If DR1.HasRows = True Then
             DR1.Read()
             cmbSCategory.Text = DR1("SCategory").ToString
@@ -202,8 +200,7 @@
                 txtTLAmount.Text = "0"
                 Exit Sub
             End If
-            CMD = New OleDb.OleDbCommand("SElect SNO from stock where Sno =" & txtSNo.Text, CNN)
-            DR = CMD.ExecuteReader
+            DR = Db.GetDataReader("Select SNO from stock where Sno =" & txtSNo.Text)
             If DR.HasRows = False Then
                 cmbSCategory.Text = ""
                 cmbSName.Text = ""
@@ -263,8 +260,7 @@
             MdifrmMain.cmdTechnicianLoan.PerformClick()
             Exit Sub
         End If
-        CMD = New OleDb.OleDbCommand("Select * from TechnicianLoan Where TLNo=" & txtTLNo.Text, CNN)
-        DR = CMD.ExecuteReader
+        DR = Db.GetDataReader("Select * from TechnicianLoan Where TLNo=" & txtTLNo.Text)
         If DR.HasRows = True Then
             DR.Read()
             If DR("SNo").ToString <> "" And DR("SNo").ToString <> "0" Then

@@ -26,7 +26,7 @@ Public Class frmSupply
     End Sub
 
     Public Sub cmbSuName_DropDown(sender As Object, e As EventArgs) Handles cmbSuName.DropDown
-        Call CmbDropDown(cmbSuName, "Select SuName from Supplier group by  SuName;", "SuName")
+        Call ComboBoxDropDown(Db, cmbSuName, "Select SuName from Supplier group by  SuName;")
     End Sub
 
     Private Sub cmdClose_Click(sender As Object, e As EventArgs) Handles cmdClose.Click
@@ -44,14 +44,12 @@ Public Class frmSupply
         If txtSupNo.Text = "" Then
             AutomaticPrimaryKey(txtSupNo, "SELECT top 1 SupNo from Supply ORDER BY SupNo Desc;", "SupNo")
         End If
-        CMD = New OleDb.OleDbCommand("Select SupNo from Supply where SupNo =" & txtSupNo.Text, CNN)
-        DR = CMD.ExecuteReader
+        DR = Db.GetDataReader("Select SupNo from Supply where SupNo =" & txtSupNo.Text)
         If DR.HasRows = True Then
             AutomaticPrimaryKey(txtSupNo, "SELECT top 1 SupNo from Supply ORDER BY SupNo Desc;", "SupNo")
         End If
         Dim SuNo As Integer
-        CMD = New OleDb.OleDbCommand("Select SuName, SuNo from Supplier where SuName='" & cmbSuName.Text & "';", CNN)
-        DR = CMD.ExecuteReader
+        DR = Db.GetDataReader("Select SuName, SuNo from Supplier where SuName='" & cmbSuName.Text & "';")
         If DR.HasRows = True Then
             DR.Read()
             SuNo = DR("SuNo").ToString
@@ -69,8 +67,7 @@ Public Class frmSupply
                         MsgBox("ඔබ Stock Code: " + row.Cells(0).Value + " යන Stock එකෙහි Stock Category හෝ Stock Name යන අයිතම දෙකම හෝ ඉන් එකක් හෝ හිස්ව පවතියි. කරුණාකර එ සඳහා සුදුසු නමක් ඇතුලත් කරන්න.", vbExclamation + vbOKOnly)
                         Exit Sub
                     End If
-                    CMD = New OleDb.OleDbCommand("Select * from Stock Where SNo =" & row.Cells(0).Value, CNN)
-                    DR = CMD.ExecuteReader
+                    DR = Db.GetDataReader("Select * from Stock Where SNo =" & row.Cells(0).Value)
                     Dim CMD1 As New OleDb.OleDbCommand
                     If DR.HasRows = False Then
                         Db.Execute("Insert into Stock(SNo,SCategory,SName,SModelNo,SLocation,SDetails,SSalePrice,SCostPrice,SAvailableStocks,SOutofStocks,SMinStocks) " &
@@ -107,8 +104,7 @@ Public Class frmSupply
                     For Each row As DataGridViewRow In grdSupply.Rows
                         If grdSupply.Rows.Count - 1 = row.Index Then Continue For
                         Dim AvailableUnits As Integer
-                        CMD = New OleDb.OleDbCommand("Select SAvailableStocks from stock where sno =" & row.Cells(0).Value, CNN)
-                        DR = CMD.ExecuteReader()
+                        DR = Db.GetDataReader("Select SAvailableStocks from stock where sno =" & row.Cells(0).Value)
                         If DR.HasRows = True Then
                             DR.Read()
                             AvailableUnits = DR("SAvailableStocks").ToString
@@ -184,8 +180,7 @@ Public Class frmSupply
         Select Case e.ColumnIndex
             Case 0
                 If grdSupply.Item(0, e.RowIndex).Value = "" Then Exit Sub
-                CMD = New OleDb.OleDbCommand("Select * from Stock where SNo=" & grdSupply.Item(0, e.RowIndex).Value, CNN)
-                DR = CMD.ExecuteReader()
+                DR = Db.GetDataReader("Select * from Stock where SNo=" & grdSupply.Item(0, e.RowIndex).Value)
                 If DR.HasRows = True Then
                     DR.Read()
                     grdSupply.Item(1, e.RowIndex).Value = DR("SCategory").ToString
@@ -222,8 +217,7 @@ Public Class frmSupply
                     grdSupply.Item(9, e.RowIndex).Value = "1"
                 End If
             Case 1, 2
-                CMD = New OleDb.OleDbCommand("Select * from Stock where SCategory='" & grdSupply.Item(1, e.RowIndex).Value & "' and SName='" & grdSupply.Item(2, e.RowIndex).Value & "';", CNN)
-                DR = CMD.ExecuteReader()
+                DR = Db.GetDataReader("Select * from Stock where SCategory='" & grdSupply.Item(1, e.RowIndex).Value & "' and SName='" & grdSupply.Item(2, e.RowIndex).Value & "';")
                 If DR.HasRows = True Then
                     DR.Read()
                     grdSupply.Item(0, e.RowIndex).Value = DR("SNo").ToString
@@ -253,8 +247,7 @@ Public Class frmSupply
 
     Private Function SetStockCode() As Integer
         Dim max As Integer
-        CMD = New OleDb.OleDbCommand("Select top 1 SNo from Stock order by sno desc;", CNN)
-        DR = CMD.ExecuteReader()
+        DR = Db.GetDataReader("Select top 1 SNo from Stock order by sno desc;")
         If DR.HasRows = True Then
             DR.Read()
             max = Int(DR("SNo").ToString) + 1
@@ -263,8 +256,7 @@ Public Class frmSupply
         End If
         For Each row As DataGridViewRow In grdSupply.Rows
             If grdSupply.CurrentCell.RowIndex = row.Index Or row.Index = grdSupply.Rows.Count - 1 Then Continue For
-            CMD = New OleDb.OleDbCommand("Select Sno from Stock Where SNo=" & row.Cells(0).Value, CNN)
-            DR = CMD.ExecuteReader
+            DR = Db.GetDataReader("Select Sno from Stock Where SNo=" & row.Cells(0).Value)
             If DR.HasRows = False Then
                 row.Cells(0).Value = max
                 max += 1
@@ -312,8 +304,7 @@ Public Class frmSupply
                     autoText.AutoCompleteMode = AutoCompleteMode.Suggest
                     autoText.AutoCompleteSource = AutoCompleteSource.CustomSource
                     DataCollection.Clear()
-                    CMD = New OleDb.OleDbCommand("Select SCategory from Stock group by SCategory;", CNN)
-                    DR = CMD.ExecuteReader()
+                    DR = Db.GetDataReader("Select SCategory from Stock group by SCategory;")
                     While DR.Read
                         DataCollection.Add(DR("SCategory").ToString)
                     End While
@@ -325,8 +316,7 @@ Public Class frmSupply
                     autoText.AutoCompleteMode = AutoCompleteMode.Suggest
                     autoText.AutoCompleteSource = AutoCompleteSource.CustomSource
                     DataCollection.Clear()
-                    CMD = New OleDb.OleDbCommand("Select SCategory,SName from Stock where SCategory ='" & grdSupply.Item(1, grdSupply.CurrentCell.RowIndex).Value & "';", CNN)
-                    DR = CMD.ExecuteReader()
+                    DR = Db.GetDataReader("Select SCategory,SName from Stock where SCategory ='" & grdSupply.Item(1, grdSupply.CurrentCell.RowIndex).Value & "';")
                     While DR.Read
                         DataCollection.Add(DR("SName").ToString)
                     End While
@@ -338,8 +328,7 @@ Public Class frmSupply
                     autoText.AutoCompleteMode = AutoCompleteMode.Suggest
                     autoText.AutoCompleteSource = AutoCompleteSource.CustomSource
                     DataCollection.Clear()
-                    CMD = New OleDb.OleDbCommand("Select SLocation from Stock group by SLocation;", CNN)
-                    DR = CMD.ExecuteReader()
+                    DR = Db.GetDataReader("Select SLocation from Stock group by SLocation;")
                     While DR.Read
                         DataCollection.Add(DR("SLocation").ToString)
                     End While
