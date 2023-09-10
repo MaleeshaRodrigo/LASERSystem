@@ -1,11 +1,12 @@
 ﻿Public Class frmSalesRepair
+    Private Db As New Database
 
     Private Sub cmbTName_DropDown(sender As Object, e As EventArgs) Handles cmbTName.DropDown
-        CmbDropDown(cmbTName, "Select TName from Technician group by TName;", "TName")
+        ComboBoxDropDown(Db, cmbTName, "Select TName from Technician group by TName;")
     End Sub
 
     Private Sub cmbTName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbTName.SelectedIndexChanged
-        CMD = New OleDb.OleDbCommand("Select TNo,TName from Technician where TName = '" & cmbTName.Text & "';", CNN)
+        CMD = New OleDb.OleDbCommand("Select TNo,TName from Technician where TName = '" & cmbTName.Text & "';")
         DR = CMD.ExecuteReader
         If DR.HasRows = True Then
             DR.Read()
@@ -16,12 +17,12 @@
     End Sub
 
     Private Sub frmSalesRepair_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        GetCNN()
+        Db.connect
         Call cmdSaRepNew_Click(sender, e)
     End Sub
 
     Private Sub cmdSaRepNew_Click(sender As Object, e As EventArgs) Handles cmdSaRepNew.Click
-        AutomaticPrimaryKey(txtSaRepNo, "Select top 1 SaRepNo from SalesRepair Order by SaRepNo Desc;", "SaRepNo")
+        SetNextKey(Db, txtSaRepNo, "Select top 1 SaRepNo from SalesRepair Order by SaRepNo Desc;", "SaRepNo")
         cmbSCategory.Text = ""
         cmbSName.Text = ""
         txtSNo.Text = ""
@@ -41,9 +42,8 @@
 
     Private Sub cmdSaRepSearch_Click(sender As Object, e As EventArgs) Handles cmdSaRepSearch.Click
         If txtTNo.Text = "" Then Exit Sub
-        Dim DT As New DataTable
-        Dim DA As New OleDb.OleDbDataAdapter("Select SaRepNo,SaRepDate,SNo,Charge,Qty,Total from SalesREpair where TNo = " & txtTNo.Text & " and #" & txtSaRepFrom.Value.ToString & "# <= SaRepDate and SaRepDate <= #" & txtSaRepTo.Value.ToString & "#;", CNN)
-        DA.Fill(DT)
+        Dim DT As DataTable = Db.GetDataTable("Select SaRepNo,SaRepDate,SNo,Charge,Qty,Total from SalesREpair 
+where TNo = " & txtTNo.Text & " and #" & txtSaRepFrom.Value.ToString & "# <= SaRepDate and SaRepDate <= #" & txtSaRepTo.Value.ToString & "#;")
         Me.grdSalesRepair.DataSource = DT
         grdSalesRepair.Refresh()
     End Sub
@@ -64,6 +64,6 @@
     End Sub
 
     Private Sub frmSalesRepair_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-        Me.Close()
+        Db.Disconnect()
     End Sub
 End Class

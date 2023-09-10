@@ -2,21 +2,21 @@
 Imports Microsoft.VisualBasic.FileIO
 
 Public Class frmLogin
-    Dim frmMoveX, frmMoveY As Integer
-    Dim newpoint As New Point
+    Private frmMoveX, frmMoveY As Integer
+    Private newpoint As New Point
+    Private Db As New Database
     Private Sub FrmLogin_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-        CNN.Close()
+        Db.Disconnect()
         End
     End Sub
 
     Private Sub FrmLogin_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         System.Diagnostics.Process.GetCurrentProcess().PriorityClass = System.Diagnostics.ProcessPriorityClass.High
         If My.Settings.DatabaseCNN = "" Then My.Settings.DatabaseCNN = SpecialDirectories.MyDocuments + "\Database.accdb"
-        GetCNN()
+        Db.Connect()
         Me.AcceptButton = cmdLogin
         cmbUserName_DropDown(sender, e)
-        CMD = New OleDbCommand("Select Top 1 UserName from [User] Order by LastLogin Desc;", CNN)
-        cmbUserName.Text = CMD.ExecuteScalar
+        cmbUserName.Text = Db.GetData("Select Top 1 UserName from [User] Order by LastLogin Desc;")
         cmbUserName.Focus()
         '--------Developer Mode-------------
         If My.Settings.DeveloperMode = True Then
@@ -38,21 +38,16 @@ Public Class frmLogin
             Me.Close()
             Exit Sub
         End If
-        CMD = New OleDb.OleDbCommand("Select * from [User] where UserName ='" & cmbUserName.Text & "'", CNN)
-        DR = CMD.ExecuteReader()
+        DR = Db.GetDataReader("Select * from [User] where UserName ='" & cmbUserName.Text & "'")
         If DR.HasRows = True Then
-            CMD = New OleDb.OleDbCommand("Select * from [User] where  StrComp('" & cmbUserName.Text & "',UserName,0)=0 and " &
-                                         "StrComp(Password,'" & txtPassword.Text & "',0)=0", CNN)
-            DR = CMD.ExecuteReader()
+            DR = Db.GetDataReader("Select * from [User] where  StrComp('" & cmbUserName.Text & "',UserName,0)=0 and " &
+                                         "StrComp(Password,'" & txtPassword.Text & "',0)=0")
             If DR.HasRows = True Then
                 DR.Read()
-                Dim CMD1 As New OleDbCommand("Update [User] set LogInCount='0' Where LoginCount IS NULL", CNN)
-                CMD1.ExecuteNonQuery()
-                CMD1 = New OleDbCommand("Update [User] set LogInCount= (LogInCount + 1) Where UNo = " & DR("UNo").ToString, CNN)
-                CMD1.ExecuteNonQuery()
-                CMD1 = New OleDbCommand("Update [User] set LastLogin=#" & DateAndTime.Now & "# Where UNo = " & DR("UNo").ToString, CNN)
-                CMD1.ExecuteNonQuery()
-                CMD1.Cancel()
+                Db.Execute("Update [User] set LogInCount='0' Where LoginCount IS NULL")
+                Db.Execute("Update [User] set LogInCount= (LogInCount + 1) Where UNo = " & DR("UNo").ToString)
+                Db.Execute("Update [User] set LastLogin=#" & DateAndTime.Now & "# Where UNo = " & DR("UNo").ToString)
+
                 Select Case Me.Tag
                     Case "MainMenu"
                         With MdifrmMain
@@ -103,7 +98,7 @@ Public Class frmLogin
         ElseIf CheckExistData(txtOTPUserName, "Select UserName from [User] Where UserName='" & txtOTPUserName.Text & "'", "ඔබ ඇතුලත් කල User Name එක වැරදි කරුණාකර නිවැරදි User Name එක ඇතුලත් කරන්න.", False) = False Then
             Exit Sub
         End If
-        CMD = New OleDbCommand("Select Email from [User] Where UserName='" & txtOTPUserName.Text & "'", CNN)
+        CMD = Db.GetDataReader("Select Email from [User] Where UserName='" & txtOTPUserName.Text & "'")
         DR = CMD.ExecuteReader()
         If DR.HasRows = True Then
             DR.Read()
@@ -117,7 +112,7 @@ Public Class frmLogin
             For i As Integer = 1 To 5 ' 5 Letters generated
                 sPrefix &= ChrW(rdm.Next(65, 90))
             Next
-            CMDUPDATE("Insert Into Mail(MailNo,MailDate,EmailTo,Subject,Body,Status) Values(?NewKey?Mail?MailNo?,#" &
+            Db.Execute("Insert Into Mail(MailNo,MailDate,EmailTo,Subject,Body,Status) Values(?NewKey?Mail?MailNo?,#" &
                       DateAndTime.Now & "#,'" & DR("Email").ToString & "','New Signed in Detected from your LASER System account','" &
                       "Please use the following security code for the LASER System account " & txtOTPUserName.Text & "." + vbCrLf + vbCrLf +
                         "Security code: " + sPrefix & "','Waiting');")
@@ -133,7 +128,7 @@ Public Class frmLogin
         End If
         If txtOTPCode.Text = txtOTPCode.Tag Then
             cmbUserName.Text = txtOTPUserName.Text
-            CMD = New OleDbCommand("Select Password from [User] Where UserName='" & cmbUserName.Text & "'", CNN)
+            CMD = Db.GetDataReader("Select Password from [User] Where UserName='" & cmbUserName.Text & "'")
             DR = CMD.ExecuteReader()
             If DR.HasRows = True Then
                 DR.Read()
@@ -170,7 +165,7 @@ Public Class frmLogin
     End Sub
 
     Private Sub cmbUserName_DropDown(sender As Object, e As EventArgs) Handles cmbUserName.DropDown
-        CmbDropDown(cmbUserName, "Select UserName from [User] group by UserName", "UserName")
+        ComboBoxDropDown(Db, cmbUserName, "Select UserName from [User] group by UserName")
     End Sub
 
     Private Sub cmdClose_Click(sender As Object, e As EventArgs) Handles cmdClose.Click
