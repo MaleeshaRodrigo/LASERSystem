@@ -354,6 +354,26 @@
       "ID": "71",
       "Date": "2023-09-02 4:00:27 PM",
       "Command": "UPDATE Stock SET \r\n            SCategory = @CATEGORY,\r\n            SName = @NAME,\r\n            SModelNo = @MODELNO,\r\n            SLocation = @LOCATION,\r\n            SDetails = @DETAILS,\r\n            SSalePrice = @SALEPRICE,\r\n            SCostPrice = @COSTPRICE,\r\n            SAvailableStocks = @AVAILABLEUNITS,\r\n            SOutofStocks = @DAMAGEDUNITS,\r\n            SMinStocks = @REORDERPOINT\r\n            WHERE SNo = @CODE;"
+    },
+    {
+      "ID": "72",
+      "Date": "2023-09-10 3:50:48 PM",
+      "Command": "Update [User] set LogInCount='0' Where LoginCount IS NULL"
+    },
+    {
+      "ID": "73",
+      "Date": "2023-09-10 3:50:49 PM",
+      "Command": "Update [User] set LogInCount= (LogInCount + 1) Where UNo = 1"
+    },
+    {
+      "ID": "74",
+      "Date": "2023-09-10 3:50:49 PM",
+      "Command": "Update [User] set LastLogin=#2023-09-10 3:50:49 PM# Where UNo = 1"
+    },
+    {
+      "ID": "75",
+      "Date": "2023-09-10 3:50:57 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
     }
   ]
 }

@@ -84,7 +84,9 @@ Public Class Database
             End While
         End If
         CMDUPDATEDB = New OleDb.OleDbCommand(Query, _Connection)
-        CMDUPDATEDB.Parameters.AddRange(Parameters)
+        If Parameters IsNot Nothing Then
+            CMDUPDATEDB.Parameters.AddRange(Parameters)
+        End If
         CMDUPDATEDB.ExecuteNonQuery()
         CMDUPDATEDB.Cancel()
         StoreQueryForOnlineDb(Query)
@@ -102,7 +104,7 @@ Public Class Database
                      Dim Query As String = $"Insert into OnlineDB(ODate,Command) Values(@DATE,@COMMAND)"
                      Dim Command As New OleDbCommand(Query, _Connection)
                      Command.Parameters.AddRange({
-                                                New OleDbParameter("@DATE", DateAndTime.Now),
+                                                New OleDbParameter("@DATE", DateAndTime.Now.ToString),
                                                 New OleDbParameter("@COMMAND", Sql)
                                                 })
                      Command.ExecuteNonQuery()
