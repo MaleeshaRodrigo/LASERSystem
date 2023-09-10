@@ -414,6 +414,31 @@
       "ID": "83",
       "Date": "2023-09-10 5:29:27 PM",
       "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "84",
+      "Date": "2023-09-10 8:09:38 PM",
+      "Command": "Update [User] set LogInCount='0' Where LoginCount IS NULL"
+    },
+    {
+      "ID": "85",
+      "Date": "2023-09-10 8:09:38 PM",
+      "Command": "Update [User] set LogInCount= (LogInCount + 1) Where UNo = 1"
+    },
+    {
+      "ID": "86",
+      "Date": "2023-09-10 8:09:38 PM",
+      "Command": "Update [User] set LastLogin=#2023-09-10 8:09:38 PM# Where UNo = 1"
+    },
+    {
+      "ID": "87",
+      "Date": "2023-09-10 8:09:55 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "88",
+      "Date": "2023-09-10 8:11:17 PM",
+      "Command": "UPDATE Stock SET \r\n            SCategory = @CATEGORY,\r\n            SName = @NAME,\r\n            SModelNo = @MODELNO,\r\n            SLocation = @LOCATION,\r\n            SDetails = @DETAILS,\r\n            SSalePrice = @SALEPRICE,\r\n            SCostPrice = @COSTPRICE,\r\n            SAvailableStocks = @AVAILABLEUNITS,\r\n            SOutofStocks = @DAMAGEDUNITS,\r\n            SMinStocks = @REORDERPOINT\r\n            WHERE SNo = @CODE;"
     }
   ]
 }
