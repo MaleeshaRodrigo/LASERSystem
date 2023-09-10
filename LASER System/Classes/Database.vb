@@ -67,9 +67,9 @@ Public Class Database
     ''' </summary>
     ''' <param name="Query">The SQL Query</param>
     ''' <param name="Parameters">Query Parameters</param>
-    Public Sub Execute(Query As String, Optional Parameters() As OleDbParameter = Nothing)
+    Public Sub Execute(Query As String, Optional Parameters() As OleDbParameter =Nothing)
         Dim CMDUPDATEDB As OleDbCommand
-        'Replace a new index instead of command in `str` String in function
+        'Replace a new index 
         If Query.Contains("?") = True Then
             Dim splittxt() As String = Query.Split("?")
             Dim i As Integer = 0
