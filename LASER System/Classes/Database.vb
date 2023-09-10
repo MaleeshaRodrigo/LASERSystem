@@ -2,35 +2,32 @@
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Threading
+Imports LASER_System.My
+Imports Microsoft.Office.Interop.Access.Dao
 Imports Newtonsoft.Json
 
 Public Class Database
-    Private ReadOnly Provider As String
-    Private ReadOnly DataSource As String
-    Private ReadOnly Password As String
-    Private CNN As New OleDbConnection
+    Private ReadOnly _Provider As String
+    Private ReadOnly _DataSource As String
+    Private ReadOnly _Password As String
+    Private _Connection As New OleDbConnection
 
-    Public Sub New(Provider As String, DataSource As String, Password As String)
-        If Provider = "" Then
-            Throw New Exception("Database Provider ඇතුලත් කර නොමැත.")
-        ElseIf DataSource = "" Then
-            Throw New Exception("Database Path එක ඇතුලත් කර නොමැත.")
-        ElseIf Password = "" Then
-            Throw New Exception("Database Password එක ඇතුලත් කර නොමැත.")
-        ElseIf File.Exists(DataSource) = False Then
+    Public Sub New()
+        Me._Provider = Settings.DBProvider
+        Me._DataSource = Settings.DatabaseCNN
+        Me._Password = Settings.DBPassword
+        If File.Exists(Me._DataSource) = False Then
             Throw New Exception("Database Path එක සොයා ගැනීමට නොහැකි විය.")
         End If
-        Me.Provider = Provider
-        Me.DataSource = DataSource
-        Me.Password = Password
     End Sub
 
     Public Sub Connect()
-        If CNN.State = ConnectionState.Open Then Exit Sub
+        If _Connection.State = ConnectionState.Open Then Exit Sub
+        Dim Encoder As New Encoder()
         For i As Integer = 0 To 3
             Try
-                CNN = New OleDbConnection($"Provider={Provider};Data Source={DataSource};Jet OLEDB:Database Password={Password};")
-                CNN.Open()
+                _Connection = New OleDbConnection($"Provider={_Provider};Data Source={_DataSource};Jet OLEDB:Database Password={Encoder.Decode(_Password)};")
+                _Connection.Open()
                 Exit For
             Catch ex As FileNotFoundException
                 Thread.Sleep(1000)
@@ -40,120 +37,104 @@ Public Class Database
     End Sub
 
     Public Sub Disconnect()
-        If CNN.State = ConnectionState.Closed Then Exit Sub
-        CNN.Close()
+        If _Connection.State = ConnectionState.Closed Then Exit Sub
+        _Connection.Close()
     End Sub
 
     ''' <summary>
-    ''' Update the given SQL Query to the database. If the Admin Permission needs to the SQL query, It won't apply to the database. After Admin 
-    ''' accept changes, Then it will apply.
+    ''' Check whether the result for the given data has rows or not
     ''' </summary>
-    ''' <param name="SQL">The SQL Query</param>
-    ''' <param name="AdminPer">The Admin Permission</param>
-    Public Sub Update(SQL As String, Optional AdminPer As AdminPermission = Nothing)
-        Connect()
+    ''' <param name="Table">Table Name</param>
+    ''' <param name="FieldName">Field Name</param>
+    ''' <param name="Value">Value of field</param>
+    ''' <returns>True, if there are rows in the SQL query, or false</returns>
+    Public Function CheckDataIsExist(Table As String, FieldName As String, Value As String) As Boolean
+        Dim DR As OleDbDataReader = Nothing
+        Try
+            Dim Command = New OleDbCommand($"SELECT {FieldName} FROM {Table} WHERE {FieldName} = @VALUE", _Connection)
+            Command.Parameters.AddWithValue("@VALUE", Value)
+            DR = Command.ExecuteReader()
+            Return DR.HasRows
+        Catch ex As Exception
+            Throw ex
+        Finally
+            If DR IsNot Nothing Then DR.Close()
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Update the given SQL Query to the database. 
+    ''' </summary>
+    ''' <param name="Query">The SQL Query</param>
+    ''' <param name="Parameters">Query Parameters</param>
+    Public Sub Execute(Query As String, Optional Parameters() As OleDbParameter =Nothing)
         Dim CMDUPDATEDB As OleDbCommand
-        If AdminPer IsNot Nothing And AdminPer.AdminSend = True Then
-            If GetRowsCount($"Select APNo from AdminPermission Where APNo={AdminPer.APNo}") = 0 Then
-                Dim APCommand As String = $"Insert into AdminPermission(APNo,APDate,`Status`,AppliedUNo,`Keys`,Remarks)
-Values({AdminPer.APNo},#{DateAndTime.Now}#,'Waiting',{MdifrmMain.Tag},
-'{JsonConvert.SerializeObject(AdminPer.Keys, Formatting.Indented)}','{AdminPer.Remarks}')"
-
-                CMDUPDATEDB = New OleDbCommand(APCommand, CNN)
-                CMDUPDATEDB.ExecuteNonQuery()
-                CMDUPDATEDB.Cancel()
-
-                UpdateOnlineTable(APCommand)
-            End If
-            Dim APCCommand As String = $"Insert into APCommand(APNo,Commands) Values({AdminPer.APNo},'{SQL.ToString.Replace("'", "''")}')"
-            CMDUPDATEDB = New OleDbCommand(APCCommand, CNN)
-            CMDUPDATEDB.ExecuteNonQuery()
-            CMDUPDATEDB.Cancel()
-
-            UpdateOnlineTable(APCCommand)
-        Else
-            'Replace a new index instead of command in keys dictionary in adminpermission
-            If AdminPer IsNot Nothing AndAlso AdminPer.Keys.Count > 0 Then
-                For Each key As String In AdminPer.Keys.Keys.ToList
-                    If AdminPer.Keys(key).Contains("?") = True Then
-                        Dim splittxt() As String = AdminPer.Keys(key).Split("?")
-                        Select Case splittxt(1)
-                            Case "NewKey"
-                                AdminPer.Keys(key) = AdminPer.Keys(key).Replace("?" + splittxt(1) + "?" + splittxt(2) + "?" + splittxt(3) + "?",
-                                              GetNextKey(splittxt(2), splittxt(3)))
-                        End Select
-                    End If
-                Next
-
-            End If
-            'Replace a new index instead of command in `str` String in function
-            If SQL.Contains("?") = True Then
-                Dim splittxt() As String = SQL.Split("?")
-                Dim i As Integer = 0
-                While i < splittxt.Length
-                    Select Case splittxt(i)
-                        Case "NewKey"
-                            SQL = SQL.Replace("?" + splittxt(i) + "?" + splittxt(i + 1) + "?" + splittxt(i + 2) + "?",
-                                                  GetNextKey(splittxt(i + 1), splittxt(i + 2)))
-                            i += 2
-                        Case "Key"
-                            If AdminPer.Keys.ContainsKey(splittxt(i + 1)) Then
-                                SQL = SQL.Replace($"?{splittxt(i)}?{splittxt(i + 1)}?", AdminPer.Keys.Item(splittxt(i + 1)))
-                                i += 1
-                            End If
-                    End Select
-                    i += 1
-                End While
-            End If
-            CMDUPDATEDB = New OleDb.OleDbCommand(SQL, CNN)
-            CMDUPDATEDB.ExecuteNonQuery()
-            CMDUPDATEDB.Cancel()
-            UpdateOnlineTable(SQL)
-            WriteActivity(SQL)
+        'Replace a new index 
+        If Query.Contains("?") = True Then
+            Dim splittxt() As String = Query.Split("?")
+            Dim i As Integer = 0
+            While i < splittxt.Length
+                Select Case splittxt(i)
+                    Case "NewKey"
+                        Query = Query.Replace("?" + splittxt(i) + "?" + splittxt(i + 1) + "?" + splittxt(i + 2) + "?",
+                                              GetNextKey(splittxt(i + 1), splittxt(i + 2)))
+                        i += 2
+                End Select
+                i += 1
+            End While
         End If
-        Disconnect()
+        CMDUPDATEDB = New OleDb.OleDbCommand(Query, _Connection)
+        If Parameters IsNot Nothing Then
+            CMDUPDATEDB.Parameters.AddRange(Parameters)
+        End If
+        CMDUPDATEDB.ExecuteNonQuery()
+        CMDUPDATEDB.Cancel()
+        StoreQueryForOnlineDb(Query)
+        WriteActivity(Query)
     End Sub
 
-    Private Sub UpdateOnlineTable(Sql As String)
+    Public Sub DirectExecute(Query As String)
+        Dim Command As New OleDb.OleDbCommand(Query, _Connection)
+        Command.ExecuteNonQuery()
+        Command.Cancel()
+    End Sub
+
+    Private Sub StoreQueryForOnlineDb(Sql As String)
         Task.Run(Sub()
-                     Connect()
-                     Dim Query As String = $"Insert into OnlineDB(ODate,Command) 
-                Values(#{DateAndTime.Now}#,""{Sql.Replace("""", """""")}"")"
-                     Dim Command As New OleDbCommand(Query, CNN)
+                     Dim Query As String = $"Insert into OnlineDB(ODate,Command) Values(@DATE,@COMMAND)"
+                     Dim Command As New OleDbCommand(Query, _Connection)
+                     Command.Parameters.AddRange({
+                                                New OleDbParameter("@DATE", DateAndTime.Now.ToString),
+                                                New OleDbParameter("@COMMAND", Sql)
+                                                })
                      Command.ExecuteNonQuery()
                      Command.Cancel()
-                     Disconnect()
                  End Sub)
     End Sub
 
     Public Function GetDataTable(Sql As String) As DataTable
-        Connect()
         Dim DataTable As New DataTable
-        Dim DataAdapter As New OleDbDataAdapter(Sql, CNN)
+        Dim DataAdapter As New OleDbDataAdapter(Sql, _Connection)
         DataAdapter.Fill(DataTable)
-        Disconnect()
         DataAdapter.Dispose()
         Return DataTable
     End Function
 
-    Public Function GetSpecificColumnArray(SQL As String, ColumnName As String) As List(Of String)
-        Connect()
-        Dim Command = New OleDbCommand(SQL, CNN)
+    Public Function GetArray(Query As String, ColumnName As String) As List(Of String)
+        Dim Command = New OleDbCommand(Query, _Connection)
         Dim DataReader As OleDbDataReader = Command.ExecuteReader()
         Dim Output As New List(Of String)
         While DataReader.Read
             Output.Add(DataReader(ColumnName).ToString)
         End While
-        Return (Output)
         Command.Cancel()
         DataReader.Close()
-        Disconnect()
+        Return (Output)
     End Function
 
     Public Function GetNextKey(Table As String, Column As String) As Integer
-        Connect()
         Dim Output As Integer
-        Dim Command As New OleDbCommand($"Select Top 1 {Column} from {Table} Order by {Column} Desc", CNN)
+        Dim Command As New OleDbCommand($"Select Top 1 {Column} from {Table} Order by {Column} Desc", _Connection)
         Dim DataReader As OleDbDataReader = Command.ExecuteReader
         If DataReader.HasRows = True Then
             DataReader.Read()
@@ -162,21 +143,33 @@ Values({AdminPer.APNo},#{DateAndTime.Now}#,'Waiting',{MdifrmMain.Tag},
             Output = 1
         End If
         DataReader.Close()
-        Disconnect()
         Return Output
     End Function
 
     Public Function GetRowsCount(Sql As String) As Integer
-        Connect()
-        Dim Command As New OleDbCommand(Sql, CNN)
+        Dim Command As New OleDbCommand(Sql, _Connection)
         Dim DataReader As OleDbDataReader = Command.ExecuteReader
         Dim DataTable As New DataTable
         DataTable.Load(DataReader)
         Dim Output As Integer = DataTable.Rows.Count
         DataReader.Close()
         DataTable.Clear()
-        Disconnect()
         Return (Output)
+    End Function
+
+    Public Function GetDataReader(Sql As String) As OleDbDataReader
+        CMD = New OleDbCommand(Sql, _Connection)
+        Return (CMD.ExecuteReader())
+    End Function
+
+    Public Function GetDataAdapter(Query As String) As OleDbDataAdapter
+        Dim DA As New OleDbDataAdapter(Query, _Connection)
+        Return DA
+    End Function
+
+    Public Function GetData(Query As String) As Object
+        Dim Command As New OleDbCommand(Query, _Connection)
+        Return Command.ExecuteScalar()
     End Function
 
 End Class

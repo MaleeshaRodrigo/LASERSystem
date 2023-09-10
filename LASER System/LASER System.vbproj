@@ -30,7 +30,7 @@
     <PublisherName>LASER System</PublisherName>
     <SuiteName>LASER System</SuiteName>
     <MinimumRequiredVersion>1.0.0.0</MinimumRequiredVersion>
-    <ApplicationRevision>5</ApplicationRevision>
+    <ApplicationRevision>6</ApplicationRevision>
     <ApplicationVersion>2.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -138,9 +138,12 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\AdminPermission.vb" />
     <Compile Include="Classes\Database.vb" />
-    <Compile Include="Classes\Encode.vb" />
+    <Compile Include="Classes\Encoder.vb" />
+    <Compile Include="Classes\MessagePanel.vb" />
+    <Compile Include="Classes\Validators\CustomValidator.vb" />
+    <Compile Include="Classes\Validators\ExecuteValidators.vb" />
+    <Compile Include="Classes\Validators\RequiredValidator.vb" />
     <Compile Include="frmCustomer.Designer.vb">
       <DependentUpon>frmCustomer.vb</DependentUpon>
     </Compile>
@@ -237,12 +240,6 @@
     <Compile Include="frmSplash.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmStock.Designer.vb">
-      <DependentUpon>frmStock.vb</DependentUpon>
-    </Compile>
-    <Compile Include="frmStock.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="frmStockSticker.Designer.vb">
       <DependentUpon>frmStockSticker.vb</DependentUpon>
     </Compile>
@@ -291,13 +288,14 @@
     <Compile Include="frmTechnicianSalary.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Interfaces\Validator.vb" />
     <Compile Include="mdifrmMain.Designer.vb">
       <DependentUpon>mdifrmMain.vb</DependentUpon>
     </Compile>
     <Compile Include="mdifrmMain.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="modSystem.vb" />
+    <Compile Include="Utils.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -374,22 +372,35 @@
       <DependentUpon>rptTechnicianSalary.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Tools\compMessageBox.Designer.vb">
-      <DependentUpon>compMessageBox.vb</DependentUpon>
+    <Compile Include="Stock\Controls\ControlStockInfo.Designer.vb">
+      <DependentUpon>ControlStockInfo.vb</DependentUpon>
     </Compile>
-    <Compile Include="Tools\compMessageBox.vb">
+    <Compile Include="Stock\Controls\ControlStockInfo.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Tools\frmDatagridviewTool.Designer.vb">
-      <DependentUpon>frmDatagridviewTool.vb</DependentUpon>
+    <Compile Include="Stock\frmStock.Designer.vb">
+      <DependentUpon>frmStock.vb</DependentUpon>
     </Compile>
-    <Compile Include="Tools\frmDatagridviewTool.vb">
+    <Compile Include="Stock\frmStock.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Tools\frmSearchDropDown.Designer.vb">
+    <Compile Include="Structures\StructureDatabase.vb" />
+    <Compile Include="Controls\ControlMessageBox.Designer.vb">
+      <DependentUpon>ControlMessageBox.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ControlMessageBox.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\frmDatagridviewTool.Designer.vb">
+      <DependentUpon>frmDatagridviewTool.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\frmDatagridviewTool.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\frmSearchDropDown.Designer.vb">
       <DependentUpon>frmSearchDropDown.vb</DependentUpon>
     </Compile>
-    <Compile Include="Tools\frmSearchDropDown.vb">
+    <Compile Include="Controls\frmSearchDropDown.vb">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>
@@ -441,12 +452,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmSplash.resx">
       <DependentUpon>frmSplash.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmStock.resx">
-      <DependentUpon>frmStock.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmStock.si.resx">
-      <DependentUpon>frmStock.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmStockSticker.resx">
       <DependentUpon>frmStockSticker.vb</DependentUpon>
@@ -521,8 +526,17 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>rptTechnicianSalary.vb</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Tools\compMessageBox.resx">
-      <DependentUpon>compMessageBox.vb</DependentUpon>
+    <EmbeddedResource Include="Stock\Controls\ControlStockInfo.resx">
+      <DependentUpon>ControlStockInfo.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Stock\frmStock.resx">
+      <DependentUpon>frmStock.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Stock\frmStock.si.resx">
+      <DependentUpon>frmStock.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ControlMessageBox.resx">
+      <DependentUpon>ControlMessageBox.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -766,6 +780,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
+    <None Include="Resources\empty.jpg" />
+    <None Include="Resources\empthy.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

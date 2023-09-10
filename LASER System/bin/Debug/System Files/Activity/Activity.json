@@ -299,6 +299,146 @@
       "ID": "60",
       "Date": "2023-07-08 04:06:33 PM",
       "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "61",
+      "Date": "2023-08-05 9:22:00 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "62",
+      "Date": "2023-08-05 9:23:47 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "63",
+      "Date": "2023-08-05 9:34:12 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "64",
+      "Date": "2023-08-05 9:35:15 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "65",
+      "Date": "2023-09-02 3:46:55 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "66",
+      "Date": "2023-09-02 3:48:30 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "67",
+      "Date": "2023-09-02 3:53:24 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "68",
+      "Date": "2023-09-02 3:54:56 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "69",
+      "Date": "2023-09-02 3:58:22 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "70",
+      "Date": "2023-09-02 4:00:06 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "71",
+      "Date": "2023-09-02 4:00:27 PM",
+      "Command": "UPDATE Stock SET \r\n            SCategory = @CATEGORY,\r\n            SName = @NAME,\r\n            SModelNo = @MODELNO,\r\n            SLocation = @LOCATION,\r\n            SDetails = @DETAILS,\r\n            SSalePrice = @SALEPRICE,\r\n            SCostPrice = @COSTPRICE,\r\n            SAvailableStocks = @AVAILABLEUNITS,\r\n            SOutofStocks = @DAMAGEDUNITS,\r\n            SMinStocks = @REORDERPOINT\r\n            WHERE SNo = @CODE;"
+    },
+    {
+      "ID": "72",
+      "Date": "2023-09-10 3:50:48 PM",
+      "Command": "Update [User] set LogInCount='0' Where LoginCount IS NULL"
+    },
+    {
+      "ID": "73",
+      "Date": "2023-09-10 3:50:49 PM",
+      "Command": "Update [User] set LogInCount= (LogInCount + 1) Where UNo = 1"
+    },
+    {
+      "ID": "74",
+      "Date": "2023-09-10 3:50:49 PM",
+      "Command": "Update [User] set LastLogin=#2023-09-10 3:50:49 PM# Where UNo = 1"
+    },
+    {
+      "ID": "75",
+      "Date": "2023-09-10 3:50:57 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "76",
+      "Date": "2023-09-10 5:24:21 PM",
+      "Command": "Update [User] set LogInCount='0' Where LoginCount IS NULL"
+    },
+    {
+      "ID": "77",
+      "Date": "2023-09-10 5:24:21 PM",
+      "Command": "Update [User] set LogInCount= (LogInCount + 1) Where UNo = 1"
+    },
+    {
+      "ID": "78",
+      "Date": "2023-09-10 5:24:21 PM",
+      "Command": "Update [User] set LastLogin=#2023-09-10 5:24:21 PM# Where UNo = 1"
+    },
+    {
+      "ID": "79",
+      "Date": "2023-09-10 5:24:31 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "80",
+      "Date": "2023-09-10 5:29:25 PM",
+      "Command": "Update [User] set LogInCount='0' Where LoginCount IS NULL"
+    },
+    {
+      "ID": "81",
+      "Date": "2023-09-10 5:29:25 PM",
+      "Command": "Update [User] set LogInCount= (LogInCount + 1) Where UNo = 1"
+    },
+    {
+      "ID": "82",
+      "Date": "2023-09-10 5:29:25 PM",
+      "Command": "Update [User] set LastLogin=#2023-09-10 5:29:25 PM# Where UNo = 1"
+    },
+    {
+      "ID": "83",
+      "Date": "2023-09-10 5:29:27 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "84",
+      "Date": "2023-09-10 8:09:38 PM",
+      "Command": "Update [User] set LogInCount='0' Where LoginCount IS NULL"
+    },
+    {
+      "ID": "85",
+      "Date": "2023-09-10 8:09:38 PM",
+      "Command": "Update [User] set LogInCount= (LogInCount + 1) Where UNo = 1"
+    },
+    {
+      "ID": "86",
+      "Date": "2023-09-10 8:09:38 PM",
+      "Command": "Update [User] set LastLogin=#2023-09-10 8:09:38 PM# Where UNo = 1"
+    },
+    {
+      "ID": "87",
+      "Date": "2023-09-10 8:09:55 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "88",
+      "Date": "2023-09-10 8:11:17 PM",
+      "Command": "UPDATE Stock SET \r\n            SCategory = @CATEGORY,\r\n            SName = @NAME,\r\n            SModelNo = @MODELNO,\r\n            SLocation = @LOCATION,\r\n            SDetails = @DETAILS,\r\n            SSalePrice = @SALEPRICE,\r\n            SCostPrice = @COSTPRICE,\r\n            SAvailableStocks = @AVAILABLEUNITS,\r\n            SOutofStocks = @DAMAGEDUNITS,\r\n            SMinStocks = @REORDERPOINT\r\n            WHERE SNo = @CODE;"
     }
   ]
 }

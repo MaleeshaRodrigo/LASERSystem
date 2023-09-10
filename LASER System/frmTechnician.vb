@@ -1,11 +1,11 @@
 ﻿Public Class frmTechnician
-
+    Private Db As New Database
     Private Sub cmdClose_Click(sender As Object, e As EventArgs) Handles cmdClose.Click
         Call frmTechnician_Leave(sender, e)
     End Sub
 
     Private Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click
-        Call AutomaticPrimaryKey(txtTNo, "SELECT top 1 TNo from Technician ORDER BY TNo Desc;", "TNo")
+        Call SetNextKey(Db, txtTNo, "SELECT top 1 TNo from Technician ORDER BY TNo Desc;", "TNo")
         cmbTName.Text = ""
         txtTFullName.Text = ""
         txtTNICNo.Text = ""
@@ -33,7 +33,7 @@
                 ElseIf CheckExistData(txtTNo, "Select TNo from Technician where TNo =" & txtTNo.Text & ";", "This data couldn't be saved to database because Technicino No which you added has already located in the database. You have to change that to save.", True) = True Then
                     Exit Sub
                 End If
-                CMDUPDATE("Insert into Technician(TNo,TName,TFullName,TAddress,TEmail,TNicNo,TTelNo1,TTelno2,TTelno3,TRemarks,TActive) " &
+                Db.Execute("Insert into Technician(TNo,TName,TFullName,TAddress,TEmail,TNicNo,TTelNo1,TTelno2,TTelno3,TRemarks,TActive) " &
                                              "Values(" & txtTNo.Text & ",'" & cmbTName.Text & "','" & txtTFullName.Text & "','" & txtTAddress.Text & "','" &
                                              txtTEmail.Text & "','" & txtTNICNo.Text & "','" & txtTTelNo1.Text & "','" & txtTTelNo2.Text & "','" &
                                              txtTTelNo3.Text & "','" & txtTRemarks.Text & "'," & chkActive.Checked & ");")
@@ -43,7 +43,7 @@
                 cmdDelete.Enabled = True
             Case "Edit"
                 If MsgBox("Are you sure edit?", vbYesNo + vbInformation) = vbYes Then
-                    CMDUPDATE("Update Technician Set TNo=" & txtTNo.Text &
+                    Db.Execute("Update Technician Set TNo=" & txtTNo.Text &
                                                  ",TName = '" & cmbTName.Text & "'" &
                                                  ",TFullName = '" & txtTFullName.Text & "'" &
                                                  ",TNICNo = '" & txtTNICNo.Text & "'" &
@@ -61,7 +61,6 @@
     End Sub
 
     Private Sub txtSearch_TextChanged(sender As Object, e As EventArgs) Handles txtSearch.TextChanged
-        Dim DT As New DataTable
         Dim x As String
         Select Case cmbFilter.Text
             Case "Technician No"
@@ -87,19 +86,17 @@
             Case Else
                 x = "Where TNo like '%" & txtSearch.Text & "%' or TName like '%" & txtSearch.Text & "%' or TFullName like '%" & txtSearch.Text & "%' or TAddress like '%" & txtSearch.Text & "%' or TNICNo like '%" & txtSearch.Text & "%' or TEmail like '%" & txtSearch.Text & "%' or TTelNo1 like '%" & txtSearch.Text & "%' or TTElNo2 like '%" & txtSearch.Text & "%' or TTelNo3 like '%" & txtSearch.Text & "%'"
         End Select
-        Dim DA As New OleDb.OleDbDataAdapter("Select * from Technician " & x, CNN)
-        DA.Fill(dt)
+        Dim DT As DataTable = Db.GetDataTable("Select * from Technician " & x)
         Me.grdTechnician.DataSource = DT
         grdTechnician.Refresh()
     End Sub
 
     Private Sub frmTechnician_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-        Me.Tag = ""
-        Me.Close()
+        Db.Disconnect()
     End Sub
 
     Private Sub frmTechnician_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Call GetCNN()
+        Db.connect()
         MenuStrip.Items.Add(mnustrpMENU)
         Call txtSearch_TextChanged(sender, e)
         Call cmdNew_Click(sender, e)
@@ -110,12 +107,11 @@
     End Sub
 
     Private Sub cmbTName_DropDown(sender As Object, e As EventArgs) Handles cmbTName.DropDown
-        Call CmbDropDown(cmbTName, "Select TName from Technician group by TName;", "TName")
+        Call ComboBoxDropDown(Db, cmbTName, "Select TName from Technician group by TName;")
     End Sub
 
     Private Sub cmbTName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbTName.SelectedIndexChanged
-        CMD = New OleDb.OleDbCommand("Select * from Technician where TName ='" & cmbTName.Text & "';", CNN)
-        DR = CMD.ExecuteReader
+        DR = Db.GetDataReader("Select * from Technician where TName ='" & cmbTName.Text & "';")
         If DR.HasRows = True Then
             DR.Read()
             txtTNo.Text = DR("TNo").ToString
@@ -178,7 +174,7 @@
             Exit Sub
         End If
         If MsgBox("Are you sure delete this Technician?", vbInformation + vbYesNo) = vbYes Then
-            CMDUPDATE("DELETE from Technician where TNo=" & txtTNo.Text)
+            Db.Execute("DELETE from Technician where TNo=" & txtTNo.Text)
             Call txtSearch_TextChanged(sender, e)
             Call cmdNew_Click(sender, e)
         End If

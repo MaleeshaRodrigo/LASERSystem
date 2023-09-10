@@ -1,0 +1,509 @@
+{
+  "Table1": [
+    {
+      "ID": "1",
+      "Date": "2022-09-26 11:47:38 PM",
+      "Command": "2022-09-26 11:47:37 PM- Logon Successfull by Cashier as a Cashier"
+    },
+    {
+      "ID": "2",
+      "Date": "2022-09-26 11:50:42 PM",
+      "Command": "Update Stock Set SCostPrice =438,SSalePrice= 875, SMinSTocks = 2,SLocation = '', SModelNo = 'LR-BL-12W-QSLB',SDetails='' Where SNo = 197"
+    },
+    {
+      "ID": "3",
+      "Date": "2022-09-26 11:50:42 PM",
+      "Command": "Update Stock Set SCostPrice =204,SSalePrice= 272, SMinSTocks = 3,SLocation = '', SModelNo = '',SDetails='' Where SNo = 1170"
+    },
+    {
+      "ID": "4",
+      "Date": "2022-09-26 11:50:42 PM",
+      "Command": "Insert into Supply(SupNo, SupDate, SuNo, SupRemarks, SupStatus, SupPaidDate,UNo) Values(55,#2022-09-26 11:49:14 PM#,10,'','Paid',#2022-09-26 11:49:13 PM#,14);"
+    },
+    {
+      "ID": "5",
+      "Date": "2022-09-26 11:50:42 PM",
+      "Command": "Insert into StockSupply(SupNo,SNo,SupType,SupUnits,SupCostPrice,SupTotal) Values(55,197,'Supply',10,438,4380);"
+    },
+    {
+      "ID": "6",
+      "Date": "2022-09-26 11:50:43 PM",
+      "Command": "Update Stock set SAvailablestocks=(SAvailableStocks + 10) where SNo=197"
+    },
+    {
+      "ID": "7",
+      "Date": "2022-09-26 11:50:43 PM",
+      "Command": "Insert into StockSupply(SupNo,SNo,SupType,SupUnits,SupCostPrice,SupTotal) Values(55,1170,'Supply',10,204,2040);"
+    },
+    {
+      "ID": "8",
+      "Date": "2022-09-26 11:50:43 PM",
+      "Command": "Update Stock set SAvailablestocks=(SAvailableStocks + 10) where SNo=1170"
+    },
+    {
+      "ID": "9",
+      "Date": "2022-09-27 12:01:56 AM",
+      "Command": "2022-09-27 12:01:54 AM- Logon Successfull by Cashier as a Cashier"
+    },
+    {
+      "ID": "10",
+      "Date": "2022-09-27 12:06:16 AM",
+      "Command": "2022-09-27 12:06:16 AM- Logon Successfull by Cashier as a Cashier"
+    },
+    {
+      "ID": "11",
+      "Date": "2022-09-27 12:09:14 AM",
+      "Command": "2022-09-27 12:09:14 AM- Logon Successfull by Cashier as a Cashier"
+    },
+    {
+      "ID": "12",
+      "Date": "2022-09-27 12:11:45 AM",
+      "Command": "2022-09-27 12:11:44 AM- Logon Successfull by Cashier as a Cashier"
+    },
+    {
+      "ID": "13",
+      "Date": "2022-10-13 04:14:30 PM",
+      "Command": "Logged In Successfull by Cashier as a Cashier"
+    },
+    {
+      "ID": "14",
+      "Date": "2022-10-13 04:15:12 PM",
+      "Command": "update Repair set status ='Hand Over to Technician' where repno=9352;"
+    },
+    {
+      "ID": "15",
+      "Date": "2022-10-13 04:15:12 PM",
+      "Command": "Insert into RepairActivity(RepANo,RepNo,RepADate,Activity,UNo) Values(5072,9352,#2022-10-13 04:15:12 PM#,'Status -> Hand Over to Technician',14)"
+    },
+    {
+      "ID": "16",
+      "Date": "2022-10-13 04:15:12 PM",
+      "Command": "update Repair set tno =28 where repno=9352;"
+    },
+    {
+      "ID": "17",
+      "Date": "2022-10-13 04:15:13 PM",
+      "Command": "Insert into RepairActivity(RepANo,RepNo,RepADate,Activity,UNo) Values(5073,9352,#2022-10-13 04:15:13 PM#,'Technician -> Ananda',14)"
+    },
+    {
+      "ID": "18",
+      "Date": "2022-10-13 04:15:32 PM",
+      "Command": "update Repair set status ='Repairing' where repno=9352;"
+    },
+    {
+      "ID": "19",
+      "Date": "2022-10-13 04:15:32 PM",
+      "Command": "Insert into RepairActivity(RepANo,RepNo,RepADate,Activity,UNo) Values(5074,9352,#2022-10-13 04:15:32 PM#,'Status -> Repairing',14)"
+    },
+    {
+      "ID": "20",
+      "Date": "2022-10-13 04:15:57 PM",
+      "Command": "Insert into Deliver(DNo,DDate,Cuno,DGrandTotal,CAmount,CReceived,CBalance,CPINvoiceNo,CPAmount,CuLNO,CuLAmount,DRemarks) Values(5997,#2022-10-13 04:15:57 PM#,6050,5000,5000,5000,0,0,0,0,0,'');"
+    },
+    {
+      "ID": "21",
+      "Date": "2022-10-13 04:15:57 PM",
+      "Command": "Update Repair set RepDate = #2022-10-13 04:15:57 PM#,Charge=5000 where RepNo= 9352"
+    },
+    {
+      "ID": "22",
+      "Date": "2022-10-13 04:15:57 PM",
+      "Command": "Update Repair set PaidPrice = 5000,TNo = 28,Status='Repaired Delivered',DNo = 5997 where RepNo= 9352"
+    },
+    {
+      "ID": "23",
+      "Date": "2023-07-01 03:17:44 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "24",
+      "Date": "2023-07-01 03:20:11 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "25",
+      "Date": "2023-07-01 03:20:39 PM",
+      "Command": "Insert into Sale(SaNo,SaDate,CuNo,SaSubTotal,SaLess,SaDue,CAmount,CReceived,CBalance,CPInvoiceNo,CPAmount,CuLNo,CuLAmount,SaRemarks,UNo)Values(5197,'2023-07-01 03:20:39 PM',7115,5000,0,5000,5000,5000,0,0,0,18,0,'',1);"
+    },
+    {
+      "ID": "26",
+      "Date": "2023-07-01 03:20:39 PM",
+      "Command": "Insert into StockSale(SSaNo,SaNo,SNo,SCategory,SName,SaType,SaRate,SaUnits,SaTotal) Values(7207,5197,112,'LED Bulb','LED Gourd Bubble 30W ','Sale',5000,1,5000);"
+    },
+    {
+      "ID": "27",
+      "Date": "2023-07-01 03:20:39 PM",
+      "Command": "Update Stock set SAvailablestocks=(SAvailableStocks - 1) where SNo=112"
+    },
+    {
+      "ID": "28",
+      "Date": "2023-07-02 10:42:57 AM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "29",
+      "Date": "2023-07-02 10:43:27 AM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "30",
+      "Date": "2023-07-02 10:44:19 AM",
+      "Command": "Insert into Sale(SaNo,SaDate,CuNo,SaSubTotal,SaLess,SaDue,CAmount,CReceived,CBalance,CPInvoiceNo,CPAmount,CuLNo,CuLAmount,SaRemarks,UNo)Values(5197,'2023-07-02 10:44:19 AM',7115,280,0,280,280,280,0,0,0,18,0,'',1);"
+    },
+    {
+      "ID": "31",
+      "Date": "2023-07-02 10:44:19 AM",
+      "Command": "Insert into StockSale(SSaNo,SaNo,SCategory,SName,SaType,SaRate,SaUnits,SaTotal) Values(7207,5197,'Battery','Panasonic','Sale',140,2,280);"
+    },
+    {
+      "ID": "32",
+      "Date": "2023-07-02 10:46:04 AM",
+      "Command": "Insert into Deliver(DNo,DDate,Cuno,DGrandTotal,CAmount,CReceived,CBalance,CPINvoiceNo,CPAmount,CuLNO,CuLAmount,DRemarks) Values(8890,#2023-07-02 10:46:03 AM#,8991,750,750,750,0,0,0,0,0,'');"
+    },
+    {
+      "ID": "33",
+      "Date": "2023-07-02 10:46:04 AM",
+      "Command": "Update Repair set PaidPrice = 750,TNo = 31,Status='Repaired Delivered',DNo = 8890 where RepNo= 16729"
+    },
+    {
+      "ID": "34",
+      "Date": "2023-07-02 10:49:04 AM",
+      "Command": "Update Customer set CuName = 'Mr. Kokila',CuTelNo1 =  '077 8 198 664',CuTelNo2 =  '          ',CuTelNo3 =  '          ' where CuNo=5671"
+    },
+    {
+      "ID": "35",
+      "Date": "2023-07-02 10:52:01 AM",
+      "Command": "Insert into Receive(RNo,RDate,CuNo,UNo) values(15693,#2023-07-02 10:52:01 AM#,5671,'1');"
+    },
+    {
+      "ID": "36",
+      "Date": "2023-07-02 10:52:01 AM",
+      "Command": "Insert into Repair(RepNo,RNo,PNo,PSerialNo,Qty,Problem,Status)Values(16746,15693,648,'',2,'','Received');"
+    },
+    {
+      "ID": "37",
+      "Date": "2023-07-02 10:52:01 AM",
+      "Command": "Insert into RepairActivity(RepANo,RepNo,RepADate,Activity,UNo) Values(36432,16746,#2023-07-02 10:52:01 AM#,'Received Date -> 2023-07-02 10:52:01 AM\r\n, Name -> Mr. Kokila, Telephone No1 -> 077 8 198 664, Telephone No2 ->           , Telephone No3 ->           \r\n, Product Category -> Blender cup, Product Name -> Blender Cup, Model No -> , Serial No -> , Problem -> .',1)"
+    },
+    {
+      "ID": "38",
+      "Date": "2023-07-02 10:52:01 AM",
+      "Command": "Insert into RepairRemarks1(Rem1No,Rem1Date,RepNo,Remarks,UNo) Values(8733,#2023-07-02 10:52:01 AM#,16746,'podi eke cup eka thiynwa. ',1)"
+    },
+    {
+      "ID": "39",
+      "Date": "2023-07-02 10:52:01 AM",
+      "Command": "Insert into Repair(RepNo,RNo,PNo,PSerialNo,Qty,Problem,Status)Values(16747,15693,648,'',1,'','Received');"
+    },
+    {
+      "ID": "40",
+      "Date": "2023-07-02 10:52:02 AM",
+      "Command": "Insert into RepairActivity(RepANo,RepNo,RepADate,Activity,UNo) Values(36433,16747,#2023-07-02 10:52:02 AM#,'Received Date -> 2023-07-02 10:52:01 AM\r\n, Name -> Mr. Kokila, Telephone No1 -> 077 8 198 664, Telephone No2 ->           , Telephone No3 ->           \r\n, Product Category -> Blender cup, Product Name -> Blender Cup, Model No -> , Serial No -> , Problem -> .',1)"
+    },
+    {
+      "ID": "41",
+      "Date": "2023-07-02 10:52:02 AM",
+      "Command": "Insert into RepairRemarks1(Rem1No,Rem1Date,RepNo,Remarks,UNo) Values(8734,#2023-07-02 10:52:02 AM#,16747,'loku eke cup eka nh',1)"
+    },
+    {
+      "ID": "42",
+      "Date": "2023-07-08 02:14:44 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "43",
+      "Date": "2023-07-08 02:15:27 PM",
+      "Command": "Insert into Sale(SaNo,SaDate,CuNo,SaSubTotal,SaLess,SaDue,CAmount,CReceived,CBalance,CPInvoiceNo,CPAmount,CuLNo,CuLAmount,SaRemarks,UNo)Values(5198,'2023-07-08 02:15:27 PM',7115,140,0,140,140,140,0,0,0,18,0,'',1);"
+    },
+    {
+      "ID": "44",
+      "Date": "2023-07-08 02:15:27 PM",
+      "Command": "Insert into StockSale(SSaNo,SaNo,SCategory,SName,SaType,SaRate,SaUnits,SaTotal) Values(7208,5198,'Battery','AA','Sale',140,1,140);"
+    },
+    {
+      "ID": "45",
+      "Date": "2023-07-08 02:18:14 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "46",
+      "Date": "2023-07-08 02:19:07 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "47",
+      "Date": "2023-07-08 02:19:19 PM",
+      "Command": "Insert into Sale(SaNo,SaDate,CuNo,SaSubTotal,SaLess,SaDue,CAmount,CReceived,CBalance,CPInvoiceNo,CPAmount,CuLNo,CuLAmount,SaRemarks,UNo)Values(5199,'2023-07-08 02:19:19 PM',7115,140,0,140,140,140,0,0,0,18,0,'',1);"
+    },
+    {
+      "ID": "48",
+      "Date": "2023-07-08 02:19:20 PM",
+      "Command": "Insert into StockSale(SSaNo,SaNo,SCategory,SName,SaType,SaRate,SaUnits,SaTotal) Values(7209,5199,'Battery','AA','Sale',140,1,140);"
+    },
+    {
+      "ID": "49",
+      "Date": "2023-07-08 02:21:45 PM",
+      "Command": "Insert into Deliver(DNo,DDate,Cuno,DGrandTotal,CAmount,CReceived,CBalance,CPINvoiceNo,CPAmount,CuLNO,CuLAmount,DRemarks) Values(8879,#2023-07-08 02:21:45 PM#,6526,1300,1300,2000,700,0,0,0,0,'');"
+    },
+    {
+      "ID": "50",
+      "Date": "2023-07-08 02:21:45 PM",
+      "Command": "Update Repair set PaidPrice = 1300,TNo = 11,Status='Repaired Delivered',DNo = 8879 where RepNo= 10001"
+    },
+    {
+      "ID": "51",
+      "Date": "2023-07-08 02:23:37 PM",
+      "Command": "Insert into Deliver(DNo,DDate,Cuno,DGrandTotal,CAmount,CReceived,CBalance,CPINvoiceNo,CPAmount,CuLNO,CuLAmount,DRemarks) Values(8880,#2023-07-08 02:23:37 PM#,182,750,750,1000,250,0,0,0,0,'');"
+    },
+    {
+      "ID": "52",
+      "Date": "2023-07-08 02:23:37 PM",
+      "Command": "Update Repair set PaidPrice = 750,TNo = 11,Status='Repaired Delivered',DNo = 8880 where RepNo= 10040"
+    },
+    {
+      "ID": "53",
+      "Date": "2023-07-08 02:31:03 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "54",
+      "Date": "2023-07-08 02:31:24 PM",
+      "Command": "Insert into Deliver(DNo,DDate,Cuno,DGrandTotal,CAmount,CReceived,CBalance,CPINvoiceNo,CPAmount,CuLNO,CuLAmount,DRemarks) Values(8881,#2023-07-08 02:31:24 PM#,6252,1500,1500,1500,0,0,0,0,0,'');"
+    },
+    {
+      "ID": "55",
+      "Date": "2023-07-08 02:31:24 PM",
+      "Command": "Update Repair set RepDate = #2023-07-08 02:31:24 PM#,Charge=1500 where RepNo= 10004"
+    },
+    {
+      "ID": "56",
+      "Date": "2023-07-08 02:31:24 PM",
+      "Command": "Update Repair set PaidPrice = 1500,TNo = 3,Status='Repaired Delivered',DNo = 8881 where RepNo= 10004"
+    },
+    {
+      "ID": "57",
+      "Date": "2023-07-08 02:38:16 PM",
+      "Command": "Insert into Deliver(DNo,DDate,Cuno,DGrandTotal,CAmount,CReceived,CBalance,CPINvoiceNo,CPAmount,CuLNO,CuLAmount,DRemarks) Values(8882,#2023-07-08 02:38:16 PM#,4253,500,500,500,0,0,0,0,0,'');"
+    },
+    {
+      "ID": "58",
+      "Date": "2023-07-08 02:38:16 PM",
+      "Command": "Update Repair set RepDate = #2023-07-08 02:38:16 PM#,Charge=500 where RepNo= 10005"
+    },
+    {
+      "ID": "59",
+      "Date": "2023-07-08 02:38:16 PM",
+      "Command": "Update Repair set PaidPrice = 500,TNo = 15,Status='Repaired Delivered',DNo = 8882 where RepNo= 10005"
+    },
+    {
+      "ID": "60",
+      "Date": "2023-07-08 04:06:33 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "61",
+      "Date": "2023-08-05 11:21:25 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "62",
+      "Date": "2023-08-19 9:52:54 AM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "63",
+      "Date": "2023-08-19 10:15:21 AM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "64",
+      "Date": "2023-08-19 11:05:42 AM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "65",
+      "Date": "2023-08-19 1:51:07 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "66",
+      "Date": "2023-08-19 5:51:56 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "67",
+      "Date": "2023-08-19 5:52:30 PM",
+      "Command": "Update Stock Set SCostPrice= 0 Where SNO=7"
+    },
+    {
+      "ID": "68",
+      "Date": "2023-08-19 5:59:51 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "69",
+      "Date": "2023-08-19 6:00:59 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "70",
+      "Date": "2023-08-19 6:19:52 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "71",
+      "Date": "2023-08-19 7:06:04 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "72",
+      "Date": "2023-08-19 7:08:15 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "73",
+      "Date": "2023-08-19 7:09:04 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "74",
+      "Date": "2023-08-19 7:12:34 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "75",
+      "Date": "2023-08-19 7:15:28 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "76",
+      "Date": "2023-08-19 7:16:49 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "77",
+      "Date": "2023-08-19 7:17:00 PM",
+      "Command": "INSERT INTO Stock(\r\n            SNo,\r\n            SCategory,\r\n            SName,\r\n            SModelNo,\r\n            SLocation,\r\n            SDetails,\r\n            SSalePrice,\r\n            SCostPrice,\r\n            SAvailableStocks,\r\n            SOutofStocks,\r\n            SMinStocks\r\n        ) Values(@CODE,@CATEGORY,@NAME,@MODELNO,@LOCATION,@DETAILS,@SALEPRICE,@COSTPRICE,@AVAILABLEUNITS,@DAMAGEDUNITS,@REORDERPOINT);"
+    },
+    {
+      "ID": "78",
+      "Date": "2023-08-19 7:18:10 PM",
+      "Command": "INSERT INTO Stock(\r\n            SNo,\r\n            SCategory,\r\n            SName,\r\n            SModelNo,\r\n            SLocation,\r\n            SDetails,\r\n            SSalePrice,\r\n            SCostPrice,\r\n            SAvailableStocks,\r\n            SOutofStocks,\r\n            SMinStocks\r\n        ) Values(@CODE,@CATEGORY,@NAME,@MODELNO,@LOCATION,@DETAILS,@SALEPRICE,@COSTPRICE,@AVAILABLEUNITS,@DAMAGEDUNITS,@REORDERPOINT);"
+    },
+    {
+      "ID": "79",
+      "Date": "2023-08-20 11:35:02 AM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "80",
+      "Date": "2023-08-20 11:36:50 AM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "81",
+      "Date": "2023-08-20 12:23:36 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "82",
+      "Date": "2023-08-20 1:12:20 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "83",
+      "Date": "2023-08-20 1:21:25 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "84",
+      "Date": "2023-08-20 2:26:20 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "85",
+      "Date": "2023-08-20 3:00:14 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "86",
+      "Date": "2023-08-20 3:03:52 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "87",
+      "Date": "2023-08-20 3:07:13 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "88",
+      "Date": "2023-08-20 4:24:26 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "89",
+      "Date": "2023-08-27 10:54:10 AM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "90",
+      "Date": "2023-08-27 12:45:16 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "91",
+      "Date": "2023-08-27 12:53:50 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "92",
+      "Date": "2023-08-27 12:56:00 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "93",
+      "Date": "2023-08-27 1:32:39 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "94",
+      "Date": "2023-08-30 2:53:30 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "95",
+      "Date": "2023-08-30 3:03:14 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "96",
+      "Date": "2023-09-02 2:37:22 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "97",
+      "Date": "2023-09-02 2:42:47 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "98",
+      "Date": "2023-09-02 2:44:31 PM",
+      "Command": "INSERT INTO Stock(\r\n                SNo,\r\n                SCategory,\r\n                SName,\r\n                SModelNo,\r\n                SLocation,\r\n                SDetails,\r\n                SSalePrice,\r\n                SCostPrice,\r\n                SAvailableStocks,\r\n                SOutofStocks,\r\n                SMinStocks\r\n            ) Values(@CODE,@CATEGORY,@NAME,@MODELNO,@LOCATION,@DETAILS,@SALEPRICE,@COSTPRICE,0,0,@REORDERPOINT);"
+    },
+    {
+      "ID": "99",
+      "Date": "2023-09-02 2:44:54 PM",
+      "Command": "UPDATE Stock SET \r\n            SCategory = @CATEGORY,\r\n            SName = @NAME,\r\n            SModelNo = @MODELNO,\r\n            SLocation = @LOCATION,\r\n            SDetails = @DETAILS,\r\n            SSalePrice = @SALEPRICE,\r\n            SCostPrice = @COSTPRICE,\r\n            SMinStocks = @REORDERPOINT\r\n            WHERE SNo = @CODE;"
+    },
+    {
+      "ID": "100",
+      "Date": "2023-09-02 2:46:05 PM",
+      "Command": "UPDATE Stock SET \r\n            SCategory = @CATEGORY,\r\n            SName = @NAME,\r\n            SModelNo = @MODELNO,\r\n            SLocation = @LOCATION,\r\n            SDetails = @DETAILS,\r\n            SSalePrice = @SALEPRICE,\r\n            SCostPrice = @COSTPRICE,\r\n            SMinStocks = @REORDERPOINT\r\n            WHERE SNo = @CODE;"
+    },
+    {
+      "ID": "101",
+      "Date": "2023-09-02 7:05:18 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    }
+  ]
+}
