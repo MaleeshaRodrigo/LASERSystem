@@ -165,8 +165,7 @@ Public Class frmRepair
             txtPProblem.Text = DRREPNO("Problem").ToString
             cmbLocation.Text = DRREPNO("Location").ToString
             'Adding Data to grdRepRemarks1 
-            Dim CMDREPNO1 As OleDbCommand = New OleDbCommand("Select * from RepairRemarks1 Where RepNo=" & cmbRepNo.Text)
-            Dim DRREPNO1 As OleDbDataReader = CMDREPNO1.ExecuteReader()
+            Dim DRREPNO1 As OleDbDataReader = Db.GetDataReader("Select * from RepairRemarks1 Where RepNo=" & cmbRepNo.Text)
             grdRepRemarks1.Rows.Clear()
             While DRREPNO1.Read
                 grdRepRemarks1.Rows.Add(DRREPNO1("Rem1No").ToString, DRREPNO1("Rem1Date").ToString, DRREPNO1("Remarks").ToString,
@@ -181,14 +180,14 @@ Public Class frmRepair
                 imgRepair.Image = Nothing
             End If
             'Adding Data to Activity
-            CMDREPNO1 = New OleDbCommand("Select * from RepairActivity Where RepNo=" & cmbRepNo.Text)
+            CMDREPNO1 = Db.GetDataReader("Select * from RepairActivity Where RepNo=" & cmbRepNo.Text)
             DRREPNO1 = CMDREPNO1.ExecuteReader()
             grdActivity.Rows.Clear()
             While DRREPNO1.Read
                 grdActivity.Rows.Add(DRREPNO1("RepANo").ToString, DRREPNO1("RepADate").ToString, DRREPNO1("Activity").ToString,
                                             GetStrfromRelatedfield("Select UserName from [User] Where UNo=" & DRREPNO1("UNo").ToString))
             End While
-            CMDREPNO1 = New OleDbCommand("Select MsgNo,MsgDate,Action,Message,Status from Message where RepNo = " & cmbRepNo.Text)
+            CMDREPNO1 = Db.GetDataReader("Select MsgNo,MsgDate,Action,Message,Status from Message where RepNo = " & cmbRepNo.Text)
             DRREPNO1 = CMDREPNO1.ExecuteReader
             grdRepTask.Rows.Clear()
             While DRREPNO1.Read
@@ -204,7 +203,7 @@ Public Class frmRepair
             lblRepRemarks2.Visible = True
             grdRepRemarks2.Visible = True
             cmbTName.Text = DRREPNO("TName").ToString 'fill fields Technician details
-            CMDREPNO1 = New OleDbCommand("Select * from RepairRemarks2 Where RepNo=" & cmbRepNo.Text)
+            CMDREPNO1 = Db.GetDataReader("Select * from RepairRemarks2 Where RepNo=" & cmbRepNo.Text)
             DRREPNO1 = CMDREPNO1.ExecuteReader()
             grdRepRemarks2.Rows.Clear()
             While DRREPNO1.Read
@@ -339,8 +338,7 @@ Public Class frmRepair
             txtPQty.Text = DRREPNO("Qty").ToString
             txtPProblem.Text = DRREPNO("Problem").ToString
             cmbLocation.Text = DRREPNO("Location").ToString
-            Dim CMDRETNO1 As New OleDbCommand("Select * from RepairRemarks1 Where RetNo=" & cmbRetNo.Text)
-            Dim DRRETNo1 As OleDbDataReader = CMDRETNO1.ExecuteReader()
+            Dim DRRETNo1 As OleDbDataReader = Db.GetDataReader("Select * from RepairRemarks1 Where RetNo=" & cmbRetNo.Text)
             grdRepRemarks1.Rows.Clear()
             While DRRETNo1.Read
                 grdRepRemarks1.Rows.Add(DRRETNo1("Rem1No").ToString, DRRETNo1("Rem1Date").ToString, DRRETNo1("Remarks").ToString,
@@ -351,14 +349,14 @@ Public Class frmRepair
             Else
                 imgRepair.Image = Nothing
             End If
-            CMDRETNO1 = New OleDbCommand("Select * from RepairActivity Where RetNo=" & cmbRetNo.Text)
+            CMDRETNO1 = Db.GetDataReader("Select * from RepairActivity Where RetNo=" & cmbRetNo.Text)
             DRRETNo1 = CMDRETNO1.ExecuteReader()
             grdActivity.Rows.Clear()
             While DRRETNo1.Read
                 grdActivity.Rows.Add(DRRETNo1("RepANo").ToString, DRRETNo1("RepADate").ToString, DRRETNo1("Activity").ToString,
                                         GetStrfromRelatedfield("Select UserName from [User] Where UNo=" & DRRETNo1("UNo").ToString))
             End While
-            CMDRETNO1 = New OleDbCommand("Select MsgNo,MsgDate,Action,Message,Status from Message where RetNo = " & cmbRetNo.Text)
+            CMDRETNO1 = Db.GetDataReader("Select MsgNo,MsgDate,Action,Message,Status from Message where RetNo = " & cmbRetNo.Text)
             DRRETNo1 = CMDRETNO1.ExecuteReader
             grdRepTask.Rows.Clear()
             While DRRETNo1.Read
@@ -374,7 +372,7 @@ Public Class frmRepair
             lblRepRemarks2.Visible = True
             grdRepRemarks2.Visible = True       'fill fields Technician details
             cmbTName.Text = DRREPNO("TName").ToString
-            CMDRETNO1 = New OleDbCommand("Select * from RepairRemarks2 Where RetNo=" & cmbRetNo.Text)
+            CMDRETNO1 = Db.GetDataReader("Select * from RepairRemarks2 Where RetNo=" & cmbRetNo.Text)
             DRRETNo1 = CMDRETNO1.ExecuteReader()
             grdRepRemarks2.Rows.Clear()
             While DRRETNo1.Read
@@ -1218,7 +1216,7 @@ Public Class frmRepair
                 DtpDate.Visible = False
             Case 2
                 If grdTechnicianCost.Item(2, e.RowIndex).Value Is Nothing Then Exit Sub
-                CMD = New OleDbCommand("Select SNo,SCategory,SName,SCostPrice from Stock Where SNo=" & grdTechnicianCost.Item(2, e.RowIndex).Value.ToString)
+                CMD = Db.GetDataReader("Select SNo,SCategory,SName,SCostPrice from Stock Where SNo=" & grdTechnicianCost.Item(2, e.RowIndex).Value.ToString)
                 DR = CMD.ExecuteReader
                 If DR.HasRows Then
                     DR.Read()
@@ -1226,12 +1224,11 @@ Public Class frmRepair
                     grdTechnicianCost.Item(4, e.RowIndex).Value = DR("SName").ToString
                     grdTechnicianCost.Item(5, e.RowIndex).Value = DR("SCostPrice").ToString
                     grdTechnicianCost.Item(6, e.RowIndex).Value = "1"
-                    Dim E1 As New DataGridViewCellEventArgs(5, e.RowIndex)
-                    grdTechnicianCost_CellEndEdit(sender, E1)
+                    grdTechnicianCost_CellEndEdit(sender, New DataGridViewCellEventArgs(5, e.RowIndex))
                 End If
             Case 3, 4
                 frmSearchDropDown.frm_Close()
-                CMD = New OleDbCommand("Select SNo,SCategory,SName,SCostPrice from Stock Where SCategory='" & grdTechnicianCost.Item(3, e.RowIndex).Value &
+                CMD = Db.GetDataReader("Select SNo,SCategory,SName,SCostPrice from Stock Where SCategory='" & grdTechnicianCost.Item(3, e.RowIndex).Value &
                                        "' and SName='" & grdTechnicianCost.Item(4, e.RowIndex).Value & "';")
                 DR = CMD.ExecuteReader
                 If DR.HasRows Then
@@ -1241,8 +1238,7 @@ Public Class frmRepair
                     grdTechnicianCost.Item(4, e.RowIndex).Value = DR("SName").ToString
                     grdTechnicianCost.Item(5, e.RowIndex).Value = DR("SCostPrice").ToString
                     grdTechnicianCost.Item(6, e.RowIndex).Value = "1"
-                    Dim E1 As New DataGridViewCellEventArgs(5, e.RowIndex)
-                    grdTechnicianCost_CellEndEdit(sender, E1)
+                    grdTechnicianCost_CellEndEdit(sender, New DataGridViewCellEventArgs(5, e.RowIndex))
                 Else
                     grdTechnicianCost.Item(2, e.RowIndex).Value = ""
                 End If

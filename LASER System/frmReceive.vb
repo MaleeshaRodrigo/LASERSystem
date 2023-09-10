@@ -73,7 +73,7 @@ Public Class frmReceive
             DR = CMD.ExecuteReader()
             If DR.HasRows = True Then Exit Sub
             If cmbCuName.Text = "" Then Exit Sub
-            CMD = New OleDbCommand("Select CuName from Customer where CuName ='" & cmbCuName.Text & "';")
+            CMD = Db.GetDataReader("Select CuName from Customer where CuName ='" & cmbCuName.Text & "';")
             DR = CMD.ExecuteReader
             If DR.HasRows = True Then
                 For i As Integer = 0 To 1000
@@ -316,9 +316,8 @@ Public Class frmReceive
                 Left Join Customer On Customer.CuNo=Receive.CuNo) 
                 Where Receive.RNo = {RNo}")
                 For Each row As DataRow In DT1.Rows
-                    Dim CMD1 As New OleDbCommand("Select Remarks from RepairRemarks1 Where " &
+                    Dim DR1 As OleDbDataReader = Db.GetDataReader("Select Remarks from RepairRemarks1 Where " &
                                                  If(row.Item("RetNo") = "", "RepNo=" & row.Item("RepNo"), "RetNo=" & row.Item("RetNo")))
-                    Dim DR1 As OleDbDataReader = CMD1.ExecuteReader
                     row.Item("RepRemarks1") = ""
                     While DR1.Read
                         row.Item("RepRemarks1") += DR1("Remarks").ToString + vbCrLf
@@ -459,6 +458,7 @@ Public Class frmReceive
         Dim threadSticker As New Thread(
         Sub()
             Try
+                Dim DT As New DataTable
                 Dim rpt3 As New rptRepairSticker
                 DT.Clear()
                 DT.Columns.Add("RepNo")

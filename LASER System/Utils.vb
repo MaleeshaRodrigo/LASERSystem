@@ -20,15 +20,13 @@ Module Utils
     End Sub
 
     Public Sub AutomaticPrimaryKey(txt As TextBox, SQL As String, ColumnName As String)
-        Dim CMD0 = New OleDbCommand(SQL)
-        Dim DR0 As OleDbDataReader = CMD0.ExecuteReader()
+        Dim DR0 As OleDbDataReader = Db.GetDataReader(SQL)
         If DR0.HasRows = True Then
             DR0.Read()
             txt.Text = Int(DR0.Item(ColumnName)) + 1
         Else
             txt.Text = "1"
         End If
-        CMD0.Cancel()
         DR0.Close()
     End Sub
 

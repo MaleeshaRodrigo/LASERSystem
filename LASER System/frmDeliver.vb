@@ -362,13 +362,12 @@ Public Class frmDeliver
     Private Sub AutomatedDeliver(DNo As String)
         Try
             If My.Settings.DeliveredEmailtoT = False Then Exit Sub
-            Dim CMDAutoD As New OleDbCommand("SELECT RepNo,DDate, TEmail,TName, CuName, CuTelNo1, PCategory, PName, Qty, PaidPrice, TName, Status " &
+            Dim DRAutoD As OleDbDataReader = Db.GetDataReader("SELECT RepNo,DDate, TEmail,TName, CuName, CuTelNo1, PCategory, PName, Qty, PaidPrice, TName, Status " &
                                                   "from ((((Repair Rep Inner Join Deliver D On D.DNo=Rep.DNo) Inner Join " &
                                                   "Technician T On T.TNo = Rep.TNo) Left Join Product P On P.Pno = Rep.PNo) " &
                                                   "Left Join Customer Cu On Cu.CuNo = D.CuNo) Where TEmail <> NULL and " &
                                                   "Status <>'Returned Delivered' and TBlockEmails <> Yes and D.DNo =" &
                                                   DNo)
-            Dim DRAutoD As OleDbDataReader = CMDAutoD.ExecuteReader()
             While DRAutoD.Read()
                 Db.Execute("Insert Into Mail(MailNo,MailDate,EmailTo,Subject,Body,Status) Values(?NewKey?Mail?MailNo?,#" & DateAndTime.Now &
                                   "#,'" & DRAutoD("TEmail").ToString & "','Repair No:  " + DRAutoD("RepNo").ToString + " එක Customer විසින් රු." +
@@ -386,7 +385,7 @@ Public Class frmDeliver
                                     "මෙම Message එක ස්වයංක්‍රීයව LASER System එකෙන් පැමිණෙන්නක් බැවින් ඉහත දත්ත සඳහා යම් ගැටලුවක් පවතියි නම්, " &
                                     "කරුණාකර දත්ත කළමනාකරු අමතන්න"",'Waiting');")
             End While
-            CMDAutoD = New OleDbCommand("SELECT RetNo,RepNo,DDate, TEmail,TName, CuName, CuTelNo1, PCategory, PName, Qty, PaidPrice, TName, Status " &
+            CMDAutoD = Db.GetDataReader("SELECT RetNo,RepNo,DDate, TEmail,TName, CuName, CuTelNo1, PCategory, PName, Qty, PaidPrice, TName, Status " &
                                         "from ((((Return Ret Inner Join Deliver D On D.DNo=Ret.DNo) Inner Join Technician T On T.TNo = Ret.TNo) " &
                                         " Left Join Product P On P.Pno = Ret.PNo) Left Join Customer Cu On Cu.CuNo = D.CuNo) Where TEmail <> NULL " &
                                         "and Status <>'Returned Delivered' and TBlockEmails <> Yes and D.DNo =" &

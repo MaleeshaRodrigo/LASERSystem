@@ -87,8 +87,7 @@ Public Class frmRepairAdvanced
                 Search += "ADDate like '%" & txtSearch.Text & "%' or RepNo like '%" & txtSearch.Text & "%' or RetNo like '%" & txtSearch.Text & "%' or Amount like '%" &
                     txtSearch.Text & "%' or Remarks like '%" & txtSearch.Text & "%'"
         End Select
-        Dim CMDRepAdv = New OleDbCommand("Select * from RepairAdvanced " & Search)
-        Dim DRRepAdv As OleDbDataReader = CMDRepAdv.ExecuteReader
+        Dim DRRepAdv As OleDbDataReader = Db.GetDataReader("Select * from RepairAdvanced " & Search)
         grdRepAdvanced.Rows.Clear()
         While DRRepAdv.Read
             grdRepAdvanced.Rows.Add(DRRepAdv("ADNo").ToString, DRRepAdv("ADDate").ToString, DRRepAdv("RepNo").ToString, DRRepAdv("RetNo").ToString,
@@ -97,7 +96,6 @@ Public Class frmRepairAdvanced
                                 DRRepAdv("UNo").ToString))
         End While
         grdRepAdvanced.Refresh()
-        CMDRepAdv.Cancel()
         DRRepAdv.Close()
     End Sub
 

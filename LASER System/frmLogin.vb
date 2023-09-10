@@ -16,7 +16,7 @@ Public Class frmLogin
         Db.Connect()
         Me.AcceptButton = cmdLogin
         cmbUserName_DropDown(sender, e)
-        CMD = New OleDbCommand("Select Top 1 UserName from [User] Order by LastLogin Desc;")
+        CMD = Db.GetDataReader("Select Top 1 UserName from [User] Order by LastLogin Desc;")
         cmbUserName.Text = CMD.ExecuteScalar
         cmbUserName.Focus()
         '--------Developer Mode-------------
@@ -47,13 +47,10 @@ Public Class frmLogin
             DR = CMD.ExecuteReader()
             If DR.HasRows = True Then
                 DR.Read()
-                Dim CMD1 As New OleDbCommand("Update [User] set LogInCount='0' Where LoginCount IS NULL")
-                CMD1.ExecuteNonQuery()
-                CMD1 = New OleDbCommand("Update [User] set LogInCount= (LogInCount + 1) Where UNo = " & DR("UNo").ToString)
-                CMD1.ExecuteNonQuery()
-                CMD1 = New OleDbCommand("Update [User] set LastLogin=#" & DateAndTime.Now & "# Where UNo = " & DR("UNo").ToString)
-                CMD1.ExecuteNonQuery()
-                CMD1.Cancel()
+                Db.Execute("Update [User] set LogInCount='0' Where LoginCount IS NULL")
+                Db.Execute("Update [User] set LogInCount= (LogInCount + 1) Where UNo = " & DR("UNo").ToString)
+                Db.Execute("Update [User] set LastLogin=#" & DateAndTime.Now & "# Where UNo = " & DR("UNo").ToString)
+
                 Select Case Me.Tag
                     Case "MainMenu"
                         With MdifrmMain
@@ -104,7 +101,7 @@ Public Class frmLogin
         ElseIf CheckExistData(txtOTPUserName, "Select UserName from [User] Where UserName='" & txtOTPUserName.Text & "'", "ඔබ ඇතුලත් කල User Name එක වැරදි කරුණාකර නිවැරදි User Name එක ඇතුලත් කරන්න.", False) = False Then
             Exit Sub
         End If
-        CMD = New OleDbCommand("Select Email from [User] Where UserName='" & txtOTPUserName.Text & "'")
+        CMD = Db.GetDataReader("Select Email from [User] Where UserName='" & txtOTPUserName.Text & "'")
         DR = CMD.ExecuteReader()
         If DR.HasRows = True Then
             DR.Read()
@@ -134,7 +131,7 @@ Public Class frmLogin
         End If
         If txtOTPCode.Text = txtOTPCode.Tag Then
             cmbUserName.Text = txtOTPUserName.Text
-            CMD = New OleDbCommand("Select Password from [User] Where UserName='" & cmbUserName.Text & "'")
+            CMD = Db.GetDataReader("Select Password from [User] Where UserName='" & cmbUserName.Text & "'")
             DR = CMD.ExecuteReader()
             If DR.HasRows = True Then
                 DR.Read()
