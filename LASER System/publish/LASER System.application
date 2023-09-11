@@ -14,14 +14,14 @@
     <framework targetVersion="4.8" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="Application Files\LASER System_2_0_0_6\LASER System.exe.manifest" size="21441">
+    <dependentAssembly dependencyType="install" codebase="Application Files\LASER System_2_0_0_7\LASER System.exe.manifest" size="21441">
       <assemblyIdentity name="LASER System.exe" version="2.0.0.6" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>pxoeHiVn09pCZj8mObEjc1FSi9yRIlNaln/h+x8B3G8=</dsig:DigestValue>
+        <dsig:DigestValue>C65AAaDcBuDmL+dIFxfUZRj5eobnhFu9Ig3VAKEoyZ0=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
