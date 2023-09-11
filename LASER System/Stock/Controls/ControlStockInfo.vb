@@ -45,7 +45,7 @@ Public Class ControlStockInfo
             .AddValidator(New RequiredValidator(TxtAvailableUnits.Text, "Available Units"))
             .AddValidator(New RequiredValidator(TxtDamagedUnits.Text, "Damaged Units"))
             .AddValidator(New RequiredValidator(TxtReorderPoint.Text, "Reorder Point"))
-            .AddValidator(New CustomValidator(TxtCostPrice.Text > TxtSalePrice.Text,
+            .AddValidator(New CustomValidator(TxtCostPrice.Text < TxtSalePrice.Text,
                                               "Sale Price එක Cost Price එකට වඩා  වැඩි අගයක් ඇතුලත් කරන්න."))
             If Not .Execute() Then Exit Sub
         End With
