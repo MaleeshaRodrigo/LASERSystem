@@ -3,7 +3,7 @@
   <PropertyGroup>
     <PublishUrlHistory>publish\</PublishUrlHistory>
     <InstallUrlHistory>https://raw.githubusercontent.com/MaleeshaRodrigo/LASERSystem/development/LASER%2520System/publish/|https://github.com/MaleeshaRodrigo/LASERSystem/tree/development/LASER%2520System/publish/</InstallUrlHistory>
-    <SupportUrlHistory />
+    <SupportUrlHistory>https://github.com/MaleeshaRodrigo/LASERSystem</SupportUrlHistory>
     <UpdateUrlHistory>https://github.com/MaleeshaRodrigo/LASERSystem/blob/development/LASER%2520System/publish/</UpdateUrlHistory>
     <BootstrapperUrlHistory />
     <ErrorReportUrlHistory>https://github.com/MaleeshaRodrigo/LASERSystem/issues</ErrorReportUrlHistory>
