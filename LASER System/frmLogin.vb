@@ -5,6 +5,7 @@ Public Class frmLogin
     Private frmMoveX, frmMoveY As Integer
     Private newpoint As New Point
     Private Db As New Database
+
     Private Sub FrmLogin_Leave(sender As Object, e As EventArgs) Handles Me.Leave
         Db.Disconnect()
         End
@@ -13,7 +14,20 @@ Public Class frmLogin
     Private Sub FrmLogin_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         System.Diagnostics.Process.GetCurrentProcess().PriorityClass = System.Diagnostics.ProcessPriorityClass.High
         If My.Settings.DatabaseCNN = "" Then My.Settings.DatabaseCNN = SpecialDirectories.MyDocuments + "\Database.accdb"
-        Db.Connect()
+        Dim ConnectionResult = Db.CheckConnection()
+        If ConnectionResult.Valid = False Then
+            MsgBox(ConnectionResult.Message, vbCritical, "Database Connection Error")
+            ' Show the setting form
+            FrmSettings.tcSettings.TabPages.Remove(FrmSettings.tpDatabase)
+            FrmSettings.tcSettings.TabPages.Remove(FrmSettings.tpGeneral)
+            FrmSettings.tcSettings.TabPages.Remove(FrmSettings.tpUserAccount)
+            FrmSettings.tcSettings.TabPages.Remove(FrmSettings.tpPrinter)
+            FrmSettings.tcSettings.TabPages.Add(FrmSettings.tpDatabase)
+            FrmSettings.Tag = "Login"
+            FrmSettings.ShowDialog()
+        Else
+            Db.Connect()
+        End If
         Me.AcceptButton = cmdLogin
         cmbUserName_DropDown(sender, e)
         cmbUserName.Text = Db.GetData("Select Top 1 UserName from [User] Order by LastLogin Desc;")

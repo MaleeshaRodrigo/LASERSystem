@@ -132,6 +132,9 @@ Module Utils
         Dim DSActivity As DataSet
         Dim DTActivity As DataTable
         Dim LastIndex As Integer = 0
+        If Not File.Exists(Application.StartupPath & "\System Files\Activity\Activity.json") Then
+            Exit Sub
+        End If
         Dim Rjson As String = File.ReadAllText(Application.StartupPath & "\System Files\Activity\Activity.json")
         If String.IsNullOrEmpty(Rjson) Then
             DSActivity = New DataSet

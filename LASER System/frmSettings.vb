@@ -81,6 +81,13 @@ Public Class FrmSettings
             End If
         End With
 
+        Db = New Database()
+        Dim ConnectionResult = Db.CheckConnection()
+        If ConnectionResult.Valid = False Then
+            MsgBox(ConnectionResult.Message, vbCritical, "Database Connection Error")
+            Exit Sub
+        End If
+
         If Me.Tag = "Login" Then
             Db.connect()
         End If

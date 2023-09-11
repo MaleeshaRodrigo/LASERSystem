@@ -34,17 +34,21 @@ Public NotInheritable Class FrmSplash
         Select Case LoadingBar.Value
             Case 1
                 txtLoad.Text = "Checking System Files..."
-                If Not Directory.Exists(Application.StartupPath + "/Reports") Then My.Computer.FileSystem.CreateDirectory(Application.StartupPath +
-                                                                                                                          "/Reports")
-                If Not Directory.Exists(Application.StartupPath + "/System Files") Then My.Computer.FileSystem.CreateDirectory(Application.StartupPath +
-                                                                                                                               "/System Files")
-                If Not Directory.Exists(Application.StartupPath + "/System Files/Images") Then My.Computer.FileSystem.CreateDirectory(Application.StartupPath +
-                                                                                                                               "/System Files/Images")
-                If Not Directory.Exists(Application.StartupPath + "/System Files/Activity") Then My.Computer.FileSystem.CreateDirectory(Application.StartupPath +
-                                                                                                                               "/System Files/Activity")
-                If Not File.Exists(Application.StartupPath + "/System Files/Activity/Activity.ls") Then
+                If Not Directory.Exists(Application.StartupPath + "/System Files/Reports") Then
+                    My.Computer.FileSystem.CreateDirectory(Application.StartupPath + "/System Files/Reports")
+                End If
+                If Not Directory.Exists(Application.StartupPath + "/System Files") Then
+                    My.Computer.FileSystem.CreateDirectory(Application.StartupPath + "/System Files")
+                End If
+                If Not Directory.Exists(Application.StartupPath + "/System Files/Images") Then
+                    My.Computer.FileSystem.CreateDirectory(Application.StartupPath + "/System Files/Images")
+                End If
+                If Not Directory.Exists(Application.StartupPath + "/System Files/Activity") Then
+                    My.Computer.FileSystem.CreateDirectory(Application.StartupPath + "/System Files/Activity")
+                End If
+                If Not File.Exists(Application.StartupPath + "/System Files/Activity/Activity.json") Then
                     Dim d As FileStream
-                    d = File.Create(Application.StartupPath & "/System Files/Activity/Activity.ls")
+                    d = File.Create(Application.StartupPath & "/System Files/Activity/Activity.json")
                     d.Close()
                 End If
             Case 20
