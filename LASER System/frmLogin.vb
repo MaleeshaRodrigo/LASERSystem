@@ -52,7 +52,7 @@ Public Class frmLogin
             Me.Close()
             Exit Sub
         End If
-        DR = Db.GetDataReader("Select * from [User] where UserName ='" & cmbUserName.Text & "'")
+        Dim DR As OleDbDataReader = Db.GetDataReader("Select * from [User] where UserName ='" & cmbUserName.Text & "'")
         If DR.HasRows = True Then
             DR = Db.GetDataReader("Select * from [User] where  StrComp('" & cmbUserName.Text & "',UserName,0)=0 and " &
                                          "StrComp(Password,'" & txtPassword.Text & "',0)=0")
@@ -112,8 +112,7 @@ Public Class frmLogin
         ElseIf CheckExistData(txtOTPUserName, "Select UserName from [User] Where UserName='" & txtOTPUserName.Text & "'", "ඔබ ඇතුලත් කල User Name එක වැරදි කරුණාකර නිවැරදි User Name එක ඇතුලත් කරන්න.", False) = False Then
             Exit Sub
         End If
-        CMD = Db.GetDataReader("Select Email from [User] Where UserName='" & txtOTPUserName.Text & "'")
-        DR = CMD.ExecuteReader()
+        Dim DR As OleDbDataReader = Db.GetDataReader("Select Email from [User] Where UserName='" & txtOTPUserName.Text & "'")
         If DR.HasRows = True Then
             DR.Read()
             If DR("Email").ToString = "" Then
@@ -142,8 +141,7 @@ Public Class frmLogin
         End If
         If txtOTPCode.Text = txtOTPCode.Tag Then
             cmbUserName.Text = txtOTPUserName.Text
-            CMD = Db.GetDataReader("Select Password from [User] Where UserName='" & cmbUserName.Text & "'")
-            DR = CMD.ExecuteReader()
+            Dim DR As OleDbDataReader = Db.GetDataReader("Select Password from [User] Where UserName='" & cmbUserName.Text & "'")
             If DR.HasRows = True Then
                 DR.Read()
                 txtPassword.Text = DR("Password").ToString

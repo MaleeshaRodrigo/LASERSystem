@@ -64,7 +64,7 @@ Public Class frmCustomer
     End Sub
 
     Public Sub cmbCuName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbCuName.SelectedIndexChanged
-        DR = Db.GetDataReader("SELECT * from Customer where CuName='" & cmbCuName.Text & "';")
+        Dim DR As OleDbDataReader = Db.GetDataReader("SELECT * from Customer where CuName='" & cmbCuName.Text & "';")
         If DR.HasRows = True Then
             DR.Read()
             txtCuNo.Text = DR("CuNo").ToString
@@ -154,7 +154,7 @@ Public Class frmCustomer
         End If
         Select Case cmdSave.Text
             Case "Save"
-                DR = Db.GetDataReader("Select CuName from Customer where CuName ='" & cmbCuName.Text & "';")
+                Dim DR As OleDbDataReader = Db.GetDataReader("Select CuName from Customer where CuName ='" & cmbCuName.Text & "';")
                 If DR.HasRows = True Then
                     For i As Integer = 0 To 1000
                         DR = Db.GetDataReader("Select CuName from Customer Where CuName = '" & cmbCuName.Text & " " & i.ToString & "'")
@@ -215,15 +215,15 @@ Public Class frmCustomer
     Private Sub cmdDelete_Click(sender As Object, e As EventArgs) Handles cmdDelete.Click, DeleteToolStripMenuItem.Click
         Dim C As Integer = 0
         Dim tmp As String = ""
-        DR = Db.GetDataReader("Select * from Sale where CuNo= " & txtCuNo.Text & ";")
-        While DR.Read
+        Dim DRSale = Db.GetDataReader("Select * from Sale where CuNo= " & txtCuNo.Text & ";")
+        While DRSale.Read
             C = C + 1
-            tmp = tmp + "Sale: " + DR("SaNo").ToString + vbCrLf
+            tmp = tmp + "Sale: " + DRSale("SaNo").ToString + vbCrLf
         End While
-        DR = Db.GetDataReader("Select * from Receive where CuNo= " & txtCuNo.Text & ";")
-        While DR.Read
+        Dim DRReceive = Db.GetDataReader("Select * from Receive where CuNo= " & txtCuNo.Text & ";")
+        While DRReceive.Read
             C = C + 1
-            tmp = tmp + "Receive: " + DR("RNo").ToString + vbCrLf
+            tmp = tmp + "Receive: " + DRReceive("RNo").ToString + vbCrLf
         End While
         If C > 0 Then
             MsgBox("Relationship/s " & C & " ක් සොයා ගැනුනි.ඒ නිසා මෙම Customer ව Delete කිරීමට හැකියාවක් නොමැත නමුත්, ඔබට එම Relationship/s ඉවත් කිරිමට හැකිනම්, ඒ සඳහා ඉඩ ලබා දෙන්නෙම්. ඒවා, " + vbCrLf + tmp, vbCritical + vbOKOnly)
@@ -238,7 +238,7 @@ Public Class frmCustomer
 
     Private Sub txtCuTelNo1_KeyUp(sender As Object, e As KeyEventArgs) Handles txtCuTelNo1.KeyUp
         If txtCuTelNo1.Text.Trim.Length < 10 Then Exit Sub
-        DR = Db.GetDataReader("Select * from Customer where CuTelNo1='" & txtCuTelNo1.Text & "' or CuTelNo2='" & txtCuTelNo1.Text & "' or CuTelNo3='" & txtCuTelNo1.Text & "';")
+        Dim DR As OleDbDataReader = Db.GetDataReader("Select * from Customer where CuTelNo1='" & txtCuTelNo1.Text & "' or CuTelNo2='" & txtCuTelNo1.Text & "' or CuTelNo3='" & txtCuTelNo1.Text & "';")
         If DR.HasRows = True Then
             If MsgBox("මෙම Telephone No එකට Customer කෙනෙකු ලියාපදිංචි වී ඇත. එය විවෘත කරන්නද?", vbYesNo + vbCritical) = vbYes Then
                 DR.Read()
@@ -250,7 +250,7 @@ Public Class frmCustomer
 
     Private Sub txtCuTelNo2_KeyUp(sender As Object, e As KeyEventArgs) Handles txtCuTelNo2.KeyUp
         If txtCuTelNo2.Text.Trim.Length < 10 Then Exit Sub
-        DR = Db.GetDataReader("Select * from Customer where CuTelNo1='" & txtCuTelNo2.Text & "' or CuTelNo2='" & txtCuTelNo2.Text & "' or CuTelNo3='" & txtCuTelNo2.Text & "';")
+        Dim DR As OleDbDataReader = Db.GetDataReader("Select * from Customer where CuTelNo1='" & txtCuTelNo2.Text & "' or CuTelNo2='" & txtCuTelNo2.Text & "' or CuTelNo3='" & txtCuTelNo2.Text & "';")
         If DR.HasRows = True Then
             If MsgBox("මෙම Telephone No එකට Customer කෙනෙකු ලියාපදිංචි වී ඇත. එය විවෘත කරන්නද?", vbYesNo + vbCritical) = vbYes Then
                 DR.Read()
@@ -262,7 +262,7 @@ Public Class frmCustomer
 
     Private Sub txtCuTelNo3_KeyUp(sender As Object, e As KeyEventArgs) Handles txtCuTelNo3.KeyUp
         If txtCuTelNo3.Text.Trim.Length < 10 Then Exit Sub
-        DR = Db.GetDataReader("Select * from Customer where CuTelNo1='" & txtCuTelNo3.Text & "' or CuTelNo2='" & txtCuTelNo3.Text & "' or CuTelNo3='" & txtCuTelNo3.Text & "';")
+        Dim DR As OleDbDataReader = Db.GetDataReader("Select * from Customer where CuTelNo1='" & txtCuTelNo3.Text & "' or CuTelNo2='" & txtCuTelNo3.Text & "' or CuTelNo3='" & txtCuTelNo3.Text & "';")
         If DR.HasRows = True Then
             If MsgBox("Another Customer was found assigned this Telephone No. Will it be opened?", vbYesNo + vbCritical) = vbYes Then
                 DR.Read()

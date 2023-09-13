@@ -74,16 +74,13 @@ Public Class Database
     ''' <param name="Value">Value of field</param>
     ''' <returns>True, if there are rows in the SQL query, or false</returns>
     Public Function CheckDataIsExist(Table As String, FieldName As String, Value As String) As Boolean
-        Dim DR As OleDbDataReader = Nothing
         Try
             Dim Command = New OleDbCommand($"SELECT {FieldName} FROM {Table} WHERE {FieldName} = @VALUE", _Connection)
             Command.Parameters.AddWithValue("@VALUE", Value)
-            DR = Command.ExecuteReader()
+            Dim DR As OleDbDataReader = Command.ExecuteReader()
             Return DR.HasRows
         Catch ex As Exception
             Throw ex
-        Finally
-            If DR IsNot Nothing Then DR.Close()
         End Try
     End Function
 

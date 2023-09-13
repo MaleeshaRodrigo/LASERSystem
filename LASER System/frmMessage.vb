@@ -1,4 +1,5 @@
 ﻿Imports System
+Imports System.Data.OleDb
 Imports System.IO
 Imports System.Net
 Imports System.Text
@@ -80,11 +81,10 @@ Public Class frmMessage
 
     Private Sub grdMsgHistory_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs) Handles grdMsgHistory.CellEndEdit
         If e.ColumnIndex = 0 Then
-            CMD = New OleDb.OleDbCommand("Select RepNo, RDate, CuName, CuTElNo1, PCategory, PName, Charge, Qty, TName, Status, '' as Message " &
+            Dim DR As OleDbDataReader = Db.GetDataReader("Select RepNo, RDate, CuName, CuTElNo1, PCategory, PName, Charge, Qty, TName, Status, '' as Message " &
                                             "from ((((Repair REP INNER JOIN Product P ON P.PNO = REP.PNO) INNER JOIN Receive R ON R.RNo = REP.RNo) " &
                                             "INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNo=REP.TNo) where RepNo = " &
                                             grdMsgHistory.Item(e.ColumnIndex, e.RowIndex).Value & ";")
-            DR = CMD.ExecuteReader
             If DR.HasRows = True Then
                 DR.Read()
                 grdMsgHistory.Item("RetNo", e.RowIndex).Value = ""
@@ -109,9 +109,8 @@ Public Class frmMessage
                 End If
             End If
         ElseIf e.ColumnIndex = 1 Then
-            CMD = New OleDb.OleDbCommand("Select RetNo,RDate,CuName, CuTelNo1, PCategory,PName,Charge,Qty,TName, Status, '' as Message " &
+            Dim DR As OleDbDataReader = Db.GetDataReader("Select RetNo,RDate,CuName, CuTelNo1, PCategory,PName,Charge,Qty,TName, Status, '' as Message " &
                                            "from ((((RETURN RET INNER JOIN Product P ON P.PNO = RET.PNO) INNER JOIN Receive R ON R.RNo = RET.RNo) INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNo=RET.TNo) where ReTNo = " & grdMsgHistory.Item(1, e.RowIndex).Value & ";")
-            DR = CMD.ExecuteReader
             If DR.HasRows = True Then
                 DR.Read()
                 grdMsgHistory.Item("RepNo", e.RowIndex).Value = ""

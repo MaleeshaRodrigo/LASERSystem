@@ -1,4 +1,5 @@
-﻿Imports System.Threading
+﻿Imports System.Data.OleDb
+Imports System.Threading
 
 Public Class frmSale
     Private Db As New Database
@@ -72,7 +73,7 @@ Public Class frmSale
         grdSale.Rows.Clear()
         cmdSave.Text = "Save"
         SaveToolStripMenuItem.Text = "Save"
-        cmdDelete.Enabled = False
+        cmdDelete.Enabled = FalseCMD = New OleDb.OleDbCommand
         DeleteToolStripMenuItem.Enabled = False
         cmbCuName_DropDown(sender, e)
         grdSale.Focus()
@@ -86,15 +87,14 @@ Public Class frmSale
     End Sub
 
     Private Sub cmbCuName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbCuName.SelectedIndexChanged
-        CMD = New OleDb.OleDbCommand("SELECT * from Customer where CuName='" & cmbCuName.Text & "';")
-        DR = CMD.ExecuteReader()
-        If DR.HasRows = True Then
+        Dim Dr As OleDbDataReader = Db.GetDataReader("SELECT * from Customer where CuName='" & cmbCuName.Text & "';")
+        If Dr.HasRows = True Then
             txtCuTelNo1.Tag = "1"
-            DR.Read()
-            cmbCuName.Text = DR("CuName").ToString
-            txtCuTelNo1.Text = DR("CuTelNo1").ToString
-            txtCuTelNo2.Text = DR("CuTelNo2").ToString
-            txtCuTelNo3.Text = DR("CuTelNo3").ToString
+            Dr.Read()
+            cmbCuName.Text = Dr("CuName").ToString
+            txtCuTelNo1.Text = Dr("CuTelNo1").ToString
+            txtCuTelNo2.Text = Dr("CuTelNo2").ToString
+            txtCuTelNo3.Text = Dr("CuTelNo3").ToString
         End If
         txtCuTelNo1.Tag = ""
     End Sub
@@ -232,11 +232,10 @@ Public Class frmSale
         If (Val(txtCAmount.Text) > 0 Or Val(txtCPAmount.Text) > 0) And chkCashDrawer.Checked = True Then OpenCashdrawer()
         'Customer Management
         Dim CuNo As Integer
-        CMD = New OleDb.OleDbCommand("Select * from Customer where CuName='" & cmbCuName.Text & "' and CuTelNo1='" & txtCuTelNo1.Text & "' and CuTelNo2 ='" & txtCuTelNo2.Text & "' and CuTelNo3='" & txtCuTelNo3.Text & "'")
-        DR = CMD.ExecuteReader
-        If DR.HasRows = True Then
-            DR.Read()
-            CuNo = DR("CuNo").ToString
+        Dim Dr As OleDbDataReader = Db.GetDataReader("Select * from Customer where CuName='" & cmbCuName.Text & "' and CuTelNo1='" & txtCuTelNo1.Text & "' and CuTelNo2 ='" & txtCuTelNo2.Text & "' and CuTelNo3='" & txtCuTelNo3.Text & "'")
+        If Dr.HasRows = True Then
+            Dr.Read()
+            CuNo = Dr("CuNo").ToString
         Else
             CuNo = Db.GetNextKey("Customer", "CuNo")
             Db.Execute("Insert into Customer(CuNo,CuName,CuTelNo1,CuTelNo2,CutelNo3) Values(" & CuNo & ",'" & cmbCuName.Text & "','" & txtCuTelNo1.Text & "','" &
@@ -288,35 +287,31 @@ Public Class frmSale
                     End If
                 Next
             Case "Edit"
-                CMD = New OleDb.OleDbCommand("SELECT * from Sale where SaNo=" & txtSaNo.Text & ";")
-                DR = CMD.ExecuteReader()
-                If DR.HasRows = True Then
-                    DR.Read()
-                    If DR("CuLNo").ToString <> "0" And txtCuLNo.Text = "0" Then
-                        Db.Execute("DELETE from CustomerLoan where CuLNo=" & DR("CuLNO").ToString)
-                    ElseIf DR("CuLNo").ToString <> "0" And txtCuLNo.Text <> "0" Then
-                        Db.Execute("Update CustomerLoan set CuLNo = " & DR("CuLNO").ToString &
+                Dim DrSale As OleDbDataReader = Db.GetDataReader("SELECT * from Sale where SaNo=" & txtSaNo.Text & ";")
+                If DrSale.HasRows = True Then
+                    DrSale.Read()
+                    If DrSale("CuLNo").ToString <> "0" And txtCuLNo.Text = "0" Then
+                        Db.Execute("DELETE from CustomerLoan where CuLNo=" & DrSale("CuLNO").ToString)
+                    ElseIf DrSale("CuLNo").ToString <> "0" And txtCuLNo.Text <> "0" Then
+                        Db.Execute("Update CustomerLoan set CuLNo = " & DrSale("CuLNO").ToString &
                                                       "CuNo = " & CuNo &
                                                       ",CuLAmount = " & txtCuLAmount.Text &
                                                       ",SaNo = " & txtSaNo.Text &
                                                       ",CuLDate = " & txtSaDate.Value &
-                                                      "where CuLNo=" & DR("CuLNO").ToString)
-                        txtCuLNo.Text = DR("CuLNo").ToString
-                    ElseIf DR("CuLNo").ToString = "0" And txtCuLNo.Text <> "0" Then
+                                                      "where CuLNo=" & DrSale("CuLNO").ToString)
+                        txtCuLNo.Text = DrSale("CuLNo").ToString
+                    ElseIf DrSale("CuLNo").ToString = "0" And txtCuLNo.Text <> "0" Then
                         Db.Execute("Insert into CustomerLoan(CuLNO,CuLAmount,CuNo,SaNO,CulDate,Status) values(" & txtCuLNo.Text & "," & txtCuLAmount.Text & "," & CuNo & "," & txtSaNo.Text & "," & txtSaDate.Text & ",'Not Paid')")
                     End If
                 End If
                 'Delete old Customer if there is no records about that customer
-                CMD = New OleDb.OleDbCommand("Select CuNo from Sale where SaNo=" & txtSaNo.Text)
-                DR = CMD.ExecuteReader
-                If DR.HasRows = True Then
-                    DR.Read()
-                    CMD1 = New OleDb.OleDbCommand("Select CuNo from Sale Where CuNo = " & DR("CuNo").ToString)
-                    DR1 = CMD1.ExecuteReader()
-                    Dim CMD2 As New OleDb.OleDbCommand("Select CuNo from Receive where CuNo = " & DR("CuNo").ToString)
-                    Dim DR2 As OleDb.OleDbDataReader = CMD2.ExecuteReader()
+                Dim DrSaleCuNo As OleDbDataReader = Db.GetDataReader("Select CuNo from Sale where SaNo=" & txtSaNo.Text)
+                If DrSaleCuNo.HasRows = True Then
+                    DrSaleCuNo.Read()
+                    Dim DR1 As OleDbDataReader = Db.GetDataReader("Select CuNo from Sale Where CuNo = " & DrSaleCuNo("CuNo").ToString)
+                    Dim DR2 As OleDbDataReader = Db.GetDataReader("Select CuNo from Receive where CuNo = " & DrSaleCuNo("CuNo").ToString)
                     If DR1.HasRows = False And DR2.HasRows = False Then
-                        Db.Execute("Delete from Customer where CuNo=" & DR("CuNo").ToString)
+                        Db.Execute("Delete from Customer where CuNo=" & DrSaleCuNo("CuNo").ToString)
                     End If
                 End If
                 Db.Execute("Update Sale set SaNo= " & txtSaNo.Text &
@@ -334,18 +329,17 @@ Public Class frmSale
                                         ",CuLAmount=" & txtCuLAmount.Text &
                                         ",SaRemarks='" & txtSaRemarks.Text & "' Where SaNo = " & txtSaNo.Text)
                 'Delete and update stocksale and stock old data
-                CMD1 = New OleDb.OleDbCommand("Select * from StockSale where SaNo = " & txtSaNo.Text & "")
-                DR1 = CMD1.ExecuteReader()
-                While DR1.Read
-                    If DR1("SaType").ToString = "Sale" Then
-                        Db.Execute("Update Stock set SAvailablestocks=(SAvailableStocks + " & DR1("SaUnits").ToString &
-                                                     ") where SNo=" & DR1("SNo").ToString & "")
-                    ElseIf DR1("SaType").ToString = "Return to Damaged Units" Then
-                        Db.Execute("Update Stock set SOutofstocks=(SOutofstocks - " & DR1("SaUnits").ToString &
-                                                                            ") where SNo=" & DR1("SNo").ToString & "")
-                    ElseIf DR1("SaType").ToString = "Return to Available Units" Then
-                        Db.Execute("Update Stock set SAvailablestocks=(SAvailablestocks - " & DR1("SaUnits").ToString &
-                                                                                ") where SNo=" & DR1("SNo").ToString & "")
+                Dim DRStockSale As OleDbDataReader = Db.GetDataReader("Select * from StockSale where SaNo = " & txtSaNo.Text & "")
+                While DRStockSale.Read
+                    If DRStockSale("SaType").ToString = "Sale" Then
+                        Db.Execute("Update Stock set SAvailablestocks=(SAvailableStocks + " & DRStockSale("SaUnits").ToString &
+                                                     ") where SNo=" & DRStockSale("SNo").ToString & "")
+                    ElseIf DRStockSale("SaType").ToString = "Return to Damaged Units" Then
+                        Db.Execute("Update Stock set SOutofstocks=(SOutofstocks - " & DRStockSale("SaUnits").ToString &
+                                                                            ") where SNo=" & DRStockSale("SNo").ToString & "")
+                    ElseIf DRStockSale("SaType").ToString = "Return to Available Units" Then
+                        Db.Execute("Update Stock set SAvailablestocks=(SAvailablestocks - " & DRStockSale("SaUnits").ToString &
+                                                                                ") where SNo=" & DRStockSale("SNo").ToString & "")
                     End If
                 End While
                 Db.Execute("DELETE from StockSale where SaNo=" & txtSaNo.Text)       'delete data from stocksale
@@ -435,14 +429,13 @@ Public Class frmSale
                 My.Computer.Audio.PlaySystemSound(Media.SystemSounds.Hand)
                 'If IsNumeric(grdSale.Item(0, e.RowIndex).Value) = False Then grdSale.Rows.RemoveAt(e.RowIndex)
                 If grdSale.Item(0, e.RowIndex).Value Is Nothing Then Exit Sub
-                CMD = New OleDb.OleDbCommand("Select * from Stock where SNo =" & grdSale.Item(0, e.RowIndex).Value.ToString)
-                DR = CMD.ExecuteReader
-                If DR.HasRows = True Then
-                    DR.Read()
-                    grdSale.Item(1, e.RowIndex).Value = DR("SCategory").ToString
-                    grdSale.Item(2, e.RowIndex).Value = DR("SName").ToString
+                Dim Dr As OleDbDataReader = Db.GetDataReader("Select * from Stock where SNo =" & grdSale.Item(0, e.RowIndex).Value.ToString)
+                If Dr.HasRows = True Then
+                    Dr.Read()
+                    grdSale.Item(1, e.RowIndex).Value = Dr("SCategory").ToString
+                    grdSale.Item(2, e.RowIndex).Value = Dr("SName").ToString
                     grdSale.Item(3, e.RowIndex).Value = "Sale"
-                    grdSale.Item(4, e.RowIndex).Value = DR("SSalePrice").ToString
+                    grdSale.Item(4, e.RowIndex).Value = Dr("SSalePrice").ToString
                     grdSale.Item(5, e.RowIndex).Value = "1"
                     grdSale.Item(6, e.RowIndex).Value = Int(grdSale.Item(4, e.RowIndex).Value.ToString) * Int(grdSale.Item(5, e.RowIndex).Value.ToString)
                     For Each row As DataGridViewRow In grdSale.Rows
@@ -462,15 +455,14 @@ Public Class frmSale
                 End If
             Case 1, 2
                 frmSearchDropDown.frm_Close()
-                CMD = New OleDb.OleDbCommand("Select * from Stock where SCategory='" & grdSale.Item(1, e.RowIndex).Value & "' and SName='" & grdSale.Item(2, e.RowIndex).Value & "';")
-                DR = CMD.ExecuteReader()
-                If DR.HasRows = True Then
-                    DR.Read()
-                    grdSale.Item(0, e.RowIndex).Value = DR("SNo").ToString
-                    grdSale.Item(1, e.RowIndex).Value = DR("SCategory").ToString
-                    grdSale.Item(2, e.RowIndex).Value = DR("SName").ToString
+                Dim Dr As OleDbDataReader = Db.GetDataReader("Select * from Stock where SCategory='" & grdSale.Item(1, e.RowIndex).Value & "' and SName='" & grdSale.Item(2, e.RowIndex).Value & "';")
+                If Dr.HasRows = True Then
+                    Dr.Read()
+                    grdSale.Item(0, e.RowIndex).Value = Dr("SNo").ToString
+                    grdSale.Item(1, e.RowIndex).Value = Dr("SCategory").ToString
+                    grdSale.Item(2, e.RowIndex).Value = Dr("SName").ToString
                     grdSale.Item(3, e.RowIndex).Value = "Sale"
-                    grdSale.Item(4, e.RowIndex).Value = DR("SSalePrice").ToString
+                    grdSale.Item(4, e.RowIndex).Value = Dr("SSalePrice").ToString
                     grdSale.Item(5, e.RowIndex).Value = "1"
                     grdSale.Item(6, e.RowIndex).Value = Int(grdSale.Item(4, e.RowIndex).Value.ToString) * Int(grdSale.Item(5, e.RowIndex).Value.ToString)
                 Else
