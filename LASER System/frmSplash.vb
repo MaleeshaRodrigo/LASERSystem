@@ -82,38 +82,23 @@ Public NotInheritable Class FrmSplash
                 txtLoad.Text = "Setting Main Menu..."
                 With MdifrmMain
                     WriteActivity("Logged In Successfull by " + .tslblUserName.Text + " as a " + .tslblUserType.Text)
-                    If .tslblUserType.Text = "Admin" Then
-                        .tabChart.TabPages.Remove(.pageIncomevsDate)
-                        .tabChart.TabPages.Remove(.pageReceivedRepvsDate)
-                        .tabChart.TabPages.Remove(.pageCashier)
-                        .tabChart.TabPages.Add(.pageIncomevsDate)
-                        .tabChart.TabPages.Add(.pageReceivedRepvsDate)
-                        .cmbIncomevsDateView.Text = "Days"
-                        .txtIncomevsDateCustom.Text = "5"
-                        .cmbReceivedRepvsDateView.Text = "Days"
-                        .txtReceivedRepvsDateCustom.Text = "5"
-                        .txtIncomevsDateCustom_TextChanged(Nothing, Nothing)
-                        .lblQtyRRepDetails.Visible = True
-                        .lblTodayIncomeDetails.Visible = True
-                        .lblQtyRRepNo.Visible = True
-                        .lblQtyRRetNo.Visible = True
-                        .lblTodayIncomeNo.Visible = True
-                        .GrdActivity.Width = .tabChart.Width + .tabChart.Left - .GrdActivity.Left - 2
-                        .GrdActivity.Left = .lblTodayIncomeNo.Left + .lblTodayIncomeNo.Width + 5
-                    Else
-                        .cmdSalesRepair.Enabled = False
-                        .tabChart.TabPages.Remove(.pageIncomevsDate)
-                        .tabChart.TabPages.Remove(.pageReceivedRepvsDate)
-                        .tabChart.TabPages.Remove(.pageCashier)
-                        .tabChart.TabPages.Add(.pageCashier)
-                        .GrdActivity.Width = .tabChart.Width
-                        .GrdActivity.Left = .tabChart.Left
-                        .lblQtyRRepDetails.Visible = False
-                        .lblTodayIncomeDetails.Visible = False
-                        .lblQtyRRepNo.Visible = False
-                        .lblQtyRRetNo.Visible = False
-                        .lblTodayIncomeNo.Visible = False
-                    End If
+                    .tabChart.TabPages.Remove(.pageIncomevsDate)
+                    .tabChart.TabPages.Remove(.pageReceivedRepvsDate)
+                    .tabChart.TabPages.Remove(.pageCashier)
+                    .tabChart.TabPages.Add(.pageIncomevsDate)
+                    .tabChart.TabPages.Add(.pageReceivedRepvsDate)
+                    .cmbIncomevsDateView.Text = "Days"
+                    .txtIncomevsDateCustom.Text = "5"
+                    .cmbReceivedRepvsDateView.Text = "Days"
+                    .txtReceivedRepvsDateCustom.Text = "5"
+                    .txtIncomevsDateCustom_TextChanged(Nothing, Nothing)
+                    .lblQtyRRepDetails.Visible = True
+                    .lblTodayIncomeDetails.Visible = True
+                    .lblQtyRRepNo.Visible = True
+                    .lblQtyRRetNo.Visible = True
+                    .lblTodayIncomeNo.Visible = True
+                    .GrdActivity.Width = .tabChart.Width + .tabChart.Left - .GrdActivity.Left - 2
+                    .GrdActivity.Left = .lblTodayIncomeNo.Left + .lblTodayIncomeNo.Width + 5
                 End With
             Case 70
                 With MdifrmMain

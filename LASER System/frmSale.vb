@@ -7,6 +7,13 @@ Public Class frmSale
         ' This call is required by the designer.
         InitializeComponent()
         MenuStrip.Items.Add(mnustrpMENU)
+        ' Add any initialization after the InitializeComponent() call.
+    End Sub
+
+    Private Sub frmSale_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Db.Connect()
+        Me.AcceptButton = cmdSave
+
         Call cmdNew_Click(Nothing, Nothing)
         txtSaDate.Value = DateAndTime.Now
         If MdifrmMain.Tag <> "Admin" Then
@@ -14,12 +21,6 @@ Public Class frmSale
             txtSaDate.Enabled = False
         End If
         cmbCuName.Text = "No Name"
-        ' Add any initialization after the InitializeComponent() call.
-    End Sub
-
-    Private Sub frmSale_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Db.Connect()
-        Me.AcceptButton = cmdSave
         grdSale.Focus()
     End Sub
 

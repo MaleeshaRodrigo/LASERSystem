@@ -13,6 +13,10 @@ Public Class frmRepair
         ' This call is required by the designer.
         InitializeComponent()
         MenuStrip.Items.Add(mnustrpMENU)
+    End Sub
+
+    Private Sub FrmRepair_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Db.Connect()
         Call CmbRepNo_SelectedIndexChanged(Nothing, Nothing)
         Call CmbRetNo_SelectedIndexChanged(Nothing, Nothing)
         Call CmbTName_DropDown(Nothing, Nothing)
@@ -33,11 +37,6 @@ Public Class frmRepair
                 ctrl.Visible = True
             Next
         End If
-
-    End Sub
-
-    Private Sub FrmRepair_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Db.Connect()
 
         If tabRepair.SelectedIndex = 0 Then
             cmbRepNo.Focus()
@@ -859,11 +858,9 @@ Public Class frmRepair
             Case "DeliverRepair"
                 With frmDeliver
                     Call CmdSave_Click(sender, e)
-                    With frmDeliver
-                        .grdRepair.Item(0, .grdRepair.CurrentCell.RowIndex).Value = cmbRepNo.Text
+                    .grdRepair.Item(0, .grdRepair.CurrentCell.RowIndex).Value = cmbRepNo.Text
                         Dim E1 As New DataGridViewCellEventArgs(0, .grdRepair.CurrentCell.RowIndex)
-                        Call .GrdRepair_CellEndEdit(sender, E1)
-                    End With
+                    Call .GrdRepair_CellEndEdit(sender, E1)
                 End With
             Case "DeliverReRepair"
                 With frmDeliver

@@ -8,14 +8,14 @@ Public Class frmDeliver
         InitializeComponent()
 
         MenuStrip.Items.Add(mnustrpMENU)
-        Call cmdNew_Click(Nothing, Nothing)
-        txtDDate.Value = Date.Today
-        ' Add any initialization after the InitializeComponent() call.
 
+        ' Add any initialization after the InitializeComponent() call.
     End Sub
 
     Private Sub frmDeliver_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Db.Connect()
+        Call cmdNew_Click(Nothing, Nothing)
+        txtDDate.Value = Date.Today
         grdRepair.Focus()
     End Sub
 

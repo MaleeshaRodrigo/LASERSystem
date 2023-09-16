@@ -25,15 +25,15 @@ Partial Class MdifrmMain
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MdifrmMain))
-        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim ChartArea3 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend3 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series5 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim Series6 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim Series7 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim ChartArea4 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend4 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series8 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim ChartArea1 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend1 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series1 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim Series2 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim Series3 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea2 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend2 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series4 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
         Me.StatusStrip = New System.Windows.Forms.StatusStrip()
         Me.ToolStripStatusLabel2 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.tslblUserName = New System.Windows.Forms.ToolStripStatusLabel()
@@ -210,7 +210,7 @@ Partial Class MdifrmMain
         Me.ToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden
         Me.ToolStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.ToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.cmdStock, Me.ToolStripDropDownButton1, Me.ToolStripSeparator1, Me.cmdSale, Me.cmdSupply, Me.ToolStripSeparator2, Me.cmdReceive, Me.cmdRepair, Me.cmdDeliver, Me.ToolStripDropDownButton2, Me.ToolStripSeparator3, Me.cmdRepAdvanced, Me.cmdTechnicianCost, Me.cmdTechnicianLoan, Me.cmdCustomerLoan, Me.cmdSettlement, Me.ToolStripDropDownButton3})
-        Me.ToolStrip.Location = New System.Drawing.Point(0, 30)
+        Me.ToolStrip.Location = New System.Drawing.Point(0, 28)
         Me.ToolStrip.Name = "ToolStrip"
         Me.ToolStrip.Size = New System.Drawing.Size(1229, 89)
         Me.ToolStrip.Stretch = True
@@ -425,7 +425,7 @@ Partial Class MdifrmMain
         Me.MenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FILEToolStripMenuItem, Me.ToolsToolStripMenuItem})
         Me.MenuStrip.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip.Name = "MenuStrip"
-        Me.MenuStrip.Size = New System.Drawing.Size(1229, 30)
+        Me.MenuStrip.Size = New System.Drawing.Size(1229, 28)
         Me.MenuStrip.TabIndex = 18
         Me.MenuStrip.Text = "MenuStrip1"
         '
@@ -481,11 +481,11 @@ Partial Class MdifrmMain
         Me.TableLayoutPanel1.Controls.Add(Me.flpMessage, 0, 0)
         Me.TableLayoutPanel1.Controls.Add(Me.pnlLeft, 0, 0)
         Me.TableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TableLayoutPanel1.Location = New System.Drawing.Point(0, 119)
+        Me.TableLayoutPanel1.Location = New System.Drawing.Point(0, 117)
         Me.TableLayoutPanel1.Name = "TableLayoutPanel1"
         Me.TableLayoutPanel1.RowCount = 1
         Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
-        Me.TableLayoutPanel1.Size = New System.Drawing.Size(1229, 533)
+        Me.TableLayoutPanel1.Size = New System.Drawing.Size(1229, 535)
         Me.TableLayoutPanel1.TabIndex = 22
         '
         'flpMessage
@@ -499,7 +499,7 @@ Partial Class MdifrmMain
         Me.flpMessage.Location = New System.Drawing.Point(863, 3)
         Me.flpMessage.Name = "flpMessage"
         Me.flpMessage.Padding = New System.Windows.Forms.Padding(5, 5, 0, 0)
-        Me.flpMessage.Size = New System.Drawing.Size(363, 527)
+        Me.flpMessage.Size = New System.Drawing.Size(363, 529)
         Me.flpMessage.TabIndex = 24
         Me.flpMessage.WrapContents = False
         '
@@ -518,14 +518,15 @@ Partial Class MdifrmMain
         Me.pnlLeft.Dock = System.Windows.Forms.DockStyle.Fill
         Me.pnlLeft.Location = New System.Drawing.Point(3, 3)
         Me.pnlLeft.Name = "pnlLeft"
-        Me.pnlLeft.Size = New System.Drawing.Size(854, 527)
+        Me.pnlLeft.Size = New System.Drawing.Size(854, 529)
         Me.pnlLeft.TabIndex = 23
         '
         'GrdActivity
         '
         Me.GrdActivity.AllowUserToAddRows = False
         Me.GrdActivity.AllowUserToDeleteRows = False
-        Me.GrdActivity.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.GrdActivity.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.GrdActivity.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders
         Me.GrdActivity.BackgroundColor = System.Drawing.Color.Black
@@ -538,8 +539,8 @@ Partial Class MdifrmMain
         Me.GrdActivity.ReadOnly = True
         Me.GrdActivity.RowHeadersVisible = False
         Me.GrdActivity.RowHeadersWidth = 51
-        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.GrdActivity.RowsDefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.GrdActivity.RowsDefaultCellStyle = DataGridViewCellStyle1
         Me.GrdActivity.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.GrdActivity.Size = New System.Drawing.Size(423, 144)
         Me.GrdActivity.TabIndex = 23
@@ -715,28 +716,28 @@ Partial Class MdifrmMain
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.chtIncomevsDate.BackColor = System.Drawing.SystemColors.ButtonFace
         Me.chtIncomevsDate.BorderlineColor = System.Drawing.SystemColors.ButtonFace
-        ChartArea3.AxisX.Interval = 1.0R
-        ChartArea3.Name = "ChartArea1"
-        Me.chtIncomevsDate.ChartAreas.Add(ChartArea3)
-        Legend3.Name = "Legend1"
-        Me.chtIncomevsDate.Legends.Add(Legend3)
+        ChartArea1.AxisX.Interval = 1.0R
+        ChartArea1.Name = "ChartArea1"
+        Me.chtIncomevsDate.ChartAreas.Add(ChartArea1)
+        Legend1.Name = "Legend1"
+        Me.chtIncomevsDate.Legends.Add(Legend1)
         Me.chtIncomevsDate.Location = New System.Drawing.Point(6, 33)
         Me.chtIncomevsDate.Name = "chtIncomevsDate"
-        Series5.ChartArea = "ChartArea1"
-        Series5.Color = System.Drawing.Color.Blue
-        Series5.Legend = "Legend1"
-        Series5.Name = "Total Income vs Date"
-        Series6.ChartArea = "ChartArea1"
-        Series6.Color = System.Drawing.Color.Red
-        Series6.Legend = "Legend1"
-        Series6.Name = "Total Income by Repairs vs Date"
-        Series7.ChartArea = "ChartArea1"
-        Series7.Color = System.Drawing.Color.Lime
-        Series7.Legend = "Legend1"
-        Series7.Name = "Total Income by Sales vs Date"
-        Me.chtIncomevsDate.Series.Add(Series5)
-        Me.chtIncomevsDate.Series.Add(Series6)
-        Me.chtIncomevsDate.Series.Add(Series7)
+        Series1.ChartArea = "ChartArea1"
+        Series1.Color = System.Drawing.Color.Blue
+        Series1.Legend = "Legend1"
+        Series1.Name = "Total Income vs Date"
+        Series2.ChartArea = "ChartArea1"
+        Series2.Color = System.Drawing.Color.Red
+        Series2.Legend = "Legend1"
+        Series2.Name = "Total Income by Repairs vs Date"
+        Series3.ChartArea = "ChartArea1"
+        Series3.Color = System.Drawing.Color.Lime
+        Series3.Legend = "Legend1"
+        Series3.Name = "Total Income by Sales vs Date"
+        Me.chtIncomevsDate.Series.Add(Series1)
+        Me.chtIncomevsDate.Series.Add(Series2)
+        Me.chtIncomevsDate.Series.Add(Series3)
         Me.chtIncomevsDate.Size = New System.Drawing.Size(814, 300)
         Me.chtIncomevsDate.TabIndex = 9
         Me.chtIncomevsDate.Text = "Date vs Income"
@@ -750,7 +751,7 @@ Partial Class MdifrmMain
         Me.pageReceivedRepvsDate.Controls.Add(Me.chtReceivedRepvsDate)
         Me.pageReceivedRepvsDate.Location = New System.Drawing.Point(4, 26)
         Me.pageReceivedRepvsDate.Name = "pageReceivedRepvsDate"
-        Me.pageReceivedRepvsDate.Size = New System.Drawing.Size(927, 335)
+        Me.pageReceivedRepvsDate.Size = New System.Drawing.Size(833, 335)
         Me.pageReceivedRepvsDate.TabIndex = 1
         Me.pageReceivedRepvsDate.Text = "Qty of Received Repairs vs Date"
         Me.pageReceivedRepvsDate.UseVisualStyleBackColor = True
@@ -800,18 +801,18 @@ Partial Class MdifrmMain
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.chtReceivedRepvsDate.BackColor = System.Drawing.SystemColors.ButtonFace
         Me.chtReceivedRepvsDate.BorderlineColor = System.Drawing.SystemColors.ButtonFace
-        ChartArea4.AxisX.Interval = 1.0R
-        ChartArea4.Name = "ChartArea1"
-        Me.chtReceivedRepvsDate.ChartAreas.Add(ChartArea4)
-        Legend4.Name = "Legend1"
-        Me.chtReceivedRepvsDate.Legends.Add(Legend4)
+        ChartArea2.AxisX.Interval = 1.0R
+        ChartArea2.Name = "ChartArea1"
+        Me.chtReceivedRepvsDate.ChartAreas.Add(ChartArea2)
+        Legend2.Name = "Legend1"
+        Me.chtReceivedRepvsDate.Legends.Add(Legend2)
         Me.chtReceivedRepvsDate.Location = New System.Drawing.Point(6, 33)
         Me.chtReceivedRepvsDate.Name = "chtReceivedRepvsDate"
-        Series8.ChartArea = "ChartArea1"
-        Series8.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line
-        Series8.Legend = "Legend1"
-        Series8.Name = "Qty of Received Repairs vs Date"
-        Me.chtReceivedRepvsDate.Series.Add(Series8)
+        Series4.ChartArea = "ChartArea1"
+        Series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line
+        Series4.Legend = "Legend1"
+        Series4.Name = "Qty of Received Repairs vs Date"
+        Me.chtReceivedRepvsDate.Series.Add(Series4)
         Me.chtReceivedRepvsDate.Size = New System.Drawing.Size(844, 300)
         Me.chtReceivedRepvsDate.TabIndex = 19
         Me.chtReceivedRepvsDate.Text = "Qty of Received Repairs vs Date"
@@ -825,7 +826,7 @@ Partial Class MdifrmMain
         Me.pageCashier.Controls.Add(Me.picUImage)
         Me.pageCashier.Location = New System.Drawing.Point(4, 26)
         Me.pageCashier.Name = "pageCashier"
-        Me.pageCashier.Size = New System.Drawing.Size(927, 335)
+        Me.pageCashier.Size = New System.Drawing.Size(833, 335)
         Me.pageCashier.TabIndex = 2
         Me.pageCashier.Text = "Cashier"
         Me.pageCashier.UseVisualStyleBackColor = True

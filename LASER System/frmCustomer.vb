@@ -7,6 +7,15 @@ Public Class frmCustomer
         InitializeComponent()
 
         MenuStrip.Items.Add(mnustrpMENU)
+    End Sub
+
+    Private Sub cmbCuName_DropDown(sender As Object, e As EventArgs) Handles cmbCuName.DropDown
+        ComboBoxDropDown(Db, cmbCuName, "Select CuName from Customer group by  CuName;")
+    End Sub
+
+    Private Sub frmCustomer_Load(sender As Object, e As EventArgs) Handles Me.Load
+        Db.Connect()
+
         cmbFilter.Items.Clear()     'add values of cmdFilters
         cmbFilter.Items.Add("by Customer Name")
         cmbFilter.Items.Add("by Customer Telephone No 1")
@@ -18,14 +27,7 @@ Public Class frmCustomer
         Call txtSearch_TextChanged(Nothing, Nothing)   'refresh grdstock
         Call cmdNew_Click(Nothing, Nothing)
         Call cmbCuName_DropDown(Nothing, Nothing)
-    End Sub
 
-    Private Sub cmbCuName_DropDown(sender As Object, e As EventArgs) Handles cmbCuName.DropDown
-        ComboBoxDropDown(Db, cmbCuName, "Select CuName from Customer group by  CuName;")
-    End Sub
-
-    Private Sub frmCustomer_Load(sender As Object, e As EventArgs) Handles Me.Load
-        Db.Connect()
         If Me.Tag = "" Then
             cmdDone.Enabled = False
         Else

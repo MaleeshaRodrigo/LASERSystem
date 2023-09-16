@@ -2,9 +2,6 @@
 Imports System.IO
 Imports System.Net
 Imports System.Runtime.InteropServices
-Imports System.Security.Cryptography
-Imports System.Text
-Imports System.Web.Security
 Imports Newtonsoft.Json
 
 Module Utils
@@ -79,6 +76,7 @@ Module Utils
             Return False
         End If
     End Function
+
     ''' <summary>
     ''' Checking whether the given SQL query has rows or not
     ''' </summary>

@@ -13,17 +13,13 @@ Public Class frmReceive
 
         ' This call is required by the designer.
         InitializeComponent()
-        If MdifrmMain.tslblUserType.Text <> "Cashier" Then
-            txtRNo.Visible = True
-            lblRNo.Visible = True
-        End If
         MenuStrip.Items.Add(mnustrpMENU)
-        Call cmdNew_Click(Nothing, Nothing)
         ' Add any initialization after the InitializeComponent() call.
 
     End Sub
     Private Sub FrmReceive_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Db.Connect()
+        Call cmdNew_Click(Nothing, Nothing)
         txtCuTelNo1.Focus()
     End Sub
     Private Sub frmReceive_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
@@ -757,7 +753,6 @@ Public Class frmReceive
                 Call frm.cmbCuName_SelectedIndexChanged(sender, e)
             End With
         End If
-        SaCMD.Cancel()
         SaDR.Close()
     End Sub
 
