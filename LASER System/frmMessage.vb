@@ -163,14 +163,12 @@ Public Class frmMessage
                                             "or Status='Hand Over to Technician' or Status='Repairing'")
             While DR1.Read
                 If bgworker.CancellationPending = True Then Exit Sub
-                Dim CMD2 As OleDb.OleDbCommand = New OleDb.OleDbCommand("Select * from Message Where RepNo=" & DR1("RepNo").ToString &
+                Dim DR2 As OleDb.OleDbDataReader = Db.GetDataReader("Select * from Message Where RepNo=" & DR1("RepNo").ToString &
                                                                         " And MsgDate < #" & DateTime.Today.AddDays(-7).Date & "#;")
-                Dim DR2 As OleDb.OleDbDataReader = CMD2.ExecuteReader()
                 If DR2.HasRows = False Then
                     grdRepairTask.Rows.Add("", DR1("RepNo").ToString, DR1("CuName").ToString, DR1("CuTelNo1").ToString, DR1("PCategory").ToString,
                                            DR1("PName").ToString, DR1("Status").ToString, "", "")
                 End If
-                CMD2.Cancel()
                 DR2.Close()
             End While
             DR1.Close()

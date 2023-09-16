@@ -73,7 +73,7 @@ Public Class frmSale
         grdSale.Rows.Clear()
         cmdSave.Text = "Save"
         SaveToolStripMenuItem.Text = "Save"
-        cmdDelete.Enabled = FalseCMD = New OleDb.OleDbCommand
+        cmdDelete.Enabled = False
         DeleteToolStripMenuItem.Enabled = False
         cmbCuName_DropDown(sender, e)
         grdSale.Focus()
@@ -545,9 +545,8 @@ Public Class frmSale
     End Sub
 
     Private Sub txtCuTelNo1_TextChanged(sender As Object, e As EventArgs) Handles txtCuTelNo1.TextChanged
-        If txtCuTelNo1.Text = "          " Or txtCuTelNo1.Tag = "1" Then Exit Sub
-        Dim SaCMD As New OleDb.OleDbCommand("Select * from Customer where CuTelNo1='" & txtCuTelNo1.Text & "' or CuTelNo2='" & txtCuTelNo1.Text & "' or CuTelNo3='" & txtCuTelNo1.Text & "';")
-        Dim SaDR As OleDb.OleDbDataReader = SaCMD.ExecuteReader()
+        If txtCuTelNo1.Text.Trim() = "" Or txtCuTelNo1.Tag = "1" Then Exit Sub
+        Dim SaDR As OleDbDataReader = Db.GetDataReader("Select * from Customer where CuTelNo1='" & txtCuTelNo1.Text & "' or CuTelNo2='" & txtCuTelNo1.Text & "' or CuTelNo3='" & txtCuTelNo1.Text & "';")
         If SaDR.HasRows = True Then
             txtCuTelNo1.Tag = "1"
             Dim frm As New frmCustomer
@@ -559,15 +558,13 @@ Public Class frmSale
             frm.cmbCuName.Text = SaDR("CuName").ToString
             Call frm.cmbCuName_SelectedIndexChanged(sender, e)
         End If
-        SaCMD.Cancel()
         SaDR.Close()
         txtCuTelNo1.Tag = ""
     End Sub
 
     Private Sub txtCuTelNo2_TextChanged(sender As Object, e As EventArgs) Handles txtCuTelNo2.TextChanged
-        If txtCuTelNo2.Text = "          " Or txtCuTelNo1.Tag = "1" Then Exit Sub
-        Dim SaCMD As New OleDb.OleDbCommand("Select * from Customer where CuTelNo1='" & txtCuTelNo2.Text & "' or CuTelNo2='" & txtCuTelNo2.Text & "' or CuTelNo3='" & txtCuTelNo2.Text & "';")
-        Dim SaDR As OleDb.OleDbDataReader = SaCMD.ExecuteReader()
+        If txtCuTelNo2.Text.Trim = "" Or txtCuTelNo1.Tag = "1" Then Exit Sub
+        Dim SaDR As OleDbDataReader = Db.GetDataReader("Select * from Customer where CuTelNo1='" & txtCuTelNo2.Text & "' or CuTelNo2='" & txtCuTelNo2.Text & "' or CuTelNo3='" & txtCuTelNo2.Text & "';")
         If SaDR.HasRows = True Then
             txtCuTelNo1.Tag = "1"
             Dim frm As New frmCustomer
@@ -579,15 +576,13 @@ Public Class frmSale
             frm.cmbCuName.Text = SaDR("CuName").ToString
             Call frm.cmbCuName_SelectedIndexChanged(sender, e)
         End If
-        SaCMD.Cancel()
         SaDR.Close()
         txtCuTelNo1.Tag = ""
     End Sub
 
     Private Sub txtCuTelNo3_TextChanged(sender As Object, e As EventArgs) Handles txtCuTelNo3.TextChanged
-        If txtCuTelNo3.Text = "          " Or txtCuTelNo1.Tag = "1" Then Exit Sub
-        Dim SaCMD As New OleDb.OleDbCommand("Select * from Customer where CuTelNo1='" & txtCuTelNo3.Text & "' or CuTelNo2='" & txtCuTelNo3.Text & "' or CuTelNo3='" & txtCuTelNo3.Text & "';")
-        Dim SaDR As OleDb.OleDbDataReader = SaCMD.ExecuteReader()
+        If txtCuTelNo3.Text.Trim = "" Or txtCuTelNo1.Tag = "1" Then Exit Sub
+        Dim SaDR As OleDbDataReader = Db.GetDataReader("Select * from Customer where CuTelNo1='" & txtCuTelNo3.Text & "' or CuTelNo2='" & txtCuTelNo3.Text & "' or CuTelNo3='" & txtCuTelNo3.Text & "';")
         If SaDR.HasRows = True Then
             txtCuTelNo1.Tag = "1"
             Dim frm As New frmCustomer
@@ -599,7 +594,6 @@ Public Class frmSale
             frm.cmbCuName.Text = SaDR("CuName").ToString
             Call frm.cmbCuName_SelectedIndexChanged(sender, e)
         End If
-        SaCMD.Cancel()
         SaDR.Close()
         txtCuTelNo1.Tag = ""
     End Sub

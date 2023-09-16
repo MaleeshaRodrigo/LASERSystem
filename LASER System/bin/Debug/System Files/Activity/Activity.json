@@ -24,6 +24,26 @@
       "ID": "5",
       "Date": "2023-09-11 7:31:18 PM",
       "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "6",
+      "Date": "2023-09-13 9:21:28 AM",
+      "Command": "Update [User] set LogInCount='0' Where LoginCount IS NULL"
+    },
+    {
+      "ID": "7",
+      "Date": "2023-09-13 9:21:29 AM",
+      "Command": "Update [User] set LogInCount= (LogInCount + 1) Where UNo = 1"
+    },
+    {
+      "ID": "8",
+      "Date": "2023-09-13 9:21:29 AM",
+      "Command": "Update [User] set LastLogin=#2023-09-13 9:21:29 AM# Where UNo = 1"
+    },
+    {
+      "ID": "9",
+      "Date": "2023-09-13 9:21:40 AM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
     }
   ]
 }

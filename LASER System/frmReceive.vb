@@ -630,25 +630,23 @@ Public Class frmReceive
         Select Case e.ColumnIndex
             Case 1
                 If grdReRepair.Item(e.ColumnIndex, e.RowIndex).Value Is Nothing Then Exit Sub
-                Dim CMDRERep = New OleDb.OleDbCommand("Select RepNo,Rep.RNo,Cu.CuNo,CuName,CuTelNo1,CuTElNo2,CuTelNo3 from Repair REP, Receive R, Customer Cu Where Rep.RNo = R.RNo and Cu.CuNo = R.CuNo and RepNo = " & grdReRepair.Item(1, e.RowIndex).Value)
-                Dim DRRERep As OleDb.OleDbDataReader = CMDRERep.ExecuteReader
-                If DRRERep.HasRows = True Then
-                    DRRERep.Read()
-                    txtCuTelNo1.Text = DRRERep("CuTelNo1").ToString
-                    txtCuTelNo2.Text = DRRERep("CUTelNo2").ToString
-                    txtCuTelNo3.Text = DRRERep("CuTelNo3").ToString
-                    cmbCuName.Text = DRRERep("CuName").ToString
+                Dim DrCustomer As OleDbDataReader = Db.GetDataReader("Select RepNo,Rep.RNo,Cu.CuNo,CuName,CuTelNo1,CuTElNo2,CuTelNo3 from Repair REP, Receive R, Customer Cu Where Rep.RNo = R.RNo and Cu.CuNo = R.CuNo and RepNo = " & grdReRepair.Item(1, e.RowIndex).Value)
+                If DrCustomer.HasRows = True Then
+                    DrCustomer.Read()
+                    txtCuTelNo1.Text = DrCustomer("CuTelNo1").ToString
+                    txtCuTelNo2.Text = DrCustomer("CUTelNo2").ToString
+                    txtCuTelNo3.Text = DrCustomer("CuTelNo3").ToString
+                    cmbCuName.Text = DrCustomer("CuName").ToString
                 End If
-                CMDRERep = New OleDb.OleDbCommand("Select RepNo,PCategory,PName,PModelNo,PSerialNo,PDetails,Qty from Repair Rep,Product P where Rep.Pno = P.PNo and RepNo=" & grdReRepair.Item(1, e.RowIndex).Value)
-                DRRERep = CMDRERep.ExecuteReader()
-                If DRRERep.HasRows = True Then
-                    DRRERep.Read()
-                    grdReRepair.Item(2, e.RowIndex).Value = DRRERep("PCategory").ToString
-                    grdReRepair.Item(3, e.RowIndex).Value = DRRERep("PName").ToString
-                    grdReRepair.Item(4, e.RowIndex).Value = DRRERep("PModelNo").ToString
-                    grdReRepair.Item(5, e.RowIndex).Value = DRRERep("PSerialNo").ToString
-                    grdReRepair.Item(6, e.RowIndex).Value = DRRERep("PDetails").ToString
-                    grdReRepair.Item(7, e.RowIndex).Value = DRRERep("Qty").ToString
+                Dim DrProduct As OleDbDataReader = Db.GetDataReader("Select RepNo,PCategory,PName,PModelNo,PSerialNo,PDetails,Qty from Repair Rep,Product P where Rep.Pno = P.PNo and RepNo=" & grdReRepair.Item(1, e.RowIndex).Value)
+                If DrProduct.HasRows = True Then
+                    DrProduct.Read()
+                    grdReRepair.Item(2, e.RowIndex).Value = DrProduct("PCategory").ToString
+                    grdReRepair.Item(3, e.RowIndex).Value = DrProduct("PName").ToString
+                    grdReRepair.Item(4, e.RowIndex).Value = DrProduct("PModelNo").ToString
+                    grdReRepair.Item(5, e.RowIndex).Value = DrProduct("PSerialNo").ToString
+                    grdReRepair.Item(6, e.RowIndex).Value = DrProduct("PDetails").ToString
+                    grdReRepair.Item(7, e.RowIndex).Value = DrProduct("Qty").ToString
                 End If
         End Select
     End Sub
@@ -718,9 +716,8 @@ Public Class frmReceive
 
     Private Sub txtCuTelNo1_KeyUp(sender As Object, e As KeyEventArgs) Handles txtCuTelNo1.KeyUp
         If txtCuTelNo1.Text.Replace(" ", "").Length < 10 Then Exit Sub
-        Dim SaCMD As New OleDb.OleDbCommand("Select * from Customer where CuTelNo1='" & txtCuTelNo1.Text & "' or CuTelNo2='" & txtCuTelNo1.Text &
+        Dim SaDR As OleDb.OleDbDataReader = Db.GetDataReader("Select * from Customer where CuTelNo1='" & txtCuTelNo1.Text & "' or CuTelNo2='" & txtCuTelNo1.Text &
                                             "' or CuTelNo3='" & txtCuTelNo1.Text & "';")
-        Dim SaDR As OleDb.OleDbDataReader = SaCMD.ExecuteReader()
         If SaDR.HasRows = True Then
             SaDR.Read()
             If cmbCuMr.Text + cmbCuName.Text = SaDR("CuName").ToString Then Exit Sub
@@ -736,7 +733,6 @@ Public Class frmReceive
         Else
             cmbCuName_SelectedIndexChanged(sender, e)
         End If
-        SaCMD.Cancel()
         SaDR.Close()
     End Sub
 
@@ -747,8 +743,7 @@ Public Class frmReceive
             txtCuTelNo2.Text = ""
             Exit Sub
         End If
-        Dim SaCMD As New OleDb.OleDbCommand("Select * from Customer where CuTelNo1='" & txtCuTelNo2.Text & "' or CuTelNo2='" & txtCuTelNo2.Text & "' or CuTelNo3='" & txtCuTelNo2.Text & "';")
-        Dim SaDR As OleDb.OleDbDataReader = SaCMD.ExecuteReader()
+        Dim SaDR As OleDbDataReader = Db.GetDataReader("Select * from Customer where CuTelNo1='" & txtCuTelNo2.Text & "' or CuTelNo2='" & txtCuTelNo2.Text & "' or CuTelNo3='" & txtCuTelNo2.Text & "';")
         If SaDR.HasRows = True Then
             SaDR.Read()
             If cmbCuMr.Text + cmbCuName.Text = SaDR("CuName").ToString Then Exit Sub
@@ -779,8 +774,7 @@ Public Class frmReceive
             txtCuTelNo3.Text = ""
             Exit Sub
         End If
-        Dim SaCMD As New OleDb.OleDbCommand("Select * from Customer where CuTelNo1='" & txtCuTelNo3.Text & "' or CuTelNo2='" & txtCuTelNo3.Text & "' or CuTelNo3='" & txtCuTelNo3.Text & "';")
-        Dim SaDR As OleDb.OleDbDataReader = SaCMD.ExecuteReader()
+        Dim SaDR As OleDbDataReader = Db.GetDataReader("Select * from Customer where CuTelNo1='" & txtCuTelNo3.Text & "' or CuTelNo2='" & txtCuTelNo3.Text & "' or CuTelNo3='" & txtCuTelNo3.Text & "';")
         If SaDR.HasRows = True Then
             SaDR.Read()
             If cmbCuMr.Text + cmbCuName.Text = SaDR("CuName").ToString Then Exit Sub
@@ -794,7 +788,6 @@ Public Class frmReceive
                 Call frm.cmbCuName_SelectedIndexChanged(sender, e)
             End With
         End If
-        SaCMD.Cancel()
         SaDR.Close()
     End Sub
 

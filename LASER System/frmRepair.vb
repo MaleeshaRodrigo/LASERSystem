@@ -1313,8 +1313,7 @@ Public Class frmRepair
     Private Sub grdTechnicianCost_RowValidating(sender As Object, e As DataGridViewCellCancelEventArgs) Handles grdTechnicianCost.RowValidating
         If e.RowIndex < 0 Then Exit Sub
         If grdTechnicianCost.Item(0, e.RowIndex).Value Is Nothing Then Exit Sub
-        Dim CMD1 As OleDbCommand = New OleDb.OleDbCommand("SELECT * from TechnicianCost where TCNo=" & grdTechnicianCost.Item(0, e.RowIndex).Value & ";")
-        Dim DR1 As OleDb.OleDbDataReader = CMD1.ExecuteReader()
+        Dim DR1 As OleDbDataReader = Db.GetDataReader("SELECT * from TechnicianCost where TCNo=" & grdTechnicianCost.Item(0, e.RowIndex).Value & ";")
         If DR1.HasRows Then
             DR1.Read()
             grdTechnicianCost.Item(1, e.RowIndex).Value = DR1("TCDate").ToString
@@ -1330,7 +1329,6 @@ Public Class frmRepair
         Else
             grdTechnicianCost.Rows.RemoveAt(e.RowIndex)
         End If
-        CMD1.Cancel()
         DR1.Close()
     End Sub
 
