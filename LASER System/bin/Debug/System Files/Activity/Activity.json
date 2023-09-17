@@ -259,6 +259,51 @@
       "ID": "52",
       "Date": "2023-09-17 3:50:13 PM",
       "Command": "Logged In Successfull by Admin as a Admin"
+    },
+    {
+      "ID": "53",
+      "Date": "2023-09-17 4:25:15 PM",
+      "Command": "Update [User] set LogInCount= (LogInCount + 1) Where UNo = 19"
+    },
+    {
+      "ID": "54",
+      "Date": "2023-09-17 4:25:16 PM",
+      "Command": "Update [User] set LastLogin=#2023-09-17 4:25:16 PM# Where UNo = 19"
+    },
+    {
+      "ID": "55",
+      "Date": "2023-09-17 4:25:32 PM",
+      "Command": "Logged In Successfull by Admin as a Admin"
+    },
+    {
+      "ID": "56",
+      "Date": "2023-09-17 4:27:47 PM",
+      "Command": "update Repair set status ='Hand Over to Technician' where repno=16732;"
+    },
+    {
+      "ID": "57",
+      "Date": "2023-09-17 4:27:47 PM",
+      "Command": "Insert into RepairActivity(RepANo,RepNo,RepADate,Activity,UNo) Values(36408,16732,#2023-09-17 4:27:47 PM#,'Status -> Hand Over to Technician',19)"
+    },
+    {
+      "ID": "58",
+      "Date": "2023-09-17 4:27:47 PM",
+      "Command": "update Repair set tno =31 where repno=16732;"
+    },
+    {
+      "ID": "59",
+      "Date": "2023-09-17 4:27:47 PM",
+      "Command": "Insert into RepairActivity(RepANo,RepNo,RepADate,Activity,UNo) Values(36409,16732,#2023-09-17 4:27:47 PM#,'Technician -> Bandara',19)"
+    },
+    {
+      "ID": "60",
+      "Date": "2023-09-17 4:28:16 PM",
+      "Command": "update Repair set Location= 'F Rack - 4' where repno = 16732"
+    },
+    {
+      "ID": "61",
+      "Date": "2023-09-17 4:28:16 PM",
+      "Command": "Insert into RepairActivity(RepANo,RepNo,RepADate,Activity,UNo) Values(36410,16732,#2023-09-17 4:28:16 PM#,'Location -> F Rack - 4',19)"
     }
   ]
 }

@@ -7,8 +7,8 @@ Public Class FrmSettings
     Public Sub FrmSettings_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         With My.Settings
-            txtDBLoc.Text = .DatabaseCNN
-            txtDBLoc.Tag = .DatabaseCNN
+            txtDBLoc.Text = .DBPath
+            txtDBLoc.Tag = .DBPath
             chkMSetEmail.Checked = .SendSettlementEmail
             txtMAdminEmail.Text = .AdminEmail
             txtStickerPrinterName.Text = .StickerPrinterName
@@ -51,7 +51,7 @@ Public Class FrmSettings
         Dim Encoder As New Encoder()
 
         With My.Settings
-            .DatabaseCNN = txtDBLoc.Text
+            .DBPath = txtDBLoc.Text
             .SendSettlementEmail = chkMSetEmail.CheckState
             .DeliveredEmailtoT = chkDeliveredEmailtoT.Checked
             .AdminEmail = txtMAdminEmail.Text

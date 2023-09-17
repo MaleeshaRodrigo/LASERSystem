@@ -57,12 +57,12 @@ Namespace My
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("")>  _
-        Public Property DatabaseCNN() As String
+        Public Property DBPath() As String
             Get
-                Return CType(Me("DatabaseCNN"),String)
+                Return CType(Me("DBPath"),String)
             End Get
             Set
-                Me("DatabaseCNN") = value
+                Me("DBPath") = value
             End Set
         End Property
         
@@ -260,7 +260,7 @@ Namespace My
         
         <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
         Public ReadOnly Property DeveloperMode() As Boolean
             Get
                 Return CType(Me("DeveloperMode"),Boolean)

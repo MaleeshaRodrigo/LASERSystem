@@ -14,7 +14,7 @@ Public Class Database
 
     Public Sub New()
         Me._Provider = Settings.DBProvider
-        Me._DataSource = Settings.DatabaseCNN
+        Me._DataSource = Settings.DBPath
         Me._Password = Settings.DBPassword
     End Sub
 
@@ -43,7 +43,7 @@ Public Class Database
         If Me._Provider = "" Then
             Return (False, "Database Provider ඇතුලත් කර නොමැත.")
         End If
-        If My.Settings.DatabaseCNN = "" Then
+        If My.Settings.DBPath = "" Then
             Return (False, "Database Path එක ඇතුලත් කර නොමැත.")
         End If
         If My.Settings.DBPassword = "" Then
