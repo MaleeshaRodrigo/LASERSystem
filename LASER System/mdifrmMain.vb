@@ -5,7 +5,7 @@ Imports Microsoft.VisualBasic.FileIO
 Public Class MdifrmMain
     Private Db As New Database
     Private Sub mdifrmMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        System.Windows.Forms.Control.CheckForIllegalCrossThreadCalls = False
+        Control.CheckForIllegalCrossThreadCalls = False
         Db.Connect()
         MenuStrip.Items.Add(mnustrpMENU)
     End Sub
@@ -83,8 +83,6 @@ Public Class MdifrmMain
         Try
             With frmRepair
                 .Show()
-                .BringToFront()
-                If .WindowState = FormWindowState.Minimized Then .WindowState = FormWindowState.Maximized
                 If .tabRepair.SelectedTab.TabIndex = 0 Then
                     .cmbRepNo.Focus()
                 Else

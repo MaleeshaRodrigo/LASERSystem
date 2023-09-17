@@ -116,7 +116,7 @@ Public Class Database
     End Sub
 
     Public Sub DirectExecute(Query As String)
-        Dim Command As New OleDb.OleDbCommand(Query, _Connection)
+        Dim Command As New OleDbCommand(Query, _Connection)
         Command.ExecuteNonQuery()
         Command.Cancel()
     End Sub
@@ -179,9 +179,12 @@ Public Class Database
         Return (Output)
     End Function
 
-    Public Function GetDataReader(Sql As String) As OleDbDataReader
-        CMD = New OleDbCommand(Sql, _Connection)
-        Return (CMD.ExecuteReader())
+    Public Function GetDataReader(Sql As String, Optional Parameters() As OleDbParameter = Nothing) As OleDbDataReader
+        Dim Command As OleDbCommand = New OleDbCommand(Sql, _Connection)
+        If Parameters IsNot Nothing Then
+            Command.Parameters.AddRange(Parameters)
+        End If
+        Return (Command.ExecuteReader())
     End Function
 
     Public Function GetDataAdapter(Query As String) As OleDbDataAdapter

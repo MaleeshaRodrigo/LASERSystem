@@ -82,6 +82,10 @@ Public NotInheritable Class FrmSplash
                 txtLoad.Text = "Setting Main Menu..."
                 With MdifrmMain
                     WriteActivity("Logged In Successfull by " + .tslblUserName.Text + " as a " + .tslblUserType.Text)
+                    .WindowState = FormWindowState.Minimized
+                    .Show()
+                    .Hide()
+                    .WindowState = FormWindowState.Maximized
                     .tabChart.TabPages.Remove(.pageIncomevsDate)
                     .tabChart.TabPages.Remove(.pageReceivedRepvsDate)
                     .tabChart.TabPages.Remove(.pageCashier)
@@ -102,7 +106,6 @@ Public NotInheritable Class FrmSplash
                 End With
             Case 70
                 With MdifrmMain
-                    .Hide()
                     LoadingBar.Value += 5
                     txtLoad.Text = "Getting Message to the Message Panel in Main Menu..."
                     DR = Db.GetDataReader("Select COUNT(SNo) as SNoCount from [Stock] Where SAvailableStocks < SMinStocks")
@@ -143,19 +146,7 @@ Public NotInheritable Class FrmSplash
                 End With
             Case 90
                 txtLoad.Text = "Finalizing..."
-                With MdifrmMain
-                    If Me.Tag <> "Admin" Then
-                        .lblQtyRRepDetails.Visible = False
-                        .lblQtyRRetDetails.Visible = False
-                        .lblTodayIncomeDetails.Visible = False
-                        .lblQtyRRepNo.Visible = False
-                        .lblQtyRRetNo.Visible = False
-                        .lblTodayIncomeNo.Visible = False
-                        .GrdActivity.Left = .tabChart.Left
-                    Else
-                        .GrdActivity.Left = .lblTodayIncomeNo.Left + .lblTodayIncomeNo.Width + 5
-                    End If
-                End With
+                MdifrmMain.GrdActivity.Left = MdifrmMain.lblTodayIncomeNo.Left + MdifrmMain.lblTodayIncomeNo.Width + 5
             Case 99
                 MdifrmMain.Visible = True
         End Select

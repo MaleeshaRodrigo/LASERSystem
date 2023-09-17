@@ -101,14 +101,13 @@ Partial Class frmLogin
         '
         'cmbUserName
         '
-        Me.cmbUserName.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
         Me.cmbUserName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cmbUserName.ForeColor = System.Drawing.Color.Black
         Me.cmbUserName.FormattingEnabled = True
-        Me.cmbUserName.ItemHeight = 16
+        Me.cmbUserName.ItemHeight = 18
         Me.cmbUserName.Location = New System.Drawing.Point(24, 50)
         Me.cmbUserName.Name = "cmbUserName"
-        Me.cmbUserName.Size = New System.Drawing.Size(237, 22)
+        Me.cmbUserName.Size = New System.Drawing.Size(237, 26)
         Me.cmbUserName.TabIndex = 0
         '
         'lblPassword

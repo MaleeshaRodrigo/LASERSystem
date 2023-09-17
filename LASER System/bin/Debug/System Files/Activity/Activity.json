@@ -124,6 +124,141 @@
       "ID": "25",
       "Date": "2023-09-16 5:09:28 PM",
       "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "26",
+      "Date": "2023-09-17 8:05:57 AM",
+      "Command": "Update [User] set LogInCount= (LogInCount + 1) Where UNo = 6"
+    },
+    {
+      "ID": "27",
+      "Date": "2023-09-17 8:05:58 AM",
+      "Command": "Update [User] set LastLogin=#2023-09-17 8:05:58 AM# Where UNo = 6"
+    },
+    {
+      "ID": "28",
+      "Date": "2023-09-17 8:06:12 AM",
+      "Command": "Logged In Successfull by Maleesha Achintha as a Admin"
+    },
+    {
+      "ID": "29",
+      "Date": "2023-09-17 8:35:06 AM",
+      "Command": "Update [User] set LogInCount= (LogInCount + 1) Where UNo = 19"
+    },
+    {
+      "ID": "30",
+      "Date": "2023-09-17 8:35:06 AM",
+      "Command": "Update [User] set LastLogin=#2023-09-17 8:35:06 AM# Where UNo = 19"
+    },
+    {
+      "ID": "31",
+      "Date": "2023-09-17 8:35:17 AM",
+      "Command": "Logged In Successfull by Admin as a Admin"
+    },
+    {
+      "ID": "32",
+      "Date": "2023-09-17 8:41:10 AM",
+      "Command": "Update [User] set LogInCount= (LogInCount + 1) Where UNo = 19"
+    },
+    {
+      "ID": "33",
+      "Date": "2023-09-17 8:41:10 AM",
+      "Command": "Update [User] set LastLogin=#2023-09-17 8:41:10 AM# Where UNo = 19"
+    },
+    {
+      "ID": "34",
+      "Date": "2023-09-17 8:41:13 AM",
+      "Command": "Logged In Successfull by Admin as a Admin"
+    },
+    {
+      "ID": "35",
+      "Date": "2023-09-17 8:43:26 AM",
+      "Command": "Update [User] set LogInCount= (LogInCount + 1) Where UNo = 19"
+    },
+    {
+      "ID": "36",
+      "Date": "2023-09-17 8:43:26 AM",
+      "Command": "Update [User] set LastLogin=#2023-09-17 8:43:26 AM# Where UNo = 19"
+    },
+    {
+      "ID": "37",
+      "Date": "2023-09-17 8:43:29 AM",
+      "Command": "Logged In Successfull by Admin as a Admin"
+    },
+    {
+      "ID": "38",
+      "Date": "2023-09-17 8:47:33 AM",
+      "Command": "Update [User] set LogInCount= (LogInCount + 1) Where UNo = 19"
+    },
+    {
+      "ID": "39",
+      "Date": "2023-09-17 8:47:33 AM",
+      "Command": "Update [User] set LastLogin=#2023-09-17 8:47:33 AM# Where UNo = 19"
+    },
+    {
+      "ID": "40",
+      "Date": "2023-09-17 8:47:36 AM",
+      "Command": "Logged In Successfull by Admin as a Admin"
+    },
+    {
+      "ID": "41",
+      "Date": "2023-09-17 1:01:59 PM",
+      "Command": "Update [User] set LogInCount= (LogInCount + 1) Where UNo = 19"
+    },
+    {
+      "ID": "42",
+      "Date": "2023-09-17 1:01:59 PM",
+      "Command": "Update [User] set LastLogin=#2023-09-17 1:01:59 PM# Where UNo = 19"
+    },
+    {
+      "ID": "43",
+      "Date": "2023-09-17 1:02:10 PM",
+      "Command": "Logged In Successfull by Admin as a Admin"
+    },
+    {
+      "ID": "44",
+      "Date": "2023-09-17 2:08:08 PM",
+      "Command": "Update [User] set LogInCount= (LogInCount + 1) Where UNo = 19"
+    },
+    {
+      "ID": "45",
+      "Date": "2023-09-17 2:08:08 PM",
+      "Command": "Update [User] set LastLogin=#2023-09-17 2:08:08 PM# Where UNo = 19"
+    },
+    {
+      "ID": "46",
+      "Date": "2023-09-17 2:08:11 PM",
+      "Command": "Logged In Successfull by Admin as a Admin"
+    },
+    {
+      "ID": "47",
+      "Date": "2023-09-17 3:12:15 PM",
+      "Command": "Update [User] set LogInCount= (LogInCount + 1) Where UNo = 19"
+    },
+    {
+      "ID": "48",
+      "Date": "2023-09-17 3:12:15 PM",
+      "Command": "Update [User] set LastLogin=#2023-09-17 3:12:15 PM# Where UNo = 19"
+    },
+    {
+      "ID": "49",
+      "Date": "2023-09-17 3:12:18 PM",
+      "Command": "Logged In Successfull by Admin as a Admin"
+    },
+    {
+      "ID": "50",
+      "Date": "2023-09-17 3:50:10 PM",
+      "Command": "Update [User] set LogInCount= (LogInCount + 1) Where UNo = 19"
+    },
+    {
+      "ID": "51",
+      "Date": "2023-09-17 3:50:10 PM",
+      "Command": "Update [User] set LastLogin=#2023-09-17 3:50:10 PM# Where UNo = 19"
+    },
+    {
+      "ID": "52",
+      "Date": "2023-09-17 3:50:13 PM",
+      "Command": "Logged In Successfull by Admin as a Admin"
     }
   ]
 }

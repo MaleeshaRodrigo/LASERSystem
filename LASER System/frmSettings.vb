@@ -17,7 +17,6 @@ Public Class FrmSettings
             txtBillPrinterName.Text = .BillPrinterName
             txtBillPaperName.Text = .BillPrinterPaperName
             cmbDBProvider.Text = .DBProvider
-            chkDMode.Checked = .DeveloperMode
             TxtBGWokerPath.Text = .BGWorkerPath
             ChkCashDrawer.Checked = .CashDrawer
 
@@ -68,7 +67,6 @@ Public Class FrmSettings
             .CashDrawer = ChkCashDrawer.Checked
             If txtDBPassword.Text <> "" Then .DBPassword = Encoder.Encode(txtDBPassword.Text)
             .DBProvider = cmbDBProvider.Text
-            .DeveloperMode = chkDMode.Checked
             .Save()
 
             MdifrmMain.BarCodePort.Close()

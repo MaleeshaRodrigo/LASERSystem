@@ -247,14 +247,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="LASER System.exe" size="5436416">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="LASER System.exe" size="5433344">
       <assemblyIdentity name="LASER System" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>uVK3ftqz/HYOYPK9MgUrxxAlpm4zjv7gPljdwOdkUxM=</dsig:DigestValue>
+        <dsig:DigestValue>cnx2ahlI709vtk8XvbZ/+tdU4q4OHB+Mar0ZYBEGqls=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -266,7 +266,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>hUWRExDQdYqc36zMfxKH5yvzyTz+7+/yKUjlLZdknh4=</dsig:DigestValue>
+        <dsig:DigestValue>HzrmZD0JFGKUAOZcD4kWJ7njkH80Tr8kbrE4sgiob+Q=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -339,13 +339,13 @@
       <dsig:DigestValue>x5tmJrkePq1dUKxmzBo6+Tn7Lf+dIE3Y7eZzeBEs4co=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="LASER System.exe.config" size="3746">
+  <file name="LASER System.exe.config" size="4266">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>EWWqfjE19iprYiO8ZKDIoC2wfIAD0dnNekTOCKMZsd8=</dsig:DigestValue>
+      <dsig:DigestValue>noyGysEsMuoRu5cZnEjVSIaH4PfCpF+N5VMAAS4Jcds=</dsig:DigestValue>
     </hash>
   </file>
   <compatibility xmlns="urn:schemas-microsoft-com:compatibility.v1">

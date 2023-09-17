@@ -210,7 +210,7 @@ Partial Class MdifrmMain
         Me.ToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden
         Me.ToolStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.ToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.cmdStock, Me.ToolStripDropDownButton1, Me.ToolStripSeparator1, Me.cmdSale, Me.cmdSupply, Me.ToolStripSeparator2, Me.cmdReceive, Me.cmdRepair, Me.cmdDeliver, Me.ToolStripDropDownButton2, Me.ToolStripSeparator3, Me.cmdRepAdvanced, Me.cmdTechnicianCost, Me.cmdTechnicianLoan, Me.cmdCustomerLoan, Me.cmdSettlement, Me.ToolStripDropDownButton3})
-        Me.ToolStrip.Location = New System.Drawing.Point(0, 28)
+        Me.ToolStrip.Location = New System.Drawing.Point(0, 30)
         Me.ToolStrip.Name = "ToolStrip"
         Me.ToolStrip.Size = New System.Drawing.Size(1229, 89)
         Me.ToolStrip.Stretch = True
@@ -425,7 +425,7 @@ Partial Class MdifrmMain
         Me.MenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FILEToolStripMenuItem, Me.ToolsToolStripMenuItem})
         Me.MenuStrip.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip.Name = "MenuStrip"
-        Me.MenuStrip.Size = New System.Drawing.Size(1229, 28)
+        Me.MenuStrip.Size = New System.Drawing.Size(1229, 30)
         Me.MenuStrip.TabIndex = 18
         Me.MenuStrip.Text = "MenuStrip1"
         '
@@ -434,7 +434,7 @@ Partial Class MdifrmMain
         Me.FILEToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LogOutToolStripMenuItem, Me.ExitToolStripMenuItem})
         Me.FILEToolStripMenuItem.Name = "FILEToolStripMenuItem"
         Me.FILEToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.L), System.Windows.Forms.Keys)
-        Me.FILEToolStripMenuItem.Size = New System.Drawing.Size(49, 24)
+        Me.FILEToolStripMenuItem.Size = New System.Drawing.Size(49, 26)
         Me.FILEToolStripMenuItem.Text = "FILE"
         '
         'LogOutToolStripMenuItem
@@ -457,7 +457,7 @@ Partial Class MdifrmMain
         '
         Me.ToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SettingsToolStripMenuItem})
         Me.ToolsToolStripMenuItem.Name = "ToolsToolStripMenuItem"
-        Me.ToolsToolStripMenuItem.Size = New System.Drawing.Size(67, 24)
+        Me.ToolsToolStripMenuItem.Size = New System.Drawing.Size(67, 26)
         Me.ToolsToolStripMenuItem.Text = "TOOLS"
         '
         'SettingsToolStripMenuItem
@@ -481,11 +481,11 @@ Partial Class MdifrmMain
         Me.TableLayoutPanel1.Controls.Add(Me.flpMessage, 0, 0)
         Me.TableLayoutPanel1.Controls.Add(Me.pnlLeft, 0, 0)
         Me.TableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TableLayoutPanel1.Location = New System.Drawing.Point(0, 117)
+        Me.TableLayoutPanel1.Location = New System.Drawing.Point(0, 119)
         Me.TableLayoutPanel1.Name = "TableLayoutPanel1"
         Me.TableLayoutPanel1.RowCount = 1
         Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
-        Me.TableLayoutPanel1.Size = New System.Drawing.Size(1229, 535)
+        Me.TableLayoutPanel1.Size = New System.Drawing.Size(1229, 533)
         Me.TableLayoutPanel1.TabIndex = 22
         '
         'flpMessage
@@ -499,7 +499,7 @@ Partial Class MdifrmMain
         Me.flpMessage.Location = New System.Drawing.Point(863, 3)
         Me.flpMessage.Name = "flpMessage"
         Me.flpMessage.Padding = New System.Windows.Forms.Padding(5, 5, 0, 0)
-        Me.flpMessage.Size = New System.Drawing.Size(363, 529)
+        Me.flpMessage.Size = New System.Drawing.Size(363, 527)
         Me.flpMessage.TabIndex = 24
         Me.flpMessage.WrapContents = False
         '
@@ -518,7 +518,7 @@ Partial Class MdifrmMain
         Me.pnlLeft.Dock = System.Windows.Forms.DockStyle.Fill
         Me.pnlLeft.Location = New System.Drawing.Point(3, 3)
         Me.pnlLeft.Name = "pnlLeft"
-        Me.pnlLeft.Size = New System.Drawing.Size(854, 529)
+        Me.pnlLeft.Size = New System.Drawing.Size(854, 527)
         Me.pnlLeft.TabIndex = 23
         '
         'GrdActivity
@@ -542,7 +542,7 @@ Partial Class MdifrmMain
         DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
         Me.GrdActivity.RowsDefaultCellStyle = DataGridViewCellStyle1
         Me.GrdActivity.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.GrdActivity.Size = New System.Drawing.Size(423, 144)
+        Me.GrdActivity.Size = New System.Drawing.Size(423, 142)
         Me.GrdActivity.TabIndex = 23
         '
         'AID

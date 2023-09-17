@@ -13,17 +13,17 @@ Option Explicit On
 
 
 Namespace My
-
-    <Global.System.Runtime.CompilerServices.CompilerGeneratedAttribute(),
-     Global.System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.4.0.0"),
-     Global.System.ComponentModel.EditorBrowsableAttribute(Global.System.ComponentModel.EditorBrowsableState.Advanced)>
+    
+    <Global.System.Runtime.CompilerServices.CompilerGeneratedAttribute(),  _
+     Global.System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.5.0.0"),  _
+     Global.System.ComponentModel.EditorBrowsableAttribute(Global.System.ComponentModel.EditorBrowsableState.Advanced)>  _
     Partial Friend NotInheritable Class MySettings
         Inherits Global.System.Configuration.ApplicationSettingsBase
-
-        Private Shared defaultInstance As MySettings = CType(Global.System.Configuration.ApplicationSettingsBase.Synchronized(New MySettings()), MySettings)
-
+        
+        Private Shared defaultInstance As MySettings = CType(Global.System.Configuration.ApplicationSettingsBase.Synchronized(New MySettings()),MySettings)
+        
 #Region "My.Settings Auto-Save Functionality"
-#If _MYTYPE = "WindowsForms" Then
+#If _MyType = "WindowsForms" Then
     Private Shared addedHandler As Boolean
 
     Private Shared addedHandlerLockObject As New Object
@@ -36,11 +36,11 @@ Namespace My
     End Sub
 #End If
 #End Region
-
+        
         Public Shared ReadOnly Property [Default]() As MySettings
             Get
-
-#If _MYTYPE = "WindowsForms" Then
+                
+#If _MyType = "WindowsForms" Then
                If Not addedHandler Then
                     SyncLock addedHandlerLockObject
                         If Not addedHandler Then
@@ -53,257 +53,254 @@ Namespace My
                 Return defaultInstance
             End Get
         End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("")>
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
         Public Property DatabaseCNN() As String
             Get
-                Return CType(Me("DatabaseCNN"), String)
+                Return CType(Me("DatabaseCNN"),String)
             End Get
             Set
-                Me("DatabaseCNN") = Value
+                Me("DatabaseCNN") = value
             End Set
         End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("False")>
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
         Public Property SendSettlementEmail() As Boolean
             Get
-                Return CType(Me("SendSettlementEmail"), Boolean)
+                Return CType(Me("SendSettlementEmail"),Boolean)
             End Get
             Set
-                Me("SendSettlementEmail") = Value
+                Me("SendSettlementEmail") = value
             End Set
         End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("False")>
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
         Public Property DeliveredEmailtoT() As Boolean
             Get
-                Return CType(Me("DeliveredEmailtoT"), Boolean)
+                Return CType(Me("DeliveredEmailtoT"),Boolean)
             End Get
             Set
-                Me("DeliveredEmailtoT") = Value
+                Me("DeliveredEmailtoT") = value
             End Set
         End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("")>
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
         Public Property LastwrongLoginTime() As String
             Get
-                Return CType(Me("LastwrongLoginTime"), String)
+                Return CType(Me("LastwrongLoginTime"),String)
             End Get
             Set
-                Me("LastwrongLoginTime") = Value
+                Me("LastwrongLoginTime") = value
             End Set
         End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("0")>
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
         Public Property CountwrongLogins() As Integer
             Get
-                Return CType(Me("CountwrongLogins"), Integer)
+                Return CType(Me("CountwrongLogins"),Integer)
             End Get
             Set
-                Me("CountwrongLogins") = Value
+                Me("CountwrongLogins") = value
             End Set
         End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("")>
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
         Public Property AdminEmail() As String
             Get
-                Return CType(Me("AdminEmail"), String)
+                Return CType(Me("AdminEmail"),String)
             End Get
             Set
-                Me("AdminEmail") = Value
+                Me("AdminEmail") = value
             End Set
         End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("Gainscha GS-2406T")>
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Gainscha GS-2406T")>  _
         Public Property StickerPrinterName() As String
             Get
-                Return CType(Me("StickerPrinterName"), String)
+                Return CType(Me("StickerPrinterName"),String)
             End Get
             Set
-                Me("StickerPrinterName") = Value
+                Me("StickerPrinterName") = value
             End Set
         End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("Repair Label")>
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Repair Label")>  _
         Public Property RepairStickerPrinterPaperName() As String
             Get
-                Return CType(Me("RepairStickerPrinterPaperName"), String)
+                Return CType(Me("RepairStickerPrinterPaperName"),String)
             End Get
             Set
-                Me("RepairStickerPrinterPaperName") = Value
+                Me("RepairStickerPrinterPaperName") = value
             End Set
         End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("Zonerich AB-220K")>
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Zonerich AB-220K")>  _
         Public Property BillPrinterName() As String
             Get
-                Return CType(Me("BillPrinterName"), String)
+                Return CType(Me("BillPrinterName"),String)
             End Get
             Set
-                Me("BillPrinterName") = Value
+                Me("BillPrinterName") = value
             End Set
         End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("297mm * User Defined")>
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("297mm * User Defined")>  _
         Public Property BillPrinterPaperName() As String
             Get
-                Return CType(Me("BillPrinterPaperName"), String)
+                Return CType(Me("BillPrinterPaperName"),String)
             End Get
             Set
-                Me("BillPrinterPaperName") = Value
+                Me("BillPrinterPaperName") = value
             End Set
         End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("Stock Label")>
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Stock Label")>  _
         Public Property StockStickerPaperName() As String
             Get
-                Return CType(Me("StockStickerPaperName"), String)
+                Return CType(Me("StockStickerPaperName"),String)
             End Get
             Set
-                Me("StockStickerPaperName") = Value
+                Me("StockStickerPaperName") = value
             End Set
         End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("False")>
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
         Public Property BarcodeScannerCOMMode() As Boolean
             Get
-                Return CType(Me("BarcodeScannerCOMMode"), Boolean)
+                Return CType(Me("BarcodeScannerCOMMode"),Boolean)
             End Get
             Set
-                Me("BarcodeScannerCOMMode") = Value
+                Me("BarcodeScannerCOMMode") = value
             End Set
         End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("")>
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
         Public Property BarcodeScannerCOMPort1() As String
             Get
-                Return CType(Me("BarcodeScannerCOMPort1"), String)
+                Return CType(Me("BarcodeScannerCOMPort1"),String)
             End Get
             Set
-                Me("BarcodeScannerCOMPort1") = Value
+                Me("BarcodeScannerCOMPort1") = value
             End Set
         End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("9600")>
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("9600")>  _
         Public Property BarcodeScannerBaudRate() As String
             Get
-                Return CType(Me("BarcodeScannerBaudRate"), String)
+                Return CType(Me("BarcodeScannerBaudRate"),String)
             End Get
             Set
-                Me("BarcodeScannerBaudRate") = Value
+                Me("BarcodeScannerBaudRate") = value
             End Set
         End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("")>
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
         Public Property ConfigCNN() As String
             Get
-                Return CType(Me("ConfigCNN"), String)
+                Return CType(Me("ConfigCNN"),String)
             End Get
             Set
-                Me("ConfigCNN") = Value
+                Me("ConfigCNN") = value
             End Set
         End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("YJ9R8NnRqK5tUziPQb+lgQ==")>
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("YJ9R8NnRqK5tUziPQb+lgQ==")>  _
         Public Property DBPassword() As String
             Get
-                Return CType(Me("DBPassword"), String)
+                Return CType(Me("DBPassword"),String)
             End Get
             Set
-                Me("DBPassword") = Value
+                Me("DBPassword") = value
             End Set
         End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("Microsoft.ACE.OLEDB.12.0")>
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Microsoft.ACE.OLEDB.12.0")>  _
         Public Property DBProvider() As String
             Get
-                Return CType(Me("DBProvider"), String)
+                Return CType(Me("DBProvider"),String)
             End Get
             Set
-                Me("DBProvider") = Value
+                Me("DBProvider") = value
             End Set
         End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("False")>
-        Public Property DeveloperMode() As Boolean
+        
+        <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public ReadOnly Property DeveloperMode() As Boolean
             Get
-                Return CType(Me("DeveloperMode"), Boolean)
+                Return CType(Me("DeveloperMode"),Boolean)
             End Get
-            Set
-                Me("DeveloperMode") = Value
-            End Set
         End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("")>
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
         Public Property BGWorkerPath() As String
             Get
-                Return CType(Me("BGWorkerPath"), String)
+                Return CType(Me("BGWorkerPath"),String)
             End Get
             Set
-                Me("BGWorkerPath") = Value
+                Me("BGWorkerPath") = value
             End Set
         End Property
-
-        <Global.System.Configuration.UserScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("False")>
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
         Public Property CashDrawer() As Boolean
             Get
-                Return CType(Me("CashDrawer"), Boolean)
+                Return CType(Me("CashDrawer"),Boolean)
             End Get
             Set
-                Me("CashDrawer") = Value
+                Me("CashDrawer") = value
             End Set
         End Property
     End Class
 End Namespace
 
 Namespace My
-
-    <Global.Microsoft.VisualBasic.HideModuleNameAttribute(),
-     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-     Global.System.Runtime.CompilerServices.CompilerGeneratedAttribute()>
+    
+    <Global.Microsoft.VisualBasic.HideModuleNameAttribute(),  _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.Runtime.CompilerServices.CompilerGeneratedAttribute()>  _
     Friend Module MySettingsProperty
-
-        <Global.System.ComponentModel.Design.HelpKeywordAttribute("My.Settings")>
+        
+        <Global.System.ComponentModel.Design.HelpKeywordAttribute("My.Settings")>  _
         Friend ReadOnly Property Settings() As Global.LASER_System.My.MySettings
             Get
                 Return Global.LASER_System.My.MySettings.Default

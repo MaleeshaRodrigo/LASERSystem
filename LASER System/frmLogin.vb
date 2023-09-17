@@ -33,68 +33,63 @@ Public Class frmLogin
         cmbUserName.Text = Db.GetData("Select Top 1 UserName from [User] Order by LastLogin Desc;")
         cmbUserName.Focus()
         '--------Developer Mode-------------
-        If My.Settings.DeveloperMode = True Then
-            txtPassword.Text = "cashier"
+        If My.Settings.DeveloperMode Then
+            txtPassword.Text = "admin"
             CmdLogin_Click(sender, e)
         End If
         '-----------------------------------
     End Sub
 
     Private Sub CmdLogin_Click(sender As Object, e As EventArgs) Handles cmdLogin.Click
-        If CheckEmptyfield(cmbUserName, "User Name is empty, fill it") = False Then
-            Exit Sub
-        ElseIf CheckEmptyStr(txtPassword.Text, "Password is empty, fill it") = False Then
+        Dim Validator As New ExecuteValidators()
+        Validator.AddValidator(New RequiredValidator(txtPassword, "Password", MsgBoxStyle.Critical))
+        Validator.AddValidator(New RequiredValidator(cmbUserName, "User Name", MsgBoxStyle.Critical))
+        If Not Validator.Execute() Then
             Exit Sub
         End If
+        'The senario when the user needs to show the system as a stock market
         If cmbUserName.Text = "admin" And txtPassword.Text = "123" Then
             frmStock.Show()
-            Me.Tag = ""
-            Me.Close()
+            Tag = ""
+            Close()
             Exit Sub
         End If
-        Dim DR As OleDbDataReader = Db.GetDataReader("Select * from [User] where UserName ='" & cmbUserName.Text & "'")
+        Dim DR As OleDbDataReader = Db.GetDataReader("Select * from [User] where StrComp(@USER,UserName,0)=0 and StrComp(Password,@PASSWORD,0)=0 and Type='Admin';", {
+            New OleDbParameter("@USER", cmbUserName.Text),
+            New OleDbParameter("@PASSWORD", txtPassword.Text)
+        })
         If DR.HasRows = True Then
-            DR = Db.GetDataReader("Select * from [User] where  StrComp('" & cmbUserName.Text & "',UserName,0)=0 and " &
-                                         "StrComp(Password,'" & txtPassword.Text & "',0)=0")
-            If DR.HasRows = True Then
-                DR.Read()
-                Db.Execute("Update [User] set LogInCount='0' Where LoginCount IS NULL")
-                Db.Execute("Update [User] set LogInCount= (LogInCount + 1) Where UNo = " & DR("UNo").ToString)
-                Db.Execute("Update [User] set LastLogin=#" & DateAndTime.Now & "# Where UNo = " & DR("UNo").ToString)
+            DR.Read()
+            Db.Execute("Update [User] set LogInCount= (LogInCount + 1) Where UNo = " & DR("UNo").ToString)
+            Db.Execute("Update [User] set LastLogin=#" & DateAndTime.Now & "# Where UNo = " & DR("UNo").ToString)
 
-                Select Case Me.Tag
-                    Case "MainMenu"
-                        With MdifrmMain
-                            .Tag = DR("UNo").ToString
-                            .tslblUserName.Text = DR("UserName").ToString
-                            .tslblUserType.Text = DR("Type").ToString
-                            .tsProBar.Value = 100
-                            .tslblLoad.Text = "Successfull Logged In " + DR("UserName").ToString
-                        End With
-                    Case Else
-                        FrmSplash.Show()
-                        With MdifrmMain
-                            .Tag = DR("UNo").ToString
-                            .tslblUserName.Text = DR("UserName").ToString
-                            .tslblUserType.Text = DR("Type").ToString
-                            .tsProBar.Value = 100
-                            .tslblLoad.Text = "Welcome! LASER System Loaded Successfull"
-                        End With
-                End Select
-                My.Settings.CountwrongLogins = 0
-                txtPassword.Text = ""
-                cmbUserName.Text = ""
-                Me.Tag = ""
-                Me.Close()
-            Else
-                MsgBox("Incorrect User Name or Password!" & vbCrLf & vbCrLf & "You can try another " & Str(4 - (My.Settings.CountwrongLogins Mod 5)) & " chance.", vbCritical + vbOKOnly, "Incorrect User Name Or Password!")
-                txtPassword.Text = ""
-                My.Settings.CountwrongLogins = My.Settings.CountwrongLogins + 1
-            End If
+            Select Case Me.Tag
+                Case "MainMenu"
+                    With MdifrmMain
+                        .Tag = DR("UNo").ToString
+                        .tslblUserName.Text = DR("UserName").ToString
+                        .tslblUserType.Text = DR("Type").ToString
+                        .tsProBar.Value = 100
+                        .tslblLoad.Text = "Successfull Logged In " + DR("UserName").ToString
+                    End With
+                Case Else
+                    FrmSplash.Show()
+                    With MdifrmMain
+                        .Tag = DR("UNo").ToString
+                        .tslblUserName.Text = DR("UserName").ToString
+                        .tslblUserType.Text = DR("Type").ToString
+                        .tsProBar.Value = 100
+                        .tslblLoad.Text = "Welcome! LASER System Loaded Successfull"
+                    End With
+            End Select
+            My.Settings.CountwrongLogins = 0
+            txtPassword.Text = ""
+            cmbUserName.Text = ""
+            Me.Tag = ""
+            Me.Close()
         Else
             MsgBox("Incorrect User Name or Password!" & vbCrLf & vbCrLf & "You can try another " & Str(4 - (My.Settings.CountwrongLogins Mod 5)) & " chance.", vbCritical + vbOKOnly, "Incorrect User Name Or Password!")
             txtPassword.Text = ""
-            cmbUserName.Text = ""
             My.Settings.CountwrongLogins = My.Settings.CountwrongLogins + 1
         End If
         If My.Settings.CountwrongLogins <> 0 And (My.Settings.CountwrongLogins Mod 5 = 0) Then
