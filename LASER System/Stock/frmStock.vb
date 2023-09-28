@@ -140,7 +140,7 @@ Public Class frmStock
                     e.Cancel = True
                     Exit Sub
                 End If
-                grdStock.Rows.Add(
+                Dim NewRowIndex As Integer = grdStock.Rows.Add(
                         Row("SNo").ToString,
                         Row("SCategory").ToString,
                         Row("SName").ToString,
@@ -154,16 +154,16 @@ Public Class frmStock
                         Row("SMinStocks").ToString,
                         Row("SDetails").ToString
                 )
-                If grdStock.Rows.Item(grdStock.Rows.Count - 1).Cells.Item("SAvailableStocks").Value <
-                grdStock.Rows.Item(grdStock.Rows.Count - 1).Cells.Item("SMinStocks").Value Then
-                    grdStock.Item(7, (grdStock.Rows.Count - 1)).Style.BackColor = Color.Red
-                    grdStock.Item(7, (grdStock.Rows.Count - 1)).Style.ForeColor = Color.White
-                ElseIf grdStock.Rows.Item(grdStock.Rows.Count - 1).Cells.Item("SAvailableStocks").Value =     grdStock.Rows.Item(grdStock.Rows.Count - 1).Cells.Item("SMinStocks").Value Then
-                    grdStock.Item(7, grdStock.Rows.Count - 1).Style.BackColor = Color.DarkOrange
-                    grdStock.Item(7, grdStock.Rows.Count - 1).Style.ForeColor = Color.White
+                Dim NewRow As DataGridViewRow = grdStock.Rows.Item(NewRowIndex)
+                If NewRow.Cells.Item("SAvailableStocks").Value < NewRow.Cells.Item("SMinStocks").Value Then
+                    NewRow.Cells.Item("SAvailableStocks").Style.BackColor = Color.Red
+                    NewRow.Cells.Item("SAvailableStocks").Style.ForeColor = Color.White
+                ElseIf NewRow.Cells.Item("SAvailableStocks").Value = NewRow.Cells.Item("SMinStocks").Value Then
+                    NewRow.Cells.Item("SAvailableStocks").Style.BackColor = Color.DarkOrange
+                    NewRow.Cells.Item("SAvailableStocks").Style.ForeColor = Color.White
                 Else
-                    grdStock.Item(7, grdStock.Rows.Count - 1).Style.BackColor = Color.White
-                    grdStock.Item(7, grdStock.Rows.Count - 1).Style.ForeColor = Color.Black
+                    NewRow.Cells.Item("SAvailableStocks").Style.BackColor = Color.White
+                    NewRow.Cells.Item("SAvailableStocks").Style.ForeColor = Color.Black
                 End If
             Next
         Catch ex As Exception

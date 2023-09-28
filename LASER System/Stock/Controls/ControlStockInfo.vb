@@ -96,7 +96,7 @@ Public Class ControlStockInfo
                 {Stock.AvailableUnits},
                 {Stock.DamagedUnits},
                 {Stock.ReorderPoint}
-            ) VALUES(@CODE,@CATEGORY,@NAME,@MODELNO,@LOCATION,@DETAILS,@SALEPRICE,@COSTPRICE,
+            ) VALUES(@CODE,@CATEGORY,@NAME,@MODELNO,@LOCATION,@DETAILS,@SALEPRICE,@LOWESTPRICE,@COSTPRICE,
                 @AVAILABLEUNITS,@DAMAGEDUNITS,@REORDERPOINT);", {
                 New OleDbParameter("@CODE", TxtSNo.Text),
                 New OleDbParameter("@CATEGORY", CmbCategory.Text),
