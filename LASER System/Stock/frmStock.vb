@@ -2,6 +2,7 @@
 Imports System.IO
 Imports System.Data.OleDb
 Imports Microsoft.VisualBasic.FileIO
+Imports LASER_System.StructureDatabase
 
 Public Class frmStock
     Public Property Caller As String = ""
@@ -101,37 +102,38 @@ Public Class frmStock
 
     Private Sub WorkerStock_DoWork(sender As Object, e As DoWorkEventArgs) Handles WorkerStock.DoWork
         Try
-            Dim FilterQuery As String = ""
+            Dim FilterQuery As String = $"Select * from {Tables.Stock} "
             grdStock.ScrollBars = ScrollBars.None
             grdStock.ClearSelection()
             If txtSearch.Text <> "" Then
                 Select Case cmbFilter.Text
-                    Case "by Stock Code"
-                        FilterQuery = "Where SNo Like '%" & txtSearch.Text & "%'"
-                    Case "by Stock Category"
-                        FilterQuery = "Where SCategory like '%" & txtSearch.Text & "%'"
-                    Case "by Stock Name"
-                        FilterQuery = "Where SName like '%" & txtSearch.Text & "%'"
-                    Case "by Stock Model No"
-                        FilterQuery = "Where SModelNo like '%" & txtSearch.Text & "%'"
-                    Case "by Stock Location"
-                        FilterQuery = "Where SLocation like '%" & txtSearch.Text & "%'"
-                    Case "by Stock Cost Price"
-                        FilterQuery = "Where SCostPrice like '%" & txtSearch.Text & "%'"
-                    Case "by Stock Sale Price"
-                        FilterQuery = "Where SSalePrice like '%" & txtSearch.Text & "%'"
-                    Case "by Stock Reorder Point"
-                        FilterQuery = "Where SMinStocks like '%" & txtSearch.Text & "%'"
-                    Case "by Stock Details"
-                        FilterQuery = "Where SDetails like '%" & txtSearch.Text & "%'"
+                    Case "by Code"
+                        FilterQuery += $"Where {Stock.Code} Like @VALUE"
+                    Case "by Category"
+                        FilterQuery += $"Where {Stock.Category} like @VALUE"
+                    Case "by Name"
+                        FilterQuery += $"Where {Stock.Name} like @VALUE"
+                    Case "by Model No"
+                        FilterQuery += $"Where {Stock.ModelNo} like @VALUE"
+                    Case "by Location"
+                        FilterQuery += $"Where {Stock.Location} like @VALUE"
+                    Case "by Cost Price"
+                        FilterQuery += $"Where {Stock.CostPrice} like @VALUE"
+                    Case "by Lowest Price"
+                        FilterQuery += $"Where {Stock.LowestPrice} like @VALUE"
+                    Case "by Sale Price"
+                        FilterQuery += $"Where {Stock.SalePrice} like @VALUE"
+                    Case "by Reorder Point"
+                        FilterQuery += $"Where {Stock.ReorderPoint} like @VALUE"
+                    Case "by Details"
+                        FilterQuery += $"Where {Stock.Details} like @VALUE"
                     Case "by All"
-                        FilterQuery = "Where SNo like '%" & txtSearch.Text & "%' or SCategory like '%" & txtSearch.Text & "%' or SName like '%" & txtSearch.Text & "%' or SModelNo like '%" & txtSearch.Text & "%' or SLocation like '%" & txtSearch.Text & "%' or SCostPrice like '%" & txtSearch.Text & "%' or SSalePrice like '%" & txtSearch.Text & "%' or SMinStocks like '%" & txtSearch.Text & "%' or SDetails like '%" & txtSearch.Text & "%'"
+                        FilterQuery += $"Where {Stock.Code} LIKE @VALUE OR {Stock.Category} LIKE @VALUE OR {Stock.Name} LIKE @VALUE OR {Stock.ModelNo} LIKE @VALUE OR {Stock.Location} LIKE @VALUE OR {Stock.CostPrice} LIKE @VALUE OR {Stock.LowestPrice} LIKE @VALUE OR {Stock.SalePrice} LIKE @VALUE OR {Stock.ReorderPoint} LIKE @VALUE OR {Stock.Details} LIKE @VALUE"
                 End Select
             Else
-                FilterQuery = " Order by SNo"
+                FilterQuery += $" Order by {Stock.Code}"
             End If
-            Dim DT As DataTable = DB.GetDataTable("SELECT SNo,SCategory,SName, SModelNo, SLocation,SMinstocks,SAvailableStocks,SOutofStocks, SCostPrice,SSalePrice, SDetails " &
-                                   "from Stock " & FilterQuery & ";")
+            Dim DT As DataTable = DB.GetDataTable(FilterQuery, {New OleDbParameter("@VALUE", $"%{txtSearch.Text}%")})
 
             For Each Row As DataRow In DT.Rows
                 If WorkerStock.CancellationPending = True Then
@@ -145,6 +147,7 @@ Public Class frmStock
                         Row("SModelNo").ToString,
                         Row("SLocation").ToString,
                         Row("SCostPrice").ToString,
+                        Row("SLowestPrice").ToString,
                         Row("SSalePrice").ToString,
                         Row("SAvailableStocks").ToString,
                         Row("SOutofStocks").ToString,
@@ -155,8 +158,7 @@ Public Class frmStock
                 grdStock.Rows.Item(grdStock.Rows.Count - 1).Cells.Item("SMinStocks").Value Then
                     grdStock.Item(7, (grdStock.Rows.Count - 1)).Style.BackColor = Color.Red
                     grdStock.Item(7, (grdStock.Rows.Count - 1)).Style.ForeColor = Color.White
-                ElseIf grdStock.Rows.Item(grdStock.Rows.Count - 1).Cells.Item("SAvailableStocks").Value =
-            grdStock.Rows.Item(grdStock.Rows.Count - 1).Cells.Item("SMinStocks").Value Then
+                ElseIf grdStock.Rows.Item(grdStock.Rows.Count - 1).Cells.Item("SAvailableStocks").Value =     grdStock.Rows.Item(grdStock.Rows.Count - 1).Cells.Item("SMinStocks").Value Then
                     grdStock.Item(7, grdStock.Rows.Count - 1).Style.BackColor = Color.DarkOrange
                     grdStock.Item(7, grdStock.Rows.Count - 1).Style.ForeColor = Color.White
                 Else

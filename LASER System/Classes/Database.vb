@@ -23,15 +23,16 @@ Public Class Database
 
     Public Sub Connect()
         If _Connection.State = ConnectionState.Open Then Exit Sub
-        Dim Encoder As New Encoder()
         For i As Integer = 0 To 3
             Try
-                _Connection = New OleDbConnection($"Provider={_Provider};Data Source={_DataSource};Jet OLEDB:Database Password={Encoder.Decode(_Password)};")
+                _Connection = New OleDbConnection($"Provider={_Provider};Data Source={_DataSource};Jet OLEDB:Database Password={(New Encoder()).Decode(_Password)};")
                 _Connection.Open()
                 Exit For
             Catch ex As FileNotFoundException
                 Thread.Sleep(1000)
                 Continue For
+            Catch ex As Exception
+                Throw ex
             End Try
         Next
     End Sub
@@ -112,9 +113,12 @@ Public Class Database
                  End Sub)
     End Sub
 
-    Public Function GetDataTable(Sql As String) As DataTable
+    Public Function GetDataTable(Sql As String, Optional Values As OleDbParameter() = Nothing) As DataTable
         Dim DataTable As New DataTable
         Dim DataAdapter As New OleDbDataAdapter(Sql, _Connection)
+        If Values IsNot Nothing Then
+            DataAdapter.SelectCommand.Parameters.AddRange(Values)
+        End If
         DataAdapter.Fill(DataTable)
         DataAdapter.Dispose()
         Return DataTable

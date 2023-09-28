@@ -40,6 +40,7 @@
         Const Details = "SDetails"
         Const SalePrice = "SSalePrice"
         Const CostPrice = "SCostPrice"
+        Const LowestPrice = "SLowestPrice"
         Const AvailableUnits = "SAvailableStocks"
         Const DamagedUnits = "SOutofStocks"
         Const ReorderPoint = "SMinStocks"
