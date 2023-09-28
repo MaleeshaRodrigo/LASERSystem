@@ -103,7 +103,7 @@ Partial Class ControlStockInfo
         Me.GrpInfo.Size = New System.Drawing.Size(937, 563)
         Me.GrpInfo.TabIndex = 24
         Me.GrpInfo.TabStop = False
-        Me.GrpInfo.Text = "Info"
+        Me.GrpInfo.Text = "Stock Info"
         '
         'TxtLowestPrice
         '

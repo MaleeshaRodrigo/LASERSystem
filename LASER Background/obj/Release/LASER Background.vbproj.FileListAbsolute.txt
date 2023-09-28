@@ -24,3 +24,15 @@ D:\Documents\Visual Studio Projects\LASER System\LASER Background\bin\Release\LA
 D:\Documents\Visual Studio Projects\LASER System\LASER Background\bin\Release\LASER Background.application
 D:\Documents\Visual Studio Projects\LASER System\LASER Background\obj\Release\LASER Background.exe.manifest
 D:\Documents\Visual Studio Projects\LASER System\LASER Background\obj\Release\LASER Background.application
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\obj\Release\LASER Background.vbproj.AssemblyReference.cache
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\obj\Release\LASER Background.vbproj.SuggestedBindingRedirects.cache
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\obj\Release\LASER_Background.FrmAdvDB.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\obj\Release\LASER_Background.frmBGTasks.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\obj\Release\LASER_Background.Resources.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\obj\Release\LASER_Background.MessageBox.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\obj\Release\LASER Background.vbproj.GenerateResource.cache
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\obj\Release\LASER Background.vbproj.CoreCompileInputs.cache
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\obj\Release\LASER Background.TrustInfo.xml
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\obj\Release\LASER Background.exe
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\obj\Release\LASER Background.xml
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\obj\Release\LASER Background.pdb

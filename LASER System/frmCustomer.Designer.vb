@@ -81,7 +81,7 @@ Partial Class frmCustomer
         Me.Label11.AutoSize = True
         Me.Label11.Location = New System.Drawing.Point(199, 25)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(36, 14)
+        Me.Label11.Size = New System.Drawing.Size(41, 18)
         Me.Label11.TabIndex = 24
         Me.Label11.Text = "Filter"
         '
@@ -90,7 +90,7 @@ Partial Class frmCustomer
         Me.txtCuNo.Enabled = False
         Me.txtCuNo.Location = New System.Drawing.Point(268, 21)
         Me.txtCuNo.Name = "txtCuNo"
-        Me.txtCuNo.Size = New System.Drawing.Size(45, 22)
+        Me.txtCuNo.Size = New System.Drawing.Size(45, 26)
         Me.txtCuNo.TabIndex = 0
         '
         'cmbCuName
@@ -98,7 +98,7 @@ Partial Class frmCustomer
         Me.cmbCuName.FormattingEnabled = True
         Me.cmbCuName.Location = New System.Drawing.Point(59, 105)
         Me.cmbCuName.Name = "cmbCuName"
-        Me.cmbCuName.Size = New System.Drawing.Size(254, 22)
+        Me.cmbCuName.Size = New System.Drawing.Size(254, 26)
         Me.cmbCuName.TabIndex = 1
         '
         'Label10
@@ -106,7 +106,7 @@ Partial Class frmCustomer
         Me.Label10.AutoSize = True
         Me.Label10.Location = New System.Drawing.Point(8, 26)
         Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(43, 14)
+        Me.Label10.Size = New System.Drawing.Size(49, 18)
         Me.Label10.TabIndex = 21
         Me.Label10.Text = "Search"
         '
@@ -124,8 +124,9 @@ Partial Class frmCustomer
         Me.grdCustomer.MultiSelect = False
         Me.grdCustomer.Name = "grdCustomer"
         Me.grdCustomer.RowHeadersVisible = False
+        Me.grdCustomer.RowHeadersWidth = 51
         Me.grdCustomer.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.grdCustomer.Size = New System.Drawing.Size(393, 375)
+        Me.grdCustomer.Size = New System.Drawing.Size(393, 371)
         Me.grdCustomer.TabIndex = 13
         '
         'txtSearch
@@ -134,7 +135,7 @@ Partial Class frmCustomer
         Me.txtSearch.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource
         Me.txtSearch.Location = New System.Drawing.Point(57, 21)
         Me.txtSearch.Name = "txtSearch"
-        Me.txtSearch.Size = New System.Drawing.Size(140, 22)
+        Me.txtSearch.Size = New System.Drawing.Size(140, 26)
         Me.txtSearch.TabIndex = 11
         '
         'grpSearch
@@ -150,7 +151,7 @@ Partial Class frmCustomer
         Me.grpSearch.Location = New System.Drawing.Point(328, 3)
         Me.grpSearch.MinimumSize = New System.Drawing.Size(406, 290)
         Me.grpSearch.Name = "grpSearch"
-        Me.grpSearch.Size = New System.Drawing.Size(406, 431)
+        Me.grpSearch.Size = New System.Drawing.Size(406, 427)
         Me.grpSearch.TabIndex = 27
         Me.grpSearch.TabStop = False
         Me.grpSearch.Text = "Search "
@@ -162,7 +163,7 @@ Partial Class frmCustomer
         Me.cmbFilter.FormattingEnabled = True
         Me.cmbFilter.Location = New System.Drawing.Point(241, 21)
         Me.cmbFilter.Name = "cmbFilter"
-        Me.cmbFilter.Size = New System.Drawing.Size(159, 22)
+        Me.cmbFilter.Size = New System.Drawing.Size(159, 26)
         Me.cmbFilter.TabIndex = 12
         '
         'Label3
@@ -170,7 +171,7 @@ Partial Class frmCustomer
         Me.Label3.AutoSize = True
         Me.Label3.Location = New System.Drawing.Point(8, 21)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(98, 14)
+        Me.Label3.Size = New System.Drawing.Size(112, 18)
         Me.Label3.TabIndex = 21
         Me.Label3.Text = "Telephone No 1 :"
         '
@@ -179,7 +180,7 @@ Partial Class frmCustomer
         Me.Label1.AutoSize = True
         Me.Label1.Location = New System.Drawing.Point(8, 108)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(45, 14)
+        Me.Label1.Size = New System.Drawing.Size(52, 18)
         Me.Label1.TabIndex = 19
         Me.Label1.Text = "Name :"
         '
@@ -214,7 +215,7 @@ Partial Class frmCustomer
         Me.txtCuTelNo1.Location = New System.Drawing.Point(112, 21)
         Me.txtCuTelNo1.Mask = "999 0 000 000"
         Me.txtCuTelNo1.Name = "txtCuTelNo1"
-        Me.txtCuTelNo1.Size = New System.Drawing.Size(109, 22)
+        Me.txtCuTelNo1.Size = New System.Drawing.Size(109, 26)
         Me.txtCuTelNo1.TabIndex = 2
         '
         'txtCuRemarks
@@ -231,7 +232,7 @@ Partial Class frmCustomer
         Me.Label5.AutoSize = True
         Me.Label5.Location = New System.Drawing.Point(8, 133)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(57, 14)
+        Me.Label5.Size = New System.Drawing.Size(65, 18)
         Me.Label5.TabIndex = 39
         Me.Label5.Text = "Remarks:"
         '
@@ -295,7 +296,7 @@ Partial Class frmCustomer
         Me.txtCuTelNo3.Location = New System.Drawing.Point(112, 77)
         Me.txtCuTelNo3.Mask = "999 0 000 000"
         Me.txtCuTelNo3.Name = "txtCuTelNo3"
-        Me.txtCuTelNo3.Size = New System.Drawing.Size(109, 22)
+        Me.txtCuTelNo3.Size = New System.Drawing.Size(109, 26)
         Me.txtCuTelNo3.TabIndex = 4
         '
         'Label4
@@ -303,7 +304,7 @@ Partial Class frmCustomer
         Me.Label4.AutoSize = True
         Me.Label4.Location = New System.Drawing.Point(8, 77)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(98, 14)
+        Me.Label4.Size = New System.Drawing.Size(112, 18)
         Me.Label4.TabIndex = 38
         Me.Label4.Text = "Telephone No 3 :"
         '
@@ -312,7 +313,7 @@ Partial Class frmCustomer
         Me.txtCuTelNo2.Location = New System.Drawing.Point(112, 49)
         Me.txtCuTelNo2.Mask = "999 0 000 000"
         Me.txtCuTelNo2.Name = "txtCuTelNo2"
-        Me.txtCuTelNo2.Size = New System.Drawing.Size(109, 22)
+        Me.txtCuTelNo2.Size = New System.Drawing.Size(109, 26)
         Me.txtCuTelNo2.TabIndex = 3
         '
         'Label2
@@ -320,7 +321,7 @@ Partial Class frmCustomer
         Me.Label2.AutoSize = True
         Me.Label2.Location = New System.Drawing.Point(8, 49)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(98, 14)
+        Me.Label2.Size = New System.Drawing.Size(112, 18)
         Me.Label2.TabIndex = 36
         Me.Label2.Text = "Telephone No 2 :"
         '
@@ -328,7 +329,7 @@ Partial Class frmCustomer
         '
         Me.OPTIONToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DoneSaveToolStripMenuItem, Me.NewToolStripMenuItem, Me.SaveToolStripMenuItem, Me.DeleteToolStripMenuItem, Me.CloseToolStripMenuItem})
         Me.OPTIONToolStripMenuItem.Name = "OPTIONToolStripMenuItem"
-        Me.OPTIONToolStripMenuItem.Size = New System.Drawing.Size(62, 20)
+        Me.OPTIONToolStripMenuItem.Size = New System.Drawing.Size(76, 24)
         Me.OPTIONToolStripMenuItem.Text = "OPTION"
         '
         'DoneSaveToolStripMenuItem
@@ -336,44 +337,45 @@ Partial Class frmCustomer
         Me.DoneSaveToolStripMenuItem.Name = "DoneSaveToolStripMenuItem"
         Me.DoneSaveToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
             Or System.Windows.Forms.Keys.D), System.Windows.Forms.Keys)
-        Me.DoneSaveToolStripMenuItem.Size = New System.Drawing.Size(214, 22)
+        Me.DoneSaveToolStripMenuItem.Size = New System.Drawing.Size(270, 26)
         Me.DoneSaveToolStripMenuItem.Text = "Done + Save"
         '
         'NewToolStripMenuItem
         '
         Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
         Me.NewToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.N), System.Windows.Forms.Keys)
-        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(214, 22)
+        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(270, 26)
         Me.NewToolStripMenuItem.Text = "New"
         '
         'SaveToolStripMenuItem
         '
         Me.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem"
         Me.SaveToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
-        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(214, 22)
+        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(270, 26)
         Me.SaveToolStripMenuItem.Text = "Save"
         '
         'DeleteToolStripMenuItem
         '
         Me.DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem"
         Me.DeleteToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.D), System.Windows.Forms.Keys)
-        Me.DeleteToolStripMenuItem.Size = New System.Drawing.Size(214, 22)
+        Me.DeleteToolStripMenuItem.Size = New System.Drawing.Size(270, 26)
         Me.DeleteToolStripMenuItem.Text = "Delete"
         '
         'CloseToolStripMenuItem
         '
         Me.CloseToolStripMenuItem.Name = "CloseToolStripMenuItem"
         Me.CloseToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.F4), System.Windows.Forms.Keys)
-        Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(214, 22)
+        Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(270, 26)
         Me.CloseToolStripMenuItem.Text = "Close"
         '
         'MenuStrip
         '
         Me.MenuStrip.BackColor = System.Drawing.Color.DarkSlateBlue
+        Me.MenuStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.MenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OPTIONToolStripMenuItem})
         Me.MenuStrip.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip.Name = "MenuStrip"
-        Me.MenuStrip.Size = New System.Drawing.Size(784, 24)
+        Me.MenuStrip.Size = New System.Drawing.Size(784, 28)
         Me.MenuStrip.TabIndex = 28
         Me.MenuStrip.Text = "MenuStrip1"
         '
@@ -387,11 +389,11 @@ Partial Class frmCustomer
         Me.tlpanelMain.Controls.Add(Me.grpSearch, 1, 0)
         Me.tlpanelMain.Controls.Add(Me.GroupBox1, 0, 0)
         Me.tlpanelMain.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.tlpanelMain.Location = New System.Drawing.Point(0, 24)
+        Me.tlpanelMain.Location = New System.Drawing.Point(0, 28)
         Me.tlpanelMain.Name = "tlpanelMain"
         Me.tlpanelMain.RowCount = 1
         Me.tlpanelMain.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
-        Me.tlpanelMain.Size = New System.Drawing.Size(784, 437)
+        Me.tlpanelMain.Size = New System.Drawing.Size(784, 433)
         Me.tlpanelMain.TabIndex = 30
         '
         'tlpanelDetails
@@ -408,14 +410,14 @@ Partial Class frmCustomer
         Me.tlpanelDetails.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40.0!))
         Me.tlpanelDetails.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40.0!))
         Me.tlpanelDetails.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20.0!))
-        Me.tlpanelDetails.Size = New System.Drawing.Size(224, 431)
+        Me.tlpanelDetails.Size = New System.Drawing.Size(224, 427)
         Me.tlpanelDetails.TabIndex = 28
         '
         'GroupBox5
         '
         Me.GroupBox5.Controls.Add(Me.grdCuLoan)
         Me.GroupBox5.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.GroupBox5.Location = New System.Drawing.Point(3, 347)
+        Me.GroupBox5.Location = New System.Drawing.Point(3, 343)
         Me.GroupBox5.Name = "GroupBox5"
         Me.GroupBox5.Size = New System.Drawing.Size(218, 81)
         Me.GroupBox5.TabIndex = 2
@@ -430,18 +432,19 @@ Partial Class frmCustomer
         Me.grdCuLoan.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.grdCuLoan.Dock = System.Windows.Forms.DockStyle.Fill
         Me.grdCuLoan.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically
-        Me.grdCuLoan.Location = New System.Drawing.Point(3, 18)
+        Me.grdCuLoan.Location = New System.Drawing.Point(3, 22)
         Me.grdCuLoan.Name = "grdCuLoan"
-        Me.grdCuLoan.Size = New System.Drawing.Size(212, 60)
+        Me.grdCuLoan.RowHeadersWidth = 51
+        Me.grdCuLoan.Size = New System.Drawing.Size(212, 56)
         Me.grdCuLoan.TabIndex = 0
         '
         'GroupBox4
         '
         Me.GroupBox4.Controls.Add(Me.grdSale)
         Me.GroupBox4.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.GroupBox4.Location = New System.Drawing.Point(3, 175)
+        Me.GroupBox4.Location = New System.Drawing.Point(3, 173)
         Me.GroupBox4.Name = "GroupBox4"
-        Me.GroupBox4.Size = New System.Drawing.Size(218, 166)
+        Me.GroupBox4.Size = New System.Drawing.Size(218, 164)
         Me.GroupBox4.TabIndex = 1
         Me.GroupBox4.TabStop = False
         Me.GroupBox4.Text = "Sale Info"
@@ -454,9 +457,10 @@ Partial Class frmCustomer
         Me.grdSale.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.grdSale.Dock = System.Windows.Forms.DockStyle.Fill
         Me.grdSale.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically
-        Me.grdSale.Location = New System.Drawing.Point(3, 18)
+        Me.grdSale.Location = New System.Drawing.Point(3, 22)
         Me.grdSale.Name = "grdSale"
-        Me.grdSale.Size = New System.Drawing.Size(212, 145)
+        Me.grdSale.RowHeadersWidth = 51
+        Me.grdSale.Size = New System.Drawing.Size(212, 139)
         Me.grdSale.TabIndex = 0
         '
         'GroupBox3
@@ -465,7 +469,7 @@ Partial Class frmCustomer
         Me.GroupBox3.Dock = System.Windows.Forms.DockStyle.Fill
         Me.GroupBox3.Location = New System.Drawing.Point(3, 3)
         Me.GroupBox3.Name = "GroupBox3"
-        Me.GroupBox3.Size = New System.Drawing.Size(218, 166)
+        Me.GroupBox3.Size = New System.Drawing.Size(218, 164)
         Me.GroupBox3.TabIndex = 0
         Me.GroupBox3.TabStop = False
         Me.GroupBox3.Text = "Repair Info"
@@ -478,14 +482,15 @@ Partial Class frmCustomer
         Me.grdRepair.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.grdRepair.Dock = System.Windows.Forms.DockStyle.Fill
         Me.grdRepair.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically
-        Me.grdRepair.Location = New System.Drawing.Point(3, 18)
+        Me.grdRepair.Location = New System.Drawing.Point(3, 22)
         Me.grdRepair.Name = "grdRepair"
-        Me.grdRepair.Size = New System.Drawing.Size(212, 145)
+        Me.grdRepair.RowHeadersWidth = 51
+        Me.grdRepair.Size = New System.Drawing.Size(212, 139)
         Me.grdRepair.TabIndex = 0
         '
         'frmCustomer
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 14.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 18.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(784, 461)
         Me.Controls.Add(Me.tlpanelMain)
@@ -493,7 +498,7 @@ Partial Class frmCustomer
         Me.Cursor = System.Windows.Forms.Cursors.Default
         Me.Font = New System.Drawing.Font("Calibri", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
-        Me.MinimumSize = New System.Drawing.Size(16, 290)
+        Me.MinimumSize = New System.Drawing.Size(18, 290)
         Me.Name = "frmCustomer"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Company System - Customer"

@@ -2,21 +2,15 @@
 Imports System.IO
 Imports System.Net
 Imports System.Runtime.InteropServices
-Imports System.Security.Cryptography
-Imports System.Text
-Imports System.Web.Security
 Imports Newtonsoft.Json
 
 Module Utils
     Public Sub ComboBoxDropDown(Db As Database, cmb As ComboBox, SQL As String)
         cmb.Items.Clear()
-        Dim DT0 As New DataTable
-        Dim DA0 As OleDbDataAdapter = Db.GetDataAdapter(SQL)
-        DA0.Fill(DT0)
+        Dim DT0 As DataTable = Db.GetDataTable(SQL)
         Dim items = DT0.AsEnumerable().Select(Function(d) DirectCast(d(0).ToString(), Object)).ToArray()
         cmb.Items.AddRange(items)
         DT0.Dispose()
-        DA0.Dispose()
     End Sub
 
     Public Sub SetNextKey(Db As Database, txt As TextBox, SQL As String, ColumnName As String)
@@ -29,15 +23,6 @@ Module Utils
         End If
         DR0.Close()
     End Sub
-
-    Public Function GetRowsCount(Cmd As OleDbCommand) As Integer
-        Dim DR0 As OleDbDataReader = Cmd.ExecuteReader
-        Dim DT0 As New DataTable
-        DT0.Load(DR0)
-        Return (DT0.Rows.Count)
-        DR0.Close()
-        DT0.Clear()
-    End Function
 
     Public Sub OnlynumberQty(e As KeyPressEventArgs)
         If Asc(e.KeyChar) <> 8 And Asc(e.KeyChar) <> 46 Then
@@ -91,6 +76,7 @@ Module Utils
             Return False
         End If
     End Function
+
     ''' <summary>
     ''' Checking whether the given SQL query has rows or not
     ''' </summary>
@@ -132,6 +118,9 @@ Module Utils
         Dim DSActivity As DataSet
         Dim DTActivity As DataTable
         Dim LastIndex As Integer = 0
+        If Not File.Exists(Application.StartupPath & "\System Files\Activity\Activity.json") Then
+            Exit Sub
+        End If
         Dim Rjson As String = File.ReadAllText(Application.StartupPath & "\System Files\Activity\Activity.json")
         If String.IsNullOrEmpty(Rjson) Then
             DSActivity = New DataSet

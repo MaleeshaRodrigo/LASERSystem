@@ -14,11 +14,8 @@ Public Class Database
 
     Public Sub New()
         Me._Provider = Settings.DBProvider
-        Me._DataSource = Settings.DatabaseCNN
+        Me._DataSource = Settings.DBPath
         Me._Password = Settings.DBPassword
-        If File.Exists(Me._DataSource) = False Then
-            Throw New Exception("Database Path එක සොයා ගැනීමට නොහැකි විය.")
-        End If
     End Sub
 
     Public Sub Connect()
@@ -29,6 +26,9 @@ Public Class Database
                 _Connection.Open()
                 Exit For
             Catch ex As FileNotFoundException
+                If i = 2 Then
+                    Throw New Exception("Database Path එක සොයා ගැනීමට නොහැකි විය.")
+                End If
                 Thread.Sleep(1000)
                 Continue For
             Catch ex As Exception
@@ -36,6 +36,28 @@ Public Class Database
             End Try
         Next
     End Sub
+
+    Public Function CheckConnection() As (Valid As Boolean, Message As String)
+        If Me._Provider = "" Then
+            Return (False, "Database Provider ඇතුලත් කර නොමැත.")
+        End If
+        If My.Settings.DBPath = "" Then
+            Return (False, "Database Path එක ඇතුලත් කර නොමැත.")
+        End If
+        If My.Settings.DBPassword = "" Then
+            Return (False, "Database Password එක ඇතුලත් කර නොමැත.")
+        End If
+        If File.Exists(Me._DataSource) = False Then
+            Return (False, "Database Path එක සොයා ගැනීමට නොහැකි විය.")
+        End If
+        Try
+            Connect()
+            Disconnect()
+        Catch ex As Exception
+            Return (False, ex.Message)
+        End Try
+        Return (True, "")
+    End Function
 
     Public Sub Disconnect()
         If _Connection.State = ConnectionState.Closed Then Exit Sub
@@ -50,16 +72,13 @@ Public Class Database
     ''' <param name="Value">Value of field</param>
     ''' <returns>True, if there are rows in the SQL query, or false</returns>
     Public Function CheckDataIsExist(Table As String, FieldName As String, Value As String) As Boolean
-        Dim DR As OleDbDataReader = Nothing
         Try
             Dim Command = New OleDbCommand($"SELECT {FieldName} FROM {Table} WHERE {FieldName} = @VALUE", _Connection)
             Command.Parameters.AddWithValue("@VALUE", Value)
-            DR = Command.ExecuteReader()
+            Dim DR As OleDbDataReader = Command.ExecuteReader()
             Return DR.HasRows
         Catch ex As Exception
             Throw ex
-        Finally
-            If DR IsNot Nothing Then DR.Close()
         End Try
     End Function
 
@@ -68,7 +87,7 @@ Public Class Database
     ''' </summary>
     ''' <param name="Query">The SQL Query</param>
     ''' <param name="Parameters">Query Parameters</param>
-    Public Sub Execute(Query As String, Optional Parameters() As OleDbParameter =Nothing)
+    Public Sub Execute(Query As String, Optional Parameters() As OleDbParameter = Nothing)
         Dim CMDUPDATEDB As OleDbCommand
         'Replace a new index 
         If Query.Contains("?") = True Then
@@ -95,7 +114,7 @@ Public Class Database
     End Sub
 
     Public Sub DirectExecute(Query As String)
-        Dim Command As New OleDb.OleDbCommand(Query, _Connection)
+        Dim Command As New OleDbCommand(Query, _Connection)
         Command.ExecuteNonQuery()
         Command.Cancel()
     End Sub
@@ -161,9 +180,12 @@ Public Class Database
         Return (Output)
     End Function
 
-    Public Function GetDataReader(Sql As String) As OleDbDataReader
-        CMD = New OleDbCommand(Sql, _Connection)
-        Return (CMD.ExecuteReader())
+    Public Function GetDataReader(Sql As String, Optional Parameters() As OleDbParameter = Nothing) As OleDbDataReader
+        Dim Command As OleDbCommand = New OleDbCommand(Sql, _Connection)
+        If Parameters IsNot Nothing Then
+            Command.Parameters.AddRange(Parameters)
+        End If
+        Return (Command.ExecuteReader())
     End Function
 
     Public Function GetDataAdapter(Query As String) As OleDbDataAdapter

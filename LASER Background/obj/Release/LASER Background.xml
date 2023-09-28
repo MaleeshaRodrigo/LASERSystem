@@ -22,7 +22,47 @@ LASER Background
   resource lookups using this strongly typed resource class.
 </summary>
 </member>
+<member name="P:LASER_Background.My.Resources.Resources.attention">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="P:LASER_Background.My.Resources.Resources.backup">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
 <member name="P:LASER_Background.My.Resources.Resources.close">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="P:LASER_Background.My.Resources.Resources.database">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="P:LASER_Background.My.Resources.Resources.internet">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="P:LASER_Background.My.Resources.Resources.list_message">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="P:LASER_Background.My.Resources.Resources.message">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="P:LASER_Background.My.Resources.Resources.Play24">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="P:LASER_Background.My.Resources.Resources.Stop24">
 <summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>

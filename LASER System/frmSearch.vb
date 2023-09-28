@@ -1117,7 +1117,7 @@ end_for_loop:
                 '    If e.RowIndex >= 0 Then
                 '        selectedrow = grdSearch.Rows(e.RowIndex)
                 '        .cmbRetRepNo.Text = selectedrow.Cells(0).Value.ToString
-                '        CMD = New OleDb.OleDbCommand("Select * from Repair,Product where Repair.PNo = Product.PNo And RepNo = " & .cmbRetRepNo.Text & ";") 'This is the copy of cmbrepretno.selectedindexchange()
+                '        Dim Dr As OleDbDataReader = DB.GetDataReader("Select * from Repair,Product where Repair.PNo = Product.PNo And RepNo = " & .cmbRetRepNo.Text & ";") 'This is the copy of cmbrepretno.selectedindexchange()
                 '        DR = CMD.ExecuteReader()
                 '        If DR.HasRows = True Then
                 '            DR.Read()
