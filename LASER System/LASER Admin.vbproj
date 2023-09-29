@@ -30,9 +30,9 @@
     <UpdateUrl>https://raw.githubusercontent.com/MaleeshaRodrigo/LASERSystem/development/LASER%2520System/publish/</UpdateUrl>
     <SupportUrl>https://github.com/MaleeshaRodrigo/LASERSystem</SupportUrl>
     <ErrorReportUrl>https://github.com/MaleeshaRodrigo/LASERSystem/issues</ErrorReportUrl>
-    <ProductName>LASER System</ProductName>
-    <PublisherName>LASER System</PublisherName>
-    <SuiteName>LASER System</SuiteName>
+    <ProductName>LASER Admin</ProductName>
+    <PublisherName>LASER Electronics</PublisherName>
+    <SuiteName>LASER Admin</SuiteName>
     <MinimumRequiredVersion>1.0.0.0</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>index.html</WebPage>
