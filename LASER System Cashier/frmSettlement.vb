@@ -2,6 +2,7 @@
 Imports Microsoft.VisualBasic.FileIO
 Imports System.IO
 Public Class frmSettlement
+    Private Db As New Database
 
     Private Sub frmSettlement_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         GetCNN()

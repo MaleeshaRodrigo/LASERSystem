@@ -236,7 +236,7 @@ Public Class frmDeliver
         txtDDate.Value = DateAndTime.Now
         If cmdSave.Text = "Edit" And MdifrmMain.tslblUserType.Text <> "Admin" Then
         End If
-        If (Val(txtCAmount.Text) > 0 Or Val(txtCPAmount.Text) > 0) And chkCashDrawer.Checked = True Then OpenCashdrawer()
+        If (Val(txtCAmount.Text) > 0 Or Val(txtCPAmount.Text) > 0) And chkCashDrawer.Checked Then CashDrawer.Open()
         SetNextKey(Db, txtCuLNo, "Select Top 1 CulNo from CustomerLoan order by CuLNo Desc;", "CuLNo")
         If txtCAmount.Text = "" Or txtCAmount.Text = "0" Then
             txtCAmount.Text = "0"

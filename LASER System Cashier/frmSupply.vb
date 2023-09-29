@@ -4,6 +4,7 @@ Imports System.Drawing
 Imports System.IO
 
 Public Class frmSupply
+    Private Db As New Database
 
     Private Sub frmSupply_Leave(sender As Object, e As EventArgs) Handles Me.Leave
         Me.Close()

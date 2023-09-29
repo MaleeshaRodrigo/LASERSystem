@@ -1,5 +1,6 @@
 ﻿Imports System.Data.OleDb
 Public Class frmRepairAdvanced
+    Private Db As New Database
 
     Private dtpDate As New DateTimePicker
     Private cmdView As New Button

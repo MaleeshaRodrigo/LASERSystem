@@ -1,5 +1,6 @@
 ﻿Imports System.Data.OleDb
 Public Class frmTechnicianCost
+    Private Db As New Database
     Private dtpDate As New DateTimePicker
 
     Private Sub cmdClose_Click(sender As Object, e As EventArgs) Handles cmdTCClose.Click

@@ -1,4 +1,5 @@
 ﻿Public Class frmCustomerLoan
+    Private Db As New Database
     Private Sub cmbCuName_DropDown(sender As Object, e As EventArgs) Handles cmbCuName.DropDown
         Call CmbDropDown(cmbCuName, "Select CuName from Customer order by CuName;", "CuName")
     End Sub

@@ -7,6 +7,7 @@ Imports System.ComponentModel
 Imports System.Threading
 
 Public Class frmReceive
+    Private Db As New Database
     Public Property Caller As String
     Public Sub New()
 

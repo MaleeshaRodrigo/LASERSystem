@@ -230,7 +230,7 @@ Public Class frmSale
         End If
         Cursor = Cursors.WaitCursor
         txtSaDate.Value = DateAndTime.Now
-        If (Val(txtCAmount.Text) > 0 Or Val(txtCPAmount.Text) > 0) And chkCashDrawer.Checked = True Then OpenCashdrawer()
+        If (Val(txtCAmount.Text) > 0 Or Val(txtCPAmount.Text) > 0) And chkCashDrawer.Checked = True Then CashDrawer.Open()
         'Customer Management
         Dim CuNo As Integer
         Dim Dr As OleDbDataReader = Db.GetDataReader("Select * from Customer where CuName='" & cmbCuName.Text & "' and CuTelNo1='" & txtCuTelNo1.Text & "' and CuTelNo2 ='" & txtCuTelNo2.Text & "' and CuTelNo3='" & txtCuTelNo3.Text & "'")

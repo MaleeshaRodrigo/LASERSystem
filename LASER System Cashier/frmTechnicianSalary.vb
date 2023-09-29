@@ -3,6 +3,7 @@ Imports CrystalDecisions.Shared
 Imports System.Net.Mail
 Imports System.IO
 Public Class frmTechnicianSalary
+    Private Db As New Database
     Private Sub FrmTechnicianSalary_Leave(sender As Object, e As EventArgs) Handles Me.Leave
         Me.Close()
     End Sub

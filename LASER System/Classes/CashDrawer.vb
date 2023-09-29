@@ -1,7 +1,7 @@
 ﻿Imports System.Runtime.InteropServices
 
-Public Class CashDrawer
-    Public Sub OpenCashdrawer()
+Public Module CashDrawer
+    Public Sub Open()
         If My.Settings.CashDrawer = False Then Exit Sub
         'Modify DrawerCode to your receipt printer open drawer code
         Dim DrawerCode As String = Chr(27) & Chr(112) & Chr(48) & Chr(64) & Chr(64)
@@ -99,4 +99,4 @@ Public Class CashDrawer
         End Function
     End Class
 
-End Class
+End Module
