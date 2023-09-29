@@ -4,6 +4,7 @@ Imports System.Drawing
 Imports System.IO
 
 Public Class frmStockSticker
+    Private Db As New Database
     Public Sub grdStock_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs) Handles grdStock.CellEndEdit
         If e.ColumnIndex = 0 Then
             If grdStock.Item(0, e.RowIndex).Value = "" Then Exit Sub

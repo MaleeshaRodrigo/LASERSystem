@@ -1,24 +1,12 @@
 ﻿Imports System.Data.OleDb
 
 Public Class frmCustomer
+    Private Db As New Database
     Public Property Caller As String = ""
     Public Sub New()
-
-        ' This call is required by the designer.
         InitializeComponent()
-        ' Add any initialization after the InitializeComponent() call.
+
         MenuStrip.Items.Add(mnustrpMENU)
-        cmbFilter.Items.Clear()     'add values of cmdFilters
-        cmbFilter.Items.Add("by Customer Name")
-        cmbFilter.Items.Add("by Customer Telephone No 1")
-        cmbFilter.Items.Add("by Customer Telephone No 2")
-        cmbFilter.Items.Add("by Customer Telephone No 3")
-        cmbFilter.Items.Add("by All")
-        cmbFilter.Text = "by All"
-        txtSearch.Text = ""
-        Call txtSearch_TextChanged(Nothing, Nothing)   'refresh grdstock
-        Call cmdNew_Click(Nothing, Nothing)
-        Call cmbCuName_DropDown(Nothing, Nothing)
     End Sub
     Private Sub frmCustomer_Leave(sender As Object, e As EventArgs) Handles Me.Leave, cmdClose.Click, CloseToolStripMenuItem.Click
         Me.Close()
@@ -30,7 +18,7 @@ Public Class frmCustomer
     End Sub
 
     Private Sub frmCustomer_Load(sender As Object, e As EventArgs) Handles Me.Load
-        GetCNN()
+        Db.Connect()
         If Me.Tag = "" Then
             cmdDone.Enabled = False
         Else

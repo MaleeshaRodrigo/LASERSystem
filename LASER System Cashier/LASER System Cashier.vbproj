@@ -148,14 +148,6 @@
     <Compile Include="Classes\Validators\CustomValidator.vb" />
     <Compile Include="Classes\Validators\ExecuteValidators.vb" />
     <Compile Include="Classes\Validators\RequiredValidator.vb" />
-    <Compile Include="DBDataSet.Designer.vb">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DBDataSet.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="DBDataSet.vb">
-      <DependentUpon>DBDataSet.xsd</DependentUpon>
-    </Compile>
     <Compile Include="Interfaces\Validator.vb" />
     <Compile Include="Stock\Controls\ControlStockInfo.Designer.vb">
       <DependentUpon>ControlStockInfo.vb</DependentUpon>
@@ -553,17 +545,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="DBDataSet.xsc">
-      <DependentUpon>DBDataSet.xsd</DependentUpon>
-    </None>
-    <None Include="DBDataSet.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>DBDataSet.Designer.vb</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="DBDataSet.xss">
-      <DependentUpon>DBDataSet.xsd</DependentUpon>
-    </None>
     <None Include="LASER System_TemporaryKey.pfx" />
     <None Include="My Project\app.manifest" />
     <None Include="My Project\Application.myapp">
@@ -803,9 +784,6 @@
     <None Include="Resources\Technician.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Database.accdb">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="favicon.ico" />
     <None Include="Resources\empty.jpg" />
   </ItemGroup>

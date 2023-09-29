@@ -2,6 +2,7 @@
 Imports Microsoft.VisualBasic.FileIO
 
 Public Class FrmSettings
+    Private Db As New Database
     Public Sub FrmSettings_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         With My.Settings

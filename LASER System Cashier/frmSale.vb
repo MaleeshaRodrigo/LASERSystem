@@ -1,6 +1,7 @@
 ﻿Imports System.Threading
 
 Public Class frmSale
+    Private Db As New Database
     Public Sub New()
         ' This call is required by the designer.
         InitializeComponent()

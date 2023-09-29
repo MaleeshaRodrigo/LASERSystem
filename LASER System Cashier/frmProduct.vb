@@ -1,4 +1,5 @@
 ﻿Public Class frmProduct
+    Private Db As New Database
 
     Private Sub cmdClose_Click(sender As Object, e As EventArgs) Handles cmdClose.Click
         Call frmProduct_Leave(sender, e)

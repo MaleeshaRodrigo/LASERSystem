@@ -111,8 +111,9 @@ Public NotInheritable Class FrmSplash
                     DR = Db.GetDataReader("Select COUNT(SNo) as SNoCount from [Stock] Where SAvailableStocks < SMinStocks")
                     If DR.HasRows Then
                         DR.Read()
-                        CreateMessagePanel("Stocks Report", DR("SNoCount").ToString & " Stocks නැවත පිරවීමට ඇති බැවින් බඩු ගැනීමට පැමිණි පාරිභෝගිකයන් නැවත හරවා " &
+                        Dim MessagePanel As New MessagePanel("Stocks Report", DR("SNoCount").ToString & " Stocks නැවත පිරවීමට ඇති බැවින් බඩු ගැනීමට පැමිණි පාරිභෝගිකයන් නැවත හරවා " &
                                                       "නොයැවීමට නම් මෙම stocks නැවත පිරවීම සඳහා පියවර ගන්න.")
+                        MessagePanel.Add()
                     End If
                     DR = Db.GetDataReader("Select * from [User] Where UserName='" & .tslblUserName.Text & "'")
                     If DR.HasRows Then

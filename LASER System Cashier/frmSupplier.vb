@@ -1,4 +1,5 @@
 ﻿Public Class frmSupplier
+    Private Db As New Database
 
     Private Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click
         CMD = New OleDb.OleDbCommand("SELECT top 1 SuNo from Supplier ORDER BY SuNo Desc;", CNN)

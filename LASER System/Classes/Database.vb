@@ -20,11 +20,9 @@ Public Class Database
 
     Public Sub Connect()
         If _Connection.State = ConnectionState.Open Then Exit Sub
-
-        Dim Encoder As New Encoder()
         For i As Integer = 0 To 3
             Try
-                _Connection = New OleDbConnection($"Provider={_Provider};Data Source={_DataSource};Jet OLEDB:Database Password={Encoder.Decode(_Password)};")
+                _Connection = New OleDbConnection($"Provider={_Provider};Data Source={_DataSource};Jet OLEDB:Database Password={(New Encoder()).Decode(_Password)};")
                 _Connection.Open()
                 Exit For
             Catch ex As FileNotFoundException
@@ -89,7 +87,7 @@ Public Class Database
     ''' </summary>
     ''' <param name="Query">The SQL Query</param>
     ''' <param name="Parameters">Query Parameters</param>
-    Public Sub Execute(Query As String, Optional Parameters() As OleDbParameter =Nothing)
+    Public Sub Execute(Query As String, Optional Parameters() As OleDbParameter = Nothing)
         Dim CMDUPDATEDB As OleDbCommand
         'Replace a new index 
         If Query.Contains("?") = True Then
@@ -134,9 +132,12 @@ Public Class Database
                  End Sub)
     End Sub
 
-    Public Function GetDataTable(Sql As String) As DataTable
+    Public Function GetDataTable(Sql As String, Optional Values As OleDbParameter() = Nothing) As DataTable
         Dim DataTable As New DataTable
         Dim DataAdapter As New OleDbDataAdapter(Sql, _Connection)
+        If Values IsNot Nothing Then
+            DataAdapter.SelectCommand.Parameters.AddRange(Values)
+        End If
         DataAdapter.Fill(DataTable)
         DataAdapter.Dispose()
         Return DataTable

@@ -2,6 +2,7 @@
 Imports System.Data.OleDb
 
 Public Class frmSearch
+    Private Db As New Database
     Dim x, y As String
     Public Property Key As String
     Private ReadOnly grdsubsearch1 As New DataGridView

@@ -3,6 +3,7 @@ Imports System.IO
 Imports Microsoft.VisualBasic.FileIO
 
 Public Class MdifrmMain
+    Private Db As New Database
     Private Sub mdifrmMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         System.Windows.Forms.Control.CheckForIllegalCrossThreadCalls = False
         GetCNN()

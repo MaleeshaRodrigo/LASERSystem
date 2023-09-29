@@ -6,6 +6,7 @@ Imports System.Web
 Imports Newtonsoft.Json.Linq
 
 Public Class frmMessage
+    Private Db As New Database
     Public Sub New()
         ' This call is required by the designer.
         InitializeComponent()

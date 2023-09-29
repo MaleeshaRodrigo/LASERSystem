@@ -3,6 +3,7 @@ Imports System.IO
 Imports Microsoft.VisualBasic.FileIO
 
 Public Class frmRepair
+    Private Db As New Database
     Private ReadOnly DtpDate As New DateTimePicker
     Private DRREPNO As OleDbDataReader
     Private ReadOnly DRRETNO As OleDbDataReader

@@ -1,4 +1,5 @@
 ﻿Public Class frmSalesRepair
+    Private Db As New Database
 
     Private Sub cmbTName_DropDown(sender As Object, e As EventArgs) Handles cmbTName.DropDown
         CmbDropDown(cmbTName, "Select TName from Technician group by TName;", "TName")
