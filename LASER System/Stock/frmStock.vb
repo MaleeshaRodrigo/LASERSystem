@@ -99,78 +99,6 @@ Public Class frmStock
             frmStockTransaction.Show()
         End If
     End Sub
-
-    Private Sub WorkerStock_DoWork(sender As Object, e As DoWorkEventArgs) Handles WorkerStock.DoWork
-        Try
-            Dim FilterQuery As String = $"Select * from {Tables.Stock} "
-            grdStock.ScrollBars = ScrollBars.None
-            grdStock.ClearSelection()
-            If txtSearch.Text <> "" Then
-                Select Case cmbFilter.Text
-                    Case "by Code"
-                        FilterQuery += $"Where {Stock.Code} Like @VALUE"
-                    Case "by Category"
-                        FilterQuery += $"Where {Stock.Category} like @VALUE"
-                    Case "by Name"
-                        FilterQuery += $"Where {Stock.Name} like @VALUE"
-                    Case "by Model No"
-                        FilterQuery += $"Where {Stock.ModelNo} like @VALUE"
-                    Case "by Location"
-                        FilterQuery += $"Where {Stock.Location} like @VALUE"
-                    Case "by Cost Price"
-                        FilterQuery += $"Where {Stock.CostPrice} like @VALUE"
-                    Case "by Lowest Price"
-                        FilterQuery += $"Where {Stock.LowestPrice} like @VALUE"
-                    Case "by Sale Price"
-                        FilterQuery += $"Where {Stock.SalePrice} like @VALUE"
-                    Case "by Reorder Point"
-                        FilterQuery += $"Where {Stock.ReorderPoint} like @VALUE"
-                    Case "by Details"
-                        FilterQuery += $"Where {Stock.Details} like @VALUE"
-                    Case "by All"
-                        FilterQuery += $"Where {Stock.Code} LIKE @VALUE OR {Stock.Category} LIKE @VALUE OR {Stock.Name} LIKE @VALUE OR {Stock.ModelNo} LIKE @VALUE OR {Stock.Location} LIKE @VALUE OR {Stock.CostPrice} LIKE @VALUE OR {Stock.LowestPrice} LIKE @VALUE OR {Stock.SalePrice} LIKE @VALUE OR {Stock.ReorderPoint} LIKE @VALUE OR {Stock.Details} LIKE @VALUE"
-                End Select
-            Else
-                FilterQuery += $" Order by {Stock.Code}"
-            End If
-            Dim DT As DataTable = DB.GetDataTable(FilterQuery, {New OleDbParameter("@VALUE", $"%{txtSearch.Text}%")})
-
-            For Each Row As DataRow In DT.Rows
-                If WorkerStock.CancellationPending = True Then
-                    e.Cancel = True
-                    Exit Sub
-                End If
-                Dim NewRowIndex As Integer = grdStock.Rows.Add(
-                        Row("SNo").ToString,
-                        Row("SCategory").ToString,
-                        Row("SName").ToString,
-                        Row("SModelNo").ToString,
-                        Row("SLocation").ToString,
-                        Row("SCostPrice").ToString,
-                        Row("SLowestPrice").ToString,
-                        Row("SSalePrice").ToString,
-                        Row("SAvailableStocks").ToString,
-                        Row("SOutofStocks").ToString,
-                        Row("SMinStocks").ToString,
-                        Row("SDetails").ToString
-                )
-                Dim NewRow As DataGridViewRow = grdStock.Rows.Item(NewRowIndex)
-                If NewRow.Cells.Item("SAvailableStocks").Value < NewRow.Cells.Item("SMinStocks").Value Then
-                    NewRow.Cells.Item("SAvailableStocks").Style.BackColor = Color.Red
-                    NewRow.Cells.Item("SAvailableStocks").Style.ForeColor = Color.White
-                ElseIf NewRow.Cells.Item("SAvailableStocks").Value = NewRow.Cells.Item("SMinStocks").Value Then
-                    NewRow.Cells.Item("SAvailableStocks").Style.BackColor = Color.DarkOrange
-                    NewRow.Cells.Item("SAvailableStocks").Style.ForeColor = Color.White
-                Else
-                    NewRow.Cells.Item("SAvailableStocks").Style.BackColor = Color.White
-                    NewRow.Cells.Item("SAvailableStocks").Style.ForeColor = Color.Black
-                End If
-            Next
-        Catch ex As Exception
-            MsgBox(ex.Message, vbCritical)
-        End Try
-    End Sub
-
     Private Sub bgwStock_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles WorkerStock.RunWorkerCompleted
         grdStock.ScrollBars = ScrollBars.Both
     End Sub
@@ -214,12 +142,37 @@ Public Class frmStock
     End Sub
 
     Private Sub btnSearch_Click(sender As Object, e As EventArgs) Handles btnSearch.Click
-        If WorkerStock.IsBusy Then
-            WorkerStock.CancelAsync()
+        Dim FilterQuery As String = $"Select * from {Tables.Stock} "
+        If txtSearch.Text <> "" Then
+            Select Case cmbFilter.Text
+                Case "by Code"
+                    FilterQuery += $"Where {Stock.Code} Like @VALUE"
+                Case "by Category"
+                    FilterQuery += $"Where {Stock.Category} like @VALUE"
+                Case "by Name"
+                    FilterQuery += $"Where {Stock.Name} like @VALUE"
+                Case "by Model No"
+                    FilterQuery += $"Where {Stock.ModelNo} like @VALUE"
+                Case "by Location"
+                    FilterQuery += $"Where {Stock.Location} like @VALUE"
+                Case "by Cost Price"
+                    FilterQuery += $"Where {Stock.CostPrice} like @VALUE"
+                Case "by Lowest Price"
+                    FilterQuery += $"Where {Stock.LowestPrice} like @VALUE"
+                Case "by Sale Price"
+                    FilterQuery += $"Where {Stock.SalePrice} like @VALUE"
+                Case "by Reorder Point"
+                    FilterQuery += $"Where {Stock.ReorderPoint} like @VALUE"
+                Case "by Details"
+                    FilterQuery += $"Where {Stock.Details} like @VALUE"
+                Case "by All"
+                    FilterQuery += $"Where {Stock.Code} LIKE @VALUE OR {Stock.Category} LIKE @VALUE OR {Stock.Name} LIKE @VALUE OR {Stock.ModelNo} LIKE @VALUE OR {Stock.Location} LIKE @VALUE OR {Stock.CostPrice} LIKE @VALUE OR {Stock.LowestPrice} LIKE @VALUE OR {Stock.SalePrice} LIKE @VALUE OR {Stock.ReorderPoint} LIKE @VALUE OR {Stock.Details} LIKE @VALUE"
+            End Select
         Else
-            grdStock.Rows.Clear()
-            WorkerStock.RunWorkerAsync()
+            FilterQuery += $" Order by {Stock.Code}"
         End If
+        Dim DT As DataTable = DB.GetDataTable(FilterQuery, {New OleDbParameter("@VALUE", $"%{txtSearch.Text}%")})
+        grdStock.DataSource = DT
     End Sub
 
     Private Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click
@@ -232,5 +185,22 @@ Public Class frmStock
 
     Private Sub FormStock_Leave(sender As Object, e As EventArgs) Handles Me.Leave
         DB.Disconnect()
+    End Sub
+
+    Private Sub grdStock_CellFormatting(sender As Object, e As DataGridViewCellFormattingEventArgs) Handles grdStock.CellFormatting
+        If e.ColumnIndex <> grdStock.Columns.Item("SAvailableStocks").Index Then
+            Exit Sub
+        End If
+        Dim Row As DataGridViewRow = grdStock.Rows.Item(e.RowIndex)
+        If Row.Cells.Item("SAvailableStocks").Value < Row.Cells.Item("SMinStocks").Value Then
+            e.CellStyle.BackColor = Color.Red
+            e.CellStyle.ForeColor = Color.White
+        ElseIf Row.Cells.Item("SAvailableStocks").Value = Row.Cells.Item("SMinStocks").Value Then
+            e.CellStyle.BackColor = Color.DarkOrange
+            e.CellStyle.ForeColor = Color.White
+        Else
+            e.CellStyle.BackColor = Color.White
+            e.CellStyle.ForeColor = Color.Black
+        End If
     End Sub
 End Class
