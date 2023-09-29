@@ -2,198 +2,27 @@
 Imports System.IO
 Imports System.Net
 Imports System.Runtime.InteropServices
-Imports System.Security.Cryptography
-Imports System.Text
-Imports System.Web.Security
 Imports Newtonsoft.Json
 
 Module Utils
-    Public CNN As New OleDb.OleDbConnection
-    Public CMD As New OleDb.OleDbCommand
-    Public DR As OleDb.OleDbDataReader
-    Public DA As OleDb.OleDbDataAdapter
-    Public DT As DataTable
-    Public DS As DataSet
-    Public Simple As New Encoder()
-
-    Public Sub GetCNN()
-        Try
-            If CNN.State <> ConnectionState.Open Then
-                CNN = New OleDbConnection("Provider=" & My.Settings.DBProvider & ";Data Source=" & My.Settings.DatabaseCNN &
-                                      ";Jet OLEDB:Database Password=" & Simple.Decode(My.Settings.DBPassword) & ";")
-                CNN.Open()
-            End If
-        Catch ex As Exception
-            If My.Settings.DBProvider = "" Then
-                MsgBox("Database Provider ඇතුලත් කර නොමැත.", vbCritical, "Database Provider Error")
-            ElseIf My.Settings.DatabaseCNN = "" Then
-                MsgBox("Database Path එක ඇතුලත් කර නොමැත.", vbCritical, "Database Path Error")
-            ElseIf My.Settings.DBPassword = "" Then
-                MsgBox("Database Password එක ඇතුලත් කර නොමැත.", vbCritical, "Database Password Error")
-            ElseIf File.Exists(My.Settings.DatabaseCNN) = False Then
-                MsgBox("Database Path එක සොයා ගැනීමට නොහැකි විය.", vbCritical, "Database Path Error")
-            Else
-                MsgBox("Message:   " + ex.Message + vbCrLf + "Please inform this error to developer for fixing",
-                   vbCritical, "LASER System - Database Issue")
-            End If
-
-            FrmSettings.tcSettings.TabPages.Remove(FrmSettings.tpDatabase)
-            FrmSettings.tcSettings.TabPages.Remove(FrmSettings.tpGeneral)
-            FrmSettings.tcSettings.TabPages.Remove(FrmSettings.tpUserAccount)
-            FrmSettings.tcSettings.TabPages.Remove(FrmSettings.tpPrinter)
-            FrmSettings.tcSettings.TabPages.Add(FrmSettings.tpDatabase)
-            FrmSettings.Tag = "Login"
-            FrmSettings.ShowDialog()
-        End Try
-    End Sub
-
-    Public Sub CMDUPDATE(str As String)
-        'Replace a new index instead of command in `str` String in function
-        If str.Contains("?") = True Then
-            Dim splittxt() As String = str.Split("?")
-            Dim i As Integer = 0
-            While i < splittxt.Length
-                Select Case splittxt(i)
-                    Case "NewKey"
-                        str = str.Replace("?" + splittxt(i) + "?" + splittxt(i + 1) + "?" + splittxt(i + 2) + "?",
-                                                  AutomaticPrimaryKey(splittxt(i + 1), splittxt(i + 2)))
-                        i += 2
-                End Select
-                i += 1
-            End While
-        End If
-        Dim CMDUPDATEDB As New OleDbCommand(str, CNN)
-        CMDUPDATEDB.ExecuteNonQuery()
-        Task.Run(Sub()
-                     CMDUPDATEDB = New OleDbCommand("Insert into OnlineDB(ODate,Command) Values(#" & DateAndTime.Now & "#,""" &
-                                       str.ToString.Replace("""", """""") & """)", CNN)
-                     CMDUPDATEDB.ExecuteNonQuery()
-                     CMDUPDATEDB.Cancel()
-                 End Sub)
-        WriteActivity(str)
-    End Sub
-
-    ''' <summary>
-    ''' Update the given SQL Query to the database. If the Admin Permission needs to the SQL query, It won't apply to the database. After Admin 
-    ''' accept changes, Then it will apply.
-    ''' </summary>
-    ''' <param name="str">The SQL Query</param>
-    ''' <param name="AdminPer">The Admin Permission</param>
-    Public Sub CMDUPDATE(str As String, Optional AdminPer As AdminPermission = Nothing)
-        Dim CMDUPDATEDB As OleDbCommand
-        If AdminPer IsNot Nothing And AdminPer.AdminSend = True Then
-            If Not CheckExistData($"Select APNo from AdminPermission Where APNo={AdminPer.APNo}") Then
-                Dim APCommand As String = $"Insert into AdminPermission(APNo,APDate,Status,AppliedUNo,Keys,Remarks)
-Values({AdminPer.APNo},#{DateAndTime.Now}#,'Waiting',{MdifrmMain.Tag},
-'{JsonConvert.SerializeObject(AdminPer.Keys, Formatting.Indented)}','{AdminPer.Remarks}')"
-
-                CMDUPDATEDB = New OleDbCommand(APCommand, CNN)
-                CMDUPDATEDB.ExecuteNonQuery()
-                CMDUPDATEDB.Cancel()
-                Dim CMDUPDATEDB1 As New OleDbCommand($"Insert into OnlineDB(ODate,Command) 
-Values(#{DateAndTime.Now}#,""{APCommand.Replace("""", """""")}"")", CNN)
-                CMDUPDATEDB1.ExecuteNonQuery()
-                CMDUPDATEDB1.Cancel()
-            End If
-            Dim APCCommand As String = $"Insert into APCommand(APNo,Commands) Values({AdminPer.APNo},'{str.ToString.Replace("'", "''")}')"
-            CMDUPDATEDB = New OleDbCommand(APCCommand, CNN)
-            CMDUPDATEDB.ExecuteNonQuery()
-            CMDUPDATEDB.Cancel()
-
-            Dim CMDUPDATEDB2 As New OleDbCommand($"Insert into OnlineDB(ODate,Command) 
-Values(#{DateAndTime.Now}#,""{APCCommand.Replace("""", """""")}"")", CNN)
-            CMDUPDATEDB2.ExecuteNonQuery()
-            CMDUPDATEDB2.Cancel()
-        Else
-            'Replace a new index instead of command in keys dictionary in adminpermission
-            If AdminPer IsNot Nothing AndAlso AdminPer.Keys.Count > 0 Then
-                For Each key As String In AdminPer.Keys.Keys.ToList
-                    If AdminPer.Keys(key).Contains("?") = True Then
-                        Dim splittxt() As String = AdminPer.Keys(key).Split("?")
-                        Select Case splittxt(1)
-                            Case "NewKey"
-                                AdminPer.Keys(key) = AdminPer.Keys(key).Replace("?" + splittxt(1) + "?" + splittxt(2) + "?" + splittxt(3) + "?",
-                                              AutomaticPrimaryKey(splittxt(2), splittxt(3)))
-                        End Select
-                    End If
-                Next
-
-            End If
-            'Replace a new index instead of command in `str` String in function
-            If str.Contains("?") = True Then
-                Dim splittxt() As String = str.Split("?")
-                Dim i As Integer = 0
-                While i < splittxt.Length
-                    Select Case splittxt(i)
-                        Case "NewKey"
-                            str = str.Replace("?" + splittxt(i) + "?" + splittxt(i + 1) + "?" + splittxt(i + 2) + "?",
-                                                  AutomaticPrimaryKey(splittxt(i + 1), splittxt(i + 2)))
-                            i += 2
-                        Case "Key"
-                            If AdminPer.Keys.ContainsKey(splittxt(i + 1)) Then
-                                str = str.Replace($"?{splittxt(i)}?{splittxt(i + 1)}?", AdminPer.Keys.Item(splittxt(i + 1)))
-                                i += 1
-                            End If
-                    End Select
-                    i += 1
-                End While
-            End If
-            CMDUPDATEDB = New OleDb.OleDbCommand(str, CNN)
-            CMDUPDATEDB.ExecuteNonQuery()
-            CMDUPDATEDB.Cancel()
-            Task.Run(Sub()
-                         Dim CMDUPDATEDB3 As New OleDbCommand("Insert into OnlineDB(ODate,Command) Values(#" & DateAndTime.Now & "#,""" &
-                                           str.ToString.Replace("""", """""") & """)", CNN)
-                         CMDUPDATEDB3.ExecuteNonQuery()
-                         CMDUPDATEDB3.Cancel()
-                     End Sub)
-            WriteActivity(str)
-        End If
-    End Sub
-
-    Public Sub CmbDropDown(cmb As ComboBox, SQL As String, ColumnName As String)
+    Public Sub ComboBoxDropDown(Db As Database, cmb As ComboBox, SQL As String)
         cmb.Items.Clear()
-        Dim DT0 As New DataTable
-        Dim DA0 As New OleDbDataAdapter(SQL, CNN)
-        DA0.Fill(DT0)
+        Dim DT0 As DataTable = Db.GetDataTable(SQL)
         Dim items = DT0.AsEnumerable().Select(Function(d) DirectCast(d(0).ToString(), Object)).ToArray()
         cmb.Items.AddRange(items)
         DT0.Dispose()
-        DA0.Dispose()
     End Sub
 
-    Public Sub AutomaticPrimaryKey(txt As TextBox, SQL As String, ColumnName As String)
-        Dim CMD0 = New OleDbCommand(SQL, CNN)
-        Dim DR0 As OleDbDataReader = CMD0.ExecuteReader()
+    Public Sub SetNextKey(Db As Database, txt As TextBox, SQL As String, ColumnName As String)
+        Dim DR0 As OleDbDataReader = Db.GetDataReader(SQL)
         If DR0.HasRows = True Then
             DR0.Read()
             txt.Text = Int(DR0.Item(ColumnName)) + 1
         Else
             txt.Text = "1"
         End If
-        CMD0.Cancel()
         DR0.Close()
     End Sub
-
-    Public Function AutomaticPrimaryKey(TableName As String, ColumnName As String) As Integer
-        Dim CMD0 As New OleDbCommand("Select Top 1 " & ColumnName & " from " & TableName & " Order by " & ColumnName & " Desc", CNN)
-        Dim tmp As String = CMD0.ExecuteScalar()
-        If tmp <> "" Then
-            Return (Int(tmp) + 1)
-        Else
-            Return (1)
-        End If
-        CMD0.Cancel()
-    End Function
-
-    Public Function GetRowsCount(Cmd As OleDbCommand) As Integer
-        Dim DR0 As OleDbDataReader = Cmd.ExecuteReader
-        Dim DT0 As New DataTable
-        DT0.Load(DR0)
-        Return (DT0.Rows.Count)
-        DR0.Close()
-        DT0.Clear()
-    End Function
 
     Public Sub OnlynumberQty(e As KeyPressEventArgs)
         If Asc(e.KeyChar) <> 8 And Asc(e.KeyChar) <> 46 Then
@@ -219,18 +48,8 @@ Values(#{DateAndTime.Now}#,""{APCCommand.Replace("""", """""")}"")", CNN)
         OnlynumberQty(e)
     End Sub
 
-    Public Function GetStrfromRelatedfield(SQL As String) As String
-        Dim CMD0 As New OleDb.OleDbCommand(SQL, CNN)
-        If IsDBNull(CMD0.ExecuteScalar) = False Then
-            Return CMD0.ExecuteScalar
-        Else
-            Return ""
-        End If
-        CMD0.Cancel()
-    End Function
-
     Public Function GetArrayfromSQL(SQL As String, ColumnName As String) As List(Of String)
-        Dim CMD0 = New OleDbCommand(SQL, CNN)
+        Dim CMD0 = New OleDbCommand(SQL)
         Dim DR0 As OleDbDataReader = CMD0.ExecuteReader()
         Dim arr As New List(Of String)
         While DR0.Read
@@ -257,13 +76,14 @@ Values(#{DateAndTime.Now}#,""{APCCommand.Replace("""", """""")}"")", CNN)
             Return False
         End If
     End Function
+
     ''' <summary>
     ''' Checking whether the given SQL query has rows or not
     ''' </summary>
     ''' <param name="SQL">The SQL Query</param>
     ''' <returns>True, if there are rows in the SQL query, or false</returns>
     Public Function CheckExistData(SQL As String) As Boolean
-        Dim CMD0 = New OleDbCommand(SQL, CNN)
+        Dim CMD0 = New OleDbCommand(SQL)
         Dim DR0 As OleDbDataReader = CMD0.ExecuteReader()
         If DR0.HasRows = True Then
             Return True
@@ -275,7 +95,7 @@ Values(#{DateAndTime.Now}#,""{APCCommand.Replace("""", """""")}"")", CNN)
     End Function
 
     Public Function CheckExistData(cmb As Control, SQL As String, msg As String, IsDataExist As Boolean) As Boolean
-        Dim CMD0 = New OleDbCommand(SQL, CNN)
+        Dim CMD0 = New OleDbCommand(SQL)
         Dim DR0 As OleDbDataReader = CMD0.ExecuteReader()
         If DR0.HasRows = True Then
             If IsDataExist = True Then
@@ -298,6 +118,9 @@ Values(#{DateAndTime.Now}#,""{APCCommand.Replace("""", """""")}"")", CNN)
         Dim DSActivity As DataSet
         Dim DTActivity As DataTable
         Dim LastIndex As Integer = 0
+        If Not File.Exists(Application.StartupPath & "\System Files\Activity\Activity.json") Then
+            Exit Sub
+        End If
         Dim Rjson As String = File.ReadAllText(Application.StartupPath & "\System Files\Activity\Activity.json")
         If String.IsNullOrEmpty(Rjson) Then
             DSActivity = New DataSet
@@ -323,7 +146,7 @@ Values(#{DateAndTime.Now}#,""{APCCommand.Replace("""", """""")}"")", CNN)
 
     Public Function CheckExistRelationsforDelete(SQl As String, FieldName As String, msg As String) As Boolean
         CheckExistRelationsforDelete = True
-        CMD = New OleDb.OleDbCommand(SQl, CNN)
+        CMD = New OleDb.OleDbCommand(SQl)
         DR = CMD.ExecuteReader
         Dim tmp As String = ""
         If DR.HasRows = True Then
@@ -448,6 +271,61 @@ Values(#{DateAndTime.Now}#,""{APCCommand.Replace("""", """""")}"")", CNN)
         End Function
     End Class
 #End Region
+
+#Region "MessagePanel"
+    'Indicates current Message panel to add controls to 
+    Private _CurrentMessagePanelName As String = Nothing
+
+    'Used to give unique control names such as label1, label2 etc
+    Private _MessagePanelsAddedCount As Integer = 0
+
+    'Add Message panel to flow layout panel
+    Public Sub CreateMessagePanel(Title As String, Message As String, Optional ByVal Tag As String = "")
+        Dim MessagePanel As New ControlMessageBox
+        'Add panel to flow layout panel
+        MdifrmMain.flpMessage.Controls.Add(MessagePanel)
+
+        'Update panel variables
+        _CurrentMessagePanelName = MessagePanel.Name
+        _MessagePanelsAddedCount += 1
+
+        MessagePanel.btnMessageDelete.Name = "btnMessageDelete" + (_MessagePanelsAddedCount).ToString
+
+        MessagePanel.lblTitle.Name = "lblTitle" + (_MessagePanelsAddedCount).ToString
+        MessagePanel.lblTitle.Text = Title
+
+        MessagePanel.lblMessage.Name = "lblMessage" + (_MessagePanelsAddedCount).ToString
+        MessagePanel.lblMessage.Text = Message
+
+        'Set panel properties
+        With MessagePanel
+            .Name = "pnlMessage" + (_MessagePanelsAddedCount).ToString
+            .Tag = Tag
+        End With
+    End Sub
+    'Remove handlers and Message panel 
+    Public Sub DynamicButton_Click(ByVal sender As Object, ByVal e As EventArgs)
+        Dim parentPanelName As String
+
+        parentPanelName = Nothing
+
+        'Remove handler from sender
+        For Each controlObj As Control In MdifrmMain.flpMessage.Controls
+            For Each childControlObj As Control In controlObj.Controls
+                If childControlObj.Name = sender.name Then
+                    RemoveHandler childControlObj.Click, AddressOf DynamicButton_Click
+                    parentPanelName = childControlObj.Parent.Name
+                End If
+            Next
+            If controlObj.Name = parentPanelName Then
+                MdifrmMain.flpMessage.Controls.Remove(controlObj)
+                controlObj.Dispose()
+            End If
+        Next
+
+    End Sub
+#End Region
+
     Public Function CheckForInternetConnection() As Boolean
         Try
             Using client = New WebClient()

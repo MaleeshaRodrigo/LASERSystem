@@ -145,6 +145,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\CashDrawer.vb" />
     <Compile Include="Classes\Database.vb" />
     <Compile Include="Classes\Encoder.vb" />
     <Compile Include="Classes\MessagePanel.vb" />
