@@ -142,6 +142,7 @@
   <ItemGroup>
     <Compile Include="ApplicationEvents.vb" />
     <Compile Include="Classes\AdminPermission.vb" />
+    <Compile Include="Classes\CashDrawer.vb" />
     <Compile Include="Classes\Database.vb" />
     <Compile Include="Classes\Encoder.vb" />
     <Compile Include="Classes\MessagePanel.vb" />

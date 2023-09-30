@@ -73,10 +73,8 @@ Public Class frmDeliver
             obj.text = "0"
         Next
 
-        Dim DT0 As New DataTable
         Dim grdtxt1 As DataGridViewComboBoxColumn = grdRepair.Columns.Item(5)
-        Dim DA0 As New OleDbDataAdapter("Select TName from Technician Where TActive=Yes group by TName;", CNN)
-        DA0.Fill(DT0)
+        Dim DT0 As DataTable = Db.GetDataTable("Select TName from Technician Where TActive=Yes group by TName;")
         Dim items = DT0.AsEnumerable().Select(Function(d) DirectCast(d(0).ToString(), Object)).ToArray()
         grdtxt1.DataSource = items
 
@@ -187,24 +185,24 @@ Public Class frmDeliver
             Dim frm As New frmReport
             Dim DT1 As New DataTable
             Dim DS1 As New DataSet
-            Dim DA1 As New OleDb.OleDbDataAdapter("SELECT Repair.RepNo,Repair.PNo,Product.PCategory,Product.PName,Repair.Qty,Repair.PaidPrice,Repair.TNo from Repair,Product," &
-                                              "Deliver where Deliver.DNO = Repair.DNo And Repair.PNo = Product.PNo And Deliver.DNo = " & DNo & ";", CNN)
+            Dim DA1 As OleDbDataAdapter = Db.GetDataAdapter("SELECT Repair.RepNo,Repair.PNo,Product.PCategory,Product.PName,Repair.Qty,Repair.PaidPrice,Repair.TNo from Repair,Product," &
+                                              "Deliver where Deliver.DNO = Repair.DNo And Repair.PNo = Product.PNo And Deliver.DNo = " & DNo & ";")
             DA1.Fill(DS1, "Repair")
             DA1.Fill(DS1, "Product")
             RPT.Subreports.Item("rptDeliverRepair.rpt").SetDataSource(DS1)
             Dim DT2 As New DataTable
             Dim DS2 As New DataSet
-            Dim DA2 As New OleDb.OleDbDataAdapter("Select Return.RetNo,Return.RepNo,Return.PNo,Product.PCategory,Product.Pname,Return.Qty,Return.PaidPrice,Return.TNo from " &
-                                              "Return,Product,Deliver where Deliver.DNO = Return.DNo And Return.PNo = Product.PNo And Deliver.DNO  = " & DNo & ";", CNN)
+            Dim DA2 As OleDbDataAdapter = Db.GetDataAdapter("Select Return.RetNo,Return.RepNo,Return.PNo,Product.PCategory,Product.Pname,Return.Qty,Return.PaidPrice,Return.TNo from " &
+                                              "Return,Product,Deliver where Deliver.DNO = Return.DNo And Return.PNo = Product.PNo And Deliver.DNO  = " & DNo & ";")
             DA2.Fill(DS2, "Return")
             DA2.Fill(DS2, "Product")
             RPT.Subreports.Item("rptDeliverReturn.rpt").SetDataSource(DS2)
             Dim DT3 As New DataTable
             Dim DS3 As New DataSet
-            Dim DA3 As New OleDb.OleDbDataAdapter("SELECT Deliver.DNo, Deliver.DDate,Deliver.CuNo,Customer.CuName,Customer.CuTelNo1,Customer.CuTelNo2,Customer.CuTelNo3," &
+            Dim DA3 As OleDbDataAdapter = Db.GetDataAdapter("SELECT Deliver.DNo, Deliver.DDate,Deliver.CuNo,Customer.CuName,Customer.CuTelNo1,Customer.CuTelNo2,Customer.CuTelNo3," &
                                               "Deliver.DGrandTotal,Deliver.CReceived,Deliver.CBalance,Deliver.CAmount,Deliver.CPInvoiceNO,Deliver.CPAmount,Deliver.CuLNo," &
                                               "Deliver.CuLAmount,Deliver.DRemarks from Deliver,Customer where Deliver.CuNo = Customer.CuNo And Deliver.DNo = " & DNo &
-                                              ";", CNN)
+                                              ";")
             DA3.Fill(DS3, "Deliver")
             DA3.Fill(DS3, "Customer")
             RPT.SetDataSource(DS3)
@@ -227,7 +225,8 @@ Public Class frmDeliver
             End If
             Application.Run(frm)
         Catch ex As Exception
-            MsgBox("යම් ගැටලුවක් පැන නැගී ඇති බැවින් Deliver Receipt එක Print කිරිමට අපොහොසත් විය." + vbCrLf + vbCrLf + "Error: " + ex.ToString, vbExclamation, "Deliver Receipt එක Print කිරිමට නොහැක.")
+            MsgBox("යම් ගැටලුවක් පැන නැගී ඇති බැවින් Deliver Receipt එක Print කිරිමට අපොහොසත් විය." + vbCrLf + vbCrLf + "Error: " + ex.ToString, vbExclamation,
+                   "Deliver Receipt එක Print කිරිමට නොහැක.")
         End Try
     End Sub
 
@@ -254,8 +253,8 @@ Public Class frmDeliver
             AdminPer.AdminSend = True
             AdminPer.Remarks = $"Deliver එකක් Cashier කෙනෙකු වන {MdifrmMain.tslblUserName.Text} විසින් වෙනස් කෙරුණි."
         End If
-        If (Val(txtCAmount.Text) > 0 Or Val(txtCPAmount.Text) > 0) And chkCashDrawer.Checked = True Then OpenCashdrawer()
-        Db.GetNextKey(txtCuLNo, "Select Top 1 CulNo from CustomerLoan order by CuLNo Desc;", "CuLNo")
+        If (Val(txtCAmount.Text) > 0 Or Val(txtCPAmount.Text) > 0) And chkCashDrawer.Checked = True Then CashDrawer.Open()
+        SetNextKey(Db, txtCuLNo, "Select Top 1 CulNo from CustomerLoan order by CuLNo Desc;", "CuLNo")
         If txtCAmount.Text = "" Or txtCAmount.Text = "0" Then
             txtCAmount.Text = "0"
             txtCReceived.Text = "0"
