@@ -4,7 +4,7 @@
     Private Sub frmTechnicianLoan_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         GetCNN()
         MenuStrip1.Items.Add(mnustrpMENU)
-        Call AutomaticPrimaryKey(txtTLNo, "SELECT top 1 TLNo from TechnicianLoan ORDER BY TLNo Desc;", "TLNo")
+        Call SetNextKey(Db, txtTLNo, "SELECT top 1 TLNo from TechnicianLoan ORDER BY TLNo Desc;", "TLNo")
         txtTLFrom.Value = "" & Date.Today.Year & "-" & Date.Today.Month & "-01"
         txtTLTo.Value = Date.Today
         Call cmdTLSearch_Click(sender, e)
@@ -89,7 +89,7 @@
                       ",Total=" & txtTLAmount.Text &
                       ",UNo=" & MdifrmMain.Tag, AdminPer)
         End If
-        Call AutomaticPrimaryKey(txtTLNo, "SELECT top 1 TLNo from TechnicianLoan ORDER BY TLNo Desc;", "TLNo")
+        Call SetNextKey(Db, txtTLNo, "SELECT top 1 TLNo from TechnicianLoan ORDER BY TLNo Desc;", "TLNo")
         cmbSCategory.Text = ""
         cmbSName.Text = ""
         txtSNo.Text = ""
@@ -102,7 +102,7 @@
 
     Private Sub cmdTLNew_Click(sender As Object, e As EventArgs) Handles cmdTLNew.Click
         'Prepare form for adding new values
-        Call AutomaticPrimaryKey(txtTLNo, "SELECT top 1 TLNo from TechnicianLoan ORDER BY TLNo Desc;", "TLNo")
+        Call SetNextKey(Db, txtTLNo, "SELECT top 1 TLNo from TechnicianLoan ORDER BY TLNo Desc;", "TLNo")
         txtTLDate.Value = Today
         cmbTName.Text = ""
         cmbSCategory.Text = ""

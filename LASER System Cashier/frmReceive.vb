@@ -91,7 +91,7 @@ Public Class frmReceive
 
     Private Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click
         Cursor = Cursors.WaitCursor
-        Call AutomaticPrimaryKey(txtRNo, "SELECT top 1 RNo from Receive ORDER BY RNo Desc;", "RNo")
+        Call SetNextKey(Db, txtRNo, "SELECT top 1 RNo from Receive ORDER BY RNo Desc;", "RNo")
         'clear customer fileds
         For Each obj As Object In {cmbCuMr, cmbCuName, txtCuTelNo1, txtCuTelNo2, txtCuTelNo3}
             obj.Text = ""
@@ -195,12 +195,12 @@ Public Class frmReceive
             DR.Read()
             CuNo = DR("CuNo")
         Else
-            CuNo = AutomaticPrimaryKey("Customer", "CuNo")
+            CuNo = Db.GetNextKey("Customer", "CuNo")
             Db.Execute("Insert into Customer(CuNo,CuName,CuTelNo1,CuTelNo2,CutelNo3) Values(" & CuNo & ",'" & cmbCuMr.Text & cmbCuName.Text & "','" &
                       txtCuTelNo1.Text & "','" & txtCuTelNo2.Text & "','" & txtCuTelNo3.Text & "')")
         End If
         If txtRDate.Value.Date = Today.Date Then txtRDate.Value = DateAndTime.Now
-        txtRNo.Text = AutomaticPrimaryKey("Receive", "RNo")
+        txtRNo.Text = Db.GetNextKey("Receive", "RNo")
         Db.Execute("Insert into Receive(RNo,RDate,CuNo,UNo) values(" & txtRNo.Text & ",#" & txtRDate.Value & "#," & CuNo & ",'" & MdifrmMain.Tag & "');")
         For Each row As DataGridViewRow In grdRepair.Rows
             If row.Index = grdRepair.Rows.Count - 1 Then Continue For
@@ -211,7 +211,7 @@ Public Class frmReceive
                 DR.Read()
                 PNo = DR("PNo")
             Else
-                PNo = AutomaticPrimaryKey("Product", "PNo")
+                PNo = Db.GetNextKey("Product", "PNo")
                 Db.Execute("Insert into Product(PNO,PCATEGORY,PNAME,PMODELNO,PDETAILS) " &
                           "Values(" & PNo & ",'" & row.Cells(1).Value & "','" & row.Cells(2).Value & "','" & row.Cells(3).Value & "','" &
                           row.Cells(5).Value & "');")
@@ -261,7 +261,7 @@ Public Class frmReceive
                 DR.Read()
                 PNo = DR("PNo")
             Else
-                PNo = AutomaticPrimaryKey("Product", "PNo")
+                PNo = Db.GetNextKey("Product", "PNo")
                 Db.Execute("Insert into Product(PNO,PCATEGORY,PNAME,PMODELNO,PDETAILS) " &
                           "Values(" & PNo & ",'" & row.Cells(2).Value & "','" & row.Cells(3).Value & "','" & row.Cells(4).Value &
                           "','" & row.Cells(6).Value & "');")

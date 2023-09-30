@@ -1289,7 +1289,7 @@ end_for_loop:
                              Case 13    'Remarks by Customer
                                  If currentvalue <> "" Then
                                      Db.Execute("Insert into RepairRemarks1(Rem1No,RepNo,Rem1Date,Remarks,UNo) Values(" &
-                          AutomaticPrimaryKey("RepairRemarks1", "Rem1No") & "," &
+                          Db.GetNextKey("RepairRemarks1", "Rem1No") & "," &
                   grdSearch.Item(0, e.RowIndex).Value & ",#" & DateAndTime.Now & "#,'" & grdSearch.Item(13, e.RowIndex).Value & "'," &
                   UNo & ")")
                                      grdSearch.Item(13, e.RowIndex).Value = ""
@@ -1312,7 +1312,7 @@ end_for_loop:
                              Case 16    'Remarks by Technician
                                  If currentvalue <> "" Then
                                      Db.Execute("Insert into RepairRemarks2(Rem2No,RepNo,Rem2Date,Remarks,UNo) Values(" &
-                          AutomaticPrimaryKey("RepairRemarks2", "Rem2No") & "," &
+                          Db.GetNextKey("RepairRemarks2", "Rem2No") & "," &
                   grdSearch.Item(0, e.RowIndex).Value & ",#" & DateAndTime.Now & "#,'" & grdSearch.Item(16, e.RowIndex).Value & "'," &
                   UNo & ")")
                                      grdSearch.Item(16, e.RowIndex).Value = ""

@@ -17,7 +17,7 @@ Public Class frmSupply
     End Sub
 
     Private Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click
-        AutomaticPrimaryKey(txtSupNo, "SELECT top 1 SupNo from Supply ORDER BY SupNo Desc;", "SupNo")
+        SetNextKey(Db, txtSupNo, "SELECT top 1 SupNo from Supply ORDER BY SupNo Desc;", "SupNo")
         cmbSuName_DropDown(sender, e)
         cmbSuName.Text = "No Name"             'clear customer fileds
         cmbSupStatus.Text = "Not Paid"
@@ -43,12 +43,12 @@ Public Class frmSupply
             Exit Sub
         End If
         If txtSupNo.Text = "" Then
-            AutomaticPrimaryKey(txtSupNo, "SELECT top 1 SupNo from Supply ORDER BY SupNo Desc;", "SupNo")
+            SetNextKey(Db, txtSupNo, "SELECT top 1 SupNo from Supply ORDER BY SupNo Desc;", "SupNo")
         End If
         CMD = New OleDb.OleDbCommand("Select SupNo from Supply where SupNo =" & txtSupNo.Text, CNN)
         DR = CMD.ExecuteReader
         If DR.HasRows = True Then
-            AutomaticPrimaryKey(txtSupNo, "SELECT top 1 SupNo from Supply ORDER BY SupNo Desc;", "SupNo")
+            SetNextKey(Db, txtSupNo, "SELECT top 1 SupNo from Supply ORDER BY SupNo Desc;", "SupNo")
         End If
         Dim SuNo As Integer
         CMD = New OleDb.OleDbCommand("Select SuName, SuNo from Supplier where SuName='" & cmbSuName.Text & "';", CNN)

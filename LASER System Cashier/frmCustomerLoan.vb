@@ -1,7 +1,7 @@
 ﻿Public Class frmCustomerLoan
     Private Db As New Database
     Private Sub cmbCuName_DropDown(sender As Object, e As EventArgs) Handles cmbCuName.DropDown
-        Call CmbDropDown(cmbCuName, "Select CuName from Customer order by CuName;", "CuName")
+        Call ComboBoxDropDown(Db, cmbCuName, "Select CuName from Customer order by CuName;")
     End Sub
 
     Private Sub cmbCuName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbCuName.SelectedIndexChanged
@@ -66,7 +66,7 @@
     End Sub
 
     Private Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click
-        AutomaticPrimaryKey(txtCuLNo, "SELECT top 1 CuLNo from CustomerLoan ORDER BY CuLNo Desc;", "CuLNO")
+        SetNextKey(Db, txtCuLNo, "SELECT top 1 CuLNo from CustomerLoan ORDER BY CuLNo Desc;", "CuLNO")
         txtCuLAmount.Text = ""
         cmbCuName.Text = ""
         txtCuTelNo1.Text = ""

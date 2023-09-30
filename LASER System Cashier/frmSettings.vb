@@ -143,7 +143,7 @@ Public Class FrmSettings
         lblUAEmail.Top = txtUAEmail.Top
         cmdUASave.Text = "Save"
         cmdUADelete.Enabled = False
-        AutomaticPrimaryKey(txtUAUNo, "Select Top 1 UNo from [User] Order by UNo Desc;", "Uno")
+        SetNextKey(Db, txtUAUNo, "Select Top 1 UNo from [User] Order by UNo Desc;", "Uno")
     End Sub
 
     Private Sub cmdUASave_Click(sender As Object, e As EventArgs) Handles cmdUASave.Click
@@ -166,7 +166,7 @@ Public Class FrmSettings
             Exit Sub
         ElseIf txtUAUNo.Text = "" Then
             If cmdUASave.Text = "Save" Then
-                AutomaticPrimaryKey(txtUAUNo, "Select Top 1 UNo from [User] Order by UNo Desc;", "Uno")
+                SetNextKey(Db, txtUAUNo, "Select Top 1 UNo from [User] Order by UNo Desc;", "Uno")
             Else
                 MsgBox("ඔබ අදාල User ව නිවැරදිව තෝරා ගෙන නොමැත. නැවත උත්සහ කරන්න.")
                 grdUAUser.Focus()

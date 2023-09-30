@@ -62,7 +62,7 @@ Public Class frmDeliver
 
     Private Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click
         Cursor = Cursors.WaitCursor
-        Call AutomaticPrimaryKey(txtDNo, "SELECT top 1 DNo from Deliver ORDER BY DNo Desc;", "DNo")
+        Call SetNextKey(Db, txtDNo, "SELECT top 1 DNo from Deliver ORDER BY DNo Desc;", "DNo")
         For Each obj As Object In {cmbCuName, txtCuTelNo1, txtCuTelNo2, txtCuTelNo3, txtDRemarks}
             obj.text = ""
         Next
@@ -84,7 +84,7 @@ Public Class frmDeliver
         grdtxt1.DataSource = items
 
         cmdSave.Enabled = True
-        Call AutomaticPrimaryKey(txtCuLNo, "SELECT top 1 CuLNo from CustomerLoan ORDER BY CuLNo Desc;", "CuLNo")
+        Call SetNextKey(Db, txtCuLNo, "SELECT top 1 CuLNo from CustomerLoan ORDER BY CuLNo Desc;", "CuLNo")
         grdRepair.Focus()
         grdRepair.CurrentCell = grdRepair.Item(0, grdRepair.Rows.Count - 1)
         cmdCancel_Click(sender, e)
@@ -255,7 +255,7 @@ Public Class frmDeliver
             AdminPer.Remarks = $"Deliver එකක් Cashier කෙනෙකු වන {MdifrmMain.tslblUserName.Text} විසින් වෙනස් කෙරුණි."
         End If
         If (Val(txtCAmount.Text) > 0 Or Val(txtCPAmount.Text) > 0) And chkCashDrawer.Checked = True Then OpenCashdrawer()
-        AutomaticPrimaryKey(txtCuLNo, "Select Top 1 CulNo from CustomerLoan order by CuLNo Desc;", "CuLNo")
+        Db.GetNextKey(txtCuLNo, "Select Top 1 CulNo from CustomerLoan order by CuLNo Desc;", "CuLNo")
         If txtCAmount.Text = "" Or txtCAmount.Text = "0" Then
             txtCAmount.Text = "0"
             txtCReceived.Text = "0"

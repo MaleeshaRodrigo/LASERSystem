@@ -44,7 +44,7 @@ Public Class frmMessage
                         End If
                     End If
                 End With
-                AutomaticPrimaryKey(txtMsgNo, "Select Top 1 MsgNo from Message order by MsgNo Desc;", "MsgNo")
+                SetNextKey(Db, txtMsgNo, "Select Top 1 MsgNo from Message order by MsgNo Desc;", "MsgNo")
             Case "MessagetoCu"
                 TabControl.TabPages.Add(tabMsgHistory)
                 Dim DA = New OleDb.OleDbDataAdapter("Select * from Message Order by MsgDate;", CNN)
