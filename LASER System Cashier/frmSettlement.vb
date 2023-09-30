@@ -423,7 +423,7 @@ Public Class frmSettlement
             Exit Sub
         End If
 
-        Dim AdminPer As New AdminPermission With {
+        Dim AdminPer As New AdminPermission(Db) With {
             .Remarks = "අද දිනට නොමැති " & txtTANo.Text & " වන Transaction Data එක Edit කෙරුණි."
         }
 
@@ -434,7 +434,7 @@ Public Class frmSettlement
         End If
         Select Case cmdSave.Text
             Case "Save"
-                AutomaticPrimaryKey(txtTANo, "Select Top 1 TANo from [Transaction] order by TANo Desc;", "TANo")
+                SetNextKey(Db, txtTANo, "Select Top 1 TANo from [Transaction] order by TANo Desc;", "TANo")
                 Db.Execute("Insert into `Transaction`(TANo, TADate,TADetails, TAAmount) Values(?NewKey?Transaction?TANo?,#" &
                                              dtpTADate.Value.ToString & "#,'" & txtTADetails.Text & "', " & txtTAAmount.Text & ");", AdminPer)
             Case "Edit"
@@ -449,7 +449,7 @@ Public Class frmSettlement
     End Sub
 
     Private Sub CmdTADelete_Click(sender As Object, e As EventArgs) Handles cmdTADelete.Click
-        Dim AdminPer As New AdminPermission With {
+        Dim AdminPer As New AdminPermission(Db) With {
         .Remarks = "අද දිනට නොමැති Transaction එකෙහි " & txtTANo.Text & " වන Data එක Delete කෙරුණි."}
         If dtpTADate.Value.Date <> Today.Date And MdifrmMain.tslblUserType.Text <> "Admin" Then
             AdminPer.AdminSend = True

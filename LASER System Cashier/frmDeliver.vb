@@ -240,7 +240,7 @@ Public Class frmDeliver
         End If
         Cursor = Cursors.WaitCursor
         'Send Admin to Verify the delivery data
-        Dim AdminPer As New AdminPermission()
+        Dim AdminPer As New AdminPermission(Db)
         AdminPer.Keys.Add("DNo", "?NewKey?Deliver?DNo?")
         Dim DNo As String = "?Key?DNo?"
         If txtDDate.Value.Date = Today.Date Then

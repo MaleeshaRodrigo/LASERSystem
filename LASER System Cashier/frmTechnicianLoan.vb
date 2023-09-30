@@ -57,7 +57,7 @@
             MsgBox("ඔබ හේතුවක් හෝ Stock එකක් ඇතුලත් කර නොමැත. කරුණාකර නැවත පරික්ෂා කරන්න.")
             Exit Sub
         End If
-        Dim AdminPer As New AdminPermission
+        Dim AdminPer As New AdminPermission(Db)
         If MdifrmMain.tslblUserType.Text <> "Admin" And txtTLDate.Value.Date <> Today.Date Then
             AdminPer.AdminSend = True
             AdminPer.Remarks = "අද දිනට නොමැති Technician Loan එකක් Update කෙරුණි."
@@ -269,7 +269,7 @@
             MdifrmMain.cmdTechnicianLoan.PerformClick()
             Exit Sub
         End If
-        Dim AdminPer As New AdminPermission
+        Dim AdminPer As New AdminPermission(Db)
         If MdifrmMain.tslblUserType.Text <> "Admin" And txtTLDate.Value.Date <> Today.Date Then
             AdminPer.AdminSend = True
             AdminPer.Remarks = "අද දිනට නොමැති Technician Loan data එකක් ඉවත් කෙරුණි."

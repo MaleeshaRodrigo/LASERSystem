@@ -131,7 +131,7 @@ Public Class frmTechnicianCost
             Exit Sub
         End If
         Dim tmp As String = ""
-        Dim AdminPer As New AdminPermission With {.Remarks = "අද දිනට නොමැති Technician Cost Data එකක් update කෙරුණි."}
+        Dim AdminPer As New AdminPermission(Db) With {.Remarks = "අද දිනට නොමැති Technician Cost Data එකක් update කෙරුණි."}
         Select Case e.ColumnIndex
             Case 1
                 If Convert.ToDateTime(grdTechnicianCost.Item(1, e.RowIndex).Tag).Date <> Today.Date And

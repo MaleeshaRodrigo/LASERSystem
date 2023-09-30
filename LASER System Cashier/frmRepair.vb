@@ -1026,7 +1026,7 @@ Public Class frmRepair
     Private Sub grdRepRemarks1_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs) Handles grdRepRemarks1.CellEndEdit
         If e.RowIndex < 0 Then Exit Sub
 
-        Dim AdminPer As New AdminPermission
+        Dim AdminPer As New AdminPermission(Db)
         If e.ColumnIndex = 1 Then
             grdRepRemarks1.CurrentCell.Value = DtpDate.Value.ToString
             DtpDate.Visible = False
@@ -1085,7 +1085,7 @@ Public Class frmRepair
 
     Private Sub grdRepRemarks1_UserDeletingRow(sender As Object, e As DataGridViewRowCancelEventArgs) Handles grdRepRemarks1.UserDeletingRow
         If e.Row.Index < 0 Or e.Row.Index = (grdRepRemarks1.Rows.Count - 1) Then Exit Sub
-        Dim AdminPer As New AdminPermission
+        Dim AdminPer As New AdminPermission(Db)
         If MdifrmMain.tslblUserType.Text <> "Admin" And Convert.ToDateTime(grdRepRemarks1.Item(1, e.Row.Index).Value).Date <> DateTime.Today.Date Then
             AdminPer.AdminSend = True
             AdminPer.Remarks = "Repair Remarks 1 හි Field එකක් Delete කෙරුණි."
@@ -1143,7 +1143,7 @@ Public Class frmRepair
     Private Sub grdRepRemarks2_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs) Handles grdRepRemarks2.CellEndEdit
         If e.RowIndex < 0 Then Exit Sub
 
-        Dim AdminPer As New AdminPermission
+        Dim AdminPer As New AdminPermission(Db)
         If grdRepRemarks2.Focused And e.ColumnIndex = 1 Then
             grdRepRemarks2.CurrentCell.Value = DtpDate.Value.ToString
             DtpDate.Visible = False
@@ -1205,7 +1205,7 @@ Public Class frmRepair
     End Sub
     Private Sub grdRepRemarks2_UserDeletingRow(sender As Object, e As DataGridViewRowCancelEventArgs) Handles grdRepRemarks2.UserDeletingRow
         If e.Row.Index < 0 Or e.Row.Index = (grdRepRemarks2.Rows.Count - 1) Then Exit Sub
-        Dim AdminPer As New AdminPermission
+        Dim AdminPer As New AdminPermission(Db)
         If MdifrmMain.tslblUserType.Text <> "Admin" And Convert.ToDateTime(grdRepRemarks2.Item(1, e.Row.Index).Value).Date <> DateTime.Today.Date Then
             AdminPer.AdminSend = True
             AdminPer.Remarks = "Repair Remarks 2 හි Field එකක් Delete කෙරුණි."
@@ -1248,7 +1248,7 @@ Public Class frmRepair
             End If
             Exit Sub
         End If
-        Dim AdminPer As New AdminPermission
+        Dim AdminPer As New AdminPermission(Db)
         Select Case e.ColumnIndex
             Case 1
                 grdTechnicianCost.CurrentCell.Value = DtpDate.Value.ToString
@@ -1369,7 +1369,7 @@ Public Class frmRepair
 
     Private Sub grdTechnicianCost_UserDeletingRow(sender As Object, e As DataGridViewRowCancelEventArgs) Handles grdTechnicianCost.UserDeletingRow
         If e.Row.Index < 0 Or e.Row.Index = (grdTechnicianCost.Rows.Count - 1) Then Exit Sub
-        Dim AdminPer As New AdminPermission
+        Dim AdminPer As New AdminPermission(Db)
         If MdifrmMain.tslblUserType.Text <> "Admin" And Convert.ToDateTime(grdTechnicianCost.Item(1, e.Row.Index).Value).Date <>
             DateTime.Today.Date Then
             AdminPer.AdminSend = True

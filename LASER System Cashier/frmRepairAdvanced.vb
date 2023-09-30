@@ -19,7 +19,7 @@ Public Class frmRepairAdvanced
     End Sub
 
     Private Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click
-        AutomaticPrimaryKey(txtAdNo, "Select Top 1 AdNo from RepairAdvanced Order by AdNo Desc", "AdNo")
+        SetNextKey(Db, txtAdNo, "Select Top 1 AdNo from RepairAdvanced Order by AdNo Desc", "AdNo")
         txtAdDate.Value = DateAndTime.Now
         cmbRepNo.Text = "0"
         txtAmount.Text = ""
@@ -30,7 +30,7 @@ Public Class frmRepairAdvanced
     End Sub
 
     Private Sub cmdSave_Click(sender As Object, e As EventArgs) Handles cmdSave.Click
-        Dim AdminPer As New AdminPermission
+        Dim AdminPer As New AdminPermission(Db)
         If cmbRepNo.Text = "" Then
             MsgBox("Repair No හෝ RE-Repair No එක ඇතුලත් කරන්න.", vbExclamation + vbOKOnly)
         ElseIf CheckEmptyfield(txtAmount, "Advanced එකෙහි Amount එක ඇතුලත් කරන්න.") = False Then
@@ -112,7 +112,7 @@ Public Class frmRepairAdvanced
     End Sub
 
     Private Sub cmdDelete_Click(sender As Object, e As EventArgs) Handles cmdDelete.Click
-        Dim AdminPer As New AdminPermission
+        Dim AdminPer As New AdminPermission(Db)
         If CheckExistData(txtAdNo, "Select AdNo from RepairAdvanced Where AdNo=" & txtAdNo.Text, "මෙම Advanced එක ඇතුලත් කර නොමැති එකකි." &
                              " කරුණාකර පරික්ෂා කර නැවත උත්සහ කරන්න.", False) = False Then
             Exit Sub
