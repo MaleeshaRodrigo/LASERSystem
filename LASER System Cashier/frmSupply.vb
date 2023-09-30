@@ -27,7 +27,7 @@ Public Class frmSupply
     End Sub
 
     Public Sub cmbSuName_DropDown(sender As Object, e As EventArgs) Handles cmbSuName.DropDown
-        Call CmbDropDown(cmbSuName, "Select SuName from Supplier group by  SuName;", "SuName")
+        Call ComboBoxDropDown(Db, cmbSuName, "Select SuName from Supplier group by  SuName;")
     End Sub
 
     Private Sub cmdClose_Click(sender As Object, e As EventArgs) Handles cmdClose.Click

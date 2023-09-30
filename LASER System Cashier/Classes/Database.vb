@@ -149,24 +149,27 @@ Values({AdminPer.APNo},#{DateAndTime.Now}#,'Waiting',{MdifrmMain.Tag},
                  End Sub)
     End Sub
 
-    Public Function GetDataTable(Sql As String) As DataTable
+    Public Function GetDataTable(Sql As String, Optional Values As OleDbParameter() = Nothing) As DataTable
         Dim DataTable As New DataTable
         Dim DataAdapter As New OleDbDataAdapter(Sql, _Connection)
+        If Values IsNot Nothing Then
+            DataAdapter.SelectCommand.Parameters.AddRange(Values)
+        End If
         DataAdapter.Fill(DataTable)
         DataAdapter.Dispose()
         Return DataTable
     End Function
 
-    Public Function GetSpecificColumnArray(Query As String, ColumnName As String) As List(Of String)
+    Public Function GetArray(Query As String, ColumnName As String) As List(Of String)
         Dim Command = New OleDbCommand(Query, _Connection)
         Dim DataReader As OleDbDataReader = Command.ExecuteReader()
         Dim Output As New List(Of String)
         While DataReader.Read
             Output.Add(DataReader(ColumnName).ToString)
         End While
-        Return (Output)
         Command.Cancel()
         DataReader.Close()
+        Return (Output)
     End Function
 
     Public Function GetNextKey(Table As String, Column As String) As Integer
@@ -197,6 +200,16 @@ Values({AdminPer.APNo},#{DateAndTime.Now}#,'Waiting',{MdifrmMain.Tag},
     Public Function GetDataReader(Sql As String) As OleDbDataReader
         CMD = New OleDb.OleDbCommand(Sql, _Connection)
         Return (CMD.ExecuteReader())
+    End Function
+
+    Public Function GetDataAdapter(Query As String) As OleDbDataAdapter
+        Dim DA As New OleDbDataAdapter(Query, _Connection)
+        Return DA
+    End Function
+
+    Public Function GetData(Query As String) As Object
+        Dim Command As New OleDbCommand(Query, _Connection)
+        Return Command.ExecuteScalar()
     End Function
 
 End Class

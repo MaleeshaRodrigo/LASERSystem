@@ -2,7 +2,7 @@
     Private Db As New Database
 
     Private Sub cmbTName_DropDown(sender As Object, e As EventArgs) Handles cmbTName.DropDown
-        CmbDropDown(cmbTName, "Select TName from Technician group by TName;", "TName")
+        ComboBoxDropDown(Db, cmbTName, "Select TName from Technician group by TName;")
     End Sub
 
     Private Sub cmbTName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbTName.SelectedIndexChanged

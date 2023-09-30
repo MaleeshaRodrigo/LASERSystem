@@ -14,11 +14,11 @@
     End Sub
 
     Private Sub cmbSName_DropDown(sender As Object, e As EventArgs) Handles cmbSName.DropDown
-        Call CmbDropDown(cmbSName, "Select SName from Stock where SCategory ='" & cmbSCategory.Text & "' group by  SName;", "Sname")
+        Call ComboBoxDropDown(Db, cmbSName, "Select SName from Stock where SCategory ='" & cmbSCategory.Text & "' group by  SName;")
     End Sub
 
     Private Sub cmbSCategory_DropDown(sender As Object, e As EventArgs) Handles cmbSCategory.DropDown
-        Call CmbDropDown(cmbSCategory, "Select SCategory from Stock group by SCategory;", "SCategory")
+        Call ComboBoxDropDown(Db, cmbSCategory, "Select SCategory from Stock group by SCategory;")
     End Sub
 
     Private Sub cmbSCategory_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbSCategory.SelectedIndexChanged

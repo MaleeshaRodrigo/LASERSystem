@@ -74,9 +74,9 @@ Public Class frmMessage
     End Sub
     Private Sub cmbRepNo_DropDown(sender As Object, e As EventArgs) Handles cmbRepNo.DropDown
         If cmbField.Text = "Repair" Then
-            CmbDropDown(cmbRepNo, "Select REPNo from Repair Order by RePNO Desc;", "REPNO")
+            ComboBoxDropDown(Db, cmbRepNo, "Select REPNo from Repair Order by RePNO Desc;")
         ElseIf cmbField.Text = "RERepair" Then
-            CmbDropDown(cmbRepNo, "Select RetNo from Return Order by RetNO Desc;", "RETNO")
+            ComboBoxDropDown(Db, cmbRepNo, "Select RetNo from Return Order by RetNO Desc;")
         End If
     End Sub
 

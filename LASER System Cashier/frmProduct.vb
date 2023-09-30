@@ -172,7 +172,7 @@
     End Sub
 
     Private Sub cmbPCategory_DropDown(sender As Object, e As EventArgs) Handles cmbPCategory.DropDown
-        Call CmbDropDown(cmbPCategory, "Select PCategory from Product group by  PCategory;", "PCategory")
+        Call ComboBoxDropDown(Db, cmbPCategory, "Select PCategory from Product group by  PCategory;")
     End Sub
 
     Private Sub cmbPCategory_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbPCategory.SelectedIndexChanged
@@ -181,7 +181,7 @@
     End Sub
 
     Private Sub cmbPName_DropDown(sender As Object, e As EventArgs) Handles cmbPName.DropDown
-        Call CmbDropDown(cmbPName, "Select PName from Product where PCategory='" & cmbPCategory.Text & "' group by  PName;", "PName")
+        Call ComboBoxDropDown(Db, cmbPName, "Select PName from Product where PCategory='" & cmbPCategory.Text & "' group by  PName;")
     End Sub
 
     Public Sub cmbPName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbPName.SelectedIndexChanged

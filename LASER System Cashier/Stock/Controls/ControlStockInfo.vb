@@ -102,21 +102,18 @@ Public Class ControlStockInfo
     End Sub
 
     Private Sub CmbCategory_DropDown(sender As Object, e As EventArgs) Handles CmbCategory.DropDown
-        CmbDropDown(CmbCategory,
-                    $"SELECT {StructureDbStock.Category} FROM {StructureDbTables.Stock} GROUP BY {StructureDbStock.Category};",
-                    StructureDbStock.Category)
+        ComboBoxDropDown(DB, CmbCategory,
+                    $"SELECT {StructureDbStock.Category} FROM {StructureDbTables.Stock} GROUP BY {StructureDbStock.Category};")
     End Sub
 
     Private Sub CmbName_DropDown(sender As Object, e As EventArgs) Handles CmbName.DropDown
-        CmbDropDown(CmbName,
-                    $"SELECT {StructureDbStock.Name} FROM {StructureDbTables.Stock} GROUP BY {StructureDbStock.Name};",
-                    StructureDbStock.Name)
+        ComboBoxDropDown(DB, CmbName,
+                    $"SELECT {StructureDbStock.Name} FROM {StructureDbTables.Stock} GROUP BY {StructureDbStock.Name};")
     End Sub
 
     Private Sub CmbLocation_DropDown(sender As Object, e As EventArgs) Handles CmbLocation.DropDown
-        CmbDropDown(CmbLocation,
-                    $"SELECT {StructureDbStock.Location} FROM {StructureDbTables.Stock} GROUP BY {StructureDbStock.Location};",
-                    StructureDbStock.Location)
+        ComboBoxDropDown(DB, CmbLocation,
+                    $"SELECT {StructureDbStock.Location} FROM {StructureDbTables.Stock} GROUP BY {StructureDbStock.Location};")
     End Sub
 
     Private Sub CmdDelete_Click(sender As Object, e As EventArgs) Handles CmdDelete.Click

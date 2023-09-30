@@ -86,23 +86,23 @@ Public Class frmRepair
     End Sub
 
     Private Sub CmbRepNo_DropDown(sender As Object, e As EventArgs) Handles cmbRepNo.DropDown
-        Call CmbDropDown(cmbRepNo, "Select RepNo from Repair order by RepNo Desc", "RepNo")
+        Call ComboBoxDropDown(Db, cmbRepNo, "Select RepNo from Repair order by RepNo Desc")
     End Sub
 
     Private Sub CmbRetNo_DropDown(sender As Object, e As EventArgs) Handles cmbRetNo.DropDown
         If cmbRetRepNo.Text = "" Then
-            Call CmbDropDown(cmbRetNo, "Select RetNo from Return order by RetNo Desc;", "RetNo")
+            Call ComboBoxDropDown(Db, cmbRetNo, "Select RetNo from Return order by RetNo Desc;")
         Else
-            Call CmbDropDown(cmbRetNo, "Select RetNo from Return Where RepNo = " & cmbRetRepNo.Text & " order by RetNo Desc;", "RetNo")
+            Call ComboBoxDropDown(Db, cmbRetNo, "Select RetNo from Return Where RepNo = " & cmbRetRepNo.Text & " order by RetNo Desc;")
         End If
     End Sub
 
     Private Sub cmbRetRepNo_DropDown(sender As Object, e As EventArgs) Handles cmbRetRepNo.DropDown
-        Call CmbDropDown(cmbRetRepNo, "Select RepNo from Return Group By RepNo order by RepNo Desc;", "RepNo")
+        Call ComboBoxDropDown(Db, cmbRetRepNo, "Select RepNo from Return Group By RepNo order by RepNo Desc;")
     End Sub
 
     Private Sub cmbLocation_DropDown(sender As Object, e As EventArgs) Handles cmbLocation.DropDown
-        CmbDropDown(cmbLocation, "Select Location from Repair Group by Location;", "Location")
+        ComboBoxDropDown(Db, cmbLocation, "Select Location from Repair Group by Location;")
     End Sub
 
     Public Sub CmbRepNo_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbRepNo.SelectedIndexChanged
@@ -458,7 +458,7 @@ Public Class frmRepair
         End If
     End Sub
     Private Sub CmbTName_DropDown(sender As Object, e As EventArgs) Handles cmbTName.DropDown
-        Call CmbDropDown(cmbTName, "Select TName from Technician Where TActive = True group by TName;", "TName")
+        Call ComboBoxDropDown(Db, cmbTName, "Select TName from Technician Where TActive = True group by TName;")
     End Sub
 
     Private Sub cmbTName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbTName.SelectedIndexChanged
@@ -895,7 +895,7 @@ Public Class frmRepair
     End Sub
 
     Private Sub CmbCuName_DropDown(sender As Object, e As EventArgs) Handles cmbCuName.DropDown
-        Call CmbDropDown(cmbCuName, "Select CuName from Customer group by CuName;", "CuName")
+        Call ComboBoxDropDown(Db, cmbCuName, "Select CuName from Customer group by CuName;")
     End Sub
 
     Public Sub CmbCuName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbCuName.SelectedIndexChanged
@@ -916,7 +916,7 @@ Public Class frmRepair
     End Sub
 
     Private Sub CmbPCategory_DropDown(sender As Object, e As EventArgs) Handles cmbPCategory.DropDown
-        Call CmbDropDown(cmbPCategory, "Select PCAtegory from Product Group by PCategory;", "PCategory")
+        Call ComboBoxDropDown(Db, cmbPCategory, "Select PCAtegory from Product Group by PCategory;")
     End Sub
 
     Private Sub CmbPCategory_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbPCategory.SelectedIndexChanged
@@ -924,7 +924,7 @@ Public Class frmRepair
     End Sub
 
     Private Sub CmbPName_DropDown(sender As Object, e As EventArgs) Handles cmbPName.DropDown
-        Call CmbDropDown(cmbPName, "Select PName from Product where PCategory='" & cmbPCategory.Text & "' group by PName;", "PName")
+        Call ComboBoxDropDown(Db, cmbPName, "Select PName from Product where PCategory='" & cmbPCategory.Text & "' group by PName;")
     End Sub
 
     Public Sub CmbPName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbPName.SelectedIndexChanged

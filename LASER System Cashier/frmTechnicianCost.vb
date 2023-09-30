@@ -8,7 +8,7 @@ Public Class frmTechnicianCost
     End Sub
 
     Private Sub cmbTName_DropDown(sender As Object, e As EventArgs) Handles cmbTName.DropDown
-        Call CmbDropDown(cmbTName, "Select TName from Technician Where TActive = True group by TName;", "TName")
+        Call ComboBoxDropDown(Db, cmbTName, "Select TName from Technician Where TActive = True group by TName;")
     End Sub
 
     Private Sub cmbTName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbTName.SelectedIndexChanged

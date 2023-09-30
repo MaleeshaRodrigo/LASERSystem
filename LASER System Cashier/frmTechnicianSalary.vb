@@ -138,7 +138,7 @@ Public Class frmTechnicianSalary
     End Sub
 
     Private Sub CmbTName_DropDown(sender As Object, e As EventArgs) Handles cmbTName.DropDown
-        Call CmbDropDown(cmbTName, "Select TName from Technician group by TName;", "TName")
+        Call ComboBoxDropDown(Db, cmbTName, "Select TName from Technician group by TName;")
     End Sub
 
     Private Sub cmdTSCancel_Click(sender As Object, e As EventArgs) Handles cmdTSCancel.Click

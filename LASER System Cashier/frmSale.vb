@@ -83,7 +83,7 @@ Public Class frmSale
     End Sub
 
     Private Sub cmbCuName_DropDown(sender As Object, e As EventArgs) Handles cmbCuName.DropDown
-        CmbDropDown(cmbCuName, "Select CuName from Customer group by  CuName;", "CuName")
+        ComboBoxDropDown(Db, cmbCuName, "Select CuName from Customer group by  CuName;")
     End Sub
 
     Private Sub cmbCuName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbCuName.SelectedIndexChanged

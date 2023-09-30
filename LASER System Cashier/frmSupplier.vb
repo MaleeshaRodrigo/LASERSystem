@@ -50,7 +50,7 @@
     End Sub
 
     Private Sub cmbSuName_DropDown(sender As Object, e As EventArgs) Handles cmbSuName.DropDown
-        CmbDropDown(cmbSuName, "Select SuName from Supplier group by  SuName;", "SuName")
+        ComboBoxDropDown(Db, cmbSuName, "Select SuName from Supplier group by  SuName;")
     End Sub
 
     Private Sub cmbSuName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbSuName.SelectedIndexChanged

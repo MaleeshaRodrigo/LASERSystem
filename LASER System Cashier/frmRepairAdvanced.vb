@@ -166,9 +166,9 @@ Public Class frmRepairAdvanced
 
     Private Sub cmbRepNo_DropDown(sender As Object, e As EventArgs) Handles cmbRepNo.DropDown
         If rbRep.Checked = True Then
-            CmbDropDown(cmbRepNo, "Select RepNo from Repair order by RepNo desc", "RepNo")
+            ComboBoxDropDown(Db, cmbRepNo, "Select RepNo from Repair order by RepNo desc")
         Else
-            CmbDropDown(cmbRepNo, "Select RetNo from Return order by RetNo desc", "RetNo")
+            ComboBoxDropDown(Db, cmbRepNo, "Select RetNo from Return order by RetNo desc")
         End If
     End Sub
 

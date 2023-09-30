@@ -171,7 +171,7 @@ Public Class frmLogin
     End Sub
 
     Private Sub cmbUserName_DropDown(sender As Object, e As EventArgs) Handles cmbUserName.DropDown
-        CmbDropDown(cmbUserName, "Select UserName from [User] group by UserName", "UserName")
+        ComboBoxDropDown(Db, cmbUserName, "Select UserName from [User] group by UserName")
     End Sub
 
     Private Sub cmdClose_Click(sender As Object, e As EventArgs) Handles cmdClose.Click

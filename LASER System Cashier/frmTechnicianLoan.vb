@@ -14,7 +14,7 @@
     End Sub
 
     Private Sub cmbTName_DropDown(sender As Object, e As EventArgs) Handles cmbTName.DropDown
-        Call CmbDropDown(cmbTName, "Select TName from Technician Where TActive=True group by TName;", "TName")
+        Call ComboBoxDropDown(Db, cmbTName, "Select TName from Technician Where TActive=True group by TName;")
     End Sub
 
     Private Sub cmdClose_Click(sender As Object, e As EventArgs)
@@ -118,7 +118,7 @@
     End Sub
 
     Private Sub cmbSCategory_DropDown(sender As Object, e As EventArgs) Handles cmbSCategory.DropDown
-        CmbDropDown(cmbSCategory, "Select SCategory from Stock group by SCategory;", "Scategory")
+        ComboBoxDropDown(Db, cmbSCategory, "Select SCategory from Stock group by SCategory;")
     End Sub
 
     Private Sub cmbSName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbSName.SelectedIndexChanged
@@ -142,7 +142,7 @@
     End Sub
 
     Private Sub cmbSName_DropDown(sender As Object, e As EventArgs) Handles cmbSName.DropDown
-        CmbDropDown(cmbSName, "Select SName from Stock Where SCategory='" & cmbSCategory.Text & "' group by SName;", "SName")
+        ComboBoxDropDown(Db, cmbSName, "Select SName from Stock Where SCategory='" & cmbSCategory.Text & "' group by SName;")
     End Sub
 
     Private Sub txtSUnitPrice_TextChanged(sender As Object, e As EventArgs) Handles txtSUnitPrice.TextChanged
