@@ -100,26 +100,26 @@
                 If CheckExistData(txtCuLNo, "SELECT CULNO FROM CUSTOMERLOAN WHERE CULNO = " & txtCuLNo.Text & ";", "Something was wrong. This Customer Loan No is already exist in the database. Please Check it and try again. Otherwise you can contact a software developer.", True) = True Then
                     Exit Sub
                 End If
-                CMDUPDATE("Insert into CustomerLoan(CuLNo,CuLDate,CuNo,CuLAmount,Status,CuLRemarks) " &
+                Db.Execute("Insert into CustomerLoan(CuLNo,CuLDate,CuNo,CuLAmount,Status,CuLRemarks) " &
                                              "Values(" & txtCuLNo.Text & ",#" & txtCuLDate.Value.Date & "#," & CuNo.ToString & "," & txtCuLAmount.Text & ",'" & cmbCuLStatus.Text & "','" & txtCuLRemarks.Text & "');")
                 If txtDNo.Text <> "" Then
-                    CMDUPDATE("Update CustomerLoan set DNo = " & txtDNo.Text & " where CuLNO = " & txtCuLNo.Text)
+                    Db.Execute("Update CustomerLoan set DNo = " & txtDNo.Text & " where CuLNO = " & txtCuLNo.Text)
                     If MsgBox("Will the Deliver Section be updated ? ", vbInformation + vbYesNo) = vbYes Then
-                        CMDUPDATE("Update Deliver set CuLNO = " & txtCuLNo.Text &
+                        Db.Execute("Update Deliver set CuLNO = " & txtCuLNo.Text &
                                                      ", CuLAmount = " & txtCuLAmount.Text &
                                                      " Where DNo = " & txtDNo.Text)
                     End If
                 End If
                 If txtSaNo.Text <> "" Then
-                    CMDUPDATE("Update CustomerLoan set SANo = " & txtSaNo.Text & " where CuLNO = " & txtCuLNo.Text)
+                    Db.Execute("Update CustomerLoan set SANo = " & txtSaNo.Text & " where CuLNO = " & txtCuLNo.Text)
                     If MsgBox("Will the Sale Section be updated ? ", vbInformation + vbYesNo) = vbYes Then
-                        CMDUPDATE("Update Sale set CuLNo = " & txtCuLNo.Text &
+                        Db.Execute("Update Sale set CuLNo = " & txtCuLNo.Text &
                                                      ", CuLAmount = " & txtCuLAmount.Text &
                                                      " Where SaNo = " & txtSaNo.Text)
                     End If
                 End If
             Case "Edit"
-                CMDUPDATE("Update CustomerLoan set CuLDate = #" & txtCuLDate.Text &
+                Db.Execute("Update CustomerLoan set CuLDate = #" & txtCuLDate.Text &
                                              "#,CuNo = " & CuNo &
                                              If(txtSaNo.Text <> "", ",SaNo = " & txtSaNo.Text, "") &
                                              If(txtDNo.Text <> "", ",DNo = " & txtDNo.Text, "") &
@@ -129,14 +129,14 @@
                                              "' Where CuLNO = " & txtCuLNo.Text)
                 If txtDNo.Text = "" Then
                     If MsgBox("Will the Deliver Section be changed ? ", vbInformation + vbYesNo) = vbYes Then
-                        CMDUPDATE("Update Deliver set CuLNO = " & txtCuLNo.Text &
+                        Db.Execute("Update Deliver set CuLNO = " & txtCuLNo.Text &
                                                      ", CuLAmount = " & txtCuLAmount.Text &
                                                      " Where DNo = " & txtDNo.Text)
                     End If
                 End If
                 If txtSaNo.Text = "" Then
                     If MsgBox("Will the Sale Section be changed ? ", vbInformation + vbYesNo) = vbYes Then
-                        CMDUPDATE("Update Sale set CuLNo = " & txtCuLNo.Text &
+                        Db.Execute("Update Sale set CuLNo = " & txtCuLNo.Text &
                                                      ", CuLAmount = " & txtCuLAmount.Text &
                                                      " Where SaNo = " & txtSaNo.Text)
                     End If

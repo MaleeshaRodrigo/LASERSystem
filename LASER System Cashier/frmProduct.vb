@@ -123,11 +123,11 @@
                     cmbPCategory.Focus()
                     Exit Sub
                 End If
-                CMDUPDATE("Insert into Product(PNo,PCategory,PName,PModelNo,PDetails) Values(" & txtPNo.Text & ",'" & cmbPCategory.Text & "','" & cmbPName.Text & "','" & txtPModelNo.Text & "','" & txtPDetails.Text & "');")
+                Db.Execute("Insert into Product(PNo,PCategory,PName,PModelNo,PDetails) Values(" & txtPNo.Text & ",'" & cmbPCategory.Text & "','" & cmbPName.Text & "','" & txtPModelNo.Text & "','" & txtPDetails.Text & "');")
                 Call txtSearch_TextChanged(sender, e)
                 MsgBox("Save Successful", vbExclamation + vbOKOnly)
             Case "Edit"
-                CMDUPDATE("Update Product set PNo=" & txtPNo.Text &
+                Db.Execute("Update Product set PNo=" & txtPNo.Text &
                                                  ",PCategory = '" & cmbPCategory.Text & "'" &
                                                  ",PName = '" & cmbPName.Text & "'" &
                                                  ",PModelNo =  '" & txtPModelNo.Text & "'" &
@@ -164,7 +164,7 @@
             Exit Sub
         End If
         If MsgBox("Are you sure delete?", vbYesNo + vbInformation) = vbYes Then
-            CMDUPDATE("DELETE from Product where PNo=" & txtPNo.Text)
+            Db.Execute("DELETE from Product where PNo=" & txtPNo.Text)
             WriteActivity("Product no " + txtPNo.Text + " was deleted successful in 'Product' table on " + DateAndTime.Now)
             Call txtSearch_TextChanged(sender, e)
             Call cmdNew_Click(sender, e)

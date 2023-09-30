@@ -283,7 +283,7 @@ Public Class frmDeliver
         Else
             AdminPer.Keys.Add("CuNo", "?NewKey?Customer?CuNo?")
             CuNo = "?Key?CuNo?"
-            CMDUPDATE("Insert into Customer(CuNo,CuName,CuTelNo1,CuTelNo2,CutelNo3) Values(" & CuNo & ",'" & cmbCuName.Text & "','" & txtCuTelNo1.Text &
+            Db.Execute("Insert into Customer(CuNo,CuName,CuTelNo1,CuTelNo2,CutelNo3) Values(" & CuNo & ",'" & cmbCuName.Text & "','" & txtCuTelNo1.Text &
                       "','" & txtCuTelNo2.Text & "','" & txtCuTelNo3.Text & "');", AdminPer)
         End If
 
@@ -295,9 +295,9 @@ Public Class frmDeliver
             If DR.HasRows = True Then
                 DR.Read()
                 If DR("CuLNo").ToString <> "0" And txtCuLNo.Text = "0" Then
-                    CMDUPDATE("DELETE from CustomerLoan where CuLNo=" & DR("CuLNO").ToString, AdminPer)
+                    Db.Execute("DELETE from CustomerLoan where CuLNo=" & DR("CuLNO").ToString, AdminPer)
                 ElseIf DR("CuLNo").ToString <> "0" And txtCuLNo.Text <> "0" Then
-                    CMDUPDATE("Update CustomerLoan set CuLNo = " & DR("CuLNO").ToString &
+                    Db.Execute("Update CustomerLoan set CuLNo = " & DR("CuLNO").ToString &
                                                       "CuNo = " & CuNo &
                                                       ",CuLAmount = " & txtCuLAmount.Text &
                                                       ",DNo = " & txtDNo.Text &
@@ -305,7 +305,7 @@ Public Class frmDeliver
                                                       "# where CuLNo=" & DR("CuLNO").ToString, AdminPer)
                     txtCuLNo.Text = DR("CuLNo").ToString
                 ElseIf DR("CuLNo").ToString = "0" And txtCuLNo.Text <> "0" Then
-                    CMDUPDATE("Insert into CustomerLoan(CuLNO,CuLAmount,CuNo,DNo,CulDate,Status) values(?NewKey?CustomerLoan?CuLNo?," &
+                    Db.Execute("Insert into CustomerLoan(CuLNO,CuLAmount,CuNo,DNo,CulDate,Status) values(?NewKey?CustomerLoan?CuLNo?," &
                               txtCuLAmount.Text & "," & CuNo & "," & txtDNo.Text & ",#" & txtDDate.Value & "#,'Not Paid')", AdminPer)
                 End If
                 Dim CMD1 As New OleDb.OleDbCommand("SELECT RepNo,REP.PNo,PCategory,PName,Qty,Status,REP.TNo, TName,PaidPrice from " &
@@ -313,7 +313,7 @@ Public Class frmDeliver
                                                     "ON T.TNO = REP.TNO) LEFT JOIN DELIVER D ON D.DNO = REP.DNO) Where D.DNo=" & txtDNo.Text, CNN)
                 Dim DR1 As OleDb.OleDbDataReader = CMD1.ExecuteReader
                 While DR1.Read
-                    CMDUPDATE("Update Repair Set " & If(DR1("Status").ToString = "Repaired Delivered", "Status='Repaired Not Delivered'",
+                    Db.Execute("Update Repair Set " & If(DR1("Status").ToString = "Repaired Delivered", "Status='Repaired Not Delivered'",
                               "Status='Returned Not Delivered'") & ",PaidPrice=0,DNo=0 " &
                               "Where DNo=?Key?DNo?", AdminPer)
                 End While
@@ -322,20 +322,20 @@ Public Class frmDeliver
                                                 "ON T.TNO = RET.TNO) LEFT JOIN DELIVER D ON D.DNO = RET.DNO) Where D.DNo=" & txtDNo.Text, CNN)
                 DR1 = CMD1.ExecuteReader
                 While DR1.Read
-                    CMDUPDATE($"Update `Return` Set {If(DR1("Status").ToString = "Repaired Delivered", "Status='Repaired Not Delivered'",
+                    Db.Execute($"Update `Return` Set {If(DR1("Status").ToString = "Repaired Delivered", "Status='Repaired Not Delivered'",
                               "Status='Returned Not Delivered'")},PaidPrice=0,DNo=0 Where DNo={txtDNo.Text}", AdminPer)
                 End While
-                CMDUPDATE($"DELETE FROM Deliver WHERE DNo={txtDNo.Text}", AdminPer)
+                Db.Execute($"DELETE FROM Deliver WHERE DNo={txtDNo.Text}", AdminPer)
             End If
         End If
         '---------------Exit Edit Mode-----------------------------------------
-        CMDUPDATE("Insert into Deliver(DNo,DDate,Cuno,DGrandTotal,CAmount,CReceived,CBalance,CPINvoiceNo,CPAmount,CuLNO,CuLAmount,DRemarks) " &
+        Db.Execute("Insert into Deliver(DNo,DDate,Cuno,DGrandTotal,CAmount,CReceived,CBalance,CPINvoiceNo,CPAmount,CuLNO,CuLAmount,DRemarks) " &
                   "Values(" & DNo & ",#" & txtDDate.Value & "#," & CuNo & "," & txtGrandTotal.Text &
                   "," & txtCAmount.Text & "," &
                   txtCReceived.Text & "," & txtCBalance.Text & "," & txtCPInvoiceNo.Text & "," & txtCPAmount.Text & "," & txtCuLNo.Text & "," &
                   txtCuLAmount.Text & ",'" & txtDRemarks.Text & "');", AdminPer)
         If txtCuLAmount.Text <> "0" Then
-            CMDUPDATE("Insert into CustomerLoan(CuLNo,CuLDate,CuNO,CuLAmount,DNo,Status) Values(" &
+            Db.Execute("Insert into CustomerLoan(CuLNo,CuLDate,CuNO,CuLAmount,DNo,Status) Values(" &
                       "?NewKey?CustomerLoan?CuLNo?,#" & txtDDate.Value & "#," &
                       CuNo & "," & txtCuLAmount.Text & "," & DNo & ",'Not Paid')", AdminPer)
         End If
@@ -348,11 +348,11 @@ Public Class frmDeliver
                     DR.Read()
                     If DR("Status").ToString = "Received" Or DR("Status").ToString = "Hand Over to Technician" Or
                         DR("Status").ToString = "Repairing" Then
-                        CMDUPDATE("Update Repair set RepDate = #" & txtDDate.Value &
+                        Db.Execute("Update Repair set RepDate = #" & txtDDate.Value &
                                   "#,Charge=" & Row1.Cells(4).Value & " where RepNo= " & Row1.Cells(0).Value, AdminPer)
                     End If
                 End If
-                CMDUPDATE("Update Repair set PaidPrice = " & Row1.Cells(4).Value.ToString &
+                Db.Execute("Update Repair set PaidPrice = " & Row1.Cells(4).Value.ToString &
                                              ",TNo = " & GetStrfromRelatedfield("Select TNo from Technician Where TName='" &
                                              Row1.Cells(5).Value & "'") &
                                              ",Status='" & Row1.Cells(6).Value.ToString & "'" &
@@ -367,11 +367,11 @@ Public Class frmDeliver
                 If DR.HasRows = True Then
                     DR.Read()
                     If DR("Status").ToString = "Received" Or DR("Status").ToString = "Hand Over to Technician" Or DR("Status").ToString = "Repairing" Then
-                        CMDUPDATE("Update `Return` set RetRepDate = #" & txtDDate.Value &
+                        Db.Execute("Update `Return` set RetRepDate = #" & txtDDate.Value &
                                 "#,Charge=" & Row.Cells(5).Value.ToString & " where RepNo= " & Row.Cells(0).Value.ToString, AdminPer)
                     End If
                 End If
-                CMDUPDATE("Update `Return` set PaidPrice = " & Row.Cells(5).Value.ToString &
+                Db.Execute("Update `Return` set PaidPrice = " & Row.Cells(5).Value.ToString &
                         ",TNo = " & GetStrfromRelatedfield("Select TNo from Technician Where TName='" & Row.Cells(6).Value & "'") &
                         ",Status='" & Row.Cells(7).Value.ToString & "'" &
                         ",DNo = " & DNo & " where RetNo= " & Row.Cells(0).Value.ToString, AdminPer)
@@ -390,7 +390,7 @@ Public Class frmDeliver
                                                   DNo, CNN)
             Dim DRAutoD As OleDbDataReader = CMDAutoD.ExecuteReader()
             While DRAutoD.Read()
-                CMDUPDATE("Insert Into Mail(MailNo,MailDate,EmailTo,Subject,Body,Status) Values(?NewKey?Mail?MailNo?,#" & DateAndTime.Now &
+                Db.Execute("Insert Into Mail(MailNo,MailDate,EmailTo,Subject,Body,Status) Values(?NewKey?Mail?MailNo?,#" & DateAndTime.Now &
                                   "#,'" & DRAutoD("TEmail").ToString & "','Repair No:  " + DRAutoD("RepNo").ToString + " එක Customer විසින් රු." +
                                   DRAutoD("PaidPrice").ToString + " දී රුගෙන ගොස් ඇත.',""LASER System " + vbCrLf + vbCrLf +
                                     "Repair No: " + DRAutoD("RepNo").ToString + vbCrLf +
@@ -413,7 +413,7 @@ Public Class frmDeliver
                                               DNo, CNN)
             DRAutoD = CMDAutoD.ExecuteReader()
             While DRAutoD.Read()
-                CMDUPDATE("Insert Into Mail(MailNo,MailDate,EmailTo,Subject,Body,Status) Values(?NewKey?Mail?MailNo?,#" & DateAndTime.Now &
+                Db.Execute("Insert Into Mail(MailNo,MailDate,EmailTo,Subject,Body,Status) Values(?NewKey?Mail?MailNo?,#" & DateAndTime.Now &
                                   "#,'" & DR("TEmail").ToString & "','RERepair No:  " + DRAutoD("RetNo").ToString + " එක Customer විසින් රු." +
                                   DRAutoD("PaidPrice").ToString + "දී රුගෙන ගොස් ඇත.',
                                   ""LASER System " + vbCrLf + vbCrLf +

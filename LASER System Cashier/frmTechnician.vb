@@ -34,7 +34,7 @@
                 ElseIf CheckExistData(txtTNo, "Select TNo from Technician where TNo =" & txtTNo.Text & ";", "This data couldn't be saved to database because Technicino No which you added has already located in the database. You have to change that to save.", True) = True Then
                     Exit Sub
                 End If
-                CMDUPDATE("Insert into Technician(TNo,TName,TFullName,TAddress,TEmail,TNicNo,TTelNo1,TTelno2,TTelno3,TRemarks,TActive) " &
+                Db.Execute("Insert into Technician(TNo,TName,TFullName,TAddress,TEmail,TNicNo,TTelNo1,TTelno2,TTelno3,TRemarks,TActive) " &
                                              "Values(" & txtTNo.Text & ",'" & cmbTName.Text & "','" & txtTFullName.Text & "','" & txtTAddress.Text & "','" &
                                              txtTEmail.Text & "','" & txtTNICNo.Text & "','" & txtTTelNo1.Text & "','" & txtTTelNo2.Text & "','" &
                                              txtTTelNo3.Text & "','" & txtTRemarks.Text & "'," & chkActive.Checked & ");")
@@ -44,7 +44,7 @@
                 cmdDelete.Enabled = True
             Case "Edit"
                 If MsgBox("Are you sure edit?", vbYesNo + vbInformation) = vbYes Then
-                    CMDUPDATE("Update Technician Set TNo=" & txtTNo.Text &
+                    Db.Execute("Update Technician Set TNo=" & txtTNo.Text &
                                                  ",TName = '" & cmbTName.Text & "'" &
                                                  ",TFullName = '" & txtTFullName.Text & "'" &
                                                  ",TNICNo = '" & txtTNICNo.Text & "'" &
@@ -179,7 +179,7 @@
             Exit Sub
         End If
         If MsgBox("Are you sure delete this Technician?", vbInformation + vbYesNo) = vbYes Then
-            CMDUPDATE("DELETE from Technician where TNo=" & txtTNo.Text)
+            Db.Execute("DELETE from Technician where TNo=" & txtTNo.Text)
             Call txtSearch_TextChanged(sender, e)
             Call cmdNew_Click(sender, e)
         End If

@@ -209,22 +209,22 @@ Public Class frmTechnicianCost
         If grdTechnicianCost.Item(0, e.RowIndex).Value Is Nothing Then
             grdTechnicianCost.Item(0, e.RowIndex).Value = AutomaticPrimaryKey("TechnicianCost", "TCNo")
         End If
-        If CheckExistData("Select * from TechnicianCost Where TCNo=" & grdTechnicianCost.Item(0, e.RowIndex).Value) = False Then CMDUPDATE("Insert into TechnicianCost(TCNo,TNo,Rate,Qty,Total,UNo) Values(" & grdTechnicianCost.Item(0, e.RowIndex).Value & "," &
+        If CheckExistData("Select * from TechnicianCost Where TCNo=" & grdTechnicianCost.Item(0, e.RowIndex).Value) = False Then Db.Execute("Insert into TechnicianCost(TCNo,TNo,Rate,Qty,Total,UNo) Values(" & grdTechnicianCost.Item(0, e.RowIndex).Value & "," &
                       GetStrfromRelatedfield("Select TNo from Technician Where TName='" & cmbTName.Text & "'") & ",0,0,0," & MdifrmMain.Tag & ")")
         If Convert.ToDateTime(grdTechnicianCost.Item(1, e.RowIndex).Value).Date <> Today.Date Then
             AdminPer.AdminSend = True
         End If
         Select Case e.ColumnIndex
             Case 1
-                CMDUPDATE("Update TechnicianCost set " & grdTechnicianCost.Columns(e.ColumnIndex).DataPropertyName & "=#" &
+                Db.Execute("Update TechnicianCost set " & grdTechnicianCost.Columns(e.ColumnIndex).DataPropertyName & "=#" &
                           grdTechnicianCost.Item(e.ColumnIndex, e.RowIndex).Value & "# " & tmp & " Where TCNo=" &
                           grdTechnicianCost.Item(0, e.RowIndex).Value, AdminPer)
             Case 2, 5, 6, 7, 9, 10
-                CMDUPDATE("Update TechnicianCost set " & grdTechnicianCost.Columns(e.ColumnIndex).DataPropertyName & "=" &
+                Db.Execute("Update TechnicianCost set " & grdTechnicianCost.Columns(e.ColumnIndex).DataPropertyName & "=" &
                           grdTechnicianCost.Item(e.ColumnIndex, e.RowIndex).Value & " " & tmp & " Where TCNo=" &
                           grdTechnicianCost.Item(0, e.RowIndex).Value, AdminPer)
             Case 3, 4, 8
-                CMDUPDATE("Update TechnicianCost set " & grdTechnicianCost.Columns(e.ColumnIndex).DataPropertyName & "='" &
+                Db.Execute("Update TechnicianCost set " & grdTechnicianCost.Columns(e.ColumnIndex).DataPropertyName & "='" &
                           grdTechnicianCost.Item(e.ColumnIndex, e.RowIndex).Value & "' " & tmp & " Where TCNo=" &
                           grdTechnicianCost.Item(0, e.RowIndex).Value, AdminPer)
         End Select
@@ -252,17 +252,17 @@ Public Class frmTechnicianCost
                         e.Cancel = True
                         Exit Sub
                     ElseIf Response = vbYes Then
-                        CMDUPDATE("Update Stock set SAvailablestocks=(SAvailableStocks + " & grdTechnicianCost.Item("Qty", e.Row.Index).Value &
+                        Db.Execute("Update Stock set SAvailablestocks=(SAvailableStocks + " & grdTechnicianCost.Item("Qty", e.Row.Index).Value &
                                                              ") where SNo=" & grdTechnicianCost.Item("SNo", e.Row.Index).Value & "")
-                        CMDUPDATE("DELETE from TechnicianCost where TCNo=" & grdTechnicianCost.Item(0, e.Row.Index).Value)       'delete data from stocksale 
+                        Db.Execute("DELETE from TechnicianCost where TCNo=" & grdTechnicianCost.Item(0, e.Row.Index).Value)       'delete data from stocksale 
                     ElseIf Response = vbNo Then
-                        CMDUPDATE("Update Stock set SOutofStocks=(SOutofStocks + " & grdTechnicianCost.Item("Qty", e.Row.Index).Value &
+                        Db.Execute("Update Stock set SOutofStocks=(SOutofStocks + " & grdTechnicianCost.Item("Qty", e.Row.Index).Value &
                                                              ") where SNo=" & grdTechnicianCost.Item("SNo", e.Row.Index).Value & "")
-                        CMDUPDATE("DELETE from TechnicianCost where TCNo=" & grdTechnicianCost.Item(0, e.Row.Index).Value)      'delete data from stocksale 
+                        Db.Execute("DELETE from TechnicianCost where TCNo=" & grdTechnicianCost.Item(0, e.Row.Index).Value)      'delete data from stocksale 
                     End If
                 Else
                     If MsgBox("Are you sure delete this Technician Cost data?", vbYesNo + vbExclamation) = vbYes Then
-                        CMDUPDATE("DELETE from TechnicianCost where TCNo=" & grdTechnicianCost.Item(0, e.Row.Index).Value)      'delete data from stocksale 
+                        Db.Execute("DELETE from TechnicianCost where TCNo=" & grdTechnicianCost.Item(0, e.Row.Index).Value)      'delete data from stocksale 
                     End If
                 End If
             End If

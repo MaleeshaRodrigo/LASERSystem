@@ -62,13 +62,13 @@ Public Class frmMessage
                "Message: " + txtMessage.Text & vbCr &
                "SMS එක යැවීම සඳහා තහවුරු කරන්න.", vbYesNo + vbExclamation) = False Then Exit Sub
         If cmbField.Text = "Repair" Then
-            CMDUPDATE("Insert Into Message(MsgNo,REPNo,CuTelNo,Message,Status) Values(" &
+            Db.Execute("Insert Into Message(MsgNo,REPNo,CuTelNo,Message,Status) Values(" &
                   txtMsgNo.Text & "," & cmbRepNo.Text & ",'" & txtPhoneNo.Text & "','" & txtMessage.Text & "','Waiting');")
         ElseIf cmbField.Text = "RERepair" Then
-            CMDUPDATE("Insert Into Message(MsgNo,RETNo,CuTelNo,Message,Status) Values(" &
+            Db.Execute("Insert Into Message(MsgNo,RETNo,CuTelNo,Message,Status) Values(" &
                   txtMsgNo.Text & "," & cmbRepNo.Text & ",'" & txtPhoneNo.Text & "','" & txtMessage.Text & "','Waiting');")
         Else
-            CMDUPDATE("Insert Into Message(MsgNo,CuTelNo,Message,Status) Values(" &
+            Db.Execute("Insert Into Message(MsgNo,CuTelNo,Message,Status) Values(" &
                   txtMsgNo.Text & ",'" & txtPhoneNo.Text & "','" & txtMessage.Text & "','Waiting');")
         End If
     End Sub

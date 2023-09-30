@@ -43,11 +43,11 @@ Public Class frmRepairAdvanced
                     AdminPer.Remarks = "අද දිනට නොමැති Repair එකෙහි " & txtAdNo.Text & " වන Advanced Payment එකක් ඇතුලත් කෙරුණි. "
                 End If
                 If rbRep.Checked = True Then
-                    CMDUPDATE("Insert into RepairAdvanced(ADNo,ADDate,RepNo,RetNo,Amount,Remarks,UNo) Values(?NewKey?RepairAdvanced?AdNo?,#" &
+                    Db.Execute("Insert into RepairAdvanced(ADNo,ADDate,RepNo,RetNo,Amount,Remarks,UNo) Values(?NewKey?RepairAdvanced?AdNo?,#" &
                           txtAdDate.Value & "#," & cmbRepNo.Text & ",0," & txtAmount.Text & ",'" & txtRemarks.Text & "'," & MdifrmMain.Tag & ")",
                               AdminPer)
                 Else
-                    CMDUPDATE("Insert into RepairAdvanced(ADNo,ADDate,RepNo,RetNo,Amount,Remarks,UNo) Values(?NewKey?RepairAdvanced?AdNo?,#" &
+                    Db.Execute("Insert into RepairAdvanced(ADNo,ADDate,RepNo,RetNo,Amount,Remarks,UNo) Values(?NewKey?RepairAdvanced?AdNo?,#" &
                           txtAdDate.Value & "#,0," & cmbRepNo.Text & "," & txtAmount.Text & ",'" & txtRemarks.Text & "'," & MdifrmMain.Tag & ")",
                               AdminPer)
                 End If
@@ -60,7 +60,7 @@ Public Class frmRepairAdvanced
                     AdminPer.Remarks = "අද දිනට නොමැති Repair එකෙහි " & txtAdNo.Text & " වන Advanced Payment එකක් වෙනස් කෙරුණි. "
                 End If
                 If rbRep.Checked = True Then
-                    CMDUPDATE("Update RepairAdvanced set ADDate=#" & txtAdDate.Value &
+                    Db.Execute("Update RepairAdvanced set ADDate=#" & txtAdDate.Value &
                               "#, RepNo=" & cmbRepNo.Text &
                               ", RetNo=0" &
                               ", Amount=" & txtAmount.Text &
@@ -68,7 +68,7 @@ Public Class frmRepairAdvanced
                               "', UNo=" & MdifrmMain.Tag &
                               " Where AdNo=" & txtAdNo.Text, AdminPer)
                 Else
-                    CMDUPDATE("Update RepairAdvanced set ADDate=#" & txtAdDate.Value &
+                    Db.Execute("Update RepairAdvanced set ADDate=#" & txtAdDate.Value &
                               "#, RetNo=" & cmbRepNo.Text &
                               ", RepNo=0" &
                               ", Amount=" & txtAmount.Text &
@@ -121,7 +121,7 @@ Public Class frmRepairAdvanced
             AdminPer.AdminSend = True
             AdminPer.Remarks = "Repair හි " & txtAdNo.Text & " Advanced Payment එකක් Delete කෙරුණි."
         End If
-        CMDUPDATE("Delete from RepairAdvanced Where AdNo=" & txtAdNo.Text, AdminPer)
+        Db.Execute("Delete from RepairAdvanced Where AdNo=" & txtAdNo.Text, AdminPer)
     End Sub
 
     Private Sub cmdClose_Click(sender As Object, e As EventArgs) Handles cmdClose.Click

@@ -67,18 +67,18 @@
                                                         cmbTName.Text & "'"))
         If cmdTLSave.Text = "Save" Then
             If txtSNo.Text <> "" Then
-                CMDUPDATE("Insert Into TechnicianLoan(TLNo,TNo,TLDate,SNo,SCategory,SName,TLReason,Rate,Qty,Total,UNo) " &
+                Db.Execute("Insert Into TechnicianLoan(TLNo,TNo,TLDate,SNo,SCategory,SName,TLReason,Rate,Qty,Total,UNo) " &
                         "Values(" & txtTLNo.Text & "," & TNo & ",#" & txtTLDate.Value & "#," & txtSNo.Text & ",'" &
                         cmbSCategory.Text & "','" & cmbSName.Text & "','" & txtTLReason.Text &
                         "'," & txtSUnitPrice.Text & "," & txtSQty.Text & "," & txtTLAmount.Text & ",'" & MdifrmMain.Tag & "')", AdminPer)
             Else
-                CMDUPDATE("Insert Into TechnicianLoan(TLNo,TNo,TLDate,TLReason,Total,UNo) " &
+                Db.Execute("Insert Into TechnicianLoan(TLNo,TNo,TLDate,TLReason,Total,UNo) " &
                         "Values(" & txtTLNo.Text & "," & TNo & ",#" & txtTLDate.Value & "#,'" & txtTLReason.Text & "'," &
                         txtTLAmount.Text & ",'" & MdifrmMain.Tag & "')", AdminPer)
             End If
             MsgBox("Save Successfull!", vbExclamation + vbOKOnly)
         ElseIf cmdTLSave.Text = "Edit" Then
-            CMDUPDATE("Update TechnicianCost Set TNo=" & TNo &
+            Db.Execute("Update TechnicianCost Set TNo=" & TNo &
                       ",TLDate=#" & txtTLDate.Value &
                       "#,SNo=" & txtSNo.Text &
                       ",SCategory='" & cmbSCategory.Text &
@@ -284,19 +284,19 @@
                                       "No - නැතහොත්, ඔබට මෙම item එක Damaged Units වලට add කිරිමට අවශ්‍ය නම්, 'No' යන Button එක Click කරන්න." +
                                       vbCr + vbCr + "Cancel - ඔබට ඉවත් වීමට අවශ්‍ය නම් 'Cancel' යන Button එක Click කරන්න.", vbYesNoCancel + vbExclamation)
                 If Response = vbYes Then
-                    CMDUPDATE("Update Stock set SAvailablestocks=(SAvailableStocks + " & txtSQty.Text &
+                    Db.Execute("Update Stock set SAvailablestocks=(SAvailableStocks + " & txtSQty.Text &
                                                              ") where SNo=" & txtSNo.Text & "", AdminPer)
-                    CMDUPDATE("DELETE from TechnicianCost where TCNo=" & txtTLNo.Text, AdminPer)       'decrease unit from stock table 
+                    Db.Execute("DELETE from TechnicianCost where TCNo=" & txtTLNo.Text, AdminPer)       'decrease unit from stock table 
                 ElseIf Response = vbNo Then
-                    CMDUPDATE("Update Stock set SOutofStocks=(SOutofStocks + " & txtSQty.Text &
+                    Db.Execute("Update Stock set SOutofStocks=(SOutofStocks + " & txtSQty.Text &
                                                              ") where SNo=" & txtSNo.Text & "", AdminPer)
-                    CMDUPDATE("DELETE from TechnicianCost where TCNo=" & txtTLNo.Text, AdminPer)       'delete data from technician loan 
+                    Db.Execute("DELETE from TechnicianCost where TCNo=" & txtTLNo.Text, AdminPer)       'delete data from technician loan 
                 Else
                     Exit Sub
                 End If
             Else
                 If MsgBox("Are you sure delete this Technician Cost?", vbYesNo + vbExclamation) = vbYes Then
-                    CMDUPDATE("DELETE from TechnicianCost where TCNo=" & txtTLNo.Text, AdminPer)       'delete data from technician loan 
+                    Db.Execute("DELETE from TechnicianCost where TCNo=" & txtTLNo.Text, AdminPer)       'delete data from technician loan 
                 End If
             End If
         Else

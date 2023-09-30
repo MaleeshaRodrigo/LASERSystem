@@ -118,7 +118,7 @@ Public Class frmLogin
             For i As Integer = 1 To 5 ' 5 Letters generated
                 sPrefix &= ChrW(rdm.Next(65, 90))
             Next
-            CMDUPDATE("Insert Into Mail(MailNo,MailDate,EmailTo,Subject,Body,Status) Values(?NewKey?Mail?MailNo?,#" &
+            Db.Execute("Insert Into Mail(MailNo,MailDate,EmailTo,Subject,Body,Status) Values(?NewKey?Mail?MailNo?,#" &
                       DateAndTime.Now & "#,'" & DR("Email").ToString & "','New Signed in Detected from your LASER System account','" &
                       "Please use the following security code for the LASER System account " & txtOTPUserName.Text & "." + vbCrLf + vbCrLf +
                         "Security code: " + sPrefix & "','Waiting');")
