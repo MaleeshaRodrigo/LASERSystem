@@ -21,7 +21,7 @@ Public Class frmMessage
     End Sub
 
     Private Sub frmMessage_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        GetCNN()
+        Db.Connect()
         System.Windows.Forms.Control.CheckForIllegalCrossThreadCalls = False
         Select Case Me.Tag
             Case "Message"

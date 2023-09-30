@@ -15,7 +15,7 @@ Public Class frmDeliver
     End Sub
 
     Private Sub frmDeliver_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        GetCNN()
+        Db.Connect()
         grdRepair.Focus()
     End Sub
 

@@ -37,7 +37,7 @@ Public Class frmRepair
     End Sub
 
     Private Sub FrmRepair_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        GetCNN()
+        Db.Connect()
         If tabRepair.SelectedIndex = 0 Then
             cmbRepNo.Focus()
         Else

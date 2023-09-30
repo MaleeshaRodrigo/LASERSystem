@@ -6,7 +6,7 @@ Public Class MdifrmMain
     Private Db As New Database
     Private Sub mdifrmMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         System.Windows.Forms.Control.CheckForIllegalCrossThreadCalls = False
-        GetCNN()
+        Db.Connect()
         MenuStrip.Items.Add(mnustrpMENU)
     End Sub
 

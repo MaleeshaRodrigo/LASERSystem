@@ -11,7 +11,7 @@ Public Class frmSupply
     End Sub
 
     Private Sub frmSupply_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        GetCNN()
+        Db.Connect()
         MenuStrip.Items.Add(mnustrpMENU)
         Call cmdNew_Click(sender, e)
     End Sub

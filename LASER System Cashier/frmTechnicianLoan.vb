@@ -2,7 +2,7 @@
     Private Db As New Database
 
     Private Sub frmTechnicianLoan_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        GetCNN()
+        Db.Connect()
         MenuStrip1.Items.Add(mnustrpMENU)
         Call SetNextKey(Db, txtTLNo, "SELECT top 1 TLNo from TechnicianLoan ORDER BY TLNo Desc;", "TLNo")
         txtTLFrom.Value = "" & Date.Today.Year & "-" & Date.Today.Month & "-01"

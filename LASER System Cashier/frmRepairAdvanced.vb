@@ -5,7 +5,7 @@ Public Class frmRepairAdvanced
     Private dtpDate As New DateTimePicker
     Private cmdView As New Button
     Private Sub frmRepairAdvanced_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        GetCNN()
+        Db.Connect()
         cmbFilter.Text = "All"
         cmdSearch_Click(sender, e)
         cmdNew_Click(sender, e)

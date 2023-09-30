@@ -17,7 +17,7 @@
     End Sub
 
     Private Sub frmSalesRepair_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        GetCNN()
+        Db.Connect()
         Call cmdSaRepNew_Click(sender, e)
     End Sub
 

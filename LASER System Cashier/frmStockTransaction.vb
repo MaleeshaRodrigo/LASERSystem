@@ -1,7 +1,7 @@
 ﻿Public Class frmStockTransaction
     Private Db As New Database
     Private Sub frmStockTransaction_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        GetCNN()
+        Db.Connect()
         MenuStrip.Items.Add(mnustrpMENU)
     End Sub
 

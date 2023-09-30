@@ -23,7 +23,7 @@ Public Class frmReceive
 
     End Sub
     Private Sub FrmReceive_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        GetCNN()
+        Db.Connect()
         txtCuTelNo1.Focus()
     End Sub
     Private Sub frmReceive_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown

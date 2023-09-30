@@ -10,7 +10,7 @@ Public Class frmSearch
     Private ReadOnly dtpDate As New DateTimePicker
 
     Private Sub frmSearch_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        GetCNN()
+        Db.Connect()
         MenuStrip1.Items.Add(mnustrpMENU)
         System.Windows.Forms.Control.CheckForIllegalCrossThreadCalls = False
         Me.AcceptButton = cmdTSSearch

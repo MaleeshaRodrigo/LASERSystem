@@ -100,7 +100,7 @@
     End Sub
 
     Private Sub frmTechnician_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Call GetCNN()
+        Call Db.Connect()
         MenuStrip.Items.Add(mnustrpMENU)
         Call txtSearch_TextChanged(sender, e)
         Call cmdNew_Click(sender, e)

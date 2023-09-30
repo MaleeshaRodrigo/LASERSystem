@@ -9,7 +9,7 @@ Public Class frmTechnicianSalary
     End Sub
 
     Private Sub FrmTechnicianSalary_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        GetCNN()
+        Db.Connect()
         SetNextKey(Db, txtTSNo, "Select Top 1 TSNo from TechnicianSalary order by TSNo desc;", "TSNo")
         MenuStrip.Items.Add(mnustrpMENU)
         txtTSFrom.Value = "" & Date.Today.Year & "-" & Date.Today.Month & "-01"

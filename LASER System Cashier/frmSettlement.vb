@@ -5,7 +5,7 @@ Public Class frmSettlement
     Private Db As New Database
 
     Private Sub frmSettlement_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        GetCNN()
+        Db.Connect()
         MenuStrip.Items.Add(mnustrpMENU)
         txtFrom.Value = Today
         txtTo.Value = Today

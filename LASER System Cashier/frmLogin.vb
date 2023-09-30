@@ -13,7 +13,7 @@ Public Class frmLogin
     Private Sub FrmLogin_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         System.Diagnostics.Process.GetCurrentProcess().PriorityClass = System.Diagnostics.ProcessPriorityClass.High
         If My.Settings.DatabaseCNN = "" Then My.Settings.DatabaseCNN = SpecialDirectories.MyDocuments + "\Database.accdb"
-        GetCNN()
+        Db.Connect()
         Me.AcceptButton = cmdLogin
         cmbUserName_DropDown(sender, e)
         CMD = New OleDbCommand("Select Top 1 UserName from [User] Order by LastLogin Desc;", CNN)

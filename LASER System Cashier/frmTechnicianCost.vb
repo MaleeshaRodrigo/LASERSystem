@@ -20,7 +20,7 @@ Public Class frmTechnicianCost
     End Sub
 
     Private Sub frmTechnicianCost_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        GetCNN()
+        Db.Connect()
         MenuStrip.Items.Add(mnustrpMENU)
         txtTCFrom.Value = Date.Today.Year & "-" & Date.Today.Month & "-01"
         txtTCTo.Value = Date.Today

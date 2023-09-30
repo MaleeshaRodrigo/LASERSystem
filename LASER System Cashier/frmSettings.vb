@@ -79,7 +79,7 @@ Public Class FrmSettings
         End With
 
         If Me.Tag = "Login" Then
-            GetCNN()
+            Db.Connect()
         End If
     End Sub
 

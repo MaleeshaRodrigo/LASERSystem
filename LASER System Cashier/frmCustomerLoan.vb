@@ -25,7 +25,7 @@
     End Sub
 
     Private Sub frmCustomerLoan_Load(sender As Object, e As EventArgs) Handles Me.Load
-        GetCNN()
+        Db.Connect()
         MenuStrip1.Items.Add(mnustrpMENU)
         cmbCuLStatus.SelectedIndex = 1
         cmbFilter.Items.Clear()

@@ -20,7 +20,7 @@
     End Sub
 
     Private Sub frmSupplier_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        GetCNN()
+        Db.Connect()
         MenuStrip1.Items.Add(mnustrpMENU)
         If Me.Tag = "" Then
             cmdDone.Enabled = False

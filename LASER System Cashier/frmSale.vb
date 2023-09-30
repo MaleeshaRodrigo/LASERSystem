@@ -17,7 +17,7 @@ Public Class frmSale
     End Sub
 
     Private Sub frmSale_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        GetCNN()
+        Db.Connect()
         Me.AcceptButton = cmdSave
         grdSale.Focus()
     End Sub

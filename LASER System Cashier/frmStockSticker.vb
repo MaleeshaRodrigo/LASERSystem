@@ -132,7 +132,7 @@ Public Class frmStockSticker
     End Sub
 
     Private Sub frmStockSticker_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        GetCNN()
+        Db.Connect()
     End Sub
 
     Private Sub frmStockSticker_Resize(sender As Object, e As EventArgs) Handles Me.Resize
