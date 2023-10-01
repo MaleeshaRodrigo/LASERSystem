@@ -410,7 +410,7 @@ Public Class frmDeliver
             DRAutoD = CMDAutoD.ExecuteReader()
             While DRAutoD.Read()
                 Db.Execute("Insert Into Mail(MailNo,MailDate,EmailTo,Subject,Body,Status) Values(?NewKey?Mail?MailNo?,#" & DateAndTime.Now &
-                                  "#,'" & DR("TEmail").ToString & "','RERepair No:  " + DRAutoD("RetNo").ToString + " එක Customer විසින් රු." +
+                                  "#,'" & DRAutoD("TEmail").ToString & "','RERepair No:  " + DRAutoD("RetNo").ToString + " එක Customer විසින් රු." +
                                   DRAutoD("PaidPrice").ToString + "දී රුගෙන ගොස් ඇත.',
                                   ""LASER System " + vbCrLf + vbCrLf +
                                 "RERepair No: " + DRAutoD("RetNo").ToString + vbCrLf +
