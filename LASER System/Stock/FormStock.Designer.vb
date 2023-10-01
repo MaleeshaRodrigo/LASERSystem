@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
-Partial Class frmStock
+Partial Class FormStock
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -33,7 +33,7 @@ Partial Class frmStock
         Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle7 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle8 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmStock))
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormStock))
         Me.GrpSearch = New System.Windows.Forms.GroupBox()
         Me.btnSearch = New System.Windows.Forms.Button()
         Me.cmbFilter = New System.Windows.Forms.ComboBox()

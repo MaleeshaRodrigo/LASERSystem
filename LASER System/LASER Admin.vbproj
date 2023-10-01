@@ -386,10 +386,10 @@
     <Compile Include="Stock\Controls\ControlStockInfo.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Stock\frmStock.Designer.vb">
-      <DependentUpon>frmStock.vb</DependentUpon>
+    <Compile Include="Stock\FormStock.Designer.vb">
+      <DependentUpon>FormStock.vb</DependentUpon>
     </Compile>
-    <Compile Include="Stock\frmStock.vb">
+    <Compile Include="Stock\FormStock.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Structures\StructureDatabase.vb" />
@@ -537,11 +537,11 @@
     <EmbeddedResource Include="Stock\Controls\ControlStockInfo.resx">
       <DependentUpon>ControlStockInfo.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Stock\frmStock.resx">
-      <DependentUpon>frmStock.vb</DependentUpon>
+    <EmbeddedResource Include="Stock\FormStock.resx">
+      <DependentUpon>FormStock.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Stock\frmStock.si.resx">
-      <DependentUpon>frmStock.vb</DependentUpon>
+    <EmbeddedResource Include="Stock\FormStock.si.resx">
+      <DependentUpon>FormStock.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ControlMessageBox.resx">
       <DependentUpon>ControlMessageBox.vb</DependentUpon>

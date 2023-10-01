@@ -4,7 +4,7 @@ Imports System.Data.OleDb
 Imports Microsoft.VisualBasic.FileIO
 Imports LASER_System.StructureDatabase
 
-Public Class frmStock
+Public Class FormStock
     Public Property Caller As String = ""
     Private ReadOnly DB As New Database
     Private ControlStockInfo As New ControlStockInfo(DB)
