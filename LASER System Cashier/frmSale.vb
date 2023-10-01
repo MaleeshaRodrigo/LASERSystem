@@ -1,4 +1,5 @@
-﻿Imports System.Threading
+﻿Imports System.Data.OleDb
+Imports System.Threading
 
 Public Class frmSale
     Private Db As New Database
@@ -87,8 +88,7 @@ Public Class frmSale
     End Sub
 
     Private Sub cmbCuName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbCuName.SelectedIndexChanged
-        CMD = New OleDb.OleDbCommand("SELECT * from Customer where CuName='" & cmbCuName.Text & "';", CNN)
-        DR = CMD.ExecuteReader()
+        Dim DR As OleDbDataReader = Db.GetDataReader("SELECT * from Customer where CuName='" & cmbCuName.Text & "';")
         If DR.HasRows = True Then
             txtCuTelNo1.Tag = "1"
             DR.Read()
@@ -233,8 +233,7 @@ Public Class frmSale
         If (Val(txtCAmount.Text) > 0 Or Val(txtCPAmount.Text) > 0) And chkCashDrawer.Checked = True Then CashDrawer.Open()
         'Customer Management
         Dim CuNo As Integer
-        CMD = New OleDb.OleDbCommand("Select * from Customer where CuName='" & cmbCuName.Text & "' and CuTelNo1='" & txtCuTelNo1.Text & "' and CuTelNo2 ='" & txtCuTelNo2.Text & "' and CuTelNo3='" & txtCuTelNo3.Text & "'", CNN)
-        DR = CMD.ExecuteReader
+        Dim DR As OleDbDataReader = Db.GetDataReader("Select * from Customer where CuName='" & cmbCuName.Text & "' and CuTelNo1='" & txtCuTelNo1.Text & "' and CuTelNo2 ='" & txtCuTelNo2.Text & "' and CuTelNo3='" & txtCuTelNo3.Text & "'")
         If DR.HasRows = True Then
             DR.Read()
             CuNo = DR("CuNo").ToString
@@ -289,8 +288,7 @@ Public Class frmSale
                     End If
                 Next
             Case "Edit"
-                CMD = New OleDb.OleDbCommand("SELECT * from Sale where SaNo=" & txtSaNo.Text & ";", CNN)
-                DR = CMD.ExecuteReader()
+                DR = Db.GetDataReader("SELECT * from Sale where SaNo=" & txtSaNo.Text & ";")
                 If DR.HasRows = True Then
                     DR.Read()
                     If DR("CuLNo").ToString <> "0" And txtCuLNo.Text = "0" Then
@@ -308,14 +306,11 @@ Public Class frmSale
                     End If
                 End If
                 'Delete old Customer if there is no records about that customer
-                CMD = New OleDb.OleDbCommand("Select CuNo from Sale where SaNo=" & txtSaNo.Text, CNN)
-                DR = CMD.ExecuteReader
+                DR = Db.GetDataReader("Select CuNo from Sale where SaNo=" & txtSaNo.Text)
                 If DR.HasRows = True Then
                     DR.Read()
-                    CMD1 = New OleDb.OleDbCommand("Select CuNo from Sale Where CuNo = " & DR("CuNo").ToString, CNN)
-                    DR1 = CMD1.ExecuteReader()
-                    Dim CMD2 As New OleDb.OleDbCommand("Select CuNo from Receive where CuNo = " & DR("CuNo").ToString, CNN)
-                    Dim DR2 As OleDb.OleDbDataReader = CMD2.ExecuteReader()
+                    DR1 = Db.GetDataReader("Select CuNo from Sale Where CuNo = " & DR("CuNo").ToString)
+                    Dim DR2 As OleDbDataReader = Db.GetDataReader("Select CuNo from Receive where CuNo = " & DR("CuNo").ToString)
                     If DR1.HasRows = False And DR2.HasRows = False Then
                         Db.Execute("Delete from Customer where CuNo=" & DR("CuNo").ToString)
                     End If
@@ -335,8 +330,7 @@ Public Class frmSale
                                         ",CuLAmount=" & txtCuLAmount.Text &
                                         ",SaRemarks='" & txtSaRemarks.Text & "' Where SaNo = " & txtSaNo.Text)
                 'Delete and update stocksale and stock old data
-                CMD1 = New OleDb.OleDbCommand("Select * from StockSale where SaNo = " & txtSaNo.Text & "", CNN)
-                DR1 = CMD1.ExecuteReader()
+                DR1 = Db.GetDataReader("Select * from StockSale where SaNo = " & txtSaNo.Text & "")
                 While DR1.Read
                     If DR1("SaType").ToString = "Sale" Then
                         Db.Execute("Update Stock set SAvailablestocks=(SAvailableStocks + " & DR1("SaUnits").ToString &
@@ -436,8 +430,7 @@ Public Class frmSale
                 My.Computer.Audio.PlaySystemSound(Media.SystemSounds.Hand)
                 'If IsNumeric(grdSale.Item(0, e.RowIndex).Value) = False Then grdSale.Rows.RemoveAt(e.RowIndex)
                 If grdSale.Item(0, e.RowIndex).Value Is Nothing Then Exit Sub
-                CMD = New OleDb.OleDbCommand("Select * from Stock where SNo =" & grdSale.Item(0, e.RowIndex).Value.ToString, CNN)
-                DR = CMD.ExecuteReader
+                Dim DR As OleDbDataReader = Db.GetDataReader("Select * from Stock where SNo =" & grdSale.Item(0, e.RowIndex).Value.ToString)
                 If DR.HasRows = True Then
                     DR.Read()
                     grdSale.Item(1, e.RowIndex).Value = DR("SCategory").ToString
@@ -463,8 +456,7 @@ Public Class frmSale
                 End If
             Case 1, 2
                 frmSearchDropDown.frm_Close()
-                CMD = New OleDb.OleDbCommand("Select * from Stock where SCategory='" & grdSale.Item(1, e.RowIndex).Value & "' and SName='" & grdSale.Item(2, e.RowIndex).Value & "';", CNN)
-                DR = CMD.ExecuteReader()
+                Dim DR As OleDbDataReader = Db.GetDataReader("Select * from Stock where SCategory='" & grdSale.Item(1, e.RowIndex).Value & "' and SName='" & grdSale.Item(2, e.RowIndex).Value & "';")
                 If DR.HasRows = True Then
                     DR.Read()
                     grdSale.Item(0, e.RowIndex).Value = DR("SNo").ToString
@@ -524,12 +516,12 @@ Public Class frmSale
                 Dim tb As TextBox = TryCast(e.Control, TextBox)
                 frmSearchDropDown.passtext(tb)
                 AddHandler tb.KeyUp, AddressOf frmSearchDropDown.dgv_KeyUp
-                frmSearchDropDown.frm_Open(grdSale, Me, "Select SCategory from Stock group by SCategory;", "SCategory")
+                frmSearchDropDown.frm_Open(Db, grdSale, Me, "Select SCategory from Stock group by SCategory;", "SCategory")
             Case 2
                 Dim tb As TextBox = TryCast(e.Control, TextBox)
                 frmSearchDropDown.passtext(tb)
                 AddHandler tb.KeyUp, AddressOf frmSearchDropDown.dgv_KeyUp
-                frmSearchDropDown.frm_Open(grdSale, Me, "Select SCategory,SName from Stock where SCategory ='" & grdSale.Item(1, grdSale.CurrentCell.RowIndex).Value &
+                frmSearchDropDown.frm_Open(Db, grdSale, Me, "Select SCategory,SName from Stock where SCategory ='" & grdSale.Item(1, grdSale.CurrentCell.RowIndex).Value &
                                            "';", "SName")
             Case 0, 5
                 AddHandler CType(e.Control, TextBox).KeyPress, AddressOf TextBoxQty_keyPress
@@ -555,8 +547,7 @@ Public Class frmSale
 
     Private Sub txtCuTelNo1_TextChanged(sender As Object, e As EventArgs) Handles txtCuTelNo1.TextChanged
         If txtCuTelNo1.Text = "          " Or txtCuTelNo1.Tag = "1" Then Exit Sub
-        Dim SaCMD As New OleDb.OleDbCommand("Select * from Customer where CuTelNo1='" & txtCuTelNo1.Text & "' or CuTelNo2='" & txtCuTelNo1.Text & "' or CuTelNo3='" & txtCuTelNo1.Text & "';", CNN)
-        Dim SaDR As OleDb.OleDbDataReader = SaCMD.ExecuteReader()
+        Dim SaDR As OleDbDataReader = Db.GetDataReader("Select * from Customer where CuTelNo1='" & txtCuTelNo1.Text & "' or CuTelNo2='" & txtCuTelNo1.Text & "' or CuTelNo3='" & txtCuTelNo1.Text & "';")
         If SaDR.HasRows = True Then
             txtCuTelNo1.Tag = "1"
             Dim frm As New frmCustomer
@@ -568,15 +559,13 @@ Public Class frmSale
             frm.cmbCuName.Text = SaDR("CuName").ToString
             Call frm.cmbCuName_SelectedIndexChanged(sender, e)
         End If
-        SaCMD.Cancel()
         SaDR.Close()
         txtCuTelNo1.Tag = ""
     End Sub
 
     Private Sub txtCuTelNo2_TextChanged(sender As Object, e As EventArgs) Handles txtCuTelNo2.TextChanged
         If txtCuTelNo2.Text = "          " Or txtCuTelNo1.Tag = "1" Then Exit Sub
-        Dim SaCMD As New OleDb.OleDbCommand("Select * from Customer where CuTelNo1='" & txtCuTelNo2.Text & "' or CuTelNo2='" & txtCuTelNo2.Text & "' or CuTelNo3='" & txtCuTelNo2.Text & "';", CNN)
-        Dim SaDR As OleDb.OleDbDataReader = SaCMD.ExecuteReader()
+        Dim SaDR As OleDb.OleDbDataReader = Db.GetDataReader("Select * from Customer where CuTelNo1='" & txtCuTelNo2.Text & "' or CuTelNo2='" & txtCuTelNo2.Text & "' or CuTelNo3='" & txtCuTelNo2.Text & "';")
         If SaDR.HasRows = True Then
             txtCuTelNo1.Tag = "1"
             Dim frm As New frmCustomer
@@ -588,15 +577,13 @@ Public Class frmSale
             frm.cmbCuName.Text = SaDR("CuName").ToString
             Call frm.cmbCuName_SelectedIndexChanged(sender, e)
         End If
-        SaCMD.Cancel()
         SaDR.Close()
         txtCuTelNo1.Tag = ""
     End Sub
 
     Private Sub txtCuTelNo3_TextChanged(sender As Object, e As EventArgs) Handles txtCuTelNo3.TextChanged
         If txtCuTelNo3.Text = "          " Or txtCuTelNo1.Tag = "1" Then Exit Sub
-        Dim SaCMD As New OleDb.OleDbCommand("Select * from Customer where CuTelNo1='" & txtCuTelNo3.Text & "' or CuTelNo2='" & txtCuTelNo3.Text & "' or CuTelNo3='" & txtCuTelNo3.Text & "';", CNN)
-        Dim SaDR As OleDb.OleDbDataReader = SaCMD.ExecuteReader()
+        Dim SaDR As OleDb.OleDbDataReader = Db.GetDataReader("Select * from Customer where CuTelNo1='" & txtCuTelNo3.Text & "' or CuTelNo2='" & txtCuTelNo3.Text & "' or CuTelNo3='" & txtCuTelNo3.Text & "';")
         If SaDR.HasRows = True Then
             txtCuTelNo1.Tag = "1"
             Dim frm As New frmCustomer
@@ -608,7 +595,6 @@ Public Class frmSale
             frm.cmbCuName.Text = SaDR("CuName").ToString
             Call frm.cmbCuName_SelectedIndexChanged(sender, e)
         End If
-        SaCMD.Cancel()
         SaDR.Close()
         txtCuTelNo1.Tag = ""
     End Sub

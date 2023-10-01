@@ -1,4 +1,6 @@
-﻿Public Class frmTechnicianLoan
+﻿Imports System.Data.OleDb
+
+Public Class frmTechnicianLoan
     Private Db As New Database
 
     Private Sub frmTechnicianLoan_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -120,12 +122,12 @@
     End Sub
 
     Private Sub cmbSName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbSName.SelectedIndexChanged
+        Dim DR As OleDbDataReader
         If cmbSCategory.Text = "" Then
-            CMD = New OleDb.OleDbCommand("Select * from Stock Where SName='" & cmbSName.Text & "'", CNN)
+            DR = Db.GetDataReader("Select * from Stock Where SName='" & cmbSName.Text & "'")
         Else
-            CMD = New OleDb.OleDbCommand("SElect * from Stock Where Scategory='" & cmbSCategory.Text & "' and SName ='" & cmbSName.Text & "'", CNN)
+            DR = Db.GetDataReader("SElect * from Stock Where Scategory='" & cmbSCategory.Text & "' and SName ='" & cmbSName.Text & "'")
         End If
-        DR = CMD.ExecuteReader
         If DR.HasRows = True Then
             DR.Read()
             txtSNo.Text = DR("SNo").ToString
@@ -176,8 +178,7 @@
             txtTLAmount.Text = "0"
             Exit Sub
         End If
-        Dim CMD1 = New OleDb.OleDbCommand("Select SCategory,SName,SNo from [Stock] where SNo =" & txtSNo.Text & ";", CNN)
-        Dim DR1 As OleDb.OleDbDataReader = CMD1.ExecuteReader
+        Dim DR1 As OleDbDataReader = Db.GetDataReader("Select SCategory,SName,SNo from [Stock] where SNo =" & txtSNo.Text & ";")
         If DR1.HasRows = True Then
             DR1.Read()
             cmbSCategory.Text = DR1("SCategory").ToString
@@ -206,8 +207,7 @@
                 txtTLAmount.Text = "0"
                 Exit Sub
             End If
-            CMD = New OleDb.OleDbCommand("SElect SNO from stock where Sno =" & txtSNo.Text, CNN)
-            DR = CMD.ExecuteReader
+            Dim DR As OleDbDataReader = Db.GetDataReader("SElect SNO from stock where Sno =" & txtSNo.Text)
             If DR.HasRows = False Then
                 cmbSCategory.Text = ""
                 cmbSName.Text = ""
@@ -272,8 +272,7 @@
             AdminPer.AdminSend = True
             AdminPer.Remarks = "අද දිනට නොමැති Technician Loan data එකක් ඉවත් කෙරුණි."
         End If
-        CMD = New OleDb.OleDbCommand("Select * from TechnicianLoan Where TLNo=" & txtTLNo.Text, CNN)
-        DR = CMD.ExecuteReader
+        Dim DR As OleDbDataReader = Db.GetDataReader("Select * from TechnicianLoan Where TLNo=" & txtTLNo.Text)
         If DR.HasRows = True Then
             DR.Read()
             If DR("SNo").ToString <> "" And DR("SNo").ToString <> "0" Then

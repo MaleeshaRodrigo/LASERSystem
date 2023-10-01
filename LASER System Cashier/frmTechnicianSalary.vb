@@ -50,8 +50,7 @@ Public Class frmTechnicianSalary
                                               cmbTName.Text & "' and DDate BETWEEN #" & txtTSFrom.Value.Date & " 00:00:00# And #" & txtTSTo.Value.Date &
                                               " 23:59:59# " + x)
         For Each row As DataRow In DT1.Rows
-            Dim CMD1 As New OleDb.OleDbCommand("Select Remarks from RepairRemarks1 Where RepNo=" & row.Item("RepNo"), CNN)
-            Dim DR1 As OleDb.OleDbDataReader = CMD1.ExecuteReader
+            Dim DR1 As OleDb.OleDbDataReader = Db.GetDataReader("Select Remarks from RepairRemarks1 Where RepNo=" & row.Item("RepNo"))
             row.Item("RepRemarks1") = ""
             While DR1.Read
                 row.Item("RepRemarks1") += DR1("Remarks").ToString + vbCrLf
@@ -68,8 +67,7 @@ Public Class frmTechnicianSalary
                                               "= Return.TNo And TName='" & cmbTName.Text &
                                               "' And DDate BETWEEN #" & txtTSFrom.Value.Date & " 00:00:00# And #" & txtTSTo.Value.Date & " 23:59:59# " + x)
         For Each row As DataRow In DT1.Rows
-            Dim CMD1 As New OleDb.OleDbCommand("Select Remarks from RepairRemarks1 Where RepNo=" & row.Item("RepNo"), CNN)
-            Dim DR1 As OleDb.OleDbDataReader = CMD1.ExecuteReader
+            Dim DR1 As OleDbDataReader = Db.GetDataReader("Select Remarks from RepairRemarks1 Where RepNo=" & row.Item("RepNo"))
             row.Item("RepRemarks1") = ""
             While DR1.Read
                 row.Item("RepRemarks1") += DR1("Remarks").ToString + vbCrLf
@@ -92,14 +90,12 @@ Public Class frmTechnicianSalary
         Dim DT4 As DataTable = Db.GetDataTable("Select  TLNo, TLDate, SCategory, SName, TLReason, Rate, Qty,Total from (TechnicianLoan TL Inner Join " &
                                               "Technician T on T.TNo = TL.TNo) Where TName='" & cmbTName.Text & "' And TLDate BETWEEN #" &
                                               txtTSFrom.Value.Date & " 00:00:00# And #" & txtTSTo.Value.Date & " 23:59:59# ")
-        CMD = New OleDb.OleDbCommand("Select * from [TechnicianLoan] as TL Where TL.TLDate BETWEEN #" & txtTSFrom.Value.Date & " 00:00:00# and #" &
-                                     txtTSTo.Value.Date & " 23:59:59#;", CNN)
-        DR = CMD.ExecuteReader
+        DR = Db.GetDataReader("Select * from [TechnicianLoan] as TL Where TL.TLDate BETWEEN #" & txtTSFrom.Value.Date & " 00:00:00# and #" &
+                                     txtTSTo.Value.Date & " 23:59:59#;")
         Dim ArrearsLoan As Integer = 0
         While DR.Read
             If DR("Total").ToString <> "" Then ArrearsLoan += Int(DR("Total").ToString)
         End While
-        CMD.Cancel()
         DR.Close()
         If ArrearsLoan <> 0 Then
             Dim newRow As DataRow = DT4.NewRow()
@@ -151,8 +147,7 @@ Public Class frmTechnicianSalary
             Exit Sub
         End If
         Dim TSalaryTNo As Integer
-        CMD = New OleDb.OleDbCommand("Select TNo, TName from Technician Where Tname='" & cmbTName.Text & "';", CNN)
-        DR = CMD.ExecuteReader
+        Dim DR As OleDbDataReader = Db.GetDataReader("Select TNo, TName from Technician Where Tname='" & cmbTName.Text & "';")
         If DR.HasRows = True Then
             DR.Read()
             TSalaryTNo = DR("TNo").ToString
@@ -172,8 +167,7 @@ Public Class frmTechnicianSalary
             Db.Execute("Update TechnicianCost set TSalNo = " & txtTSNo.Text & " where TCNo=" & Row.Cells(1).Value.ToString)
         Next
         Dim TLNo As String
-        CMD = New OleDb.OleDbCommand("Select Top 1 TLNo from TechnicianLoan order by TLNo desc;", CNN)
-        DR = CMD.ExecuteReader()
+        DR = Db.GetDataReader("Select Top 1 TLNo from TechnicianLoan order by TLNo desc;")
         If DR.HasRows = True Then
             DR.Read()
             TLNo = Int(DR.Item("TLNo")) + 1
@@ -281,8 +275,7 @@ Public Class frmTechnicianSalary
         Dim frm As New frmReport
         Dim RPT As rptTechnicianSalary = TechnicianSalaryReport()
         frm.ReportViewer.ReportSource = RPT
-        CMD = New OleDb.OleDbCommand("Select * from Technician Where TNAME ='" & cmbTName.Text & "';", CNN)
-        DR = CMD.ExecuteReader()
+        Dim DR As OleDbDataReader = Db.GetDataReader("Select * from Technician Where TNAME ='" & cmbTName.Text & "';")
         If DR.HasRows = True Then
             DR.Read()
             If DR("TEmail").ToString = "" Then

@@ -44,8 +44,7 @@ Public Class frmDeliver
     End Sub
 
     Private Sub cmbCuName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbCuName.SelectedIndexChanged
-        CMD = New OleDb.OleDbCommand("SELECT * from Customer where CuName='" & cmbCuName.Text & "';", CNN)
-        DR = CMD.ExecuteReader()
+        Dim DR As OleDbDataReader = Db.GetDataReader("SELECT * from Customer where CuName='" & cmbCuName.Text & "';")
         If DR.HasRows = True Then
             txtCuTelNo1.Tag = "1"
             DR.Read()
@@ -112,8 +111,7 @@ Public Class frmDeliver
                 MsgBox("කරුණාකර Repair No: " & Row.Cells(0).Value & " යන තීරුවේ Status එක තෝරා ගන්න.", vbExclamation + vbOKOnly)
                 Exit Sub
             End If
-            CMD = New OleDb.OleDbCommand("Select TNo from Technician Where TName='" & Row.Cells(5).Value & "'", CNN)
-            DR = CMD.ExecuteReader
+            Dim DR As OleDbDataReader = Db.GetDataReader("Select TNo from Technician Where TName='" & Row.Cells(5).Value & "'")
             If DR.HasRows = False Then
                 MsgBox("Repair No: " & Row.Cells(0).Value & " යන තීරුවෙ Technician ව System එක තුල නොපවතියි. කරුණාකර නැවත පරික්ෂා කරන්න.", vbExclamation + vbOKOnly)
                 Exit Sub
@@ -132,8 +130,7 @@ Public Class frmDeliver
                 MsgBox("කරුණාකර Repair No: " & Row.Cells(0).Value & " යන තීරුවේ Status එක තෝරා ගන්න.", vbExclamation + vbOKOnly)
                 Exit Sub
             End If
-            CMD = New OleDb.OleDbCommand("Select TNo from Technician Where TName='" & Row.Cells(6).Value & "'", CNN)
-            DR = CMD.ExecuteReader
+            Dim DR As OleDbDataReader = Db.GetDataReader("Select TNo from Technician Where TName='" & Row.Cells(6).Value & "'")
             If DR.HasRows = False Then
                 MsgBox("Repair No: " & Row.Cells(0).Value & " යන තීරුවෙ Technician ව System එක තුල නොපවතියි. කරුණාකර නැවත පරික්ෂා කරන්න.", vbExclamation + vbOKOnly)
                 Exit Sub
@@ -313,12 +310,11 @@ Public Class frmDeliver
                               "Status='Returned Not Delivered'") & ",PaidPrice=0,DNo=0 " &
                               "Where DNo=?Key?DNo?", {}, AdminPer)
                 End While
-                CMD1 = New OleDbCommand("SELECT RetNo,RepNo,RET.PNo,PCategory,PName,Qty,Status,RET.TNo, TName,PaidPrice from " &
+                Dim DRReturn As OleDbDataReader = Db.GetDataReader("SELECT RetNo,RepNo,RET.PNo,PCategory,PName,Qty,Status,RET.TNo, TName,PaidPrice from " &
                                                 "(((RETURN RET INNER JOIN PRODUCT  P ON P.PNO = RET.PNO) LEFT JOIN Technician T " &
-                                                "ON T.TNO = RET.TNO) LEFT JOIN DELIVER D ON D.DNO = RET.DNO) Where D.DNo=" & txtDNo.Text, CNN)
-                DR1 = CMD1.ExecuteReader
-                While DR1.Read
-                    Db.Execute($"Update `Return` Set {If(DR1("Status").ToString = "Repaired Delivered", "Status='Repaired Not Delivered'",
+                                                "ON T.TNO = RET.TNO) LEFT JOIN DELIVER D ON D.DNO = RET.DNO) Where D.DNo=" & txtDNo.Text)
+                While DRReturn.Read
+                    Db.Execute($"Update `Return` Set {If(DRReturn("Status").ToString = "Repaired Delivered", "Status='Repaired Not Delivered'",
                               "Status='Returned Not Delivered'")},PaidPrice=0,DNo=0 Where DNo={txtDNo.Text}", {}, AdminPer)
                 End While
                 Db.Execute($"DELETE FROM Deliver WHERE DNo={txtDNo.Text}", {}, AdminPer)
@@ -338,12 +334,11 @@ Public Class frmDeliver
         If grdRepair.Rows.Count > 1 Then
             For Each Row1 As DataGridViewRow In grdRepair.Rows
                 If Row1.Index = grdRepair.Rows.Count - 1 Then Continue For
-                CMD = New OleDb.OleDbCommand("Select Status,RepNo from Repair where RepNo=" & Row1.Cells(0).Value, CNN)
-                DR = CMD.ExecuteReader
-                If DR.HasRows = True Then
-                    DR.Read()
-                    If DR("Status").ToString = "Received" Or DR("Status").ToString = "Hand Over to Technician" Or
-                        DR("Status").ToString = "Repairing" Then
+                Dim DrRepStatus As OleDbDataReader = Db.GetDataReader("Select Status,RepNo from Repair where RepNo=" & Row1.Cells(0).Value)
+                If DrRepStatus.HasRows = True Then
+                    DrRepStatus.Read()
+                    If DrRepStatus("Status").ToString = "Received" Or DrRepStatus("Status").ToString = "Hand Over to Technician" Or
+                        DrRepStatus("Status").ToString = "Repairing" Then
                         Db.Execute("Update Repair set RepDate = #" & txtDDate.Value &
                                   "#,Charge=" & Row1.Cells(4).Value & " where RepNo= " & Row1.Cells(0).Value, {}, AdminPer)
                     End If
@@ -358,11 +353,10 @@ Public Class frmDeliver
         If grdRERepair.Rows.Count > 1 Then
             For Each Row As DataGridViewRow In grdRERepair.Rows
                 If Row.Index = grdRERepair.Rows.Count - 1 Then Continue For
-                CMD = New OleDb.OleDbCommand("Select Status,RetNo from Return where RetNo=" & Row.Cells(0).Value, CNN)
-                DR = CMD.ExecuteReader
-                If DR.HasRows = True Then
-                    DR.Read()
-                    If DR("Status").ToString = "Received" Or DR("Status").ToString = "Hand Over to Technician" Or DR("Status").ToString = "Repairing" Then
+                Dim DrRetStatus As OleDbDataReader = Db.GetDataReader("Select Status,RetNo from Return where RetNo=" & Row.Cells(0).Value)
+                If DrRetStatus.HasRows = True Then
+                    DrRetStatus.Read()
+                    If DrRetStatus("Status").ToString = "Received" Or DrRetStatus("Status").ToString = "Hand Over to Technician" Or DrRetStatus("Status").ToString = "Repairing" Then
                         Db.Execute("Update `Return` set RetRepDate = #" & txtDDate.Value &
                                 "#,Charge=" & Row.Cells(5).Value.ToString & " where RepNo= " & Row.Cells(0).Value.ToString, {}, AdminPer)
                     End If
@@ -378,13 +372,12 @@ Public Class frmDeliver
     Private Sub AutomatedDeliver(DNo As String)
         Try
             If My.Settings.DeliveredEmailtoT = False Then Exit Sub
-            Dim CMDAutoD As New OleDbCommand("SELECT RepNo,DDate, TEmail,TName, CuName, CuTelNo1, PCategory, PName, Qty, PaidPrice, TName, Status " &
+            Dim DRAutoD As OleDbDataReader = Db.GetDataReader("SELECT RepNo,DDate, TEmail,TName, CuName, CuTelNo1, PCategory, PName, Qty, PaidPrice, TName, Status " &
                                                   "from ((((Repair Rep Inner Join Deliver D On D.DNo=Rep.DNo) Inner Join " &
                                                   "Technician T On T.TNo = Rep.TNo) Left Join Product P On P.Pno = Rep.PNo) " &
                                                   "Left Join Customer Cu On Cu.CuNo = D.CuNo) Where TEmail <> NULL and " &
                                                   "Status <>'Returned Delivered' and TBlockEmails <> Yes and D.DNo =" &
-                                                  DNo, CNN)
-            Dim DRAutoD As OleDbDataReader = CMDAutoD.ExecuteReader()
+                                                  DNo)
             While DRAutoD.Read()
                 Db.Execute("Insert Into Mail(MailNo,MailDate,EmailTo,Subject,Body,Status) Values(?NewKey?Mail?MailNo?,#" & DateAndTime.Now &
                                   "#,'" & DRAutoD("TEmail").ToString & "','Repair No:  " + DRAutoD("RepNo").ToString + " එක Customer විසින් රු." +
@@ -402,12 +395,11 @@ Public Class frmDeliver
                                     "මෙම Message එක ස්වයංක්‍රීයව LASER System එකෙන් පැමිණෙන්නක් බැවින් ඉහත දත්ත සඳහා යම් ගැටලුවක් පවතියි නම්, " &
                                     "කරුණාකර දත්ත කළමනාකරු අමතන්න"",'Waiting');")
             End While
-            CMDAutoD = New OleDbCommand("SELECT RetNo,RepNo,DDate, TEmail,TName, CuName, CuTelNo1, PCategory, PName, Qty, PaidPrice, TName, Status " &
+            DRAutoD = Db.GetDataReader("SELECT RetNo,RepNo,DDate, TEmail,TName, CuName, CuTelNo1, PCategory, PName, Qty, PaidPrice, TName, Status " &
                                         "from ((((Return Ret Inner Join Deliver D On D.DNo=Ret.DNo) Inner Join Technician T On T.TNo = Ret.TNo) " &
                                         " Left Join Product P On P.Pno = Ret.PNo) Left Join Customer Cu On Cu.CuNo = D.CuNo) Where TEmail <> NULL " &
                                         "and Status <>'Returned Delivered' and TBlockEmails <> Yes and D.DNo =" &
-                                              DNo, CNN)
-            DRAutoD = CMDAutoD.ExecuteReader()
+                                              DNo)
             While DRAutoD.Read()
                 Db.Execute("Insert Into Mail(MailNo,MailDate,EmailTo,Subject,Body,Status) Values(?NewKey?Mail?MailNo?,#" & DateAndTime.Now &
                                   "#,'" & DRAutoD("TEmail").ToString & "','RERepair No:  " + DRAutoD("RetNo").ToString + " එක Customer විසින් රු." +
@@ -440,11 +432,10 @@ Public Class frmDeliver
                     grdRepair.Rows.RemoveAt(grdRepair.CurrentCell.RowIndex)
                     Exit Sub
                 End If
-                Dim CMDD As New OleDb.OleDbCommand("Select RepNo,PCategory,PName,PMOdelNO,PSerialNo,PDetails,Qty,Charge,TName,Status,CuName,CuTelNo1,CuTelNo2,CuTelNo3 " &
+                Dim DRD As OleDbDataReader = Db.GetDataReader("Select RepNo,PCategory,PName,PMOdelNO,PSerialNo,PDetails,Qty,Charge,TName,Status,CuName,CuTelNo1,CuTelNo2,CuTelNo3 " &
                                              "from ((((Repair REP INNER JOIN RECEIVE R ON R.RNO = REP.RNO) INNER JOIN PRODUCT P ON P.PNO = REP.PNO) " &
                                              "INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = REP.TNO) Where RepNo = " &
-                                             grdRepair.Item(0, grdRepair.CurrentCell.RowIndex).Value, CNN)
-                Dim DRD As OleDbDataReader = CMDD.ExecuteReader()
+                                             grdRepair.Item(0, grdRepair.CurrentCell.RowIndex).Value)
                 If DRD.HasRows = True Then
                     DRD.Read()
                     If DRD("Status").ToString = "Repaired Delivered" Or DRD("Status").ToString = "Returned Delivered" Then
@@ -539,8 +530,7 @@ Public Class frmDeliver
                     autoText.AutoCompleteMode = AutoCompleteMode.Suggest
                     autoText.AutoCompleteSource = AutoCompleteSource.CustomSource
                     DataCollection.Clear()
-                    CMD = New OleDb.OleDbCommand("Select RepNo from Repair where Status <> 'Repaired Delivered' and Status <> 'Returned Delivered' and Status <> 'Canceled' order by RepNo Desc;", CNN)
-                    DR = CMD.ExecuteReader()
+                    Dim DR As OleDbDataReader = Db.GetDataReader("Select RepNo from Repair where Status <> 'Repaired Delivered' and Status <> 'Returned Delivered' and Status <> 'Canceled' order by RepNo Desc;")
                     While DR.Read
                         DataCollection.Add(DR("REpNo").ToString)
                     End While
@@ -589,10 +579,9 @@ Public Class frmDeliver
                     autoText.AutoCompleteMode = AutoCompleteMode.Suggest
                     autoText.AutoCompleteSource = AutoCompleteSource.CustomSource
                     DataCollection.Clear()
-                    CMD = New OleDb.OleDbCommand("Select RetNo from REturn order by RetNo Desc;", CNN)
-                    DR = CMD.ExecuteReader()
-                    While DR.Read
-                        DataCollection.Add(DR("RetNo").ToString)
+                    Dim DrRetNo As OleDbDataReader = Db.GetDataReader("Select RetNo from Return order by RetNo Desc;")
+                    While DrRetNo.Read
+                        DataCollection.Add(DrRetNo("RetNo").ToString)
                     End While
                     autoText.AutoCompleteCustomSource = DataCollection
                 End If
@@ -603,10 +592,9 @@ Public Class frmDeliver
                     autoText.AutoCompleteMode = AutoCompleteMode.Suggest
                     autoText.AutoCompleteSource = AutoCompleteSource.CustomSource
                     DataCollection.Clear()
-                    CMD = New OleDb.OleDbCommand("Select REPNO from Return order by REpNo Desc;", CNN)
-                    DR = CMD.ExecuteReader()
-                    While DR.Read
-                        DataCollection.Add(DR("RepNo").ToString)
+                    Dim DrRepNo As OleDbDataReader = Db.GetDataReader("Select REPNO from Return order by REpNo Desc;")
+                    While DrRepNo.Read
+                        DataCollection.Add(DrRepNo("RepNo").ToString)
                     End While
                     autoText.AutoCompleteCustomSource = DataCollection
                 End If
@@ -625,9 +613,8 @@ Public Class frmDeliver
                     grdRERepair.Rows.RemoveAt(grdRERepair.CurrentCell.RowIndex)
                     Exit Sub
                 End If
-                CMD = New OleDb.OleDbCommand("Select RetNo,RepNo,PCategory,PName,PMOdelNO,PSerialNo,PDetails,Qty,Charge,TName,Status,CuName,CuTelNo1,CuTelNo2,CuTelNo3 from ((((Return RET INNER JOIN RECEIVE R ON R.RNO = RET.RNO) INNER JOIN PRODUCT  P ON P.PNO = RET.PNO) " &
-                                             "INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = RET.TNO) Where RetNo = " & grdRERepair.Item(0, grdRERepair.CurrentCell.RowIndex).Value, CNN)
-                DR = CMD.ExecuteReader()
+                DR = Db.GetDataReader("Select RetNo,RepNo,PCategory,PName,PMOdelNO,PSerialNo,PDetails,Qty,Charge,TName,Status,CuName,CuTelNo1,CuTelNo2,CuTelNo3 from ((((Return RET INNER JOIN RECEIVE R ON R.RNO = RET.RNO) INNER JOIN PRODUCT  P ON P.PNO = RET.PNO) " &
+                                             "INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = RET.TNO) Where RetNo = " & grdRERepair.Item(0, grdRERepair.CurrentCell.RowIndex).Value)
                 If DR.HasRows = True Then
                     DR.Read()
                     If DR("Status").ToString = "Repaired Delivered" Or DR("Status").ToString = "Returned Delivered" Then
@@ -679,11 +666,10 @@ Public Class frmDeliver
                 End If
                 grdRepair.CurrentCell = grdRepair.Item(0, grdRepair.Rows.Count - 1)
             Case 1
-                CMD = New OleDb.OleDbCommand("Select RepNo,RetNo,Status from Return Where RepNo=" & grdRERepair.Item(1, e.RowIndex).Value, CNN)
-                DR = CMD.ExecuteReader
-                If DR.HasRows = True Then
-                    DR.Read()
-                    grdRERepair.Item(0, e.RowIndex).Value = DR("RetNo").ToString
+                Dim DrReturn As OleDbDataReader = Db.GetDataReader("Select RepNo,RetNo,Status from Return Where RepNo=" & grdRERepair.Item(1, e.RowIndex).Value)
+                If DrReturn.HasRows = True Then
+                    DrReturn.Read()
+                    grdRERepair.Item(0, e.RowIndex).Value = DrReturn("RetNo").ToString
                     Dim E1 As New DataGridViewCellEventArgs(0, e.RowIndex)
                     grdRERepair_CellEndEdit(sender, E1)
                 Else

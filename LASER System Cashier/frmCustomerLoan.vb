@@ -7,8 +7,7 @@ Public Class frmCustomerLoan
     End Sub
 
     Private Sub cmbCuName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbCuName.SelectedIndexChanged
-        CMD = New OleDb.OleDbCommand("SELECT * from Customer where CuName='" & cmbCuName.Text & "';", CNN)
-        DR = CMD.ExecuteReader()
+        DR = Db.GetDataReader("SELECT * from Customer where CuName='" & cmbCuName.Text & "';")
         If DR.HasRows = True Then
             DR.Read()
             cmbCuName.Text = DR("CuName").ToString
@@ -49,8 +48,7 @@ Public Class frmCustomerLoan
     End Sub
 
     Private Sub txtDNo_TextChanged(sender As Object, e As EventArgs) Handles txtDNo.TextChanged
-        CMD = New OleDb.OleDbCommand("SELECT DDate from Deliver where DNo =" & txtDNo.Text & ";", CNN)
-        DR = CMD.ExecuteReader()
+        Dim DR As OleDbDataReader = Db.GetDataReader("SELECT DDate from Deliver where DNo =" & txtDNo.Text & ";")
         If DR.HasRows = True Then
             DR.Read()
             txtDDate.Value = DR("DDate").ToString
@@ -59,8 +57,7 @@ Public Class frmCustomerLoan
 
     Private Sub txtSaNo_TextChanged(sender As Object, e As EventArgs) Handles txtSaNo.TextChanged
         If txtSaNo.Text = "" Then Exit Sub
-        CMD = New OleDb.OleDbCommand("SELECT SaDate from SAle where SaNo =" & txtSaNo.Text & ";", CNN)
-        DR = CMD.ExecuteReader()
+        Dim DR As OleDbDataReader = Db.GetDataReader("SELECT SaDate from SAle where SaNo =" & txtSaNo.Text & ";")
         If DR.HasRows = True Then
             DR.Read()
             txtSaDate.Value = DR("SaDate").ToString
@@ -153,8 +150,7 @@ Public Class frmCustomerLoan
         If index >= 0 Then
             selectedrow = grdCustomerLoan.Rows(index)
             txtCuLNo.Text = selectedrow.Cells(0).Value.ToString
-            CMD = New OleDb.OleDbCommand("Select CUL.CuLNo,CuLDate,CuL.CuNo,CuName,CuTelNo1,CuTelNo2,CuTelNo3,Sa.SaNo,Sa.SaDate,D.DNo,D.DDate,CuL.CuLAmount,Status,CuLRemarks from (((CustomerLoan CUL INNER JOIN Customer CU ON CU.CUNO = CUL.CUNO) LEFT JOIN DELIVER D ON D.DNO = CUL.DNO) LEFT JOIN SALE SA ON SA.SANO = CUL.SANO) WHERE CuL.CuLNO =" & txtCuLNo.Text, CNN)
-            DR = CMD.ExecuteReader()
+            Dim Dr As OleDbDataReader = Db.GetDataReader("Select CUL.CuLNo,CuLDate,CuL.CuNo,CuName,CuTelNo1,CuTelNo2,CuTelNo3,Sa.SaNo,Sa.SaDate,D.DNo,D.DDate,CuL.CuLAmount,Status,CuLRemarks from (((CustomerLoan CUL INNER JOIN Customer CU ON CU.CUNO = CUL.CUNO) LEFT JOIN DELIVER D ON D.DNO = CUL.DNO) LEFT JOIN SALE SA ON SA.SANO = CUL.SANO) WHERE CuL.CuLNO =" & txtCuLNo.Text)
             If DR.HasRows = True Then
                 DR.Read()
                 txtCuLDate.Value = DR("CuLDate").ToString

@@ -1,4 +1,6 @@
-﻿Public Class frmStockTransaction
+﻿Imports System.Data.OleDb
+
+Public Class frmStockTransaction
     Private Db As New Database
     Private Sub frmStockTransaction_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Db.Connect()
@@ -27,8 +29,7 @@
     End Sub
 
     Private Sub cmbSName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbSName.SelectedIndexChanged
-        CMD = New OleDb.OleDbCommand("SELECT * from Stock where Scategory='" & cmbSCategory.Text & "' and sname ='" & cmbSName.Text & "';", CNN)
-        DR = CMD.ExecuteReader()
+        Dim DR As OleDbDataReader = Db.GetDataReader("SELECT * from Stock where Scategory='" & cmbSCategory.Text & "' and sname ='" & cmbSName.Text & "';")
         If DR.HasRows = True Then
             DR.Read()
             txtSNo.Text = DR("SNO").ToString
@@ -48,8 +49,7 @@
 
     Public Sub txtSNo_TextChanged(sender As Object, e As EventArgs) Handles txtSNo.TextChanged
         If txtSNo.Text = "" Then Exit Sub
-        CMD = New OleDb.OleDbCommand("Select SNo,SCategory,SName from [Stock] where SNO = " & txtSNo.Text, CNN)
-        DR = CMD.ExecuteReader
+        Dim DR As OleDbDataReader = Db.GetDataReader("Select SNo,SCategory,SName from [Stock] where SNO = " & txtSNo.Text)
         If DR.HasRows = True Then
             DR.Read()
             cmbSCategory.Text = DR("SCategory").ToString

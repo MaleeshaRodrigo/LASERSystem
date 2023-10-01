@@ -1,9 +1,13 @@
-﻿Public Class frmSearchDropDown
+﻿Imports System.Data.OleDb
+
+Public Class frmSearchDropDown
+    Private Db As Database
     Private grd As New DataGridView
     Private frmParent As New Form
     Private txt As New TextBox
     Private SQL, ColumnName As String
-    Public Sub frm_Open(grdParent As DataGridView, frmParentForm As Form, ParentSQL As String, ParentColumnName As String)
+    Public Sub frm_Open(Db As Database, grdParent As DataGridView, frmParentForm As Form, ParentSQL As String, ParentColumnName As String)
+        Me.Db = Db
         grd = grdParent
         frmParent = frmParentForm
         SQL = ParentSQL
@@ -48,8 +52,7 @@
     Private Sub frm_Load(sender As Object, e As EventArgs) Handles Me.Load
         Me.Font = grd.Font
         lst.Items.Clear()
-        CMD = New OleDb.OleDbCommand(SQL, CNN)
-        DR = CMD.ExecuteReader()
+        Dim DR As OleDbDataReader = Db.Getdatareader(SQL)
         While DR.Read
             If DR(ColumnName).ToString <> "" AndAlso DR(ColumnName).ToLower().Contains(txt.Text.ToLower) = True Then
                 lst.Items.Add(DR(ColumnName).ToString)
@@ -90,8 +93,7 @@
     Private Sub txtType_TextChanged(sender As Object, e As EventArgs) Handles txtType.TextChanged
         If Me.Visible = True Then
             lst.Items.Clear()
-            CMD = New OleDb.OleDbCommand(SQL, CNN)
-            DR = CMD.ExecuteReader()
+            Dim DR As OleDbDataReader = Db.GetDataReader(SQL)
             While DR.Read
                 If DR(ColumnName).ToString = "" Then Continue While
                 'For Each str As String In DR(ColumnName).ToString.Split(" ")

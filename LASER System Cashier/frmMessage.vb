@@ -79,11 +79,10 @@ Public Class frmMessage
 
     Private Sub grdMsgHistory_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs) Handles grdMsgHistory.CellEndEdit
         If e.ColumnIndex = 0 Then
-            CMD = New OleDb.OleDbCommand("Select RepNo, RDate, CuName, CuTElNo1, PCategory, PName, Charge, Qty, TName, Status, '' as Message " &
+            DR = Db.GetDataReader("Select RepNo, RDate, CuName, CuTElNo1, PCategory, PName, Charge, Qty, TName, Status, '' as Message " &
                                             "from ((((Repair REP INNER JOIN Product P ON P.PNO = REP.PNO) INNER JOIN Receive R ON R.RNo = REP.RNo) " &
                                             "INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNo=REP.TNo) where RepNo = " &
-                                            grdMsgHistory.Item(e.ColumnIndex, e.RowIndex).Value & ";", CNN)
-            DR = CMD.ExecuteReader
+                                            grdMsgHistory.Item(e.ColumnIndex, e.RowIndex).Value & ";")
             If DR.HasRows = True Then
                 DR.Read()
                 grdMsgHistory.Item("RetNo", e.RowIndex).Value = ""
@@ -108,9 +107,8 @@ Public Class frmMessage
                 End If
             End If
         ElseIf e.ColumnIndex = 1 Then
-            CMD = New OleDb.OleDbCommand("Select RetNo,RDate,CuName, CuTelNo1, PCategory,PName,Charge,Qty,TName, Status, '' as Message " &
-                                           "from ((((RETURN RET INNER JOIN Product P ON P.PNO = RET.PNO) INNER JOIN Receive R ON R.RNo = RET.RNo) INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNo=RET.TNo) where ReTNo = " & grdMsgHistory.Item(1, e.RowIndex).Value & ";", CNN)
-            DR = CMD.ExecuteReader
+            DR = Db.GetDataReader("Select RetNo,RDate,CuName, CuTelNo1, PCategory,PName,Charge,Qty,TName, Status, '' as Message " &
+                                           "from ((((RETURN RET INNER JOIN Product P ON P.PNO = RET.PNO) INNER JOIN Receive R ON R.RNo = RET.RNo) INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNo=RET.TNo) where ReTNo = " & grdMsgHistory.Item(1, e.RowIndex).Value & ";")
             If DR.HasRows = True Then
                 DR.Read()
                 grdMsgHistory.Item("RepNo", e.RowIndex).Value = ""
@@ -157,24 +155,20 @@ Public Class frmMessage
 
     Private Sub bgworker_DoWork(sender As Object, e As ComponentModel.DoWorkEventArgs) Handles bgworker.DoWork
         If Me.Tag = "RepTask" Then
-            Dim CMD1 As OleDb.OleDbCommand = New OleDb.OleDbCommand("Select RepNo,RDate,CuName, CuTelNo1, PCategory,PName,Charge,Qty,TName, Status " &
+            Dim DR1 As OleDb.OleDbDataReader = Db.GetDataReader("Select RepNo,RDate,CuName, CuTelNo1, PCategory,PName,Charge,Qty,TName, Status " &
                                             "from ((((Repair REP INNER JOIN Product P ON P.PNO = REP.PNO) INNER JOIN Receive R ON R.RNo = REP.RNo) " &
                                             "INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNo=REP.TNo) where Status='Received' " &
-                                            "or Status='Hand Over to Technician' or Status='Repairing'", CNN)
-            Dim DR1 As OleDb.OleDbDataReader = CMD1.ExecuteReader
+                                            "or Status='Hand Over to Technician' or Status='Repairing'")
             While DR1.Read
                 If bgworker.CancellationPending = True Then Exit Sub
-                Dim CMD2 As OleDb.OleDbCommand = New OleDb.OleDbCommand("Select * from Message Where RepNo=" & DR1("RepNo").ToString &
-                                                                        " And MsgDate < #" & DateTime.Today.AddDays(-7).Date & "#;", CNN)
-                Dim DR2 As OleDb.OleDbDataReader = CMD2.ExecuteReader()
+                Dim DR2 As OleDb.OleDbDataReader = Db.GetDataReader("Select * from Message Where RepNo=" & DR1("RepNo").ToString &
+                                                                        " And MsgDate < #" & DateTime.Today.AddDays(-7).Date & "#;")
                 If DR2.HasRows = False Then
                     grdRepairTask.Rows.Add("", DR1("RepNo").ToString, DR1("CuName").ToString, DR1("CuTelNo1").ToString, DR1("PCategory").ToString,
                                            DR1("PName").ToString, DR1("Status").ToString, "", "")
                 End If
-                CMD2.Cancel()
                 DR2.Close()
             End While
-            CMD1.Cancel()
             DR1.Close()
         End If
     End Sub

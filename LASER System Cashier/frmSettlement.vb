@@ -25,8 +25,7 @@ Public Class frmSettlement
             Exit Sub
         End If
         Cursor = Cursors.WaitCursor
-        CMD = New OleDb.OleDbCommand("Select * from Settlement where SetDate=#" & txtFrom.Value.Date & "#", CNN)
-        DR = CMD.ExecuteReader()
+        Dim DR As OleDbDataReader = Db.GetDataReader("Select * from Settlement where SetDate=#" & txtFrom.Value.Date & "#")
         If DR.HasRows = True Then
             Db.Execute("Update Settlement Set SaTotal =" & txtTotalofSales.Text & ", RepTotal = " & txtTotalofRepairs.Text & ",TATotal=" & txtTotalofTransactions.Text &
                                               ",SetGrandTotal=" & txtIncome.Text & ",CTotal=" & txtCTotal.Text & ",CPTotal =" & txtCPTotal.Text & ",CuLTotal =" & txtCuLTotal.Text &
@@ -272,8 +271,7 @@ Public Class frmSettlement
         txtLockerCash.Text = "0"
         txtChange.Text = "0"
         If txtFrom.Value.Date = txtTo.Value.Date Then
-            CMD = New OleDb.OleDbCommand("Select * from Settlement where SetDate =#" & txtFrom.Value.Date & "#", CNN)
-            DR = CMD.ExecuteReader()
+            Dim DR As OleDbDataReader = Db.GetDataReader("Select * from Settlement where SetDate =#" & txtFrom.Value.Date & "#")
             If DR.HasRows = True Then
                 DR.Read()
                 txtLockerCash.Text = DR("CashinLocker").ToString

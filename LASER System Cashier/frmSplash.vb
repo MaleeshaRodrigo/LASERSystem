@@ -111,8 +111,7 @@ Public NotInheritable Class FrmSplash
                     'හරවා  නොයැවීමට නම් මෙම stocks නැවත පිරවීම සඳහා පියවර ගන්න.")
                     '                        MessagePanel.Add()
                     '                    End If
-                    CMD = New OleDbCommand("Select * from [User] Where UserName='" & .tslblUserName.Text & "'", CNN)
-                    DR = CMD.ExecuteReader()
+                    Dim DR As OleDbDataReader = Db.GetDataReader("Select * from [User] Where UserName='" & .tslblUserName.Text & "'")
                     If DR.HasRows Then
                         DR.Read()
                         .lblUName.Text = "Name: " + DR("UserName").ToString

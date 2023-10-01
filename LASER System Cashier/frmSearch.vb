@@ -150,12 +150,11 @@ Public Class frmSearch
                     .Name = "TName",
                     .HeaderText = "Technician Name"
                 }    '-----------TName Combo Box
-                CMD = New OleDb.OleDbCommand("Select TName from Technician group by TName;", CNN)
-                DR = CMD.ExecuteReader()
+                Dim DrTName As OleDbDataReader = Db.GetDataReader("Select TName from Technician group by TName;")
                 grdSearchTName.Items.Clear()
                 grdSearchTName.Items.Add("")
-                While DR.Read
-                    grdSearchTName.Items.Add(DR("TName").ToString)
+                While DrTName.Read
+                    grdSearchTName.Items.Add(DrTName("TName").ToString)
                 End While
                 grdSearch.Columns.Insert(grdSearch.Columns("RepRemarks1").Index + 2, grdSearchTName)
                 'Edit properties of the columns
@@ -213,8 +212,7 @@ Public Class frmSearch
                 Dim grdSearchTName As New DataGridViewComboBoxColumn    '-----------TName Combo Box
                 grdSearchTName.Name = "TName"
                 grdSearchTName.HeaderText = "Technician Name"
-                CMD = New OleDb.OleDbCommand("Select TName from Technician group by TName;", CNN)
-                DR = CMD.ExecuteReader()
+                DR = Db.GetDataReader("Select TName from Technician group by TName;")
                 grdSearchTName.Items.Clear()
                 grdSearchTName.Items.Add("")
                 While DR.Read
@@ -491,8 +489,7 @@ Public Class frmSearch
                                 Case "Remarks by Customer"
                                     Dim CMDSearch2 As New OleDb.OleDbCommand
                                     Dim DRSearch2 As OleDbDataReader
-                                    CMDSearch2 = New OleDb.OleDbCommand("Select RepNo,Remarks from RepairRemarks1 Where Remarks like '%" & Search & "%' ", CNN)
-                                    DRSearch2 = CMDSearch2.ExecuteReader()
+                                    DRSearch2 = Db.GetDataReader("Select RepNo,Remarks from RepairRemarks1 Where Remarks like '%" & Search & "%' ")
                                     x += " RepNo IN ("
                                     While DRSearch2.Read
                                         x += DRSearch2("RepNo").ToString + ","
@@ -504,11 +501,8 @@ Public Class frmSearch
                                         CMDSearch2.Cancel()
                                     End If
                                 Case "Remarks by Technician"
-                                    Dim CMDSearch2 As New OleDb.OleDbCommand
-                                    Dim DRSearch2 As OleDbDataReader
-                                    CMDSearch2 = New OleDb.OleDbCommand("Select RepNo,Remarks from RepairRemarks2 Where Remarks like '%" & Search &
-                                                                        "%' ", CNN)
-                                    DRSearch2 = CMDSearch2.ExecuteReader()
+                                    Dim DRSearch2 As OleDbDataReader = Db.GetDataReader("Select RepNo,Remarks from RepairRemarks2 Where Remarks like '%" & Search &
+                                                                        "%' ")
                                     x += " RepNo IN ( "
                                     While DRSearch2.Read
                                         x += DRSearch2("RepNo").ToString + ","
@@ -517,7 +511,6 @@ Public Class frmSearch
                                     x += ") "
                                     If DRSearch2 IsNot Nothing AndAlso DRSearch2.IsClosed = False Then
                                         DRSearch2.Close()
-                                        CMDSearch2.Cancel()
                                     End If
                                 Case "All"
                                     x += " ("
@@ -527,10 +520,7 @@ Public Class frmSearch
                                         x += $"{clm.Name} {cmdLIKE.Text} '{Symbol}{Search}{Symbol}'"
                                     Next
                                     Dim CMDSearch2 As New OleDb.OleDbCommand
-                                    Dim DRSearch2 As OleDbDataReader
-                                    CMDSearch2 = New OleDb.OleDbCommand($"Select RepNo,Remarks from RepairRemarks1 Where 
-Remarks {cmdLIKE.Text} '{Symbol}{Search}{Symbol}' Union Select RepNo,Remarks from RepairRemarks2 Where Remarks like '{Symbol}{Search}{Symbol}'", CNN)
-                                    DRSearch2 = CMDSearch2.ExecuteReader()
+                                    Dim DRSearch2 As OleDbDataReader = Db.GetDataReader($"Select RepNo,Remarks from RepairRemarks1 Where Remarks {cmdLIKE.Text} '{Symbol}{Search}{Symbol}' Union Select RepNo,Remarks from RepairRemarks2 Where Remarks like '{Symbol}{Search}{Symbol}'")
                                     If DRSearch2.HasRows Then
                                         x += " Or RepNo IN ("
                                         While DRSearch2.Read
@@ -594,8 +584,7 @@ Remarks {cmdLIKE.Text} '{Symbol}{Search}{Symbol}' Union Select RepNo,Remarks fro
                                 Case "Remarks by Customer"
                                     Dim CMDSearch2 As New OleDb.OleDbCommand
                                     Dim DRSearch2 As OleDbDataReader
-                                    CMDSearch2 = New OleDb.OleDbCommand("Select RetNo,Remarks from RepairRemarks1 Where Remarks like '%" & Search & "%' ", CNN)
-                                    DRSearch2 = CMDSearch2.ExecuteReader()
+                                    DRSearch2 = Db.GetDataReader("Select RetNo,Remarks from RepairRemarks1 Where Remarks like '%" & Search & "%' ")
                                     x += " RetNo IN ("
                                     While DRSearch2.Read
                                         x += DRSearch2("RetNo").ToString + ","
@@ -608,10 +597,8 @@ Remarks {cmdLIKE.Text} '{Symbol}{Search}{Symbol}' Union Select RepNo,Remarks fro
                                     End If
                                 Case "Remarks by Technician"
                                     Dim CMDSearch2 As New OleDb.OleDbCommand
-                                    Dim DRSearch2 As OleDbDataReader
-                                    CMDSearch2 = New OleDb.OleDbCommand("Select RetNo,Remarks from RepairRemarks2 Where Remarks like '%" & Search &
-                                                                        "%' ", CNN)
-                                    DRSearch2 = CMDSearch2.ExecuteReader()
+                                    Dim DRSearch2 As OleDbDataReader = Db.GetDataReader("Select RetNo,Remarks from RepairRemarks2 Where Remarks like '%" & Search &
+                                                                        "%' ")
                                     x += " RetNo IN ( "
                                     While DRSearch2.Read
                                         x += DRSearch2("RetNo").ToString + ","
@@ -697,7 +684,7 @@ Remarks {cmdLIKE.Text} '{Symbol}{Search}{Symbol}' Union Select RepNo,Remarks fro
     End Sub
 
     Private Sub bgwSearch_DoWork(sender As Object, e As DoWorkEventArgs) Handles bgwSearch.DoWork
-        Dim Query As String
+        Dim Query As String = ""
         Select Case Me.Tag
             Case "Sale"
                 Query = "SELECT Sale.SaNo,Sale.SaDate,Sale.CuNo,Customer.CuName,Customer.CuTelNo1,Customer.CuTelNo2,Customer.CuTelNo3,Sale.SaSubTotal," &
@@ -1061,7 +1048,7 @@ end_for_loop:
                 Dim tb As TextBox = TryCast(e.Control, TextBox)
                 frmSearchDropDown.passtext(tb)
                 AddHandler tb.KeyUp, AddressOf frmSearchDropDown.dgv_KeyUp
-                frmSearchDropDown.frm_Open(grdSearch, Me, "Select Location from Repair group by Location;", "Location")
+                frmSearchDropDown.frm_Open(Db, grdSearch, Me, "Select Location from Repair group by Location;", "Location")
             End If
         End If
     End Sub
@@ -1099,9 +1086,8 @@ end_for_loop:
                                 .txtCuLNo.Text = selectedrow.Cells(15).Value.ToString
                                 .txtCuLAmount.Text = selectedrow.Cells(16).Value.ToString
                                 .txtSaRemarks.Text = selectedrow.Cells(17).Value.ToString
-                                CMD = New OleDb.OleDbCommand("Select Stock.SNo,Stock.SCategory,Stock.SName,StockSale.SaType,StockSale.SaUnits,StockSale.SaRate," &
-                                                                       "SaTotal from StockSale,Stock where StockSale.SNo = Stock.SNo And SaNo = " & .txtSaNo.Text & ";", CNN)
-                                DR = CMD.ExecuteReader()
+                                DR = Db.GetDataReader("Select Stock.SNo,Stock.SCategory,Stock.SName,StockSale.SaType,StockSale.SaUnits,StockSale.SaRate," &
+                                                                       "SaTotal from StockSale,Stock where StockSale.SNo = Stock.SNo And SaNo = " & .txtSaNo.Text & ";")
                                 If DR.HasRows = True Then
                                     While DR.Read
                                         .grdSale.Rows.Add(DR("SNo").ToString(), DR("SCategory").ToString(), DR("SName").ToString(), DR("SaType").ToString(),
@@ -1130,10 +1116,9 @@ end_for_loop:
                         .cmbSupStatus.Text = selectedrow.Cells("SupStatus").Value.ToString
                         If selectedrow.Cells("SupPaidDate").Value <> "" And
                             selectedrow.Cells("SupStatus").Value = "Paid" Then .txtSupPaidDate.Value = selectedrow.Cells("SupPaidDate").Value
-                        CMD = New OleDb.OleDbCommand("Select Stock.SNo,Stock.SCategory,Stock.SName,StockSupply.SupType,StockSupply.SupUnits," &
+                        DR = Db.GetDataReader("Select Stock.SNo,Stock.SCategory,Stock.SName,StockSupply.SupType,StockSupply.SupUnits," &
                                                                "StockSupply.SupCostPrice from StockSupply,Stock where StockSupply.SNo = Stock.SNo And SupNo=" &
-                                                               .txtSupNo.Text & ";", CNN)
-                        DR = CMD.ExecuteReader()
+                                                               .txtSupNo.Text & ";")
                         If DR.HasRows = True Then
                             While DR.Read
                                 .grdSupply.Rows.Add(DR("SNo").ToString(), DR("SCategory").ToString(), DR("SName").ToString(), DR("SupType").ToString(),
@@ -1170,9 +1155,8 @@ end_for_loop:
                 With frmDeliver
                     .txtDNo.Text = grdSearch.Item(0, e.RowIndex).Value
                     .cmdSave.Text = "Edit"
-                    CMD = New OleDb.OleDbCommand("Select D.*,CuName,CuTelNo1,CuTelNo2,CuTelNo3 from (Deliver D Inner Join Customer Cu On Cu.CuNo = D.CuNo) " &
-                                                 "Where DNo=" & .txtDNo.Text, CNN)
-                    DR = CMD.ExecuteReader()
+                    DR = Db.GetDataReader("Select D.*,CuName,CuTelNo1,CuTelNo2,CuTelNo3 from (Deliver D Inner Join Customer Cu On Cu.CuNo = D.CuNo) " &
+                                                 "Where DNo=" & .txtDNo.Text)
                     If DR.HasRows Then
                         DR.Read()
                         .txtDDate.Value = DR("DDate").ToString
@@ -1194,22 +1178,20 @@ end_for_loop:
                             .txtCuLAmount.Text = DR("CuLAmount").ToString
                             .txtCuLNo.Text = DR("CuLNo").ToString
                         End If
-                        Dim CMD1 As OleDb.OleDbCommand = New OleDb.OleDbCommand("Select RepNo,REP.PNo,PCategory,PName,Qty,Status,REP.TNo, TName,PaidPrice from " &
+                        Dim DR1 As OleDbDataReader = Db.GetDataReader("Select RepNo,REP.PNo,PCategory,PName,Qty,Status,REP.TNo, TName,PaidPrice from " &
                                                                                 "(((Repair REP INNER JOIN PRODUCT  P On P.PNO = REP.PNO) LEFT JOIN Technician T " &
                                                                                 "On T.TNO = REP.TNO) LEFT JOIN DELIVER D On D.DNO = REP.DNO) Where D.DNo=" &
-                                                                                .txtDNo.Text, CNN)
-                        Dim DR1 As OleDb.OleDbDataReader = CMD1.ExecuteReader()
+                                                                                .txtDNo.Text)
                         .grdRepair.Rows.Clear()
                         While DR1.Read
                             .grdRepair.Rows.Add(DR1("RepNo").ToString, DR1("PCategory").ToString, DR1("PName").ToString, DR1("Qty").ToString,
                                                 DR1("PaidPrice").ToString, DR1("TName").ToString, DR1("Status").ToString)
 
                         End While
-                        CMD1 = New OleDb.OleDbCommand("Select RetNo,RepNo,RET.PNo,PCategory,PName,Qty,Status,RET.TNo, TName,PaidPrice from " &
+                        DR1 = Db.GetDataReader("Select RetNo,RepNo,RET.PNo,PCategory,PName,Qty,Status,RET.TNo, TName,PaidPrice from " &
                                                     "(((Return RET INNER JOIN PRODUCT  P On P.PNO = RET.PNO) LEFT JOIN Technician T " &
                                                     "On T.TNO = RET.TNO) LEFT JOIN DELIVER D On D.DNO = RET.DNO) Where D.DNo=" &
-                                                    .txtDNo.Text, CNN)
-                        DR1 = CMD1.ExecuteReader()
+                                                    .txtDNo.Text)
                         .grdRERepair.Rows.Clear()
                         While DR1.Read
                             .grdRERepair.Rows.Add(DR1("RetNo").ToString, DR1("RepNo").ToString, DR1("PCategory").ToString, DR1("PName").ToString,

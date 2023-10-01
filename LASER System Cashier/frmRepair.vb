@@ -130,10 +130,9 @@ Public Class frmRepair
             Next
 
             If cmbRepNo.Text = "" Then Exit Try
-            CMDREPNO = New OleDb.OleDbCommand("SELECT RepNo,REP.RNo,RDate, R.CuNo, CuName, CuTelNo1,CuTelNo2, CuTelNo3, REP.PNo,PCategory,PName, PModelNo, PDetails, " &
+            DRREPNO = Db.GetDataReader("SELECT RepNo,REP.RNo,RDate, R.CuNo, CuName, CuTelNo1,CuTelNo2, CuTelNo3, REP.PNo,PCategory,PName, PModelNo, PDetails, " &
                                               "PSerialNo,Problem,Qty,Charge, PaidPrice,REP.TNo, TName, Status, RepDate,REP.DNo, DDate, Location from (((((Repair REP INNER JOIN RECEIVE R ON R.RNO = REP.RNO) INNER JOIN PRODUCT  P ON P.PNO = REP.PNO) " &
-                                              "INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = REP.TNO) LEFT JOIN DELIVER D ON D.DNO = REP.DNO) Where Rep.Repno = " & cmbRepNo.Text, CNN)
-            DRREPNO = CMDREPNO.ExecuteReader
+                                              "INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = REP.TNO) LEFT JOIN DELIVER D ON D.DNO = REP.DNO) Where Rep.Repno = " & cmbRepNo.Text)
             If DRREPNO.HasRows = False Then
                 MsgBox("මෙම Repair No එක Database එක තුල නොපවතියි.", vbCritical + vbOKOnly)
                 Exit Sub
@@ -165,8 +164,7 @@ Public Class frmRepair
             txtPProblem.Text = DRREPNO("Problem").ToString
             cmbLocation.Text = DRREPNO("Location").ToString
             'Adding Data to grdRepRemarks1 
-            Dim CMDREPNO1 As OleDbCommand = New OleDbCommand("Select * from RepairRemarks1 Where RepNo=" & cmbRepNo.Text, CNN)
-            Dim DRREPNO1 As OleDbDataReader = CMDREPNO1.ExecuteReader()
+            Dim DRREPNO1 As OleDbDataReader = Db.GetDataReader("Select * from RepairRemarks1 Where RepNo=" & cmbRepNo.Text)
             grdRepRemarks1.Rows.Clear()
             While DRREPNO1.Read
                 grdRepRemarks1.Rows.Add(DRREPNO1("Rem1No").ToString, DRREPNO1("Rem1Date").ToString, DRREPNO1("Remarks").ToString,
@@ -181,21 +179,18 @@ Public Class frmRepair
                 imgRepair.Image = Nothing
             End If
             'Adding Data to Activity
-            CMDREPNO1 = New OleDbCommand("Select * from RepairActivity Where RepNo=" & cmbRepNo.Text, CNN)
-            DRREPNO1 = CMDREPNO1.ExecuteReader()
+            DRREPNO1 = Db.GetDataReader("Select * from RepairActivity Where RepNo=" & cmbRepNo.Text)
             grdActivity.Rows.Clear()
             While DRREPNO1.Read
                 grdActivity.Rows.Add(DRREPNO1("RepANo").ToString, DRREPNO1("RepADate").ToString, DRREPNO1("Activity").ToString,
                                             Db.GetData("Select UserName from [User] Where UNo=" & DRREPNO1("UNo").ToString))
             End While
-            CMDREPNO1 = New OleDbCommand("Select MsgNo,MsgDate,Action,Message,Status from Message where RepNo = " & cmbRepNo.Text, CNN)
-            DRREPNO1 = CMDREPNO1.ExecuteReader
+            DRREPNO1 = Db.GetDataReader("Select MsgNo,MsgDate,Action,Message,Status from Message where RepNo = " & cmbRepNo.Text)
             grdRepTask.Rows.Clear()
             While DRREPNO1.Read
                 grdRepTask.Rows.Add(DRREPNO1("MsgNo").ToString, DRREPNO1("MsgDate").ToString, DRREPNO1("Action").ToString, DRREPNO1("MESSAGE").ToString,
                                     DRREPNO1("STATUS").ToString)
             End While
-            CMDREPNO1.Cancel()
             DRREPNO1.Close()
             If cmbRepStatus.Text = "Received" Then
                 Exit Try
@@ -204,8 +199,7 @@ Public Class frmRepair
             lblRepRemarks2.Visible = True
             grdRepRemarks2.Visible = True
             cmbTName.Text = DRREPNO("TName").ToString 'fill fields Technician details
-            CMDREPNO1 = New OleDbCommand("Select * from RepairRemarks2 Where RepNo=" & cmbRepNo.Text, CNN)
-            DRREPNO1 = CMDREPNO1.ExecuteReader()
+            DRREPNO1 = Db.GetDataReader("Select * from RepairRemarks2 Where RepNo=" & cmbRepNo.Text)
             grdRepRemarks2.Rows.Clear()
             While DRREPNO1.Read
                 grdRepRemarks2.Rows.Add(DRREPNO1("Rem2No").ToString, DRREPNO1("Rem2Date").ToString, DRREPNO1("Remarks").ToString,
@@ -214,16 +208,14 @@ Public Class frmRepair
                     grdRepRemarks2.Rows.Item(grdRepRemarks2.Rows.Count - 1).ReadOnly = True
                 End If
             End While
-            CMDREPNO1.Cancel()
             DRREPNO1.Close()
             If cmbRepStatus.Text = "Hand Over to Technician" Then
                 Exit Try
             End If
             boxItem.Visible = True
-            CMDREPNO1 = New OleDb.OleDbCommand("SELECT TechnicianCost.TCNo,TechnicianCost.TCDate,TechnicianCost.SNo,Stock.SCategory,Stock.SName," &
+            DRREPNO1 = Db.GetDataReader("SELECT TechnicianCost.TCNo,TechnicianCost.TCDate,TechnicianCost.SNo,Stock.SCategory,Stock.SName," &
                                               "TechnicianCost.Rate,TechnicianCost.Qty,TechnicianCost.Total,TechnicianCost.TCRemarks,UNo from " &
-                                              "STock,TechnicianCost where TechnicianCost.SNo = Stock.SNo and RepNo=" & cmbRepNo.Text & ";", CNN)
-            DRREPNO1 = CMDREPNO1.ExecuteReader()
+                                              "STock,TechnicianCost where TechnicianCost.SNo = Stock.SNo and RepNo=" & cmbRepNo.Text & ";")
             grdTechnicianCost.Rows.Clear()
             While DRREPNO1.Read
                 grdTechnicianCost.Rows.Add(DRREPNO1("TCNo").ToString, DRREPNO1("TCDate").ToString, DRREPNO1("SNo").ToString, DRREPNO1("SCategory").ToString, DRREPNO1("SName").ToString,
@@ -232,7 +224,6 @@ Public Class frmRepair
                                       DRREPNO1("UNo").ToString),
                                       ""))
             End While
-            CMDREPNO1.Cancel()
             DRREPNO1.Close()
             If cmbRepStatus.Text = "Repairing" Then
                 Exit Try
@@ -246,14 +237,12 @@ Public Class frmRepair
             boxDeliver.Visible = True
             txtDNo.Text = DRREPNO("DNo").ToString
             txtDPaidPrice.Text = DRREPNO("PaidPrice").ToString
-            CMDREPNO1 = New OleDb.OleDbCommand("Select Deliver.DDate,Deliver.CuNo,Customer.CuName,Customer.CuTelNo1,Customer.CuTelNo2,Customer.CuTelNo3 from Deliver,Customer where Deliver.Cuno = Customer.Cuno and Deliver.DNo = " & txtDNo.Text, CNN)
-            DRREPNO1 = CMDREPNO1.ExecuteReader
+            DRREPNO1 = Db.GetDataReader("Select Deliver.DDate,Deliver.CuNo,Customer.CuName,Customer.CuTelNo1,Customer.CuTelNo2,Customer.CuTelNo3 from Deliver,Customer where Deliver.Cuno = Customer.Cuno and Deliver.DNo = " & txtDNo.Text)
             If DRREPNO1.HasRows = True Then
                 DRREPNO1.Read()
                 txtDDate.Value = DRREPNO1("DDate").ToString
             End If
             DRREPNO1.Close()
-            CMDREPNO1.Cancel()
             If cmbRepStatus.Text = "Repaired Delivered" Or cmbRepStatus.Text = "Returned Delivered" Then
                 If MdifrmMain.tslblUserType.Text <> "Admin" And txtDDate.Value.Month <> Today.Month Then
                     For Each ctrl As Control In {boxTechnician, boxReceive, boxProduct, boxRepair, boxDeliver, boxCustomer, txtPProblem, lblLocation, cmbLocation,
@@ -311,13 +300,12 @@ Public Class frmRepair
                 grpAdvancePay, grpRepTask, grpActivity}
                 ctrl.Enabled = True
             Next
-            CMDRETNO = New OleDb.OleDbCommand("Select Return.RetNo,Return.RNo,Receive.RDate,Receive.CuNo,Customer.CuName,Customer.CuTelNo1,Customer.CuTelNo2,Customer.CuTelNo3,Customer.CuRemarks," &
+            DRREPNO = Db.GetDataReader("Select Return.RetNo,Return.RNo,Receive.RDate,Receive.CuNo,Customer.CuName,Customer.CuTelNo1,Customer.CuTelNo2,Customer.CuTelNo3,Customer.CuRemarks," &
                                              "Return.Pno,Product.PCategory,Product.PName,Product.PModelNo,Product.PDetails,Return.PSerialNo,Return.Problem,Return.Qty,Return.TNo,Technician.TName," &
                                              "Return.Status,Return.Charge,Return.PaidPrice,Return.RetRepDate,Return.DNo,Location " &
                                              "from ((((Return inner join Receive on Return.RNo = Receive.RNo) inner join Customer on Receive.CuNo = Customer.CuNo) " &
                                              "inner join Product on Return.PNo = Product.PNo) left join Technician on Return.TNo = Technician.TNo)" &
-                                             "where Return.RetNo = " & cmbRetNo.Text, CNN)
-            DRREPNO = CMDRETNO.ExecuteReader()
+                                             "where Return.RetNo = " & cmbRetNo.Text)
             If DRREPNO.HasRows = False Then
                 MsgBox("මෙම RE-Repair No එක Database එක තුල නොපවතියි.", vbCritical + vbOKOnly)
             End If
@@ -339,8 +327,7 @@ Public Class frmRepair
             txtPQty.Text = DRREPNO("Qty").ToString
             txtPProblem.Text = DRREPNO("Problem").ToString
             cmbLocation.Text = DRREPNO("Location").ToString
-            Dim CMDRETNO1 As New OleDbCommand("Select * from RepairRemarks1 Where RetNo=" & cmbRetNo.Text, CNN)
-            Dim DRRETNo1 As OleDbDataReader = CMDRETNO1.ExecuteReader()
+            Dim DRRETNo1 As OleDbDataReader = Db.GetDataReader("Select * from RepairRemarks1 Where RetNo=" & cmbRetNo.Text)
             grdRepRemarks1.Rows.Clear()
             While DRRETNo1.Read
                 grdRepRemarks1.Rows.Add(DRRETNo1("Rem1No").ToString, DRRETNo1("Rem1Date").ToString, DRRETNo1("Remarks").ToString,
@@ -351,21 +338,18 @@ Public Class frmRepair
             Else
                 imgRepair.Image = Nothing
             End If
-            CMDRETNO1 = New OleDbCommand("Select * from RepairActivity Where RetNo=" & cmbRetNo.Text, CNN)
-            DRRETNo1 = CMDRETNO1.ExecuteReader()
+            DRRETNo1 = Db.GetDataReader("Select * from RepairActivity Where RetNo=" & cmbRetNo.Text)
             grdActivity.Rows.Clear()
             While DRRETNo1.Read
                 grdActivity.Rows.Add(DRRETNo1("RepANo").ToString, DRRETNo1("RepADate").ToString, DRRETNo1("Activity").ToString,
                                         Db.GetData("Select UserName from [User] Where UNo=" & DRRETNo1("UNo").ToString))
             End While
-            CMDRETNO1 = New OleDbCommand("Select MsgNo,MsgDate,Action,Message,Status from Message where RetNo = " & cmbRetNo.Text, CNN)
-            DRRETNo1 = CMDRETNO1.ExecuteReader
+            DRRETNo1 = Db.GetDataReader("Select MsgNo,MsgDate,Action,Message,Status from Message where RetNo = " & cmbRetNo.Text)
             grdRepTask.Rows.Clear()
             While DRRETNo1.Read
                 grdRepTask.Rows.Add(DRRETNo1("MsgNo").ToString, DRRETNo1("MsgDate").ToString, DRRETNo1("Action").ToString, DRRETNo1("MESSAGE").ToString,
                                     DRRETNo1("STATUS").ToString)
             End While
-            CMDRETNO1.Cancel()
             DRRETNo1.Close()
             If cmbRetStatus.Text = "Received" Then
                 Exit Try
@@ -374,23 +358,20 @@ Public Class frmRepair
             lblRepRemarks2.Visible = True
             grdRepRemarks2.Visible = True       'fill fields Technician details
             cmbTName.Text = DRREPNO("TName").ToString
-            CMDRETNO1 = New OleDbCommand("Select * from RepairRemarks2 Where RetNo=" & cmbRetNo.Text, CNN)
-            DRRETNo1 = CMDRETNO1.ExecuteReader()
+            DRRETNo1 = Db.GetDataReader("Select * from RepairRemarks2 Where RetNo=" & cmbRetNo.Text)
             grdRepRemarks2.Rows.Clear()
             While DRRETNo1.Read
                 grdRepRemarks2.Rows.Add(DRRETNo1("Rem2No").ToString, DRRETNo1("Rem2Date").ToString, DRRETNo1("Remarks").ToString,
                                         Db.GetData("Select UserName from [User] Where UNo=" & DRRETNo1("UNo").ToString))
             End While
-            CMDRETNO1.Cancel()
             DRRETNo1.Close()
             If cmbRetStatus.Text = "Hand Over to Technician" Then
                 Exit Try
             End If
             boxItem.Visible = True
-            CMDRETNO1 = New OleDb.OleDbCommand("SELECT TechnicianCost.TCNo,TechnicianCost.TCDate,TechnicianCost.SNo,Stock.SCategory,Stock.SName," &
+            DRRETNo1 = Db.GetDataReader("SELECT TechnicianCost.TCNo,TechnicianCost.TCDate,TechnicianCost.SNo,Stock.SCategory,Stock.SName," &
                                           "TechnicianCost.Rate,TechnicianCost.Qty,TechnicianCost.Total,TechnicianCost.TCRemarks from " &
-                                          "STock, TechnicianCost where TechnicianCost.SNo = Stock.SNo And RetNo=" & cmbRetNo.Text & ";", CNN)
-            DRRETNo1 = CMDRETNO1.ExecuteReader()
+                                          "STock, TechnicianCost where TechnicianCost.SNo = Stock.SNo And RetNo=" & cmbRetNo.Text & ";")
             grdTechnicianCost.Rows.Clear()
             If DRRETNo1.HasRows = True Then
                 While DRRETNo1.Read
@@ -399,7 +380,6 @@ Public Class frmRepair
                 End While
             End If
             DRRETNo1.Close()
-            CMDRETNO1.Cancel()
             If cmbRetStatus.Text = "Repairing" Then
                 Exit Try
             End If
@@ -412,14 +392,12 @@ Public Class frmRepair
             boxDeliver.Visible = True
             txtDNo.Text = DRREPNO("DNo").ToString
             txtDPaidPrice.Text = DRREPNO("PaidPrice").ToString
-            CMDRETNO1 = New OleDb.OleDbCommand("Select Deliver.DDate, Deliver.CuNo, Customer.CuName, Customer.CuTelNo1, Customer.CuTelNo2, Customer.CuTelNo3 from Deliver, Customer where Deliver.Cuno = Customer.Cuno And Deliver.DNo = " & txtDNo.Text, CNN)
-            DRRETNo1 = CMDRETNO1.ExecuteReader
+            DRRETNo1 = Db.GetDataReader("Select Deliver.DDate, Deliver.CuNo, Customer.CuName, Customer.CuTelNo1, Customer.CuTelNo2, Customer.CuTelNo3 from Deliver, Customer where Deliver.Cuno = Customer.Cuno And Deliver.DNo = " & txtDNo.Text)
             If DRRETNo1.HasRows = True Then
                 DRRETNo1.Read()
                 txtDDate.Value = DRRETNo1("DDAte").ToString
             End If
             DRRETNo1.Close()
-            CMDRETNO1.Cancel()
             If cmbRetStatus.Text = "Repaired Delivered" Or cmbRetStatus.Text = "Returned Delivered" Then
                 CMDRETNO.Cancel()
 
@@ -504,7 +482,7 @@ Public Class frmRepair
                     If DRREPNO("Status").ToString <> cmbRepStatus.Text Then
                         Db.Execute("update Repair set status ='" & cmbRepStatus.Text & "' where repno=" & cmbRepNo.Text & ";")
                         Db.Execute("Insert into RepairActivity(RepANo,RepNo,RepADate,Activity,UNo)" &
-                                  " Values(" & Db.GetNextKey( "RepairActivity", "RepANo") & "," &
+                                  " Values(" & Db.GetNextKey("RepairActivity", "RepANo") & "," &
                                   cmbRepNo.Text & ",#" & DateAndTime.Now & "#,'Status -> " & cmbRepStatus.Text & "'," & MdifrmMain.Tag & ")")
                     End If
 
@@ -715,8 +693,7 @@ Public Class frmRepair
         lblRepRemarks2.Visible = True
         grdRepRemarks2.Visible = True
         If cmbRetRepNo.Text <> "" Then
-            CMD = New OleDb.OleDbCommand("Select Technician.TNo,Technician.TName from Return,Technician where Return.TNo = Technician.TNo and Return.RepNo=" & cmbRetRepNo.Text, CNN)
-            DR = CMD.ExecuteReader
+            Dim DR As OleDbDataReader = Db.GetDataReader("Select Technician.TNo,Technician.TName from Return,Technician where Return.TNo = Technician.TNo and Return.RepNo=" & cmbRetRepNo.Text)
             If DR.HasRows = True Then
                 DR.Read()
                 cmbTName.Text = DR("TName").ToString
@@ -827,8 +804,7 @@ Public Class frmRepair
         End If
         Dim cmd1 As New OleDb.OleDbCommand()
         Dim x As String = ""
-        CMD = New OleDb.OleDbCommand("Select RNo,RepNo from Repair where RepNo = " & cmbRepNo.Text, CNN)
-        DR = CMD.ExecuteReader()
+        Dim DR As OleDbDataReader = Db.GetDataReader("Select RNo,RepNo from Repair where RepNo = " & cmbRepNo.Text)
         If DR.HasRows = True Then
             If DR.FieldCount > 1 Then
                 x = "were " + Str(DR.FieldCount) + " repair fields"
@@ -838,16 +814,14 @@ Public Class frmRepair
         End If
         If MsgBox("There " + x + " of received details. Are you sure received details of this repair will be deleted?", vbYesNo + vbCritical) = vbYes Then
             If cmbRetNo.Text = "" Then
-                CMD = New OleDb.OleDbCommand("Select RNo from Repair where RepNo = " & cmbRepNo.Text, CNN)
-                DR = CMD.ExecuteReader()
-                If DR.HasRows = True Then
-                    Db.Execute("DELETE from Receive where RNo=" & DR("RNO").ToString)
+                Dim DrRepairRNo As OleDbDataReader = Db.GetDataReader("Select RNo from Repair where RepNo = " & cmbRepNo.Text)
+                If DrRepairRNo.HasRows = True Then
+                    Db.Execute("DELETE from Receive where RNo=" & DrRepairRNo("RNO").ToString)
                 End If
             Else
-                CMD = New OleDb.OleDbCommand("Select RNo from Return where RetNo = " & cmbRetNo.Text, CNN)
-                DR = CMD.ExecuteReader()
-                If DR.HasRows = True Then
-                    Db.Execute("DELETE from Receive where RNo=" & DR("RNO").ToString)
+                Dim DrReturnRNo As OleDbDataReader = Db.GetDataReader("Select RNo from Return where RetNo = " & cmbRetNo.Text)
+                If DrReturnRNo.HasRows = True Then
+                    Db.Execute("DELETE from Receive where RNo=" & DrReturnRNo("RNO").ToString)
                 End If
             End If
         End If
@@ -899,8 +873,7 @@ Public Class frmRepair
     End Sub
 
     Public Sub CmbCuName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbCuName.SelectedIndexChanged
-        CMD = New OleDb.OleDbCommand("Select * from Customer Where CuName = '" & cmbCuName.Text & "';", CNN)
-        DR = CMD.ExecuteReader()
+        Dim DR As OleDbDataReader = Db.GetDataReader("Select * from Customer Where CuName = '" & cmbCuName.Text & "';")
         If DR.HasRows = True Then
             DR.Read()
             txtCuNo.Text = DR("CuNo").ToString
@@ -928,8 +901,7 @@ Public Class frmRepair
     End Sub
 
     Public Sub CmbPName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbPName.SelectedIndexChanged
-        CMD = New OleDb.OleDbCommand("Select * from Product where PCategory ='" & cmbPCategory.Text & "' and PName ='" & cmbPName.Text & "';", CNN)
-        DR = CMD.ExecuteReader
+        Dim DR As OleDbDataReader = Db.GetDataReader("Select * from Product where PCategory ='" & cmbPCategory.Text & "' and PName ='" & cmbPName.Text & "';")
         If DR.HasRows = True Then
             DR.Read()
             txtPNo.Text = DR("PNo").ToString
@@ -1097,9 +1069,8 @@ Public Class frmRepair
     Private Sub grdRepRemarks1_RowValidating(sender As Object, e As DataGridViewCellCancelEventArgs) Handles grdRepRemarks1.RowValidating
         If e.RowIndex < 0 Then Exit Sub
         If grdRepRemarks1.Item(0, e.RowIndex).Value Is Nothing Then Exit Sub
-        Dim CMD1 As OleDb.OleDbCommand = New OleDb.OleDbCommand("SELECT Rem1No,Rem1Date,Remarks,UNo from " &
-                                        "RepairRemarks1 where Rem1No=" & grdRepRemarks1.Item(0, e.RowIndex).Value & ";", CNN)
-        Dim DR1 As OleDb.OleDbDataReader = CMD1.ExecuteReader()
+        Dim DR1 As OleDb.OleDbDataReader = Db.GetDataReader("SELECT Rem1No,Rem1Date,Remarks,UNo from " &
+                                        "RepairRemarks1 where Rem1No=" & grdRepRemarks1.Item(0, e.RowIndex).Value & ";")
         If DR1.HasRows Then
             DR1.Read()
             grdRepRemarks1.Item(1, e.RowIndex).Value = DR1("Rem1Date").ToString
@@ -1109,7 +1080,6 @@ Public Class frmRepair
         Else
             grdRepRemarks1.Rows.RemoveAt(e.RowIndex)
         End If
-        CMD1.Cancel()
         DR1.Close()
     End Sub
 #End Region
@@ -1216,9 +1186,8 @@ Public Class frmRepair
     Private Sub grdRepRemarks2_RowValidating(sender As Object, e As DataGridViewCellCancelEventArgs) Handles grdRepRemarks2.RowValidating
         If e.RowIndex < 0 Then Exit Sub
         If grdRepRemarks2.Item(0, e.RowIndex).Value Is Nothing Then Exit Sub
-        Dim CMD1 As OleDb.OleDbCommand = New OleDb.OleDbCommand("SELECT Rem2No,Rem2Date,Remarks,UNo from " &
-                                        "RepairRemarks2 where Rem2No=" & grdRepRemarks2.Item(0, e.RowIndex).Value & ";", CNN)
-        Dim DR1 As OleDb.OleDbDataReader = CMD1.ExecuteReader()
+        Dim DR1 As OleDb.OleDbDataReader = Db.GetDataReader("SELECT Rem2No,Rem2Date,Remarks,UNo from " &
+                                        "RepairRemarks2 where Rem2No=" & grdRepRemarks2.Item(0, e.RowIndex).Value & ";")
         If DR1.HasRows Then
             DR1.Read()
             grdRepRemarks2.Item(1, e.RowIndex).Value = DR1("Rem2Date").ToString
@@ -1228,7 +1197,6 @@ Public Class frmRepair
         Else
             grdRepRemarks2.Rows.RemoveAt(e.RowIndex)
         End If
-        CMD1.Cancel()
         DR1.Close()
     End Sub
 #End Region
@@ -1260,22 +1228,20 @@ Public Class frmRepair
                 End If
             Case 2
                 If grdTechnicianCost.Item(2, e.RowIndex).Value Is Nothing Then Exit Sub
-                CMD = New OleDbCommand("Select SNo,SCategory,SName,SCostPrice from Stock Where SNo=" & grdTechnicianCost.Item(2, e.RowIndex).Value.ToString, CNN)
-                DR = CMD.ExecuteReader
-                If DR.HasRows Then
-                    DR.Read()
-                    grdTechnicianCost.Item(3, e.RowIndex).Value = DR("SCategory").ToString
-                    grdTechnicianCost.Item(4, e.RowIndex).Value = DR("SName").ToString
-                    grdTechnicianCost.Item(5, e.RowIndex).Value = DR("SCostPrice").ToString
+                Dim DrStock As OleDbDataReader = Db.GetDataReader("Select SNo,SCategory,SName,SCostPrice from Stock Where SNo=" & grdTechnicianCost.Item(2, e.RowIndex).Value.ToString)
+                If DrStock.HasRows Then
+                    DrStock.Read()
+                    grdTechnicianCost.Item(3, e.RowIndex).Value = DrStock("SCategory").ToString
+                    grdTechnicianCost.Item(4, e.RowIndex).Value = DrStock("SName").ToString
+                    grdTechnicianCost.Item(5, e.RowIndex).Value = DrStock("SCostPrice").ToString
                     grdTechnicianCost.Item(6, e.RowIndex).Value = "1"
                     Dim E1 As New DataGridViewCellEventArgs(5, e.RowIndex)
                     grdTechnicianCost_CellEndEdit(sender, E1)
                 End If
             Case 3, 4
                 frmSearchDropDown.frm_Close()
-                CMD = New OleDbCommand("Select SNo,SCategory,SName,SCostPrice from Stock Where SCategory='" & grdTechnicianCost.Item(3, e.RowIndex).Value &
-                                       "' and SName='" & grdTechnicianCost.Item(4, e.RowIndex).Value & "';", CNN)
-                DR = CMD.ExecuteReader
+                DR = Db.GetDataReader("Select SNo,SCategory,SName,SCostPrice from Stock Where SCategory='" & grdTechnicianCost.Item(3, e.RowIndex).Value &
+                                       "' and SName='" & grdTechnicianCost.Item(4, e.RowIndex).Value & "';")
                 If DR.HasRows Then
                     DR.Read()
                     grdTechnicianCost.Item(2, e.RowIndex).Value = DR("SNo").ToString
@@ -1357,12 +1323,12 @@ Public Class frmRepair
                 Dim tb As TextBox = TryCast(e.Control, TextBox)
                 frmSearchDropDown.passtext(tb)
                 AddHandler tb.KeyUp, AddressOf frmSearchDropDown.dgv_KeyUp
-                frmSearchDropDown.frm_Open(grdTechnicianCost, Me, "Select SCategory from Stock group by SCategory;", "SCategory")
+                frmSearchDropDown.frm_Open(Db, grdTechnicianCost, Me, "Select SCategory from Stock group by SCategory;", "SCategory")
             Case 4
                 Dim tb As TextBox = TryCast(e.Control, TextBox)
                 frmSearchDropDown.passtext(tb)
                 AddHandler tb.KeyUp, AddressOf frmSearchDropDown.dgv_KeyUp
-                frmSearchDropDown.frm_Open(grdTechnicianCost, Me, "Select SCategory,SName from Stock where SCategory ='" &
+                frmSearchDropDown.frm_Open(Db, grdTechnicianCost, Me, "Select SCategory,SName from Stock where SCategory ='" &
                                                    grdTechnicianCost.Item(3, grdTechnicianCost.CurrentCell.RowIndex).Value & "';", "SName")
         End Select
     End Sub
@@ -1382,8 +1348,7 @@ Public Class frmRepair
     Private Sub grdTechnicianCost_RowValidating(sender As Object, e As DataGridViewCellCancelEventArgs) Handles grdTechnicianCost.RowValidating
         If e.RowIndex < 0 Then Exit Sub
         If grdTechnicianCost.Item(0, e.RowIndex).Value Is Nothing Then Exit Sub
-        Dim CMD1 As OleDbCommand = New OleDb.OleDbCommand("SELECT * from TechnicianCost where TCNo=" & grdTechnicianCost.Item(0, e.RowIndex).Value & ";", CNN)
-        Dim DR1 As OleDb.OleDbDataReader = CMD1.ExecuteReader()
+        Dim DR1 As OleDbDataReader = Db.GetDataReader("SELECT * from TechnicianCost where TCNo=" & grdTechnicianCost.Item(0, e.RowIndex).Value & ";")
         If DR1.HasRows Then
             DR1.Read()
             grdTechnicianCost.Item(1, e.RowIndex).Value = DR1("TCDate").ToString
@@ -1399,7 +1364,6 @@ Public Class frmRepair
         Else
             grdTechnicianCost.Rows.RemoveAt(e.RowIndex)
         End If
-        CMD1.Cancel()
         DR1.Close()
     End Sub
 

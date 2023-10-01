@@ -101,7 +101,6 @@ Public Class FormStock
 
     Private Sub WorkerStock_DoWork(sender As Object, e As DoWorkEventArgs) Handles WorkerStock.DoWork
         Try
-            Dim DT As New DataTable
             Dim FilterQuery As String = ""
             grdStock.ScrollBars = ScrollBars.None
             grdStock.ClearSelection()
@@ -131,10 +130,8 @@ Public Class FormStock
             Else
                 FilterQuery = " Order by SNo"
             End If
-            Dim DA As New OleDbDataAdapter("SELECT SNo,SCategory,SName, SModelNo, SLocation,SMinstocks,SAvailableStocks,SOutofStocks, SCostPrice,SSalePrice, SDetails " &
-                                   "from Stock " & FilterQuery & ";", CNN)
-            DA.Fill(DT)
-
+            Dim DT As DataTable = DB.GetDataTable("SELECT SNo,SCategory,SName, SModelNo, SLocation,SMinstocks,SAvailableStocks,SOutofStocks, SCostPrice,SSalePrice, SDetails " &
+                                   "from Stock " & FilterQuery & ";")
             For Each Row As DataRow In DT.Rows
                 If WorkerStock.CancellationPending = True Then
                     e.Cancel = True

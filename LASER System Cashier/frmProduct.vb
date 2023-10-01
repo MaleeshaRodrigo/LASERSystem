@@ -1,4 +1,6 @@
-﻿Public Class frmProduct
+﻿Imports System.Data.OleDb
+
+Public Class frmProduct
     Private Db As New Database
 
     Private Sub cmdClose_Click(sender As Object, e As EventArgs) Handles cmdClose.Click
@@ -6,8 +8,7 @@
     End Sub
 
     Private Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click
-        CMD = New OleDb.OleDbCommand("SELECT top 1 PNO from PRODUCT ORDER BY PNO Desc;", CNN)
-        DR = CMD.ExecuteReader(CommandBehavior.CloseConnection)
+        Dim DR As OleDbDataReader = Db.GetDataReader("SELECT top 1 PNO from PRODUCT ORDER BY PNO Desc;")
         If DR.HasRows = True Then
             DR.Read()
             txtPNo.Text = Int(DR.Item("PNo")) + 1
@@ -107,16 +108,14 @@
         End If
         Select Case cmdSave.Text
             Case "Save"
-                CMD = New OleDb.OleDbCommand("Select PNo from Product where PNo =" & txtPNo.Text & ";", CNN)
-                DR = CMD.ExecuteReader()
-                If DR.HasRows = True Then
+                Dim DrProductNoExist As OleDbDataReader = Db.GetDataReader("Select PNo from Product where PNo =" & txtPNo.Text & ";")
+                If DrProductNoExist.HasRows = True Then
                     MsgBox("Product No is exist", vbOKOnly + vbExclamation)
                     txtPNo.Focus()
                     Exit Sub
                 End If
-                CMD = New OleDb.OleDbCommand("Select PCategory,PName from Product where PCategory = '" & cmbPCategory.Text & "' and PName ='" & cmbPName.Text & "';", CNN)
-                DR = CMD.ExecuteReader()
-                If DR.HasRows = True Then
+                Dim DrProductExist As OleDbDataReader = Db.GetDataReader("Select PCategory,PName from Product where PCategory = '" & cmbPCategory.Text & "' and PName ='" & cmbPName.Text & "';")
+                If DrProductExist.HasRows = True Then
                     MsgBox("Product category and product name are exist", vbOKOnly + vbExclamation)
                     cmbPCategory.Focus()
                     Exit Sub
@@ -149,8 +148,7 @@
             txtPNo.Focus()
             Exit Sub
         End If
-        CMD = New OleDb.OleDbCommand("Select * from Product where Pno =" & txtPNo.Text & "", CNN)
-        DR = CMD.ExecuteReader()
+        Dim DR As OleDbDataReader = Db.GetDataReader("Select * from Product where Pno =" & txtPNo.Text & "")
         If DR.HasRows = False Then
             MsgBox("Product isn't in the database", vbExclamation + vbOKOnly)
             Exit Sub
@@ -183,8 +181,7 @@
     End Sub
 
     Public Sub cmbPName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbPName.SelectedIndexChanged
-        CMD = New OleDb.OleDbCommand("SELECT * from Product where PCategory = '" & cmbPCategory.Text & "' and PName='" & cmbPName.Text & "';", CNN)
-        DR = CMD.ExecuteReader()
+        Dim DR As OleDbDataReader = Db.GetDataReader("SELECT * from Product where PCategory = '" & cmbPCategory.Text & "' and PName='" & cmbPName.Text & "';")
         If DR.HasRows = True Then
             DR.Read()
             txtPNo.Text = DR("PNo").ToString

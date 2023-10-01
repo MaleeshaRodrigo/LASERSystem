@@ -1,4 +1,6 @@
-﻿Public Class frmTechnician
+﻿Imports System.Data.OleDb
+
+Public Class frmTechnician
     Private Db As New Database
 
     Private Sub cmdClose_Click(sender As Object, e As EventArgs) Handles cmdClose.Click
@@ -113,8 +115,7 @@
     End Sub
 
     Private Sub cmbTName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbTName.SelectedIndexChanged
-        CMD = New OleDb.OleDbCommand("Select * from Technician where TName ='" & cmbTName.Text & "';", CNN)
-        DR = CMD.ExecuteReader
+        Dim DR As OleDbDataReader = Db.GetDataReader("Select * from Technician where TName ='" & cmbTName.Text & "';")
         If DR.HasRows = True Then
             DR.Read()
             txtTNo.Text = DR("TNo").ToString

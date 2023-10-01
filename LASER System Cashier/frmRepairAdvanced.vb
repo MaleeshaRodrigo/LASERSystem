@@ -97,8 +97,7 @@ Public Class frmRepairAdvanced
                 Search += "ADDate like '%" & txtSearch.Text & "%' or RepNo like '%" & txtSearch.Text & "%' or RetNo like '%" & txtSearch.Text & "%' or Amount like '%" &
                     txtSearch.Text & "%' or Remarks like '%" & txtSearch.Text & "%'"
         End Select
-        Dim CMDRepAdv = New OleDbCommand("Select * from RepairAdvanced " & Search, CNN)
-        Dim DRRepAdv As OleDbDataReader = CMDRepAdv.ExecuteReader
+        Dim DRRepAdv As OleDbDataReader = Db.GetDataReader("Select * from RepairAdvanced " & Search)
         grdRepAdvanced.Rows.Clear()
         While DRRepAdv.Read
             grdRepAdvanced.Rows.Add(DRRepAdv("ADNo").ToString, DRRepAdv("ADDate").ToString, DRRepAdv("RepNo").ToString, DRRepAdv("RetNo").ToString,
@@ -107,7 +106,6 @@ Public Class frmRepairAdvanced
                                 DRRepAdv("UNo").ToString))
         End While
         grdRepAdvanced.Refresh()
-        CMDRepAdv.Cancel()
         DRRepAdv.Close()
     End Sub
 
@@ -139,9 +137,8 @@ Public Class frmRepairAdvanced
     Private Sub grdRepAdvanced_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles grdRepAdvanced.CellDoubleClick
         If e.RowIndex < 0 Then Exit Sub
         If grdRepAdvanced.Item(0, e.RowIndex).Value Is Nothing Then Exit Sub
-        Dim CMDRepAdv As OleDb.OleDbCommand = New OleDb.OleDbCommand("SELECT * from " &
-                                        "RepairAdvanced where AdNo=" & grdRepAdvanced.Item(0, e.RowIndex).Value & ";", CNN)
-        Dim DRRepAdv As OleDb.OleDbDataReader = CMDRepAdv.ExecuteReader()
+        Dim DRRepAdv As OleDb.OleDbDataReader = Db.GetDataReader("SELECT * from " &
+                                        "RepairAdvanced where AdNo=" & grdRepAdvanced.Item(0, e.RowIndex).Value & ";")
         If DRRepAdv.HasRows Then
             DRRepAdv.Read()
             txtAdNo.Text = grdRepAdvanced.Item(0, e.RowIndex).Value
@@ -158,7 +155,6 @@ Public Class frmRepairAdvanced
             txtAmount.Text = DRRepAdv("Amount").ToString
             txtRemarks.Text = DRRepAdv("Remarks").ToString
         End If
-        CMDRepAdv.Cancel()
         DRRepAdv.Close()
         cmdSave.Text = "Edit"
         cmdDelete.Enabled = True
