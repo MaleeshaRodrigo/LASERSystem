@@ -1301,7 +1301,7 @@ end_for_loop:
                                      tmp = ",Status = 'Hand Over to Technician'"
                                  End If
                                  If previousvalue <> currentvalue Then
-                                     Dim TNo As String = GetStrfromRelatedfield("Select TNo from Technician WHERE TNAME='" &
+                                     Dim TNo As String = Db.GetData("Select TNo from Technician WHERE TNAME='" &
                                                                                 grdSearch.Item("TName", e.RowIndex).Value & "'")
                                      Db.Execute($"update Repair set tno ={TNo}{tmp} where repno=" & grdSearch.Item(0, e.RowIndex).Value & ";")
                                      Db.Execute($"Insert into RepairActivity(RepNo,RepADate,Activity,UNo)
@@ -1320,7 +1320,7 @@ end_for_loop:
                              Case 17    'Repaired Date
                                  grdSearch.CurrentCell.Value = dtpDate.Value.ToString
                                  dtpDate.Visible = False
-                                 If GetStrfromRelatedfield("Select RepDate from Repair Where RepNo=" & grdSearch.Item(0, e.RowIndex).Value) <>
+                                 If Db.GetData("Select RepDate from Repair Where RepNo=" & grdSearch.Item(0, e.RowIndex).Value) <>
                                  currentvalue Then
                                      Db.Execute("update Repair set repdate=#" & currentvalue & "# where repno=" & grdSearch.Item(0, e.RowIndex).Value & ";")
                                      Db.Execute("Insert into RepairActivity(RepNo,RepADate,Activity,UNo)" &

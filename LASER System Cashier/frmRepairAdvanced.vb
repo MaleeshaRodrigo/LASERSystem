@@ -103,7 +103,7 @@ Public Class frmRepairAdvanced
         While DRRepAdv.Read
             grdRepAdvanced.Rows.Add(DRRepAdv("ADNo").ToString, DRRepAdv("ADDate").ToString, DRRepAdv("RepNo").ToString, DRRepAdv("RetNo").ToString,
                                     DRRepAdv("Amount").ToString,
-                                DRRepAdv("Remarks").ToString, GetStrfromRelatedfield("Select UserName from [User] Where UNo=" &
+                                DRRepAdv("Remarks").ToString, Db.GetData("Select UserName from [User] Where UNo=" &
                                 DRRepAdv("UNo").ToString))
         End While
         grdRepAdvanced.Refresh()

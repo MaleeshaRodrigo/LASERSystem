@@ -170,7 +170,7 @@ Public Class frmRepair
             grdRepRemarks1.Rows.Clear()
             While DRREPNO1.Read
                 grdRepRemarks1.Rows.Add(DRREPNO1("Rem1No").ToString, DRREPNO1("Rem1Date").ToString, DRREPNO1("Remarks").ToString,
-                                            GetStrfromRelatedfield("Select UserName from [User] Where UNo=" & DRREPNO1("UNo").ToString))
+                                            Db.GetData("Select UserName from [User] Where UNo=" & DRREPNO1("UNo").ToString))
                 If MdifrmMain.tslblUserType.Text <> "Admin" And txtDDate.Value.Month <> Today.Month Then
                     grdRepRemarks1.Rows.Item(grdRepRemarks1.Rows.Count - 1).ReadOnly = True
                 End If
@@ -186,7 +186,7 @@ Public Class frmRepair
             grdActivity.Rows.Clear()
             While DRREPNO1.Read
                 grdActivity.Rows.Add(DRREPNO1("RepANo").ToString, DRREPNO1("RepADate").ToString, DRREPNO1("Activity").ToString,
-                                            GetStrfromRelatedfield("Select UserName from [User] Where UNo=" & DRREPNO1("UNo").ToString))
+                                            Db.GetData("Select UserName from [User] Where UNo=" & DRREPNO1("UNo").ToString))
             End While
             CMDREPNO1 = New OleDbCommand("Select MsgNo,MsgDate,Action,Message,Status from Message where RepNo = " & cmbRepNo.Text, CNN)
             DRREPNO1 = CMDREPNO1.ExecuteReader
@@ -209,7 +209,7 @@ Public Class frmRepair
             grdRepRemarks2.Rows.Clear()
             While DRREPNO1.Read
                 grdRepRemarks2.Rows.Add(DRREPNO1("Rem2No").ToString, DRREPNO1("Rem2Date").ToString, DRREPNO1("Remarks").ToString,
-                                            GetStrfromRelatedfield("Select UserName from [User] Where UNo=" & DRREPNO1("UNo").ToString))
+                                            Db.GetData("Select UserName from [User] Where UNo=" & DRREPNO1("UNo").ToString))
                 If MdifrmMain.tslblUserType.Text <> "Admin" And txtDDate.Value.Month <> Today.Month Then
                     grdRepRemarks2.Rows.Item(grdRepRemarks2.Rows.Count - 1).ReadOnly = True
                 End If
@@ -228,7 +228,7 @@ Public Class frmRepair
             While DRREPNO1.Read
                 grdTechnicianCost.Rows.Add(DRREPNO1("TCNo").ToString, DRREPNO1("TCDate").ToString, DRREPNO1("SNo").ToString, DRREPNO1("SCategory").ToString, DRREPNO1("SName").ToString,
                                       DRREPNO1("Rate").ToString, DRREPNO1("Qty").ToString, DRREPNO1("Total").ToString, DRREPNO1("TCRemarks").ToString,
-                                      If(DRREPNO1("UNo").ToString <> "", GetStrfromRelatedfield("Select UserName from [User] Where UNo=" &
+                                      If(DRREPNO1("UNo").ToString <> "", Db.GetData("Select UserName from [User] Where UNo=" &
                                       DRREPNO1("UNo").ToString),
                                       ""))
             End While
@@ -344,7 +344,7 @@ Public Class frmRepair
             grdRepRemarks1.Rows.Clear()
             While DRRETNo1.Read
                 grdRepRemarks1.Rows.Add(DRRETNo1("Rem1No").ToString, DRRETNo1("Rem1Date").ToString, DRRETNo1("Remarks").ToString,
-                                        GetStrfromRelatedfield("Select UserName from [User] Where UNo=" & DRRETNo1("UNo").ToString))
+                                        Db.GetData("Select UserName from [User] Where UNo=" & DRRETNo1("UNo").ToString))
             End While
             If File.Exists(SpecialDirectories.MyDocuments & "\LASER System\Images\" + "RET-" + cmbRetNo.Text + ".ls") Then
                 imgRepair.Image = Image.FromFile(SpecialDirectories.MyDocuments & "\LASER System\Images\" + "RET-" + cmbRetNo.Text + ".ls")
@@ -356,7 +356,7 @@ Public Class frmRepair
             grdActivity.Rows.Clear()
             While DRRETNo1.Read
                 grdActivity.Rows.Add(DRRETNo1("RepANo").ToString, DRRETNo1("RepADate").ToString, DRRETNo1("Activity").ToString,
-                                        GetStrfromRelatedfield("Select UserName from [User] Where UNo=" & DRRETNo1("UNo").ToString))
+                                        Db.GetData("Select UserName from [User] Where UNo=" & DRRETNo1("UNo").ToString))
             End While
             CMDRETNO1 = New OleDbCommand("Select MsgNo,MsgDate,Action,Message,Status from Message where RetNo = " & cmbRetNo.Text, CNN)
             DRRETNo1 = CMDRETNO1.ExecuteReader
@@ -379,7 +379,7 @@ Public Class frmRepair
             grdRepRemarks2.Rows.Clear()
             While DRRETNo1.Read
                 grdRepRemarks2.Rows.Add(DRRETNo1("Rem2No").ToString, DRRETNo1("Rem2Date").ToString, DRRETNo1("Remarks").ToString,
-                                        GetStrfromRelatedfield("Select UserName from [User] Where UNo=" & DRRETNo1("UNo").ToString))
+                                        Db.GetData("Select UserName from [User] Where UNo=" & DRRETNo1("UNo").ToString))
             End While
             CMDRETNO1.Cancel()
             DRRETNo1.Close()
@@ -551,7 +551,7 @@ Public Class frmRepair
                         MsgBox("Update successful!", vbInformation + vbOKOnly)
                         Exit Sub
                     End If
-                    Dim TNo As Integer = GetStrfromRelatedfield("SELECT TNo FROM Technician WHERE TName='" & cmbTName.Text & "'")
+                    Dim TNo As Integer = Db.GetData("SELECT TNo FROM Technician WHERE TName='" & cmbTName.Text & "'")
                     If DRREPNO("TNo").ToString <> TNo Then
                         Db.Execute("update Repair set tno =" & TNo & " where repno=" & cmbRepNo.Text & ";")
                         Db.Execute("Insert into RepairActivity(RepANo,RepNo,RepADate,Activity,UNo)" &
@@ -1065,7 +1065,7 @@ Public Class frmRepair
                           If(tabRepair.SelectedTab.TabIndex = 0, "RepNo=" & cmbRepNo.Text, "RetNo=" & cmbRetNo.Text) &
                           ",Rem1Date=#" & grdRepRemarks1.Item(1, e.RowIndex).Value &
                           "#,Remarks='" & grdRepRemarks1.Item(2, e.RowIndex).Value &
-                          "',UNo=" & GetStrfromRelatedfield("Select UNo from [User] Where UserName='" &
+                          "',UNo=" & Db.GetData("Select UNo from [User] Where UserName='" &
                           grdRepRemarks1.Item(3, e.RowIndex).Value & "'") &
                           " Where Rem1No=" & grdRepRemarks1.Item(0, e.RowIndex).Value, {}, AdminPer)
             Else
@@ -1073,7 +1073,7 @@ Public Class frmRepair
                           ", Rem1Date, Remarks, UNo) Values(" & grdRepRemarks1.Item(0, e.RowIndex).Value & "," &
                           If(tabRepair.SelectedTab.TabIndex = 0, cmbRepNo.Text, cmbRetNo.Text) & ",#" & grdRepRemarks1.Item(1, e.RowIndex).Value &
                           "#,'" & grdRepRemarks1.Item(2, e.RowIndex).Value & "'," &
-                          GetStrfromRelatedfield("Select UNo from [User] Where UserName='" & grdRepRemarks1.Item(3, e.RowIndex).Value & "'") &
+                          Db.GetData("Select UNo from [User] Where UserName='" & grdRepRemarks1.Item(3, e.RowIndex).Value & "'") &
                           ")", {}, AdminPer)
             End If
         End If
@@ -1105,7 +1105,7 @@ Public Class frmRepair
             grdRepRemarks1.Item(1, e.RowIndex).Value = DR1("Rem1Date").ToString
             grdRepRemarks1.Item(2, e.RowIndex).Value = DR1("Remarks").ToString
             grdRepRemarks1.Item(3, e.RowIndex).Value = If(DR1("UNo").ToString <> "",
-                GetStrfromRelatedfield("Select UserName from [User] where Uno=" & DR1("UNo").ToString), "")
+                Db.GetData("Select UserName from [User] where Uno=" & DR1("UNo").ToString), "")
         Else
             grdRepRemarks1.Rows.RemoveAt(e.RowIndex)
         End If
@@ -1185,7 +1185,7 @@ Public Class frmRepair
                 Db.Execute("Update RepairRemarks2 set " & If(tabRepair.SelectedTab.TabIndex = 0, "RepNo=" & cmbRepNo.Text, "RetNo=" & cmbRetNo.Text) &
                           ", Rem2Date =#" & grdRepRemarks2.Item(1, e.RowIndex).Value &
                           "#, Remarks ='" & grdRepRemarks2.Item(2, e.RowIndex).Value &
-                          "',UNo=" & GetStrfromRelatedfield("Select UNo from [User] Where UserName='" &
+                          "',UNo=" & Db.GetData("Select UNo from [User] Where UserName='" &
                           grdRepRemarks2.Item(3, e.RowIndex).Value & "'") &
                           " Where Rem2No=" & grdRepRemarks2.Item(0, e.RowIndex).Value, {}, AdminPer)
             Else
@@ -1193,7 +1193,7 @@ Public Class frmRepair
                           ",Rem2Date,Remarks,UNo) Values(" & grdRepRemarks2.Item(0, e.RowIndex).Value & "," &
                           If(tabRepair.SelectedTab.TabIndex = 0, cmbRepNo.Text, cmbRetNo.Text) & ",#" & grdRepRemarks2.Item(1, e.RowIndex).Value &
                           "#,'" & grdRepRemarks2.Item(2, e.RowIndex).Value & "'," &
-                          GetStrfromRelatedfield("Select UNo from [User] Where UserName='" & grdRepRemarks2.Item(3, e.RowIndex).Value & "'") &
+                          Db.GetData("Select UNo from [User] Where UserName='" & grdRepRemarks2.Item(3, e.RowIndex).Value & "'") &
                           ")", {}, AdminPer)
             End If
 
@@ -1224,7 +1224,7 @@ Public Class frmRepair
             grdRepRemarks2.Item(1, e.RowIndex).Value = DR1("Rem2Date").ToString
             grdRepRemarks2.Item(2, e.RowIndex).Value = DR1("Remarks").ToString
             grdRepRemarks2.Item(3, e.RowIndex).Value = If(DR1("UNo").ToString <> "",
-                GetStrfromRelatedfield("Select UserName from [User] where Uno=" & DR1("UNo").ToString), "")
+                Db.GetData("Select UserName from [User] where Uno=" & DR1("UNo").ToString), "")
         Else
             grdRepRemarks2.Rows.RemoveAt(e.RowIndex)
         End If
@@ -1395,7 +1395,7 @@ Public Class frmRepair
             grdTechnicianCost.Item(7, e.RowIndex).Value = DR1("Total").ToString
             grdTechnicianCost.Item(8, e.RowIndex).Value = DR1("TCRemarks").ToString
             grdTechnicianCost.Item(9, e.RowIndex).Value = If(DR1("UNo").ToString <> "",
-                GetStrfromRelatedfield("Select UserName from [User] where Uno=" & DR1("UNo").ToString), "")
+                Db.GetData("Select UserName from [User] where Uno=" & DR1("UNo").ToString), "")
         Else
             grdTechnicianCost.Rows.RemoveAt(e.RowIndex)
         End If

@@ -63,7 +63,7 @@
             AdminPer.Remarks = "අද දිනට නොමැති Technician Loan එකක් Update කෙරුණි."
         End If
         If txtTLDate.Value.Date = Today.Date Then txtTLDate.Value = DateAndTime.Now
-        Dim TNo As Integer = Int(GetStrfromRelatedfield("Select TNo,TName from Technician where TName='" &
+        Dim TNo As Integer = Int(Db.GetData("Select TNo,TName from Technician where TName='" &
                                                         cmbTName.Text & "'"))
         If cmdTLSave.Text = "Save" Then
             If txtSNo.Text <> "" Then
