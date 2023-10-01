@@ -54,9 +54,7 @@
         Else
             x = "Order by PNo"
         End If
-        Dim da As New OleDb.OleDbDataAdapter("SELECT PNO as [No],PCategory as [Category],PName as [Name],PModelNo as [Model No],PDetails as [Details] from Product " & x & ";", CNN)
-        da.Fill(dt)
-        Me.grdProduct.DataSource = dt
+        Me.grdProduct.DataSource = Db.GetDataTable("SELECT PNO as [No],PCategory as [Category],PName as [Name],PModelNo as [Model No],PDetails as [Details] from Product " & x & ";")
         grdProduct.Refresh()
     End Sub
 

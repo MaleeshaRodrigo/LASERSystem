@@ -42,9 +42,7 @@
 
     Private Sub cmdSaRepSearch_Click(sender As Object, e As EventArgs) Handles cmdSaRepSearch.Click
         If txtTNo.Text = "" Then Exit Sub
-        Dim DT As New DataTable
-        Dim DA As New OleDb.OleDbDataAdapter("Select SaRepNo,SaRepDate,SNo,Charge,Qty,Total from SalesREpair where TNo = " & txtTNo.Text & " and #" & txtSaRepFrom.Value.ToString & "# <= SaRepDate and SaRepDate <= #" & txtSaRepTo.Value.ToString & "#;", CNN)
-        DA.Fill(DT)
+        Dim DT As DataTable = Db.GetDataTable("Select SaRepNo,SaRepDate,SNo,Charge,Qty,Total from SalesREpair where TNo = " & txtTNo.Text & " and #" & txtSaRepFrom.Value.ToString & "# <= SaRepDate and SaRepDate <= #" & txtSaRepTo.Value.ToString & "#;")
         Me.grdSalesRepair.DataSource = DT
         grdSalesRepair.Refresh()
     End Sub

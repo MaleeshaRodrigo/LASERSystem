@@ -174,13 +174,11 @@ Public Class frmSale
             Sub()
                 Try
                     Dim rpt As New rptSale 'The report you created.
-                    Dim DT As New DataTable
-                    Dim DA As New OleDb.OleDbDataAdapter($"SELECT Sale.SaNo,Sale.SaDate,Sale.CuNo,Customer.CuName,Customer.CuTelNo1,Customer.CuTelNo2,Customer.CuTelNo3,
+                    Dim DT As DataTable = Db.GetDataTable($"SELECT Sale.SaNo,Sale.SaDate,Sale.CuNo,Customer.CuName,Customer.CuTelNo1,Customer.CuTelNo2,Customer.CuTelNo3,
                                              SCategory, SName, StockSale.SaType,StockSale.SaUnits, StockSale.SaRate, StockSale.SaTotal,Sale.SaSubTotal,
                                              Sale.SaLess,Sale.SaDue,Sale.CReceived,Sale.CBalance,Sale.CAmount,Sale.CPInvoiceNo,Sale.CPAmount,Sale.CuLNo,
                                              sale.CuLAmount FROM ((StockSale Inner Join SALE ON StockSale.SaNo= Sale.SaNo) 
-                                             INNER JOIN Customer ON Sale.CuNo = Customer.CuNo) where StockSale.SaNo={SaNo}", CNN)
-                    DA.Fill(DT)
+                                             INNER JOIN Customer ON Sale.CuNo = Customer.CuNo) where StockSale.SaNo={SaNo}")
                     rpt.SetDataSource(DT)
                     rpt.SetParameterValue("Cashier Name", UserName) 'Set Cashier Name to Parameter Value
                     frmReport.ReportViewer.ReportSource = rpt
@@ -232,7 +230,7 @@ Public Class frmSale
         End If
         Cursor = Cursors.WaitCursor
         txtSaDate.Value = DateAndTime.Now
-        If (Val(txtCAmount.Text) > 0 Or Val(txtCPAmount.Text) > 0) And chkCashDrawer.Checked = True Then OpenCashdrawer()
+        If (Val(txtCAmount.Text) > 0 Or Val(txtCPAmount.Text) > 0) And chkCashDrawer.Checked = True Then CashDrawer.Open()
         'Customer Management
         Dim CuNo As Integer
         CMD = New OleDb.OleDbCommand("Select * from Customer where CuName='" & cmbCuName.Text & "' and CuTelNo1='" & txtCuTelNo1.Text & "' and CuTelNo2 ='" & txtCuTelNo2.Text & "' and CuTelNo3='" & txtCuTelNo3.Text & "'", CNN)

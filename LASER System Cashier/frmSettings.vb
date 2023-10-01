@@ -62,7 +62,7 @@ Public Class FrmSettings
             .BarcodeScannerBaudRate = Int(txtBSBaudRate.Text)
             .BGWorkerPath = TxtBGWokerPath.Text
             .CashDrawer = ChkCashDrawer.Checked
-            If txtDBPassword.Text <> "" Then .DBPassword = Simple.Encode(txtDBPassword.Text)
+            If txtDBPassword.Text <> "" Then .DBPassword = New Encoder().Encode(txtDBPassword.Text)
             .DBProvider = cmbDBProvider.Text
             .DeveloperMode = chkDMode.Checked
             .Save()
@@ -107,9 +107,7 @@ Public Class FrmSettings
         If DR.HasRows = True Then
             grpUAUser.Enabled = True
             grdUAUser.Enabled = True
-            Dim DT As New DataTable
-            DA = New OleDb.OleDbDataAdapter("Select UNo,UserName,Type,Email from [User]", CNN)
-            DA.Fill(DT)
+            Dim DT As DataTable = Db.GetDataTable("Select UNo,UserName,Type,Email from [User]")
             grdUAUser.DataSource = DT
             cmdUANew_Click(sender, e)
         Else

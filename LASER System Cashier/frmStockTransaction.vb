@@ -32,26 +32,17 @@
         If DR.HasRows = True Then
             DR.Read()
             txtSNo.Text = DR("SNO").ToString
-            Dim DT1, DT2, DT3, DT4 As New DataTable
-            Dim DA1 As New OleDb.OleDbDataAdapter("Select SupDate,SuName,SupType,SupUnits,SupCostPrice,SupTotal from (((Supply Sup Left Join Supplier Su On Su.SuNo = Sup.SuNo) " &
-                                                  "Inner Join StockSupply SSup On SSup.SupNo = Sup.SupNo) Inner Join Stock S On S.SNo =SSup.SNo) Where S.SNo = " & txtSNo.Text & " Order by SupDate;", CNN)
-            DA1.Fill(DT1)
-            grdSupply.DataSource = DT1
+            grdSupply.DataSource = Db.GetDataTable("Select SupDate,SuName,SupType,SupUnits,SupCostPrice,SupTotal from (((Supply Sup Left Join Supplier Su On Su.SuNo = Sup.SuNo) " &
+                                                  "Inner Join StockSupply SSup On SSup.SupNo = Sup.SupNo) Inner Join Stock S On S.SNo =SSup.SNo) Where S.SNo = " & txtSNo.Text & " Order by SupDate;")
 
-            Dim DA2 As New OleDb.OleDbDataAdapter("Select SaDate,CuName,SaType,SaUnits,SaRate,SaTotal from (((Sale Sa Left Join Customer Cu On Cu.CuNo = Sa.CuNo) Inner Join StockSale SSa " &
-                                                  "On SSa.SaNo = Sa.SaNo) Inner Join Stock S On S.SNo =SSa.SNo) Where S.SNo = " & txtSNo.Text & " Order by SaDate;", CNN)
-            DA2.Fill(DT2)
-            grdSale.DataSource = DT2
+            grdSale.DataSource = Db.GetDataTable("Select SaDate,CuName,SaType,SaUnits,SaRate,SaTotal from (((Sale Sa Left Join Customer Cu On Cu.CuNo = Sa.CuNo) Inner Join StockSale SSa " &
+                                                  "On SSa.SaNo = Sa.SaNo) Inner Join Stock S On S.SNo =SSa.SNo) Where S.SNo = " & txtSNo.Text & " Order by SaDate;")
 
-            Dim DA3 As New OleDb.OleDbDataAdapter("Select TCDate,TName,RepNo,RetNo,TCRemarks,Rate,Qty,Total from ((TechnicianCost TC Inner Join Stock S On S.SNo = TC.SNo) " &
-                                                  "Inner Join Technician T On T.TNo = TC.TNo) Where S.SNo = " & txtSNo.Text & " Order by TCDate;", CNN)
-            DA3.Fill(DT3)
-            grdTCost.DataSource = DT3
+            grdTCost.DataSource = Db.GetDataTable("Select TCDate,TName,RepNo,RetNo,TCRemarks,Rate,Qty,Total from ((TechnicianCost TC Inner Join Stock S On S.SNo = TC.SNo) " &
+                                                  "Inner Join Technician T On T.TNo = TC.TNo) Where S.SNo = " & txtSNo.Text & " Order by TCDate;")
 
-            Dim DA4 As New OleDb.OleDbDataAdapter("Select TLDate,TName,TLReason,Rate,Qty,Total from ((TechnicianLoan TL Inner Join Stock S On S.SNo = TL.SNo) " &
-                                                  "Inner Join Technician T On T.TNo = TL.TNo) Where S.SNo = " & txtSNo.Text & " Order by TLDate;", CNN)
-            DA4.Fill(DT4)
-            grdTLoan.DataSource = DT4
+            grdTLoan.DataSource = Db.GetDataTable("Select TLDate,TName,TLReason,Rate,Qty,Total from ((TechnicianLoan TL Inner Join Stock S On S.SNo = TL.SNo) " &
+                                                  "Inner Join Technician T On T.TNo = TL.TNo) Where S.SNo = " & txtSNo.Text & " Order by TLDate;")
         End If
     End Sub
 
@@ -81,19 +72,10 @@
         If CheckEmptyfield(txtSNo, "ඔබ තවම Stock එකක් Select කර නොමැත. කරුණාකර Stock එකක් තෝරා ගෙන නැවත උත්සහ කරන්න.") = False Then
             Exit Sub
         End If
-        Dim DT1, DT2, DT3, DT4 As New DataTable
-        DA = New OleDb.OleDbDataAdapter("Select SupDate,SuName,SupType,SupUnits,SupCostPrice,SupTotal from StockSupply SSup,Supplier Su,Supply Sup Where Sup.SupNo = SSup.SupNo and Sup.SuNo = Su.SuNo and SNo = " & txtSNo.Text, CNN)
-        DA.Fill(DT1)
-        grdSupply.DataSource = DT1
-        DA = New OleDb.OleDbDataAdapter("Select SaDate,CuName,SaType,SaRate,SaUnits,SaTotal from Sale Sa, StockSale SSa, Customer Cu Where Cu.CuNo = Sa.CuNo and Sa.SaNo = SSa.SaNo and SNo = " & txtSNo.Text, CNN)
-        DA.Fill(DT2)
-        grdSale.DataSource = DT2
-        DA = New OleDb.OleDbDataAdapter("Select TCDate, TName, RepNo, RetNo, TCRemarks, Rate, Qty, Total from TechnicianCost TC, Technician T Where T.TNo = TC.TNo and SNo = " & txtSNo.Text, CNN)
-        DA.Fill(DT3)
-        grdTCost.DataSource = DT3
-        DA = New OleDb.OleDbDataAdapter("Select TLDate, TName, TLReason, Rate, Qty, Total from TechnicianLoan TL, Technician T Where T.TNo = TL.TNo and SNo = " & txtSNo.Text, CNN)
-        DA.Fill(DT4)
-        grdTLoan.DataSource = DT4
+        grdSupply.DataSource = Db.GetDataTable("Select SupDate,SuName,SupType,SupUnits,SupCostPrice,SupTotal from StockSupply SSup,Supplier Su,Supply Sup Where Sup.SupNo = SSup.SupNo and Sup.SuNo = Su.SuNo and SNo = " & txtSNo.Text)
+        grdSale.DataSource = Db.GetDataTable("Select SaDate,CuName,SaType,SaRate,SaUnits,SaTotal from Sale Sa, StockSale SSa, Customer Cu Where Cu.CuNo = Sa.CuNo and Sa.SaNo = SSa.SaNo and SNo = " & txtSNo.Text)
+        grdTCost.DataSource = Db.GetDataTable("Select TCDate, TName, RepNo, RetNo, TCRemarks, Rate, Qty, Total from TechnicianCost TC, Technician T Where T.TNo = TC.TNo and SNo = " & txtSNo.Text)
+        grdTLoan.DataSource = Db.GetDataTable("Select TLDate, TName, TLReason, Rate, Qty, Total from TechnicianLoan TL, Technician T Where T.TNo = TL.TNo and SNo = " & txtSNo.Text)
     End Sub
 
     Private Sub txtSNo_KeyUp(sender As Object, e As KeyEventArgs) Handles txtSNo.KeyUp

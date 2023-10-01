@@ -27,12 +27,10 @@
             grdTLSearch.Rows.Clear()
             Exit Sub
         End If
-        Dim da As New OleDb.OleDbDataAdapter("Select TLNo as [Technician Loan No],TLDate as [Date],SCategory as [Stock Category],SName as [Stock Name],TLReason as [Reason]," &
+        Me.grdTLSearch.DataSource = Db.GetDataTable("Select TLNo as [Technician Loan No],TLDate as [Date],SCategory as [Stock Category],SName as [Stock Name],TLReason as [Reason]," &
                                              "Rate,Qty,Total from (TechnicianLoan Inner Join Technician On Technician.TNO = TechnicianLoan.TNo) " &
                                              "where TName='" & cmbTName.Text & "' and TLDate BETWEEN #" & txtTLFrom.Value.Date & " 00:00:00# AND #" &
-                                             txtTLTo.Value.Date & " 23:59:59#", CNN)
-        da.Fill(dt)
-        Me.grdTLSearch.DataSource = dt
+                                             txtTLTo.Value.Date & " 23:59:59#")
         grdTLSearch.Refresh()
         txtTLSubTotal.Text = "0"
         For Each Row As DataGridViewRow In grdTLSearch.Rows

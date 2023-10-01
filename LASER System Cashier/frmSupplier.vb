@@ -173,9 +173,7 @@
         Else
             x = "Order by SuNo"
         End If
-        Dim da As New OleDb.OleDbDataAdapter("SELECT SuNo as [No],SuName as [Name],SuAddress as [Address],SuEmail as [Email], SuTelNo1 as [Telephone No1],SuTelNo2 as [Telephone No2],SuTelNo3 as [Telephone No3], SuRemarks as [Remarks] from Supplier " & x & ";", CNN)
-        da.Fill(dt)
-        Me.grdSupplier.DataSource = dt
+        Me.grdSupplier.DataSource = Db.GetDataTable("SELECT SuNo as [No],SuName as [Name],SuAddress as [Address],SuEmail as [Email], SuTelNo1 as [Telephone No1],SuTelNo2 as [Telephone No2],SuTelNo3 as [Telephone No3], SuRemarks as [Remarks] from Supplier " & x & ";")
         grdSupplier.Refresh()
     End Sub
 

@@ -88,9 +88,7 @@
             Case Else
                 x = "Where TNo like '%" & txtSearch.Text & "%' or TName like '%" & txtSearch.Text & "%' or TFullName like '%" & txtSearch.Text & "%' or TAddress like '%" & txtSearch.Text & "%' or TNICNo like '%" & txtSearch.Text & "%' or TEmail like '%" & txtSearch.Text & "%' or TTelNo1 like '%" & txtSearch.Text & "%' or TTElNo2 like '%" & txtSearch.Text & "%' or TTelNo3 like '%" & txtSearch.Text & "%'"
         End Select
-        Dim DA As New OleDb.OleDbDataAdapter("Select * from Technician " & x, CNN)
-        DA.Fill(dt)
-        Me.grdTechnician.DataSource = DT
+        Me.grdTechnician.DataSource = Db.GetDataTable("Select * from Technician " & x)
         grdTechnician.Refresh()
     End Sub
 

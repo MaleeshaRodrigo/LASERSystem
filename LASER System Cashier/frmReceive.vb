@@ -306,14 +306,12 @@ Public Class frmReceive
                 'Try
                 Dim frm1 As New frmReport
                 Dim RPT As New rptReceive
-                Dim DT1 As New DataTable
-                Dim DA1 As New OleDb.OleDbDataAdapter($"SELECT RDate,CuName,CuTelNo1,CuTelNo2,CuTelNo3,'' as RetNo, RepNo, PCategory, PName, PModelNo, 
+                Dim DT1 As DataTable = Db.GetDataTable($"SELECT RDate,CuName,CuTelNo1,CuTelNo2,CuTelNo3,'' as RetNo, RepNo, PCategory, PName, PModelNo, 
 PSerialNo, Qty, Problem, '' as RepRemarks1 from (((Repair Inner Join Receive On Receive.RNo =Repair.RNo) Left Join Product On Product.PNo=Repair.PNo) 
 Left Join Customer On Customer.CuNo=Receive.CuNo) Where Receive.RNo = {RNo} 
 Union Select RDate,CuName,CuTelNo1,CuTelNo2,CuTelNo3, RetNo, RepNo, PCategory, PName, PModelNo, PSerialNo, Qty, Problem, '' as RepRemarks1 
 from (((Return Inner Join Receive On Receive.RNo =Return.RNo) Left Join Product On Product.PNo=Return.PNo) Left Join Customer On Customer.CuNo=Receive.CuNo) 
-Where Receive.RNo = {RNo}", CNN)
-                DA1.Fill(DT1)
+Where Receive.RNo = {RNo}")
                 For Each row As DataRow In DT1.Rows
                     Dim CMD1 As New OleDbCommand("Select Remarks from RepairRemarks1 Where " &
                                                  If(row.Item("RetNo") = "", "RepNo=" & row.Item("RepNo"), "RetNo=" & row.Item("RetNo")), CNN)
@@ -472,11 +470,10 @@ Where Receive.RNo = {RNo}", CNN)
             Dim writer As New BarcodeWriter
             writer.Format = BarcodeFormat.CODE_128
             writer.Options.PureBarcode = True
-            Dim DA1 As New OleDb.OleDbDataAdapter("SELECT Repair.RepNo,RDate,CuName,CuTelNo1,CuTelNo2,CuTelNo3,PCategory,PName,Qty from " &
+            DT1 = Db.GetDataTable("SELECT Repair.RepNo,RDate,CuName,CuTelNo1,CuTelNo2,CuTelNo3,PCategory,PName,Qty from " &
                                               "Repair,Product,Receive,Customer " &
                                               "where Receive.RNO = Repair.RNo and Repair.PNo = Product.PNo and Customer.CuNo = Receive.CuNo and Receive.RNo=" &
-                                              RNo & ";", CNN)
-            DA1.Fill(DT1)
+                                              RNo & ";")
             For Each row As DataRow In DT1.Rows
                 Dim imgStream As MemoryStream = New MemoryStream()
                 Dim img As Image = writer.Write(row.Item("RepNo"))
@@ -516,7 +513,6 @@ Where Receive.RNo = {RNo}", CNN)
                 Application.Run(frm2)
             End With
             rpt3.Close()
-            DA1.Dispose()
             'Catch ex As Exception
             '    MsgBox("Receipt Sticker එක print කර ගැනීමට අපොහොසත් විය." + vbCrLf + "Error: " + ex.Message, vbCritical, "Print Receipt Sticker Error")
             'End Try
