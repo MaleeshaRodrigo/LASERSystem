@@ -70,11 +70,11 @@
                 Db.Execute("Insert Into TechnicianLoan(TLNo,TNo,TLDate,SNo,SCategory,SName,TLReason,Rate,Qty,Total,UNo) " &
                         "Values(" & txtTLNo.Text & "," & TNo & ",#" & txtTLDate.Value & "#," & txtSNo.Text & ",'" &
                         cmbSCategory.Text & "','" & cmbSName.Text & "','" & txtTLReason.Text &
-                        "'," & txtSUnitPrice.Text & "," & txtSQty.Text & "," & txtTLAmount.Text & ",'" & MdifrmMain.Tag & "')", AdminPer)
+                        "'," & txtSUnitPrice.Text & "," & txtSQty.Text & "," & txtTLAmount.Text & ",'" & MdifrmMain.Tag & "')", {}, AdminPer)
             Else
                 Db.Execute("Insert Into TechnicianLoan(TLNo,TNo,TLDate,TLReason,Total,UNo) " &
                         "Values(" & txtTLNo.Text & "," & TNo & ",#" & txtTLDate.Value & "#,'" & txtTLReason.Text & "'," &
-                        txtTLAmount.Text & ",'" & MdifrmMain.Tag & "')", AdminPer)
+                        txtTLAmount.Text & ",'" & MdifrmMain.Tag & "')", {}, AdminPer)
             End If
             MsgBox("Save Successfull!", vbExclamation + vbOKOnly)
         ElseIf cmdTLSave.Text = "Edit" Then
@@ -87,7 +87,7 @@
                       "',Rate=" & txtSUnitPrice.Text &
                       ",Qty=" & txtSQty.Text &
                       ",Total=" & txtTLAmount.Text &
-                      ",UNo=" & MdifrmMain.Tag, AdminPer)
+                      ",UNo=" & MdifrmMain.Tag, {}, AdminPer)
         End If
         Call SetNextKey(Db, txtTLNo, "SELECT top 1 TLNo from TechnicianLoan ORDER BY TLNo Desc;", "TLNo")
         cmbSCategory.Text = ""
@@ -285,18 +285,18 @@
                                       vbCr + vbCr + "Cancel - ඔබට ඉවත් වීමට අවශ්‍ය නම් 'Cancel' යන Button එක Click කරන්න.", vbYesNoCancel + vbExclamation)
                 If Response = vbYes Then
                     Db.Execute("Update Stock set SAvailablestocks=(SAvailableStocks + " & txtSQty.Text &
-                                                             ") where SNo=" & txtSNo.Text & "", AdminPer)
-                    Db.Execute("DELETE from TechnicianCost where TCNo=" & txtTLNo.Text, AdminPer)       'decrease unit from stock table 
+                                                             ") where SNo=" & txtSNo.Text & "", {}, AdminPer)
+                    Db.Execute("DELETE from TechnicianCost where TCNo=" & txtTLNo.Text, {}, AdminPer)       'decrease unit from stock table 
                 ElseIf Response = vbNo Then
                     Db.Execute("Update Stock set SOutofStocks=(SOutofStocks + " & txtSQty.Text &
-                                                             ") where SNo=" & txtSNo.Text & "", AdminPer)
-                    Db.Execute("DELETE from TechnicianCost where TCNo=" & txtTLNo.Text, AdminPer)       'delete data from technician loan 
+                                                             ") where SNo=" & txtSNo.Text & "", {}, AdminPer)
+                    Db.Execute("DELETE from TechnicianCost where TCNo=" & txtTLNo.Text, {}, AdminPer)       'delete data from technician loan 
                 Else
                     Exit Sub
                 End If
             Else
                 If MsgBox("Are you sure delete this Technician Cost?", vbYesNo + vbExclamation) = vbYes Then
-                    Db.Execute("DELETE from TechnicianCost where TCNo=" & txtTLNo.Text, AdminPer)       'delete data from technician loan 
+                    Db.Execute("DELETE from TechnicianCost where TCNo=" & txtTLNo.Text, {}, AdminPer)       'delete data from technician loan 
                 End If
             End If
         Else

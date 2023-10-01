@@ -271,9 +271,8 @@ Public Class frmDeliver
         grdRepair.EndEdit()
         grdRERepair.EndEdit()
         cmdSave.Focus()
-        CMD = New OleDb.OleDbCommand("Select * from Customer where CuName='" & cmbCuName.Text & "' and CuTelNo1='" & txtCuTelNo1.Text & "' and CuTelNo2 ='" &
-                                     txtCuTelNo2.Text & "' and CuTelNo3='" & txtCuTelNo3.Text & "'", CNN)
-        DR = CMD.ExecuteReader
+        Dim DR As OleDbDataReader = Db.GetDataReader("Select * from Customer where CuName='" & cmbCuName.Text & "' and CuTelNo1='" & txtCuTelNo1.Text & "' and CuTelNo2 ='" &
+                                     txtCuTelNo2.Text & "' and CuTelNo3='" & txtCuTelNo3.Text & "'")
         'Customer Management
         Dim CuNo As String
         If DR.HasRows = True Then
@@ -283,48 +282,46 @@ Public Class frmDeliver
             AdminPer.Keys.Add("CuNo", "?NewKey?Customer?CuNo?")
             CuNo = "?Key?CuNo?"
             Db.Execute("Insert into Customer(CuNo,CuName,CuTelNo1,CuTelNo2,CutelNo3) Values(" & CuNo & ",'" & cmbCuName.Text & "','" & txtCuTelNo1.Text &
-                      "','" & txtCuTelNo2.Text & "','" & txtCuTelNo3.Text & "');", AdminPer)
+                      "','" & txtCuTelNo2.Text & "','" & txtCuTelNo3.Text & "');", {}, AdminPer)
         End If
 
         '-------------Edit Mode------------------------------------------------
         If cmdSave.Text = "Edit" Then
             AdminPer.Keys.Item("DNo") = txtDNo.Text
-            CMD = New OleDb.OleDbCommand("SELECT * from Deliver where DNo=" & txtDNo.Text & ";", CNN)
-            DR = CMD.ExecuteReader()
-            If DR.HasRows = True Then
-                DR.Read()
-                If DR("CuLNo").ToString <> "0" And txtCuLNo.Text = "0" Then
-                    Db.Execute("DELETE from CustomerLoan where CuLNo=" & DR("CuLNO").ToString, AdminPer)
-                ElseIf DR("CuLNo").ToString <> "0" And txtCuLNo.Text <> "0" Then
-                    Db.Execute("Update CustomerLoan set CuLNo = " & DR("CuLNO").ToString &
+            Dim DrDeliver As OleDbDataReader = Db.GetDataReader("SELECT * from Deliver where DNo=" & txtDNo.Text & ";")
+            If DrDeliver.HasRows = True Then
+                DrDeliver.Read()
+                If DrDeliver("CuLNo").ToString <> "0" And txtCuLNo.Text = "0" Then
+                    Db.Execute("DELETE from CustomerLoan where CuLNo=" & DrDeliver("CuLNO").ToString, {}, AdminPer)
+                ElseIf DrDeliver("CuLNo").ToString <> "0" And txtCuLNo.Text <> "0" Then
+                    Db.Execute("Update CustomerLoan set CuLNo = " & DrDeliver("CuLNO").ToString &
                                                       "CuNo = " & CuNo &
                                                       ",CuLAmount = " & txtCuLAmount.Text &
                                                       ",DNo = " & txtDNo.Text &
                                                       ",CuLDate = #" & txtDDate.Value &
-                                                      "# where CuLNo=" & DR("CuLNO").ToString, AdminPer)
-                    txtCuLNo.Text = DR("CuLNo").ToString
-                ElseIf DR("CuLNo").ToString = "0" And txtCuLNo.Text <> "0" Then
+                                                      "# where CuLNo=" & DrDeliver("CuLNO").ToString, {}, AdminPer)
+                    txtCuLNo.Text = DrDeliver("CuLNo").ToString
+                ElseIf DrDeliver("CuLNo").ToString = "0" And txtCuLNo.Text <> "0" Then
                     Db.Execute("Insert into CustomerLoan(CuLNO,CuLAmount,CuNo,DNo,CulDate,Status) values(?NewKey?CustomerLoan?CuLNo?," &
-                              txtCuLAmount.Text & "," & CuNo & "," & txtDNo.Text & ",#" & txtDDate.Value & "#,'Not Paid')", AdminPer)
+                              txtCuLAmount.Text & "," & CuNo & "," & txtDNo.Text & ",#" & txtDDate.Value & "#,'Not Paid')", {}, AdminPer)
                 End If
-                Dim CMD1 As New OleDb.OleDbCommand("SELECT RepNo,REP.PNo,PCategory,PName,Qty,Status,REP.TNo, TName,PaidPrice from " &
+                Dim DR1 As OleDbDataReader = Db.GetDataReader("SELECT RepNo,REP.PNo,PCategory,PName,Qty,Status,REP.TNo, TName,PaidPrice from " &
                                                     "(((Repair REP INNER JOIN PRODUCT  P ON P.PNO = REP.PNO) LEFT JOIN Technician T " &
-                                                    "ON T.TNO = REP.TNO) LEFT JOIN DELIVER D ON D.DNO = REP.DNO) Where D.DNo=" & txtDNo.Text, CNN)
-                Dim DR1 As OleDb.OleDbDataReader = CMD1.ExecuteReader
+                                                    "ON T.TNO = REP.TNO) LEFT JOIN DELIVER D ON D.DNO = REP.DNO) Where D.DNo=" & txtDNo.Text)
                 While DR1.Read
                     Db.Execute("Update Repair Set " & If(DR1("Status").ToString = "Repaired Delivered", "Status='Repaired Not Delivered'",
                               "Status='Returned Not Delivered'") & ",PaidPrice=0,DNo=0 " &
-                              "Where DNo=?Key?DNo?", AdminPer)
+                              "Where DNo=?Key?DNo?", {}, AdminPer)
                 End While
-                CMD1 = New OleDb.OleDbCommand("SELECT RetNo,RepNo,RET.PNo,PCategory,PName,Qty,Status,RET.TNo, TName,PaidPrice from " &
+                CMD1 = New OleDbCommand("SELECT RetNo,RepNo,RET.PNo,PCategory,PName,Qty,Status,RET.TNo, TName,PaidPrice from " &
                                                 "(((RETURN RET INNER JOIN PRODUCT  P ON P.PNO = RET.PNO) LEFT JOIN Technician T " &
                                                 "ON T.TNO = RET.TNO) LEFT JOIN DELIVER D ON D.DNO = RET.DNO) Where D.DNo=" & txtDNo.Text, CNN)
                 DR1 = CMD1.ExecuteReader
                 While DR1.Read
                     Db.Execute($"Update `Return` Set {If(DR1("Status").ToString = "Repaired Delivered", "Status='Repaired Not Delivered'",
-                              "Status='Returned Not Delivered'")},PaidPrice=0,DNo=0 Where DNo={txtDNo.Text}", AdminPer)
+                              "Status='Returned Not Delivered'")},PaidPrice=0,DNo=0 Where DNo={txtDNo.Text}", {}, AdminPer)
                 End While
-                Db.Execute($"DELETE FROM Deliver WHERE DNo={txtDNo.Text}", AdminPer)
+                Db.Execute($"DELETE FROM Deliver WHERE DNo={txtDNo.Text}", {}, AdminPer)
             End If
         End If
         '---------------Exit Edit Mode-----------------------------------------
@@ -332,11 +329,11 @@ Public Class frmDeliver
                   "Values(" & DNo & ",#" & txtDDate.Value & "#," & CuNo & "," & txtGrandTotal.Text &
                   "," & txtCAmount.Text & "," &
                   txtCReceived.Text & "," & txtCBalance.Text & "," & txtCPInvoiceNo.Text & "," & txtCPAmount.Text & "," & txtCuLNo.Text & "," &
-                  txtCuLAmount.Text & ",'" & txtDRemarks.Text & "');", AdminPer)
+                  txtCuLAmount.Text & ",'" & txtDRemarks.Text & "');", {}, AdminPer)
         If txtCuLAmount.Text <> "0" Then
             Db.Execute("Insert into CustomerLoan(CuLNo,CuLDate,CuNO,CuLAmount,DNo,Status) Values(" &
                       "?NewKey?CustomerLoan?CuLNo?,#" & txtDDate.Value & "#," &
-                      CuNo & "," & txtCuLAmount.Text & "," & DNo & ",'Not Paid')", AdminPer)
+                      CuNo & "," & txtCuLAmount.Text & "," & DNo & ",'Not Paid')", {}, AdminPer)
         End If
         If grdRepair.Rows.Count > 1 Then
             For Each Row1 As DataGridViewRow In grdRepair.Rows
@@ -348,14 +345,14 @@ Public Class frmDeliver
                     If DR("Status").ToString = "Received" Or DR("Status").ToString = "Hand Over to Technician" Or
                         DR("Status").ToString = "Repairing" Then
                         Db.Execute("Update Repair set RepDate = #" & txtDDate.Value &
-                                  "#,Charge=" & Row1.Cells(4).Value & " where RepNo= " & Row1.Cells(0).Value, AdminPer)
+                                  "#,Charge=" & Row1.Cells(4).Value & " where RepNo= " & Row1.Cells(0).Value, {}, AdminPer)
                     End If
                 End If
                 Db.Execute("Update Repair set PaidPrice = " & Row1.Cells(4).Value.ToString &
-                                             ",TNo = " & GetStrfromRelatedfield("Select TNo from Technician Where TName='" &
+                                             ",TNo = " & Db.GetData("Select TNo from Technician Where TName='" &
                                              Row1.Cells(5).Value & "'") &
                                              ",Status='" & Row1.Cells(6).Value.ToString & "'" &
-                                             ",DNo = " & DNo & " where RepNo= " & Row1.Cells(0).Value.ToString, AdminPer)
+                                             ",DNo = " & DNo & " where RepNo= " & Row1.Cells(0).Value.ToString, {}, AdminPer)
             Next
         End If
         If grdRERepair.Rows.Count > 1 Then
@@ -367,13 +364,13 @@ Public Class frmDeliver
                     DR.Read()
                     If DR("Status").ToString = "Received" Or DR("Status").ToString = "Hand Over to Technician" Or DR("Status").ToString = "Repairing" Then
                         Db.Execute("Update `Return` set RetRepDate = #" & txtDDate.Value &
-                                "#,Charge=" & Row.Cells(5).Value.ToString & " where RepNo= " & Row.Cells(0).Value.ToString, AdminPer)
+                                "#,Charge=" & Row.Cells(5).Value.ToString & " where RepNo= " & Row.Cells(0).Value.ToString, {}, AdminPer)
                     End If
                 End If
                 Db.Execute("Update `Return` set PaidPrice = " & Row.Cells(5).Value.ToString &
-                        ",TNo = " & GetStrfromRelatedfield("Select TNo from Technician Where TName='" & Row.Cells(6).Value & "'") &
+                        ",TNo = " & Db.GetData("Select TNo from Technician Where TName='" & Row.Cells(6).Value & "'") &
                         ",Status='" & Row.Cells(7).Value.ToString & "'" &
-                        ",DNo = " & DNo & " where RetNo= " & Row.Cells(0).Value.ToString, AdminPer)
+                        ",DNo = " & DNo & " where RetNo= " & Row.Cells(0).Value.ToString, {}, AdminPer)
             Next
         End If
     End Function

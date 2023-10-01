@@ -210,7 +210,7 @@ Public Class frmTechnicianCost
             grdTechnicianCost.Item(0, e.RowIndex).Value = Db.GetNextKey("TechnicianCost", "TCNo")
         End If
         If CheckExistData("Select * from TechnicianCost Where TCNo=" & grdTechnicianCost.Item(0, e.RowIndex).Value) = False Then Db.Execute("Insert into TechnicianCost(TCNo,TNo,Rate,Qty,Total,UNo) Values(" & grdTechnicianCost.Item(0, e.RowIndex).Value & "," &
-                      GetStrfromRelatedfield("Select TNo from Technician Where TName='" & cmbTName.Text & "'") & ",0,0,0," & MdifrmMain.Tag & ")")
+                      Db.getdata("Select TNo from Technician Where TName='" & cmbTName.Text & "'") & ",0,0,0," & MdifrmMain.Tag & ")")
         If Convert.ToDateTime(grdTechnicianCost.Item(1, e.RowIndex).Value).Date <> Today.Date Then
             AdminPer.AdminSend = True
         End If
@@ -218,15 +218,15 @@ Public Class frmTechnicianCost
             Case 1
                 Db.Execute("Update TechnicianCost set " & grdTechnicianCost.Columns(e.ColumnIndex).DataPropertyName & "=#" &
                           grdTechnicianCost.Item(e.ColumnIndex, e.RowIndex).Value & "# " & tmp & " Where TCNo=" &
-                          grdTechnicianCost.Item(0, e.RowIndex).Value, AdminPer)
+                          grdTechnicianCost.Item(0, e.RowIndex).Value, {}, AdminPer)
             Case 2, 5, 6, 7, 9, 10
                 Db.Execute("Update TechnicianCost set " & grdTechnicianCost.Columns(e.ColumnIndex).DataPropertyName & "=" &
                           grdTechnicianCost.Item(e.ColumnIndex, e.RowIndex).Value & " " & tmp & " Where TCNo=" &
-                          grdTechnicianCost.Item(0, e.RowIndex).Value, AdminPer)
+                          grdTechnicianCost.Item(0, e.RowIndex).Value, {}, AdminPer)
             Case 3, 4, 8
                 Db.Execute("Update TechnicianCost set " & grdTechnicianCost.Columns(e.ColumnIndex).DataPropertyName & "='" &
                           grdTechnicianCost.Item(e.ColumnIndex, e.RowIndex).Value & "' " & tmp & " Where TCNo=" &
-                          grdTechnicianCost.Item(0, e.RowIndex).Value, AdminPer)
+                          grdTechnicianCost.Item(0, e.RowIndex).Value, {}, AdminPer)
         End Select
         grdTechnicianCost.Item(e.ColumnIndex, e.RowIndex).Tag = ""
         cmdTCSearch_Click(sender, e)

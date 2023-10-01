@@ -436,12 +436,12 @@ Public Class frmSettlement
             Case "Save"
                 SetNextKey(Db, txtTANo, "Select Top 1 TANo from [Transaction] order by TANo Desc;", "TANo")
                 Db.Execute("Insert into `Transaction`(TANo, TADate,TADetails, TAAmount) Values(?NewKey?Transaction?TANo?,#" &
-                                             dtpTADate.Value.ToString & "#,'" & txtTADetails.Text & "', " & txtTAAmount.Text & ");", AdminPer)
+                                             dtpTADate.Value.ToString & "#,'" & txtTADetails.Text & "', " & txtTAAmount.Text & ");", {}, AdminPer)
             Case "Edit"
                 Db.Execute("UPDATE `Transaction` SET TADate=#" & dtpTADate.Value.ToString & "#," &
                                                  "TADetails'" & txtTADetails.Text & "'," &
                                                  "TAAmount=" & txtTAAmount.Text &
-                                                 " WHERE TANO = " & txtTANo.Text, AdminPer)
+                                                 " WHERE TANO = " & txtTANo.Text, {}, AdminPer)
         End Select
         grdTransaction.Refresh()
         CmdTANew_Click(sender, e)
@@ -458,7 +458,7 @@ Public Class frmSettlement
             Exit Sub
         End If
         If MsgBox("Are you sure delete this transaction?", vbInformation + vbYesNo) = vbYes Then
-            Db.Execute("DELETE from `Transaction` where TANO = " & txtTANo.Text, AdminPer)
+            Db.Execute("DELETE from `Transaction` where TANO = " & txtTANo.Text, {}, AdminPer)
         End If
         CmdTANew_Click(sender, e)
     End Sub

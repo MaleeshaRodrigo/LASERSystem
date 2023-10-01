@@ -45,11 +45,11 @@ Public Class frmRepairAdvanced
                 If rbRep.Checked = True Then
                     Db.Execute("Insert into RepairAdvanced(ADNo,ADDate,RepNo,RetNo,Amount,Remarks,UNo) Values(?NewKey?RepairAdvanced?AdNo?,#" &
                           txtAdDate.Value & "#," & cmbRepNo.Text & ",0," & txtAmount.Text & ",'" & txtRemarks.Text & "'," & MdifrmMain.Tag & ")",
-                              AdminPer)
+                              {}, AdminPer)
                 Else
                     Db.Execute("Insert into RepairAdvanced(ADNo,ADDate,RepNo,RetNo,Amount,Remarks,UNo) Values(?NewKey?RepairAdvanced?AdNo?,#" &
                           txtAdDate.Value & "#,0," & cmbRepNo.Text & "," & txtAmount.Text & ",'" & txtRemarks.Text & "'," & MdifrmMain.Tag & ")",
-                              AdminPer)
+                              {}, AdminPer)
                 End If
                 If MsgBox("Repair Advanced Invoice එක print කිරීමට අවශ්‍යද?", vbYesNo) = vbYes Then
                     PrintRepairAdvancedToolStripMenuItem_Click(sender, e)
@@ -66,7 +66,7 @@ Public Class frmRepairAdvanced
                               ", Amount=" & txtAmount.Text &
                               ", Remarks='" & txtRemarks.Text &
                               "', UNo=" & MdifrmMain.Tag &
-                              " Where AdNo=" & txtAdNo.Text, AdminPer)
+                              " Where AdNo=" & txtAdNo.Text, {}, AdminPer)
                 Else
                     Db.Execute("Update RepairAdvanced set ADDate=#" & txtAdDate.Value &
                               "#, RetNo=" & cmbRepNo.Text &
@@ -74,7 +74,7 @@ Public Class frmRepairAdvanced
                               ", Amount=" & txtAmount.Text &
                               ", Remarks='" & txtRemarks.Text &
                               "', UNo=" & MdifrmMain.Tag &
-                              " Where AdNo=" & txtAdNo.Text, AdminPer)
+                              " Where AdNo=" & txtAdNo.Text, {}, AdminPer)
                 End If
         End Select
         cmdNew_Click(sender, e)
@@ -121,7 +121,7 @@ Public Class frmRepairAdvanced
             AdminPer.AdminSend = True
             AdminPer.Remarks = "Repair හි " & txtAdNo.Text & " Advanced Payment එකක් Delete කෙරුණි."
         End If
-        Db.Execute("Delete from RepairAdvanced Where AdNo=" & txtAdNo.Text, AdminPer)
+        Db.Execute("Delete from RepairAdvanced Where AdNo=" & txtAdNo.Text, {}, AdminPer)
     End Sub
 
     Private Sub cmdClose_Click(sender As Object, e As EventArgs) Handles cmdClose.Click

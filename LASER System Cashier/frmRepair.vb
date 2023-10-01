@@ -1067,14 +1067,14 @@ Public Class frmRepair
                           "#,Remarks='" & grdRepRemarks1.Item(2, e.RowIndex).Value &
                           "',UNo=" & GetStrfromRelatedfield("Select UNo from [User] Where UserName='" &
                           grdRepRemarks1.Item(3, e.RowIndex).Value & "'") &
-                          " Where Rem1No=" & grdRepRemarks1.Item(0, e.RowIndex).Value, AdminPer)
+                          " Where Rem1No=" & grdRepRemarks1.Item(0, e.RowIndex).Value, {}, AdminPer)
             Else
                 Db.Execute("Insert into RepairRemarks1(Rem1No," & If(tabRepair.SelectedTab.TabIndex = 0, "RepNo", "RetNo") &
                           ", Rem1Date, Remarks, UNo) Values(" & grdRepRemarks1.Item(0, e.RowIndex).Value & "," &
                           If(tabRepair.SelectedTab.TabIndex = 0, cmbRepNo.Text, cmbRetNo.Text) & ",#" & grdRepRemarks1.Item(1, e.RowIndex).Value &
                           "#,'" & grdRepRemarks1.Item(2, e.RowIndex).Value & "'," &
                           GetStrfromRelatedfield("Select UNo from [User] Where UserName='" & grdRepRemarks1.Item(3, e.RowIndex).Value & "'") &
-                          ")", AdminPer)
+                          ")", {}, AdminPer)
             End If
         End If
         If AdminPer.AdminSend = True Then
@@ -1091,7 +1091,7 @@ Public Class frmRepair
             AdminPer.Remarks = "Repair Remarks 1 හි Field එකක් Delete කෙරුණි."
             e.Cancel = True
         End If
-        Db.Execute("Delete from RepairRemarks1 Where Rem1No=" & grdRepRemarks1.Item(0, e.Row.Index).Value, AdminPer)
+        Db.Execute("Delete from RepairRemarks1 Where Rem1No=" & grdRepRemarks1.Item(0, e.Row.Index).Value, {}, AdminPer)
     End Sub
 
     Private Sub grdRepRemarks1_RowValidating(sender As Object, e As DataGridViewCellCancelEventArgs) Handles grdRepRemarks1.RowValidating
@@ -1187,14 +1187,14 @@ Public Class frmRepair
                           "#, Remarks ='" & grdRepRemarks2.Item(2, e.RowIndex).Value &
                           "',UNo=" & GetStrfromRelatedfield("Select UNo from [User] Where UserName='" &
                           grdRepRemarks2.Item(3, e.RowIndex).Value & "'") &
-                          " Where Rem2No=" & grdRepRemarks2.Item(0, e.RowIndex).Value, AdminPer)
+                          " Where Rem2No=" & grdRepRemarks2.Item(0, e.RowIndex).Value, {}, AdminPer)
             Else
                 Db.Execute("Insert into RepairRemarks2(Rem2No," & If(tabRepair.SelectedTab.TabIndex = 0, "RepNo", "RetNo") &
                           ",Rem2Date,Remarks,UNo) Values(" & grdRepRemarks2.Item(0, e.RowIndex).Value & "," &
                           If(tabRepair.SelectedTab.TabIndex = 0, cmbRepNo.Text, cmbRetNo.Text) & ",#" & grdRepRemarks2.Item(1, e.RowIndex).Value &
                           "#,'" & grdRepRemarks2.Item(2, e.RowIndex).Value & "'," &
                           GetStrfromRelatedfield("Select UNo from [User] Where UserName='" & grdRepRemarks2.Item(3, e.RowIndex).Value & "'") &
-                          ")", AdminPer)
+                          ")", {}, AdminPer)
             End If
 
         End If
@@ -1211,7 +1211,7 @@ Public Class frmRepair
             AdminPer.Remarks = "Repair Remarks 2 හි Field එකක් Delete කෙරුණි."
             e.Cancel = True
         End If
-        Db.Execute("Delete from RepairRemarks2 Where Rem2No=" & grdRepRemarks2.Item(0, e.Row.Index).Value, AdminPer)
+        Db.Execute("Delete from RepairRemarks2 Where Rem2No=" & grdRepRemarks2.Item(0, e.Row.Index).Value, {}, AdminPer)
     End Sub
     Private Sub grdRepRemarks2_RowValidating(sender As Object, e As DataGridViewCellCancelEventArgs) Handles grdRepRemarks2.RowValidating
         If e.RowIndex < 0 Then Exit Sub
@@ -1305,11 +1305,11 @@ Public Class frmRepair
         If grdTechnicianCost.Item(0, e.RowIndex).Value Is Nothing Then
             grdTechnicianCost.Item(0, e.RowIndex).Value = Db.GetNextKey("TechnicianCost", "TCNo")
             Db.Execute("Insert into TechnicianCost(TCNo) Values(" & grdTechnicianCost.Item(0, e.RowIndex).Value & ")",
-                      AdminPer)
+                      {}, AdminPer)
         End If
         If CheckExistData("Select * from TechnicianCost Where TCNo=" & grdTechnicianCost.Item(0, e.RowIndex).Value) = True Then
             Db.Execute("Update TechnicianCost set TCDate=#" & grdTechnicianCost.Item("TCDate", e.RowIndex).Value &
-                      "#,TNo" = GetStrfromRelatedfield($"SELECT TNo from Technician WHERE TName='{cmbTName.Text}'") &
+                      "#,TNo" = Db.GetData($"SELECT TNo from Technician WHERE TName='{cmbTName.Text}'") &
                       ",SNo=" & grdTechnicianCost.Item("SNo", e.RowIndex).Value &
                       ",SCategory='" & grdTechnicianCost.Item("SCategory", e.RowIndex).Value &
                       "',SName='" & grdTechnicianCost.Item("SName", e.RowIndex).Value &
@@ -1317,9 +1317,9 @@ Public Class frmRepair
                       ",Qty=" & grdTechnicianCost.Item("Qty", e.RowIndex).Value &
                       ",Total=" & grdTechnicianCost.Item("Total", e.RowIndex).Value &
                       ",TCRemarks='" & grdTechnicianCost.Item("TCRemarks", e.RowIndex).Value &
-                      "',UNo=" & GetStrfromRelatedfield("Select UNo from [User] Where UserName='" &
+                      "',UNo=" & Db.GetData("Select UNo from [User] Where UserName='" &
                       grdTechnicianCost.Item("UNo", e.RowIndex).Value & "'") &
-                      " Where TCNo=" & grdTechnicianCost.Item("TCNo", e.RowIndex).Value, AdminPer)
+                      " Where TCNo=" & grdTechnicianCost.Item("TCNo", e.RowIndex).Value, {}, AdminPer)
         End If
         If AdminPer.AdminSend = True Then
             Dim E1 As New DataGridViewCellCancelEventArgs(e.ColumnIndex, e.RowIndex)
@@ -1376,7 +1376,7 @@ Public Class frmRepair
             AdminPer.Remarks = "Repair හි Technician Cost හි Field එකක් Delete කෙරුණි."
             e.Cancel = True
         End If
-        Db.Execute("Delete from TechnicianCost Where TCNo=" & grdTechnicianCost.Item(0, e.Row.Index).Value, AdminPer)
+        Db.Execute("Delete from TechnicianCost Where TCNo=" & grdTechnicianCost.Item(0, e.Row.Index).Value, {}, AdminPer)
     End Sub
 
     Private Sub grdTechnicianCost_RowValidating(sender As Object, e As DataGridViewCellCancelEventArgs) Handles grdTechnicianCost.RowValidating
