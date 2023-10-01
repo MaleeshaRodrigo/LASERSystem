@@ -24,10 +24,10 @@ Public Class MdifrmMain
     End Sub
 
     Public Sub CmdStock_Click(sender As Object, e As EventArgs) Handles cmdStock.Click
-        frmStock.Show()
-        frmStock.BringToFront()
-        If frmStock.WindowState = FormWindowState.Minimized Then frmStock.WindowState = FormWindowState.Maximized
-        frmStock.Tag = ""
+        FormStock.Show()
+        FormStock.BringToFront()
+        If FormStock.WindowState = FormWindowState.Minimized Then FormStock.WindowState = FormWindowState.Maximized
+        FormStock.Tag = ""
     End Sub
 
     Public Sub CmdCustomer_Click(sender As Object, e As EventArgs) Handles cmdCustomer.Click
@@ -392,8 +392,7 @@ Public Class MdifrmMain
     Private Sub bgworker_DoWork(sender As Object, e As DoWorkEventArgs) Handles bgwMainMenu.DoWork
         If Me.Tag = "Admin" Then
             Dim cmd0 As New OleDb.OleDbCommand
-            Dim DR0 As OleDb.OleDbDataReader
-            DR0 = Db.GetDataReader("SELECT R.RNO, RDATE, REPNO FROM RECEIVE R,REPAIR REP WHERE REP.RNO = R.RNO AND RDATE=#" & Today.Date.ToString & "#;")
+            Dim DR0 As OleDb.OleDbDataReader = Db.GetDataReader("SELECT R.RNO, RDATE, REPNO FROM RECEIVE R,REPAIR REP WHERE REP.RNO = R.RNO AND RDATE=#" & Today.Date.ToString & "#;")
             lblQtyRRepNo.Text = "0"
             While DR0.Read
                 lblQtyRRepNo.Text += 1

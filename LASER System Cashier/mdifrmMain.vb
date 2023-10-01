@@ -5,7 +5,7 @@ Imports Microsoft.VisualBasic.FileIO
 Public Class MdifrmMain
     Private Db As New Database
     Private Sub mdifrmMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        System.Windows.Forms.Control.CheckForIllegalCrossThreadCalls = False
+        Control.CheckForIllegalCrossThreadCalls = False
         Db.Connect()
         MenuStrip.Items.Add(mnustrpMENU)
     End Sub
@@ -18,7 +18,7 @@ Public Class MdifrmMain
             Dim directoryName As String = SpecialDirectories.MyDocuments + "\LASER System\LASER Background"
             File.Create(directoryName + "\ShutDown.txt")
         End If
-
+        Db.Disconnect()
         BarCodePort.Close()
         End
     End Sub

@@ -162,8 +162,6 @@
     <Compile Include="Stock\FormStock.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Structures\StructureDbStock.vb" />
-    <Compile Include="Structures\StructureDbTables.vb" />
     <Compile Include="frmCustomer.Designer.vb">
       <DependentUpon>frmCustomer.vb</DependentUpon>
     </Compile>
@@ -314,6 +312,7 @@
     <Compile Include="mdifrmMain.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Structures\StructureDatabase.vb" />
     <Compile Include="Utils.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -391,22 +390,22 @@
       <DependentUpon>rptTechnicianSalary.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Shared\compMessageBox.Designer.vb">
+    <Compile Include="Controls\compMessageBox.Designer.vb">
       <DependentUpon>compMessageBox.vb</DependentUpon>
     </Compile>
-    <Compile Include="Shared\compMessageBox.vb">
+    <Compile Include="Controls\compMessageBox.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Shared\frmDatagridviewTool.Designer.vb">
+    <Compile Include="Controls\frmDatagridviewTool.Designer.vb">
       <DependentUpon>frmDatagridviewTool.vb</DependentUpon>
     </Compile>
-    <Compile Include="Shared\frmDatagridviewTool.vb">
+    <Compile Include="Controls\frmDatagridviewTool.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Shared\frmSearchDropDown.Designer.vb">
+    <Compile Include="Controls\frmSearchDropDown.Designer.vb">
       <DependentUpon>frmSearchDropDown.vb</DependentUpon>
     </Compile>
-    <Compile Include="Shared\frmSearchDropDown.vb">
+    <Compile Include="Controls\frmSearchDropDown.vb">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>
@@ -541,7 +540,7 @@
     <EmbeddedResource Include="Stock\FormStock.si.resx">
       <DependentUpon>FormStock.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Shared\compMessageBox.resx">
+    <EmbeddedResource Include="Controls\compMessageBox.resx">
       <DependentUpon>compMessageBox.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>

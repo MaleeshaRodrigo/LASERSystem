@@ -1,24 +1,26 @@
 ﻿Imports System.Data.Common
 Imports System.Data.OleDb
+Imports LASER_System.StructureDatabase
 
 Public Class ControlStockInfo
-    Private DB As Database
-    Public Sub New(DB As Database)
+    Private Db As Database
+    Public Sub New(Db As Database)
 
         ' This call is required by the designer.
         InitializeComponent()
 
         ' Add any initialization after the InitializeComponent() call.
-        Me.DB = DB
+        Me.Db = Db
     End Sub
 
     Public Sub ClearControls()
-        TxtSNo.Text = DB.GetNextKey(StructureDbTables.Stock, StructureDbStock.Code)
+        TxtSNo.Text = Db.GetNextKey(Tables.Stock, Stock.Code)
         CmbCategory.Text = ""
         CmbName.Text = ""
         TxtModelNo.Text = ""
         CmbLocation.Text = ""
-        TxtCostPrice.Text = "0"
+        TxtLowestPrice.Text = "0"
+        TxtLowestPrice.Text = "0"
         TxtSalePrice.Text = "0"
         TxtReorderPoint.Text = "3"
         TxtAvailableUnits.Text = "0"
@@ -41,52 +43,41 @@ Public Class ControlStockInfo
             .AddValidator(New RequiredValidator(CmbCategory, "Stock Category"))
             .AddValidator(New RequiredValidator(CmbName, "Stock Name"))
             .AddValidator(New RequiredValidator(TxtSalePrice, "Sale Price"))
-            .AddValidator(New RequiredValidator(TxtCostPrice, "Cost Price"))
+            .AddValidator(New RequiredValidator(TxtLowestPrice, "Lowest Price"))
             .AddValidator(New RequiredValidator(TxtAvailableUnits.Text, "Available Units"))
             .AddValidator(New RequiredValidator(TxtDamagedUnits.Text, "Damaged Units"))
             .AddValidator(New RequiredValidator(TxtReorderPoint.Text, "Reorder Point"))
-            .AddValidator(New CustomValidator(TxtCostPrice.Text > TxtSalePrice.Text,
-                                              "Sale Price එක Cost Price එකට වඩා  වැඩි අගයක් ඇතුලත් කරන්න."))
+            .AddValidator(New CustomValidator(TxtLowestPrice.Text > TxtSalePrice.Text, "Sale Price එක Cost Price එකට වඩා  වැඩි අගයක් ඇතුලත් කරන්න."))
+            .AddValidator(New CustomValidator(TxtLowestPrice.Text > TxtLowestPrice.Text, "Lowest Price එක Cost Price එකට වඩා  වැඩි අගයක් ඇතුලත් කරන්න."))
             If Not .Execute() Then Exit Sub
         End With
 
-        If DB.CheckDataIsExist(StructureDbTables.Stock, StructureDbStock.Code, TxtSNo.Text) And
+        If Db.CheckDataIsExist(Tables.Stock, Stock.Code, TxtSNo.Text) And
             MsgBox("ඔබට මෙම Record එක Update කිරිමට අවශ්‍යද?", vbInformation + vbYesNo) = vbYes Then
-            DB.Execute($"UPDATE {StructureDbTables.Stock} SET 
-            {StructureDbStock.Category} = @CATEGORY,
-            {StructureDbStock.Name} = @NAME,
-            {StructureDbStock.ModelNo} = @MODELNO,
-            {StructureDbStock.Location} = @LOCATION,
-            {StructureDbStock.Details} = @DETAILS,
-            {StructureDbStock.SalePrice} = @SALEPRICE,
-            {StructureDbStock.CostPrice} = @COSTPRICE,
-            {StructureDbStock.ReorderPoint} = @REORDERPOINT
-            WHERE {StructureDbStock.Code} = @CODE;", {
-                New OleDbParameter("@CATEGORY", CmbCategory.Text),
-                New OleDbParameter("@NAME", CmbName.Text),
+            Db.Execute($"UPDATE {Tables.Stock} SET 
+            {Stock.ModelNo} = @MODELNO,
+            {Stock.Location} = @LOCATION,
+            {Stock.Details} = @DETAILS,
+            WHERE {Stock.Code} = @CODE;", {
                 New OleDbParameter("@MODELNO", TxtModelNo.Text),
                 New OleDbParameter("@LOCATION", CmbLocation.Text),
                 New OleDbParameter("@DETAILS", TxtDetails.Text),
-                New OleDbParameter("@SALEPRICE", TxtSalePrice.Text),
-                New OleDbParameter("@COSTPRICE", TxtCostPrice.Text),
-                New OleDbParameter("@REORDERPOINT", TxtReorderPoint.Text),
                 New OleDbParameter("@CODE", TxtSNo.Text)
             })
             Me.Dispose()
         Else
-            DB.Execute($"INSERT INTO {StructureDbTables.Stock}(
-                {StructureDbStock.Code},
-                {StructureDbStock.Category},
-                {StructureDbStock.Name},
-                {StructureDbStock.ModelNo},
-                {StructureDbStock.Location},
-                {StructureDbStock.Details},
-                {StructureDbStock.SalePrice},
-                {StructureDbStock.CostPrice},
-                {StructureDbStock.AvailableUnits},
-                {StructureDbStock.DamagedUnits},
-                {StructureDbStock.ReorderPoint}
-            ) Values(@CODE,@CATEGORY,@NAME,@MODELNO,@LOCATION,@DETAILS,@SALEPRICE,@COSTPRICE,0,0,@REORDERPOINT);", {
+            Db.Execute($"INSERT INTO {Tables.Stock}(
+                {Stock.Code},
+                {Stock.Category},
+                {Stock.Name},
+                {Stock.ModelNo},
+                {Stock.Location},
+                {Stock.Details},
+                {Stock.SalePrice},
+                {Stock.LowestPrice},
+                {Stock.CostPrice},
+                {Stock.ReorderPoint}
+            ) VALUES(@CODE,@CATEGORY,@NAME,@MODELNO,@LOCATION,@DETAILS,@SALEPRICE,@LOWESTPRICE,@COSTPRICE,@REORDERPOINT);", {
                 New OleDbParameter("@CODE", TxtSNo.Text),
                 New OleDbParameter("@CATEGORY", CmbCategory.Text),
                 New OleDbParameter("@NAME", CmbName.Text),
@@ -94,7 +85,8 @@ Public Class ControlStockInfo
                 New OleDbParameter("@LOCATION", CmbLocation.Text),
                 New OleDbParameter("@DETAILS", TxtDetails.Text),
                 New OleDbParameter("@SALEPRICE", TxtSalePrice.Text),
-                New OleDbParameter("@COSTPRICE", TxtCostPrice.Text),
+                New OleDbParameter("@LOWESTPRICE", TxtLowestPrice.Text),
+                New OleDbParameter("@COSTPRICE", TxtLowestPrice.Text),
                 New OleDbParameter("@REORDERPOINT", TxtReorderPoint.Text)
             })
             Me.Dispose()
@@ -102,26 +94,26 @@ Public Class ControlStockInfo
     End Sub
 
     Private Sub CmbCategory_DropDown(sender As Object, e As EventArgs) Handles CmbCategory.DropDown
-        ComboBoxDropDown(DB, CmbCategory,
-                    $"SELECT {StructureDbStock.Category} FROM {StructureDbTables.Stock} GROUP BY {StructureDbStock.Category};")
-    End Sub
-
-    Private Sub CmbName_DropDown(sender As Object, e As EventArgs) Handles CmbName.DropDown
-        ComboBoxDropDown(DB, CmbName,
-                    $"SELECT {StructureDbStock.Name} FROM {StructureDbTables.Stock} GROUP BY {StructureDbStock.Name};")
+        ComboBoxDropDown(Db, CmbCategory,
+                    $"SELECT {Stock.Category} FROM {Tables.Stock} GROUP BY {Stock.Category};")
     End Sub
 
     Private Sub CmbLocation_DropDown(sender As Object, e As EventArgs) Handles CmbLocation.DropDown
-        ComboBoxDropDown(DB, CmbLocation,
-                    $"SELECT {StructureDbStock.Location} FROM {StructureDbTables.Stock} GROUP BY {StructureDbStock.Location};")
+        ComboBoxDropDown(Db, CmbLocation,
+                    $"SELECT {Stock.Location} FROM {Tables.Stock} GROUP BY {Stock.Location};")
     End Sub
 
     Private Sub CmdDelete_Click(sender As Object, e As EventArgs) Handles CmdDelete.Click
-        If DB.CheckDataIsExist(StructureDbTables.Stock, StructureDbStock.Code, TxtSNo.Text) AndAlso MsgBox("ඔබට මෙම Record එක Delete කිරිමට අවශ්‍යද?", vbInformation + vbYesNo) = vbYes Then
-            DB.Execute($"DELETE FROM {StructureDbTables.Stock} WHERE {StructureDbStock.Code}=@SNo", {
-                    New OleDbParameter("@SNo", TxtSNo.Text)
+        If Db.CheckDataIsExist(Tables.Stock, Stock.Code, TxtSNo.Text) AndAlso MsgBox("ඔබට මෙම Record එක Delete කිරිමට අවශ්‍යද?", vbInformation + vbYesNo) = vbYes Then
+            Db.Execute($"DELETE FROM {Tables.Stock} WHERE {Stock.Code}=@SNO", {
+                    New OleDbParameter("@SNO", TxtSNo.Text)
                 })
             Me.Dispose()
         End If
     End Sub
+
+    Private Sub CmbCategory_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbCategory.SelectedIndexChanged
+        ComboBoxDropDown(Db, CmbName, $"SELECT {Stock.Name} FROM {Tables.Stock} WHERE {Stock.Category} = '{CmbCategory.Text}' GROUP BY {Stock.Name};")
+    End Sub
+
 End Class

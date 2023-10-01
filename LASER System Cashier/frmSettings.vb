@@ -4,11 +4,20 @@ Imports Microsoft.VisualBasic.FileIO
 
 Public Class FrmSettings
     Private Db As New Database
-    Public Sub FrmSettings_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private BoolApplyError As Boolean 'Represent there is an error in apply function
 
+    Public Sub New()
+        InitializeComponent()
+
+        BoolApplyError = False
+    End Sub
+    Public Sub FrmSettings_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        If Db.CheckConnection().Valid Then
+            Db.Connect()
+        End If
         With My.Settings
-            txtDBLoc.Text = .DatabaseCNN
-            txtDBLoc.Tag = .DatabaseCNN
+            txtDBLoc.Text = .DBPath
+            txtDBLoc.Tag = .DBPath
             chkMSetEmail.Checked = .SendSettlementEmail
             txtMAdminEmail.Text = .AdminEmail
             txtStickerPrinterName.Text = .StickerPrinterName
@@ -17,21 +26,21 @@ Public Class FrmSettings
             txtBillPrinterName.Text = .BillPrinterName
             txtBillPaperName.Text = .BillPrinterPaperName
             cmbDBProvider.Text = .DBProvider
-            chkDMode.Checked = .DeveloperMode
             TxtBGWokerPath.Text = .BGWorkerPath
             ChkCashDrawer.Checked = .CashDrawer
 
-            cmbBSCOMPort1_DropDown(sender, e)
             chkBSCOMMode.Checked = .BarcodeScannerCOMMode
             cmbBSCOMPort.Text = .BarcodeScannerCOMPort1.ToString
             txtBSBaudRate.Text = .BarcodeScannerBaudRate.ToString
-            chkBSCOMMode_CheckedChanged(sender, e)
             chkDeliveredEmailtoT.Checked = .DeliveredEmailtoT
         End With
+        cmbBSCOMPort1_DropDown(sender, e)
+        chkBSCOMMode_CheckedChanged(sender, e)
         Me.AcceptButton = cmdOK
     End Sub
 
     Private Sub FrmSettings_Leave(sender As Object, e As EventArgs) Handles Me.Leave
+        Db.Disconnect()
         If Me.Tag = "Login" Then
             End
         Else
@@ -40,38 +49,44 @@ Public Class FrmSettings
     End Sub
 
     Private Sub CmdApply_Click(sender As Object, e As EventArgs) Handles cmdApply.Click
-        If CheckEmptyfield(txtDBLoc, "Database Location field is empty, Please select the database!") = False Then
+        If CheckEmptyfield(txtDBLoc, "Database Location එක ඇතුලත් කර නොමැත.") = False Then
             tpDatabase.Select()
+            BoolApplyError = True
             Exit Sub
         ElseIf File.Exists(txtDBLoc.Text) = False Then
-            MsgBox("The database file couldn't be found. Please select the correct file", vbExclamation + vbOKOnly)
+            MsgBox("Database Location එක සොයා ගැනීමට නොහැකිවිය.", vbExclamation + vbOKOnly)
+            BoolApplyError = True
             Exit Sub
         End If
 
         With My.Settings
-            .DatabaseCNN = txtDBLoc.Text
+            .DBProvider = cmbDBProvider.Text
+            .DBPath = txtDBLoc.Text
+            If txtDBPassword.Text.Trim <> "" Then
+                .DBPassword = New Encoder().Encode(txtDBPassword.Text)
+            End If
+
             .SendSettlementEmail = chkMSetEmail.CheckState
             .DeliveredEmailtoT = chkDeliveredEmailtoT.Checked
             .AdminEmail = txtMAdminEmail.Text
+
             .StickerPrinterName = txtStickerPrinterName.Text
             .StockStickerPaperName = txtStickerStockPaperName.Text
             .RepairStickerPrinterPaperName = txtStickerRepairPaperName.Text
             .BillPrinterName = txtBillPrinterName.Text
             .BillPrinterPaperName = txtBillPaperName.Text
+
             .BarcodeScannerCOMMode = chkBSCOMMode.Checked
             .BarcodeScannerCOMPort1 = cmbBSCOMPort.Text
             .BarcodeScannerBaudRate = Int(txtBSBaudRate.Text)
             .BGWorkerPath = TxtBGWokerPath.Text
+
             .CashDrawer = ChkCashDrawer.Checked
-            If txtDBPassword.Text <> "" Then .DBPassword = New Encoder().Encode(txtDBPassword.Text)
-            .DBProvider = cmbDBProvider.Text
-            .DeveloperMode = chkDMode.Checked
             .Save()
 
             MdifrmMain.BarCodePort.Close()
             If chkBSCOMMode.Checked Then
-                If My.Settings.BarcodeScannerCOMPort1 <> "" And
-                    IO.Ports.SerialPort.GetPortNames.Contains(My.Settings.BarcodeScannerCOMPort1) Then
+                If My.Settings.BarcodeScannerCOMPort1 <> "" And IO.Ports.SerialPort.GetPortNames.Contains(My.Settings.BarcodeScannerCOMPort1) Then
                     MdifrmMain.BarCodePort.BaudRate = txtBSBaudRate.Text
                     MdifrmMain.BarCodePort.PortName = cmbBSCOMPort.Text
                     MdifrmMain.BarCodePort.Open()
@@ -79,13 +94,18 @@ Public Class FrmSettings
             End If
         End With
 
-        If Me.Tag = "Login" Then
-            Db.Connect()
+        Dim ConnectionResult = Db.CheckConnection()
+        If ConnectionResult.Valid = False Then
+            MsgBox(ConnectionResult.Message, vbExclamation, "Database Connection Error")
+            BoolApplyError = True
         End If
     End Sub
 
-    Private Sub cmdOK_Click(sender As Object, e As EventArgs) Handles cmdOK.Click
+    Private Sub CmdOK_Click(sender As Object, e As EventArgs) Handles cmdOK.Click
         CmdApply_Click(sender, e)
+        If BoolApplyError Then
+            Exit Sub
+        End If
         If txtDBLoc.Tag <> txtDBLoc.Text Then
             Application.Restart()
         Else

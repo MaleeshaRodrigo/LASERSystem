@@ -12,8 +12,7 @@ Public Class frmLogin
     End Sub
 
     Private Sub FrmLogin_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        System.Diagnostics.Process.GetCurrentProcess().PriorityClass = System.Diagnostics.ProcessPriorityClass.High
-        If My.Settings.DBPath = "" Then My.Settings.DBPath = SpecialDirectories.MyDocuments + "\Database.accdb"
+        Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.High
         Dim ConnectionResult = Db.CheckConnection()
         If ConnectionResult.Valid = False Then
             MsgBox(ConnectionResult.Message, vbCritical, "Database Connection Error")
@@ -24,7 +23,9 @@ Public Class frmLogin
             FrmSettings.tcSettings.TabPages.Remove(FrmSettings.tpPrinter)
             FrmSettings.tcSettings.TabPages.Add(FrmSettings.tpDatabase)
             FrmSettings.Tag = "Login"
-            FrmSettings.ShowDialog()
+            FrmSettings.Show()
+            Me.Close()
+            Exit Sub
         Else
             Db.Connect()
         End If
@@ -32,12 +33,11 @@ Public Class frmLogin
         cmbUserName_DropDown(sender, e)
         cmbUserName.Text = Db.GetData("Select Top 1 UserName from [User] Order by LastLogin Desc;")
         cmbUserName.Focus()
-        '--------Developer Mode-------------
+        ' Developer Mode
         If My.Settings.DeveloperMode Then
             txtPassword.Text = "admin"
             CmdLogin_Click(sender, e)
         End If
-        '-----------------------------------
     End Sub
 
     Private Sub CmdLogin_Click(sender As Object, e As EventArgs) Handles cmdLogin.Click

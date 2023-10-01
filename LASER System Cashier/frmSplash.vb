@@ -64,53 +64,37 @@ Public NotInheritable Class FrmSplash
                 txtLoad.Text = "Setting Main Menu..."
                 With MdifrmMain
                     WriteActivity("Logged In Successfull by " + .tslblUserName.Text + " as a " + .tslblUserType.Text)
-                    If .tslblUserType.Text = "Admin" Then
-                        .tabChart.TabPages.Remove(.pageIncomevsDate)
-                        .tabChart.TabPages.Remove(.pageReceivedRepvsDate)
-                        .tabChart.TabPages.Remove(.pageCashier)
-                        .tabChart.TabPages.Add(.pageIncomevsDate)
-                        .tabChart.TabPages.Add(.pageReceivedRepvsDate)
-                        .cmbIncomevsDateView.Text = "Days"
-                        .txtIncomevsDateCustom.Text = "5"
-                        .cmbReceivedRepvsDateView.Text = "Days"
-                        .txtReceivedRepvsDateCustom.Text = "5"
-                        .txtIncomevsDateCustom_TextChanged(Nothing, Nothing)
-                        .lblQtyRRepDetails.Visible = True
-                        .lblTodayIncomeDetails.Visible = True
-                        .lblQtyRRepNo.Visible = True
-                        .lblQtyRRetNo.Visible = True
-                        .lblTodayIncomeNo.Visible = True
-                        .GrdActivity.Width = .tabChart.Width + .tabChart.Left - .GrdActivity.Left - 2
-                        .GrdActivity.Left = .lblTodayIncomeNo.Left + .lblTodayIncomeNo.Width + 5
-                    Else
-                        .cmdSalesRepair.Enabled = False
-                        .tabChart.TabPages.Remove(.pageIncomevsDate)
-                        .tabChart.TabPages.Remove(.pageReceivedRepvsDate)
-                        .tabChart.TabPages.Remove(.pageCashier)
-                        .tabChart.TabPages.Add(.pageCashier)
-                        .GrdActivity.Width = .tabChart.Width
-                        .GrdActivity.Left = .tabChart.Left
-                        .lblQtyRRepDetails.Visible = False
-                        .lblTodayIncomeDetails.Visible = False
-                        .lblQtyRRepNo.Visible = False
-                        .lblQtyRRetNo.Visible = False
-                        .lblTodayIncomeNo.Visible = False
-                    End If
+                    .WindowState = FormWindowState.Minimized
+                    .Show()
+                    .Hide()
+                    .WindowState = FormWindowState.Maximized
+                    .cmdSalesRepair.Enabled = False
+                    .tabChart.TabPages.Remove(.pageIncomevsDate)
+                    .tabChart.TabPages.Remove(.pageReceivedRepvsDate)
+                    .tabChart.TabPages.Remove(.pageCashier)
+                    .tabChart.TabPages.Add(.pageCashier)
+                    .GrdActivity.Width = .tabChart.Width
+                    .GrdActivity.Left = .tabChart.Left
+                    .lblQtyRRepDetails.Visible = False
+                    .lblTodayIncomeDetails.Visible = False
+                    .lblQtyRRepNo.Visible = False
+                    .lblQtyRRetNo.Visible = False
+                    .lblTodayIncomeNo.Visible = False
                 End With
             Case 70
                 With MdifrmMain
                     .Hide()
                     LoadingBar.Value += 5
                     txtLoad.Text = "Getting Message to the Message Panel in Main Menu..."
-                    '                    DR = Db.GetDataReader("Select COUNT(SNo) as SNoCount from [Stock] Where SAvailableStocks < SMinStocks")
-                    '                    If DR.HasRows Then
-                    '                        DR.Read()
-                    '                        Dim MessagePanel As New MessagePanel(
-                    '                        "Stocks Report",
-                    '                        DR("SNoCount").ToString & " Stocks නැවත පිරවීමට ඇති බැවින් බඩු ගැනීමට පැමිණි පාරිභෝගිකයන් නැවත 
-                    'හරවා  නොයැවීමට නම් මෙම stocks නැවත පිරවීම සඳහා පියවර ගන්න.")
-                    '                        MessagePanel.Add()
-                    '                    End If
+                    Dim DrCheckStockUnits As OleDbDataReader = Db.GetDataReader("Select COUNT(SNo) as SNoCount from [Stock] Where SAvailableStocks < SMinStocks")
+                    If DrCheckStockUnits.HasRows Then
+                        DrCheckStockUnits.Read()
+                        Dim MessagePanel As New MessagePanel(
+                        "Stocks Report",
+                        DrCheckStockUnits("SNoCount").ToString & " Stocks නැවත පිරවීමට ඇති බැවින් බඩු ගැනීමට පැමිණි පාරිභෝගිකයන් නැවත 
+                    හරවා  නොයැවීමට නම් මෙම stocks නැවත පිරවීම සඳහා පියවර ගන්න.")
+                        MessagePanel.Add()
+                    End If
                     Dim DR As OleDbDataReader = Db.GetDataReader("Select * from [User] Where UserName='" & .tslblUserName.Text & "'")
                     If DR.HasRows Then
                         DR.Read()
@@ -144,17 +128,13 @@ Public NotInheritable Class FrmSplash
             Case 90
                 txtLoad.Text = "Finalizing..."
                 With MdifrmMain
-                    If Me.Tag <> "Admin" Then
-                        .lblQtyRRepDetails.Visible = False
-                        .lblQtyRRetDetails.Visible = False
-                        .lblTodayIncomeDetails.Visible = False
-                        .lblQtyRRepNo.Visible = False
-                        .lblQtyRRetNo.Visible = False
-                        .lblTodayIncomeNo.Visible = False
-                        .GrdActivity.Left = .tabChart.Left
-                    Else
-                        .GrdActivity.Left = .lblTodayIncomeNo.Left + .lblTodayIncomeNo.Width + 5
-                    End If
+                    .lblQtyRRepDetails.Visible = False
+                    .lblQtyRRetDetails.Visible = False
+                    .lblTodayIncomeDetails.Visible = False
+                    .lblQtyRRepNo.Visible = False
+                    .lblQtyRRetNo.Visible = False
+                    .lblTodayIncomeNo.Visible = False
+                    .GrdActivity.Left = .tabChart.Left
                 End With
             Case 99
                 MdifrmMain.Visible = True

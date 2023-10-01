@@ -7,34 +7,48 @@ Imports Microsoft.Office.Interop.Access.Dao
 Imports Newtonsoft.Json
 
 Public Class Database
-    Private ReadOnly _Provider As String
-    Private ReadOnly _DataSource As String
-    Private ReadOnly _Password As String
     Private _Connection As New OleDbConnection
-
-    Public Sub New()
-        Me._Provider = Settings.DBProvider
-        Me._DataSource = Settings.DatabaseCNN
-        Me._Password = Settings.DBPassword
-        If File.Exists(Me._DataSource) = False Then
-            Throw New Exception("Database Path එක සොයා ගැනීමට නොහැකි විය.")
-        End If
-    End Sub
 
     Public Sub Connect()
         If _Connection.State = ConnectionState.Open Then Exit Sub
-        Dim Encoder As New Encoder()
         For i As Integer = 0 To 3
             Try
-                _Connection = New OleDbConnection($"Provider={_Provider};Data Source={_DataSource};Jet OLEDB:Database Password={Encoder.Decode(_Password)};")
+                _Connection = New OleDbConnection($"Provider={Settings.DBProvider};Data Source={Settings.DBPath};Jet OLEDB:Database Password={(New Encoder()).Decode(Settings.DBPassword)};")
                 _Connection.Open()
                 Exit For
             Catch ex As FileNotFoundException
+                If i = 2 Then
+                    Throw New Exception("Database Path එක සොයා ගැනීමට නොහැකි විය.")
+                End If
                 Thread.Sleep(1000)
                 Continue For
+            Catch ex As Exception
+                Throw ex
             End Try
         Next
     End Sub
+
+    Public Function CheckConnection() As (Valid As Boolean, Message As String)
+        If Settings.DBProvider = "" Then
+            Return (False, "Database Provider ඇතුලත් කර නොමැත.")
+        End If
+        If Settings.DBPath = "" Then
+            Return (False, "Database Path එක ඇතුලත් කර නොමැත.")
+        End If
+        If Settings.DBPassword = "" Then
+            Return (False, "Database Password එක ඇතුලත් කර නොමැත.")
+        End If
+        If File.Exists(Settings.DBPath) = False Then
+            Return (False, "Database Path එක සොයා ගැනීමට නොහැකි විය.")
+        End If
+        Try
+            Connect()
+            Disconnect()
+        Catch ex As Exception
+            Return (False, ex.Message)
+        End Try
+        Return (True, "")
+    End Function
 
     Public Sub Disconnect()
         If _Connection.State = ConnectionState.Closed Then Exit Sub
