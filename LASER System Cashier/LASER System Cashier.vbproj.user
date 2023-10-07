@@ -3,7 +3,7 @@
   <PropertyGroup>
     <EnableSecurityDebugging>false</EnableSecurityDebugging>
     <PublishUrlHistory>publish\</PublishUrlHistory>
-    <InstallUrlHistory />
+    <InstallUrlHistory>https://raw.githubusercontent.com/MaleeshaRodrigo/LASERSystem/main/LASER%2520System%2520Cashier/publish/</InstallUrlHistory>
     <SupportUrlHistory />
     <UpdateUrlHistory />
     <BootstrapperUrlHistory />
