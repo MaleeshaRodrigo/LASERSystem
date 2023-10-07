@@ -504,6 +504,36 @@
       "ID": "101",
       "Date": "2023-09-02 7:05:18 PM",
       "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "102",
+      "Date": "2023-10-01 5:23:32 PM",
+      "Command": "Logged In Successfull by Admin as a Admin"
+    },
+    {
+      "ID": "103",
+      "Date": "2023-10-01 9:27:26 PM",
+      "Command": "Logged In Successfull by Admin as a Admin"
+    },
+    {
+      "ID": "104",
+      "Date": "2023-10-01 9:30:47 PM",
+      "Command": "Logged In Successfull by Admin as a Admin"
+    },
+    {
+      "ID": "105",
+      "Date": "2023-10-01 9:32:25 PM",
+      "Command": "Logged In Successfull by Admin as a Admin"
+    },
+    {
+      "ID": "106",
+      "Date": "2023-10-01 9:33:32 PM",
+      "Command": "Logged In Successfull by Admin as a Admin"
+    },
+    {
+      "ID": "107",
+      "Date": "2023-10-01 9:38:03 PM",
+      "Command": "Logged In Successfull by Admin as a Admin"
     }
   ]
 }

@@ -123,15 +123,3 @@ F:\LASERSystem\LASER Background\obj\Debug\LASER Background.vbproj.CopyComplete
 F:\LASERSystem\LASER Background\obj\Debug\LASER Background.exe
 F:\LASERSystem\LASER Background\obj\Debug\LASER Background.xml
 F:\LASERSystem\LASER Background\obj\Debug\LASER Background.pdb
-C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\obj\Debug\LASER Background.vbproj.AssemblyReference.cache
-C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\obj\Debug\LASER Background.vbproj.SuggestedBindingRedirects.cache
-C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\obj\Debug\LASER_Background.FrmAdvDB.resources
-C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\obj\Debug\LASER_Background.frmBGTasks.resources
-C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\obj\Debug\LASER_Background.Resources.resources
-C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\obj\Debug\LASER_Background.MessageBox.resources
-C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\obj\Debug\LASER Background.vbproj.GenerateResource.cache
-C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\obj\Debug\LASER Background.vbproj.CoreCompileInputs.cache
-C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\obj\Debug\LASER Background.TrustInfo.xml
-C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\obj\Debug\LASER Background.exe
-C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\obj\Debug\LASER Background.xml
-C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\obj\Debug\LASER Background.pdb

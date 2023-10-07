@@ -1,5 +1,5 @@
 ﻿Public Class MessagePanel
-    Private _ControlMessagePanel As New ControlMessageBox
+    Private ReadOnly _ControlMessagePanel As New ControlMessageBox
     'Used to give unique control names such as label1, label2 etc
     Private Shared _MessagePanelsAddedCount As Integer = 0
 
