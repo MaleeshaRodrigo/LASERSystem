@@ -60,6 +60,16 @@ Partial Class frmReceive
         Me.PRemarks = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.GroupBox4 = New System.Windows.Forms.GroupBox()
         Me.grdReRepair = New System.Windows.Forms.DataGridView()
+        Me.RERepairNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.RetRepNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.RETPCategory = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.RETPName = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.RETPModelNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.RETPSerialNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.RETPDescription = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.RETQty = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.RETProblem = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.RETRemarks = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.MenuStrip = New System.Windows.Forms.MenuStrip()
         Me.OPTIONToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.NewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -76,16 +86,6 @@ Partial Class frmReceive
         Me.cmdReceiptSticker = New System.Windows.Forms.Button()
         Me.cmdSticker = New System.Windows.Forms.Button()
         Me.cmdReceipt = New System.Windows.Forms.Button()
-        Me.RERepairNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.RetRepNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.RETPCategory = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.RETPName = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.RETPModelNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.RETPSerialNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.RETPDescription = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.RETQty = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.RETProblem = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.RETRemarks = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
@@ -103,7 +103,7 @@ Partial Class frmReceive
         Me.Label2.Font = New System.Drawing.Font("Calibri", 10.0!)
         Me.Label2.Location = New System.Drawing.Point(7, 25)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(94, 17)
+        Me.Label2.Size = New System.Drawing.Size(112, 21)
         Me.Label2.TabIndex = 2
         Me.Label2.Text = "Received Date:"
         '
@@ -127,7 +127,7 @@ Partial Class frmReceive
         Me.lblRNo.Font = New System.Drawing.Font("Calibri", 10.0!)
         Me.lblRNo.Location = New System.Drawing.Point(236, 56)
         Me.lblRNo.Name = "lblRNo"
-        Me.lblRNo.Size = New System.Drawing.Size(34, 17)
+        Me.lblRNo.Size = New System.Drawing.Size(41, 21)
         Me.lblRNo.TabIndex = 3
         Me.lblRNo.Text = "REC-"
         Me.lblRNo.Visible = False
@@ -137,7 +137,7 @@ Partial Class frmReceive
         Me.txtRDate.Font = New System.Drawing.Font("Calibri", 10.0!)
         Me.txtRDate.Location = New System.Drawing.Point(107, 23)
         Me.txtRDate.Name = "txtRDate"
-        Me.txtRDate.Size = New System.Drawing.Size(218, 24)
+        Me.txtRDate.Size = New System.Drawing.Size(218, 28)
         Me.txtRDate.TabIndex = 35
         '
         'txtRNo
@@ -146,7 +146,7 @@ Partial Class frmReceive
         Me.txtRNo.Font = New System.Drawing.Font("Calibri", 10.0!)
         Me.txtRNo.Location = New System.Drawing.Point(276, 53)
         Me.txtRNo.Name = "txtRNo"
-        Me.txtRNo.Size = New System.Drawing.Size(49, 24)
+        Me.txtRNo.Size = New System.Drawing.Size(49, 28)
         Me.txtRNo.TabIndex = 34
         Me.txtRNo.Visible = False
         '
@@ -180,7 +180,7 @@ Partial Class frmReceive
         Me.cmbCuMr.Items.AddRange(New Object() {"Mr. ", "Mrs. ", "Miss. ", "Dr. ", "Ven. "})
         Me.cmbCuMr.Location = New System.Drawing.Point(61, 113)
         Me.cmbCuMr.Name = "cmbCuMr"
-        Me.cmbCuMr.Size = New System.Drawing.Size(64, 23)
+        Me.cmbCuMr.Size = New System.Drawing.Size(64, 29)
         Me.cmbCuMr.TabIndex = 3
         '
         'txtCuTelNo3
@@ -189,7 +189,7 @@ Partial Class frmReceive
         Me.txtCuTelNo3.Location = New System.Drawing.Point(114, 83)
         Me.txtCuTelNo3.Mask = "999 0 000 000"
         Me.txtCuTelNo3.Name = "txtCuTelNo3"
-        Me.txtCuTelNo3.Size = New System.Drawing.Size(104, 24)
+        Me.txtCuTelNo3.Size = New System.Drawing.Size(104, 28)
         Me.txtCuTelNo3.TabIndex = 2
         '
         'Label12
@@ -198,7 +198,7 @@ Partial Class frmReceive
         Me.Label12.Font = New System.Drawing.Font("Calibri", 10.0!)
         Me.Label12.Location = New System.Drawing.Point(6, 86)
         Me.Label12.Name = "Label12"
-        Me.Label12.Size = New System.Drawing.Size(102, 17)
+        Me.Label12.Size = New System.Drawing.Size(126, 21)
         Me.Label12.TabIndex = 39
         Me.Label12.Text = "Telephone No 3 :"
         '
@@ -208,7 +208,7 @@ Partial Class frmReceive
         Me.txtCuTelNo2.Location = New System.Drawing.Point(114, 53)
         Me.txtCuTelNo2.Mask = "999 0 000 000"
         Me.txtCuTelNo2.Name = "txtCuTelNo2"
-        Me.txtCuTelNo2.Size = New System.Drawing.Size(104, 24)
+        Me.txtCuTelNo2.Size = New System.Drawing.Size(104, 28)
         Me.txtCuTelNo2.TabIndex = 1
         '
         'Label11
@@ -217,7 +217,7 @@ Partial Class frmReceive
         Me.Label11.Font = New System.Drawing.Font("Calibri", 10.0!)
         Me.Label11.Location = New System.Drawing.Point(6, 56)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(102, 17)
+        Me.Label11.Size = New System.Drawing.Size(126, 21)
         Me.Label11.TabIndex = 37
         Me.Label11.Text = "Telephone No 2 :"
         '
@@ -237,7 +237,7 @@ Partial Class frmReceive
         Me.txtCuTelNo1.Location = New System.Drawing.Point(114, 23)
         Me.txtCuTelNo1.Mask = "999 0 000 000"
         Me.txtCuTelNo1.Name = "txtCuTelNo1"
-        Me.txtCuTelNo1.Size = New System.Drawing.Size(104, 24)
+        Me.txtCuTelNo1.Size = New System.Drawing.Size(104, 28)
         Me.txtCuTelNo1.TabIndex = 0
         '
         'cmbCuName
@@ -250,7 +250,7 @@ Partial Class frmReceive
         Me.cmbCuName.FormattingEnabled = True
         Me.cmbCuName.Location = New System.Drawing.Point(131, 113)
         Me.cmbCuName.Name = "cmbCuName"
-        Me.cmbCuName.Size = New System.Drawing.Size(191, 23)
+        Me.cmbCuName.Size = New System.Drawing.Size(191, 29)
         Me.cmbCuName.TabIndex = 4
         Me.cmbCuName.ValueMember = "CuName"
         '
@@ -260,7 +260,7 @@ Partial Class frmReceive
         Me.Label4.Font = New System.Drawing.Font("Calibri", 10.0!)
         Me.Label4.Location = New System.Drawing.Point(6, 25)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(102, 17)
+        Me.Label4.Size = New System.Drawing.Size(126, 21)
         Me.Label4.TabIndex = 21
         Me.Label4.Text = "Telephone No 1 :"
         '
@@ -270,12 +270,14 @@ Partial Class frmReceive
         Me.Label5.Font = New System.Drawing.Font("Calibri", 10.0!)
         Me.Label5.Location = New System.Drawing.Point(6, 116)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(49, 17)
+        Me.Label5.Size = New System.Drawing.Size(60, 21)
         Me.Label5.TabIndex = 19
         Me.Label5.Text = "Name :"
         '
         'cmdClose
         '
+        Me.cmdClose.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.cmdClose.Font = New System.Drawing.Font("Calibri", 10.0!)
         Me.cmdClose.Image = CType(resources.GetObject("cmdClose.Image"), System.Drawing.Image)
         Me.cmdClose.Location = New System.Drawing.Point(1259, 105)
@@ -288,6 +290,8 @@ Partial Class frmReceive
         '
         'cmdSave
         '
+        Me.cmdSave.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.cmdSave.Font = New System.Drawing.Font("Calibri", 10.0!)
         Me.cmdSave.Image = CType(resources.GetObject("cmdSave.Image"), System.Drawing.Image)
         Me.cmdSave.Location = New System.Drawing.Point(1259, 66)
@@ -300,6 +304,8 @@ Partial Class frmReceive
         '
         'cmdNew
         '
+        Me.cmdNew.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.cmdNew.Font = New System.Drawing.Font("Calibri", 10.0!)
         Me.cmdNew.Image = CType(resources.GetObject("cmdNew.Image"), System.Drawing.Image)
         Me.cmdNew.Location = New System.Drawing.Point(1259, 27)
@@ -312,6 +318,8 @@ Partial Class frmReceive
         '
         'GroupBox3
         '
+        Me.GroupBox3.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.GroupBox3.Controls.Add(Me.grdRepair)
         Me.GroupBox3.Font = New System.Drawing.Font("Calibri", 10.0!)
         Me.GroupBox3.Location = New System.Drawing.Point(12, 177)
@@ -339,38 +347,44 @@ Partial Class frmReceive
         DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RepairNo.DefaultCellStyle = DataGridViewCellStyle1
         Me.RepairNo.HeaderText = "Repair No"
+        Me.RepairNo.MinimumWidth = 6
         Me.RepairNo.Name = "RepairNo"
         Me.RepairNo.ReadOnly = True
-        Me.RepairNo.Width = 82
+        Me.RepairNo.Width = 99
         '
         'PCategory
         '
         Me.PCategory.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
         Me.PCategory.HeaderText = "Product Category"
+        Me.PCategory.MinimumWidth = 6
         Me.PCategory.Name = "PCategory"
         '
         'PName
         '
         Me.PName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
         Me.PName.HeaderText = "Product Name"
+        Me.PName.MinimumWidth = 6
         Me.PName.Name = "PName"
         '
         'PModelNo
         '
         Me.PModelNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
         Me.PModelNo.HeaderText = "Product Model No"
+        Me.PModelNo.MinimumWidth = 6
         Me.PModelNo.Name = "PModelNo"
         '
         'PSerialNo
         '
         Me.PSerialNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
         Me.PSerialNo.HeaderText = "Product Serial No"
+        Me.PSerialNo.MinimumWidth = 6
         Me.PSerialNo.Name = "PSerialNo"
         '
         'PDescription
         '
         Me.PDescription.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
         Me.PDescription.HeaderText = "Product Description"
+        Me.PDescription.MinimumWidth = 6
         Me.PDescription.Name = "PDescription"
         '
         'PQty
@@ -379,8 +393,9 @@ Partial Class frmReceive
         DataGridViewCellStyle2.NullValue = "1"
         Me.PQty.DefaultCellStyle = DataGridViewCellStyle2
         Me.PQty.HeaderText = "Qty"
+        Me.PQty.MinimumWidth = 6
         Me.PQty.Name = "PQty"
-        Me.PQty.Width = 53
+        Me.PQty.Width = 64
         '
         'PProblem
         '
@@ -388,6 +403,7 @@ Partial Class frmReceive
         DataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
         Me.PProblem.DefaultCellStyle = DataGridViewCellStyle3
         Me.PProblem.HeaderText = "Problem"
+        Me.PProblem.MinimumWidth = 6
         Me.PProblem.Name = "PProblem"
         '
         'PRemarks
@@ -396,10 +412,14 @@ Partial Class frmReceive
         DataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
         Me.PRemarks.DefaultCellStyle = DataGridViewCellStyle4
         Me.PRemarks.HeaderText = "Remarks"
+        Me.PRemarks.MinimumWidth = 6
         Me.PRemarks.Name = "PRemarks"
         '
         'GroupBox4
         '
+        Me.GroupBox4.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.GroupBox4.Controls.Add(Me.grdReRepair)
         Me.GroupBox4.Font = New System.Drawing.Font("Calibri", 10.0!)
         Me.GroupBox4.Location = New System.Drawing.Point(12, 462)
@@ -416,16 +436,99 @@ Partial Class frmReceive
         Me.grdReRepair.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter
         Me.grdReRepair.Location = New System.Drawing.Point(6, 21)
         Me.grdReRepair.Name = "grdReRepair"
+        Me.grdReRepair.RowHeadersWidth = 51
         Me.grdReRepair.Size = New System.Drawing.Size(1320, 191)
         Me.grdReRepair.TabIndex = 7
+        '
+        'RERepairNo
+        '
+        Me.RERepairNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
+        Me.RERepairNo.HeaderText = "Re-Repair No"
+        Me.RERepairNo.MinimumWidth = 6
+        Me.RERepairNo.Name = "RERepairNo"
+        Me.RERepairNo.ReadOnly = True
+        Me.RERepairNo.Width = 119
+        '
+        'RetRepNo
+        '
+        Me.RetRepNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
+        Me.RetRepNo.HeaderText = "Repair No"
+        Me.RetRepNo.MinimumWidth = 6
+        Me.RetRepNo.Name = "RetRepNo"
+        Me.RetRepNo.Width = 99
+        '
+        'RETPCategory
+        '
+        Me.RETPCategory.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.RETPCategory.HeaderText = "Product Category"
+        Me.RETPCategory.MinimumWidth = 6
+        Me.RETPCategory.Name = "RETPCategory"
+        Me.RETPCategory.ReadOnly = True
+        '
+        'RETPName
+        '
+        Me.RETPName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.RETPName.HeaderText = "Product Name"
+        Me.RETPName.MinimumWidth = 6
+        Me.RETPName.Name = "RETPName"
+        Me.RETPName.ReadOnly = True
+        '
+        'RETPModelNo
+        '
+        Me.RETPModelNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.RETPModelNo.HeaderText = "Product Model No"
+        Me.RETPModelNo.MinimumWidth = 6
+        Me.RETPModelNo.Name = "RETPModelNo"
+        Me.RETPModelNo.ReadOnly = True
+        '
+        'RETPSerialNo
+        '
+        Me.RETPSerialNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.RETPSerialNo.HeaderText = "Product Serial No"
+        Me.RETPSerialNo.MinimumWidth = 6
+        Me.RETPSerialNo.Name = "RETPSerialNo"
+        '
+        'RETPDescription
+        '
+        Me.RETPDescription.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.RETPDescription.HeaderText = "Product Description"
+        Me.RETPDescription.MinimumWidth = 6
+        Me.RETPDescription.Name = "RETPDescription"
+        Me.RETPDescription.ReadOnly = True
+        '
+        'RETQty
+        '
+        Me.RETQty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
+        DataGridViewCellStyle5.NullValue = "1"
+        Me.RETQty.DefaultCellStyle = DataGridViewCellStyle5
+        Me.RETQty.HeaderText = "Qty"
+        Me.RETQty.MinimumWidth = 6
+        Me.RETQty.Name = "RETQty"
+        Me.RETQty.ReadOnly = True
+        Me.RETQty.Width = 64
+        '
+        'RETProblem
+        '
+        Me.RETProblem.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.RETProblem.HeaderText = "Problem"
+        Me.RETProblem.MinimumWidth = 6
+        Me.RETProblem.Name = "RETProblem"
+        '
+        'RETRemarks
+        '
+        Me.RETRemarks.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.RETRemarks.HeaderText = "Remarks"
+        Me.RETRemarks.MinimumWidth = 6
+        Me.RETRemarks.Name = "RETRemarks"
         '
         'MenuStrip
         '
         Me.MenuStrip.BackColor = System.Drawing.Color.Green
+        Me.MenuStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.MenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OPTIONToolStripMenuItem, Me.VIEWToolStripMenuItem})
         Me.MenuStrip.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip.Name = "MenuStrip"
-        Me.MenuStrip.Size = New System.Drawing.Size(1364, 24)
+        Me.MenuStrip.Size = New System.Drawing.Size(1364, 30)
         Me.MenuStrip.TabIndex = 58
         Me.MenuStrip.Text = "MenuStrip1"
         '
@@ -433,35 +536,35 @@ Partial Class frmReceive
         '
         Me.OPTIONToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem, Me.SaveToolStripMenuItem, Me.CloseToolStripMenuItem})
         Me.OPTIONToolStripMenuItem.Name = "OPTIONToolStripMenuItem"
-        Me.OPTIONToolStripMenuItem.Size = New System.Drawing.Size(62, 20)
+        Me.OPTIONToolStripMenuItem.Size = New System.Drawing.Size(76, 26)
         Me.OPTIONToolStripMenuItem.Text = "OPTION"
         '
         'NewToolStripMenuItem
         '
         Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
         Me.NewToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.N), System.Windows.Forms.Keys)
-        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(145, 22)
+        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(181, 26)
         Me.NewToolStripMenuItem.Text = "New"
         '
         'SaveToolStripMenuItem
         '
         Me.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem"
         Me.SaveToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
-        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(145, 22)
+        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(181, 26)
         Me.SaveToolStripMenuItem.Text = "Save"
         '
         'CloseToolStripMenuItem
         '
         Me.CloseToolStripMenuItem.Name = "CloseToolStripMenuItem"
         Me.CloseToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.F4), System.Windows.Forms.Keys)
-        Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(145, 22)
+        Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(181, 26)
         Me.CloseToolStripMenuItem.Text = "Close"
         '
         'VIEWToolStripMenuItem
         '
         Me.VIEWToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CustomerInfoToolStripMenuItem, Me.ProductInfoToolStripMenuItem, Me.RepairInfoToolStripMenuItem})
         Me.VIEWToolStripMenuItem.Name = "VIEWToolStripMenuItem"
-        Me.VIEWToolStripMenuItem.Size = New System.Drawing.Size(46, 20)
+        Me.VIEWToolStripMenuItem.Size = New System.Drawing.Size(58, 26)
         Me.VIEWToolStripMenuItem.Text = "VIEW"
         '
         'CustomerInfoToolStripMenuItem
@@ -469,7 +572,7 @@ Partial Class frmReceive
         Me.CustomerInfoToolStripMenuItem.Name = "CustomerInfoToolStripMenuItem"
         Me.CustomerInfoToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
             Or System.Windows.Forms.Keys.C), System.Windows.Forms.Keys)
-        Me.CustomerInfoToolStripMenuItem.Size = New System.Drawing.Size(224, 22)
+        Me.CustomerInfoToolStripMenuItem.Size = New System.Drawing.Size(276, 26)
         Me.CustomerInfoToolStripMenuItem.Text = "Customer Info"
         '
         'ProductInfoToolStripMenuItem
@@ -477,7 +580,7 @@ Partial Class frmReceive
         Me.ProductInfoToolStripMenuItem.Name = "ProductInfoToolStripMenuItem"
         Me.ProductInfoToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
             Or System.Windows.Forms.Keys.P), System.Windows.Forms.Keys)
-        Me.ProductInfoToolStripMenuItem.Size = New System.Drawing.Size(224, 22)
+        Me.ProductInfoToolStripMenuItem.Size = New System.Drawing.Size(276, 26)
         Me.ProductInfoToolStripMenuItem.Text = "Product Info"
         '
         'RepairInfoToolStripMenuItem
@@ -485,7 +588,7 @@ Partial Class frmReceive
         Me.RepairInfoToolStripMenuItem.Name = "RepairInfoToolStripMenuItem"
         Me.RepairInfoToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
             Or System.Windows.Forms.Keys.R), System.Windows.Forms.Keys)
-        Me.RepairInfoToolStripMenuItem.Size = New System.Drawing.Size(224, 22)
+        Me.RepairInfoToolStripMenuItem.Size = New System.Drawing.Size(276, 26)
         Me.RepairInfoToolStripMenuItem.Text = "Repair Info"
         '
         'pnlRSaveFinal
@@ -562,80 +665,9 @@ Partial Class frmReceive
         Me.cmdReceipt.Text = "බිල්පතක් පමණක් අවශ්‍යයි."
         Me.cmdReceipt.UseVisualStyleBackColor = True
         '
-        'RERepairNo
-        '
-        Me.RERepairNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        Me.RERepairNo.HeaderText = "Re-Repair No"
-        Me.RERepairNo.Name = "RERepairNo"
-        Me.RERepairNo.ReadOnly = True
-        Me.RERepairNo.Width = 108
-        '
-        'RetRepNo
-        '
-        Me.RetRepNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        Me.RetRepNo.HeaderText = "Repair No"
-        Me.RetRepNo.Name = "RetRepNo"
-        Me.RetRepNo.Width = 89
-        '
-        'RETPCategory
-        '
-        Me.RETPCategory.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.RETPCategory.HeaderText = "Product Category"
-        Me.RETPCategory.Name = "RETPCategory"
-        Me.RETPCategory.ReadOnly = True
-        '
-        'RETPName
-        '
-        Me.RETPName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.RETPName.HeaderText = "Product Name"
-        Me.RETPName.Name = "RETPName"
-        Me.RETPName.ReadOnly = True
-        '
-        'RETPModelNo
-        '
-        Me.RETPModelNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.RETPModelNo.HeaderText = "Product Model No"
-        Me.RETPModelNo.Name = "RETPModelNo"
-        Me.RETPModelNo.ReadOnly = True
-        '
-        'RETPSerialNo
-        '
-        Me.RETPSerialNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.RETPSerialNo.HeaderText = "Product Serial No"
-        Me.RETPSerialNo.Name = "RETPSerialNo"
-        '
-        'RETPDescription
-        '
-        Me.RETPDescription.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.RETPDescription.HeaderText = "Product Description"
-        Me.RETPDescription.Name = "RETPDescription"
-        Me.RETPDescription.ReadOnly = True
-        '
-        'RETQty
-        '
-        Me.RETQty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        DataGridViewCellStyle5.NullValue = "1"
-        Me.RETQty.DefaultCellStyle = DataGridViewCellStyle5
-        Me.RETQty.HeaderText = "Qty"
-        Me.RETQty.Name = "RETQty"
-        Me.RETQty.ReadOnly = True
-        Me.RETQty.Width = 53
-        '
-        'RETProblem
-        '
-        Me.RETProblem.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.RETProblem.HeaderText = "Problem"
-        Me.RETProblem.Name = "RETProblem"
-        '
-        'RETRemarks
-        '
-        Me.RETRemarks.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.RETRemarks.HeaderText = "Remarks"
-        Me.RETRemarks.Name = "RETRemarks"
-        '
         'frmReceive
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 14.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 18.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.Control
         Me.ClientSize = New System.Drawing.Size(1364, 731)

@@ -24,6 +24,8 @@ Partial Class ControlStockInfo
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ControlStockInfo))
         Me.GrpInfo = New System.Windows.Forms.GroupBox()
+        Me.TxtLowestPrice = New System.Windows.Forms.NumericUpDown()
+        Me.Label12 = New System.Windows.Forms.Label()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.TlpSImages = New System.Windows.Forms.TableLayoutPanel()
         Me.PicMain = New System.Windows.Forms.PictureBox()
@@ -53,6 +55,7 @@ Partial Class ControlStockInfo
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.GrpInfo.SuspendLayout()
+        CType(Me.TxtLowestPrice, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
         Me.TlpSImages.SuspendLayout()
         CType(Me.PicMain, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -66,6 +69,8 @@ Partial Class ControlStockInfo
         'GrpInfo
         '
         Me.GrpInfo.BackColor = System.Drawing.SystemColors.Control
+        Me.GrpInfo.Controls.Add(Me.TxtLowestPrice)
+        Me.GrpInfo.Controls.Add(Me.Label12)
         Me.GrpInfo.Controls.Add(Me.GroupBox1)
         Me.GrpInfo.Controls.Add(Me.TxtDetails)
         Me.GrpInfo.Controls.Add(Me.Label11)
@@ -95,17 +100,38 @@ Partial Class ControlStockInfo
         Me.GrpInfo.Font = New System.Drawing.Font("Calibri", 9.75!)
         Me.GrpInfo.Location = New System.Drawing.Point(3, 3)
         Me.GrpInfo.Name = "GrpInfo"
-        Me.GrpInfo.Size = New System.Drawing.Size(937, 525)
+        Me.GrpInfo.Size = New System.Drawing.Size(937, 563)
         Me.GrpInfo.TabIndex = 24
         Me.GrpInfo.TabStop = False
-        Me.GrpInfo.Text = "Info"
+        Me.GrpInfo.Text = "Stock Info"
+        '
+        'TxtLowestPrice
+        '
+        Me.TxtLowestPrice.DecimalPlaces = 2
+        Me.TxtLowestPrice.Increment = New Decimal(New Integer() {50, 0, 0, 0})
+        Me.TxtLowestPrice.Location = New System.Drawing.Point(141, 230)
+        Me.TxtLowestPrice.Maximum = New Decimal(New Integer() {10000000, 0, 0, 0})
+        Me.TxtLowestPrice.Name = "TxtLowestPrice"
+        Me.TxtLowestPrice.Size = New System.Drawing.Size(96, 27)
+        Me.TxtLowestPrice.TabIndex = 37
+        Me.TxtLowestPrice.ThousandsSeparator = True
+        '
+        'Label12
+        '
+        Me.Label12.AutoSize = True
+        Me.Label12.Location = New System.Drawing.Point(6, 233)
+        Me.Label12.Name = "Label12"
+        Me.Label12.Size = New System.Drawing.Size(102, 21)
+        Me.Label12.TabIndex = 36
+        Me.Label12.Text = "Lowest Price:"
+        Me.Label12.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'GroupBox1
         '
         Me.GroupBox1.Controls.Add(Me.TlpSImages)
         Me.GroupBox1.Location = New System.Drawing.Point(471, 26)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(460, 493)
+        Me.GroupBox1.Size = New System.Drawing.Size(460, 528)
         Me.GroupBox1.TabIndex = 35
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Pictures Area"
@@ -125,7 +151,7 @@ Partial Class ControlStockInfo
         Me.TlpSImages.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 75.0!))
         Me.TlpSImages.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5!))
         Me.TlpSImages.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5!))
-        Me.TlpSImages.Size = New System.Drawing.Size(454, 467)
+        Me.TlpSImages.Size = New System.Drawing.Size(454, 502)
         Me.TlpSImages.TabIndex = 33
         '
         'PicMain
@@ -137,14 +163,14 @@ Partial Class ControlStockInfo
         Me.PicMain.InitialImage = Global.LASER_System.My.Resources.Resources.empty
         Me.PicMain.Location = New System.Drawing.Point(3, 3)
         Me.PicMain.Name = "PicMain"
-        Me.PicMain.Size = New System.Drawing.Size(448, 344)
+        Me.PicMain.Size = New System.Drawing.Size(448, 370)
         Me.PicMain.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
         Me.PicMain.TabIndex = 0
         Me.PicMain.TabStop = False
         '
         'TxtDetails
         '
-        Me.TxtDetails.Location = New System.Drawing.Point(141, 362)
+        Me.TxtDetails.Location = New System.Drawing.Point(141, 397)
         Me.TxtDetails.Multiline = True
         Me.TxtDetails.Name = "TxtDetails"
         Me.TxtDetails.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
@@ -154,7 +180,7 @@ Partial Class ControlStockInfo
         'Label11
         '
         Me.Label11.AutoSize = True
-        Me.Label11.Location = New System.Drawing.Point(6, 371)
+        Me.Label11.Location = New System.Drawing.Point(6, 406)
         Me.Label11.Name = "Label11"
         Me.Label11.Size = New System.Drawing.Size(62, 21)
         Me.Label11.TabIndex = 33
@@ -165,7 +191,7 @@ Partial Class ControlStockInfo
         '
         Me.CmdClose.Font = New System.Drawing.Font("Calibri", 10.0!)
         Me.CmdClose.Image = CType(resources.GetObject("CmdClose.Image"), System.Drawing.Image)
-        Me.CmdClose.Location = New System.Drawing.Point(295, 486)
+        Me.CmdClose.Location = New System.Drawing.Point(295, 521)
         Me.CmdClose.Name = "CmdClose"
         Me.CmdClose.Size = New System.Drawing.Size(114, 33)
         Me.CmdClose.TabIndex = 31
@@ -178,7 +204,7 @@ Partial Class ControlStockInfo
         '
         Me.CmdDelete.Font = New System.Drawing.Font("Calibri", 10.0!)
         Me.CmdDelete.Image = CType(resources.GetObject("CmdDelete.Image"), System.Drawing.Image)
-        Me.CmdDelete.Location = New System.Drawing.Point(182, 486)
+        Me.CmdDelete.Location = New System.Drawing.Point(182, 521)
         Me.CmdDelete.Name = "CmdDelete"
         Me.CmdDelete.Size = New System.Drawing.Size(107, 33)
         Me.CmdDelete.TabIndex = 29
@@ -191,7 +217,7 @@ Partial Class ControlStockInfo
         '
         Me.CmdSave.Font = New System.Drawing.Font("Calibri", 10.0!)
         Me.CmdSave.Image = CType(resources.GetObject("CmdSave.Image"), System.Drawing.Image)
-        Me.CmdSave.Location = New System.Drawing.Point(49, 486)
+        Me.CmdSave.Location = New System.Drawing.Point(49, 521)
         Me.CmdSave.Name = "CmdSave"
         Me.CmdSave.Size = New System.Drawing.Size(127, 33)
         Me.CmdSave.TabIndex = 28
@@ -202,7 +228,7 @@ Partial Class ControlStockInfo
         '
         'TxtDamagedUnits
         '
-        Me.TxtDamagedUnits.Location = New System.Drawing.Point(139, 329)
+        Me.TxtDamagedUnits.Location = New System.Drawing.Point(139, 364)
         Me.TxtDamagedUnits.Maximum = New Decimal(New Integer() {10000000, 0, 0, 0})
         Me.TxtDamagedUnits.Name = "TxtDamagedUnits"
         Me.TxtDamagedUnits.Size = New System.Drawing.Size(55, 27)
@@ -210,7 +236,7 @@ Partial Class ControlStockInfo
         '
         'TxtAvailableUnits
         '
-        Me.TxtAvailableUnits.Location = New System.Drawing.Point(139, 296)
+        Me.TxtAvailableUnits.Location = New System.Drawing.Point(139, 331)
         Me.TxtAvailableUnits.Maximum = New Decimal(New Integer() {10000000, 0, 0, 0})
         Me.TxtAvailableUnits.Name = "TxtAvailableUnits"
         Me.TxtAvailableUnits.Size = New System.Drawing.Size(55, 27)
@@ -218,7 +244,7 @@ Partial Class ControlStockInfo
         '
         'TxtReorderPoint
         '
-        Me.TxtReorderPoint.Location = New System.Drawing.Point(141, 263)
+        Me.TxtReorderPoint.Location = New System.Drawing.Point(141, 298)
         Me.TxtReorderPoint.Maximum = New Decimal(New Integer() {10000000, 0, 0, 0})
         Me.TxtReorderPoint.Name = "TxtReorderPoint"
         Me.TxtReorderPoint.Size = New System.Drawing.Size(55, 27)
@@ -229,7 +255,7 @@ Partial Class ControlStockInfo
         '
         Me.TxtSalePrice.DecimalPlaces = 2
         Me.TxtSalePrice.Increment = New Decimal(New Integer() {50, 0, 0, 0})
-        Me.TxtSalePrice.Location = New System.Drawing.Point(141, 230)
+        Me.TxtSalePrice.Location = New System.Drawing.Point(141, 265)
         Me.TxtSalePrice.Maximum = New Decimal(New Integer() {10000000, 0, 0, 0})
         Me.TxtSalePrice.Name = "TxtSalePrice"
         Me.TxtSalePrice.Size = New System.Drawing.Size(96, 27)
@@ -291,7 +317,7 @@ Partial Class ControlStockInfo
         'Label10
         '
         Me.Label10.AutoSize = True
-        Me.Label10.Location = New System.Drawing.Point(6, 266)
+        Me.Label10.Location = New System.Drawing.Point(6, 301)
         Me.Label10.Name = "Label10"
         Me.Label10.Size = New System.Drawing.Size(111, 21)
         Me.Label10.TabIndex = 9
@@ -301,7 +327,7 @@ Partial Class ControlStockInfo
         'Label9
         '
         Me.Label9.AutoSize = True
-        Me.Label9.Location = New System.Drawing.Point(6, 332)
+        Me.Label9.Location = New System.Drawing.Point(6, 367)
         Me.Label9.Name = "Label9"
         Me.Label9.Size = New System.Drawing.Size(121, 21)
         Me.Label9.TabIndex = 8
@@ -311,7 +337,7 @@ Partial Class ControlStockInfo
         'Label8
         '
         Me.Label8.AutoSize = True
-        Me.Label8.Location = New System.Drawing.Point(6, 299)
+        Me.Label8.Location = New System.Drawing.Point(6, 334)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(119, 21)
         Me.Label8.TabIndex = 7
@@ -321,7 +347,7 @@ Partial Class ControlStockInfo
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(6, 233)
+        Me.Label7.Location = New System.Drawing.Point(6, 268)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(81, 21)
         Me.Label7.TabIndex = 6
@@ -395,9 +421,10 @@ Partial Class ControlStockInfo
         Me.BackColor = System.Drawing.SystemColors.Control
         Me.Controls.Add(Me.GrpInfo)
         Me.Name = "ControlStockInfo"
-        Me.Size = New System.Drawing.Size(947, 557)
+        Me.Size = New System.Drawing.Size(947, 595)
         Me.GrpInfo.ResumeLayout(False)
         Me.GrpInfo.PerformLayout()
+        CType(Me.TxtLowestPrice, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox1.ResumeLayout(False)
         Me.TlpSImages.ResumeLayout(False)
         Me.TlpSImages.PerformLayout()
@@ -440,4 +467,6 @@ Partial Class ControlStockInfo
     Friend WithEvents GroupBox1 As GroupBox
     Friend WithEvents TlpSImages As TableLayoutPanel
     Friend WithEvents PicMain As PictureBox
+    Friend WithEvents TxtLowestPrice As NumericUpDown
+    Friend WithEvents Label12 As Label
 End Class

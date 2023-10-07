@@ -34,41 +34,27 @@ Public NotInheritable Class FrmSplash
         Select Case LoadingBar.Value
             Case 1
                 txtLoad.Text = "Checking System Files..."
-                If Not Directory.Exists(Application.StartupPath + "/Reports") Then My.Computer.FileSystem.CreateDirectory(Application.StartupPath +
-                                                                                                                          "/Reports")
-                If Not Directory.Exists(Application.StartupPath + "/System Files") Then My.Computer.FileSystem.CreateDirectory(Application.StartupPath +
-                                                                                                                               "/System Files")
-                If Not Directory.Exists(Application.StartupPath + "/System Files/Images") Then My.Computer.FileSystem.CreateDirectory(Application.StartupPath +
-                                                                                                                               "/System Files/Images")
-                If Not Directory.Exists(Application.StartupPath + "/System Files/Activity") Then My.Computer.FileSystem.CreateDirectory(Application.StartupPath +
-                                                                                                                               "/System Files/Activity")
-                If Not File.Exists(Application.StartupPath + "/System Files/Activity/Activity.ls") Then
+                If Not Directory.Exists(Application.StartupPath + "/System Files/Reports") Then
+                    My.Computer.FileSystem.CreateDirectory(Application.StartupPath + "/System Files/Reports")
+                End If
+                If Not Directory.Exists(Application.StartupPath + "/System Files") Then
+                    My.Computer.FileSystem.CreateDirectory(Application.StartupPath + "/System Files")
+                End If
+                If Not Directory.Exists(Application.StartupPath + "/System Files/Images") Then
+                    My.Computer.FileSystem.CreateDirectory(Application.StartupPath + "/System Files/Images")
+                End If
+                If Not Directory.Exists(Application.StartupPath + "/System Files/Activity") Then
+                    My.Computer.FileSystem.CreateDirectory(Application.StartupPath + "/System Files/Activity")
+                End If
+                If Not File.Exists(Application.StartupPath + "/System Files/Activity/Activity.json") Then
                     Dim d As FileStream
-                    d = File.Create(Application.StartupPath & "/System Files/Activity/Activity.ls")
+                    d = File.Create(Application.StartupPath & "/System Files/Activity/Activity.json")
                     d.Close()
                 End If
             Case 20
                 If File.Exists(My.Settings.BGWorkerPath) Then
                     Process.Start(My.Settings.BGWorkerPath)
                 End If
-            Case 30
-                txtLoad.Text = "Resolving Database Errors..."
-                DR = Db.GetDataReader("Select CuName,Count(CuName) from Customer Group By CuName Having Count(CuName) > 1")
-                While DR.Read
-                    Dim DR1 As OleDbDataReader = Db.GetDataReader("Select * from Customer Where CuName='" & DR("CuName").ToString & "'")
-                    While DR1.Read
-                        For i As Integer = 0 To 1000
-                            Dim DR2 As OleDbDataReader = Db.GetDataReader("Select CuName from Customer Where CuName = '" & DR("CuName").ToString & " " & i.ToString & "'")
-                            If DR2.HasRows = False Then
-                                Db.Execute("Update Customer Set CuName='" & DR("CuName").ToString + " " + i.ToString & "' Where CuNo=" & DR1("CuNo").ToString)
-                                Exit For
-                            End If
-                            DR2.Close()
-                        Next
-                    End While
-                    DR1.Close()
-                End While
-                DR.Close()
             Case 50
                 txtLoad.Text = "Optimizing Report Viewer for printing..."
                 frmReport.WindowState = FormWindowState.Minimized
@@ -78,49 +64,38 @@ Public NotInheritable Class FrmSplash
                 txtLoad.Text = "Setting Main Menu..."
                 With MdifrmMain
                     WriteActivity("Logged In Successfull by " + .tslblUserName.Text + " as a " + .tslblUserType.Text)
-                    If .tslblUserType.Text = "Admin" Then
-                        .tabChart.TabPages.Remove(.pageIncomevsDate)
-                        .tabChart.TabPages.Remove(.pageReceivedRepvsDate)
-                        .tabChart.TabPages.Remove(.pageCashier)
-                        .tabChart.TabPages.Add(.pageIncomevsDate)
-                        .tabChart.TabPages.Add(.pageReceivedRepvsDate)
-                        .cmbIncomevsDateView.Text = "Days"
-                        .txtIncomevsDateCustom.Text = "5"
-                        .cmbReceivedRepvsDateView.Text = "Days"
-                        .txtReceivedRepvsDateCustom.Text = "5"
-                        .txtIncomevsDateCustom_TextChanged(Nothing, Nothing)
-                        .lblQtyRRepDetails.Visible = True
-                        .lblTodayIncomeDetails.Visible = True
-                        .lblQtyRRepNo.Visible = True
-                        .lblQtyRRetNo.Visible = True
-                        .lblTodayIncomeNo.Visible = True
-                        .GrdActivity.Width = .tabChart.Width + .tabChart.Left - .GrdActivity.Left - 2
-                        .GrdActivity.Left = .lblTodayIncomeNo.Left + .lblTodayIncomeNo.Width + 5
-                    Else
-                        .cmdSalesRepair.Enabled = False
-                        .tabChart.TabPages.Remove(.pageIncomevsDate)
-                        .tabChart.TabPages.Remove(.pageReceivedRepvsDate)
-                        .tabChart.TabPages.Remove(.pageCashier)
-                        .tabChart.TabPages.Add(.pageCashier)
-                        .GrdActivity.Width = .tabChart.Width
-                        .GrdActivity.Left = .tabChart.Left
-                        .lblQtyRRepDetails.Visible = False
-                        .lblTodayIncomeDetails.Visible = False
-                        .lblQtyRRepNo.Visible = False
-                        .lblQtyRRetNo.Visible = False
-                        .lblTodayIncomeNo.Visible = False
-                    End If
+                    .WindowState = FormWindowState.Minimized
+                    .Show()
+                    .Hide()
+                    .WindowState = FormWindowState.Maximized
+                    .tabChart.TabPages.Remove(.pageIncomevsDate)
+                    .tabChart.TabPages.Remove(.pageReceivedRepvsDate)
+                    .tabChart.TabPages.Remove(.pageCashier)
+                    .tabChart.TabPages.Add(.pageIncomevsDate)
+                    .tabChart.TabPages.Add(.pageReceivedRepvsDate)
+                    .cmbIncomevsDateView.Text = "Days"
+                    .txtIncomevsDateCustom.Text = "5"
+                    .cmbReceivedRepvsDateView.Text = "Days"
+                    .txtReceivedRepvsDateCustom.Text = "5"
+                    .txtIncomevsDateCustom_TextChanged(Nothing, Nothing)
+                    .lblQtyRRepDetails.Visible = True
+                    .lblTodayIncomeDetails.Visible = True
+                    .lblQtyRRepNo.Visible = True
+                    .lblQtyRRetNo.Visible = True
+                    .lblTodayIncomeNo.Visible = True
+                    .GrdActivity.Width = .tabChart.Width + .tabChart.Left - .GrdActivity.Left - 2
+                    .GrdActivity.Left = .lblTodayIncomeNo.Left + .lblTodayIncomeNo.Width + 5
                 End With
             Case 70
                 With MdifrmMain
-                    .Hide()
                     LoadingBar.Value += 5
                     txtLoad.Text = "Getting Message to the Message Panel in Main Menu..."
                     DR = Db.GetDataReader("Select COUNT(SNo) as SNoCount from [Stock] Where SAvailableStocks < SMinStocks")
                     If DR.HasRows Then
                         DR.Read()
-                        CreateMessagePanel("Stocks Report", DR("SNoCount").ToString & " Stocks නැවත පිරවීමට ඇති බැවින් බඩු ගැනීමට පැමිණි පාරිභෝගිකයන් නැවත හරවා " &
+                        Dim MessagePanel As New MessagePanel("Stocks Report", DR("SNoCount").ToString & " Stocks නැවත පිරවීමට ඇති බැවින් බඩු ගැනීමට පැමිණි පාරිභෝගිකයන් නැවත හරවා " &
                                                       "නොයැවීමට නම් මෙම stocks නැවත පිරවීම සඳහා පියවර ගන්න.")
+                        MessagePanel.Add()
                     End If
                     DR = Db.GetDataReader("Select * from [User] Where UserName='" & .tslblUserName.Text & "'")
                     If DR.HasRows Then
@@ -154,19 +129,7 @@ Public NotInheritable Class FrmSplash
                 End With
             Case 90
                 txtLoad.Text = "Finalizing..."
-                With MdifrmMain
-                    If Me.Tag <> "Admin" Then
-                        .lblQtyRRepDetails.Visible = False
-                        .lblQtyRRetDetails.Visible = False
-                        .lblTodayIncomeDetails.Visible = False
-                        .lblQtyRRepNo.Visible = False
-                        .lblQtyRRetNo.Visible = False
-                        .lblTodayIncomeNo.Visible = False
-                        .GrdActivity.Left = .tabChart.Left
-                    Else
-                        .GrdActivity.Left = .lblTodayIncomeNo.Left + .lblTodayIncomeNo.Width + 5
-                    End If
-                End With
+                MdifrmMain.GrdActivity.Left = MdifrmMain.lblTodayIncomeNo.Left + MdifrmMain.lblTodayIncomeNo.Width + 5
             Case 99
                 MdifrmMain.Visible = True
         End Select

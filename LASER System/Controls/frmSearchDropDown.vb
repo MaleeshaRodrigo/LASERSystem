@@ -1,8 +1,11 @@
-﻿Public Class frmSearchDropDown
+﻿Imports System.Data.OleDb
+
+Public Class frmSearchDropDown
     Private grd As New DataGridView
     Private frmParent As New Form
     Private txt As New TextBox
     Private SQL, ColumnName As String
+    Private Db As New Database()
     Public Sub frm_Open(grdParent As DataGridView, frmParentForm As Form, ParentSQL As String, ParentColumnName As String)
         grd = grdParent
         frmParent = frmParentForm
@@ -48,11 +51,10 @@
     Private Sub frm_Load(sender As Object, e As EventArgs) Handles Me.Load
         Me.Font = grd.Font
         lst.Items.Clear()
-        CMD = New OleDb.OleDbCommand(SQL)
-        DR = CMD.ExecuteReader()
-        While DR.Read
-            If DR(ColumnName).ToString <> "" AndAlso DR(ColumnName).ToLower().Contains(txt.Text.ToLower) = True Then
-                lst.Items.Add(DR(ColumnName).ToString)
+        Dim Dr As OleDbDataReader = DB.GetDataReader(SQL)
+        While Dr.Read
+            If Dr(ColumnName).ToString <> "" AndAlso Dr(ColumnName).ToLower().Contains(txt.Text.ToLower) = True Then
+                lst.Items.Add(Dr(ColumnName).ToString)
             End If
         End While
         If lst.Items.Count > 10 Then
@@ -90,14 +92,13 @@
     Private Sub txtType_TextChanged(sender As Object, e As EventArgs) Handles txtType.TextChanged
         If Me.Visible = True Then
             lst.Items.Clear()
-            CMD = New OleDb.OleDbCommand(SQL)
-            DR = CMD.ExecuteReader()
-            While DR.Read
-                If DR(ColumnName).ToString = "" Then Continue While
+            Dim Dr As OleDbDataReader = DB.GetDataReader(SQL)
+            While Dr.Read
+                If Dr(ColumnName).ToString = "" Then Continue While
                 'For Each str As String In DR(ColumnName).ToString.Split(" ")
                 '    For Each strtxt As String In txt.Text.ToString.Split(" ")
-                If DR(ColumnName).ToLower().Contains(txtType.Text.ToLower) = True Then
-                    lst.Items.Add(DR(ColumnName).ToString)
+                If Dr(ColumnName).ToLower().Contains(txtType.Text.ToLower) = True Then
+                    lst.Items.Add(Dr(ColumnName).ToString)
                     Continue While
                 End If
                 '    Next

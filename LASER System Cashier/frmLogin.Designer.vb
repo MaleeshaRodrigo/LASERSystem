@@ -26,9 +26,9 @@ Partial Class frmLogin
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmLogin))
         Me.tctrlLogin = New System.Windows.Forms.TabControl()
         Me.PasswordLog = New System.Windows.Forms.TabPage()
-        Me.cmdLogin = New Guna.UI2.WinForms.Guna2Button()
-        Me.txtPassword = New Guna.UI2.WinForms.Guna2TextBox()
-        Me.cmbUserName = New Guna.UI2.WinForms.Guna2ComboBox()
+        Me.cmdLogin = New System.Windows.Forms.Button()
+        Me.txtPassword = New System.Windows.Forms.TextBox()
+        Me.cmbUserName = New System.Windows.Forms.ComboBox()
         Me.lblPassword = New System.Windows.Forms.Label()
         Me.lblUserName = New System.Windows.Forms.Label()
         Me.OTPLog = New System.Windows.Forms.TabPage()
@@ -39,12 +39,10 @@ Partial Class frmLogin
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.lblVersion = New System.Windows.Forms.Label()
-        Me.lblOR = New System.Windows.Forms.Label()
-        Me.lblRegister = New System.Windows.Forms.Label()
         Me.pnlWrongPrompt = New System.Windows.Forms.Panel()
         Me.lblWrongTime = New System.Windows.Forms.Label()
         Me.tmrWrongLoginTime = New System.Windows.Forms.Timer(Me.components)
-        Me.cmdClose = New Guna.UI2.WinForms.Guna2Button()
+        Me.cmdClose = New System.Windows.Forms.Button()
         Me.tctrlLogin.SuspendLayout()
         Me.PasswordLog.SuspendLayout()
         Me.OTPLog.SuspendLayout()
@@ -58,7 +56,7 @@ Partial Class frmLogin
         Me.tctrlLogin.Location = New System.Drawing.Point(22, 59)
         Me.tctrlLogin.Name = "tctrlLogin"
         Me.tctrlLogin.SelectedIndex = 0
-        Me.tctrlLogin.Size = New System.Drawing.Size(300, 227)
+        Me.tctrlLogin.Size = New System.Drawing.Size(300, 265)
         Me.tctrlLogin.TabIndex = 15
         '
         'PasswordLog
@@ -70,86 +68,47 @@ Partial Class frmLogin
         Me.PasswordLog.Controls.Add(Me.lblPassword)
         Me.PasswordLog.Controls.Add(Me.lblUserName)
         Me.PasswordLog.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.PasswordLog.Location = New System.Drawing.Point(4, 23)
+        Me.PasswordLog.Location = New System.Drawing.Point(4, 27)
         Me.PasswordLog.Name = "PasswordLog"
         Me.PasswordLog.Padding = New System.Windows.Forms.Padding(3)
-        Me.PasswordLog.Size = New System.Drawing.Size(292, 200)
+        Me.PasswordLog.Size = New System.Drawing.Size(292, 234)
         Me.PasswordLog.TabIndex = 0
         Me.PasswordLog.Text = "Password Login"
         '
         'cmdLogin
         '
-        Me.cmdLogin.Animated = True
-        Me.cmdLogin.AutoRoundedCorners = True
-        Me.cmdLogin.BackColor = System.Drawing.Color.Transparent
-        Me.cmdLogin.BorderRadius = 19
-        Me.cmdLogin.CheckedState.Parent = Me.cmdLogin
+        Me.cmdLogin.BackColor = System.Drawing.SystemColors.ButtonFace
         Me.cmdLogin.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.cmdLogin.CustomImages.Parent = Me.cmdLogin
         Me.cmdLogin.Font = New System.Drawing.Font("Segoe UI", 13.0!)
-        Me.cmdLogin.ForeColor = System.Drawing.Color.White
-        Me.cmdLogin.HoverState.FillColor = System.Drawing.Color.DodgerBlue
-        Me.cmdLogin.HoverState.Parent = Me.cmdLogin
-        Me.cmdLogin.Location = New System.Drawing.Point(15, 141)
+        Me.cmdLogin.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.cmdLogin.Location = New System.Drawing.Point(6, 187)
         Me.cmdLogin.Name = "cmdLogin"
-        Me.cmdLogin.ShadowDecoration.Parent = Me.cmdLogin
-        Me.cmdLogin.Size = New System.Drawing.Size(257, 40)
+        Me.cmdLogin.Size = New System.Drawing.Size(280, 41)
         Me.cmdLogin.TabIndex = 2
         Me.cmdLogin.Text = "Login"
+        Me.cmdLogin.UseVisualStyleBackColor = False
         '
         'txtPassword
         '
-        Me.txtPassword.AutoRoundedCorners = True
-        Me.txtPassword.BorderRadius = 10
-        Me.txtPassword.BorderThickness = 2
-        Me.txtPassword.Cursor = System.Windows.Forms.Cursors.IBeam
-        Me.txtPassword.DefaultText = ""
-        Me.txtPassword.DisabledState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(208, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(208, Byte), Integer))
-        Me.txtPassword.DisabledState.FillColor = System.Drawing.Color.FromArgb(CType(CType(226, Byte), Integer), CType(CType(226, Byte), Integer), CType(CType(226, Byte), Integer))
-        Me.txtPassword.DisabledState.ForeColor = System.Drawing.Color.FromArgb(CType(CType(138, Byte), Integer), CType(CType(138, Byte), Integer), CType(CType(138, Byte), Integer))
-        Me.txtPassword.DisabledState.Parent = Me.txtPassword
-        Me.txtPassword.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(CType(CType(138, Byte), Integer), CType(CType(138, Byte), Integer), CType(CType(138, Byte), Integer))
-        Me.txtPassword.FocusedState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.txtPassword.FocusedState.Parent = Me.txtPassword
-        Me.txtPassword.Font = New System.Drawing.Font("Segoe UI", 15.0!)
         Me.txtPassword.ForeColor = System.Drawing.Color.Black
-        Me.txtPassword.HoverState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.txtPassword.HoverState.Parent = Me.txtPassword
-        Me.txtPassword.Location = New System.Drawing.Point(24, 102)
-        Me.txtPassword.Margin = New System.Windows.Forms.Padding(6, 6, 6, 6)
+        Me.txtPassword.Location = New System.Drawing.Point(24, 129)
+        Me.txtPassword.Margin = New System.Windows.Forms.Padding(6)
         Me.txtPassword.Name = "txtPassword"
         Me.txtPassword.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
-        Me.txtPassword.PlaceholderText = ""
-        Me.txtPassword.SelectedText = ""
-        Me.txtPassword.ShadowDecoration.Parent = Me.txtPassword
-        Me.txtPassword.Size = New System.Drawing.Size(237, 22)
+        Me.txtPassword.Size = New System.Drawing.Size(237, 26)
         Me.txtPassword.TabIndex = 1
         Me.txtPassword.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'cmbUserName
         '
-        Me.cmbUserName.AutoRoundedCorners = True
-        Me.cmbUserName.BackColor = System.Drawing.Color.Transparent
-        Me.cmbUserName.BorderColor = System.Drawing.Color.LightGray
-        Me.cmbUserName.BorderRadius = 10
-        Me.cmbUserName.BorderThickness = 2
-        Me.cmbUserName.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
         Me.cmbUserName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cmbUserName.FocusedColor = System.Drawing.Color.Empty
-        Me.cmbUserName.FocusedState.Parent = Me.cmbUserName
-        Me.cmbUserName.Font = New System.Drawing.Font("Segoe UI", 10.0!)
         Me.cmbUserName.ForeColor = System.Drawing.Color.Black
         Me.cmbUserName.FormattingEnabled = True
-        Me.cmbUserName.HoverState.Parent = Me.cmbUserName
-        Me.cmbUserName.ItemHeight = 16
-        Me.cmbUserName.ItemsAppearance.Parent = Me.cmbUserName
-        Me.cmbUserName.Location = New System.Drawing.Point(24, 40)
+        Me.cmbUserName.ItemHeight = 18
+        Me.cmbUserName.Location = New System.Drawing.Point(24, 50)
         Me.cmbUserName.Name = "cmbUserName"
-        Me.cmbUserName.ShadowDecoration.Parent = Me.cmbUserName
-        Me.cmbUserName.Size = New System.Drawing.Size(237, 22)
+        Me.cmbUserName.Size = New System.Drawing.Size(237, 26)
         Me.cmbUserName.TabIndex = 0
-        Me.cmbUserName.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        Me.cmbUserName.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault
         '
         'lblPassword
         '
@@ -158,9 +117,9 @@ Partial Class frmLogin
         Me.lblPassword.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.lblPassword.Font = New System.Drawing.Font("Calibri", 12.0!)
         Me.lblPassword.ForeColor = System.Drawing.Color.White
-        Me.lblPassword.Location = New System.Drawing.Point(20, 74)
+        Me.lblPassword.Location = New System.Drawing.Point(20, 101)
         Me.lblPassword.Name = "lblPassword"
-        Me.lblPassword.Size = New System.Drawing.Size(79, 19)
+        Me.lblPassword.Size = New System.Drawing.Size(99, 24)
         Me.lblPassword.TabIndex = 34
         Me.lblPassword.Text = "Password :"
         '
@@ -171,9 +130,9 @@ Partial Class frmLogin
         Me.lblUserName.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.lblUserName.Font = New System.Drawing.Font("Calibri", 12.0!)
         Me.lblUserName.ForeColor = System.Drawing.Color.White
-        Me.lblUserName.Location = New System.Drawing.Point(20, 14)
+        Me.lblUserName.Location = New System.Drawing.Point(20, 24)
         Me.lblUserName.Name = "lblUserName"
-        Me.lblUserName.Size = New System.Drawing.Size(89, 19)
+        Me.lblUserName.Size = New System.Drawing.Size(112, 24)
         Me.lblUserName.TabIndex = 33
         Me.lblUserName.Text = "User Name :"
         '
@@ -186,22 +145,22 @@ Partial Class frmLogin
         Me.OTPLog.Controls.Add(Me.txtOTPUserName)
         Me.OTPLog.Controls.Add(Me.Label1)
         Me.OTPLog.Controls.Add(Me.Label2)
-        Me.OTPLog.Location = New System.Drawing.Point(4, 23)
+        Me.OTPLog.Location = New System.Drawing.Point(4, 27)
         Me.OTPLog.Name = "OTPLog"
         Me.OTPLog.Padding = New System.Windows.Forms.Padding(3)
-        Me.OTPLog.Size = New System.Drawing.Size(292, 200)
+        Me.OTPLog.Size = New System.Drawing.Size(292, 234)
         Me.OTPLog.TabIndex = 1
         Me.OTPLog.Text = "OTP Login"
         '
         'cmdGetOTP
         '
         Me.cmdGetOTP.AutoEllipsis = True
-        Me.cmdGetOTP.BackColor = System.Drawing.Color.Gainsboro
+        Me.cmdGetOTP.BackColor = System.Drawing.SystemColors.ButtonFace
         Me.cmdGetOTP.Font = New System.Drawing.Font("Calibri", 9.0!)
         Me.cmdGetOTP.ForeColor = System.Drawing.Color.Black
-        Me.cmdGetOTP.Location = New System.Drawing.Point(155, 96)
+        Me.cmdGetOTP.Location = New System.Drawing.Point(155, 131)
         Me.cmdGetOTP.Name = "cmdGetOTP"
-        Me.cmdGetOTP.Size = New System.Drawing.Size(107, 30)
+        Me.cmdGetOTP.Size = New System.Drawing.Size(114, 36)
         Me.cmdGetOTP.TabIndex = 6
         Me.cmdGetOTP.Text = "Get OTP Code"
         Me.cmdGetOTP.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
@@ -209,35 +168,35 @@ Partial Class frmLogin
         '
         'cmdOTPLogin
         '
-        Me.cmdOTPLogin.BackColor = System.Drawing.Color.Gainsboro
+        Me.cmdOTPLogin.BackColor = System.Drawing.SystemColors.ButtonFace
         Me.cmdOTPLogin.Font = New System.Drawing.Font("Calibri", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmdOTPLogin.ForeColor = System.Drawing.Color.DarkRed
-        Me.cmdOTPLogin.Location = New System.Drawing.Point(24, 144)
+        Me.cmdOTPLogin.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.cmdOTPLogin.Location = New System.Drawing.Point(6, 190)
         Me.cmdOTPLogin.Name = "cmdOTPLogin"
-        Me.cmdOTPLogin.Size = New System.Drawing.Size(237, 38)
+        Me.cmdOTPLogin.Size = New System.Drawing.Size(280, 38)
         Me.cmdOTPLogin.TabIndex = 7
         Me.cmdOTPLogin.Text = "Login"
         Me.cmdOTPLogin.UseVisualStyleBackColor = False
         '
         'txtOTPCode
         '
-        Me.txtOTPCode.BackColor = System.Drawing.Color.Black
+        Me.txtOTPCode.BackColor = System.Drawing.SystemColors.Control
         Me.txtOTPCode.Font = New System.Drawing.Font("Calibri", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtOTPCode.ForeColor = System.Drawing.Color.White
-        Me.txtOTPCode.Location = New System.Drawing.Point(24, 96)
+        Me.txtOTPCode.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.txtOTPCode.Location = New System.Drawing.Point(24, 131)
         Me.txtOTPCode.Name = "txtOTPCode"
         Me.txtOTPCode.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
-        Me.txtOTPCode.Size = New System.Drawing.Size(125, 31)
+        Me.txtOTPCode.Size = New System.Drawing.Size(125, 36)
         Me.txtOTPCode.TabIndex = 5
         '
         'txtOTPUserName
         '
-        Me.txtOTPUserName.BackColor = System.Drawing.Color.Black
+        Me.txtOTPUserName.BackColor = System.Drawing.SystemColors.Control
         Me.txtOTPUserName.Font = New System.Drawing.Font("Calibri", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtOTPUserName.ForeColor = System.Drawing.Color.White
-        Me.txtOTPUserName.Location = New System.Drawing.Point(24, 36)
+        Me.txtOTPUserName.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.txtOTPUserName.Location = New System.Drawing.Point(24, 41)
         Me.txtOTPUserName.Name = "txtOTPUserName"
-        Me.txtOTPUserName.Size = New System.Drawing.Size(237, 31)
+        Me.txtOTPUserName.Size = New System.Drawing.Size(237, 36)
         Me.txtOTPUserName.TabIndex = 4
         '
         'Label1
@@ -247,9 +206,9 @@ Partial Class frmLogin
         Me.Label1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Label1.Font = New System.Drawing.Font("Calibri", 12.0!)
         Me.Label1.ForeColor = System.Drawing.Color.White
-        Me.Label1.Location = New System.Drawing.Point(20, 74)
+        Me.Label1.Location = New System.Drawing.Point(20, 104)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(81, 19)
+        Me.Label1.Size = New System.Drawing.Size(100, 24)
         Me.Label1.TabIndex = 39
         Me.Label1.Text = "OTP Code :"
         '
@@ -262,7 +221,7 @@ Partial Class frmLogin
         Me.Label2.ForeColor = System.Drawing.Color.White
         Me.Label2.Location = New System.Drawing.Point(20, 14)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(89, 19)
+        Me.Label2.Size = New System.Drawing.Size(112, 24)
         Me.Label2.TabIndex = 38
         Me.Label2.Text = "User Name :"
         '
@@ -272,36 +231,11 @@ Partial Class frmLogin
         Me.lblVersion.BackColor = System.Drawing.Color.Transparent
         Me.lblVersion.Font = New System.Drawing.Font("Cambria", 20.0!, System.Drawing.FontStyle.Bold)
         Me.lblVersion.ForeColor = System.Drawing.Color.LightGray
-        Me.lblVersion.Location = New System.Drawing.Point(94, 9)
+        Me.lblVersion.Location = New System.Drawing.Point(122, 9)
         Me.lblVersion.Name = "lblVersion"
-        Me.lblVersion.Size = New System.Drawing.Size(145, 32)
+        Me.lblVersion.Size = New System.Drawing.Size(105, 40)
         Me.lblVersion.TabIndex = 39
-        Me.lblVersion.Text = "User Login"
-        '
-        'lblOR
-        '
-        Me.lblOR.AutoSize = True
-        Me.lblOR.BackColor = System.Drawing.Color.Transparent
-        Me.lblOR.Font = New System.Drawing.Font("Calibri", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblOR.ForeColor = System.Drawing.Color.White
-        Me.lblOR.Location = New System.Drawing.Point(136, 289)
-        Me.lblOR.Name = "lblOR"
-        Me.lblOR.Size = New System.Drawing.Size(52, 26)
-        Me.lblOR.TabIndex = 42
-        Me.lblOR.Text = "- or -"
-        '
-        'lblRegister
-        '
-        Me.lblRegister.AutoSize = True
-        Me.lblRegister.BackColor = System.Drawing.Color.Transparent
-        Me.lblRegister.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.lblRegister.Font = New System.Drawing.Font("Calibri", 15.75!, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblRegister.ForeColor = System.Drawing.Color.Aqua
-        Me.lblRegister.Location = New System.Drawing.Point(123, 315)
-        Me.lblRegister.Name = "lblRegister"
-        Me.lblRegister.Size = New System.Drawing.Size(80, 26)
-        Me.lblRegister.TabIndex = 41
-        Me.lblRegister.Text = "Register"
+        Me.lblVersion.Text = "Login"
         '
         'pnlWrongPrompt
         '
@@ -314,7 +248,6 @@ Partial Class frmLogin
         '
         'lblWrongTime
         '
-        Me.lblWrongTime.BackColor = System.Drawing.Color.Transparent
         Me.lblWrongTime.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lblWrongTime.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.lblWrongTime.Font = New System.Drawing.Font("Calibri", 15.0!)
@@ -332,27 +265,20 @@ Partial Class frmLogin
         '
         'cmdClose
         '
-        Me.cmdClose.BackColor = System.Drawing.Color.Transparent
-        Me.cmdClose.CheckedState.Parent = Me.cmdClose
-        Me.cmdClose.CustomImages.Parent = Me.cmdClose
-        Me.cmdClose.FillColor = System.Drawing.Color.Transparent
+        Me.cmdClose.BackColor = System.Drawing.Color.Red
         Me.cmdClose.Font = New System.Drawing.Font("Segoe UI", 9.0!)
         Me.cmdClose.ForeColor = System.Drawing.Color.White
-        Me.cmdClose.HoverState.Parent = Me.cmdClose
         Me.cmdClose.Image = Global.LASER_System.My.Resources.Resources.close
-        Me.cmdClose.ImageOffset = New System.Drawing.Point(0, -2)
         Me.cmdClose.Location = New System.Drawing.Point(313, 12)
         Me.cmdClose.Name = "cmdClose"
-        Me.cmdClose.PressedColor = System.Drawing.Color.Transparent
-        Me.cmdClose.ShadowDecoration.Parent = Me.cmdClose
         Me.cmdClose.Size = New System.Drawing.Size(25, 25)
         Me.cmdClose.TabIndex = 44
-        Me.cmdClose.UseTransparentBackground = True
+        Me.cmdClose.UseVisualStyleBackColor = False
         '
         'frmLogin
         '
         Me.AllowDrop = True
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 14.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 18.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.Black
         Me.BackgroundImage = CType(resources.GetObject("$this.BackgroundImage"), System.Drawing.Image)
@@ -360,8 +286,6 @@ Partial Class frmLogin
         Me.ClientSize = New System.Drawing.Size(350, 350)
         Me.Controls.Add(Me.cmdClose)
         Me.Controls.Add(Me.pnlWrongPrompt)
-        Me.Controls.Add(Me.lblOR)
-        Me.Controls.Add(Me.lblRegister)
         Me.Controls.Add(Me.lblVersion)
         Me.Controls.Add(Me.tctrlLogin)
         Me.Cursor = System.Windows.Forms.Cursors.Hand
@@ -390,8 +314,6 @@ Partial Class frmLogin
     Friend WithEvents lblUserName As Label
     Friend WithEvents OTPLog As TabPage
     Friend WithEvents lblVersion As Label
-    Friend WithEvents lblOR As Label
-    Friend WithEvents lblRegister As Label
     Friend WithEvents cmdGetOTP As Button
     Friend WithEvents cmdOTPLogin As Button
     Friend WithEvents txtOTPCode As TextBox
@@ -401,8 +323,8 @@ Partial Class frmLogin
     Friend WithEvents pnlWrongPrompt As Panel
     Friend WithEvents lblWrongTime As Label
     Friend WithEvents tmrWrongLoginTime As Timer
-    Friend WithEvents cmbUserName As Guna.UI2.WinForms.Guna2ComboBox
-    Friend WithEvents cmdLogin As Guna.UI2.WinForms.Guna2Button
-    Friend WithEvents txtPassword As Guna.UI2.WinForms.Guna2TextBox
-    Friend WithEvents cmdClose As Guna.UI2.WinForms.Guna2Button
+    Friend WithEvents cmbUserName As ComboBox
+    Friend WithEvents cmdLogin As Button
+    Friend WithEvents txtPassword As TextBox
+    Friend WithEvents cmdClose As Button
 End Class

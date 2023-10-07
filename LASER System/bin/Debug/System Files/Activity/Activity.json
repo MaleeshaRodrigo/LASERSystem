@@ -2,443 +2,538 @@
   "Table1": [
     {
       "ID": "1",
-      "Date": "2022-09-26 11:47:38 PM",
-      "Command": "2022-09-26 11:47:37 PM- Logon Successfull by Cashier as a Cashier"
+      "Date": "2023-09-11 7:02:45 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
     },
     {
       "ID": "2",
-      "Date": "2022-09-26 11:50:42 PM",
-      "Command": "Update Stock Set SCostPrice =438,SSalePrice= 875, SMinSTocks = 2,SLocation = '', SModelNo = 'LR-BL-12W-QSLB',SDetails='' Where SNo = 197"
+      "Date": "2023-09-11 7:31:14 PM",
+      "Command": "Update [User] set LogInCount='0' Where LoginCount IS NULL"
     },
     {
       "ID": "3",
-      "Date": "2022-09-26 11:50:42 PM",
-      "Command": "Update Stock Set SCostPrice =204,SSalePrice= 272, SMinSTocks = 3,SLocation = '', SModelNo = '',SDetails='' Where SNo = 1170"
+      "Date": "2023-09-11 7:31:15 PM",
+      "Command": "Update [User] set LogInCount= (LogInCount + 1) Where UNo = 1"
     },
     {
       "ID": "4",
-      "Date": "2022-09-26 11:50:42 PM",
-      "Command": "Insert into Supply(SupNo, SupDate, SuNo, SupRemarks, SupStatus, SupPaidDate,UNo) Values(55,#2022-09-26 11:49:14 PM#,10,'','Paid',#2022-09-26 11:49:13 PM#,14);"
+      "Date": "2023-09-11 7:31:15 PM",
+      "Command": "Update [User] set LastLogin=#2023-09-11 7:31:15 PM# Where UNo = 1"
     },
     {
       "ID": "5",
-      "Date": "2022-09-26 11:50:42 PM",
-      "Command": "Insert into StockSupply(SupNo,SNo,SupType,SupUnits,SupCostPrice,SupTotal) Values(55,197,'Supply',10,438,4380);"
+      "Date": "2023-09-11 7:31:18 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
     },
     {
       "ID": "6",
-      "Date": "2022-09-26 11:50:43 PM",
-      "Command": "Update Stock set SAvailablestocks=(SAvailableStocks + 10) where SNo=197"
+      "Date": "2023-09-13 9:21:28 AM",
+      "Command": "Update [User] set LogInCount='0' Where LoginCount IS NULL"
     },
     {
       "ID": "7",
-      "Date": "2022-09-26 11:50:43 PM",
-      "Command": "Insert into StockSupply(SupNo,SNo,SupType,SupUnits,SupCostPrice,SupTotal) Values(55,1170,'Supply',10,204,2040);"
+      "Date": "2023-09-13 9:21:29 AM",
+      "Command": "Update [User] set LogInCount= (LogInCount + 1) Where UNo = 1"
     },
     {
       "ID": "8",
-      "Date": "2022-09-26 11:50:43 PM",
-      "Command": "Update Stock set SAvailablestocks=(SAvailableStocks + 10) where SNo=1170"
+      "Date": "2023-09-13 9:21:29 AM",
+      "Command": "Update [User] set LastLogin=#2023-09-13 9:21:29 AM# Where UNo = 1"
     },
     {
       "ID": "9",
-      "Date": "2022-09-27 12:01:56 AM",
-      "Command": "2022-09-27 12:01:54 AM- Logon Successfull by Cashier as a Cashier"
+      "Date": "2023-09-13 9:21:40 AM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
     },
     {
       "ID": "10",
-      "Date": "2022-09-27 12:06:16 AM",
-      "Command": "2022-09-27 12:06:16 AM- Logon Successfull by Cashier as a Cashier"
+      "Date": "2023-09-16 9:51:06 AM",
+      "Command": "Update [User] set LogInCount='0' Where LoginCount IS NULL"
     },
     {
       "ID": "11",
-      "Date": "2022-09-27 12:09:14 AM",
-      "Command": "2022-09-27 12:09:14 AM- Logon Successfull by Cashier as a Cashier"
+      "Date": "2023-09-16 9:51:06 AM",
+      "Command": "Update [User] set LogInCount= (LogInCount + 1) Where UNo = 1"
     },
     {
       "ID": "12",
-      "Date": "2022-09-27 12:11:45 AM",
-      "Command": "2022-09-27 12:11:44 AM- Logon Successfull by Cashier as a Cashier"
+      "Date": "2023-09-16 9:51:06 AM",
+      "Command": "Update [User] set LastLogin=#2023-09-16 9:51:06 AM# Where UNo = 1"
     },
     {
       "ID": "13",
-      "Date": "2022-10-13 04:14:30 PM",
-      "Command": "Logged In Successfull by Cashier as a Cashier"
+      "Date": "2023-09-16 9:51:09 AM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
     },
     {
       "ID": "14",
-      "Date": "2022-10-13 04:15:12 PM",
-      "Command": "update Repair set status ='Hand Over to Technician' where repno=9352;"
+      "Date": "2023-09-16 10:00:35 AM",
+      "Command": "Update [User] set LogInCount='0' Where LoginCount IS NULL"
     },
     {
       "ID": "15",
-      "Date": "2022-10-13 04:15:12 PM",
-      "Command": "Insert into RepairActivity(RepANo,RepNo,RepADate,Activity,UNo) Values(5072,9352,#2022-10-13 04:15:12 PM#,'Status -> Hand Over to Technician',14)"
+      "Date": "2023-09-16 10:00:35 AM",
+      "Command": "Update [User] set LogInCount= (LogInCount + 1) Where UNo = 1"
     },
     {
       "ID": "16",
-      "Date": "2022-10-13 04:15:12 PM",
-      "Command": "update Repair set tno =28 where repno=9352;"
+      "Date": "2023-09-16 10:00:35 AM",
+      "Command": "Update [User] set LastLogin=#2023-09-16 10:00:35 AM# Where UNo = 1"
     },
     {
       "ID": "17",
-      "Date": "2022-10-13 04:15:13 PM",
-      "Command": "Insert into RepairActivity(RepANo,RepNo,RepADate,Activity,UNo) Values(5073,9352,#2022-10-13 04:15:13 PM#,'Technician -> Ananda',14)"
+      "Date": "2023-09-16 10:00:48 AM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
     },
     {
       "ID": "18",
-      "Date": "2022-10-13 04:15:32 PM",
-      "Command": "update Repair set status ='Repairing' where repno=9352;"
+      "Date": "2023-09-16 10:23:30 AM",
+      "Command": "Update [User] set LogInCount='0' Where LoginCount IS NULL"
     },
     {
       "ID": "19",
-      "Date": "2022-10-13 04:15:32 PM",
-      "Command": "Insert into RepairActivity(RepANo,RepNo,RepADate,Activity,UNo) Values(5074,9352,#2022-10-13 04:15:32 PM#,'Status -> Repairing',14)"
+      "Date": "2023-09-16 10:23:31 AM",
+      "Command": "Update [User] set LogInCount= (LogInCount + 1) Where UNo = 1"
     },
     {
       "ID": "20",
-      "Date": "2022-10-13 04:15:57 PM",
-      "Command": "Insert into Deliver(DNo,DDate,Cuno,DGrandTotal,CAmount,CReceived,CBalance,CPINvoiceNo,CPAmount,CuLNO,CuLAmount,DRemarks) Values(5997,#2022-10-13 04:15:57 PM#,6050,5000,5000,5000,0,0,0,0,0,'');"
+      "Date": "2023-09-16 10:23:31 AM",
+      "Command": "Update [User] set LastLogin=#2023-09-16 10:23:31 AM# Where UNo = 1"
     },
     {
       "ID": "21",
-      "Date": "2022-10-13 04:15:57 PM",
-      "Command": "Update Repair set RepDate = #2022-10-13 04:15:57 PM#,Charge=5000 where RepNo= 9352"
+      "Date": "2023-09-16 10:23:34 AM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
     },
     {
       "ID": "22",
-      "Date": "2022-10-13 04:15:57 PM",
-      "Command": "Update Repair set PaidPrice = 5000,TNo = 28,Status='Repaired Delivered',DNo = 5997 where RepNo= 9352"
+      "Date": "2023-09-16 5:09:12 PM",
+      "Command": "Update [User] set LogInCount='0' Where LoginCount IS NULL"
     },
     {
       "ID": "23",
-      "Date": "2023-07-01 03:17:44 PM",
-      "Command": "Logged In Successfull by Maleesha as a Cashier"
+      "Date": "2023-09-16 5:09:12 PM",
+      "Command": "Update [User] set LogInCount= (LogInCount + 1) Where UNo = 1"
     },
     {
       "ID": "24",
-      "Date": "2023-07-01 03:20:11 PM",
-      "Command": "Logged In Successfull by Maleesha as a Cashier"
+      "Date": "2023-09-16 5:09:12 PM",
+      "Command": "Update [User] set LastLogin=#2023-09-16 5:09:12 PM# Where UNo = 1"
     },
     {
       "ID": "25",
-      "Date": "2023-07-01 03:20:39 PM",
-      "Command": "Insert into Sale(SaNo,SaDate,CuNo,SaSubTotal,SaLess,SaDue,CAmount,CReceived,CBalance,CPInvoiceNo,CPAmount,CuLNo,CuLAmount,SaRemarks,UNo)Values(5197,'2023-07-01 03:20:39 PM',7115,5000,0,5000,5000,5000,0,0,0,18,0,'',1);"
+      "Date": "2023-09-16 5:09:28 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
     },
     {
       "ID": "26",
-      "Date": "2023-07-01 03:20:39 PM",
-      "Command": "Insert into StockSale(SSaNo,SaNo,SNo,SCategory,SName,SaType,SaRate,SaUnits,SaTotal) Values(7207,5197,112,'LED Bulb','LED Gourd Bubble 30W ','Sale',5000,1,5000);"
+      "Date": "2023-09-17 8:05:57 AM",
+      "Command": "Update [User] set LogInCount= (LogInCount + 1) Where UNo = 6"
     },
     {
       "ID": "27",
-      "Date": "2023-07-01 03:20:39 PM",
-      "Command": "Update Stock set SAvailablestocks=(SAvailableStocks - 1) where SNo=112"
+      "Date": "2023-09-17 8:05:58 AM",
+      "Command": "Update [User] set LastLogin=#2023-09-17 8:05:58 AM# Where UNo = 6"
     },
     {
       "ID": "28",
-      "Date": "2023-07-02 10:42:57 AM",
-      "Command": "Logged In Successfull by Maleesha as a Cashier"
+      "Date": "2023-09-17 8:06:12 AM",
+      "Command": "Logged In Successfull by Maleesha Achintha as a Admin"
     },
     {
       "ID": "29",
-      "Date": "2023-07-02 10:43:27 AM",
-      "Command": "Logged In Successfull by Maleesha as a Cashier"
+      "Date": "2023-09-17 8:35:06 AM",
+      "Command": "Update [User] set LogInCount= (LogInCount + 1) Where UNo = 19"
     },
     {
       "ID": "30",
-      "Date": "2023-07-02 10:44:19 AM",
-      "Command": "Insert into Sale(SaNo,SaDate,CuNo,SaSubTotal,SaLess,SaDue,CAmount,CReceived,CBalance,CPInvoiceNo,CPAmount,CuLNo,CuLAmount,SaRemarks,UNo)Values(5197,'2023-07-02 10:44:19 AM',7115,280,0,280,280,280,0,0,0,18,0,'',1);"
+      "Date": "2023-09-17 8:35:06 AM",
+      "Command": "Update [User] set LastLogin=#2023-09-17 8:35:06 AM# Where UNo = 19"
     },
     {
       "ID": "31",
-      "Date": "2023-07-02 10:44:19 AM",
-      "Command": "Insert into StockSale(SSaNo,SaNo,SCategory,SName,SaType,SaRate,SaUnits,SaTotal) Values(7207,5197,'Battery','Panasonic','Sale',140,2,280);"
+      "Date": "2023-09-17 8:35:17 AM",
+      "Command": "Logged In Successfull by Admin as a Admin"
     },
     {
       "ID": "32",
-      "Date": "2023-07-02 10:46:04 AM",
-      "Command": "Insert into Deliver(DNo,DDate,Cuno,DGrandTotal,CAmount,CReceived,CBalance,CPINvoiceNo,CPAmount,CuLNO,CuLAmount,DRemarks) Values(8890,#2023-07-02 10:46:03 AM#,8991,750,750,750,0,0,0,0,0,'');"
+      "Date": "2023-09-17 8:41:10 AM",
+      "Command": "Update [User] set LogInCount= (LogInCount + 1) Where UNo = 19"
     },
     {
       "ID": "33",
-      "Date": "2023-07-02 10:46:04 AM",
-      "Command": "Update Repair set PaidPrice = 750,TNo = 31,Status='Repaired Delivered',DNo = 8890 where RepNo= 16729"
+      "Date": "2023-09-17 8:41:10 AM",
+      "Command": "Update [User] set LastLogin=#2023-09-17 8:41:10 AM# Where UNo = 19"
     },
     {
       "ID": "34",
-      "Date": "2023-07-02 10:49:04 AM",
-      "Command": "Update Customer set CuName = 'Mr. Kokila',CuTelNo1 =  '077 8 198 664',CuTelNo2 =  '          ',CuTelNo3 =  '          ' where CuNo=5671"
+      "Date": "2023-09-17 8:41:13 AM",
+      "Command": "Logged In Successfull by Admin as a Admin"
     },
     {
       "ID": "35",
-      "Date": "2023-07-02 10:52:01 AM",
-      "Command": "Insert into Receive(RNo,RDate,CuNo,UNo) values(15693,#2023-07-02 10:52:01 AM#,5671,'1');"
+      "Date": "2023-09-17 8:43:26 AM",
+      "Command": "Update [User] set LogInCount= (LogInCount + 1) Where UNo = 19"
     },
     {
       "ID": "36",
-      "Date": "2023-07-02 10:52:01 AM",
-      "Command": "Insert into Repair(RepNo,RNo,PNo,PSerialNo,Qty,Problem,Status)Values(16746,15693,648,'',2,'','Received');"
+      "Date": "2023-09-17 8:43:26 AM",
+      "Command": "Update [User] set LastLogin=#2023-09-17 8:43:26 AM# Where UNo = 19"
     },
     {
       "ID": "37",
-      "Date": "2023-07-02 10:52:01 AM",
-      "Command": "Insert into RepairActivity(RepANo,RepNo,RepADate,Activity,UNo) Values(36432,16746,#2023-07-02 10:52:01 AM#,'Received Date -> 2023-07-02 10:52:01 AM\r\n, Name -> Mr. Kokila, Telephone No1 -> 077 8 198 664, Telephone No2 ->           , Telephone No3 ->           \r\n, Product Category -> Blender cup, Product Name -> Blender Cup, Model No -> , Serial No -> , Problem -> .',1)"
+      "Date": "2023-09-17 8:43:29 AM",
+      "Command": "Logged In Successfull by Admin as a Admin"
     },
     {
       "ID": "38",
-      "Date": "2023-07-02 10:52:01 AM",
-      "Command": "Insert into RepairRemarks1(Rem1No,Rem1Date,RepNo,Remarks,UNo) Values(8733,#2023-07-02 10:52:01 AM#,16746,'podi eke cup eka thiynwa. ',1)"
+      "Date": "2023-09-17 8:47:33 AM",
+      "Command": "Update [User] set LogInCount= (LogInCount + 1) Where UNo = 19"
     },
     {
       "ID": "39",
-      "Date": "2023-07-02 10:52:01 AM",
-      "Command": "Insert into Repair(RepNo,RNo,PNo,PSerialNo,Qty,Problem,Status)Values(16747,15693,648,'',1,'','Received');"
+      "Date": "2023-09-17 8:47:33 AM",
+      "Command": "Update [User] set LastLogin=#2023-09-17 8:47:33 AM# Where UNo = 19"
     },
     {
       "ID": "40",
-      "Date": "2023-07-02 10:52:02 AM",
-      "Command": "Insert into RepairActivity(RepANo,RepNo,RepADate,Activity,UNo) Values(36433,16747,#2023-07-02 10:52:02 AM#,'Received Date -> 2023-07-02 10:52:01 AM\r\n, Name -> Mr. Kokila, Telephone No1 -> 077 8 198 664, Telephone No2 ->           , Telephone No3 ->           \r\n, Product Category -> Blender cup, Product Name -> Blender Cup, Model No -> , Serial No -> , Problem -> .',1)"
+      "Date": "2023-09-17 8:47:36 AM",
+      "Command": "Logged In Successfull by Admin as a Admin"
     },
     {
       "ID": "41",
-      "Date": "2023-07-02 10:52:02 AM",
-      "Command": "Insert into RepairRemarks1(Rem1No,Rem1Date,RepNo,Remarks,UNo) Values(8734,#2023-07-02 10:52:02 AM#,16747,'loku eke cup eka nh',1)"
+      "Date": "2023-09-17 1:01:59 PM",
+      "Command": "Update [User] set LogInCount= (LogInCount + 1) Where UNo = 19"
     },
     {
       "ID": "42",
-      "Date": "2023-07-08 02:14:44 PM",
-      "Command": "Logged In Successfull by Maleesha as a Cashier"
+      "Date": "2023-09-17 1:01:59 PM",
+      "Command": "Update [User] set LastLogin=#2023-09-17 1:01:59 PM# Where UNo = 19"
     },
     {
       "ID": "43",
-      "Date": "2023-07-08 02:15:27 PM",
-      "Command": "Insert into Sale(SaNo,SaDate,CuNo,SaSubTotal,SaLess,SaDue,CAmount,CReceived,CBalance,CPInvoiceNo,CPAmount,CuLNo,CuLAmount,SaRemarks,UNo)Values(5198,'2023-07-08 02:15:27 PM',7115,140,0,140,140,140,0,0,0,18,0,'',1);"
+      "Date": "2023-09-17 1:02:10 PM",
+      "Command": "Logged In Successfull by Admin as a Admin"
     },
     {
       "ID": "44",
-      "Date": "2023-07-08 02:15:27 PM",
-      "Command": "Insert into StockSale(SSaNo,SaNo,SCategory,SName,SaType,SaRate,SaUnits,SaTotal) Values(7208,5198,'Battery','AA','Sale',140,1,140);"
+      "Date": "2023-09-17 2:08:08 PM",
+      "Command": "Update [User] set LogInCount= (LogInCount + 1) Where UNo = 19"
     },
     {
       "ID": "45",
-      "Date": "2023-07-08 02:18:14 PM",
-      "Command": "Logged In Successfull by Maleesha as a Cashier"
+      "Date": "2023-09-17 2:08:08 PM",
+      "Command": "Update [User] set LastLogin=#2023-09-17 2:08:08 PM# Where UNo = 19"
     },
     {
       "ID": "46",
-      "Date": "2023-07-08 02:19:07 PM",
-      "Command": "Logged In Successfull by Maleesha as a Cashier"
+      "Date": "2023-09-17 2:08:11 PM",
+      "Command": "Logged In Successfull by Admin as a Admin"
     },
     {
       "ID": "47",
-      "Date": "2023-07-08 02:19:19 PM",
-      "Command": "Insert into Sale(SaNo,SaDate,CuNo,SaSubTotal,SaLess,SaDue,CAmount,CReceived,CBalance,CPInvoiceNo,CPAmount,CuLNo,CuLAmount,SaRemarks,UNo)Values(5199,'2023-07-08 02:19:19 PM',7115,140,0,140,140,140,0,0,0,18,0,'',1);"
+      "Date": "2023-09-17 3:12:15 PM",
+      "Command": "Update [User] set LogInCount= (LogInCount + 1) Where UNo = 19"
     },
     {
       "ID": "48",
-      "Date": "2023-07-08 02:19:20 PM",
-      "Command": "Insert into StockSale(SSaNo,SaNo,SCategory,SName,SaType,SaRate,SaUnits,SaTotal) Values(7209,5199,'Battery','AA','Sale',140,1,140);"
+      "Date": "2023-09-17 3:12:15 PM",
+      "Command": "Update [User] set LastLogin=#2023-09-17 3:12:15 PM# Where UNo = 19"
     },
     {
       "ID": "49",
-      "Date": "2023-07-08 02:21:45 PM",
-      "Command": "Insert into Deliver(DNo,DDate,Cuno,DGrandTotal,CAmount,CReceived,CBalance,CPINvoiceNo,CPAmount,CuLNO,CuLAmount,DRemarks) Values(8879,#2023-07-08 02:21:45 PM#,6526,1300,1300,2000,700,0,0,0,0,'');"
+      "Date": "2023-09-17 3:12:18 PM",
+      "Command": "Logged In Successfull by Admin as a Admin"
     },
     {
       "ID": "50",
-      "Date": "2023-07-08 02:21:45 PM",
-      "Command": "Update Repair set PaidPrice = 1300,TNo = 11,Status='Repaired Delivered',DNo = 8879 where RepNo= 10001"
+      "Date": "2023-09-17 3:50:10 PM",
+      "Command": "Update [User] set LogInCount= (LogInCount + 1) Where UNo = 19"
     },
     {
       "ID": "51",
-      "Date": "2023-07-08 02:23:37 PM",
-      "Command": "Insert into Deliver(DNo,DDate,Cuno,DGrandTotal,CAmount,CReceived,CBalance,CPINvoiceNo,CPAmount,CuLNO,CuLAmount,DRemarks) Values(8880,#2023-07-08 02:23:37 PM#,182,750,750,1000,250,0,0,0,0,'');"
+      "Date": "2023-09-17 3:50:10 PM",
+      "Command": "Update [User] set LastLogin=#2023-09-17 3:50:10 PM# Where UNo = 19"
     },
     {
       "ID": "52",
-      "Date": "2023-07-08 02:23:37 PM",
-      "Command": "Update Repair set PaidPrice = 750,TNo = 11,Status='Repaired Delivered',DNo = 8880 where RepNo= 10040"
+      "Date": "2023-09-17 3:50:13 PM",
+      "Command": "Logged In Successfull by Admin as a Admin"
     },
     {
       "ID": "53",
-      "Date": "2023-07-08 02:31:03 PM",
-      "Command": "Logged In Successfull by Maleesha as a Cashier"
+      "Date": "2023-09-17 4:25:15 PM",
+      "Command": "Update [User] set LogInCount= (LogInCount + 1) Where UNo = 19"
     },
     {
       "ID": "54",
-      "Date": "2023-07-08 02:31:24 PM",
-      "Command": "Insert into Deliver(DNo,DDate,Cuno,DGrandTotal,CAmount,CReceived,CBalance,CPINvoiceNo,CPAmount,CuLNO,CuLAmount,DRemarks) Values(8881,#2023-07-08 02:31:24 PM#,6252,1500,1500,1500,0,0,0,0,0,'');"
+      "Date": "2023-09-17 4:25:16 PM",
+      "Command": "Update [User] set LastLogin=#2023-09-17 4:25:16 PM# Where UNo = 19"
     },
     {
       "ID": "55",
-      "Date": "2023-07-08 02:31:24 PM",
-      "Command": "Update Repair set RepDate = #2023-07-08 02:31:24 PM#,Charge=1500 where RepNo= 10004"
+      "Date": "2023-09-17 4:25:32 PM",
+      "Command": "Logged In Successfull by Admin as a Admin"
     },
     {
       "ID": "56",
-      "Date": "2023-07-08 02:31:24 PM",
-      "Command": "Update Repair set PaidPrice = 1500,TNo = 3,Status='Repaired Delivered',DNo = 8881 where RepNo= 10004"
+      "Date": "2023-09-17 4:27:47 PM",
+      "Command": "update Repair set status ='Hand Over to Technician' where repno=16732;"
     },
     {
       "ID": "57",
-      "Date": "2023-07-08 02:38:16 PM",
-      "Command": "Insert into Deliver(DNo,DDate,Cuno,DGrandTotal,CAmount,CReceived,CBalance,CPINvoiceNo,CPAmount,CuLNO,CuLAmount,DRemarks) Values(8882,#2023-07-08 02:38:16 PM#,4253,500,500,500,0,0,0,0,0,'');"
+      "Date": "2023-09-17 4:27:47 PM",
+      "Command": "Insert into RepairActivity(RepANo,RepNo,RepADate,Activity,UNo) Values(36408,16732,#2023-09-17 4:27:47 PM#,'Status -> Hand Over to Technician',19)"
     },
     {
       "ID": "58",
-      "Date": "2023-07-08 02:38:16 PM",
-      "Command": "Update Repair set RepDate = #2023-07-08 02:38:16 PM#,Charge=500 where RepNo= 10005"
+      "Date": "2023-09-17 4:27:47 PM",
+      "Command": "update Repair set tno =31 where repno=16732;"
     },
     {
       "ID": "59",
-      "Date": "2023-07-08 02:38:16 PM",
-      "Command": "Update Repair set PaidPrice = 500,TNo = 15,Status='Repaired Delivered',DNo = 8882 where RepNo= 10005"
+      "Date": "2023-09-17 4:27:47 PM",
+      "Command": "Insert into RepairActivity(RepANo,RepNo,RepADate,Activity,UNo) Values(36409,16732,#2023-09-17 4:27:47 PM#,'Technician -> Bandara',19)"
     },
     {
       "ID": "60",
-      "Date": "2023-07-08 04:06:33 PM",
-      "Command": "Logged In Successfull by Maleesha as a Cashier"
+      "Date": "2023-09-17 4:28:16 PM",
+      "Command": "update Repair set Location= 'F Rack - 4' where repno = 16732"
     },
     {
       "ID": "61",
-      "Date": "2023-08-05 9:22:00 PM",
-      "Command": "Logged In Successfull by Maleesha as a Cashier"
+      "Date": "2023-09-17 4:28:16 PM",
+      "Command": "Insert into RepairActivity(RepANo,RepNo,RepADate,Activity,UNo) Values(36410,16732,#2023-09-17 4:28:16 PM#,'Location -> F Rack - 4',19)"
     },
     {
       "ID": "62",
-      "Date": "2023-08-05 9:23:47 PM",
-      "Command": "Logged In Successfull by Maleesha as a Cashier"
+      "Date": "2023-09-28 5:16:55 PM",
+      "Command": "Update [User] set LogInCount= (LogInCount + 1) Where UNo = 19"
     },
     {
       "ID": "63",
-      "Date": "2023-08-05 9:34:12 PM",
-      "Command": "Logged In Successfull by Maleesha as a Cashier"
+      "Date": "2023-09-28 5:16:55 PM",
+      "Command": "Update [User] set LastLogin=#2023-09-28 5:16:55 PM# Where UNo = 19"
     },
     {
       "ID": "64",
-      "Date": "2023-08-05 9:35:15 PM",
-      "Command": "Logged In Successfull by Maleesha as a Cashier"
+      "Date": "2023-09-28 5:17:13 PM",
+      "Command": "Logged In Successfull by Admin as a Admin"
     },
     {
       "ID": "65",
-      "Date": "2023-09-02 3:46:55 PM",
-      "Command": "Logged In Successfull by Maleesha as a Cashier"
+      "Date": "2023-09-28 5:29:04 PM",
+      "Command": "Update [User] set LogInCount= (LogInCount + 1) Where UNo = 19"
     },
     {
       "ID": "66",
-      "Date": "2023-09-02 3:48:30 PM",
-      "Command": "Logged In Successfull by Maleesha as a Cashier"
+      "Date": "2023-09-28 5:29:04 PM",
+      "Command": "Update [User] set LastLogin=#2023-09-28 5:29:04 PM# Where UNo = 19"
     },
     {
       "ID": "67",
-      "Date": "2023-09-02 3:53:24 PM",
-      "Command": "Logged In Successfull by Maleesha as a Cashier"
+      "Date": "2023-09-28 5:29:06 PM",
+      "Command": "Logged In Successfull by Admin as a Admin"
     },
     {
       "ID": "68",
-      "Date": "2023-09-02 3:54:56 PM",
-      "Command": "Logged In Successfull by Maleesha as a Cashier"
+      "Date": "2023-09-28 5:31:16 PM",
+      "Command": "Update [User] set LogInCount= (LogInCount + 1) Where UNo = 19"
     },
     {
       "ID": "69",
-      "Date": "2023-09-02 3:58:22 PM",
-      "Command": "Logged In Successfull by Maleesha as a Cashier"
+      "Date": "2023-09-28 5:31:16 PM",
+      "Command": "Update [User] set LastLogin=#2023-09-28 5:31:16 PM# Where UNo = 19"
     },
     {
       "ID": "70",
-      "Date": "2023-09-02 4:00:06 PM",
-      "Command": "Logged In Successfull by Maleesha as a Cashier"
+      "Date": "2023-09-28 5:31:30 PM",
+      "Command": "Logged In Successfull by Admin as a Admin"
     },
     {
       "ID": "71",
-      "Date": "2023-09-02 4:00:27 PM",
-      "Command": "UPDATE Stock SET \r\n            SCategory = @CATEGORY,\r\n            SName = @NAME,\r\n            SModelNo = @MODELNO,\r\n            SLocation = @LOCATION,\r\n            SDetails = @DETAILS,\r\n            SSalePrice = @SALEPRICE,\r\n            SCostPrice = @COSTPRICE,\r\n            SAvailableStocks = @AVAILABLEUNITS,\r\n            SOutofStocks = @DAMAGEDUNITS,\r\n            SMinStocks = @REORDERPOINT\r\n            WHERE SNo = @CODE;"
+      "Date": "2023-09-28 5:35:49 PM",
+      "Command": "UPDATE Stock SET \r\n            SCategory = @CATEGORY,\r\n            SName = @NAME,\r\n            SModelNo = @MODELNO,\r\n            SLocation = @LOCATION,\r\n            SDetails = @DETAILS,\r\n            SSalePrice = @SALEPRICE,\r\n            SLowestPrice = @LOWESTPRICE,\r\n            SCostPrice = @COSTPRICE,\r\n            SAvailableStocks = @AVAILABLEUNITS,\r\n            SOutofStocks = @DAMAGEDUNITS,\r\n            SMinStocks = @REORDERPOINT\r\n            WHERE SNo = @CODE;"
     },
     {
       "ID": "72",
-      "Date": "2023-09-10 3:50:48 PM",
-      "Command": "Update [User] set LogInCount='0' Where LoginCount IS NULL"
+      "Date": "2023-09-28 5:41:48 PM",
+      "Command": "Update [User] set LogInCount= (LogInCount + 1) Where UNo = 19"
     },
     {
       "ID": "73",
-      "Date": "2023-09-10 3:50:49 PM",
-      "Command": "Update [User] set LogInCount= (LogInCount + 1) Where UNo = 1"
+      "Date": "2023-09-28 5:41:48 PM",
+      "Command": "Update [User] set LastLogin=#2023-09-28 5:41:48 PM# Where UNo = 19"
     },
     {
       "ID": "74",
-      "Date": "2023-09-10 3:50:49 PM",
-      "Command": "Update [User] set LastLogin=#2023-09-10 3:50:49 PM# Where UNo = 1"
+      "Date": "2023-09-28 5:41:51 PM",
+      "Command": "Logged In Successfull by Admin as a Admin"
     },
     {
       "ID": "75",
-      "Date": "2023-09-10 3:50:57 PM",
-      "Command": "Logged In Successfull by Maleesha as a Cashier"
+      "Date": "2023-09-28 5:48:17 PM",
+      "Command": "Update [User] set LogInCount= (LogInCount + 1) Where UNo = 19"
     },
     {
       "ID": "76",
-      "Date": "2023-09-10 5:24:21 PM",
-      "Command": "Update [User] set LogInCount='0' Where LoginCount IS NULL"
+      "Date": "2023-09-28 5:48:17 PM",
+      "Command": "Update [User] set LastLogin=#2023-09-28 5:48:17 PM# Where UNo = 19"
     },
     {
       "ID": "77",
-      "Date": "2023-09-10 5:24:21 PM",
-      "Command": "Update [User] set LogInCount= (LogInCount + 1) Where UNo = 1"
+      "Date": "2023-09-28 5:48:20 PM",
+      "Command": "Logged In Successfull by Admin as a Admin"
     },
     {
       "ID": "78",
-      "Date": "2023-09-10 5:24:21 PM",
-      "Command": "Update [User] set LastLogin=#2023-09-10 5:24:21 PM# Where UNo = 1"
+      "Date": "2023-09-28 6:06:12 PM",
+      "Command": "Update [User] set LogInCount= (LogInCount + 1) Where UNo = 19"
     },
     {
       "ID": "79",
-      "Date": "2023-09-10 5:24:31 PM",
-      "Command": "Logged In Successfull by Maleesha as a Cashier"
+      "Date": "2023-09-28 6:06:13 PM",
+      "Command": "Update [User] set LastLogin=#2023-09-28 6:06:13 PM# Where UNo = 19"
     },
     {
       "ID": "80",
-      "Date": "2023-09-10 5:29:25 PM",
-      "Command": "Update [User] set LogInCount='0' Where LoginCount IS NULL"
+      "Date": "2023-09-28 6:06:15 PM",
+      "Command": "Logged In Successfull by Admin as a Admin"
     },
     {
       "ID": "81",
-      "Date": "2023-09-10 5:29:25 PM",
-      "Command": "Update [User] set LogInCount= (LogInCount + 1) Where UNo = 1"
+      "Date": "2023-09-28 6:09:52 PM",
+      "Command": "Update [User] set LogInCount= (LogInCount + 1) Where UNo = 19"
     },
     {
       "ID": "82",
-      "Date": "2023-09-10 5:29:25 PM",
-      "Command": "Update [User] set LastLogin=#2023-09-10 5:29:25 PM# Where UNo = 1"
+      "Date": "2023-09-28 6:09:52 PM",
+      "Command": "Update [User] set LastLogin=#2023-09-28 6:09:52 PM# Where UNo = 19"
     },
     {
       "ID": "83",
-      "Date": "2023-09-10 5:29:27 PM",
-      "Command": "Logged In Successfull by Maleesha as a Cashier"
+      "Date": "2023-09-28 6:09:55 PM",
+      "Command": "Logged In Successfull by Admin as a Admin"
     },
     {
       "ID": "84",
-      "Date": "2023-09-10 8:09:38 PM",
-      "Command": "Update [User] set LogInCount='0' Where LoginCount IS NULL"
+      "Date": "2023-09-28 6:20:08 PM",
+      "Command": "Update [User] set LogInCount= (LogInCount + 1) Where UNo = 19"
     },
     {
       "ID": "85",
-      "Date": "2023-09-10 8:09:38 PM",
-      "Command": "Update [User] set LogInCount= (LogInCount + 1) Where UNo = 1"
+      "Date": "2023-09-28 6:20:08 PM",
+      "Command": "Update [User] set LastLogin=#2023-09-28 6:20:08 PM# Where UNo = 19"
     },
     {
       "ID": "86",
-      "Date": "2023-09-10 8:09:38 PM",
-      "Command": "Update [User] set LastLogin=#2023-09-10 8:09:38 PM# Where UNo = 1"
+      "Date": "2023-09-28 6:20:11 PM",
+      "Command": "Logged In Successfull by Admin as a Admin"
     },
     {
       "ID": "87",
-      "Date": "2023-09-10 8:09:55 PM",
-      "Command": "Logged In Successfull by Maleesha as a Cashier"
+      "Date": "2023-09-28 6:23:54 PM",
+      "Command": "Update [User] set LogInCount= (LogInCount + 1) Where UNo = 19"
     },
     {
       "ID": "88",
-      "Date": "2023-09-10 8:11:17 PM",
-      "Command": "UPDATE Stock SET \r\n            SCategory = @CATEGORY,\r\n            SName = @NAME,\r\n            SModelNo = @MODELNO,\r\n            SLocation = @LOCATION,\r\n            SDetails = @DETAILS,\r\n            SSalePrice = @SALEPRICE,\r\n            SCostPrice = @COSTPRICE,\r\n            SAvailableStocks = @AVAILABLEUNITS,\r\n            SOutofStocks = @DAMAGEDUNITS,\r\n            SMinStocks = @REORDERPOINT\r\n            WHERE SNo = @CODE;"
+      "Date": "2023-09-28 6:23:54 PM",
+      "Command": "Update [User] set LastLogin=#2023-09-28 6:23:54 PM# Where UNo = 19"
+    },
+    {
+      "ID": "89",
+      "Date": "2023-09-28 6:23:56 PM",
+      "Command": "Logged In Successfull by Admin as a Admin"
+    },
+    {
+      "ID": "90",
+      "Date": "2023-09-29 8:11:13 PM",
+      "Command": "Update [User] set LogInCount= (LogInCount + 1) Where UNo = 19"
+    },
+    {
+      "ID": "91",
+      "Date": "2023-09-29 8:11:13 PM",
+      "Command": "Update [User] set LastLogin=#2023-09-29 8:11:13 PM# Where UNo = 19"
+    },
+    {
+      "ID": "92",
+      "Date": "2023-09-29 8:11:22 PM",
+      "Command": "Logged In Successfull by Admin as a Admin"
+    },
+    {
+      "ID": "93",
+      "Date": "2023-09-29 8:15:37 PM",
+      "Command": "Update [User] set LogInCount= (LogInCount + 1) Where UNo = 19"
+    },
+    {
+      "ID": "94",
+      "Date": "2023-09-29 8:15:37 PM",
+      "Command": "Update [User] set LastLogin=#2023-09-29 8:15:37 PM# Where UNo = 19"
+    },
+    {
+      "ID": "95",
+      "Date": "2023-09-29 8:15:39 PM",
+      "Command": "Logged In Successfull by Admin as a Admin"
+    },
+    {
+      "ID": "96",
+      "Date": "2023-09-29 8:16:09 PM",
+      "Command": "Update [User] set LogInCount= (LogInCount + 1) Where UNo = 19"
+    },
+    {
+      "ID": "97",
+      "Date": "2023-09-29 8:16:09 PM",
+      "Command": "Update [User] set LastLogin=#2023-09-29 8:16:09 PM# Where UNo = 19"
+    },
+    {
+      "ID": "98",
+      "Date": "2023-09-29 8:16:11 PM",
+      "Command": "Logged In Successfull by Admin as a Admin"
+    },
+    {
+      "ID": "99",
+      "Date": "2023-09-29 8:27:06 PM",
+      "Command": "Update [User] set LogInCount= (LogInCount + 1) Where UNo = 19"
+    },
+    {
+      "ID": "100",
+      "Date": "2023-09-29 8:27:07 PM",
+      "Command": "Update [User] set LastLogin=#2023-09-29 8:27:07 PM# Where UNo = 19"
+    },
+    {
+      "ID": "101",
+      "Date": "2023-09-29 8:27:09 PM",
+      "Command": "Logged In Successfull by Admin as a Admin"
+    },
+    {
+      "ID": "102",
+      "Date": "2023-09-29 8:28:48 PM",
+      "Command": "Update [User] set LogInCount= (LogInCount + 1) Where UNo = 19"
+    },
+    {
+      "ID": "103",
+      "Date": "2023-09-29 8:28:49 PM",
+      "Command": "Update [User] set LastLogin=#2023-09-29 8:28:49 PM# Where UNo = 19"
+    },
+    {
+      "ID": "104",
+      "Date": "2023-09-29 8:28:51 PM",
+      "Command": "Logged In Successfull by Admin as a Admin"
+    },
+    {
+      "ID": "105",
+      "Date": "2023-09-29 8:49:24 PM",
+      "Command": "Update [User] set LogInCount= (LogInCount + 1) Where UNo = 19"
+    },
+    {
+      "ID": "106",
+      "Date": "2023-09-29 8:49:24 PM",
+      "Command": "Update [User] set LastLogin=#2023-09-29 8:49:24 PM# Where UNo = 19"
+    },
+    {
+      "ID": "107",
+      "Date": "2023-09-29 8:49:26 PM",
+      "Command": "Logged In Successfull by Admin as a Admin"
     }
   ]
 }

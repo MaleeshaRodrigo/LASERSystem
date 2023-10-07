@@ -29,7 +29,6 @@ Partial Class FrmSettings
         Me.TxtBGWokerPath = New System.Windows.Forms.TextBox()
         Me.BtnBGWokerPath = New System.Windows.Forms.Button()
         Me.Label11 = New System.Windows.Forms.Label()
-        Me.chkDMode = New System.Windows.Forms.CheckBox()
         Me.Guna2GroupBox4 = New Guna.UI2.WinForms.Guna2GroupBox()
         Me.txtBSBaudRate = New System.Windows.Forms.TextBox()
         Me.cmbBSCOMPort = New System.Windows.Forms.ComboBox()
@@ -131,13 +130,12 @@ Partial Class FrmSettings
         Me.tpGeneral.Controls.Add(Me.TxtBGWokerPath)
         Me.tpGeneral.Controls.Add(Me.BtnBGWokerPath)
         Me.tpGeneral.Controls.Add(Me.Label11)
-        Me.tpGeneral.Controls.Add(Me.chkDMode)
         Me.tpGeneral.Controls.Add(Me.Guna2GroupBox4)
         Me.tpGeneral.Controls.Add(Me.Guna2GroupBox3)
-        Me.tpGeneral.Location = New System.Drawing.Point(4, 22)
+        Me.tpGeneral.Location = New System.Drawing.Point(4, 26)
         Me.tpGeneral.Name = "tpGeneral"
         Me.tpGeneral.Padding = New System.Windows.Forms.Padding(3)
-        Me.tpGeneral.Size = New System.Drawing.Size(705, 353)
+        Me.tpGeneral.Size = New System.Drawing.Size(705, 349)
         Me.tpGeneral.TabIndex = 1
         Me.tpGeneral.Text = "General"
         Me.tpGeneral.UseVisualStyleBackColor = True
@@ -147,7 +145,7 @@ Partial Class FrmSettings
         Me.ChkCashDrawer.AutoSize = True
         Me.ChkCashDrawer.Location = New System.Drawing.Point(513, 170)
         Me.ChkCashDrawer.Name = "ChkCashDrawer"
-        Me.ChkCashDrawer.Size = New System.Drawing.Size(116, 17)
+        Me.ChkCashDrawer.Size = New System.Drawing.Size(140, 21)
         Me.ChkCashDrawer.TabIndex = 28
         Me.ChkCashDrawer.Text = "Cash Drawer Active"
         Me.ChkCashDrawer.UseVisualStyleBackColor = True
@@ -158,7 +156,7 @@ Partial Class FrmSettings
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TxtBGWokerPath.Location = New System.Drawing.Point(141, 169)
         Me.TxtBGWokerPath.Name = "TxtBGWokerPath"
-        Me.TxtBGWokerPath.Size = New System.Drawing.Size(335, 21)
+        Me.TxtBGWokerPath.Size = New System.Drawing.Size(335, 24)
         Me.TxtBGWokerPath.TabIndex = 27
         '
         'BtnBGWokerPath
@@ -176,19 +174,9 @@ Partial Class FrmSettings
         Me.Label11.AutoSize = True
         Me.Label11.Location = New System.Drawing.Point(9, 171)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(126, 13)
+        Me.Label11.Size = New System.Drawing.Size(152, 17)
         Me.Label11.TabIndex = 25
         Me.Label11.Text = "Background Worker Path:"
-        '
-        'chkDMode
-        '
-        Me.chkDMode.AutoSize = True
-        Me.chkDMode.Location = New System.Drawing.Point(595, 330)
-        Me.chkDMode.Name = "chkDMode"
-        Me.chkDMode.Size = New System.Drawing.Size(104, 17)
-        Me.chkDMode.TabIndex = 24
-        Me.chkDMode.Text = "Developer Mode"
-        Me.chkDMode.UseVisualStyleBackColor = True
         '
         'Guna2GroupBox4
         '
@@ -209,7 +197,7 @@ Partial Class FrmSettings
         '
         Me.txtBSBaudRate.Location = New System.Drawing.Point(85, 103)
         Me.txtBSBaudRate.Name = "txtBSBaudRate"
-        Me.txtBSBaudRate.Size = New System.Drawing.Size(81, 23)
+        Me.txtBSBaudRate.Size = New System.Drawing.Size(81, 27)
         Me.txtBSBaudRate.TabIndex = 4
         '
         'cmbBSCOMPort
@@ -218,7 +206,7 @@ Partial Class FrmSettings
         Me.cmbBSCOMPort.FormattingEnabled = True
         Me.cmbBSCOMPort.Location = New System.Drawing.Point(60, 74)
         Me.cmbBSCOMPort.Name = "cmbBSCOMPort"
-        Me.cmbBSCOMPort.Size = New System.Drawing.Size(106, 23)
+        Me.cmbBSCOMPort.Size = New System.Drawing.Size(106, 28)
         Me.cmbBSCOMPort.TabIndex = 3
         '
         'Label6
@@ -226,7 +214,7 @@ Partial Class FrmSettings
         Me.Label6.AutoSize = True
         Me.Label6.Location = New System.Drawing.Point(16, 106)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(63, 15)
+        Me.Label6.Size = New System.Drawing.Size(80, 20)
         Me.Label6.TabIndex = 2
         Me.Label6.Text = "Baud Rate:"
         '
@@ -235,7 +223,7 @@ Partial Class FrmSettings
         Me.Label2.AutoSize = True
         Me.Label2.Location = New System.Drawing.Point(13, 77)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(35, 15)
+        Me.Label2.Size = New System.Drawing.Size(42, 20)
         Me.Label2.TabIndex = 1
         Me.Label2.Text = "Port :"
         '
@@ -244,7 +232,7 @@ Partial Class FrmSettings
         Me.chkBSCOMMode.AutoSize = True
         Me.chkBSCOMMode.Location = New System.Drawing.Point(11, 45)
         Me.chkBSCOMMode.Name = "chkBSCOMMode"
-        Me.chkBSCOMMode.Size = New System.Drawing.Size(88, 19)
+        Me.chkBSCOMMode.Size = New System.Drawing.Size(107, 24)
         Me.chkBSCOMMode.TabIndex = 0
         Me.chkBSCOMMode.Text = "COM Mode"
         Me.chkBSCOMMode.UseVisualStyleBackColor = True
@@ -267,7 +255,7 @@ Partial Class FrmSettings
         '
         Me.txtMAdminEmail.Location = New System.Drawing.Point(94, 48)
         Me.txtMAdminEmail.Name = "txtMAdminEmail"
-        Me.txtMAdminEmail.Size = New System.Drawing.Size(263, 23)
+        Me.txtMAdminEmail.Size = New System.Drawing.Size(263, 27)
         Me.txtMAdminEmail.TabIndex = 36
         '
         'Label15
@@ -275,7 +263,7 @@ Partial Class FrmSettings
         Me.Label15.AutoSize = True
         Me.Label15.Location = New System.Drawing.Point(10, 51)
         Me.Label15.Name = "Label15"
-        Me.Label15.Size = New System.Drawing.Size(78, 15)
+        Me.Label15.Size = New System.Drawing.Size(97, 20)
         Me.Label15.TabIndex = 35
         Me.Label15.Text = "Admin Email:"
         '
@@ -307,10 +295,10 @@ Partial Class FrmSettings
         Me.tpDatabase.Controls.Add(Me.txtDBLoc)
         Me.tpDatabase.Controls.Add(Me.cmdDBLocation)
         Me.tpDatabase.Controls.Add(Me.Label1)
-        Me.tpDatabase.Location = New System.Drawing.Point(4, 22)
+        Me.tpDatabase.Location = New System.Drawing.Point(4, 26)
         Me.tpDatabase.Name = "tpDatabase"
         Me.tpDatabase.Padding = New System.Windows.Forms.Padding(3)
-        Me.tpDatabase.Size = New System.Drawing.Size(705, 353)
+        Me.tpDatabase.Size = New System.Drawing.Size(705, 349)
         Me.tpDatabase.TabIndex = 0
         Me.tpDatabase.Text = "Database"
         Me.tpDatabase.UseVisualStyleBackColor = True
@@ -320,7 +308,7 @@ Partial Class FrmSettings
         Me.Label10.AutoSize = True
         Me.Label10.Location = New System.Drawing.Point(6, 63)
         Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(98, 13)
+        Me.Label10.Size = New System.Drawing.Size(116, 17)
         Me.Label10.TabIndex = 10
         Me.Label10.Text = "Database Provider:"
         '
@@ -330,7 +318,7 @@ Partial Class FrmSettings
         Me.cmbDBProvider.Items.AddRange(New Object() {"Microsoft.ACE.OLEDB.12.0"})
         Me.cmbDBProvider.Location = New System.Drawing.Point(110, 60)
         Me.cmbDBProvider.Name = "cmbDBProvider"
-        Me.cmbDBProvider.Size = New System.Drawing.Size(215, 21)
+        Me.cmbDBProvider.Size = New System.Drawing.Size(215, 25)
         Me.cmbDBProvider.TabIndex = 9
         '
         'txtDBPassword
@@ -340,7 +328,7 @@ Partial Class FrmSettings
         Me.txtDBPassword.Location = New System.Drawing.Point(133, 33)
         Me.txtDBPassword.Name = "txtDBPassword"
         Me.txtDBPassword.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
-        Me.txtDBPassword.Size = New System.Drawing.Size(150, 21)
+        Me.txtDBPassword.Size = New System.Drawing.Size(150, 24)
         Me.txtDBPassword.TabIndex = 8
         '
         'Label7
@@ -348,7 +336,7 @@ Partial Class FrmSettings
         Me.Label7.AutoSize = True
         Me.Label7.Location = New System.Drawing.Point(6, 36)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(121, 13)
+        Me.Label7.Size = New System.Drawing.Size(143, 17)
         Me.Label7.TabIndex = 7
         Me.Label7.Text = "Set Database Password:"
         '
@@ -358,7 +346,7 @@ Partial Class FrmSettings
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.txtDBLoc.Location = New System.Drawing.Point(110, 7)
         Me.txtDBLoc.Name = "txtDBLoc"
-        Me.txtDBLoc.Size = New System.Drawing.Size(558, 21)
+        Me.txtDBLoc.Size = New System.Drawing.Size(558, 24)
         Me.txtDBLoc.TabIndex = 6
         '
         'cmdDBLocation
@@ -376,7 +364,7 @@ Partial Class FrmSettings
         Me.Label1.AutoSize = True
         Me.Label1.Location = New System.Drawing.Point(6, 9)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(98, 13)
+        Me.Label1.Size = New System.Drawing.Size(117, 17)
         Me.Label1.TabIndex = 0
         Me.Label1.Text = "Database Location:"
         '
@@ -384,10 +372,10 @@ Partial Class FrmSettings
         '
         Me.tpPrinter.Controls.Add(Me.Guna2GroupBox2)
         Me.tpPrinter.Controls.Add(Me.Guna2GroupBox1)
-        Me.tpPrinter.Location = New System.Drawing.Point(4, 22)
+        Me.tpPrinter.Location = New System.Drawing.Point(4, 26)
         Me.tpPrinter.Name = "tpPrinter"
         Me.tpPrinter.Padding = New System.Windows.Forms.Padding(3)
-        Me.tpPrinter.Size = New System.Drawing.Size(705, 353)
+        Me.tpPrinter.Size = New System.Drawing.Size(705, 349)
         Me.tpPrinter.TabIndex = 3
         Me.tpPrinter.Text = "Print"
         Me.tpPrinter.UseVisualStyleBackColor = True
@@ -410,14 +398,14 @@ Partial Class FrmSettings
         '
         Me.txtBillPaperName.Location = New System.Drawing.Point(94, 72)
         Me.txtBillPaperName.Name = "txtBillPaperName"
-        Me.txtBillPaperName.Size = New System.Drawing.Size(200, 23)
+        Me.txtBillPaperName.Size = New System.Drawing.Size(200, 27)
         Me.txtBillPaperName.TabIndex = 35
         '
         'txtBillPrinterName
         '
         Me.txtBillPrinterName.Location = New System.Drawing.Point(94, 45)
         Me.txtBillPrinterName.Name = "txtBillPrinterName"
-        Me.txtBillPrinterName.Size = New System.Drawing.Size(200, 23)
+        Me.txtBillPrinterName.Size = New System.Drawing.Size(200, 27)
         Me.txtBillPrinterName.TabIndex = 34
         '
         'Label22
@@ -425,7 +413,7 @@ Partial Class FrmSettings
         Me.Label22.AutoSize = True
         Me.Label22.Location = New System.Drawing.Point(3, 75)
         Me.Label22.Name = "Label22"
-        Me.Label22.Size = New System.Drawing.Size(75, 15)
+        Me.Label22.Size = New System.Drawing.Size(93, 20)
         Me.Label22.TabIndex = 33
         Me.Label22.Text = "Paper Name:"
         '
@@ -434,7 +422,7 @@ Partial Class FrmSettings
         Me.Label23.AutoSize = True
         Me.Label23.Location = New System.Drawing.Point(3, 48)
         Me.Label23.Name = "Label23"
-        Me.Label23.Size = New System.Drawing.Size(80, 15)
+        Me.Label23.Size = New System.Drawing.Size(99, 20)
         Me.Label23.TabIndex = 32
         Me.Label23.Text = "Printer Name:"
         '
@@ -458,7 +446,7 @@ Partial Class FrmSettings
         '
         Me.txtStickerStockPaperName.Location = New System.Drawing.Point(154, 101)
         Me.txtStickerStockPaperName.Name = "txtStickerStockPaperName"
-        Me.txtStickerStockPaperName.Size = New System.Drawing.Size(140, 23)
+        Me.txtStickerStockPaperName.Size = New System.Drawing.Size(140, 27)
         Me.txtStickerStockPaperName.TabIndex = 37
         '
         'Label24
@@ -466,7 +454,7 @@ Partial Class FrmSettings
         Me.Label24.AutoSize = True
         Me.Label24.Location = New System.Drawing.Point(3, 104)
         Me.Label24.Name = "Label24"
-        Me.Label24.Size = New System.Drawing.Size(145, 15)
+        Me.Label24.Size = New System.Drawing.Size(181, 20)
         Me.Label24.TabIndex = 36
         Me.Label24.Text = "Stock Sticker Paper Name:"
         '
@@ -474,14 +462,14 @@ Partial Class FrmSettings
         '
         Me.txtStickerRepairPaperName.Location = New System.Drawing.Point(158, 72)
         Me.txtStickerRepairPaperName.Name = "txtStickerRepairPaperName"
-        Me.txtStickerRepairPaperName.Size = New System.Drawing.Size(136, 23)
+        Me.txtStickerRepairPaperName.Size = New System.Drawing.Size(136, 27)
         Me.txtStickerRepairPaperName.TabIndex = 35
         '
         'txtStickerPrinterName
         '
         Me.txtStickerPrinterName.Location = New System.Drawing.Point(94, 45)
         Me.txtStickerPrinterName.Name = "txtStickerPrinterName"
-        Me.txtStickerPrinterName.Size = New System.Drawing.Size(200, 23)
+        Me.txtStickerPrinterName.Size = New System.Drawing.Size(200, 27)
         Me.txtStickerPrinterName.TabIndex = 34
         '
         'Label18
@@ -489,7 +477,7 @@ Partial Class FrmSettings
         Me.Label18.AutoSize = True
         Me.Label18.Location = New System.Drawing.Point(3, 75)
         Me.Label18.Name = "Label18"
-        Me.Label18.Size = New System.Drawing.Size(149, 15)
+        Me.Label18.Size = New System.Drawing.Size(188, 20)
         Me.Label18.TabIndex = 33
         Me.Label18.Text = "Repair Sticker Paper Name:"
         '
@@ -498,7 +486,7 @@ Partial Class FrmSettings
         Me.Label21.AutoSize = True
         Me.Label21.Location = New System.Drawing.Point(3, 48)
         Me.Label21.Name = "Label21"
-        Me.Label21.Size = New System.Drawing.Size(80, 15)
+        Me.Label21.Size = New System.Drawing.Size(99, 20)
         Me.Label21.TabIndex = 32
         Me.Label21.Text = "Printer Name:"
         '
@@ -507,9 +495,9 @@ Partial Class FrmSettings
         Me.tpUserAccount.Controls.Add(Me.grdUAUser)
         Me.tpUserAccount.Controls.Add(Me.grpUAUser)
         Me.tpUserAccount.Controls.Add(Me.grpUAAdmin)
-        Me.tpUserAccount.Location = New System.Drawing.Point(4, 22)
+        Me.tpUserAccount.Location = New System.Drawing.Point(4, 26)
         Me.tpUserAccount.Name = "tpUserAccount"
-        Me.tpUserAccount.Size = New System.Drawing.Size(705, 353)
+        Me.tpUserAccount.Size = New System.Drawing.Size(705, 349)
         Me.tpUserAccount.TabIndex = 2
         Me.tpUserAccount.Text = "User Account"
         Me.tpUserAccount.UseVisualStyleBackColor = True
@@ -528,6 +516,7 @@ Partial Class FrmSettings
         Me.grdUAUser.Location = New System.Drawing.Point(295, 6)
         Me.grdUAUser.Name = "grdUAUser"
         Me.grdUAUser.ReadOnly = True
+        Me.grdUAUser.RowHeadersWidth = 51
         Me.grdUAUser.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.grdUAUser.Size = New System.Drawing.Size(404, 340)
         Me.grdUAUser.TabIndex = 2
@@ -536,13 +525,16 @@ Partial Class FrmSettings
         '
         Me.UAUNo.DataPropertyName = "UNo"
         Me.UAUNo.HeaderText = "User No"
+        Me.UAUNo.MinimumWidth = 6
         Me.UAUNo.Name = "UAUNo"
         Me.UAUNo.ReadOnly = True
+        Me.UAUNo.Width = 125
         '
         'UAUserName
         '
         Me.UAUserName.DataPropertyName = "UserName"
         Me.UAUserName.HeaderText = "User Name"
+        Me.UAUserName.MinimumWidth = 6
         Me.UAUserName.Name = "UAUserName"
         Me.UAUserName.ReadOnly = True
         Me.UAUserName.Width = 61
@@ -551,15 +543,19 @@ Partial Class FrmSettings
         '
         Me.UAType.DataPropertyName = "Type"
         Me.UAType.HeaderText = "User Type"
+        Me.UAType.MinimumWidth = 6
         Me.UAType.Name = "UAType"
         Me.UAType.ReadOnly = True
+        Me.UAType.Width = 125
         '
         'UAEmail
         '
         Me.UAEmail.DataPropertyName = "Email"
         Me.UAEmail.HeaderText = "User Email"
+        Me.UAEmail.MinimumWidth = 6
         Me.UAEmail.Name = "UAEmail"
         Me.UAEmail.ReadOnly = True
+        Me.UAEmail.Width = 125
         '
         'grpUAUser
         '
@@ -595,7 +591,7 @@ Partial Class FrmSettings
         Me.Label9.AutoSize = True
         Me.Label9.Location = New System.Drawing.Point(105, 23)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(53, 13)
+        Me.Label9.Size = New System.Drawing.Size(63, 17)
         Me.Label9.TabIndex = 19
         Me.Label9.Text = "User Type"
         '
@@ -606,7 +602,7 @@ Partial Class FrmSettings
         Me.cmbUAType.Items.AddRange(New Object() {"Cashier", "Admin"})
         Me.cmbUAType.Location = New System.Drawing.Point(164, 20)
         Me.cmbUAType.Name = "cmbUAType"
-        Me.cmbUAType.Size = New System.Drawing.Size(107, 21)
+        Me.cmbUAType.Size = New System.Drawing.Size(107, 25)
         Me.cmbUAType.TabIndex = 18
         '
         'txtUAUNo
@@ -614,7 +610,7 @@ Partial Class FrmSettings
         Me.txtUAUNo.Enabled = False
         Me.txtUAUNo.Location = New System.Drawing.Point(55, 20)
         Me.txtUAUNo.Name = "txtUAUNo"
-        Me.txtUAUNo.Size = New System.Drawing.Size(44, 21)
+        Me.txtUAUNo.Size = New System.Drawing.Size(44, 24)
         Me.txtUAUNo.TabIndex = 17
         '
         'Label5
@@ -622,7 +618,7 @@ Partial Class FrmSettings
         Me.Label5.AutoSize = True
         Me.Label5.Location = New System.Drawing.Point(5, 23)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(44, 13)
+        Me.Label5.Size = New System.Drawing.Size(53, 17)
         Me.Label5.TabIndex = 16
         Me.Label5.Text = "User No"
         '
@@ -631,7 +627,7 @@ Partial Class FrmSettings
         Me.txtUACurrentPW.Location = New System.Drawing.Point(105, 74)
         Me.txtUACurrentPW.Name = "txtUACurrentPW"
         Me.txtUACurrentPW.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
-        Me.txtUACurrentPW.Size = New System.Drawing.Size(166, 21)
+        Me.txtUACurrentPW.Size = New System.Drawing.Size(166, 24)
         Me.txtUACurrentPW.TabIndex = 15
         '
         'lblUACurrentPW
@@ -639,7 +635,7 @@ Partial Class FrmSettings
         Me.lblUACurrentPW.AutoSize = True
         Me.lblUACurrentPW.Location = New System.Drawing.Point(6, 77)
         Me.lblUACurrentPW.Name = "lblUACurrentPW"
-        Me.lblUACurrentPW.Size = New System.Drawing.Size(91, 13)
+        Me.lblUACurrentPW.Size = New System.Drawing.Size(107, 17)
         Me.lblUACurrentPW.TabIndex = 14
         Me.lblUACurrentPW.Text = "Current Password"
         '
@@ -647,7 +643,7 @@ Partial Class FrmSettings
         '
         Me.txtUAEmail.Location = New System.Drawing.Point(44, 155)
         Me.txtUAEmail.Name = "txtUAEmail"
-        Me.txtUAEmail.Size = New System.Drawing.Size(227, 21)
+        Me.txtUAEmail.Size = New System.Drawing.Size(227, 24)
         Me.txtUAEmail.TabIndex = 13
         '
         'lblUAEmail
@@ -655,7 +651,7 @@ Partial Class FrmSettings
         Me.lblUAEmail.AutoSize = True
         Me.lblUAEmail.Location = New System.Drawing.Point(5, 158)
         Me.lblUAEmail.Name = "lblUAEmail"
-        Me.lblUAEmail.Size = New System.Drawing.Size(33, 13)
+        Me.lblUAEmail.Size = New System.Drawing.Size(39, 17)
         Me.lblUAEmail.TabIndex = 12
         Me.lblUAEmail.Text = "Email"
         '
@@ -664,7 +660,7 @@ Partial Class FrmSettings
         Me.txtUAReenterPW.Location = New System.Drawing.Point(105, 128)
         Me.txtUAReenterPW.Name = "txtUAReenterPW"
         Me.txtUAReenterPW.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
-        Me.txtUAReenterPW.Size = New System.Drawing.Size(166, 21)
+        Me.txtUAReenterPW.Size = New System.Drawing.Size(166, 24)
         Me.txtUAReenterPW.TabIndex = 11
         '
         'lblUAReenterPW
@@ -672,7 +668,7 @@ Partial Class FrmSettings
         Me.lblUAReenterPW.AutoSize = True
         Me.lblUAReenterPW.Location = New System.Drawing.Point(6, 131)
         Me.lblUAReenterPW.Name = "lblUAReenterPW"
-        Me.lblUAReenterPW.Size = New System.Drawing.Size(93, 13)
+        Me.lblUAReenterPW.Size = New System.Drawing.Size(110, 17)
         Me.lblUAReenterPW.TabIndex = 10
         Me.lblUAReenterPW.Text = "Reenter Password"
         '
@@ -714,7 +710,7 @@ Partial Class FrmSettings
         Me.txtUANewPW.Location = New System.Drawing.Point(105, 101)
         Me.txtUANewPW.Name = "txtUANewPW"
         Me.txtUANewPW.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
-        Me.txtUANewPW.Size = New System.Drawing.Size(166, 21)
+        Me.txtUANewPW.Size = New System.Drawing.Size(166, 24)
         Me.txtUANewPW.TabIndex = 3
         '
         'lblUANewPW
@@ -722,7 +718,7 @@ Partial Class FrmSettings
         Me.lblUANewPW.AutoSize = True
         Me.lblUANewPW.Location = New System.Drawing.Point(6, 104)
         Me.lblUANewPW.Name = "lblUANewPW"
-        Me.lblUANewPW.Size = New System.Drawing.Size(76, 13)
+        Me.lblUANewPW.Size = New System.Drawing.Size(90, 17)
         Me.lblUANewPW.TabIndex = 2
         Me.lblUANewPW.Text = "New Password"
         '
@@ -730,7 +726,7 @@ Partial Class FrmSettings
         '
         Me.txtUAUserName.Location = New System.Drawing.Point(70, 47)
         Me.txtUAUserName.Name = "txtUAUserName"
-        Me.txtUAUserName.Size = New System.Drawing.Size(201, 21)
+        Me.txtUAUserName.Size = New System.Drawing.Size(201, 24)
         Me.txtUAUserName.TabIndex = 1
         '
         'Label8
@@ -738,7 +734,7 @@ Partial Class FrmSettings
         Me.Label8.AutoSize = True
         Me.Label8.Location = New System.Drawing.Point(5, 50)
         Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(59, 13)
+        Me.Label8.Size = New System.Drawing.Size(71, 17)
         Me.Label8.TabIndex = 0
         Me.Label8.Text = "User Name"
         '
@@ -771,7 +767,7 @@ Partial Class FrmSettings
         Me.txtUAAPassword.Location = New System.Drawing.Point(76, 47)
         Me.txtUAAPassword.Name = "txtUAAPassword"
         Me.txtUAAPassword.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
-        Me.txtUAAPassword.Size = New System.Drawing.Size(195, 21)
+        Me.txtUAAPassword.Size = New System.Drawing.Size(195, 24)
         Me.txtUAAPassword.TabIndex = 3
         '
         'Label4
@@ -779,7 +775,7 @@ Partial Class FrmSettings
         Me.Label4.AutoSize = True
         Me.Label4.Location = New System.Drawing.Point(11, 50)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(53, 13)
+        Me.Label4.Size = New System.Drawing.Size(61, 17)
         Me.Label4.TabIndex = 2
         Me.Label4.Text = "Password"
         '
@@ -787,7 +783,7 @@ Partial Class FrmSettings
         '
         Me.txtUAAUserName.Location = New System.Drawing.Point(76, 20)
         Me.txtUAAUserName.Name = "txtUAAUserName"
-        Me.txtUAAUserName.Size = New System.Drawing.Size(195, 21)
+        Me.txtUAAUserName.Size = New System.Drawing.Size(195, 24)
         Me.txtUAAUserName.TabIndex = 1
         '
         'Label3
@@ -795,7 +791,7 @@ Partial Class FrmSettings
         Me.Label3.AutoSize = True
         Me.Label3.Location = New System.Drawing.Point(11, 23)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(59, 13)
+        Me.Label3.Size = New System.Drawing.Size(71, 17)
         Me.Label3.TabIndex = 0
         Me.Label3.Text = "User Name"
         '
@@ -825,7 +821,7 @@ Partial Class FrmSettings
         '
         'FrmSettings
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 17.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(730, 433)
         Me.Controls.Add(Me.cmdApply)
@@ -929,7 +925,6 @@ Partial Class FrmSettings
     Friend WithEvents Label7 As Label
     Friend WithEvents Label10 As Label
     Friend WithEvents cmbDBProvider As ComboBox
-    Friend WithEvents chkDMode As CheckBox
     Friend WithEvents TxtBGWokerPath As TextBox
     Friend WithEvents BtnBGWokerPath As Button
     Friend WithEvents Label11 As Label

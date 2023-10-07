@@ -1,4 +1,5 @@
-﻿Imports System.IO
+﻿Imports System.Data.OleDb
+Imports System.IO
 Imports Microsoft.VisualBasic.FileIO
 
 Public Class FrmSettings
@@ -6,8 +7,8 @@ Public Class FrmSettings
     Public Sub FrmSettings_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         With My.Settings
-            txtDBLoc.Text = .DatabaseCNN
-            txtDBLoc.Tag = .DatabaseCNN
+            txtDBLoc.Text = .DBPath
+            txtDBLoc.Tag = .DBPath
             chkMSetEmail.Checked = .SendSettlementEmail
             txtMAdminEmail.Text = .AdminEmail
             txtStickerPrinterName.Text = .StickerPrinterName
@@ -16,7 +17,6 @@ Public Class FrmSettings
             txtBillPrinterName.Text = .BillPrinterName
             txtBillPaperName.Text = .BillPrinterPaperName
             cmbDBProvider.Text = .DBProvider
-            chkDMode.Checked = .DeveloperMode
             TxtBGWokerPath.Text = .BGWorkerPath
             ChkCashDrawer.Checked = .CashDrawer
 
@@ -51,7 +51,7 @@ Public Class FrmSettings
         Dim Encoder As New Encoder()
 
         With My.Settings
-            .DatabaseCNN = txtDBLoc.Text
+            .DBPath = txtDBLoc.Text
             .SendSettlementEmail = chkMSetEmail.CheckState
             .DeliveredEmailtoT = chkDeliveredEmailtoT.Checked
             .AdminEmail = txtMAdminEmail.Text
@@ -67,7 +67,6 @@ Public Class FrmSettings
             .CashDrawer = ChkCashDrawer.Checked
             If txtDBPassword.Text <> "" Then .DBPassword = Encoder.Encode(txtDBPassword.Text)
             .DBProvider = cmbDBProvider.Text
-            .DeveloperMode = chkDMode.Checked
             .Save()
 
             MdifrmMain.BarCodePort.Close()
@@ -81,8 +80,15 @@ Public Class FrmSettings
             End If
         End With
 
+        Db = New Database()
+        Dim ConnectionResult = Db.CheckConnection()
+        If ConnectionResult.Valid = False Then
+            MsgBox(ConnectionResult.Message, vbCritical, "Database Connection Error")
+            Exit Sub
+        End If
+
         If Me.Tag = "Login" Then
-            Db.connect()
+            Db.Connect()
         End If
     End Sub
 
@@ -105,9 +111,8 @@ Public Class FrmSettings
     End Sub
 
     Private Sub cmdUACheck_Click(sender As Object, e As EventArgs) Handles cmdUACheck.Click
-        CMD = New OleDb.OleDbCommand("Select * from [User] Where UserName ='" & txtUAAUserName.Text & "' and Password ='" & txtUAAPassword.Text & "' and Type='Admin';")
-        DR = CMD.ExecuteReader
-        If DR.HasRows = True Then
+        Dim Dr As OleDbDataReader = Db.GetDataReader("Select * from [User] Where UserName ='" & txtUAAUserName.Text & "' and Password ='" & txtUAAPassword.Text & "' and Type='Admin';")
+        If Dr.HasRows = True Then
             grpUAUser.Enabled = True
             grdUAUser.Enabled = True
             Dim DT As DataTable = Db.GetDataTable("Select UNo,UserName,Type,Email from [User]")
@@ -148,9 +153,8 @@ Public Class FrmSettings
     End Sub
 
     Private Sub cmdUASave_Click(sender As Object, e As EventArgs) Handles cmdUASave.Click
-        CMD = New OleDb.OleDbCommand("Select * from [User] Where UserName ='" & txtUAAUserName.Text & "' and Password ='" & txtUAAPassword.Text & "'")
-        DR = CMD.ExecuteReader
-        If DR.HasRows = False Then
+        Dim Dr As OleDbDataReader = Db.GetDataReader("Select * from [User] Where UserName ='" & txtUAAUserName.Text & "' and Password ='" & txtUAAPassword.Text & "'")
+        If Dr.HasRows = False Then
             MsgBox("Admin සදහා ලබා දුන් User Name සහ Password එක වැරදිය.", vbExclamation + vbOKOnly)
             Exit Sub
         ElseIf CheckEmptyfield(txtUAUserName, "User Name යන Field එක හිස්ව පවතියි. කරුණාකර එය සම්පූර්ණ කරන්න.") = False Then
@@ -182,9 +186,8 @@ Public Class FrmSettings
                 If CheckEmptyfield(txtUACurrentPW, "Current Password යන Field එක හිස්ව පවතියි. කරුණාකර එය සම්පූර්ණ කරන්න.") = False Then
                     Exit Sub
                 End If
-                CMD = New OleDb.OleDbCommand("Select * from [User] Where UNO=" & txtUAUNo.Text & " and Password='" & txtUACurrentPW.Text & "';")
-                DR = CMD.ExecuteReader
-                If DR.HasRows = False Then
+                Dim DrUser As OleDbDataReader = Db.GetDataReader("Select * from [User] Where UNO=" & txtUAUNo.Text & " and Password='" & txtUACurrentPW.Text & "';")
+                If DrUser.HasRows = False Then
                     MsgBox("Current Password එක සඳහා ඇතුලත් කල අගය වැරදියි. නැවත උත්සහ කරන්න.", vbExclamation + vbOKOnly)
                     txtUAUserName.Focus()
                     Exit Sub
@@ -198,20 +201,18 @@ Public Class FrmSettings
 
     Private Sub grdUAUser_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles grdUAUser.CellDoubleClick
         If e.RowIndex < 0 Or e.ColumnIndex < 0 Then Exit Sub
-        CMD = New OleDb.OleDbCommand("Select * from [User] Where UserName ='" & txtUAAUserName.Text & "' and Password ='" & txtUAAPassword.Text & "'")
-        DR = CMD.ExecuteReader
-        If DR.HasRows = False Then
+        Dim Dr As OleDbDataReader = Db.GetDataReader("Select * from [User] Where UserName ='" & txtUAAUserName.Text & "' and Password ='" & txtUAAPassword.Text & "'")
+        If Dr.HasRows = False Then
             MsgBox("Admin සදහා ලබා දුන් User Name සහ Password එක වැරදිය.", vbExclamation + vbOKOnly)
             Exit Sub
         End If
-        CMD = New OleDb.OleDbCommand("Select * from [User] Where UNo=" & grdUAUser.Item(UAUNo.Index, e.RowIndex).Value)
-        DR = CMD.ExecuteReader
-        If DR.HasRows = True Then
-            DR.Read()
-            txtUAUNo.Text = DR("UNo").ToString
-            cmbUAType.Text = DR("Type").ToString
-            txtUAUserName.Text = DR("UserName").ToString
-            txtUAEmail.Text = DR("Email").ToString
+        Dim DrUser As OleDbDataReader = Db.GetDataReader("Select * from [User] Where UNo=" & grdUAUser.Item(UAUNo.Index, e.RowIndex).Value)
+        If DrUser.HasRows = True Then
+            DrUser.Read()
+            txtUAUNo.Text = DrUser("UNo").ToString
+            cmbUAType.Text = DrUser("Type").ToString
+            txtUAUserName.Text = DrUser("UserName").ToString
+            txtUAEmail.Text = DrUser("Email").ToString
         End If
 
         txtUACurrentPW.Visible = True
@@ -230,14 +231,11 @@ Public Class FrmSettings
     End Sub
 
     Private Sub cmdUADelete_Click(sender As Object, e As EventArgs) Handles cmdUADelete.Click
-        DR = Db.GetDataReader("Select * from [User] Where UserName ='" & txtUAAUserName.Text & "' and Password ='" & txtUAAPassword.Text & "'")
-        If DR.HasRows = False Then
+        If Db.GetDataReader("Select * from [User] Where UserName ='" & txtUAAUserName.Text & "' and Password ='" & txtUAAPassword.Text & "'").HasRows = False Then
             MsgBox("Admin සදහා ලබා දුන් fUser Name සහ Password එක වැරදිය.", vbExclamation + vbOKOnly)
             Exit Sub
         End If
-        CMD = New OleDb.OleDbCommand("Select * from [User] Where UNo =" & txtUAUNo.Text)
-        DR = CMD.ExecuteReader
-        If DR.HasRows = False Then
+        If Db.GetDataReader("Select * from [User] Where UNo =" & txtUAUNo.Text).HasRows = False Then
             MsgBox("ඔබ අදාල User ව නිවැරදිව තෝරා ගෙන නොමැත. නැවත උත්සහ කරන්න.", vbExclamation + vbOKOnly)
             Exit Sub
         End If

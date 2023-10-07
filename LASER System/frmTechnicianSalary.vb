@@ -92,15 +92,13 @@ Public Class frmTechnicianSalary
         Dim DT4 As DataTable = Db.GetDataTable("Select  TLNo, TLDate, SCategory, SName, TLReason, Rate, Qty,Total from (TechnicianLoan TL Inner Join " &
                                               "Technician T on T.TNo = TL.TNo) Where TName='" & cmbTName.Text & "' And TLDate BETWEEN #" &
                                               txtTSFrom.Value.Date & " 00:00:00# And #" & txtTSTo.Value.Date & " 23:59:59# ")
-        CMD = New OleDb.OleDbCommand("Select * from [TechnicianLoan] as TL Where TL.TLDate BETWEEN #" & txtTSFrom.Value.Date & " 00:00:00# and #" &
+        Dim Dr As OleDbDataReader = Db.GetDataReader("Select * from [TechnicianLoan] as TL Where TL.TLDate BETWEEN #" & txtTSFrom.Value.Date & " 00:00:00# and #" &
                                      txtTSTo.Value.Date & " 23:59:59#;")
-        DR = CMD.ExecuteReader
         Dim ArrearsLoan As Integer = 0
         While DR.Read
             If DR("Total").ToString <> "" Then ArrearsLoan += Int(DR("Total").ToString)
         End While
-        CMD.Cancel()
-        DR.Close()
+        Dr.Close()
         If ArrearsLoan <> 0 Then
             Dim newRow As DataRow = DT4.NewRow()
             newRow(0) = "0"

@@ -7,34 +7,48 @@ Imports Microsoft.Office.Interop.Access.Dao
 Imports Newtonsoft.Json
 
 Public Class Database
-    Private ReadOnly _Provider As String
-    Private ReadOnly _DataSource As String
-    Private ReadOnly _Password As String
     Private _Connection As New OleDbConnection
-
-    Public Sub New()
-        Me._Provider = Settings.DBProvider
-        Me._DataSource = Settings.DatabaseCNN
-        Me._Password = Settings.DBPassword
-        If File.Exists(Me._DataSource) = False Then
-            Throw New Exception("Database Path එක සොයා ගැනීමට නොහැකි විය.")
-        End If
-    End Sub
 
     Public Sub Connect()
         If _Connection.State = ConnectionState.Open Then Exit Sub
-        Dim Encoder As New Encoder()
         For i As Integer = 0 To 3
             Try
-                _Connection = New OleDbConnection($"Provider={_Provider};Data Source={_DataSource};Jet OLEDB:Database Password={Encoder.Decode(_Password)};")
+                _Connection = New OleDbConnection($"Provider={Settings.DBProvider};Data Source={Settings.DBPath};Jet OLEDB:Database Password={(New Encoder()).Decode(Settings.DBPassword)};")
                 _Connection.Open()
                 Exit For
             Catch ex As FileNotFoundException
+                If i = 2 Then
+                    Throw New Exception("Database Path එක සොයා ගැනීමට නොහැකි විය.")
+                End If
                 Thread.Sleep(1000)
                 Continue For
+            Catch ex As Exception
+                Throw ex
             End Try
         Next
     End Sub
+
+    Public Function CheckConnection() As (Valid As Boolean, Message As String)
+        If Settings.DBProvider = "" Then
+            Return (False, "Database Provider ඇතුලත් කර නොමැත.")
+        End If
+        If Settings.DBPath = "" Then
+            Return (False, "Database Path එක ඇතුලත් කර නොමැත.")
+        End If
+        If Settings.DBPassword = "" Then
+            Return (False, "Database Password එක ඇතුලත් කර නොමැත.")
+        End If
+        If File.Exists(Settings.DBPath) = False Then
+            Return (False, "Database Path එක සොයා ගැනීමට නොහැකි විය.")
+        End If
+        Try
+            Connect()
+            Disconnect()
+        Catch ex As Exception
+            Return (False, ex.Message)
+        End Try
+        Return (True, "")
+    End Function
 
     Public Sub Disconnect()
         If _Connection.State = ConnectionState.Closed Then Exit Sub
@@ -149,24 +163,27 @@ Values({AdminPer.APNo},#{DateAndTime.Now}#,'Waiting',{MdifrmMain.Tag},
                  End Sub)
     End Sub
 
-    Public Function GetDataTable(Sql As String) As DataTable
+    Public Function GetDataTable(Sql As String, Optional Values As OleDbParameter() = Nothing) As DataTable
         Dim DataTable As New DataTable
         Dim DataAdapter As New OleDbDataAdapter(Sql, _Connection)
+        If Values IsNot Nothing Then
+            DataAdapter.SelectCommand.Parameters.AddRange(Values)
+        End If
         DataAdapter.Fill(DataTable)
         DataAdapter.Dispose()
         Return DataTable
     End Function
 
-    Public Function GetSpecificColumnArray(Query As String, ColumnName As String) As List(Of String)
+    Public Function GetArray(Query As String, ColumnName As String) As List(Of String)
         Dim Command = New OleDbCommand(Query, _Connection)
         Dim DataReader As OleDbDataReader = Command.ExecuteReader()
         Dim Output As New List(Of String)
         While DataReader.Read
             Output.Add(DataReader(ColumnName).ToString)
         End While
-        Return (Output)
         Command.Cancel()
         DataReader.Close()
+        Return (Output)
     End Function
 
     Public Function GetNextKey(Table As String, Column As String) As Integer
@@ -197,6 +214,16 @@ Values({AdminPer.APNo},#{DateAndTime.Now}#,'Waiting',{MdifrmMain.Tag},
     Public Function GetDataReader(Sql As String) As OleDbDataReader
         CMD = New OleDb.OleDbCommand(Sql, _Connection)
         Return (CMD.ExecuteReader())
+    End Function
+
+    Public Function GetDataAdapter(Query As String) As OleDbDataAdapter
+        Dim DA As New OleDbDataAdapter(Query, _Connection)
+        Return DA
+    End Function
+
+    Public Function GetData(Query As String) As Object
+        Dim Command As New OleDbCommand(Query, _Connection)
+        Return Command.ExecuteScalar()
     End Function
 
 End Class

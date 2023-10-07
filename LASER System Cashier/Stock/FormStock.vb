@@ -2,6 +2,7 @@
 Imports System.IO
 Imports System.Data.OleDb
 Imports Microsoft.VisualBasic.FileIO
+Imports LASER_System.StructureDatabase
 
 Public Class FormStock
     Public Property Caller As String = ""
@@ -59,17 +60,17 @@ Public Class FormStock
                 With ControlStockInfo
                     Me.Controls.Add(ControlStockInfo)
                     .ClearControls()
-                    .TxtSNo.Text = CurrentRow.Cells.Item(StructureDbStock.Code).Value
-                    .CmbCategory.Text = CurrentRow.Cells.Item(StructureDbStock.Category).Value
-                    .CmbName.Text = CurrentRow.Cells.Item(StructureDbStock.Name).Value
-                    .TxtModelNo.Text = CurrentRow.Cells.Item(StructureDbStock.ModelNo).Value
-                    .CmbLocation.Text = CurrentRow.Cells.Item(StructureDbStock.Location).Value
-                    .TxtCostPrice.Text = CurrentRow.Cells.Item(StructureDbStock.CostPrice).Value
-                    .TxtSalePrice.Text = CurrentRow.Cells.Item(StructureDbStock.SalePrice).Value
-                    .TxtAvailableUnits.Text = CurrentRow.Cells.Item(StructureDbStock.AvailableUnits).Value
-                    .TxtDamagedUnits.Text = CurrentRow.Cells.Item(StructureDbStock.DamagedUnits).Value
-                    .TxtReorderPoint.Text = CurrentRow.Cells.Item(StructureDbStock.ReorderPoint).Value
-                    .TxtDetails.Text = CurrentRow.Cells.Item(StructureDbStock.Details).Value
+                    .TxtSNo.Text = CurrentRow.Cells.Item(StructureDatabase.Stock.Code).Value
+                    .CmbCategory.Text = CurrentRow.Cells.Item(StructureDatabase.Stock.Category).Value
+                    .CmbName.Text = CurrentRow.Cells.Item(StructureDatabase.Stock.Name).Value
+                    .TxtModelNo.Text = CurrentRow.Cells.Item(StructureDatabase.Stock.ModelNo).Value
+                    .CmbLocation.Text = CurrentRow.Cells.Item(StructureDatabase.Stock.Location).Value
+                    .TxtLowestPrice.Text = CurrentRow.Cells.Item(StructureDatabase.Stock.CostPrice).Value
+                    .TxtSalePrice.Text = CurrentRow.Cells.Item(StructureDatabase.Stock.SalePrice).Value
+                    .TxtAvailableUnits.Text = CurrentRow.Cells.Item(StructureDatabase.Stock.AvailableUnits).Value
+                    .TxtDamagedUnits.Text = CurrentRow.Cells.Item(StructureDatabase.Stock.DamagedUnits).Value
+                    .TxtReorderPoint.Text = CurrentRow.Cells.Item(StructureDatabase.Stock.ReorderPoint).Value
+                    .TxtDetails.Text = CurrentRow.Cells.Item(StructureDatabase.Stock.Details).Value
                     .Dock = DockStyle.Fill
                     .BringToFront()
                 End With
@@ -98,79 +99,6 @@ Public Class FormStock
             frmStockTransaction.Show()
         End If
     End Sub
-
-    Private Sub WorkerStock_DoWork(sender As Object, e As DoWorkEventArgs) Handles WorkerStock.DoWork
-        Try
-            Dim DT As New DataTable
-            Dim FilterQuery As String = ""
-            grdStock.ScrollBars = ScrollBars.None
-            grdStock.ClearSelection()
-            If txtSearch.Text <> "" Then
-                Select Case cmbFilter.Text
-                    Case "by Stock Code"
-                        FilterQuery = "Where SNo Like '%" & txtSearch.Text & "%'"
-                    Case "by Stock Category"
-                        FilterQuery = "Where SCategory like '%" & txtSearch.Text & "%'"
-                    Case "by Stock Name"
-                        FilterQuery = "Where SName like '%" & txtSearch.Text & "%'"
-                    Case "by Stock Model No"
-                        FilterQuery = "Where SModelNo like '%" & txtSearch.Text & "%'"
-                    Case "by Stock Location"
-                        FilterQuery = "Where SLocation like '%" & txtSearch.Text & "%'"
-                    Case "by Stock Cost Price"
-                        FilterQuery = "Where SCostPrice like '%" & txtSearch.Text & "%'"
-                    Case "by Stock Sale Price"
-                        FilterQuery = "Where SSalePrice like '%" & txtSearch.Text & "%'"
-                    Case "by Stock Reorder Point"
-                        FilterQuery = "Where SMinStocks like '%" & txtSearch.Text & "%'"
-                    Case "by Stock Details"
-                        FilterQuery = "Where SDetails like '%" & txtSearch.Text & "%'"
-                    Case "by All"
-                        FilterQuery = "Where SNo like '%" & txtSearch.Text & "%' or SCategory like '%" & txtSearch.Text & "%' or SName like '%" & txtSearch.Text & "%' or SModelNo like '%" & txtSearch.Text & "%' or SLocation like '%" & txtSearch.Text & "%' or SCostPrice like '%" & txtSearch.Text & "%' or SSalePrice like '%" & txtSearch.Text & "%' or SMinStocks like '%" & txtSearch.Text & "%' or SDetails like '%" & txtSearch.Text & "%'"
-                End Select
-            Else
-                FilterQuery = " Order by SNo"
-            End If
-            Dim DA As New OleDbDataAdapter("SELECT SNo,SCategory,SName, SModelNo, SLocation,SMinstocks,SAvailableStocks,SOutofStocks, SCostPrice,SSalePrice, SDetails " &
-                                   "from Stock " & FilterQuery & ";", CNN)
-            DA.Fill(DT)
-
-            For Each Row As DataRow In DT.Rows
-                If WorkerStock.CancellationPending = True Then
-                    e.Cancel = True
-                    Exit Sub
-                End If
-                grdStock.Rows.Add(
-                        Row("SNo").ToString,
-                        Row("SCategory").ToString,
-                        Row("SName").ToString,
-                        Row("SModelNo").ToString,
-                        Row("SLocation").ToString,
-                        Row("SCostPrice").ToString,
-                        Row("SSalePrice").ToString,
-                        Row("SAvailableStocks").ToString,
-                        Row("SOutofStocks").ToString,
-                        Row("SMinStocks").ToString,
-                        Row("SDetails").ToString
-                )
-                If grdStock.Rows.Item(grdStock.Rows.Count - 1).Cells.Item("SAvailableStocks").Value <
-                grdStock.Rows.Item(grdStock.Rows.Count - 1).Cells.Item("SMinStocks").Value Then
-                    grdStock.Item(7, (grdStock.Rows.Count - 1)).Style.BackColor = Color.Red
-                    grdStock.Item(7, (grdStock.Rows.Count - 1)).Style.ForeColor = Color.White
-                ElseIf grdStock.Rows.Item(grdStock.Rows.Count - 1).Cells.Item("SAvailableStocks").Value =
-            grdStock.Rows.Item(grdStock.Rows.Count - 1).Cells.Item("SMinStocks").Value Then
-                    grdStock.Item(7, grdStock.Rows.Count - 1).Style.BackColor = Color.DarkOrange
-                    grdStock.Item(7, grdStock.Rows.Count - 1).Style.ForeColor = Color.White
-                Else
-                    grdStock.Item(7, grdStock.Rows.Count - 1).Style.BackColor = Color.White
-                    grdStock.Item(7, grdStock.Rows.Count - 1).Style.ForeColor = Color.Black
-                End If
-            Next
-        Catch ex As Exception
-            MsgBox(ex.Message, vbCritical)
-        End Try
-    End Sub
-
     Private Sub bgwStock_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles WorkerStock.RunWorkerCompleted
         grdStock.ScrollBars = ScrollBars.Both
     End Sub
@@ -214,12 +142,37 @@ Public Class FormStock
     End Sub
 
     Private Sub btnSearch_Click(sender As Object, e As EventArgs) Handles btnSearch.Click
-        If WorkerStock.IsBusy Then
-            WorkerStock.CancelAsync()
+        Dim FilterQuery As String = $"Select * from {Tables.Stock} "
+        If txtSearch.Text <> "" Then
+            Select Case cmbFilter.Text
+                Case "by Code"
+                    FilterQuery += $"Where {Stock.Code} Like @VALUE"
+                Case "by Category"
+                    FilterQuery += $"Where {Stock.Category} like @VALUE"
+                Case "by Name"
+                    FilterQuery += $"Where {Stock.Name} like @VALUE"
+                Case "by Model No"
+                    FilterQuery += $"Where {Stock.ModelNo} like @VALUE"
+                Case "by Location"
+                    FilterQuery += $"Where {Stock.Location} like @VALUE"
+                Case "by Cost Price"
+                    FilterQuery += $"Where {Stock.CostPrice} like @VALUE"
+                Case "by Lowest Price"
+                    FilterQuery += $"Where {Stock.LowestPrice} like @VALUE"
+                Case "by Sale Price"
+                    FilterQuery += $"Where {Stock.SalePrice} like @VALUE"
+                Case "by Reorder Point"
+                    FilterQuery += $"Where {Stock.ReorderPoint} like @VALUE"
+                Case "by Details"
+                    FilterQuery += $"Where {Stock.Details} like @VALUE"
+                Case "by All"
+                    FilterQuery += $"Where {Stock.Code} LIKE @VALUE OR {Stock.Category} LIKE @VALUE OR {Stock.Name} LIKE @VALUE OR {Stock.ModelNo} LIKE @VALUE OR {Stock.Location} LIKE @VALUE OR {Stock.CostPrice} LIKE @VALUE OR {Stock.LowestPrice} LIKE @VALUE OR {Stock.SalePrice} LIKE @VALUE OR {Stock.ReorderPoint} LIKE @VALUE OR {Stock.Details} LIKE @VALUE"
+            End Select
         Else
-            grdStock.Rows.Clear()
-            WorkerStock.RunWorkerAsync()
+            FilterQuery += $" Order by {Stock.Code}"
         End If
+        Dim DT As DataTable = DB.GetDataTable(FilterQuery, {New OleDbParameter("@VALUE", $"%{txtSearch.Text}%")})
+        grdStock.DataSource = DT
     End Sub
 
     Private Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click
@@ -232,5 +185,22 @@ Public Class FormStock
 
     Private Sub FormStock_Leave(sender As Object, e As EventArgs) Handles Me.Leave
         DB.Disconnect()
+    End Sub
+
+    Private Sub grdStock_CellFormatting(sender As Object, e As DataGridViewCellFormattingEventArgs) Handles grdStock.CellFormatting
+        If e.ColumnIndex <> grdStock.Columns.Item("SAvailableStocks").Index Then
+            Exit Sub
+        End If
+        Dim Row As DataGridViewRow = grdStock.Rows.Item(e.RowIndex)
+        If Row.Cells.Item("SAvailableStocks").Value < Row.Cells.Item("SMinStocks").Value Then
+            e.CellStyle.BackColor = Color.Red
+            e.CellStyle.ForeColor = Color.White
+        ElseIf Row.Cells.Item("SAvailableStocks").Value = Row.Cells.Item("SMinStocks").Value Then
+            e.CellStyle.BackColor = Color.DarkOrange
+            e.CellStyle.ForeColor = Color.White
+        Else
+            e.CellStyle.BackColor = Color.White
+            e.CellStyle.ForeColor = Color.Black
+        End If
     End Sub
 End Class

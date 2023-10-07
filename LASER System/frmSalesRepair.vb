@@ -1,4 +1,6 @@
-﻿Public Class frmSalesRepair
+﻿Imports System.Data.OleDb
+
+Public Class frmSalesRepair
     Private Db As New Database
 
     Private Sub cmbTName_DropDown(sender As Object, e As EventArgs) Handles cmbTName.DropDown
@@ -6,18 +8,17 @@
     End Sub
 
     Private Sub cmbTName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbTName.SelectedIndexChanged
-        CMD = New OleDb.OleDbCommand("Select TNo,TName from Technician where TName = '" & cmbTName.Text & "';")
-        DR = CMD.ExecuteReader
-        If DR.HasRows = True Then
-            DR.Read()
-            txtTNo.Text = DR("TNo").ToString
+        Dim Dr As OleDbDataReader = Db.GetDataReader("Select TNo,TName from Technician where TName = '" & cmbTName.Text & "';")
+        If Dr.HasRows = True Then
+            Dr.Read()
+            txtTNo.Text = Dr("TNo").ToString
         Else
             txtTNo.Text = ""
         End If
     End Sub
 
     Private Sub frmSalesRepair_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Db.connect
+        Db.Connect()
         Call cmdSaRepNew_Click(sender, e)
     End Sub
 

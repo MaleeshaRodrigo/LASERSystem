@@ -62,7 +62,7 @@ Partial Class frmProduct
         '
         Me.txtPNo.Location = New System.Drawing.Point(37, 21)
         Me.txtPNo.Name = "txtPNo"
-        Me.txtPNo.Size = New System.Drawing.Size(65, 22)
+        Me.txtPNo.Size = New System.Drawing.Size(65, 26)
         Me.txtPNo.TabIndex = 0
         '
         'Label9
@@ -70,7 +70,7 @@ Partial Class frmProduct
         Me.Label9.AutoSize = True
         Me.Label9.Location = New System.Drawing.Point(6, 24)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(25, 14)
+        Me.Label9.Size = New System.Drawing.Size(30, 18)
         Me.Label9.TabIndex = 27
         Me.Label9.Text = "No:"
         '
@@ -94,7 +94,7 @@ Partial Class frmProduct
         Me.cmbFilter.FormattingEnabled = True
         Me.cmbFilter.Location = New System.Drawing.Point(311, 23)
         Me.cmbFilter.Name = "cmbFilter"
-        Me.cmbFilter.Size = New System.Drawing.Size(129, 22)
+        Me.cmbFilter.Size = New System.Drawing.Size(129, 26)
         Me.cmbFilter.TabIndex = 11
         '
         'Label11
@@ -102,7 +102,7 @@ Partial Class frmProduct
         Me.Label11.AutoSize = True
         Me.Label11.Location = New System.Drawing.Point(269, 28)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(36, 14)
+        Me.Label11.Size = New System.Drawing.Size(41, 18)
         Me.Label11.TabIndex = 24
         Me.Label11.Text = "Filter"
         '
@@ -110,7 +110,7 @@ Partial Class frmProduct
         '
         Me.txtSearch.Location = New System.Drawing.Point(57, 23)
         Me.txtSearch.Name = "txtSearch"
-        Me.txtSearch.Size = New System.Drawing.Size(206, 22)
+        Me.txtSearch.Size = New System.Drawing.Size(206, 26)
         Me.txtSearch.TabIndex = 10
         '
         'Label10
@@ -118,7 +118,7 @@ Partial Class frmProduct
         Me.Label10.AutoSize = True
         Me.Label10.Location = New System.Drawing.Point(8, 28)
         Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(43, 14)
+        Me.Label10.Size = New System.Drawing.Size(49, 18)
         Me.Label10.TabIndex = 21
         Me.Label10.Text = "Search"
         '
@@ -133,6 +133,7 @@ Partial Class frmProduct
         Me.grdProduct.MultiSelect = False
         Me.grdProduct.Name = "grdProduct"
         Me.grdProduct.RowHeadersVisible = False
+        Me.grdProduct.RowHeadersWidth = 51
         Me.grdProduct.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.grdProduct.Size = New System.Drawing.Size(646, 557)
         Me.grdProduct.TabIndex = 12
@@ -144,7 +145,7 @@ Partial Class frmProduct
         Me.cmbPName.FormattingEnabled = True
         Me.cmbPName.Location = New System.Drawing.Point(54, 77)
         Me.cmbPName.Name = "cmbPName"
-        Me.cmbPName.Size = New System.Drawing.Size(265, 22)
+        Me.cmbPName.Size = New System.Drawing.Size(265, 26)
         Me.cmbPName.TabIndex = 2
         '
         'Label1
@@ -152,7 +153,7 @@ Partial Class frmProduct
         Me.Label1.AutoSize = True
         Me.Label1.Location = New System.Drawing.Point(6, 80)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(42, 14)
+        Me.Label1.Size = New System.Drawing.Size(49, 18)
         Me.Label1.TabIndex = 19
         Me.Label1.Text = "Name:"
         '
@@ -227,7 +228,7 @@ Partial Class frmProduct
         '
         'cmdDone
         '
-        Me.cmdDone.Image = My.Resources.Resources.Done
+        Me.cmdDone.Image = Global.LASER_System.My.Resources.Resources.Done
         Me.cmdDone.Location = New System.Drawing.Point(6, 234)
         Me.cmdDone.Name = "cmdDone"
         Me.cmdDone.Size = New System.Drawing.Size(96, 42)
@@ -250,7 +251,7 @@ Partial Class frmProduct
         Me.Label4.AutoSize = True
         Me.Label4.Location = New System.Drawing.Point(5, 131)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(50, 14)
+        Me.Label4.Size = New System.Drawing.Size(55, 18)
         Me.Label4.TabIndex = 40
         Me.Label4.Text = "Details:"
         '
@@ -259,7 +260,7 @@ Partial Class frmProduct
         Me.Label3.AutoSize = True
         Me.Label3.Location = New System.Drawing.Point(5, 108)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(63, 14)
+        Me.Label3.Size = New System.Drawing.Size(73, 18)
         Me.Label3.TabIndex = 39
         Me.Label3.Text = "Model No:"
         '
@@ -267,7 +268,7 @@ Partial Class frmProduct
         '
         Me.txtPModelNo.Location = New System.Drawing.Point(74, 105)
         Me.txtPModelNo.Name = "txtPModelNo"
-        Me.txtPModelNo.Size = New System.Drawing.Size(100, 22)
+        Me.txtPModelNo.Size = New System.Drawing.Size(100, 26)
         Me.txtPModelNo.TabIndex = 3
         '
         'cmbPCategory
@@ -277,7 +278,7 @@ Partial Class frmProduct
         Me.cmbPCategory.FormattingEnabled = True
         Me.cmbPCategory.Location = New System.Drawing.Point(68, 49)
         Me.cmbPCategory.Name = "cmbPCategory"
-        Me.cmbPCategory.Size = New System.Drawing.Size(251, 22)
+        Me.cmbPCategory.Size = New System.Drawing.Size(251, 26)
         Me.cmbPCategory.TabIndex = 1
         '
         'Label2
@@ -285,16 +286,17 @@ Partial Class frmProduct
         Me.Label2.AutoSize = True
         Me.Label2.Location = New System.Drawing.Point(6, 52)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(56, 14)
+        Me.Label2.Size = New System.Drawing.Size(67, 18)
         Me.Label2.TabIndex = 36
         Me.Label2.Text = "Category:"
         '
         'MenuStrip
         '
+        Me.MenuStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.MenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OPTIONToolStripMenuItem})
         Me.MenuStrip.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip.Name = "MenuStrip"
-        Me.MenuStrip.Size = New System.Drawing.Size(1014, 24)
+        Me.MenuStrip.Size = New System.Drawing.Size(1014, 28)
         Me.MenuStrip.TabIndex = 40
         Me.MenuStrip.Text = "MenuStrip1"
         '
@@ -302,7 +304,7 @@ Partial Class frmProduct
         '
         Me.OPTIONToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DoneSaveToolStripMenuItem, Me.NewToolStripMenuItem, Me.SaveToolStripMenuItem, Me.DeleteToolStripMenuItem, Me.CloseToolStripMenuItem})
         Me.OPTIONToolStripMenuItem.Name = "OPTIONToolStripMenuItem"
-        Me.OPTIONToolStripMenuItem.Size = New System.Drawing.Size(62, 20)
+        Me.OPTIONToolStripMenuItem.Size = New System.Drawing.Size(76, 24)
         Me.OPTIONToolStripMenuItem.Text = "OPTION"
         '
         'DoneSaveToolStripMenuItem
@@ -310,40 +312,40 @@ Partial Class frmProduct
         Me.DoneSaveToolStripMenuItem.Name = "DoneSaveToolStripMenuItem"
         Me.DoneSaveToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
             Or System.Windows.Forms.Keys.D), System.Windows.Forms.Keys)
-        Me.DoneSaveToolStripMenuItem.Size = New System.Drawing.Size(214, 22)
+        Me.DoneSaveToolStripMenuItem.Size = New System.Drawing.Size(270, 26)
         Me.DoneSaveToolStripMenuItem.Text = "Done + Save"
         '
         'NewToolStripMenuItem
         '
         Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
         Me.NewToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.N), System.Windows.Forms.Keys)
-        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(214, 22)
+        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(270, 26)
         Me.NewToolStripMenuItem.Text = "New"
         '
         'SaveToolStripMenuItem
         '
         Me.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem"
         Me.SaveToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
-        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(214, 22)
+        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(270, 26)
         Me.SaveToolStripMenuItem.Text = "Save"
         '
         'DeleteToolStripMenuItem
         '
         Me.DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem"
         Me.DeleteToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.D), System.Windows.Forms.Keys)
-        Me.DeleteToolStripMenuItem.Size = New System.Drawing.Size(214, 22)
+        Me.DeleteToolStripMenuItem.Size = New System.Drawing.Size(270, 26)
         Me.DeleteToolStripMenuItem.Text = "Delete"
         '
         'CloseToolStripMenuItem
         '
         Me.CloseToolStripMenuItem.Name = "CloseToolStripMenuItem"
         Me.CloseToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.F4), System.Windows.Forms.Keys)
-        Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(214, 22)
+        Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(270, 26)
         Me.CloseToolStripMenuItem.Text = "Close"
         '
         'frmProduct
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 14.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 18.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1014, 656)
         Me.Controls.Add(Me.grpSearch)
