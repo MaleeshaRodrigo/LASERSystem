@@ -12,8 +12,7 @@ Public Class frmStockSticker
             writer.Format = BarcodeFormat.CODE_128
             writer.Options.PureBarcode = True
             grdStock.Item(6, e.RowIndex).Value = writer.Write(grdStock.Item(0, e.RowIndex).Value)
-            CMD = New OleDbCommand("Select * from Stock where SNo=" & grdStock.Item(0, e.RowIndex).Value, CNN)
-            DR = CMD.ExecuteReader
+            DR = Db.GetDataReader("Select * from Stock where SNo=" & grdStock.Item(0, e.RowIndex).Value)
             If DR.HasRows = True Then
                 DR.Read()
                 grdStock.Item(1, e.RowIndex).Value = DR("Scategory").ToString
@@ -23,8 +22,7 @@ Public Class frmStockSticker
                 grdStock.Item(5, e.RowIndex).Value = DR("SSalePrice").ToString
             End If
         ElseIf e.ColumnIndex = 1 Or e.ColumnIndex = 2 Then
-            CMD = New OleDb.OleDbCommand("Select * from Stock where SCategory='" & grdStock.Item(1, e.RowIndex).Value & "' and SName='" & grdStock.Item(2, e.RowIndex).Value & "';", CNN)
-            DR = CMD.ExecuteReader()
+            DR = Db.GetDataReader("Select * from Stock where SCategory='" & grdStock.Item(1, e.RowIndex).Value & "' and SName='" & grdStock.Item(2, e.RowIndex).Value & "';")
             If DR.HasRows = True Then
                 DR.Read()
                 grdStock.Item(0, e.RowIndex).Value = DR("SNo").ToString
@@ -59,8 +57,7 @@ Public Class frmStockSticker
                     autoText.AutoCompleteMode = AutoCompleteMode.Suggest
                     autoText.AutoCompleteSource = AutoCompleteSource.CustomSource
                     DataCollection.Clear()
-                    CMD = New OleDb.OleDbCommand("Select SCategory from Stock group by SCategory;", CNN)
-                    DR = CMD.ExecuteReader()
+                    Dim DR As OleDbDataReader = Db.GetDataReader("Select SCategory from Stock group by SCategory;")
                     While DR.Read
                         DataCollection.Add(DR("SCategory").ToString)
                     End While
@@ -72,8 +69,7 @@ Public Class frmStockSticker
                     autoText.AutoCompleteMode = AutoCompleteMode.Suggest
                     autoText.AutoCompleteSource = AutoCompleteSource.CustomSource
                     DataCollection.Clear()
-                    CMD = New OleDb.OleDbCommand("Select SCategory,SName from Stock where SCategory ='" & grdStock.Item(1, grdStock.CurrentCell.RowIndex).Value & "';", CNN)
-                    DR = CMD.ExecuteReader()
+                    Dim DR As OleDbDataReader = Db.GetDataReader("Select SCategory,SName from Stock where SCategory ='" & grdStock.Item(1, grdStock.CurrentCell.RowIndex).Value & "';")
                     While DR.Read
                         DataCollection.Add(DR("SName").ToString)
                     End While
@@ -132,7 +128,7 @@ Public Class frmStockSticker
     End Sub
 
     Private Sub frmStockSticker_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        GetCNN()
+        Db.Connect()
     End Sub
 
     Private Sub frmStockSticker_Resize(sender As Object, e As EventArgs) Handles Me.Resize

@@ -1,28 +1,16 @@
 ﻿Imports System.Data.OleDb
 Imports System.IO
-Imports System.Runtime.CompilerServices
 Imports System.Threading
 Imports LASER_System.My
-Imports Microsoft.Office.Interop.Access.Dao
-Imports Newtonsoft.Json
 
 Public Class Database
-    Private ReadOnly _Provider As String
-    Private ReadOnly _DataSource As String
-    Private ReadOnly _Password As String
     Private _Connection As New OleDbConnection
-
-    Public Sub New()
-        Me._Provider = Settings.DBProvider
-        Me._DataSource = Settings.DBPath
-        Me._Password = Settings.DBPassword
-    End Sub
 
     Public Sub Connect()
         If _Connection.State = ConnectionState.Open Then Exit Sub
         For i As Integer = 0 To 3
             Try
-                _Connection = New OleDbConnection($"Provider={_Provider};Data Source={_DataSource};Jet OLEDB:Database Password={(New Encoder()).Decode(_Password)};")
+                _Connection = New OleDbConnection($"Provider={Settings.DBProvider};Data Source={Settings.DBPath};Jet OLEDB:Database Password={(New Encoder()).Decode(Settings.DBPassword)};")
                 _Connection.Open()
                 Exit For
             Catch ex As FileNotFoundException
@@ -38,16 +26,16 @@ Public Class Database
     End Sub
 
     Public Function CheckConnection() As (Valid As Boolean, Message As String)
-        If Me._Provider = "" Then
+        If Settings.DBProvider = "" Then
             Return (False, "Database Provider ඇතුලත් කර නොමැත.")
         End If
-        If My.Settings.DBPath = "" Then
+        If Settings.DBPath = "" Then
             Return (False, "Database Path එක ඇතුලත් කර නොමැත.")
         End If
-        If My.Settings.DBPassword = "" Then
+        If Settings.DBPassword = "" Then
             Return (False, "Database Password එක ඇතුලත් කර නොමැත.")
         End If
-        If File.Exists(Me._DataSource) = False Then
+        If File.Exists(Settings.DBPath) = False Then
             Return (False, "Database Path එක සොයා ගැනීමට නොහැකි විය.")
         End If
         Try

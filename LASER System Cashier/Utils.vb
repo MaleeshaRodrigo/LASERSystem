@@ -234,7 +234,7 @@ Module Utils
         AddHandler cmdSettlement.Click, AddressOf MdifrmMain.CmdSettlement_Click
         AddHandler cmdBarCodeGenerator.Click, AddressOf MdifrmMain.BarCodeGeneratorToolStripMenuItem_Click
         cmdOpenCashDrawer.ShortcutKeys = Keys.F8
-        AddHandler cmdOpenCashDrawer.Click, AddressOf .Open()
+        AddHandler cmdOpenCashDrawer.Click, AddressOf CashDrawer.Open
 
         mnustrpMENU = New ToolStripMenuItem("MENU")
         mnustrpMENU.DropDownItems.Add(cmdStock)

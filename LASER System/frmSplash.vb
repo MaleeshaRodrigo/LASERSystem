@@ -55,24 +55,6 @@ Public NotInheritable Class FrmSplash
                 If File.Exists(My.Settings.BGWorkerPath) Then
                     Process.Start(My.Settings.BGWorkerPath)
                 End If
-            Case 30
-                txtLoad.Text = "Resolving Database Errors..."
-                DR = Db.GetDataReader("Select CuName,Count(CuName) from Customer Group By CuName Having Count(CuName) > 1")
-                While DR.Read
-                    Dim DR1 As OleDbDataReader = Db.GetDataReader("Select * from Customer Where CuName='" & DR("CuName").ToString & "'")
-                    While DR1.Read
-                        For i As Integer = 0 To 1000
-                            Dim DR2 As OleDbDataReader = Db.GetDataReader("Select CuName from Customer Where CuName = '" & DR("CuName").ToString & " " & i.ToString & "'")
-                            If DR2.HasRows = False Then
-                                Db.Execute("Update Customer Set CuName='" & DR("CuName").ToString + " " + i.ToString & "' Where CuNo=" & DR1("CuNo").ToString)
-                                Exit For
-                            End If
-                            DR2.Close()
-                        Next
-                    End While
-                    DR1.Close()
-                End While
-                DR.Close()
             Case 50
                 txtLoad.Text = "Optimizing Report Viewer for printing..."
                 frmReport.WindowState = FormWindowState.Minimized

@@ -1,10 +1,12 @@
-﻿Public Class frmTechnicianLoan
+﻿Imports System.Data.OleDb
+
+Public Class frmTechnicianLoan
     Private Db As New Database
 
     Private Sub frmTechnicianLoan_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        GetCNN()
+        Db.Connect()
         MenuStrip1.Items.Add(mnustrpMENU)
-        Call AutomaticPrimaryKey(txtTLNo, "SELECT top 1 TLNo from TechnicianLoan ORDER BY TLNo Desc;", "TLNo")
+        Call SetNextKey(Db, txtTLNo, "SELECT top 1 TLNo from TechnicianLoan ORDER BY TLNo Desc;", "TLNo")
         txtTLFrom.Value = "" & Date.Today.Year & "-" & Date.Today.Month & "-01"
         txtTLTo.Value = Date.Today
         Call cmdTLSearch_Click(sender, e)
@@ -14,7 +16,7 @@
     End Sub
 
     Private Sub cmbTName_DropDown(sender As Object, e As EventArgs) Handles cmbTName.DropDown
-        Call CmbDropDown(cmbTName, "Select TName from Technician Where TActive=True group by TName;", "TName")
+        Call ComboBoxDropDown(Db, cmbTName, "Select TName from Technician Where TActive=True group by TName;")
     End Sub
 
     Private Sub cmdClose_Click(sender As Object, e As EventArgs)
@@ -27,12 +29,10 @@
             grdTLSearch.Rows.Clear()
             Exit Sub
         End If
-        Dim da As New OleDb.OleDbDataAdapter("Select TLNo as [Technician Loan No],TLDate as [Date],SCategory as [Stock Category],SName as [Stock Name],TLReason as [Reason]," &
+        Me.grdTLSearch.DataSource = Db.GetDataTable("Select TLNo as [Technician Loan No],TLDate as [Date],SCategory as [Stock Category],SName as [Stock Name],TLReason as [Reason]," &
                                              "Rate,Qty,Total from (TechnicianLoan Inner Join Technician On Technician.TNO = TechnicianLoan.TNo) " &
                                              "where TName='" & cmbTName.Text & "' and TLDate BETWEEN #" & txtTLFrom.Value.Date & " 00:00:00# AND #" &
-                                             txtTLTo.Value.Date & " 23:59:59#", CNN)
-        da.Fill(dt)
-        Me.grdTLSearch.DataSource = dt
+                                             txtTLTo.Value.Date & " 23:59:59#")
         grdTLSearch.Refresh()
         txtTLSubTotal.Text = "0"
         For Each Row As DataGridViewRow In grdTLSearch.Rows
@@ -57,28 +57,28 @@
             MsgBox("ඔබ හේතුවක් හෝ Stock එකක් ඇතුලත් කර නොමැත. කරුණාකර නැවත පරික්ෂා කරන්න.")
             Exit Sub
         End If
-        Dim AdminPer As New AdminPermission
+        Dim AdminPer As New AdminPermission(Db)
         If MdifrmMain.tslblUserType.Text <> "Admin" And txtTLDate.Value.Date <> Today.Date Then
             AdminPer.AdminSend = True
             AdminPer.Remarks = "අද දිනට නොමැති Technician Loan එකක් Update කෙරුණි."
         End If
         If txtTLDate.Value.Date = Today.Date Then txtTLDate.Value = DateAndTime.Now
-        Dim TNo As Integer = Int(GetStrfromRelatedfield("Select TNo,TName from Technician where TName='" &
+        Dim TNo As Integer = Int(Db.GetData("Select TNo,TName from Technician where TName='" &
                                                         cmbTName.Text & "'"))
         If cmdTLSave.Text = "Save" Then
             If txtSNo.Text <> "" Then
-                CMDUPDATE("Insert Into TechnicianLoan(TLNo,TNo,TLDate,SNo,SCategory,SName,TLReason,Rate,Qty,Total,UNo) " &
+                Db.Execute("Insert Into TechnicianLoan(TLNo,TNo,TLDate,SNo,SCategory,SName,TLReason,Rate,Qty,Total,UNo) " &
                         "Values(" & txtTLNo.Text & "," & TNo & ",#" & txtTLDate.Value & "#," & txtSNo.Text & ",'" &
                         cmbSCategory.Text & "','" & cmbSName.Text & "','" & txtTLReason.Text &
-                        "'," & txtSUnitPrice.Text & "," & txtSQty.Text & "," & txtTLAmount.Text & ",'" & MdifrmMain.Tag & "')", AdminPer)
+                        "'," & txtSUnitPrice.Text & "," & txtSQty.Text & "," & txtTLAmount.Text & ",'" & MdifrmMain.Tag & "')", {}, AdminPer)
             Else
-                CMDUPDATE("Insert Into TechnicianLoan(TLNo,TNo,TLDate,TLReason,Total,UNo) " &
+                Db.Execute("Insert Into TechnicianLoan(TLNo,TNo,TLDate,TLReason,Total,UNo) " &
                         "Values(" & txtTLNo.Text & "," & TNo & ",#" & txtTLDate.Value & "#,'" & txtTLReason.Text & "'," &
-                        txtTLAmount.Text & ",'" & MdifrmMain.Tag & "')", AdminPer)
+                        txtTLAmount.Text & ",'" & MdifrmMain.Tag & "')", {}, AdminPer)
             End If
             MsgBox("Save Successfull!", vbExclamation + vbOKOnly)
         ElseIf cmdTLSave.Text = "Edit" Then
-            CMDUPDATE("Update TechnicianCost Set TNo=" & TNo &
+            Db.Execute("Update TechnicianCost Set TNo=" & TNo &
                       ",TLDate=#" & txtTLDate.Value &
                       "#,SNo=" & txtSNo.Text &
                       ",SCategory='" & cmbSCategory.Text &
@@ -87,9 +87,9 @@
                       "',Rate=" & txtSUnitPrice.Text &
                       ",Qty=" & txtSQty.Text &
                       ",Total=" & txtTLAmount.Text &
-                      ",UNo=" & MdifrmMain.Tag, AdminPer)
+                      ",UNo=" & MdifrmMain.Tag, {}, AdminPer)
         End If
-        Call AutomaticPrimaryKey(txtTLNo, "SELECT top 1 TLNo from TechnicianLoan ORDER BY TLNo Desc;", "TLNo")
+        Call SetNextKey(Db, txtTLNo, "SELECT top 1 TLNo from TechnicianLoan ORDER BY TLNo Desc;", "TLNo")
         cmbSCategory.Text = ""
         cmbSName.Text = ""
         txtSNo.Text = ""
@@ -102,7 +102,7 @@
 
     Private Sub cmdTLNew_Click(sender As Object, e As EventArgs) Handles cmdTLNew.Click
         'Prepare form for adding new values
-        Call AutomaticPrimaryKey(txtTLNo, "SELECT top 1 TLNo from TechnicianLoan ORDER BY TLNo Desc;", "TLNo")
+        Call SetNextKey(Db, txtTLNo, "SELECT top 1 TLNo from TechnicianLoan ORDER BY TLNo Desc;", "TLNo")
         txtTLDate.Value = Today
         cmbTName.Text = ""
         cmbSCategory.Text = ""
@@ -118,16 +118,16 @@
     End Sub
 
     Private Sub cmbSCategory_DropDown(sender As Object, e As EventArgs) Handles cmbSCategory.DropDown
-        CmbDropDown(cmbSCategory, "Select SCategory from Stock group by SCategory;", "Scategory")
+        ComboBoxDropDown(Db, cmbSCategory, "Select SCategory from Stock group by SCategory;")
     End Sub
 
     Private Sub cmbSName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbSName.SelectedIndexChanged
+        Dim DR As OleDbDataReader
         If cmbSCategory.Text = "" Then
-            CMD = New OleDb.OleDbCommand("Select * from Stock Where SName='" & cmbSName.Text & "'", CNN)
+            DR = Db.GetDataReader("Select * from Stock Where SName='" & cmbSName.Text & "'")
         Else
-            CMD = New OleDb.OleDbCommand("SElect * from Stock Where Scategory='" & cmbSCategory.Text & "' and SName ='" & cmbSName.Text & "'", CNN)
+            DR = Db.GetDataReader("SElect * from Stock Where Scategory='" & cmbSCategory.Text & "' and SName ='" & cmbSName.Text & "'")
         End If
-        DR = CMD.ExecuteReader
         If DR.HasRows = True Then
             DR.Read()
             txtSNo.Text = DR("SNo").ToString
@@ -142,7 +142,7 @@
     End Sub
 
     Private Sub cmbSName_DropDown(sender As Object, e As EventArgs) Handles cmbSName.DropDown
-        CmbDropDown(cmbSName, "Select SName from Stock Where SCategory='" & cmbSCategory.Text & "' group by SName;", "SName")
+        ComboBoxDropDown(Db, cmbSName, "Select SName from Stock Where SCategory='" & cmbSCategory.Text & "' group by SName;")
     End Sub
 
     Private Sub txtSUnitPrice_TextChanged(sender As Object, e As EventArgs) Handles txtSUnitPrice.TextChanged
@@ -178,8 +178,7 @@
             txtTLAmount.Text = "0"
             Exit Sub
         End If
-        Dim CMD1 = New OleDb.OleDbCommand("Select SCategory,SName,SNo from [Stock] where SNo =" & txtSNo.Text & ";", CNN)
-        Dim DR1 As OleDb.OleDbDataReader = CMD1.ExecuteReader
+        Dim DR1 As OleDbDataReader = Db.GetDataReader("Select SCategory,SName,SNo from [Stock] where SNo =" & txtSNo.Text & ";")
         If DR1.HasRows = True Then
             DR1.Read()
             cmbSCategory.Text = DR1("SCategory").ToString
@@ -208,8 +207,7 @@
                 txtTLAmount.Text = "0"
                 Exit Sub
             End If
-            CMD = New OleDb.OleDbCommand("SElect SNO from stock where Sno =" & txtSNo.Text, CNN)
-            DR = CMD.ExecuteReader
+            Dim DR As OleDbDataReader = Db.GetDataReader("SElect SNO from stock where Sno =" & txtSNo.Text)
             If DR.HasRows = False Then
                 cmbSCategory.Text = ""
                 cmbSName.Text = ""
@@ -269,13 +267,12 @@
             MdifrmMain.cmdTechnicianLoan.PerformClick()
             Exit Sub
         End If
-        Dim AdminPer As New AdminPermission
+        Dim AdminPer As New AdminPermission(Db)
         If MdifrmMain.tslblUserType.Text <> "Admin" And txtTLDate.Value.Date <> Today.Date Then
             AdminPer.AdminSend = True
             AdminPer.Remarks = "අද දිනට නොමැති Technician Loan data එකක් ඉවත් කෙරුණි."
         End If
-        CMD = New OleDb.OleDbCommand("Select * from TechnicianLoan Where TLNo=" & txtTLNo.Text, CNN)
-        DR = CMD.ExecuteReader
+        Dim DR As OleDbDataReader = Db.GetDataReader("Select * from TechnicianLoan Where TLNo=" & txtTLNo.Text)
         If DR.HasRows = True Then
             DR.Read()
             If DR("SNo").ToString <> "" And DR("SNo").ToString <> "0" Then
@@ -284,19 +281,19 @@
                                       "No - නැතහොත්, ඔබට මෙම item එක Damaged Units වලට add කිරිමට අවශ්‍ය නම්, 'No' යන Button එක Click කරන්න." +
                                       vbCr + vbCr + "Cancel - ඔබට ඉවත් වීමට අවශ්‍ය නම් 'Cancel' යන Button එක Click කරන්න.", vbYesNoCancel + vbExclamation)
                 If Response = vbYes Then
-                    CMDUPDATE("Update Stock set SAvailablestocks=(SAvailableStocks + " & txtSQty.Text &
-                                                             ") where SNo=" & txtSNo.Text & "", AdminPer)
-                    CMDUPDATE("DELETE from TechnicianCost where TCNo=" & txtTLNo.Text, AdminPer)       'decrease unit from stock table 
+                    Db.Execute("Update Stock set SAvailablestocks=(SAvailableStocks + " & txtSQty.Text &
+                                                             ") where SNo=" & txtSNo.Text & "", {}, AdminPer)
+                    Db.Execute("DELETE from TechnicianCost where TCNo=" & txtTLNo.Text, {}, AdminPer)       'decrease unit from stock table 
                 ElseIf Response = vbNo Then
-                    CMDUPDATE("Update Stock set SOutofStocks=(SOutofStocks + " & txtSQty.Text &
-                                                             ") where SNo=" & txtSNo.Text & "", AdminPer)
-                    CMDUPDATE("DELETE from TechnicianCost where TCNo=" & txtTLNo.Text, AdminPer)       'delete data from technician loan 
+                    Db.Execute("Update Stock set SOutofStocks=(SOutofStocks + " & txtSQty.Text &
+                                                             ") where SNo=" & txtSNo.Text & "", {}, AdminPer)
+                    Db.Execute("DELETE from TechnicianCost where TCNo=" & txtTLNo.Text, {}, AdminPer)       'delete data from technician loan 
                 Else
                     Exit Sub
                 End If
             Else
                 If MsgBox("Are you sure delete this Technician Cost?", vbYesNo + vbExclamation) = vbYes Then
-                    CMDUPDATE("DELETE from TechnicianCost where TCNo=" & txtTLNo.Text, AdminPer)       'delete data from technician loan 
+                    Db.Execute("DELETE from TechnicianCost where TCNo=" & txtTLNo.Text, {}, AdminPer)       'delete data from technician loan 
                 End If
             End If
         Else
