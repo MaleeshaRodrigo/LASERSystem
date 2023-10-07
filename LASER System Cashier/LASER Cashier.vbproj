@@ -27,6 +27,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>https://raw.githubusercontent.com/MaleeshaRodrigo/LASERSystem/main/LASER%2520System%2520Cashier/publish/</InstallUrl>
+    <UpdateUrl>https://raw.githubusercontent.com/MaleeshaRodrigo/LASERSystem/main/LASER%2520System%2520Cashier/publish/</UpdateUrl>
     <ProductName>LASER System</ProductName>
     <PublisherName>LASER System</PublisherName>
     <SuiteName>LASER System</SuiteName>
