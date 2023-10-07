@@ -1,6 +1,8 @@
-﻿Imports System.Threading
+﻿Imports System.Data.OleDb
+Imports System.Threading
 
 Public Class frmSale
+    Private Db As New Database
     Public Sub New()
         ' This call is required by the designer.
         InitializeComponent()
@@ -16,7 +18,7 @@ Public Class frmSale
     End Sub
 
     Private Sub frmSale_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        GetCNN()
+        Db.Connect()
         Me.AcceptButton = cmdSave
         grdSale.Focus()
     End Sub
@@ -56,7 +58,7 @@ Public Class frmSale
 
     Private Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click
         Cursor = Cursors.WaitCursor
-        AutomaticPrimaryKey(txtSaNo, "SELECT top 1 SaNo from Sale ORDER BY SaNo Desc;", "SaNo")
+        SetNextKey(Db, txtSaNo, "SELECT top 1 SaNo from Sale ORDER BY SaNo Desc;", "SaNo")
         cmbCuName.Text = "No Name"             'clear customer fileds
         cmbCuName_SelectedIndexChanged(sender, e)
         txtSubTotal.Text = "0"
@@ -68,7 +70,7 @@ Public Class frmSale
         txtCPAmount.Text = "0"
         txtCPInvoiceNo.Text = "0"
         txtCuLAmount.Text = "0"
-        AutomaticPrimaryKey(txtCuLNo, "Select top 1 CuLNo from CustomerLoan order by CuLNo Desc;", "CuLNo")
+        SetNextKey(Db, txtCuLNo, "Select top 1 CuLNo from CustomerLoan order by CuLNo Desc;", "CuLNo")
         grdSale.Rows.Clear()
         cmdSave.Text = "Save"
         SaveToolStripMenuItem.Text = "Save"
@@ -82,12 +84,11 @@ Public Class frmSale
     End Sub
 
     Private Sub cmbCuName_DropDown(sender As Object, e As EventArgs) Handles cmbCuName.DropDown
-        CmbDropDown(cmbCuName, "Select CuName from Customer group by  CuName;", "CuName")
+        ComboBoxDropDown(Db, cmbCuName, "Select CuName from Customer group by  CuName;")
     End Sub
 
     Private Sub cmbCuName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbCuName.SelectedIndexChanged
-        CMD = New OleDb.OleDbCommand("SELECT * from Customer where CuName='" & cmbCuName.Text & "';", CNN)
-        DR = CMD.ExecuteReader()
+        Dim DR As OleDbDataReader = Db.GetDataReader("SELECT * from Customer where CuName='" & cmbCuName.Text & "';")
         If DR.HasRows = True Then
             txtCuTelNo1.Tag = "1"
             DR.Read()
@@ -148,7 +149,7 @@ Public Class frmSale
         End If
         chkCashDrawer.Checked = My.Settings.CashDrawer
         txtLess_TextChanged(sender, e)
-        AutomaticPrimaryKey(txtCuLNo, "Select Top 1 CuLNo from CustomerLoan Order by CuLNo Desc", "CuLNo")
+        SetNextKey(Db, txtCuLNo, "Select Top 1 CuLNo from CustomerLoan Order by CuLNo Desc", "CuLNo")
         pnlSaSaveFinal.Dock = DockStyle.Fill
         pnlSaSaveFinal.BringToFront()
         pnlSaSaveFinal.Visible = True
@@ -173,13 +174,11 @@ Public Class frmSale
             Sub()
                 Try
                     Dim rpt As New rptSale 'The report you created.
-                    Dim DT As New DataTable
-                    Dim DA As New OleDb.OleDbDataAdapter($"SELECT Sale.SaNo,Sale.SaDate,Sale.CuNo,Customer.CuName,Customer.CuTelNo1,Customer.CuTelNo2,Customer.CuTelNo3,
+                    Dim DT As DataTable = Db.GetDataTable($"SELECT Sale.SaNo,Sale.SaDate,Sale.CuNo,Customer.CuName,Customer.CuTelNo1,Customer.CuTelNo2,Customer.CuTelNo3,
                                              SCategory, SName, StockSale.SaType,StockSale.SaUnits, StockSale.SaRate, StockSale.SaTotal,Sale.SaSubTotal,
                                              Sale.SaLess,Sale.SaDue,Sale.CReceived,Sale.CBalance,Sale.CAmount,Sale.CPInvoiceNo,Sale.CPAmount,Sale.CuLNo,
                                              sale.CuLAmount FROM ((StockSale Inner Join SALE ON StockSale.SaNo= Sale.SaNo) 
-                                             INNER JOIN Customer ON Sale.CuNo = Customer.CuNo) where StockSale.SaNo={SaNo}", CNN)
-                    DA.Fill(DT)
+                                             INNER JOIN Customer ON Sale.CuNo = Customer.CuNo) where StockSale.SaNo={SaNo}")
                     rpt.SetDataSource(DT)
                     rpt.SetParameterValue("Cashier Name", UserName) 'Set Cashier Name to Parameter Value
                     frmReport.ReportViewer.ReportSource = rpt
@@ -231,32 +230,31 @@ Public Class frmSale
         End If
         Cursor = Cursors.WaitCursor
         txtSaDate.Value = DateAndTime.Now
-        If (Val(txtCAmount.Text) > 0 Or Val(txtCPAmount.Text) > 0) And chkCashDrawer.Checked = True Then OpenCashdrawer()
+        If (Val(txtCAmount.Text) > 0 Or Val(txtCPAmount.Text) > 0) And chkCashDrawer.Checked = True Then CashDrawer.Open()
         'Customer Management
         Dim CuNo As Integer
-        CMD = New OleDb.OleDbCommand("Select * from Customer where CuName='" & cmbCuName.Text & "' and CuTelNo1='" & txtCuTelNo1.Text & "' and CuTelNo2 ='" & txtCuTelNo2.Text & "' and CuTelNo3='" & txtCuTelNo3.Text & "'", CNN)
-        DR = CMD.ExecuteReader
+        Dim DR As OleDbDataReader = Db.GetDataReader("Select * from Customer where CuName='" & cmbCuName.Text & "' and CuTelNo1='" & txtCuTelNo1.Text & "' and CuTelNo2 ='" & txtCuTelNo2.Text & "' and CuTelNo3='" & txtCuTelNo3.Text & "'")
         If DR.HasRows = True Then
             DR.Read()
             CuNo = DR("CuNo").ToString
         Else
-            CuNo = AutomaticPrimaryKey("Customer", "CuNo")
-            CMDUPDATE("Insert into Customer(CuNo,CuName,CuTelNo1,CuTelNo2,CutelNo3) Values(" & CuNo & ",'" & cmbCuName.Text & "','" & txtCuTelNo1.Text & "','" &
+            CuNo = Db.GetNextKey("Customer", "CuNo")
+            Db.Execute("Insert into Customer(CuNo,CuName,CuTelNo1,CuTelNo2,CutelNo3) Values(" & CuNo & ",'" & cmbCuName.Text & "','" & txtCuTelNo1.Text & "','" &
                       txtCuTelNo2.Text & "','" & txtCuTelNo3.Text & "');")
         End If
         Select Case cmdSave.Text
             Case "Save"
-                AutomaticPrimaryKey(txtSaNo, "SELECT top 1 SaNo from Sale ORDER BY SaNo Desc;", "SaNo")
+                SetNextKey(Db, txtSaNo, "SELECT top 1 SaNo from Sale ORDER BY SaNo Desc;", "SaNo")
                 'Add Values into Sale
-                CMDUPDATE("Insert into Sale(SaNo,SaDate,CuNo,SaSubTotal,SaLess,SaDue,CAmount,CReceived,CBalance," &
+                Db.Execute("Insert into Sale(SaNo,SaDate,CuNo,SaSubTotal,SaLess,SaDue,CAmount,CReceived,CBalance," &
                        "CPInvoiceNo,CPAmount,CuLNo,CuLAmount,SaRemarks,UNo)" &
                        "Values(?NewKey?Sale?SaNo?,'" & txtSaDate.Value & "'," & CuNo & "," & txtSubTotal.Text & "," & txtLess.Text &
                        "," & txtDue.Text & "," & txtCAmount.Text & "," & txtCReceived.Text & "," & txtCBalance.Text & "," &
                        txtCPInvoiceNo.Text & "," & txtCPAmount.Text & "," & txtCuLNo.Text & "," & txtCuLAmount.Text & ",'" &
                        txtSaRemarks.Text & "'," & MdifrmMain.Tag & ");")
                 If txtCuLAmount.Text <> "0" Then
-                    AutomaticPrimaryKey(txtCuLNo, "Select Top 1 CuLNo from CustomerLoan Order by CuLNo Desc", "CuLNo")
-                    CMDUPDATE("Insert into CustomerLoan(CuLNo,CuLDate,CuNo,CuLAmount,SaNo,Status) Values(" & txtCuLNo.Text & ",#" & txtSaDate.Value &
+                    SetNextKey(Db, txtCuLNo, "Select Top 1 CuLNo from CustomerLoan Order by CuLNo Desc", "CuLNo")
+                    Db.Execute("Insert into CustomerLoan(CuLNo,CuLDate,CuNo,CuLAmount,SaNo,Status) Values(" & txtCuLNo.Text & ",#" & txtSaDate.Value &
                               "#," & CuNo & "," &
                               txtCuLAmount.Text & "," & txtSaNo.Text & ",'Not Paid')")
                 End If
@@ -264,40 +262,39 @@ Public Class frmSale
                 For Each row As DataGridViewRow In grdSale.Rows
                     If row.Index = Int(grdSale.Rows.Count) - 1 Then Exit For
                     If row.Cells.Item(0).Value <> "" Then
-                        CMDUPDATE("Insert into StockSale(SSaNo,SaNo,SNo,SCategory,SName,SaType,SaRate,SaUnits,SaTotal) Values(" &
-                                  AutomaticPrimaryKey("StockSale", "SSaNo") & "," &
+                        Db.Execute("Insert into StockSale(SSaNo,SaNo,SNo,SCategory,SName,SaType,SaRate,SaUnits,SaTotal) Values(" &
+                                  Db.GetNextKey("StockSale", "SSaNo") & "," &
                                   txtSaNo.Text & "," &
                                   row.Cells(0).Value.ToString() & ",'" & row.Cells(1).Value.ToString & "','" & row.Cells(2).Value.ToString &
                                   "','" & row.Cells(3).Value.ToString() & "'," & row.Cells(4).Value.ToString() & "," & row.Cells(5).Value.ToString() & "," &
                                   row.Cells(6).Value.ToString() & ");")
                         'Update Store
                         If row.Cells(3).Value.ToString = "Sale" Then
-                            CMDUPDATE("Update Stock set SAvailablestocks=(SAvailableStocks - " & row.Cells("Qty").Value.ToString &
+                            Db.Execute("Update Stock set SAvailablestocks=(SAvailableStocks - " & row.Cells("Qty").Value.ToString &
                                                          ") where SNo=" & row.Cells(0).Value.ToString & "")
                         ElseIf row.Cells(3).Value.ToString = "Return to Damaged Units" Then
-                            CMDUPDATE("Update Stock set Soutofstocks=(SOutofstocks + " & row.Cells("Qty").Value.ToString &
+                            Db.Execute("Update Stock set Soutofstocks=(SOutofstocks + " & row.Cells("Qty").Value.ToString &
                                                                                 ") where SNo=" & row.Cells(0).Value.ToString & "")
                         ElseIf row.Cells(3).Value.ToString = "Return to Available Units" Then
-                            CMDUPDATE("Update Stock set SAvailablestocks=(SAvailablestocks + " & row.Cells("Qty").Value.ToString &
+                            Db.Execute("Update Stock set SAvailablestocks=(SAvailablestocks + " & row.Cells("Qty").Value.ToString &
                                                                                 ") where SNo=" & row.Cells(0).Value.ToString & "")
                         End If
                     Else
-                        CMDUPDATE("Insert into StockSale(SSaNo,SaNo,SCategory,SName,SaType,SaRate,SaUnits,SaTotal) Values(" &
-                                  AutomaticPrimaryKey("StockSale", "SSaNo") & "," & txtSaNo.Text & ",'" &
+                        Db.Execute("Insert into StockSale(SSaNo,SaNo,SCategory,SName,SaType,SaRate,SaUnits,SaTotal) Values(" &
+                                  Db.GetNextKey("StockSale", "SSaNo") & "," & txtSaNo.Text & ",'" &
                                  row.Cells(1).Value.ToString & "','" & row.Cells(2).Value.ToString &
                                   "','" & row.Cells(3).Value.ToString() & "'," & row.Cells(4).Value.ToString() & "," & row.Cells(5).Value.ToString() & "," &
                                   row.Cells(6).Value.ToString() & ");")
                     End If
                 Next
             Case "Edit"
-                CMD = New OleDb.OleDbCommand("SELECT * from Sale where SaNo=" & txtSaNo.Text & ";", CNN)
-                DR = CMD.ExecuteReader()
+                DR = Db.GetDataReader("SELECT * from Sale where SaNo=" & txtSaNo.Text & ";")
                 If DR.HasRows = True Then
                     DR.Read()
                     If DR("CuLNo").ToString <> "0" And txtCuLNo.Text = "0" Then
-                        CMDUPDATE("DELETE from CustomerLoan where CuLNo=" & DR("CuLNO").ToString)
+                        Db.Execute("DELETE from CustomerLoan where CuLNo=" & DR("CuLNO").ToString)
                     ElseIf DR("CuLNo").ToString <> "0" And txtCuLNo.Text <> "0" Then
-                        CMDUPDATE("Update CustomerLoan set CuLNo = " & DR("CuLNO").ToString &
+                        Db.Execute("Update CustomerLoan set CuLNo = " & DR("CuLNO").ToString &
                                                       "CuNo = " & CuNo &
                                                       ",CuLAmount = " & txtCuLAmount.Text &
                                                       ",SaNo = " & txtSaNo.Text &
@@ -305,23 +302,20 @@ Public Class frmSale
                                                       "where CuLNo=" & DR("CuLNO").ToString)
                         txtCuLNo.Text = DR("CuLNo").ToString
                     ElseIf DR("CuLNo").ToString = "0" And txtCuLNo.Text <> "0" Then
-                        CMDUPDATE("Insert into CustomerLoan(CuLNO,CuLAmount,CuNo,SaNO,CulDate,Status) values(" & txtCuLNo.Text & "," & txtCuLAmount.Text & "," & CuNo & "," & txtSaNo.Text & "," & txtSaDate.Text & ",'Not Paid')")
+                        Db.Execute("Insert into CustomerLoan(CuLNO,CuLAmount,CuNo,SaNO,CulDate,Status) values(" & txtCuLNo.Text & "," & txtCuLAmount.Text & "," & CuNo & "," & txtSaNo.Text & "," & txtSaDate.Text & ",'Not Paid')")
                     End If
                 End If
                 'Delete old Customer if there is no records about that customer
-                CMD = New OleDb.OleDbCommand("Select CuNo from Sale where SaNo=" & txtSaNo.Text, CNN)
-                DR = CMD.ExecuteReader
+                DR = Db.GetDataReader("Select CuNo from Sale where SaNo=" & txtSaNo.Text)
                 If DR.HasRows = True Then
                     DR.Read()
-                    CMD1 = New OleDb.OleDbCommand("Select CuNo from Sale Where CuNo = " & DR("CuNo").ToString, CNN)
-                    DR1 = CMD1.ExecuteReader()
-                    Dim CMD2 As New OleDb.OleDbCommand("Select CuNo from Receive where CuNo = " & DR("CuNo").ToString, CNN)
-                    Dim DR2 As OleDb.OleDbDataReader = CMD2.ExecuteReader()
+                    DR1 = Db.GetDataReader("Select CuNo from Sale Where CuNo = " & DR("CuNo").ToString)
+                    Dim DR2 As OleDbDataReader = Db.GetDataReader("Select CuNo from Receive where CuNo = " & DR("CuNo").ToString)
                     If DR1.HasRows = False And DR2.HasRows = False Then
-                        CMDUPDATE("Delete from Customer where CuNo=" & DR("CuNo").ToString)
+                        Db.Execute("Delete from Customer where CuNo=" & DR("CuNo").ToString)
                     End If
                 End If
-                CMDUPDATE("Update Sale set SaNo= " & txtSaNo.Text &
+                Db.Execute("Update Sale set SaNo= " & txtSaNo.Text &
                                         ",SaDate = '" & txtSaDate.Value &
                                         "',CuNo = " & CuNo &
                                         ",SaSubTotal = " & txtSubTotal.Text &
@@ -336,43 +330,42 @@ Public Class frmSale
                                         ",CuLAmount=" & txtCuLAmount.Text &
                                         ",SaRemarks='" & txtSaRemarks.Text & "' Where SaNo = " & txtSaNo.Text)
                 'Delete and update stocksale and stock old data
-                CMD1 = New OleDb.OleDbCommand("Select * from StockSale where SaNo = " & txtSaNo.Text & "", CNN)
-                DR1 = CMD1.ExecuteReader()
+                DR1 = Db.GetDataReader("Select * from StockSale where SaNo = " & txtSaNo.Text & "")
                 While DR1.Read
                     If DR1("SaType").ToString = "Sale" Then
-                        CMDUPDATE("Update Stock set SAvailablestocks=(SAvailableStocks + " & DR1("SaUnits").ToString &
+                        Db.Execute("Update Stock set SAvailablestocks=(SAvailableStocks + " & DR1("SaUnits").ToString &
                                                      ") where SNo=" & DR1("SNo").ToString & "")
                     ElseIf DR1("SaType").ToString = "Return to Damaged Units" Then
-                        CMDUPDATE("Update Stock set SOutofstocks=(SOutofstocks - " & DR1("SaUnits").ToString &
+                        Db.Execute("Update Stock set SOutofstocks=(SOutofstocks - " & DR1("SaUnits").ToString &
                                                                             ") where SNo=" & DR1("SNo").ToString & "")
                     ElseIf DR1("SaType").ToString = "Return to Available Units" Then
-                        CMDUPDATE("Update Stock set SAvailablestocks=(SAvailablestocks - " & DR1("SaUnits").ToString &
+                        Db.Execute("Update Stock set SAvailablestocks=(SAvailablestocks - " & DR1("SaUnits").ToString &
                                                                                 ") where SNo=" & DR1("SNo").ToString & "")
                     End If
                 End While
-                CMDUPDATE("DELETE from StockSale where SaNo=" & txtSaNo.Text)       'delete data from stocksale
+                Db.Execute("DELETE from StockSale where SaNo=" & txtSaNo.Text)       'delete data from stocksale
                 'Add New StockSale and Stock Data
                 For Each row As DataGridViewRow In grdSale.Rows
                     If row.Index = grdSale.Rows.Count - 1 Then Continue For
                     If row.Cells.Item(0).Value <> "" Then
-                        CMDUPDATE("Insert into StockSale(SSaNo,SaNo,SNo,SCategory,SName,SaType,SaRate,SaUnits,SaTotal) Values(" &
-                                  AutomaticPrimaryKey("StockSale", "SSaNo") & "," & txtSaNo.Text & "," &
+                        Db.Execute("Insert into StockSale(SSaNo,SaNo,SNo,SCategory,SName,SaType,SaRate,SaUnits,SaTotal) Values(" &
+                                  Db.GetNextKey("StockSale", "SSaNo") & "," & txtSaNo.Text & "," &
                                       row.Cells(0).Value.ToString() & ",'" & row.Cells(1).Value.ToString & "','" & row.Cells(2).Value.ToString &
                                       "','" & row.Cells(3).Value.ToString() & "'," & row.Cells(4).Value.ToString() & "," & row.Cells(5).Value.ToString() & "," &
                                       row.Cells(6).Value.ToString() & ");")
                         If row.Cells(3).Value.ToString = "Sale" Then
-                            CMDUPDATE("Update Stock set SAvailablestocks=(SAvailableStocks - " & row.Cells(5).Value.ToString &
+                            Db.Execute("Update Stock set SAvailablestocks=(SAvailableStocks - " & row.Cells(5).Value.ToString &
                                                          ") where SNo=" & row.Cells(0).Value.ToString & "")
                         ElseIf row.Cells(3).Value.ToString = "Return to Damaged Units" Then
-                            CMDUPDATE("Update Stock set Soutofstocks=(SOutofstocks + " & row.Cells("Qty").Value.ToString &
+                            Db.Execute("Update Stock set Soutofstocks=(SOutofstocks + " & row.Cells("Qty").Value.ToString &
                                                                                 ") where SNo=" & row.Cells(0).Value.ToString & "")
                         ElseIf row.Cells(3).Value.ToString = "Return to Available Units" Then
-                            CMDUPDATE("Update Stock set SAvailablestocks=(SAvailablestocks + " & row.Cells("Qty").Value.ToString &
+                            Db.Execute("Update Stock set SAvailablestocks=(SAvailablestocks + " & row.Cells("Qty").Value.ToString &
                                                                                 ") where SNo=" & row.Cells(0).Value.ToString & "")
                         End If
                     Else
-                        CMDUPDATE("Insert into StockSale(SSaNo,SaNo,SCategory,SName,SaType,SaRate,SaUnits,SaTotal) Values(" &
-                                  AutomaticPrimaryKey("StockSale", "SSaNo") & "," & txtSaNo.Text & ",'" &
+                        Db.Execute("Insert into StockSale(SSaNo,SaNo,SCategory,SName,SaType,SaRate,SaUnits,SaTotal) Values(" &
+                                  Db.GetNextKey("StockSale", "SSaNo") & "," & txtSaNo.Text & ",'" &
                                  row.Cells(1).Value.ToString & "','" & row.Cells(2).Value.ToString &
                                   "','" & row.Cells(3).Value.ToString() & "'," & row.Cells(4).Value.ToString() & "," & row.Cells(5).Value.ToString() & "," &
                                   row.Cells(6).Value.ToString() & ");")
@@ -418,9 +411,9 @@ Public Class frmSale
 
     Private Sub cmdDelete_Click(sender As Object, e As EventArgs) Handles cmdDelete.Click
         If MsgBox("Are you sure delete?", vbYesNo + vbInformation) = vbYes Then
-            CMDUPDATE("DELETE from Sale where SaNo=" & txtSaNo.Text)
+            Db.Execute("DELETE from Sale where SaNo=" & txtSaNo.Text)
             WriteActivity("Sale No " & txtSaNo.Text & " was deleted in 'Sale' table on " + DateAndTime.Now)
-            CMDUPDATE("DELETE from StockSale where SaNo=" & txtSaNo.Text)
+            Db.Execute("DELETE from StockSale where SaNo=" & txtSaNo.Text)
             WriteActivity("Sale No " & txtSaNo.Text & " was deleted in 'StockSale' table on " + DateAndTime.Now)
             cmdNew_Click(sender, e)
         End If
@@ -437,8 +430,7 @@ Public Class frmSale
                 My.Computer.Audio.PlaySystemSound(Media.SystemSounds.Hand)
                 'If IsNumeric(grdSale.Item(0, e.RowIndex).Value) = False Then grdSale.Rows.RemoveAt(e.RowIndex)
                 If grdSale.Item(0, e.RowIndex).Value Is Nothing Then Exit Sub
-                CMD = New OleDb.OleDbCommand("Select * from Stock where SNo =" & grdSale.Item(0, e.RowIndex).Value.ToString, CNN)
-                DR = CMD.ExecuteReader
+                Dim DR As OleDbDataReader = Db.GetDataReader("Select * from Stock where SNo =" & grdSale.Item(0, e.RowIndex).Value.ToString)
                 If DR.HasRows = True Then
                     DR.Read()
                     grdSale.Item(1, e.RowIndex).Value = DR("SCategory").ToString
@@ -464,8 +456,7 @@ Public Class frmSale
                 End If
             Case 1, 2
                 frmSearchDropDown.frm_Close()
-                CMD = New OleDb.OleDbCommand("Select * from Stock where SCategory='" & grdSale.Item(1, e.RowIndex).Value & "' and SName='" & grdSale.Item(2, e.RowIndex).Value & "';", CNN)
-                DR = CMD.ExecuteReader()
+                Dim DR As OleDbDataReader = Db.GetDataReader("Select * from Stock where SCategory='" & grdSale.Item(1, e.RowIndex).Value & "' and SName='" & grdSale.Item(2, e.RowIndex).Value & "';")
                 If DR.HasRows = True Then
                     DR.Read()
                     grdSale.Item(0, e.RowIndex).Value = DR("SNo").ToString
@@ -525,12 +516,12 @@ Public Class frmSale
                 Dim tb As TextBox = TryCast(e.Control, TextBox)
                 frmSearchDropDown.passtext(tb)
                 AddHandler tb.KeyUp, AddressOf frmSearchDropDown.dgv_KeyUp
-                frmSearchDropDown.frm_Open(grdSale, Me, "Select SCategory from Stock group by SCategory;", "SCategory")
+                frmSearchDropDown.frm_Open(Db, grdSale, Me, "Select SCategory from Stock group by SCategory;", "SCategory")
             Case 2
                 Dim tb As TextBox = TryCast(e.Control, TextBox)
                 frmSearchDropDown.passtext(tb)
                 AddHandler tb.KeyUp, AddressOf frmSearchDropDown.dgv_KeyUp
-                frmSearchDropDown.frm_Open(grdSale, Me, "Select SCategory,SName from Stock where SCategory ='" & grdSale.Item(1, grdSale.CurrentCell.RowIndex).Value &
+                frmSearchDropDown.frm_Open(Db, grdSale, Me, "Select SCategory,SName from Stock where SCategory ='" & grdSale.Item(1, grdSale.CurrentCell.RowIndex).Value &
                                            "';", "SName")
             Case 0, 5
                 AddHandler CType(e.Control, TextBox).KeyPress, AddressOf TextBoxQty_keyPress
@@ -556,8 +547,7 @@ Public Class frmSale
 
     Private Sub txtCuTelNo1_TextChanged(sender As Object, e As EventArgs) Handles txtCuTelNo1.TextChanged
         If txtCuTelNo1.Text = "          " Or txtCuTelNo1.Tag = "1" Then Exit Sub
-        Dim SaCMD As New OleDb.OleDbCommand("Select * from Customer where CuTelNo1='" & txtCuTelNo1.Text & "' or CuTelNo2='" & txtCuTelNo1.Text & "' or CuTelNo3='" & txtCuTelNo1.Text & "';", CNN)
-        Dim SaDR As OleDb.OleDbDataReader = SaCMD.ExecuteReader()
+        Dim SaDR As OleDbDataReader = Db.GetDataReader("Select * from Customer where CuTelNo1='" & txtCuTelNo1.Text & "' or CuTelNo2='" & txtCuTelNo1.Text & "' or CuTelNo3='" & txtCuTelNo1.Text & "';")
         If SaDR.HasRows = True Then
             txtCuTelNo1.Tag = "1"
             Dim frm As New frmCustomer
@@ -569,15 +559,13 @@ Public Class frmSale
             frm.cmbCuName.Text = SaDR("CuName").ToString
             Call frm.cmbCuName_SelectedIndexChanged(sender, e)
         End If
-        SaCMD.Cancel()
         SaDR.Close()
         txtCuTelNo1.Tag = ""
     End Sub
 
     Private Sub txtCuTelNo2_TextChanged(sender As Object, e As EventArgs) Handles txtCuTelNo2.TextChanged
         If txtCuTelNo2.Text = "          " Or txtCuTelNo1.Tag = "1" Then Exit Sub
-        Dim SaCMD As New OleDb.OleDbCommand("Select * from Customer where CuTelNo1='" & txtCuTelNo2.Text & "' or CuTelNo2='" & txtCuTelNo2.Text & "' or CuTelNo3='" & txtCuTelNo2.Text & "';", CNN)
-        Dim SaDR As OleDb.OleDbDataReader = SaCMD.ExecuteReader()
+        Dim SaDR As OleDb.OleDbDataReader = Db.GetDataReader("Select * from Customer where CuTelNo1='" & txtCuTelNo2.Text & "' or CuTelNo2='" & txtCuTelNo2.Text & "' or CuTelNo3='" & txtCuTelNo2.Text & "';")
         If SaDR.HasRows = True Then
             txtCuTelNo1.Tag = "1"
             Dim frm As New frmCustomer
@@ -589,15 +577,13 @@ Public Class frmSale
             frm.cmbCuName.Text = SaDR("CuName").ToString
             Call frm.cmbCuName_SelectedIndexChanged(sender, e)
         End If
-        SaCMD.Cancel()
         SaDR.Close()
         txtCuTelNo1.Tag = ""
     End Sub
 
     Private Sub txtCuTelNo3_TextChanged(sender As Object, e As EventArgs) Handles txtCuTelNo3.TextChanged
         If txtCuTelNo3.Text = "          " Or txtCuTelNo1.Tag = "1" Then Exit Sub
-        Dim SaCMD As New OleDb.OleDbCommand("Select * from Customer where CuTelNo1='" & txtCuTelNo3.Text & "' or CuTelNo2='" & txtCuTelNo3.Text & "' or CuTelNo3='" & txtCuTelNo3.Text & "';", CNN)
-        Dim SaDR As OleDb.OleDbDataReader = SaCMD.ExecuteReader()
+        Dim SaDR As OleDb.OleDbDataReader = Db.GetDataReader("Select * from Customer where CuTelNo1='" & txtCuTelNo3.Text & "' or CuTelNo2='" & txtCuTelNo3.Text & "' or CuTelNo3='" & txtCuTelNo3.Text & "';")
         If SaDR.HasRows = True Then
             txtCuTelNo1.Tag = "1"
             Dim frm As New frmCustomer
@@ -609,7 +595,6 @@ Public Class frmSale
             frm.cmbCuName.Text = SaDR("CuName").ToString
             Call frm.cmbCuName_SelectedIndexChanged(sender, e)
         End If
-        SaCMD.Cancel()
         SaDR.Close()
         txtCuTelNo1.Tag = ""
     End Sub

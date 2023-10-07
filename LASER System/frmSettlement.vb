@@ -239,9 +239,8 @@ Public Class frmSettlement
             RPT1.Close()
             RPT2.Close()
         Catch ex As Exception
-            CreateMessagePanel("ස්වයංක්‍රීයව දවසේ Settlements Admin ලට යැවෙන Emails ක්‍රියාවිරහිත වී ඇත.",
-        "ස්වයංක්‍රීයව දවසේ Settlements Admin ලට Emails යැවෙන පද්ධතියේ යම් දෝෂයක් නිසා ක්‍රියාවිරහිත වී ඇත." +
-        vbCrLf + vbCrLf + "Message: " + ex.Message + vbCrLf + "මේ පිළිබඳව Software Developer හට දැනුම් දෙන්න.", "SendAdminsSettlementError")
+            Dim MessagePanel As New MessagePanel("ස්වයංක්‍රීයව දවසේ Settlements Admin ලට යැවෙන Emails ක්‍රියාවිරහිත වී ඇත.", "ස්වයංක්‍රීයව දවසේ Settlements Admin ලට Emails යැවෙන පද්ධතියේ යම් දෝෂයක් නිසා ක්‍රියාවිරහිත වී ඇත." + vbCrLf + vbCrLf + "Message: " + ex.Message + vbCrLf + "මේ පිළිබඳව Software Developer හට දැනුම් දෙන්න.", "SendAdminsSettlementError")
+            MessagePanel.Add()
             Exit Sub
         End Try
         Cursor = Cursors.Default

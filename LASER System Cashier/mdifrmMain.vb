@@ -3,9 +3,10 @@ Imports System.IO
 Imports Microsoft.VisualBasic.FileIO
 
 Public Class MdifrmMain
+    Private Db As New Database
     Private Sub mdifrmMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        System.Windows.Forms.Control.CheckForIllegalCrossThreadCalls = False
-        GetCNN()
+        Control.CheckForIllegalCrossThreadCalls = False
+        Db.Connect()
         MenuStrip.Items.Add(mnustrpMENU)
     End Sub
 
@@ -17,7 +18,7 @@ Public Class MdifrmMain
             Dim directoryName As String = SpecialDirectories.MyDocuments + "\LASER System\LASER Background"
             File.Create(directoryName + "\ShutDown.txt")
         End If
-
+        Db.Disconnect()
         BarCodePort.Close()
         End
     End Sub
@@ -302,11 +303,10 @@ Public Class MdifrmMain
         If txtIncomevsDateCustom.Text <> "" Then
             Select Case cmbIncomevsDateView.Text
                 Case "Months"
-                    cmd0 = New OleDb.OleDbCommand("SELECT MonthName(Month(SETDATE)) AS [MonthName],SUM(SETGRANDTOTAL) as [GrandTotal] " &
+                    DR0 = Db.GetDataReader("SELECT MonthName(Month(SETDATE)) AS [MonthName],SUM(SETGRANDTOTAL) as [GrandTotal] " &
                                               ",SUM(REPTOTAL) as [REPTOTAL],SUM(SATOTAL) AS [SATOTAL] " &
                                               "FROM SETTLEMENT where YEAR(SETDATE) = " & txtIncomevsDateCustom.Text & " Group by  " &
-                                              "Month(SETDATE);", CNN)
-                    DR0 = cmd0.ExecuteReader()
+                                              "Month(SETDATE);")
                     If DR0.HasRows = True Then
                         chtIncomevsDate.Series("Total Income vs Date").Points.Clear()
                         chtIncomevsDate.Series("Total Income by Repairs vs Date").Points.Clear()
@@ -318,10 +318,9 @@ Public Class MdifrmMain
                         End While
                     End If
                 Case "Week Days"
-                    cmd0 = New OleDb.OleDbCommand("SELECT WeekDayName(Datepart('w',SETDATE) ) as [WeekDayName], Sum(SETGRANDTotal) as [GrandTotal] " &
+                    DR0 = Db.GetDataReader("SELECT WeekDayName(Datepart('w',SETDATE) ) as [WeekDayName], Sum(SETGRANDTotal) as [GrandTotal] " &
                                               ",SUM(REPTOTAL) as [REPTOTAL],SUM(SATOTAL) AS [SATOTAL] " &
-                                              "FROM SETTLEMENT where MONTH(SETDATE) = " & txtIncomevsDateCustom.Text & " Group by Datepart('w',SETDATE);", CNN)
-                    DR0 = cmd0.ExecuteReader()
+                                              "FROM SETTLEMENT where MONTH(SETDATE) = " & txtIncomevsDateCustom.Text & " Group by Datepart('w',SETDATE);")
                     If DR0.HasRows = True Then
                         chtIncomevsDate.Series("Total Income vs Date").Points.Clear()
                         chtIncomevsDate.Series("Total Income by Repairs vs Date").Points.Clear()
@@ -333,8 +332,7 @@ Public Class MdifrmMain
                         End While
                     End If
                 Case "Days"
-                    cmd0 = New OleDb.OleDbCommand("SELECT TOP " & txtIncomevsDateCustom.Text & " SETDATE,SETGRANDTOTAL,REPTOTAL,SATOTAL FROM SETTLEMENT ORDER BY SETDATE DESC;", CNN)
-                    DR0 = cmd0.ExecuteReader()
+                    DR0 = Db.GetDataReader("SELECT TOP " & txtIncomevsDateCustom.Text & " SETDATE,SETGRANDTOTAL,REPTOTAL,SATOTAL FROM SETTLEMENT ORDER BY SETDATE DESC;")
                     If DR0.HasRows = True Then
                         chtIncomevsDate.Series("Total Income vs Date").Points.Clear()
                         chtIncomevsDate.Series("Total Income by Repairs vs Date").Points.Clear()
@@ -351,10 +349,9 @@ Public Class MdifrmMain
         If txtReceivedRepvsDateCustom.Text <> "" Then
             Select Case cmbReceivedRepvsDateView.Text
                 Case "Months"
-                    cmd0 = New OleDb.OleDbCommand("SELECT MonthName(Month(RDate)) AS [MonthName],SUM(Qty) as [Qty] " &
+                    DR0 = Db.GetDataReader("SELECT MonthName(Month(RDate)) AS [MonthName],SUM(Qty) as [Qty] " &
                                               "FROM Repair REP,Receive R where R.RNo = REP.RNo AND YEAR(RDATE) = " &
-                                              txtReceivedRepvsDateCustom.Text & " Group by " & "Month(RDATE);", CNN)
-                    DR0 = cmd0.ExecuteReader()
+                                              txtReceivedRepvsDateCustom.Text & " Group by " & "Month(RDATE);")
                     If DR0.HasRows = True Then
                         chtReceivedRepvsDate.Series("Qty of Received Repairs vs Date").Points.Clear()
                         While DR0.Read()
@@ -362,9 +359,8 @@ Public Class MdifrmMain
                         End While
                     End If
                 Case "Week Days"
-                    cmd0 = New OleDb.OleDbCommand("SELECT WeekDayName(Datepart('w',RDATE) ) as [WeekDayName], Sum(Qty) as [Qty] " &
-                                              "FROM Repair REP,Receive R where R.RNo = REP.RNO and MONTH(RDATE) = " & txtReceivedRepvsDateCustom.Text & " Group by Datepart('w',RDATE);", CNN)
-                    DR0 = cmd0.ExecuteReader()
+                    DR0 = Db.GetDataReader("SELECT WeekDayName(Datepart('w',RDATE) ) as [WeekDayName], Sum(Qty) as [Qty] " &
+                                              "FROM Repair REP,Receive R where R.RNo = REP.RNO and MONTH(RDATE) = " & txtReceivedRepvsDateCustom.Text & " Group by Datepart('w',RDATE);")
                     If DR0.HasRows = True Then
                         chtReceivedRepvsDate.Series("Qty of Received Repairs vs Date").Points.Clear()
                         While DR0.Read()
@@ -372,8 +368,7 @@ Public Class MdifrmMain
                         End While
                     End If
                 Case "Days"
-                    cmd0 = New OleDb.OleDbCommand("SELECT TOP " & txtReceivedRepvsDateCustom.Text & " DATEVALUE(RDATE) AS [RECEIVEDDATE],SUM(Qty) as [TOTALQty] FROM REPAIR REP,RECEIVE R WHERE R.RNO = REP.RNO GROUP BY DATEVALUE(RDATE) ORDER BY DATEVALUE(RDATE) DESC;", CNN)
-                    DR0 = cmd0.ExecuteReader()
+                    DR0 = Db.GetDataReader("SELECT TOP " & txtReceivedRepvsDateCustom.Text & " DATEVALUE(RDATE) AS [RECEIVEDDATE],SUM(Qty) as [TOTALQty] FROM REPAIR REP,RECEIVE R WHERE R.RNO = REP.RNO GROUP BY DATEVALUE(RDATE) ORDER BY DATEVALUE(RDATE) DESC;")
                     If DR0.HasRows = True Then
                         chtReceivedRepvsDate.Series("Qty of Received Repairs vs Date").Points.Clear()
                         While DR0.Read()
@@ -398,21 +393,17 @@ Public Class MdifrmMain
     Private Sub bgworker_DoWork(sender As Object, e As DoWorkEventArgs) Handles bgwMainMenu.DoWork
         If Me.Tag = "Admin" Then
             Dim cmd0 As New OleDb.OleDbCommand
-            Dim DR0 As OleDb.OleDbDataReader
-            cmd0 = New OleDb.OleDbCommand("SELECT R.RNO, RDATE, REPNO FROM RECEIVE R,REPAIR REP WHERE REP.RNO = R.RNO AND RDATE=#" & Today.Date.ToString & "#;", CNN)
-            DR0 = cmd0.ExecuteReader()
+            Dim DR0 As OleDb.OleDbDataReader = Db.GetDataReader("SELECT R.RNO, RDATE, REPNO FROM RECEIVE R,REPAIR REP WHERE REP.RNO = R.RNO AND RDATE=#" & Today.Date.ToString & "#;")
             lblQtyRRepNo.Text = "0"
             While DR0.Read
                 lblQtyRRepNo.Text += 1
             End While
-            cmd0 = New OleDb.OleDbCommand("SELECT R.RNO, RDATE, RETNO FROM RECEIVE R,RETURN RET WHERE RET.RNO = R.RNO AND RDATE=#" & Today.Date.ToString & "#;", CNN)
-            DR0 = cmd0.ExecuteReader()
+            DR0 = Db.GetDataReader("SELECT R.RNO, RDATE, RETNO FROM RECEIVE R,RETURN RET WHERE RET.RNO = R.RNO AND RDATE=#" & Today.Date.ToString & "#;")
             lblQtyRRetNo.Text = "0"
             While DR0.Read
                 lblQtyRRetNo.Text += 1
             End While
-            cmd0 = New OleDb.OleDbCommand("SELECT SANO, SADATE, SADUE FROM [SALE] WHERE SADATE=#" & Today.Date.ToString & "# UNION SELECT DNO, DDATE, DGRANDTOTAL FROM [DELIVER] WHERE DDATE=#" & Today.Date.ToString & "# UNION SELECT TANo,TADAte,TAAmount from [Transaction] where TADAte=#" & Today.Date.ToString & "#;", CNN)
-            DR0 = cmd0.ExecuteReader()
+            DR0 = Db.GetDataReader("SELECT SANO, SADATE, SADUE FROM [SALE] WHERE SADATE=#" & Today.Date.ToString & "# UNION SELECT DNO, DDATE, DGRANDTOTAL FROM [DELIVER] WHERE DDATE=#" & Today.Date.ToString & "# UNION SELECT TANo,TADAte,TAAmount from [Transaction] where TADAte=#" & Today.Date.ToString & "#;")
             Dim x As Integer = 0
             While DR0.Read
                 x += Int(DR0("SADUE").ToString)

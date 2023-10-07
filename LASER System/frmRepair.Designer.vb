@@ -197,7 +197,7 @@ Partial Class frmRepair
         Me.txtRNo.Enabled = False
         Me.txtRNo.Location = New System.Drawing.Point(314, 21)
         Me.txtRNo.Name = "txtRNo"
-        Me.txtRNo.Size = New System.Drawing.Size(45, 22)
+        Me.txtRNo.Size = New System.Drawing.Size(45, 26)
         Me.txtRNo.TabIndex = 5
         Me.txtRNo.Visible = False
         '
@@ -207,7 +207,7 @@ Partial Class frmRepair
         Me.txtRDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
         Me.txtRDate.Location = New System.Drawing.Point(104, 21)
         Me.txtRDate.Name = "txtRDate"
-        Me.txtRDate.Size = New System.Drawing.Size(204, 22)
+        Me.txtRDate.Size = New System.Drawing.Size(204, 26)
         Me.txtRDate.TabIndex = 7
         '
         'Label2
@@ -215,7 +215,7 @@ Partial Class frmRepair
         Me.Label2.AutoSize = True
         Me.Label2.Location = New System.Drawing.Point(6, 27)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(88, 14)
+        Me.Label2.Size = New System.Drawing.Size(101, 18)
         Me.Label2.TabIndex = 2
         Me.Label2.Text = "Received Date:"
         '
@@ -243,7 +243,7 @@ Partial Class frmRepair
         Me.cmbCuName.FormattingEnabled = True
         Me.cmbCuName.Location = New System.Drawing.Point(63, 18)
         Me.cmbCuName.Name = "cmbCuName"
-        Me.cmbCuName.Size = New System.Drawing.Size(267, 22)
+        Me.cmbCuName.Size = New System.Drawing.Size(267, 26)
         Me.cmbCuName.TabIndex = 8
         '
         'cmdCuView
@@ -261,7 +261,7 @@ Partial Class frmRepair
         Me.txtCuTelNo3.Location = New System.Drawing.Point(112, 108)
         Me.txtCuTelNo3.Mask = "999 0 000 000"
         Me.txtCuTelNo3.Name = "txtCuTelNo3"
-        Me.txtCuTelNo3.Size = New System.Drawing.Size(92, 22)
+        Me.txtCuTelNo3.Size = New System.Drawing.Size(92, 26)
         Me.txtCuTelNo3.TabIndex = 12
         '
         'Label12
@@ -269,7 +269,7 @@ Partial Class frmRepair
         Me.Label12.AutoSize = True
         Me.Label12.Location = New System.Drawing.Point(10, 111)
         Me.Label12.Name = "Label12"
-        Me.Label12.Size = New System.Drawing.Size(98, 14)
+        Me.Label12.Size = New System.Drawing.Size(112, 18)
         Me.Label12.TabIndex = 39
         Me.Label12.Text = "Telephone No 3 :"
         '
@@ -279,7 +279,7 @@ Partial Class frmRepair
         Me.txtCuTelNo2.Location = New System.Drawing.Point(112, 78)
         Me.txtCuTelNo2.Mask = "999 0 000 000"
         Me.txtCuTelNo2.Name = "txtCuTelNo2"
-        Me.txtCuTelNo2.Size = New System.Drawing.Size(92, 22)
+        Me.txtCuTelNo2.Size = New System.Drawing.Size(92, 26)
         Me.txtCuTelNo2.TabIndex = 11
         '
         'Label11
@@ -287,7 +287,7 @@ Partial Class frmRepair
         Me.Label11.AutoSize = True
         Me.Label11.Location = New System.Drawing.Point(8, 80)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(98, 14)
+        Me.Label11.Size = New System.Drawing.Size(112, 18)
         Me.Label11.TabIndex = 37
         Me.Label11.Text = "Telephone No 2 :"
         '
@@ -297,7 +297,7 @@ Partial Class frmRepair
         Me.txtCuTelNo1.Location = New System.Drawing.Point(112, 46)
         Me.txtCuTelNo1.Mask = "999 0 000 000"
         Me.txtCuTelNo1.Name = "txtCuTelNo1"
-        Me.txtCuTelNo1.Size = New System.Drawing.Size(92, 22)
+        Me.txtCuTelNo1.Size = New System.Drawing.Size(92, 26)
         Me.txtCuTelNo1.TabIndex = 10
         '
         'txtCuNo
@@ -305,7 +305,7 @@ Partial Class frmRepair
         Me.txtCuNo.Enabled = False
         Me.txtCuNo.Location = New System.Drawing.Point(314, 111)
         Me.txtCuNo.Name = "txtCuNo"
-        Me.txtCuNo.Size = New System.Drawing.Size(46, 22)
+        Me.txtCuNo.Size = New System.Drawing.Size(46, 26)
         Me.txtCuNo.TabIndex = 35
         Me.txtCuNo.Visible = False
         '
@@ -314,7 +314,7 @@ Partial Class frmRepair
         Me.Label4.AutoSize = True
         Me.Label4.Location = New System.Drawing.Point(8, 49)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(98, 14)
+        Me.Label4.Size = New System.Drawing.Size(112, 18)
         Me.Label4.TabIndex = 21
         Me.Label4.Text = "Telephone No 1 :"
         '
@@ -323,7 +323,7 @@ Partial Class frmRepair
         Me.Label5.AutoSize = True
         Me.Label5.Location = New System.Drawing.Point(12, 18)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(45, 14)
+        Me.Label5.Size = New System.Drawing.Size(52, 18)
         Me.Label5.TabIndex = 19
         Me.Label5.Text = "Name :"
         '
@@ -364,7 +364,7 @@ Partial Class frmRepair
         Me.txtPQty.Enabled = False
         Me.txtPQty.Location = New System.Drawing.Point(72, 170)
         Me.txtPQty.Name = "txtPQty"
-        Me.txtPQty.Size = New System.Drawing.Size(35, 22)
+        Me.txtPQty.Size = New System.Drawing.Size(35, 26)
         Me.txtPQty.TabIndex = 19
         '
         'Label10
@@ -372,7 +372,7 @@ Partial Class frmRepair
         Me.Label10.AutoSize = True
         Me.Label10.Location = New System.Drawing.Point(6, 173)
         Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(55, 14)
+        Me.Label10.Size = New System.Drawing.Size(65, 18)
         Me.Label10.TabIndex = 60
         Me.Label10.Text = "Quantity:"
         '
@@ -380,7 +380,7 @@ Partial Class frmRepair
         '
         Me.txtPSerialNo.Location = New System.Drawing.Point(242, 73)
         Me.txtPSerialNo.Name = "txtPSerialNo"
-        Me.txtPSerialNo.Size = New System.Drawing.Size(121, 22)
+        Me.txtPSerialNo.Size = New System.Drawing.Size(121, 26)
         Me.txtPSerialNo.TabIndex = 17
         '
         'Label8
@@ -388,7 +388,7 @@ Partial Class frmRepair
         Me.Label8.AutoSize = True
         Me.Label8.Location = New System.Drawing.Point(177, 76)
         Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(60, 14)
+        Me.Label8.Size = New System.Drawing.Size(68, 18)
         Me.Label8.TabIndex = 57
         Me.Label8.Text = "Serial No:"
         '
@@ -409,7 +409,7 @@ Partial Class frmRepair
         Me.txtPNo.Enabled = False
         Me.txtPNo.Location = New System.Drawing.Point(317, 170)
         Me.txtPNo.Name = "txtPNo"
-        Me.txtPNo.Size = New System.Drawing.Size(45, 22)
+        Me.txtPNo.Size = New System.Drawing.Size(45, 26)
         Me.txtPNo.TabIndex = 20
         Me.txtPNo.Visible = False
         '
@@ -418,7 +418,7 @@ Partial Class frmRepair
         Me.cmbPName.FormattingEnabled = True
         Me.cmbPName.Location = New System.Drawing.Point(72, 46)
         Me.cmbPName.Name = "cmbPName"
-        Me.cmbPName.Size = New System.Drawing.Size(291, 22)
+        Me.cmbPName.Size = New System.Drawing.Size(291, 26)
         Me.cmbPName.TabIndex = 15
         '
         'cmbPCategory
@@ -426,7 +426,7 @@ Partial Class frmRepair
         Me.cmbPCategory.FormattingEnabled = True
         Me.cmbPCategory.Location = New System.Drawing.Point(72, 17)
         Me.cmbPCategory.Name = "cmbPCategory"
-        Me.cmbPCategory.Size = New System.Drawing.Size(258, 22)
+        Me.cmbPCategory.Size = New System.Drawing.Size(258, 26)
         Me.cmbPCategory.TabIndex = 13
         '
         'txtPModelNo
@@ -434,7 +434,7 @@ Partial Class frmRepair
         Me.txtPModelNo.Enabled = False
         Me.txtPModelNo.Location = New System.Drawing.Point(72, 73)
         Me.txtPModelNo.Name = "txtPModelNo"
-        Me.txtPModelNo.Size = New System.Drawing.Size(100, 22)
+        Me.txtPModelNo.Size = New System.Drawing.Size(100, 26)
         Me.txtPModelNo.TabIndex = 16
         '
         'Label14
@@ -442,7 +442,7 @@ Partial Class frmRepair
         Me.Label14.AutoSize = True
         Me.Label14.Location = New System.Drawing.Point(6, 104)
         Me.Label14.Name = "Label14"
-        Me.Label14.Size = New System.Drawing.Size(50, 14)
+        Me.Label14.Size = New System.Drawing.Size(55, 18)
         Me.Label14.TabIndex = 49
         Me.Label14.Text = "Details:"
         '
@@ -451,7 +451,7 @@ Partial Class frmRepair
         Me.Label15.AutoSize = True
         Me.Label15.Location = New System.Drawing.Point(6, 76)
         Me.Label15.Name = "Label15"
-        Me.Label15.Size = New System.Drawing.Size(63, 14)
+        Me.Label15.Size = New System.Drawing.Size(73, 18)
         Me.Label15.TabIndex = 48
         Me.Label15.Text = "Model No:"
         '
@@ -460,7 +460,7 @@ Partial Class frmRepair
         Me.Label17.AutoSize = True
         Me.Label17.Location = New System.Drawing.Point(6, 48)
         Me.Label17.Name = "Label17"
-        Me.Label17.Size = New System.Drawing.Size(45, 14)
+        Me.Label17.Size = New System.Drawing.Size(52, 18)
         Me.Label17.TabIndex = 47
         Me.Label17.Text = "Name :"
         '
@@ -469,7 +469,7 @@ Partial Class frmRepair
         Me.Label18.AutoSize = True
         Me.Label18.Location = New System.Drawing.Point(6, 20)
         Me.Label18.Name = "Label18"
-        Me.Label18.Size = New System.Drawing.Size(59, 14)
+        Me.Label18.Size = New System.Drawing.Size(70, 18)
         Me.Label18.TabIndex = 46
         Me.Label18.Text = "Category :"
         '
@@ -489,7 +489,7 @@ Partial Class frmRepair
         Me.lblPProblem.AutoSize = True
         Me.lblPProblem.Location = New System.Drawing.Point(14, 567)
         Me.lblPProblem.Name = "lblPProblem"
-        Me.lblPProblem.Size = New System.Drawing.Size(55, 14)
+        Me.lblPProblem.Size = New System.Drawing.Size(65, 18)
         Me.lblPProblem.TabIndex = 62
         Me.lblPProblem.Text = "Problem:"
         '
@@ -503,7 +503,7 @@ Partial Class frmRepair
         Me.boxTechnician.Cursor = System.Windows.Forms.Cursors.Default
         Me.boxTechnician.Location = New System.Drawing.Point(6, 187)
         Me.boxTechnician.Name = "boxTechnician"
-        Me.boxTechnician.Size = New System.Drawing.Size(660, 50)
+        Me.boxTechnician.Size = New System.Drawing.Size(664, 50)
         Me.boxTechnician.TabIndex = 32
         Me.boxTechnician.TabStop = False
         Me.boxTechnician.Text = "Technician Info"
@@ -522,7 +522,7 @@ Partial Class frmRepair
         Me.cmbTName.FormattingEnabled = True
         Me.cmbTName.Location = New System.Drawing.Point(60, 19)
         Me.cmbTName.Name = "cmbTName"
-        Me.cmbTName.Size = New System.Drawing.Size(218, 22)
+        Me.cmbTName.Size = New System.Drawing.Size(218, 26)
         Me.cmbTName.TabIndex = 24
         '
         'Label19
@@ -530,7 +530,7 @@ Partial Class frmRepair
         Me.Label19.AutoSize = True
         Me.Label19.Location = New System.Drawing.Point(6, 21)
         Me.Label19.Name = "Label19"
-        Me.Label19.Size = New System.Drawing.Size(48, 14)
+        Me.Label19.Size = New System.Drawing.Size(55, 18)
         Me.Label19.TabIndex = 0
         Me.Label19.Text = "Name : "
         '
@@ -565,7 +565,7 @@ Partial Class frmRepair
         Me.txtRepDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
         Me.txtRepDate.Location = New System.Drawing.Point(100, 49)
         Me.txtRepDate.Name = "txtRepDate"
-        Me.txtRepDate.Size = New System.Drawing.Size(162, 22)
+        Me.txtRepDate.Size = New System.Drawing.Size(162, 26)
         Me.txtRepDate.TabIndex = 29
         '
         'Label27
@@ -573,7 +573,7 @@ Partial Class frmRepair
         Me.Label27.AutoSize = True
         Me.Label27.Location = New System.Drawing.Point(5, 51)
         Me.Label27.Name = "Label27"
-        Me.Label27.Size = New System.Drawing.Size(89, 14)
+        Me.Label27.Size = New System.Drawing.Size(100, 18)
         Me.Label27.TabIndex = 2
         Me.Label27.Text = "Repaired Date:"
         '
@@ -581,7 +581,7 @@ Partial Class frmRepair
         '
         Me.txtRepPrice.Location = New System.Drawing.Point(84, 21)
         Me.txtRepPrice.Name = "txtRepPrice"
-        Me.txtRepPrice.Size = New System.Drawing.Size(73, 22)
+        Me.txtRepPrice.Size = New System.Drawing.Size(73, 26)
         Me.txtRepPrice.TabIndex = 28
         '
         'Label3
@@ -589,7 +589,7 @@ Partial Class frmRepair
         Me.Label3.AutoSize = True
         Me.Label3.Location = New System.Drawing.Point(6, 24)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(47, 14)
+        Me.Label3.Size = New System.Drawing.Size(55, 18)
         Me.Label3.TabIndex = 0
         Me.Label3.Text = "Charge:"
         '
@@ -598,7 +598,7 @@ Partial Class frmRepair
         Me.lblRepRemarks1.AutoSize = True
         Me.lblRepRemarks1.Location = New System.Drawing.Point(4, 31)
         Me.lblRepRemarks1.Name = "lblRepRemarks1"
-        Me.lblRepRemarks1.Size = New System.Drawing.Size(131, 14)
+        Me.lblRepRemarks1.Size = New System.Drawing.Size(153, 18)
         Me.lblRepRemarks1.TabIndex = 36
         Me.lblRepRemarks1.Text = "Remarks(by Customer):"
         '
@@ -656,10 +656,10 @@ Partial Class frmRepair
         Me.RepInfo.Controls.Add(Me.cmbRepStatus)
         Me.RepInfo.Controls.Add(Me.Label7)
         Me.RepInfo.Controls.Add(Me.Label6)
-        Me.RepInfo.Location = New System.Drawing.Point(4, 23)
+        Me.RepInfo.Location = New System.Drawing.Point(4, 27)
         Me.RepInfo.Name = "RepInfo"
         Me.RepInfo.Padding = New System.Windows.Forms.Padding(3)
-        Me.RepInfo.Size = New System.Drawing.Size(358, 87)
+        Me.RepInfo.Size = New System.Drawing.Size(358, 83)
         Me.RepInfo.TabIndex = 0
         Me.RepInfo.Text = "Repair Info"
         Me.RepInfo.UseVisualStyleBackColor = True
@@ -678,7 +678,7 @@ Partial Class frmRepair
         Me.cmbRepNo.FormattingEnabled = True
         Me.cmbRepNo.Location = New System.Drawing.Point(76, 6)
         Me.cmbRepNo.Name = "cmbRepNo"
-        Me.cmbRepNo.Size = New System.Drawing.Size(116, 22)
+        Me.cmbRepNo.Size = New System.Drawing.Size(116, 26)
         Me.cmbRepNo.TabIndex = 0
         '
         'cmbRepStatus
@@ -688,7 +688,7 @@ Partial Class frmRepair
         Me.cmbRepStatus.Items.AddRange(New Object() {"Received", "Hand Over to Technician", "Repairing", "Repaired Not Delivered", "Repaired Delivered", "Returned Not Delivered", "Returned Delivered", "Canceled"})
         Me.cmbRepStatus.Location = New System.Drawing.Point(76, 34)
         Me.cmbRepStatus.Name = "cmbRepStatus"
-        Me.cmbRepStatus.Size = New System.Drawing.Size(228, 22)
+        Me.cmbRepStatus.Size = New System.Drawing.Size(228, 26)
         Me.cmbRepStatus.TabIndex = 2
         '
         'Label7
@@ -696,7 +696,7 @@ Partial Class frmRepair
         Me.Label7.AutoSize = True
         Me.Label7.Location = New System.Drawing.Point(6, 34)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(44, 14)
+        Me.Label7.Size = New System.Drawing.Size(50, 18)
         Me.Label7.TabIndex = 7
         Me.Label7.Text = "Status:"
         '
@@ -705,7 +705,7 @@ Partial Class frmRepair
         Me.Label6.AutoSize = True
         Me.Label6.Location = New System.Drawing.Point(6, 6)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(64, 14)
+        Me.Label6.Size = New System.Drawing.Size(73, 18)
         Me.Label6.TabIndex = 6
         Me.Label6.Text = "Repair No:"
         '
@@ -718,10 +718,10 @@ Partial Class frmRepair
         Me.RetInfo.Controls.Add(Me.cmbRetStatus)
         Me.RetInfo.Controls.Add(Me.Label29)
         Me.RetInfo.Controls.Add(Me.Label30)
-        Me.RetInfo.Location = New System.Drawing.Point(4, 23)
+        Me.RetInfo.Location = New System.Drawing.Point(4, 27)
         Me.RetInfo.Name = "RetInfo"
         Me.RetInfo.Padding = New System.Windows.Forms.Padding(3)
-        Me.RetInfo.Size = New System.Drawing.Size(358, 87)
+        Me.RetInfo.Size = New System.Drawing.Size(358, 83)
         Me.RetInfo.TabIndex = 1
         Me.RetInfo.Text = "ReRepair Info"
         Me.RetInfo.UseVisualStyleBackColor = True
@@ -731,7 +731,7 @@ Partial Class frmRepair
         Me.cmbRetRepNo.FormattingEnabled = True
         Me.cmbRetRepNo.Location = New System.Drawing.Point(279, 6)
         Me.cmbRetRepNo.Name = "cmbRetRepNo"
-        Me.cmbRetRepNo.Size = New System.Drawing.Size(73, 22)
+        Me.cmbRetRepNo.Size = New System.Drawing.Size(73, 26)
         Me.cmbRetRepNo.TabIndex = 5
         '
         'cmbRetNo
@@ -739,7 +739,7 @@ Partial Class frmRepair
         Me.cmbRetNo.FormattingEnabled = True
         Me.cmbRetNo.Location = New System.Drawing.Point(90, 6)
         Me.cmbRetNo.Name = "cmbRetNo"
-        Me.cmbRetNo.Size = New System.Drawing.Size(83, 22)
+        Me.cmbRetNo.Size = New System.Drawing.Size(83, 26)
         Me.cmbRetNo.TabIndex = 3
         '
         'Label34
@@ -747,7 +747,7 @@ Partial Class frmRepair
         Me.Label34.AutoSize = True
         Me.Label34.Location = New System.Drawing.Point(206, 10)
         Me.Label34.Name = "Label34"
-        Me.Label34.Size = New System.Drawing.Size(67, 14)
+        Me.Label34.Size = New System.Drawing.Size(76, 18)
         Me.Label34.TabIndex = 36
         Me.Label34.Text = "Repair No :"
         '
@@ -767,7 +767,7 @@ Partial Class frmRepair
         Me.cmbRetStatus.Items.AddRange(New Object() {"Received", "Hand Over to Technician", "Repairing", "Repaired Not Delivered", "Repaired Delivered", "Returned Not Delivered", "Returned Delivered"})
         Me.cmbRetStatus.Location = New System.Drawing.Point(79, 34)
         Me.cmbRetStatus.Name = "cmbRetStatus"
-        Me.cmbRetStatus.Size = New System.Drawing.Size(228, 22)
+        Me.cmbRetStatus.Size = New System.Drawing.Size(228, 26)
         Me.cmbRetStatus.TabIndex = 6
         '
         'Label29
@@ -775,7 +775,7 @@ Partial Class frmRepair
         Me.Label29.AutoSize = True
         Me.Label29.Location = New System.Drawing.Point(6, 34)
         Me.Label29.Name = "Label29"
-        Me.Label29.Size = New System.Drawing.Size(44, 14)
+        Me.Label29.Size = New System.Drawing.Size(50, 18)
         Me.Label29.TabIndex = 7
         Me.Label29.Text = "Status:"
         '
@@ -784,7 +784,7 @@ Partial Class frmRepair
         Me.Label30.AutoSize = True
         Me.Label30.Location = New System.Drawing.Point(8, 9)
         Me.Label30.Name = "Label30"
-        Me.Label30.Size = New System.Drawing.Size(78, 14)
+        Me.Label30.Size = New System.Drawing.Size(89, 18)
         Me.Label30.TabIndex = 6
         Me.Label30.Text = "ReRepair No:"
         '
@@ -820,7 +820,7 @@ Partial Class frmRepair
         Me.txtDPaidPrice.Enabled = False
         Me.txtDPaidPrice.Location = New System.Drawing.Point(104, 49)
         Me.txtDPaidPrice.Name = "txtDPaidPrice"
-        Me.txtDPaidPrice.Size = New System.Drawing.Size(89, 22)
+        Me.txtDPaidPrice.Size = New System.Drawing.Size(89, 26)
         Me.txtDPaidPrice.TabIndex = 31
         '
         'Label21
@@ -828,7 +828,7 @@ Partial Class frmRepair
         Me.Label21.AutoSize = True
         Me.Label21.Location = New System.Drawing.Point(7, 52)
         Me.Label21.Name = "Label21"
-        Me.Label21.Size = New System.Drawing.Size(63, 14)
+        Me.Label21.Size = New System.Drawing.Size(73, 18)
         Me.Label21.TabIndex = 74
         Me.Label21.Text = "Paid Price:"
         '
@@ -839,7 +839,7 @@ Partial Class frmRepair
         Me.txtDDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
         Me.txtDDate.Location = New System.Drawing.Point(104, 21)
         Me.txtDDate.Name = "txtDDate"
-        Me.txtDDate.Size = New System.Drawing.Size(163, 22)
+        Me.txtDDate.Size = New System.Drawing.Size(163, 26)
         Me.txtDDate.TabIndex = 30
         '
         'txtDNo
@@ -847,7 +847,7 @@ Partial Class frmRepair
         Me.txtDNo.Enabled = False
         Me.txtDNo.Location = New System.Drawing.Point(269, 49)
         Me.txtDNo.Name = "txtDNo"
-        Me.txtDNo.Size = New System.Drawing.Size(53, 22)
+        Me.txtDNo.Size = New System.Drawing.Size(53, 26)
         Me.txtDNo.TabIndex = 7
         Me.txtDNo.Visible = False
         '
@@ -856,7 +856,7 @@ Partial Class frmRepair
         Me.Label31.AutoSize = True
         Me.Label31.Location = New System.Drawing.Point(6, 25)
         Me.Label31.Name = "Label31"
-        Me.Label31.Size = New System.Drawing.Size(92, 14)
+        Me.Label31.Size = New System.Drawing.Size(105, 18)
         Me.Label31.TabIndex = 1
         Me.Label31.Text = "Delivered Date:"
         '
@@ -865,17 +865,18 @@ Partial Class frmRepair
         Me.lblRepRemarks2.AutoSize = True
         Me.lblRepRemarks2.Location = New System.Drawing.Point(6, 240)
         Me.lblRepRemarks2.Name = "lblRepRemarks2"
-        Me.lblRepRemarks2.Size = New System.Drawing.Size(138, 14)
+        Me.lblRepRemarks2.Size = New System.Drawing.Size(158, 18)
         Me.lblRepRemarks2.TabIndex = 65
         Me.lblRepRemarks2.Text = "Remarks(by Technician):"
         '
         'MenuStrip
         '
         Me.MenuStrip.BackColor = System.Drawing.Color.Yellow
+        Me.MenuStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.MenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OPTIONToolStripMenuItem, Me.VIEWToolStripMenuItem, Me.PRINTToolStripMenuItem})
         Me.MenuStrip.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip.Name = "MenuStrip"
-        Me.MenuStrip.Size = New System.Drawing.Size(1172, 24)
+        Me.MenuStrip.Size = New System.Drawing.Size(1172, 28)
         Me.MenuStrip.TabIndex = 67
         Me.MenuStrip.Text = "MenuStrip1"
         '
@@ -883,7 +884,7 @@ Partial Class frmRepair
         '
         Me.OPTIONToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DoneToolStripMenuItem, Me.UpdateToolStripMenuItem, Me.DeleteToolStripMenuItem, Me.CloseToolStripMenuItem})
         Me.OPTIONToolStripMenuItem.Name = "OPTIONToolStripMenuItem"
-        Me.OPTIONToolStripMenuItem.Size = New System.Drawing.Size(62, 20)
+        Me.OPTIONToolStripMenuItem.Size = New System.Drawing.Size(76, 24)
         Me.OPTIONToolStripMenuItem.Text = "OPTION"
         '
         'DoneToolStripMenuItem
@@ -891,54 +892,54 @@ Partial Class frmRepair
         Me.DoneToolStripMenuItem.Name = "DoneToolStripMenuItem"
         Me.DoneToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
             Or System.Windows.Forms.Keys.D), System.Windows.Forms.Keys)
-        Me.DoneToolStripMenuItem.Size = New System.Drawing.Size(176, 22)
+        Me.DoneToolStripMenuItem.Size = New System.Drawing.Size(221, 26)
         Me.DoneToolStripMenuItem.Text = "Done"
         '
         'UpdateToolStripMenuItem
         '
         Me.UpdateToolStripMenuItem.Name = "UpdateToolStripMenuItem"
         Me.UpdateToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
-        Me.UpdateToolStripMenuItem.Size = New System.Drawing.Size(176, 22)
+        Me.UpdateToolStripMenuItem.Size = New System.Drawing.Size(221, 26)
         Me.UpdateToolStripMenuItem.Text = "Update"
         '
         'DeleteToolStripMenuItem
         '
         Me.DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem"
         Me.DeleteToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.D), System.Windows.Forms.Keys)
-        Me.DeleteToolStripMenuItem.Size = New System.Drawing.Size(176, 22)
+        Me.DeleteToolStripMenuItem.Size = New System.Drawing.Size(221, 26)
         Me.DeleteToolStripMenuItem.Text = "Delete"
         '
         'CloseToolStripMenuItem
         '
         Me.CloseToolStripMenuItem.Name = "CloseToolStripMenuItem"
         Me.CloseToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.F4), System.Windows.Forms.Keys)
-        Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(176, 22)
+        Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(221, 26)
         Me.CloseToolStripMenuItem.Text = "Close"
         '
         'VIEWToolStripMenuItem
         '
         Me.VIEWToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MessageCenterToolStripMenuItem, Me.RepairInfoToolStripMenuItem})
         Me.VIEWToolStripMenuItem.Name = "VIEWToolStripMenuItem"
-        Me.VIEWToolStripMenuItem.Size = New System.Drawing.Size(46, 20)
+        Me.VIEWToolStripMenuItem.Size = New System.Drawing.Size(58, 24)
         Me.VIEWToolStripMenuItem.Text = "VIEW"
         '
         'MessageCenterToolStripMenuItem
         '
         Me.MessageCenterToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MessageToolStripMenuItem, Me.MessageToCustomerForRepairedProductsToolStripMenuItem})
         Me.MessageCenterToolStripMenuItem.Name = "MessageCenterToolStripMenuItem"
-        Me.MessageCenterToolStripMenuItem.Size = New System.Drawing.Size(204, 22)
+        Me.MessageCenterToolStripMenuItem.Size = New System.Drawing.Size(256, 26)
         Me.MessageCenterToolStripMenuItem.Text = "Message Center"
         '
         'MessageToolStripMenuItem
         '
         Me.MessageToolStripMenuItem.Name = "MessageToolStripMenuItem"
-        Me.MessageToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
+        Me.MessageToolStripMenuItem.Size = New System.Drawing.Size(191, 26)
         Me.MessageToolStripMenuItem.Text = "Message"
         '
         'MessageToCustomerForRepairedProductsToolStripMenuItem
         '
         Me.MessageToCustomerForRepairedProductsToolStripMenuItem.Name = "MessageToCustomerForRepairedProductsToolStripMenuItem"
-        Me.MessageToCustomerForRepairedProductsToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
+        Me.MessageToCustomerForRepairedProductsToolStripMenuItem.Size = New System.Drawing.Size(191, 26)
         Me.MessageToCustomerForRepairedProductsToolStripMenuItem.Text = "Batch Message"
         '
         'RepairInfoToolStripMenuItem
@@ -946,32 +947,32 @@ Partial Class frmRepair
         Me.RepairInfoToolStripMenuItem.Name = "RepairInfoToolStripMenuItem"
         Me.RepairInfoToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
             Or System.Windows.Forms.Keys.R), System.Windows.Forms.Keys)
-        Me.RepairInfoToolStripMenuItem.Size = New System.Drawing.Size(204, 22)
+        Me.RepairInfoToolStripMenuItem.Size = New System.Drawing.Size(256, 26)
         Me.RepairInfoToolStripMenuItem.Text = "Repair Info"
         '
         'PRINTToolStripMenuItem
         '
         Me.PRINTToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PrintReceivedReceiptToolStripMenuItem, Me.PrintRepairStickerToolStripMenuItem, Me.PrintDeliverReceiptToolStripMenuItem})
         Me.PRINTToolStripMenuItem.Name = "PRINTToolStripMenuItem"
-        Me.PRINTToolStripMenuItem.Size = New System.Drawing.Size(51, 20)
+        Me.PRINTToolStripMenuItem.Size = New System.Drawing.Size(63, 24)
         Me.PRINTToolStripMenuItem.Text = "PRINT"
         '
         'PrintReceivedReceiptToolStripMenuItem
         '
         Me.PrintReceivedReceiptToolStripMenuItem.Name = "PrintReceivedReceiptToolStripMenuItem"
-        Me.PrintReceivedReceiptToolStripMenuItem.Size = New System.Drawing.Size(191, 22)
+        Me.PrintReceivedReceiptToolStripMenuItem.Size = New System.Drawing.Size(240, 26)
         Me.PrintReceivedReceiptToolStripMenuItem.Text = "Print Received Receipt"
         '
         'PrintRepairStickerToolStripMenuItem
         '
         Me.PrintRepairStickerToolStripMenuItem.Name = "PrintRepairStickerToolStripMenuItem"
-        Me.PrintRepairStickerToolStripMenuItem.Size = New System.Drawing.Size(191, 22)
+        Me.PrintRepairStickerToolStripMenuItem.Size = New System.Drawing.Size(240, 26)
         Me.PrintRepairStickerToolStripMenuItem.Text = "Print Repair Sticker"
         '
         'PrintDeliverReceiptToolStripMenuItem
         '
         Me.PrintDeliverReceiptToolStripMenuItem.Name = "PrintDeliverReceiptToolStripMenuItem"
-        Me.PrintDeliverReceiptToolStripMenuItem.Size = New System.Drawing.Size(191, 22)
+        Me.PrintDeliverReceiptToolStripMenuItem.Size = New System.Drawing.Size(240, 26)
         Me.PrintDeliverReceiptToolStripMenuItem.Text = "Print Deliver Receipt"
         '
         'cmdDone
@@ -991,7 +992,7 @@ Partial Class frmRepair
         Me.imgRepair.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.imgRepair.BackColor = System.Drawing.Color.Black
         Me.imgRepair.Enabled = False
-        Me.imgRepair.Location = New System.Drawing.Point(493, 6)
+        Me.imgRepair.Location = New System.Drawing.Point(497, 6)
         Me.imgRepair.Name = "imgRepair"
         Me.imgRepair.Size = New System.Drawing.Size(175, 175)
         Me.imgRepair.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
@@ -1032,7 +1033,7 @@ Partial Class frmRepair
         Me.grpAdvancePay.Cursor = System.Windows.Forms.Cursors.Default
         Me.grpAdvancePay.Location = New System.Drawing.Point(6, 662)
         Me.grpAdvancePay.Name = "grpAdvancePay"
-        Me.grpAdvancePay.Size = New System.Drawing.Size(661, 99)
+        Me.grpAdvancePay.Size = New System.Drawing.Size(665, 99)
         Me.grpAdvancePay.TabIndex = 83
         Me.grpAdvancePay.TabStop = False
         Me.grpAdvancePay.Text = "Advance Pay Info"
@@ -1046,41 +1047,47 @@ Partial Class frmRepair
         Me.grdAdvance.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.grdAdvance.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.AdvancePayAVNo, Me.AdvancePayDate, Me.AdvancePayPrice, Me.AdvancePayRemarks})
         Me.grdAdvance.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.grdAdvance.Location = New System.Drawing.Point(3, 18)
+        Me.grdAdvance.Location = New System.Drawing.Point(3, 22)
         Me.grdAdvance.Name = "grdAdvance"
         Me.grdAdvance.ReadOnly = True
-        Me.grdAdvance.Size = New System.Drawing.Size(655, 78)
+        Me.grdAdvance.RowHeadersWidth = 51
+        Me.grdAdvance.Size = New System.Drawing.Size(659, 74)
         Me.grdAdvance.TabIndex = 32
         '
         'AdvancePayAVNo
         '
         Me.AdvancePayAVNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader
         Me.AdvancePayAVNo.HeaderText = "Advance Pay No"
+        Me.AdvancePayAVNo.MinimumWidth = 6
         Me.AdvancePayAVNo.Name = "AdvancePayAVNo"
         Me.AdvancePayAVNo.ReadOnly = True
-        Me.AdvancePayAVNo.Width = 5
+        Me.AdvancePayAVNo.Width = 6
         '
         'AdvancePayDate
         '
         Me.AdvancePayDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
         Me.AdvancePayDate.HeaderText = "Date"
+        Me.AdvancePayDate.MinimumWidth = 6
         Me.AdvancePayDate.Name = "AdvancePayDate"
         Me.AdvancePayDate.ReadOnly = True
-        Me.AdvancePayDate.Width = 58
+        Me.AdvancePayDate.Width = 66
         '
         'AdvancePayPrice
         '
         Me.AdvancePayPrice.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
         Me.AdvancePayPrice.HeaderText = "Price"
+        Me.AdvancePayPrice.MinimumWidth = 6
         Me.AdvancePayPrice.Name = "AdvancePayPrice"
         Me.AdvancePayPrice.ReadOnly = True
-        Me.AdvancePayPrice.Width = 58
+        Me.AdvancePayPrice.Width = 68
         '
         'AdvancePayRemarks
         '
         Me.AdvancePayRemarks.HeaderText = "Remarks"
+        Me.AdvancePayRemarks.MinimumWidth = 6
         Me.AdvancePayRemarks.Name = "AdvancePayRemarks"
         Me.AdvancePayRemarks.ReadOnly = True
+        Me.AdvancePayRemarks.Width = 125
         '
         'grpActivity
         '
@@ -1090,7 +1097,7 @@ Partial Class frmRepair
         Me.grpActivity.Cursor = System.Windows.Forms.Cursors.Default
         Me.grpActivity.Location = New System.Drawing.Point(6, 919)
         Me.grpActivity.Name = "grpActivity"
-        Me.grpActivity.Size = New System.Drawing.Size(660, 157)
+        Me.grpActivity.Size = New System.Drawing.Size(664, 157)
         Me.grpActivity.TabIndex = 82
         Me.grpActivity.TabStop = False
         Me.grpActivity.Text = "Activity Info"
@@ -1105,29 +1112,32 @@ Partial Class frmRepair
         Me.grdActivity.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.ANo, Me.ActivityDate, Me.ActivityActivity, Me.AUserName})
         Me.grdActivity.Dock = System.Windows.Forms.DockStyle.Fill
         Me.grdActivity.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically
-        Me.grdActivity.Location = New System.Drawing.Point(3, 18)
+        Me.grdActivity.Location = New System.Drawing.Point(3, 22)
         Me.grdActivity.Name = "grdActivity"
         Me.grdActivity.ReadOnly = True
         Me.grdActivity.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders
         Me.grdActivity.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.grdActivity.Size = New System.Drawing.Size(654, 136)
+        Me.grdActivity.Size = New System.Drawing.Size(658, 132)
         Me.grdActivity.TabIndex = 34
         '
         'ANo
         '
         Me.ANo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader
         Me.ANo.HeaderText = "No"
+        Me.ANo.MinimumWidth = 6
         Me.ANo.Name = "ANo"
         Me.ANo.ReadOnly = True
         Me.ANo.Visible = False
+        Me.ANo.Width = 125
         '
         'ActivityDate
         '
         Me.ActivityDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
         Me.ActivityDate.HeaderText = "Date"
+        Me.ActivityDate.MinimumWidth = 6
         Me.ActivityDate.Name = "ActivityDate"
         Me.ActivityDate.ReadOnly = True
-        Me.ActivityDate.Width = 58
+        Me.ActivityDate.Width = 66
         '
         'ActivityActivity
         '
@@ -1136,6 +1146,7 @@ Partial Class frmRepair
         DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
         Me.ActivityActivity.DefaultCellStyle = DataGridViewCellStyle1
         Me.ActivityActivity.HeaderText = "Activity"
+        Me.ActivityActivity.MinimumWidth = 6
         Me.ActivityActivity.Name = "ActivityActivity"
         Me.ActivityActivity.ReadOnly = True
         '
@@ -1143,9 +1154,10 @@ Partial Class frmRepair
         '
         Me.AUserName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
         Me.AUserName.HeaderText = "User"
+        Me.AUserName.MinimumWidth = 6
         Me.AUserName.Name = "AUserName"
         Me.AUserName.ReadOnly = True
-        Me.AUserName.Width = 57
+        Me.AUserName.Width = 65
         '
         'grpRepTask
         '
@@ -1155,7 +1167,7 @@ Partial Class frmRepair
         Me.grpRepTask.Cursor = System.Windows.Forms.Cursors.Default
         Me.grpRepTask.Location = New System.Drawing.Point(6, 767)
         Me.grpRepTask.Name = "grpRepTask"
-        Me.grpRepTask.Size = New System.Drawing.Size(660, 146)
+        Me.grpRepTask.Size = New System.Drawing.Size(664, 146)
         Me.grpRepTask.TabIndex = 81
         Me.grpRepTask.TabStop = False
         Me.grpRepTask.Text = "Task Info"
@@ -1169,10 +1181,11 @@ Partial Class frmRepair
         Me.grdRepTask.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.grdRepTask.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.TaskTNo, Me.TaskDate, Me.TaskAction, Me.TaskRemarks, Me.TStatus})
         Me.grdRepTask.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.grdRepTask.Location = New System.Drawing.Point(3, 18)
+        Me.grdRepTask.Location = New System.Drawing.Point(3, 22)
         Me.grdRepTask.Name = "grdRepTask"
         Me.grdRepTask.ReadOnly = True
-        Me.grdRepTask.Size = New System.Drawing.Size(654, 125)
+        Me.grdRepTask.RowHeadersWidth = 51
+        Me.grdRepTask.Size = New System.Drawing.Size(658, 121)
         Me.grdRepTask.TabIndex = 33
         '
         'TaskTNo
@@ -1180,32 +1193,38 @@ Partial Class frmRepair
         Me.TaskTNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader
         Me.TaskTNo.DataPropertyName = "MsgNo"
         Me.TaskTNo.HeaderText = "Task No"
+        Me.TaskTNo.MinimumWidth = 6
         Me.TaskTNo.Name = "TaskTNo"
         Me.TaskTNo.ReadOnly = True
         Me.TaskTNo.Visible = False
+        Me.TaskTNo.Width = 125
         '
         'TaskDate
         '
         Me.TaskDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
         Me.TaskDate.DataPropertyName = "MsgDate"
         Me.TaskDate.HeaderText = "Date"
+        Me.TaskDate.MinimumWidth = 6
         Me.TaskDate.Name = "TaskDate"
         Me.TaskDate.ReadOnly = True
-        Me.TaskDate.Width = 58
+        Me.TaskDate.Width = 66
         '
         'TaskAction
         '
         Me.TaskAction.DataPropertyName = "ACTION"
         Me.TaskAction.HeaderText = "Action"
+        Me.TaskAction.MinimumWidth = 6
         Me.TaskAction.Name = "TaskAction"
         Me.TaskAction.ReadOnly = True
         Me.TaskAction.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.TaskAction.Width = 125
         '
         'TaskRemarks
         '
         Me.TaskRemarks.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
         Me.TaskRemarks.DataPropertyName = "MESSAGE"
         Me.TaskRemarks.HeaderText = "Message"
+        Me.TaskRemarks.MinimumWidth = 6
         Me.TaskRemarks.Name = "TaskRemarks"
         Me.TaskRemarks.ReadOnly = True
         '
@@ -1213,15 +1232,17 @@ Partial Class frmRepair
         '
         Me.TStatus.DataPropertyName = "STATUS"
         Me.TStatus.HeaderText = "Status"
+        Me.TStatus.MinimumWidth = 6
         Me.TStatus.Name = "TStatus"
         Me.TStatus.ReadOnly = True
+        Me.TStatus.Width = 125
         '
         'cmbLocation
         '
         Me.cmbLocation.FormattingEnabled = True
         Me.cmbLocation.Location = New System.Drawing.Point(64, 6)
         Me.cmbLocation.Name = "cmbLocation"
-        Me.cmbLocation.Size = New System.Drawing.Size(251, 22)
+        Me.cmbLocation.Size = New System.Drawing.Size(251, 26)
         Me.cmbLocation.TabIndex = 22
         '
         'lblLocation
@@ -1229,7 +1250,7 @@ Partial Class frmRepair
         Me.lblLocation.AutoSize = True
         Me.lblLocation.Location = New System.Drawing.Point(3, 9)
         Me.lblLocation.Name = "lblLocation"
-        Me.lblLocation.Size = New System.Drawing.Size(55, 14)
+        Me.lblLocation.Size = New System.Drawing.Size(63, 18)
         Me.lblLocation.TabIndex = 79
         Me.lblLocation.Text = "Location:"
         '
@@ -1243,37 +1264,43 @@ Partial Class frmRepair
         Me.grdRepRemarks2.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Rem2No, Me.RepRemarks2Date, Me.RepRemarks2Remarks, Me.Rem2User})
         Me.grdRepRemarks2.Location = New System.Drawing.Point(6, 257)
         Me.grdRepRemarks2.Name = "grdRepRemarks2"
-        Me.grdRepRemarks2.Size = New System.Drawing.Size(660, 119)
+        Me.grdRepRemarks2.RowHeadersWidth = 51
+        Me.grdRepRemarks2.Size = New System.Drawing.Size(664, 119)
         Me.grdRepRemarks2.TabIndex = 26
         '
         'Rem2No
         '
         Me.Rem2No.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader
         Me.Rem2No.HeaderText = "No"
+        Me.Rem2No.MinimumWidth = 6
         Me.Rem2No.Name = "Rem2No"
         Me.Rem2No.ReadOnly = True
         Me.Rem2No.Visible = False
+        Me.Rem2No.Width = 125
         '
         'RepRemarks2Date
         '
         Me.RepRemarks2Date.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
         Me.RepRemarks2Date.HeaderText = "Date"
+        Me.RepRemarks2Date.MinimumWidth = 6
         Me.RepRemarks2Date.Name = "RepRemarks2Date"
-        Me.RepRemarks2Date.Width = 58
+        Me.RepRemarks2Date.Width = 66
         '
         'RepRemarks2Remarks
         '
         Me.RepRemarks2Remarks.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
         Me.RepRemarks2Remarks.HeaderText = "Remarks"
+        Me.RepRemarks2Remarks.MinimumWidth = 6
         Me.RepRemarks2Remarks.Name = "RepRemarks2Remarks"
         '
         'Rem2User
         '
         Me.Rem2User.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
         Me.Rem2User.HeaderText = "User"
+        Me.Rem2User.MinimumWidth = 6
         Me.Rem2User.Name = "Rem2User"
         Me.Rem2User.ReadOnly = True
-        Me.Rem2User.Width = 57
+        Me.Rem2User.Width = 65
         '
         'grdRepRemarks1
         '
@@ -1285,37 +1312,43 @@ Partial Class frmRepair
         Me.grdRepRemarks1.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Rem1No, Me.Rem1Date, Me.Rem1Remarks, Me.Rem1UNo})
         Me.grdRepRemarks1.Location = New System.Drawing.Point(8, 48)
         Me.grdRepRemarks1.Name = "grdRepRemarks1"
-        Me.grdRepRemarks1.Size = New System.Drawing.Size(480, 133)
+        Me.grdRepRemarks1.RowHeadersWidth = 51
+        Me.grdRepRemarks1.Size = New System.Drawing.Size(484, 133)
         Me.grdRepRemarks1.TabIndex = 23
         '
         'Rem1No
         '
         Me.Rem1No.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader
         Me.Rem1No.HeaderText = "No"
+        Me.Rem1No.MinimumWidth = 6
         Me.Rem1No.Name = "Rem1No"
         Me.Rem1No.ReadOnly = True
         Me.Rem1No.Visible = False
+        Me.Rem1No.Width = 125
         '
         'Rem1Date
         '
         Me.Rem1Date.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
         Me.Rem1Date.HeaderText = "Date"
+        Me.Rem1Date.MinimumWidth = 6
         Me.Rem1Date.Name = "Rem1Date"
-        Me.Rem1Date.Width = 58
+        Me.Rem1Date.Width = 66
         '
         'Rem1Remarks
         '
         Me.Rem1Remarks.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
         Me.Rem1Remarks.HeaderText = "Remarks"
+        Me.Rem1Remarks.MinimumWidth = 6
         Me.Rem1Remarks.Name = "Rem1Remarks"
         '
         'Rem1UNo
         '
         Me.Rem1UNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
         Me.Rem1UNo.HeaderText = "User"
+        Me.Rem1UNo.MinimumWidth = 6
         Me.Rem1UNo.Name = "Rem1UNo"
         Me.Rem1UNo.ReadOnly = True
-        Me.Rem1UNo.Width = 57
+        Me.Rem1UNo.Width = 65
         '
         'boxItem
         '
@@ -1324,7 +1357,7 @@ Partial Class frmRepair
         Me.boxItem.Controls.Add(Me.grdTechnicianCost)
         Me.boxItem.Location = New System.Drawing.Point(6, 382)
         Me.boxItem.Name = "boxItem"
-        Me.boxItem.Size = New System.Drawing.Size(663, 187)
+        Me.boxItem.Size = New System.Drawing.Size(667, 187)
         Me.boxItem.TabIndex = 60
         Me.boxItem.TabStop = False
         Me.boxItem.Text = "Item Info"
@@ -1334,9 +1367,10 @@ Partial Class frmRepair
         Me.grdTechnicianCost.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.grdTechnicianCost.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.TCNo, Me.TCDate, Me.Sno, Me.SCategory, Me.SName, Me.Rate, Me.Qty, Me.Total, Me.TCRemarks, Me.UName})
         Me.grdTechnicianCost.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.grdTechnicianCost.Location = New System.Drawing.Point(3, 18)
+        Me.grdTechnicianCost.Location = New System.Drawing.Point(3, 22)
         Me.grdTechnicianCost.Name = "grdTechnicianCost"
-        Me.grdTechnicianCost.Size = New System.Drawing.Size(657, 166)
+        Me.grdTechnicianCost.RowHeadersWidth = 51
+        Me.grdTechnicianCost.Size = New System.Drawing.Size(661, 162)
         Me.grdTechnicianCost.TabIndex = 27
         '
         'TCNo
@@ -1344,9 +1378,10 @@ Partial Class frmRepair
         Me.TCNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader
         Me.TCNo.DataPropertyName = "TCNo"
         Me.TCNo.HeaderText = "No"
+        Me.TCNo.MinimumWidth = 6
         Me.TCNo.Name = "TCNo"
         Me.TCNo.ReadOnly = True
-        Me.TCNo.Width = 21
+        Me.TCNo.Width = 24
         '
         'TCDate
         '
@@ -1356,64 +1391,80 @@ Partial Class frmRepair
         DataGridViewCellStyle2.NullValue = Nothing
         Me.TCDate.DefaultCellStyle = DataGridViewCellStyle2
         Me.TCDate.HeaderText = "Date"
+        Me.TCDate.MinimumWidth = 6
         Me.TCDate.Name = "TCDate"
-        Me.TCDate.Width = 58
+        Me.TCDate.Width = 66
         '
         'Sno
         '
         Me.Sno.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
         Me.Sno.DataPropertyName = "SNo"
         Me.Sno.HeaderText = "Item Code"
+        Me.Sno.MinimumWidth = 6
         Me.Sno.Name = "Sno"
-        Me.Sno.Width = 87
+        Me.Sno.Width = 101
         '
         'SCategory
         '
         Me.SCategory.DataPropertyName = "SCategory"
         Me.SCategory.HeaderText = "Item Category"
+        Me.SCategory.MinimumWidth = 6
         Me.SCategory.Name = "SCategory"
+        Me.SCategory.Width = 125
         '
         'SName
         '
         Me.SName.DataPropertyName = "SName"
         Me.SName.HeaderText = "Item Name"
+        Me.SName.MinimumWidth = 6
         Me.SName.Name = "SName"
+        Me.SName.Width = 125
         '
         'Rate
         '
         Me.Rate.DataPropertyName = "Rate"
         Me.Rate.HeaderText = "Unit Price"
+        Me.Rate.MinimumWidth = 6
         Me.Rate.Name = "Rate"
+        Me.Rate.Width = 125
         '
         'Qty
         '
         Me.Qty.DataPropertyName = "Qty"
         Me.Qty.HeaderText = "Qty"
+        Me.Qty.MinimumWidth = 6
         Me.Qty.Name = "Qty"
+        Me.Qty.Width = 125
         '
         'Total
         '
         Me.Total.DataPropertyName = "Total"
         Me.Total.HeaderText = "Total"
+        Me.Total.MinimumWidth = 6
         Me.Total.Name = "Total"
         Me.Total.ReadOnly = True
+        Me.Total.Width = 125
         '
         'TCRemarks
         '
         Me.TCRemarks.DataPropertyName = "TCRemarks"
         Me.TCRemarks.HeaderText = "Remarks"
+        Me.TCRemarks.MinimumWidth = 6
         Me.TCRemarks.Name = "TCRemarks"
+        Me.TCRemarks.Width = 125
         '
         'UName
         '
         Me.UName.DataPropertyName = "UserName"
         Me.UName.HeaderText = "User"
+        Me.UName.MinimumWidth = 6
         Me.UName.Name = "UName"
         Me.UName.ReadOnly = True
+        Me.UName.Width = 125
         '
         'frmRepair
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 14.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 18.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1172, 709)
         Me.Controls.Add(Me.Guna2Panel1)

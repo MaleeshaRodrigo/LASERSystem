@@ -4,8 +4,8 @@
     Public Keys As Dictionary(Of String, String)
     Public APNo As Integer
 
-    Public Sub New()
-        APNo = AutomaticPrimaryKey("AdminPermission", "APNo")
+    Public Sub New(Db As Database)
+        APNo = Db.GetNextKey("AdminPermission", "APNo")
         AdminSend = False
         Remarks = ""
         Keys = New Dictionary(Of String, String)
