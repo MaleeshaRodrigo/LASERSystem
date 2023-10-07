@@ -33,7 +33,11 @@
     <MinimumRequiredVersion>1.0.0.0</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
+<<<<<<< HEAD
     <ApplicationRevision>3</ApplicationRevision>
+=======
+    <ApplicationRevision>1</ApplicationRevision>
+>>>>>>> 117575d1107deebecf2d943c607e8b983ad15332
     <ApplicationVersion>2.0.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
