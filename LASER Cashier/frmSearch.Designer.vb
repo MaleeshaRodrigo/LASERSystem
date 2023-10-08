@@ -194,7 +194,7 @@ Partial Class frmSearch
         'cmdTSSearch
         '
         Me.cmdTSSearch.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.cmdTSSearch.Image = Global.LASER_System.My.Resources.Resources.search
+        Me.cmdTSSearch.Image = Global.LASER_Cashier.My.Resources.Resources.search
         Me.cmdTSSearch.Location = New System.Drawing.Point(667, 6)
         Me.cmdTSSearch.Name = "cmdTSSearch"
         Me.cmdTSSearch.Size = New System.Drawing.Size(56, 56)

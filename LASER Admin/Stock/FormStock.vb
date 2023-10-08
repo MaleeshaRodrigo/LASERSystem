@@ -2,7 +2,7 @@
 Imports System.IO
 Imports System.Data.OleDb
 Imports Microsoft.VisualBasic.FileIO
-Imports LASER_System.StructureDatabase
+Imports LASER_Admin.StructureDatabase
 
 Public Class FormStock
     Public Property Caller As String = ""

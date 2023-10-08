@@ -268,7 +268,7 @@ Partial Class frmLogin
         Me.cmdClose.BackColor = System.Drawing.Color.Red
         Me.cmdClose.Font = New System.Drawing.Font("Segoe UI", 9.0!)
         Me.cmdClose.ForeColor = System.Drawing.Color.White
-        Me.cmdClose.Image = Global.LASER_System.My.Resources.Resources.close
+        Me.cmdClose.Image = Global.LASER_Admin.My.Resources.Resources.close
         Me.cmdClose.Location = New System.Drawing.Point(313, 12)
         Me.cmdClose.Name = "cmdClose"
         Me.cmdClose.Size = New System.Drawing.Size(25, 25)

@@ -674,7 +674,7 @@ Partial Class FrmSettings
         '
         'cmdUADelete
         '
-        Me.cmdUADelete.Image = Global.LASER_System.My.Resources.Resources.Delete
+        Me.cmdUADelete.Image = Global.LASER_Cashier.My.Resources.Resources.Delete
         Me.cmdUADelete.Location = New System.Drawing.Point(208, 182)
         Me.cmdUADelete.Name = "cmdUADelete"
         Me.cmdUADelete.Size = New System.Drawing.Size(67, 27)
@@ -685,7 +685,7 @@ Partial Class FrmSettings
         '
         'cmdUASave
         '
-        Me.cmdUASave.Image = Global.LASER_System.My.Resources.Resources.Save
+        Me.cmdUASave.Image = Global.LASER_Cashier.My.Resources.Resources.Save
         Me.cmdUASave.Location = New System.Drawing.Point(135, 182)
         Me.cmdUASave.Name = "cmdUASave"
         Me.cmdUASave.Size = New System.Drawing.Size(67, 27)
@@ -696,7 +696,7 @@ Partial Class FrmSettings
         '
         'cmdUANew
         '
-        Me.cmdUANew.Image = Global.LASER_System.My.Resources.Resources._new
+        Me.cmdUANew.Image = Global.LASER_Cashier.My.Resources.Resources._new
         Me.cmdUANew.Location = New System.Drawing.Point(62, 182)
         Me.cmdUANew.Name = "cmdUANew"
         Me.cmdUANew.Size = New System.Drawing.Size(67, 27)
@@ -798,7 +798,7 @@ Partial Class FrmSettings
         'cmdApply
         '
         Me.cmdApply.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.cmdApply.Image = Global.LASER_System.My.Resources.Resources.Save
+        Me.cmdApply.Image = Global.LASER_Cashier.My.Resources.Resources.Save
         Me.cmdApply.Location = New System.Drawing.Point(658, 393)
         Me.cmdApply.Name = "cmdApply"
         Me.cmdApply.Size = New System.Drawing.Size(67, 28)
@@ -810,7 +810,7 @@ Partial Class FrmSettings
         'cmdOK
         '
         Me.cmdOK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.cmdOK.Image = Global.LASER_System.My.Resources.Resources.Done
+        Me.cmdOK.Image = Global.LASER_Cashier.My.Resources.Resources.Done
         Me.cmdOK.Location = New System.Drawing.Point(585, 393)
         Me.cmdOK.Name = "cmdOK"
         Me.cmdOK.Size = New System.Drawing.Size(67, 28)

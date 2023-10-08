@@ -33,7 +33,7 @@ Partial Class compMessageBox
         'btnMessageDelete
         '
         Me.btnMessageDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnMessageDelete.Image = Global.LASER_System.My.Resources.Resources.close
+        Me.btnMessageDelete.Image = Global.LASER_Cashier.My.Resources.Resources.close
         Me.btnMessageDelete.Location = New System.Drawing.Point(185, 3)
         Me.btnMessageDelete.Name = "btnMessageDelete"
         Me.btnMessageDelete.Size = New System.Drawing.Size(16, 16)

@@ -158,9 +158,9 @@ Partial Class ControlStockInfo
         '
         Me.TlpSImages.SetColumnSpan(Me.PicMain, 4)
         Me.PicMain.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.PicMain.ErrorImage = Global.LASER_System.My.Resources.Resources.empty
-        Me.PicMain.Image = Global.LASER_System.My.Resources.Resources.empty
-        Me.PicMain.InitialImage = Global.LASER_System.My.Resources.Resources.empty
+        Me.PicMain.ErrorImage = Global.LASER_Admin.My.Resources.Resources.empty
+        Me.PicMain.Image = Global.LASER_Admin.My.Resources.Resources.empty
+        Me.PicMain.InitialImage = Global.LASER_Admin.My.Resources.Resources.empty
         Me.PicMain.Location = New System.Drawing.Point(3, 3)
         Me.PicMain.Name = "PicMain"
         Me.PicMain.Size = New System.Drawing.Size(448, 370)
