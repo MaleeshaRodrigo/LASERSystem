@@ -1,6 +1,6 @@
 ﻿Imports System.Data.Common
 Imports System.Data.OleDb
-Imports LASER_System.StructureDatabase
+Imports LASER_Cashier.StructureDatabase
 
 Public Class ControlStockInfo
     Private Db As Database

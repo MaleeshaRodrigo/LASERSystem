@@ -2,7 +2,7 @@
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Threading
-Imports LASER_System.My
+Imports LASER_Cashier.My
 Imports Microsoft.Office.Interop.Access.Dao
 Imports Newtonsoft.Json
 

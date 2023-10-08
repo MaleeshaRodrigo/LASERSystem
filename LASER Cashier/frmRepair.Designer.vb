@@ -604,7 +604,7 @@ Partial Class frmRepair
         'cmdClose
         '
         Me.cmdClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.cmdClose.Image = Global.LASER_System.My.Resources.Resources.close
+        Me.cmdClose.Image = Global.LASER_Cashier.My.Resources.Resources.close
         Me.cmdClose.Location = New System.Drawing.Point(1081, 110)
         Me.cmdClose.Name = "cmdClose"
         Me.cmdClose.Size = New System.Drawing.Size(79, 33)
@@ -616,7 +616,7 @@ Partial Class frmRepair
         'cmdSave
         '
         Me.cmdSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.cmdSave.Image = Global.LASER_System.My.Resources.Resources.Save
+        Me.cmdSave.Image = Global.LASER_Cashier.My.Resources.Resources.Save
         Me.cmdSave.Location = New System.Drawing.Point(1081, 66)
         Me.cmdSave.Name = "cmdSave"
         Me.cmdSave.Size = New System.Drawing.Size(79, 33)
@@ -963,7 +963,7 @@ Partial Class frmRepair
         'cmdDone
         '
         Me.cmdDone.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.cmdDone.Image = Global.LASER_System.My.Resources.Resources.Done
+        Me.cmdDone.Image = Global.LASER_Cashier.My.Resources.Resources.Done
         Me.cmdDone.Location = New System.Drawing.Point(1081, 27)
         Me.cmdDone.Name = "cmdDone"
         Me.cmdDone.Size = New System.Drawing.Size(79, 33)
