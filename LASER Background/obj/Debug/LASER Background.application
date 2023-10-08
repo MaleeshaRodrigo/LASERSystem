@@ -4,7 +4,7 @@
   <description asmv2:publisher="LASER System" co.v1:suiteName="LASER Background" asmv2:product="LASER Background" asmv2:supportUrl="https://lasertec.lk/" co.v1:errorReportUrl="https://lasertec.lk/" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <deployment install="true" mapFileExtensions="true" />
   <compatibleFrameworks xmlns="urn:schemas-microsoft-com:clickonce.v2">
-    <framework targetVersion="4.7.2" profile="Full" supportedRuntime="4.0.30319" />
+    <framework targetVersion="4.8" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
     <dependentAssembly dependencyType="install" codebase="LASER Background.exe.manifest" size="6427">
@@ -14,7 +14,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>TQjmtujh1qVBIxwvXzBp0YeOOwBbtwwQAPr5TXMhUm8=</dsig:DigestValue>
+        <dsig:DigestValue>FqoYpmsbF+kfbkptOZ2W66/XVEa2uPBF/Qz6BpQKtnc=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
