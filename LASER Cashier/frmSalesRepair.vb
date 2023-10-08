@@ -64,6 +64,6 @@ Public Class frmSalesRepair
     End Sub
 
     Private Sub frmSalesRepair_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-        Me.Close()
+        Db.Disconnect()
     End Sub
 End Class

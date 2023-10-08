@@ -258,7 +258,7 @@ Public Class frmTechnicianLoan
     End Sub
 
     Private Sub frmTechnicianLoan_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-        Me.Close()
+        Db.Disconnect()
     End Sub
 
     Private Sub cmdTLDelete_Click(sender As Object, e As EventArgs) Handles cmdTLDelete.Click

@@ -12,7 +12,7 @@ Public Class frmStockTransaction
     End Sub
 
     Private Sub frmStockTransaction_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-        Me.Close()
+        Db.Disconnect()
     End Sub
 
     Private Sub cmbSName_DropDown(sender As Object, e As EventArgs) Handles cmbSName.DropDown

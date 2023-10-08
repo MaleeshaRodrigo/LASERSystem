@@ -261,6 +261,7 @@ Public Class MdifrmMain
     End Sub
 
     Private Sub MdifrmMain_Leave(sender As Object, e As EventArgs) Handles Me.Leave
+        Db.Disconnect()
         End
     End Sub
 #End Region

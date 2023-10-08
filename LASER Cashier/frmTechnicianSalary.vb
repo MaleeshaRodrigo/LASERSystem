@@ -7,7 +7,7 @@ Imports System.Data.OleDb
 Public Class frmTechnicianSalary
     Private Db As New Database
     Private Sub FrmTechnicianSalary_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-        Me.Close()
+        Db.Disconnect()
     End Sub
 
     Private Sub FrmTechnicianSalary_Load(sender As Object, e As EventArgs) Handles MyBase.Load

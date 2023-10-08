@@ -17,7 +17,7 @@ Public Class frmSupplier
     End Sub
 
     Private Sub frmSupplier_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-        Me.Close()
+        Db.Disconnect()
     End Sub
 
     Private Sub frmSupplier_Load(sender As Object, e As EventArgs) Handles MyBase.Load

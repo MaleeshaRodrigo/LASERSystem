@@ -22,7 +22,7 @@ Public Class frmCustomerLoan
     End Sub
 
     Private Sub frmCustomerLoan_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-        Me.Close()
+        Db.Disconnect()
     End Sub
 
     Private Sub frmCustomerLoan_Load(sender As Object, e As EventArgs) Handles Me.Load

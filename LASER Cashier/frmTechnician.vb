@@ -95,8 +95,7 @@ Public Class frmTechnician
     End Sub
 
     Private Sub frmTechnician_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-        Me.Tag = ""
-        Me.Close()
+        Db.Disconnect()
     End Sub
 
     Private Sub frmTechnician_Load(sender As Object, e As EventArgs) Handles MyBase.Load

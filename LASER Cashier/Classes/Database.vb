@@ -212,7 +212,7 @@ Values({AdminPer.APNo},#{DateAndTime.Now}#,'Waiting',{MdifrmMain.Tag},
     End Function
 
     Public Function GetDataReader(Sql As String) As OleDbDataReader
-        CMD = New OleDb.OleDbCommand(Sql, _Connection)
+        CMD = New OleDbCommand(Sql, _Connection)
         Return (CMD.ExecuteReader())
     End Function
 

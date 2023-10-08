@@ -15,7 +15,7 @@ Public Class frmRepairAdvanced
     End Sub
 
     Private Sub frmRepairAdvanced_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-        Me.Close()
+        Db.Disconnect()
     End Sub
 
     Private Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click
