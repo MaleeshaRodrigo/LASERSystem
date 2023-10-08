@@ -8,14 +8,14 @@ Public Class frmDeliver
         InitializeComponent()
 
         MenuStrip.Items.Add(mnustrpMENU)
+        Call cmdNew_Click(Nothing, Nothing)
+        txtDDate.Value = Date.Today
         ' Add any initialization after the InitializeComponent() call.
 
     End Sub
 
     Private Sub frmDeliver_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Db.Connect()
-        Call cmdNew_Click(Nothing, Nothing)
-        txtDDate.Value = Date.Today
         grdRepair.Focus()
     End Sub
 
@@ -712,7 +712,7 @@ Public Class frmDeliver
         For Each row As DataGridViewRow In grdRepair.Rows
             If row.Index >= grdRepair.Rows.Count - 1 Then Continue For
             txtSubTotal.Text += Val(row.Cells(4).Value)
-            For Each str As String In Db.GetArray("Select Amount from RepairAdvanced Where RepNo=" &
+            For Each str As String In GetArrayfromSQL("Select Amount from RepairAdvanced Where RepNo=" &
                                                       row.Cells(0).Value, "Amount")
                 txtRepAdvanced.Text += Val(str)
             Next
@@ -720,7 +720,7 @@ Public Class frmDeliver
         For Each row As DataGridViewRow In grdRERepair.Rows
             If row.Index >= grdRERepair.Rows.Count - 1 Then Continue For
             txtSubTotal.Text += Val(row.Cells(5).Value)
-            For Each str As String In Db.GetArray("Select Amount from RepairAdvanced Where RetNo=" &
+            For Each str As String In GetArrayfromSQL("Select Amount from RepairAdvanced Where RetNo=" &
                                                       row.Cells(0).Value, "Amount")
                 txtRepAdvanced.Text += Val(str)
             Next

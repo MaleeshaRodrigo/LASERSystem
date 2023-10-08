@@ -43,14 +43,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="LASER Background.exe" size="436224">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="LASER Background.exe" size="437232">
       <assemblyIdentity name="LASER Background" version="1.0.0.0" language="neutral" processorArchitecture="amd64" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>z85Hqxau3K0kyqCb+u99lCSvWTvV9ORHd4xIKM6o0Ec=</dsig:DigestValue>
+        <dsig:DigestValue>jioKm+GUCMHEuHFpv2zvTK388NFsGRbl4F7vs5MUg5E=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -67,24 +67,24 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Newtonsoft.Json.dll" size="711952">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Newtonsoft.Json.dll" size="701992">
       <assemblyIdentity name="Newtonsoft.Json" version="13.0.0.0" publicKeyToken="30AD4FE6B2A6AEED" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>4eJ697B+7t9c5xqSVfBCKBam/FhJpIPGcU4bRyBE+p0=</dsig:DigestValue>
+        <dsig:DigestValue>tiSUnfiw46YVP9+3MKfG9JkLZZLuDZIuF4hDPSdmEPM=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
-  <file name="LASER Background.exe.config" size="3158">
+  <file name="LASER Background.exe.config" size="3177">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>0Yc8YZ/wuA96DzPo5xcCRFkree0NPgANpNwgImBfiHc=</dsig:DigestValue>
+      <dsig:DigestValue>LWlVsTsLzcazSCUzLLaoJzGTBQbdP9B9VA2mzvekN0A=</dsig:DigestValue>
     </hash>
   </file>
   <file name="refresh.ico" size="101433">

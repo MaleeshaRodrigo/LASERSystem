@@ -48,6 +48,18 @@ Module Utils
         OnlynumberQty(e)
     End Sub
 
+    Public Function GetArrayfromSQL(SQL As String, ColumnName As String) As List(Of String)
+        Dim CMD0 = New OleDbCommand(SQL)
+        Dim DR0 As OleDbDataReader = CMD0.ExecuteReader()
+        Dim arr As New List(Of String)
+        While DR0.Read
+            arr.Add(DR0(ColumnName).ToString)
+        End While
+        Return (arr)
+        CMD0.Cancel()
+        DR0.Close()
+    End Function
+
     Public Function CheckEmptyStr(str As String, msg As String) As Boolean
         CheckEmptyStr = True
         If str = "" Then
