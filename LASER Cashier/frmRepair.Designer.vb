@@ -69,7 +69,6 @@ Partial Class frmRepair
         Me.Label3 = New System.Windows.Forms.Label()
         Me.lblRepRemarks1 = New System.Windows.Forms.Label()
         Me.cmdClose = New System.Windows.Forms.Button()
-        Me.cmdDelete = New System.Windows.Forms.Button()
         Me.cmdSave = New System.Windows.Forms.Button()
         Me.tabRepair = New System.Windows.Forms.TabControl()
         Me.RepInfo = New System.Windows.Forms.TabPage()
@@ -606,26 +605,13 @@ Partial Class frmRepair
         '
         Me.cmdClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.cmdClose.Image = Global.LASER_System.My.Resources.Resources.close
-        Me.cmdClose.Location = New System.Drawing.Point(1081, 144)
+        Me.cmdClose.Location = New System.Drawing.Point(1081, 110)
         Me.cmdClose.Name = "cmdClose"
         Me.cmdClose.Size = New System.Drawing.Size(79, 33)
         Me.cmdClose.TabIndex = 38
         Me.cmdClose.Text = "Close"
         Me.cmdClose.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.cmdClose.UseVisualStyleBackColor = True
-        '
-        'cmdDelete
-        '
-        Me.cmdDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.cmdDelete.Enabled = False
-        Me.cmdDelete.Image = Global.LASER_System.My.Resources.Resources.Delete
-        Me.cmdDelete.Location = New System.Drawing.Point(1081, 105)
-        Me.cmdDelete.Name = "cmdDelete"
-        Me.cmdDelete.Size = New System.Drawing.Size(79, 33)
-        Me.cmdDelete.TabIndex = 37
-        Me.cmdDelete.Text = "Delete"
-        Me.cmdDelete.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
-        Me.cmdDelete.UseVisualStyleBackColor = True
         '
         'cmdSave
         '
@@ -1422,7 +1408,6 @@ Partial Class frmRepair
         Me.Controls.Add(Me.lblPProblem)
         Me.Controls.Add(Me.tabRepair)
         Me.Controls.Add(Me.cmdClose)
-        Me.Controls.Add(Me.cmdDelete)
         Me.Controls.Add(Me.cmdSave)
         Me.Controls.Add(Me.boxProduct)
         Me.Controls.Add(Me.boxCustomer)
@@ -1509,7 +1494,6 @@ Partial Class frmRepair
     Friend WithEvents Label3 As System.Windows.Forms.Label
     Friend WithEvents lblRepRemarks1 As System.Windows.Forms.Label
     Friend WithEvents cmdClose As System.Windows.Forms.Button
-    Friend WithEvents cmdDelete As System.Windows.Forms.Button
     Friend WithEvents cmdSave As System.Windows.Forms.Button
     Friend WithEvents tabRepair As System.Windows.Forms.TabControl
     Friend WithEvents RepInfo As System.Windows.Forms.TabPage

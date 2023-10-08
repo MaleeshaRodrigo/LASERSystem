@@ -9,10 +9,13 @@ Public Class frmRepair
     Private ReadOnly DRRETNO As OleDbDataReader
 
     Public Sub New()
-
         ' This call is required by the designer.
         InitializeComponent()
         MenuStrip.Items.Add(mnustrpMENU)
+    End Sub
+
+    Private Sub FrmRepair_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Db.Connect()
         Call CmbRepNo_SelectedIndexChanged(Nothing, Nothing)
         Call CmbRetNo_SelectedIndexChanged(Nothing, Nothing)
         Call CmbTName_DropDown(Nothing, Nothing)
@@ -33,21 +36,11 @@ Public Class frmRepair
                 ctrl.Visible = True
             Next
         End If
-
-    End Sub
-
-    Private Sub FrmRepair_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Db.Connect()
         If tabRepair.SelectedIndex = 0 Then
             cmbRepNo.Focus()
         Else
             cmbRetNo.Focus()
         End If
-    End Sub
-
-    Private Sub frmRepair_Activated(sender As Object, e As EventArgs) Handles Me.Activated
-        Call CmbRepNo_DropDown(sender, e)
-        Call CmbRetNo_DropDown(sender, e)
     End Sub
 
     Private Sub frmRepair_Resize(sender As Object, e As EventArgs) Handles Me.Resize
@@ -79,10 +72,9 @@ Public Class frmRepair
     End Sub
 
     Private Sub FrmRepair_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-        Me.Tag = ""
         DRREPNO.Close()
         DtpDate.Dispose()
-        Me.Close()
+        Db.Disconnect()
     End Sub
 
     Private Sub CmbRepNo_DropDown(sender As Object, e As EventArgs) Handles cmbRepNo.DropDown
@@ -106,7 +98,6 @@ Public Class frmRepair
     End Sub
 
     Public Sub CmbRepNo_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbRepNo.SelectedIndexChanged
-        Dim CMDREPNO As New OleDb.OleDbCommand
         Try
             tabRepair.Tag = "Repair"
             tabRepair.SelectedTab.TabIndex = 0
@@ -169,7 +160,7 @@ Public Class frmRepair
             While DRREPNO1.Read
                 grdRepRemarks1.Rows.Add(DRREPNO1("Rem1No").ToString, DRREPNO1("Rem1Date").ToString, DRREPNO1("Remarks").ToString,
                                             Db.GetData("Select UserName from [User] Where UNo=" & DRREPNO1("UNo").ToString))
-                If MdifrmMain.tslblUserType.Text <> "Admin" And txtDDate.Value.Month <> Today.Month Then
+                If txtDDate.Value.Month <> Today.Month Then
                     grdRepRemarks1.Rows.Item(grdRepRemarks1.Rows.Count - 1).ReadOnly = True
                 End If
             End While
@@ -268,7 +259,6 @@ Public Class frmRepair
     End Sub
 
     Public Sub CmbRetNo_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbRetNo.SelectedIndexChanged, cmbRetNo.Enter
-        Dim CMDRETNO As New OleDbCommand
         Try
             tabRepair.Tag = "Return"
             tabRepair.SelectedTab.TabIndex = 1
@@ -333,8 +323,8 @@ Public Class frmRepair
                 grdRepRemarks1.Rows.Add(DRRETNo1("Rem1No").ToString, DRRETNo1("Rem1Date").ToString, DRRETNo1("Remarks").ToString,
                                         Db.GetData("Select UserName from [User] Where UNo=" & DRRETNo1("UNo").ToString))
             End While
-            If File.Exists(Application.StartupPath & "\LASER System\Images\" + "RET-" + cmbRetNo.Text + ".ls") Then
-                imgRepair.Image = Image.FromFile(Application.StartupPath & "\LASER System\Images\" + "RET-" + cmbRetNo.Text + ".ls")
+            If File.Exists(Application.StartupPath & "\System Files\Images\" + "RET-" + cmbRetNo.Text + ".ls") Then
+                imgRepair.Image = Image.FromFile(Application.StartupPath & "\System Files\Images\" + "RET-" + cmbRetNo.Text + ".ls")
             Else
                 imgRepair.Image = Nothing
             End If
@@ -399,7 +389,6 @@ Public Class frmRepair
             End If
             DRRETNo1.Close()
             If cmbRetStatus.Text = "Repaired Delivered" Or cmbRetStatus.Text = "Returned Delivered" Then
-                CMDRETNO.Cancel()
 
                 If MdifrmMain.Tag = "Cashier" And txtDDate.Value.Month <> Today.Month Then
                     For Each ctrl As Control In {boxTechnician, boxReceive, boxProduct, boxRepair, boxDeliver, boxCustomer, txtPProblem, lblLocation, cmbLocation,
@@ -412,9 +401,6 @@ Public Class frmRepair
         Catch ex As Exception
             MsgBox(ex.Message, vbCritical + vbOKOnly)
         Finally
-            If DRRETNO IsNot Nothing AndAlso DRRETNO.IsClosed = False Then
-                CMDRETNO.Cancel()
-            End If
             frmRepair_Resize(sender, e)
         End Try
     End Sub
@@ -789,49 +775,10 @@ Public Class frmRepair
 
     Private Sub CmdReRepView_Click(sender As Object, e As EventArgs) Handles cmdReRepView.Click
         Dim frmSearchReRepair As New frmSearch With {
-            .Tag = "ReRepair"
+            .Tag = "ReRepair",
+            .Name = "frmSearch" + NextfrmNo(frmSearch).ToString
         }
         frmSearchReRepair.Show()
-    End Sub
-
-    Private Sub CmdDelete_Click(sender As Object, e As EventArgs) Handles cmdDelete.Click
-        If MsgBox("Are you sure this repair will be deleted?", vbYesNo + vbCritical) = vbYes Then
-            If cmbRetNo.Text = "" Then
-                Db.Execute("DELETE from Repair where RepNo=" & cmbRepNo.Text)
-            Else
-                Db.Execute("DELETE from Return where RetNo=" & cmbRetNo.Text)
-            End If
-        End If
-        Dim cmd1 As New OleDb.OleDbCommand()
-        Dim x As String = ""
-        Dim DR As OleDbDataReader = Db.GetDataReader("Select RNo,RepNo from Repair where RepNo = " & cmbRepNo.Text)
-        If DR.HasRows = True Then
-            If DR.FieldCount > 1 Then
-                x = "were " + Str(DR.FieldCount) + " repair fields"
-            Else
-                x = "was " + Str(DR.FieldCount) + " repair field"
-            End If
-        End If
-        If MsgBox("There " + x + " of received details. Are you sure received details of this repair will be deleted?", vbYesNo + vbCritical) = vbYes Then
-            If cmbRetNo.Text = "" Then
-                Dim DrRepairRNo As OleDbDataReader = Db.GetDataReader("Select RNo from Repair where RepNo = " & cmbRepNo.Text)
-                If DrRepairRNo.HasRows = True Then
-                    Db.Execute("DELETE from Receive where RNo=" & DrRepairRNo("RNO").ToString)
-                End If
-            Else
-                Dim DrReturnRNo As OleDbDataReader = Db.GetDataReader("Select RNo from Return where RetNo = " & cmbRetNo.Text)
-                If DrReturnRNo.HasRows = True Then
-                    Db.Execute("DELETE from Receive where RNo=" & DrReturnRNo("RNO").ToString)
-                End If
-            End If
-        End If
-        If MsgBox("Are you sure this techniciancost will be deleted?", vbYesNo + vbCritical) = vbYes Then
-            If cmbRetNo.Text = "" Then
-                Db.Execute("DELETE from TechnicianCost where RepNo=" & cmbRepNo.Text)
-            Else
-                Db.Execute("DELETE from TechnicianCost where RetNo=" & cmbRetNo.Text)
-            End If
-        End If
     End Sub
 
     Private Sub CmdDone_Click(sender As Object, e As EventArgs) Handles cmdDone.Click
@@ -839,11 +786,9 @@ Public Class frmRepair
             Case "DeliverRepair"
                 With frmDeliver
                     Call CmdSave_Click(sender, e)
-                    With frmDeliver
-                        .grdRepair.Item(0, .grdRepair.CurrentCell.RowIndex).Value = cmbRepNo.Text
+                    .grdRepair.Item(0, .grdRepair.CurrentCell.RowIndex).Value = cmbRepNo.Text
                         Dim E1 As New DataGridViewCellEventArgs(0, .grdRepair.CurrentCell.RowIndex)
-                        Call .GrdRepair_CellEndEdit(sender, E1)
-                    End With
+                    Call .GrdRepair_CellEndEdit(sender, E1)
                 End With
             Case "DeliverReRepair"
                 With frmDeliver
@@ -1008,7 +953,7 @@ Public Class frmRepair
                 AdminPer.Remarks = "Repair Remarks 1 හිදි අද දිනට නොමැති Remarks එකක දිනයක් වෙනස් කෙරුණි."
             End If
         ElseIf e.ColumnIndex = 2 And e.RowIndex <> (grdRepRemarks1.Rows.Count - 1) Then
-            If (MdifrmMain.tslblUserType.Text <> "Admin" And grdRepRemarks1.Item(1, e.RowIndex).Value IsNot Nothing AndAlso
+            If (grdRepRemarks1.Item(1, e.RowIndex).Value IsNot Nothing AndAlso
                 grdRepRemarks1.Item(1, e.RowIndex).Value.ToString <> "" AndAlso
                 DateAndTime.DateValue(grdRepRemarks1.Item(1, e.RowIndex).Value) <> DateTime.Today.Date) Then
                 AdminPer.AdminSend = True
@@ -1058,7 +1003,7 @@ Public Class frmRepair
     Private Sub grdRepRemarks1_UserDeletingRow(sender As Object, e As DataGridViewRowCancelEventArgs) Handles grdRepRemarks1.UserDeletingRow
         If e.Row.Index < 0 Or e.Row.Index = (grdRepRemarks1.Rows.Count - 1) Then Exit Sub
         Dim AdminPer As New AdminPermission(Db)
-        If MdifrmMain.tslblUserType.Text <> "Admin" And Convert.ToDateTime(grdRepRemarks1.Item(1, e.Row.Index).Value).Date <> DateTime.Today.Date Then
+        If Convert.ToDateTime(grdRepRemarks1.Item(1, e.Row.Index).Value).Date <> DateTime.Today.Date Then
             AdminPer.AdminSend = True
             AdminPer.Remarks = "Repair Remarks 1 හි Field එකක් Delete කෙරුණි."
             e.Cancel = True
@@ -1069,7 +1014,7 @@ Public Class frmRepair
     Private Sub grdRepRemarks1_RowValidating(sender As Object, e As DataGridViewCellCancelEventArgs) Handles grdRepRemarks1.RowValidating
         If e.RowIndex < 0 Then Exit Sub
         If grdRepRemarks1.Item(0, e.RowIndex).Value Is Nothing Then Exit Sub
-        Dim DR1 As OleDb.OleDbDataReader = Db.GetDataReader("SELECT Rem1No,Rem1Date,Remarks,UNo from " &
+        Dim DR1 As OleDbDataReader = Db.GetDataReader("SELECT Rem1No,Rem1Date,Remarks,UNo from " &
                                         "RepairRemarks1 where Rem1No=" & grdRepRemarks1.Item(0, e.RowIndex).Value & ";")
         If DR1.HasRows Then
             DR1.Read()
@@ -1123,7 +1068,7 @@ Public Class frmRepair
                 AdminPer.Remarks = "Repair Remarks 2 හිදි අද දිනට නොමැති Remarks එකක දිනයක් වෙනස් කෙරුණි."
             End If
         ElseIf e.ColumnIndex = 2 And e.RowIndex <> (grdRepRemarks2.Rows.Count - 1) Then
-            If (MdifrmMain.tslblUserType.Text <> "Admin" And grdRepRemarks2.Item(1, e.RowIndex).Value IsNot Nothing AndAlso
+            If (grdRepRemarks2.Item(1, e.RowIndex).Value IsNot Nothing AndAlso
            Convert.ToDateTime(grdRepRemarks2.Item(1, e.RowIndex).Value).Date <> DateTime.Today.Date) Then
                 AdminPer.AdminSend = True
                 AdminPer.Remarks = "Repair Remarks 2 හිදි අද දිනට නොමැති Remarks එකක් වෙනස් කෙරුණි."
@@ -1176,7 +1121,7 @@ Public Class frmRepair
     Private Sub grdRepRemarks2_UserDeletingRow(sender As Object, e As DataGridViewRowCancelEventArgs) Handles grdRepRemarks2.UserDeletingRow
         If e.Row.Index < 0 Or e.Row.Index = (grdRepRemarks2.Rows.Count - 1) Then Exit Sub
         Dim AdminPer As New AdminPermission(Db)
-        If MdifrmMain.tslblUserType.Text <> "Admin" And Convert.ToDateTime(grdRepRemarks2.Item(1, e.Row.Index).Value).Date <> DateTime.Today.Date Then
+        If Convert.ToDateTime(grdRepRemarks2.Item(1, e.Row.Index).Value).Date <> DateTime.Today.Date Then
             AdminPer.AdminSend = True
             AdminPer.Remarks = "Repair Remarks 2 හි Field එකක් Delete කෙරුණි."
             e.Cancel = True
@@ -1186,7 +1131,7 @@ Public Class frmRepair
     Private Sub grdRepRemarks2_RowValidating(sender As Object, e As DataGridViewCellCancelEventArgs) Handles grdRepRemarks2.RowValidating
         If e.RowIndex < 0 Then Exit Sub
         If grdRepRemarks2.Item(0, e.RowIndex).Value Is Nothing Then Exit Sub
-        Dim DR1 As OleDb.OleDbDataReader = Db.GetDataReader("SELECT Rem2No,Rem2Date,Remarks,UNo from " &
+        Dim DR1 As OleDbDataReader = Db.GetDataReader("SELECT Rem2No,Rem2Date,Remarks,UNo from " &
                                         "RepairRemarks2 where Rem2No=" & grdRepRemarks2.Item(0, e.RowIndex).Value & ";")
         If DR1.HasRows Then
             DR1.Read()
@@ -1336,7 +1281,7 @@ Public Class frmRepair
     Private Sub grdTechnicianCost_UserDeletingRow(sender As Object, e As DataGridViewRowCancelEventArgs) Handles grdTechnicianCost.UserDeletingRow
         If e.Row.Index < 0 Or e.Row.Index = (grdTechnicianCost.Rows.Count - 1) Then Exit Sub
         Dim AdminPer As New AdminPermission(Db)
-        If MdifrmMain.tslblUserType.Text <> "Admin" And Convert.ToDateTime(grdTechnicianCost.Item(1, e.Row.Index).Value).Date <>
+        If Convert.ToDateTime(grdTechnicianCost.Item(1, e.Row.Index).Value).Date <>
             DateTime.Today.Date Then
             AdminPer.AdminSend = True
             AdminPer.Remarks = "Repair හි Technician Cost හි Field එකක් Delete කෙරුණි."

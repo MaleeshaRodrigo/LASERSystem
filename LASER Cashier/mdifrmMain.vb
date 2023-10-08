@@ -387,35 +387,6 @@ Public Class MdifrmMain
         Call txtIncomevsDateCustom_TextChanged(sender, e)
     End Sub
 
-    Public Sub TmrReload_Tick(sender As Object, e As EventArgs) Handles tmrReload.Tick
-        bgwMainMenu.RunWorkerAsync()
-    End Sub
-
-    Private Sub bgworker_DoWork(sender As Object, e As DoWorkEventArgs) Handles bgwMainMenu.DoWork
-        If Me.Tag = "Admin" Then
-            Dim cmd0 As New OleDb.OleDbCommand
-            Dim DR0 As OleDb.OleDbDataReader = Db.GetDataReader("SELECT R.RNO, RDATE, REPNO FROM RECEIVE R,REPAIR REP WHERE REP.RNO = R.RNO AND RDATE=#" & Today.Date.ToString & "#;")
-            lblQtyRRepNo.Text = "0"
-            While DR0.Read
-                lblQtyRRepNo.Text += 1
-            End While
-            DR0 = Db.GetDataReader("SELECT R.RNO, RDATE, RETNO FROM RECEIVE R,RETURN RET WHERE RET.RNO = R.RNO AND RDATE=#" & Today.Date.ToString & "#;")
-            lblQtyRRetNo.Text = "0"
-            While DR0.Read
-                lblQtyRRetNo.Text += 1
-            End While
-            DR0 = Db.GetDataReader("SELECT SANO, SADATE, SADUE FROM [SALE] WHERE SADATE=#" & Today.Date.ToString & "# UNION SELECT DNO, DDATE, DGRANDTOTAL FROM [DELIVER] WHERE DDATE=#" & Today.Date.ToString & "# UNION SELECT TANo,TADAte,TAAmount from [Transaction] where TADAte=#" & Today.Date.ToString & "#;")
-            Dim x As Integer = 0
-            While DR0.Read
-                x += Int(DR0("SADUE").ToString)
-            End While
-            lblTodayIncomeNo.Text = String.Format("Rs.{0:N2}", x)
-
-            cmd0.Cancel()
-            DR0.Close()
-        End If
-    End Sub
-
     Private Sub SerialPort_DataReceived(sender As Object, e As Ports.SerialDataReceivedEventArgs) Handles BarCodePort.DataReceived
         Dim str As String = BarCodePort.ReadExisting
         If BarCodePort.IsOpen = True AndAlso str <> "" Then

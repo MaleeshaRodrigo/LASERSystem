@@ -70,14 +70,12 @@ Partial Class MdifrmMain
         Me.cmdSettlement = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripDropDownButton3 = New System.Windows.Forms.ToolStripDropDownButton()
         Me.cmdTechnicianSalary = New System.Windows.Forms.ToolStripMenuItem()
-        Me.tmrReload = New System.Windows.Forms.Timer(Me.components)
         Me.MenuStrip = New System.Windows.Forms.MenuStrip()
         Me.FILEToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.LogOutToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SettingsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.bgwMainMenu = New System.ComponentModel.BackgroundWorker()
         Me.BarCodePort = New System.IO.Ports.SerialPort(Me.components)
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
         Me.flpMessage = New System.Windows.Forms.FlowLayoutPanel()
@@ -408,11 +406,6 @@ Partial Class MdifrmMain
         Me.cmdTechnicianSalary.Size = New System.Drawing.Size(176, 26)
         Me.cmdTechnicianSalary.Text = "Technician Salary"
         '
-        'tmrReload
-        '
-        Me.tmrReload.Enabled = True
-        Me.tmrReload.Interval = 1800000
-        '
         'MenuStrip
         '
         Me.MenuStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
@@ -460,9 +453,6 @@ Partial Class MdifrmMain
         Me.SettingsToolStripMenuItem.Name = "SettingsToolStripMenuItem"
         Me.SettingsToolStripMenuItem.Size = New System.Drawing.Size(120, 26)
         Me.SettingsToolStripMenuItem.Text = "Settings"
-        '
-        'bgwMainMenu
-        '
         '
         'BarCodePort
         '
@@ -859,7 +849,6 @@ Partial Class MdifrmMain
     Friend WithEvents ToolStripSeparator2 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents cmdSettlement As System.Windows.Forms.ToolStripButton
     Friend WithEvents cmdCustomerLoan As System.Windows.Forms.ToolStripButton
-    Friend WithEvents tmrReload As System.Windows.Forms.Timer
     Friend WithEvents ToolStripSeparator3 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents tslblUserName As ToolStripStatusLabel
     Friend WithEvents MenuStrip As MenuStrip
@@ -886,7 +875,6 @@ Partial Class MdifrmMain
     Friend WithEvents cmdSalesRepair As ToolStripMenuItem
     Friend WithEvents ToolStripDropDownButton3 As ToolStripDropDownButton
     Friend WithEvents cmdTechnicianSalary As ToolStripMenuItem
-    Friend WithEvents bgwMainMenu As System.ComponentModel.BackgroundWorker
     Friend WithEvents cmdRepAdvanced As ToolStripButton
     Friend WithEvents BarCodePort As IO.Ports.SerialPort
     Friend WithEvents TableLayoutPanel1 As TableLayoutPanel

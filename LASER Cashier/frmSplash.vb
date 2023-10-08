@@ -75,11 +75,6 @@ Public NotInheritable Class FrmSplash
                     .tabChart.TabPages.Add(.pageCashier)
                     .GrdActivity.Width = .tabChart.Width
                     .GrdActivity.Left = .tabChart.Left
-                    .lblQtyRRepDetails.Visible = False
-                    .lblTodayIncomeDetails.Visible = False
-                    .lblQtyRRepNo.Visible = False
-                    .lblQtyRRetNo.Visible = False
-                    .lblTodayIncomeNo.Visible = False
                 End With
             Case 70
                 With MdifrmMain
@@ -106,8 +101,6 @@ Public NotInheritable Class FrmSplash
                             .picUImage.Image = Image.FromFile(Application.StartupPath + "\System Files\Images\U-" & DR("UNo").ToString & ".ls")
                         End If
                     End If
-                    .TmrReload_Tick(Nothing, Nothing)
-                    .tmrReload.Start()
                 End With
             Case 80
                 txtLoad.Text = "Setting Accessibility..."
@@ -127,15 +120,7 @@ Public NotInheritable Class FrmSplash
                 End With
             Case 90
                 txtLoad.Text = "Finalizing..."
-                With MdifrmMain
-                    .lblQtyRRepDetails.Visible = False
-                    .lblQtyRRetDetails.Visible = False
-                    .lblTodayIncomeDetails.Visible = False
-                    .lblQtyRRepNo.Visible = False
-                    .lblQtyRRetNo.Visible = False
-                    .lblTodayIncomeNo.Visible = False
-                    .GrdActivity.Left = .tabChart.Left
-                End With
+                MdifrmMain.GrdActivity.Left = MdifrmMain.tabChart.Left
             Case 99
                 MdifrmMain.Visible = True
         End Select
