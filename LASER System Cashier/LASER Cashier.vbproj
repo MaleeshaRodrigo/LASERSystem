@@ -25,22 +25,21 @@
     <UpdateIntervalUnits>Days</UpdateIntervalUnits>
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
+    <MapFileExtensions>false</MapFileExtensions>
     <InstallUrl>https://raw.githubusercontent.com/MaleeshaRodrigo/LASERSystem/main/LASER%2520System%2520Cashier/publish/</InstallUrl>
     <UpdateUrl>https://raw.githubusercontent.com/MaleeshaRodrigo/LASERSystem/main/LASER%2520System%2520Cashier/publish/</UpdateUrl>
-    <ProductName>LASER System</ProductName>
-    <PublisherName>LASER System</PublisherName>
-    <SuiteName>LASER System</SuiteName>
+    <SupportUrl>https://github.com/MaleeshaRodrigo/LASERSystem</SupportUrl>
+    <ErrorReportUrl>https://github.com/MaleeshaRodrigo/LASERSystem/issues</ErrorReportUrl>
+    <ProductName>LASER Cashier</ProductName>
+    <PublisherName>LASER Electronics</PublisherName>
+    <SuiteName>LASER Cashier</SuiteName>
     <MinimumRequiredVersion>1.0.0.0</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-<<<<<<< HEAD
-    <ApplicationRevision>3</ApplicationRevision>
-=======
-    <ApplicationRevision>1</ApplicationRevision>
->>>>>>> 117575d1107deebecf2d943c607e8b983ad15332
+    <ApplicationRevision>7</ApplicationRevision>
     <ApplicationVersion>2.0.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
+    <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
