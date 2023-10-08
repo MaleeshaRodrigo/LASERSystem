@@ -49,7 +49,7 @@ Public Class frmLogin
         End If
         'The senario when the user needs to show the system as a stock market
         If cmbUserName.Text = "admin" And txtPassword.Text = "123" Then
-            frmStock.Show()
+            FormStock.Show()
             Tag = ""
             Close()
             Exit Sub

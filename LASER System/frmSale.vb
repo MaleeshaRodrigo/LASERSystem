@@ -603,7 +603,7 @@ Public Class frmSale
         Dim frm As New FormStock
         With frm
             .Caller = Me.Name.ToString
-            .Name = "frmStock" + NextfrmNo(frmStock).ToString
+            .Name = "frmStock" + NextfrmNo(FormStock).ToString
             .Tag = "Sale"
             .Show(Me)
             .txtSearch.Focus()
