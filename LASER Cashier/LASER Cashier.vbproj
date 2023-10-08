@@ -160,7 +160,9 @@
     <Compile Include="Stock\Controls\ControlStockInfo.Designer.vb">
       <DependentUpon>ControlStockInfo.vb</DependentUpon>
     </Compile>
-    <Compile Include="Stock\Controls\ControlStockInfo.vb" />
+    <Compile Include="Stock\Controls\ControlStockInfo.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Stock\FormStock.Designer.vb">
       <DependentUpon>FormStock.vb</DependentUpon>
     </Compile>
@@ -170,31 +172,45 @@
     <Compile Include="frmCustomer.Designer.vb">
       <DependentUpon>frmCustomer.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmCustomer.vb" />
+    <Compile Include="frmCustomer.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmCustomerLoan.Designer.vb">
       <DependentUpon>frmCustomerLoan.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmCustomerLoan.vb" />
+    <Compile Include="frmCustomerLoan.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmDeliver.Designer.vb">
       <DependentUpon>frmDeliver.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmDeliver.vb" />
+    <Compile Include="frmDeliver.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmLogin.Designer.vb">
       <DependentUpon>frmLogin.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmLogin.vb" />
+    <Compile Include="frmLogin.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmMessage.Designer.vb">
       <DependentUpon>frmMessage.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmMessage.vb" />
+    <Compile Include="frmMessage.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmProduct.Designer.vb">
       <DependentUpon>frmProduct.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmProduct.vb" />
+    <Compile Include="frmProduct.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmReceive.Designer.vb">
       <DependentUpon>frmReceive.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmReceive.vb" />
+    <Compile Include="frmReceive.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmRepair.Designer.vb">
       <DependentUpon>frmRepair.vb</DependentUpon>
     </Compile>
@@ -204,67 +220,99 @@
     <Compile Include="frmRepairAdvanced.Designer.vb">
       <DependentUpon>frmRepairAdvanced.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmRepairAdvanced.vb" />
+    <Compile Include="frmRepairAdvanced.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmReport.Designer.vb">
       <DependentUpon>frmReport.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmReport.vb" />
+    <Compile Include="frmReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmSale.Designer.vb">
       <DependentUpon>frmSale.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmSale.vb" />
+    <Compile Include="frmSale.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmSalesRepair.Designer.vb">
       <DependentUpon>frmSalesRepair.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmSalesRepair.vb" />
+    <Compile Include="frmSalesRepair.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmSearch.Designer.vb">
       <DependentUpon>frmSearch.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmSearch.vb" />
+    <Compile Include="frmSearch.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmSettings.Designer.vb">
       <DependentUpon>frmSettings.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmSettings.vb" />
+    <Compile Include="frmSettings.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmSettlement.Designer.vb">
       <DependentUpon>frmSettlement.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmSettlement.vb" />
+    <Compile Include="frmSettlement.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmSplash.Designer.vb">
       <DependentUpon>frmSplash.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmSplash.vb" />
+    <Compile Include="frmSplash.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmStockSticker.Designer.vb">
       <DependentUpon>frmStockSticker.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmStockSticker.vb" />
+    <Compile Include="frmStockSticker.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmStockTransaction.Designer.vb">
       <DependentUpon>frmStockTransaction.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmStockTransaction.vb" />
+    <Compile Include="frmStockTransaction.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmSupplier.Designer.vb">
       <DependentUpon>frmSupplier.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmSupplier.vb" />
+    <Compile Include="frmSupplier.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmSupply.Designer.vb">
       <DependentUpon>frmSupply.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmSupply.vb" />
+    <Compile Include="frmSupply.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmTechnician.Designer.vb">
       <DependentUpon>frmTechnician.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmTechnician.vb" />
+    <Compile Include="frmTechnician.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmTechnicianCost.Designer.vb">
       <DependentUpon>frmTechnicianCost.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmTechnicianCost.vb" />
+    <Compile Include="frmTechnicianCost.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmTechnicianLoan.Designer.vb">
       <DependentUpon>frmTechnicianLoan.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmTechnicianLoan.vb" />
+    <Compile Include="frmTechnicianLoan.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmTechnicianSalary.Designer.vb">
       <DependentUpon>frmTechnicianSalary.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmTechnicianSalary.vb" />
+    <Compile Include="frmTechnicianSalary.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="mdifrmMain.Designer.vb">
       <DependentUpon>mdifrmMain.vb</DependentUpon>
     </Compile>
@@ -293,64 +341,80 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>rptDeliver.rpt</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\rptReceive.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>rptReceive.rpt</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\rptRepairAdvanced.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>rptRepairAdvanced.rpt</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\rptRepairSticker.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>rptRepairSticker.rpt</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\rptSale.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>rptSale.rpt</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\rptSettlement.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>rptSettlement.rpt</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\rptStockSticker.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>rptStockSticker.rpt</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\rptTechnicianCost.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>rptTechnicianCost.rpt</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\rptTechnicianLoan.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>rptTechnicianLoan.rpt</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\rptTechnicianSalary.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>rptTechnicianSalary.rpt</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\compMessageBox.Designer.vb">
       <DependentUpon>compMessageBox.vb</DependentUpon>
     </Compile>
-    <Compile Include="Controls\compMessageBox.vb" />
+    <Compile Include="Controls\compMessageBox.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Controls\frmDatagridviewTool.Designer.vb">
       <DependentUpon>frmDatagridviewTool.vb</DependentUpon>
     </Compile>
-    <Compile Include="Controls\frmDatagridviewTool.vb" />
+    <Compile Include="Controls\frmDatagridviewTool.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Controls\frmSearchDropDown.Designer.vb">
       <DependentUpon>frmSearchDropDown.vb</DependentUpon>
     </Compile>
-    <Compile Include="Controls\frmSearchDropDown.vb" />
+    <Compile Include="Controls\frmSearchDropDown.vb">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="frmCustomer.resx">
