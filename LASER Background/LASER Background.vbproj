@@ -198,9 +198,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Tools\MessageBox.resx">
       <DependentUpon>MessageBox.vb</DependentUpon>
@@ -235,6 +235,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="refresh.ico" />
+    <None Include="Resources\close.png" />
     <None Include="Resources\stop %282%29.png" />
     <None Include="Resources\stop.png" />
     <None Include="Resources\play.png" />
