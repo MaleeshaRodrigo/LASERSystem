@@ -45,7 +45,7 @@ Public Class rptTechnicianLoan
     
     Public Overrides Property FullResourceName() As String
         Get
-            Return "LASER_System.rptTechnicianLoan.rpt"
+            Return "LASER_Cashier.rptTechnicianLoan.rpt"
         End Get
         Set
             'Do nothing

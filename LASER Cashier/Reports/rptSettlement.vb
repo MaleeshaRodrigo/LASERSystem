@@ -45,7 +45,7 @@ Public Class rptSettlement
     
     Public Overrides Property FullResourceName() As String
         Get
-            Return "LASER_System.rptSettlement.rpt"
+            Return "LASER_Cashier.rptSettlement.rpt"
         End Get
         Set
             'Do nothing

@@ -45,7 +45,7 @@ Public Class rptRepairSticker
     
     Public Overrides Property FullResourceName() As String
         Get
-            Return "LASER_System.rptRepairSticker.rpt"
+            Return "LASER_Admin.rptRepairSticker.rpt"
         End Get
         Set
             'Do nothing

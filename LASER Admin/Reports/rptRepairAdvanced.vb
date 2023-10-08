@@ -45,7 +45,7 @@ Public Class rptRepairAdvanced
     
     Public Overrides Property FullResourceName() As String
         Get
-            Return "LASER_System.rptRepairAdvanced.rpt"
+            Return "LASER_Admin.rptRepairAdvanced.rpt"
         End Get
         Set
             'Do nothing
