@@ -11,7 +11,7 @@ Public Class frmLogin
 
     Private Sub FrmLogin_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Process.GetCurrentProcess().PriorityClass = System.Diagnostics.ProcessPriorityClass.High
-        If My.Settings.DBPath = "" Then My.Settings.DBPath = SpecialDirectories.MyDocuments + "\Database.accdb"
+        If My.Settings.DBPath = "" Then My.Settings.DBPath = Application.StartupPath + "\Database.accdb"
         Dim ConnectionResult = Db.CheckConnection()
         If ConnectionResult.Valid = False Then
             MsgBox(ConnectionResult.Message, vbCritical, "Database Connection Error")

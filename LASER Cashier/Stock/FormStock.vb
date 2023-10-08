@@ -22,7 +22,7 @@ Public Class FormStock
     Private Sub FormStock_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         DB.Connect()
         cmbFilter.SelectedIndex = 0
-        WorkerStock.RunWorkerAsync()
+        btnSearch.PerformClick()
     End Sub
     Private Sub grdStock_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles grdStock.CellDoubleClick
         Dim CurrentRow = grdStock.Rows.Item(e.RowIndex)
@@ -99,7 +99,7 @@ Public Class FormStock
             frmStockTransaction.Show()
         End If
     End Sub
-    Private Sub bgwStock_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles WorkerStock.RunWorkerCompleted
+    Private Sub bgwStock_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs)
         grdStock.ScrollBars = ScrollBars.Both
     End Sub
 
@@ -111,38 +111,21 @@ Public Class FormStock
         OnlynumberQty(e)
     End Sub
 
-    Private Sub ViewToolStripMenuItem1_Click(sender As Object, e As EventArgs)
-        If File.Exists(SpecialDirectories.MyDocuments & "\LASER System\Images\" + "S-" + grdStock.Item(0, grdStock.CurrentRow.Index).Value.ToString + ".ls") Then
-            Dim frmImage As New Form
-            frmImage.Name = "frmImage"
-            frmImage.Text = "LASER System - Image Viewer [S-" & grdStock.Item(0, grdStock.CurrentRow.Index).Value.ToString & "]"
-            frmImage.WindowState = FormWindowState.Maximized
-            frmImage.MaximizeBox = False
-            frmImage.MinimizeBox = False
-            frmImage.BackColor = Color.Black
-            frmImage.BringToFront()
-            Dim img As New PictureBox
-            img.Name = "img"
-            img.Top = 0
-            img.Left = 0
-            img.Dock = DockStyle.Fill
-            img.SizeMode = PictureBoxSizeMode.Zoom
-            img.Image = Image.FromFile(SpecialDirectories.MyDocuments & "\LASER System\Images\" + "S-" + grdStock.Item(0, grdStock.CurrentRow.Index).Value.ToString + ".ls")
-            If frmImage.Visible = False Then
-                frmImage.Show(Me)
-                frmImage.Controls.Add(img)
-            Else
-                For Each controlObject As Control In frmImage.Controls
-                    If controlObject.Name = "img" Then
-                        controlObject = img
-                    End If
-                Next
-            End If
-        End If
-    End Sub
-
-    Private Sub btnSearch_Click(sender As Object, e As EventArgs) Handles btnSearch.Click
-        Dim FilterQuery As String = $"Select * from {Tables.Stock} "
+    Private Sub BtnSearch_Click(sender As Object, e As EventArgs) Handles btnSearch.Click
+        Dim Columns As String() = {
+            Stock.Code,
+            Stock.Category,
+            Stock.Name,
+            Stock.ModelNo,
+            Stock.Location,
+            Stock.LowestPrice,
+            Stock.SalePrice,
+            Stock.AvailableUnits,
+            Stock.DamagedUnits,
+            Stock.ReorderPoint,
+            Stock.Details
+        }
+        Dim FilterQuery As String = $"Select {String.Join(", ", Columns) } from {Tables.Stock} "
         If txtSearch.Text <> "" Then
             Select Case cmbFilter.Text
                 Case "by Code"
@@ -155,8 +138,6 @@ Public Class FormStock
                     FilterQuery += $"Where {Stock.ModelNo} like @VALUE"
                 Case "by Location"
                     FilterQuery += $"Where {Stock.Location} like @VALUE"
-                Case "by Cost Price"
-                    FilterQuery += $"Where {Stock.CostPrice} like @VALUE"
                 Case "by Lowest Price"
                     FilterQuery += $"Where {Stock.LowestPrice} like @VALUE"
                 Case "by Sale Price"
@@ -165,8 +146,16 @@ Public Class FormStock
                     FilterQuery += $"Where {Stock.ReorderPoint} like @VALUE"
                 Case "by Details"
                     FilterQuery += $"Where {Stock.Details} like @VALUE"
-                Case "by All"
-                    FilterQuery += $"Where {Stock.Code} LIKE @VALUE OR {Stock.Category} LIKE @VALUE OR {Stock.Name} LIKE @VALUE OR {Stock.ModelNo} LIKE @VALUE OR {Stock.Location} LIKE @VALUE OR {Stock.CostPrice} LIKE @VALUE OR {Stock.LowestPrice} LIKE @VALUE OR {Stock.SalePrice} LIKE @VALUE OR {Stock.ReorderPoint} LIKE @VALUE OR {Stock.Details} LIKE @VALUE"
+                Case Else
+                    FilterQuery += $"Where {Stock.Code} LIKE @VALUE OR 
+                        {Stock.Category} LIKE @VALUE OR 
+                        {Stock.Name} LIKE @VALUE OR 
+                        {Stock.ModelNo} LIKE @VALUE OR 
+                        {Stock.Location} LIKE @VALUE OR 
+                        {Stock.LowestPrice} LIKE @VALUE OR 
+                        {Stock.SalePrice} LIKE @VALUE OR 
+                        {Stock.ReorderPoint} LIKE @VALUE OR 
+                        {Stock.Details} LIKE @VALUE"
             End Select
         Else
             FilterQuery += $" Order by {Stock.Code}"

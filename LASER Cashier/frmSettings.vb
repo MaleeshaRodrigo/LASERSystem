@@ -116,7 +116,7 @@ Public Class FrmSettings
 
     Private Sub cmdDBLocation_Click(sender As Object, e As EventArgs) Handles cmdDBLocation.Click
         ofdDatabase.Title = "Please select the Database file"
-        ofdDatabase.InitialDirectory = SpecialDirectories.MyDocuments
+        ofdDatabase.InitialDirectory = Application.StartupPath
         ofdDatabase.Filter = "DB Files|*.accdb|DB (old) Files|*.mdb"
         If ofdDatabase.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
             txtDBLoc.Text = ofdDatabase.FileName
@@ -283,7 +283,7 @@ Public Class FrmSettings
 
     Private Sub BtnBGWokerPath_Click(sender As Object, e As EventArgs) Handles BtnBGWokerPath.Click
         ofdDatabase.Title = "Please select the Background Worker file"
-        ofdDatabase.InitialDirectory = SpecialDirectories.MyDocuments
+        ofdDatabase.InitialDirectory = Application.StartupPath
         ofdDatabase.Filter = "EXE file|*.exe"
         If ofdDatabase.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
             TxtBGWokerPath.Text = ofdDatabase.FileName

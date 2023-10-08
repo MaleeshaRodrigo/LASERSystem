@@ -102,8 +102,8 @@ Public NotInheritable Class FrmSplash
                         .lblUEmail.Text = "Email: " + DR("Email").ToString
                         .lblULastLogin.Text = "Last Login: " + DR("LastLogin").ToString
                         .lblULoginCount.Text = "Login Count: " + DR("LoginCount").ToString
-                        If File.Exists(SpecialDirectories.MyDocuments + "\Images\U-" & DR("UNo").ToString & ".ls") Then
-                            .picUImage.Image = Image.FromFile(SpecialDirectories.MyDocuments + "\Images\U-" & DR("UNo").ToString & ".ls")
+                        If File.Exists(Application.StartupPath + "\System Files\Images\U-" & DR("UNo").ToString & ".ls") Then
+                            .picUImage.Image = Image.FromFile(Application.StartupPath + "\System Files\Images\U-" & DR("UNo").ToString & ".ls")
                         End If
                     End If
                     .TmrReload_Tick(Nothing, Nothing)
