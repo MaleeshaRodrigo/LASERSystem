@@ -127,7 +127,7 @@ Partial Class FormStock
         '
         Me.cmdNew.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.cmdNew.Font = New System.Drawing.Font("Calibri", 10.0!)
-        Me.cmdNew.Image = Global.LASER_System.My.Resources.Resources._new
+        Me.cmdNew.Image = Global.LASER_Admin.My.Resources.Resources._new
         Me.cmdNew.Location = New System.Drawing.Point(703, 26)
         Me.cmdNew.Name = "cmdNew"
         Me.cmdNew.Size = New System.Drawing.Size(85, 32)

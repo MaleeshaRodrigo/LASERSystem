@@ -1,7 +1,7 @@
 ﻿Imports System.Data.OleDb
 Imports System.IO
 Imports System.Threading
-Imports LASER_System.My
+Imports LASER_Admin.My
 
 Public Class Database
     Private _Connection As New OleDbConnection
