@@ -49,6 +49,7 @@ Public Class FrmSettings
     End Sub
 
     Private Sub CmdApply_Click(sender As Object, e As EventArgs) Handles cmdApply.Click
+        BoolApplyError = False
         If CheckEmptyfield(txtDBLoc, "Database Location එක ඇතුලත් කර නොමැත.") = False Then
             tpDatabase.Select()
             BoolApplyError = True
@@ -86,7 +87,7 @@ Public Class FrmSettings
 
             MdifrmMain.BarCodePort.Close()
             If chkBSCOMMode.Checked Then
-                If My.Settings.BarcodeScannerCOMPort1 <> "" And IO.Ports.SerialPort.GetPortNames.Contains(My.Settings.BarcodeScannerCOMPort1) Then
+                If My.Settings.BarcodeScannerCOMPort1 <> "" And Ports.SerialPort.GetPortNames.Contains(My.Settings.BarcodeScannerCOMPort1) Then
                     MdifrmMain.BarCodePort.BaudRate = txtBSBaudRate.Text
                     MdifrmMain.BarCodePort.PortName = cmbBSCOMPort.Text
                     MdifrmMain.BarCodePort.Open()
