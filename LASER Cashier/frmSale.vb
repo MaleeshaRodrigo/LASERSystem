@@ -7,6 +7,13 @@ Public Class frmSale
         ' This call is required by the designer.
         InitializeComponent()
         MenuStrip.Items.Add(mnustrpMENU)
+        ' Add any initialization after the InitializeComponent() call.
+    End Sub
+
+    Private Sub frmSale_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Db.Connect()
+        Me.AcceptButton = cmdSave
+
         Call cmdNew_Click(Nothing, Nothing)
         txtSaDate.Value = DateAndTime.Now
         If MdifrmMain.Tag <> "Admin" Then
@@ -14,12 +21,6 @@ Public Class frmSale
             txtSaDate.Enabled = False
         End If
         cmbCuName.Text = "No Name"
-        ' Add any initialization after the InitializeComponent() call.
-    End Sub
-
-    Private Sub frmSale_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Db.Connect()
-        Me.AcceptButton = cmdSave
         grdSale.Focus()
     End Sub
 
@@ -48,8 +49,7 @@ Public Class frmSale
     End Sub
 
     Private Sub frmSale_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-        Me.Tag = ""
-        Me.Close()
+        Db.Disconnect()
     End Sub
 
     Private Sub cmdClose_Click(sender As Object, e As EventArgs) Handles cmdClose.Click
@@ -89,7 +89,7 @@ Public Class frmSale
 
     Private Sub cmbCuName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbCuName.SelectedIndexChanged
         Dim DR As OleDbDataReader = Db.GetDataReader("SELECT * from Customer where CuName='" & cmbCuName.Text & "';")
-        If DR.HasRows = True Then
+        If DR.HasRows Then
             txtCuTelNo1.Tag = "1"
             DR.Read()
             cmbCuName.Text = DR("CuName").ToString
@@ -330,17 +330,17 @@ Public Class frmSale
                                         ",CuLAmount=" & txtCuLAmount.Text &
                                         ",SaRemarks='" & txtSaRemarks.Text & "' Where SaNo = " & txtSaNo.Text)
                 'Delete and update stocksale and stock old data
-                DR1 = Db.GetDataReader("Select * from StockSale where SaNo = " & txtSaNo.Text & "")
-                While DR1.Read
-                    If DR1("SaType").ToString = "Sale" Then
-                        Db.Execute("Update Stock set SAvailablestocks=(SAvailableStocks + " & DR1("SaUnits").ToString &
-                                                     ") where SNo=" & DR1("SNo").ToString & "")
-                    ElseIf DR1("SaType").ToString = "Return to Damaged Units" Then
-                        Db.Execute("Update Stock set SOutofstocks=(SOutofstocks - " & DR1("SaUnits").ToString &
-                                                                            ") where SNo=" & DR1("SNo").ToString & "")
-                    ElseIf DR1("SaType").ToString = "Return to Available Units" Then
-                        Db.Execute("Update Stock set SAvailablestocks=(SAvailablestocks - " & DR1("SaUnits").ToString &
-                                                                                ") where SNo=" & DR1("SNo").ToString & "")
+                Dim DRStockSale As OleDbDataReader = Db.GetDataReader("Select * from StockSale where SaNo = " & txtSaNo.Text & "")
+                While DRStockSale.Read
+                    If DRStockSale("SaType").ToString = "Sale" Then
+                        Db.Execute("Update Stock set SAvailablestocks=(SAvailableStocks + " & DRStockSale("SaUnits").ToString &
+                                                     ") where SNo=" & DRStockSale("SNo").ToString & "")
+                    ElseIf DRStockSale("SaType").ToString = "Return to Damaged Units" Then
+                        Db.Execute("Update Stock set SOutofstocks=(SOutofstocks - " & DRStockSale("SaUnits").ToString &
+                                                                            ") where SNo=" & DRStockSale("SNo").ToString & "")
+                    ElseIf DRStockSale("SaType").ToString = "Return to Available Units" Then
+                        Db.Execute("Update Stock set SAvailablestocks=(SAvailablestocks - " & DRStockSale("SaUnits").ToString &
+                                                                                ") where SNo=" & DRStockSale("SNo").ToString & "")
                     End If
                 End While
                 Db.Execute("DELETE from StockSale where SaNo=" & txtSaNo.Text)       'delete data from stocksale
@@ -546,7 +546,7 @@ Public Class frmSale
     End Sub
 
     Private Sub txtCuTelNo1_TextChanged(sender As Object, e As EventArgs) Handles txtCuTelNo1.TextChanged
-        If txtCuTelNo1.Text = "          " Or txtCuTelNo1.Tag = "1" Then Exit Sub
+        If txtCuTelNo1.Text.Trim() = "" Or txtCuTelNo1.Tag = "1" Then Exit Sub
         Dim SaDR As OleDbDataReader = Db.GetDataReader("Select * from Customer where CuTelNo1='" & txtCuTelNo1.Text & "' or CuTelNo2='" & txtCuTelNo1.Text & "' or CuTelNo3='" & txtCuTelNo1.Text & "';")
         If SaDR.HasRows = True Then
             txtCuTelNo1.Tag = "1"
@@ -564,8 +564,8 @@ Public Class frmSale
     End Sub
 
     Private Sub txtCuTelNo2_TextChanged(sender As Object, e As EventArgs) Handles txtCuTelNo2.TextChanged
-        If txtCuTelNo2.Text = "          " Or txtCuTelNo1.Tag = "1" Then Exit Sub
-        Dim SaDR As OleDb.OleDbDataReader = Db.GetDataReader("Select * from Customer where CuTelNo1='" & txtCuTelNo2.Text & "' or CuTelNo2='" & txtCuTelNo2.Text & "' or CuTelNo3='" & txtCuTelNo2.Text & "';")
+        If txtCuTelNo2.Text.Trim = "" Or txtCuTelNo1.Tag = "1" Then Exit Sub
+        Dim SaDR As OleDbDataReader = Db.GetDataReader("Select * from Customer where CuTelNo1='" & txtCuTelNo2.Text & "' or CuTelNo2='" & txtCuTelNo2.Text & "' or CuTelNo3='" & txtCuTelNo2.Text & "';")
         If SaDR.HasRows = True Then
             txtCuTelNo1.Tag = "1"
             Dim frm As New frmCustomer
@@ -582,8 +582,8 @@ Public Class frmSale
     End Sub
 
     Private Sub txtCuTelNo3_TextChanged(sender As Object, e As EventArgs) Handles txtCuTelNo3.TextChanged
-        If txtCuTelNo3.Text = "          " Or txtCuTelNo1.Tag = "1" Then Exit Sub
-        Dim SaDR As OleDb.OleDbDataReader = Db.GetDataReader("Select * from Customer where CuTelNo1='" & txtCuTelNo3.Text & "' or CuTelNo2='" & txtCuTelNo3.Text & "' or CuTelNo3='" & txtCuTelNo3.Text & "';")
+        If txtCuTelNo3.Text.Trim() = "" Or txtCuTelNo1.Tag = "1" Then Exit Sub
+        Dim SaDR As OleDbDataReader = Db.GetDataReader("Select * from Customer where CuTelNo1='" & txtCuTelNo3.Text & "' or CuTelNo2='" & txtCuTelNo3.Text & "' or CuTelNo3='" & txtCuTelNo3.Text & "';")
         If SaDR.HasRows = True Then
             txtCuTelNo1.Tag = "1"
             Dim frm As New frmCustomer
