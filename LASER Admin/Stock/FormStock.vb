@@ -22,7 +22,7 @@ Public Class FormStock
     Private Sub FormStock_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         DB.Connect()
         cmbFilter.SelectedIndex = 0
-        WorkerStock.RunWorkerAsync()
+        btnSearch.PerformClick()
     End Sub
     Private Sub grdStock_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles grdStock.CellDoubleClick
         Dim CurrentRow = grdStock.Rows.Item(e.RowIndex)
@@ -99,7 +99,7 @@ Public Class FormStock
             frmStockTransaction.Show()
         End If
     End Sub
-    Private Sub bgwStock_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles WorkerStock.RunWorkerCompleted
+    Private Sub bgwStock_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs)
         grdStock.ScrollBars = ScrollBars.Both
     End Sub
 
