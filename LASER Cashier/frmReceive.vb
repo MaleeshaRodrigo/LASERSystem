@@ -291,50 +291,54 @@ Public Class frmReceive
         Dim UserName As String = MdifrmMain.tslblUserName.Text
         Dim threadInvoice As New Thread(
             Sub()
-                'Try
-                Dim frm1 As New frmReport
-                Dim RPT As New rptReceive
-                Dim DT1 As DataTable = Db.GetDataTable($"SELECT RDate,CuName,CuTelNo1,CuTelNo2,CuTelNo3,'' as RetNo, RepNo, PCategory, PName, PModelNo, PSerialNo, Qty, Problem, '' as RepRemarks1 from (((Repair Inner Join Receive On Receive.RNo =Repair.RNo) Left Join Product On Product.PNo=Repair.PNo) Left Join Customer On Customer.CuNo=Receive.CuNo) Where Receive.RNo = {RNo} Union Select RDate,CuName,CuTelNo1,CuTelNo2,CuTelNo3, RetNo, RepNo, PCategory, PName, PModelNo, PSerialNo, Qty, Problem, '' as RepRemarks1 from (((Return Inner Join Receive On Receive.RNo =Return.RNo) Left Join Product On Product.PNo=Return.PNo) Left Join Customer On Customer.CuNo=Receive.CuNo) Where Receive.RNo = {RNo}")
-                For Each row As DataRow In DT1.Rows
-                    Dim DR1 As OleDbDataReader = Db.GetDataReader("Select Remarks from RepairRemarks1 Where " & If(row.Item("RetNo") = "", "RepNo=" & row.Item("RepNo"), "RetNo=" & row.Item("RetNo")))
-                    row.Item("RepRemarks1") = ""
-                    While DR1.Read
-                        row.Item("RepRemarks1") += DR1("Remarks").ToString + vbCrLf
-                    End While
-                Next
-                RPT.SetDataSource(DT1)
+                Dim ThreadDb As New Database()
+                Try
+                    ThreadDb.Connect()
+                    Dim frm1 As New frmReport
+                    Dim RPT As New rptReceive
+                    Dim DT1 As DataTable = ThreadDb.GetDataTable($"SELECT RDate,CuName,CuTelNo1,CuTelNo2,CuTelNo3,'' as RetNo, RepNo, PCategory, PName, PModelNo, PSerialNo, Qty, Problem, '' as RepRemarks1 from (((Repair Inner Join Receive On Receive.RNo =Repair.RNo) Left Join Product On Product.PNo=Repair.PNo) Left Join Customer On Customer.CuNo=Receive.CuNo) Where Receive.RNo = {RNo} Union Select RDate,CuName,CuTelNo1,CuTelNo2,CuTelNo3, RetNo, RepNo, PCategory, PName, PModelNo, PSerialNo, Qty, Problem, '' as RepRemarks1 from (((Return Inner Join Receive On Receive.RNo =Return.RNo) Left Join Product On Product.PNo=Return.PNo) Left Join Customer On Customer.CuNo=Receive.CuNo) Where Receive.RNo = {RNo}")
+                    For Each row As DataRow In DT1.Rows
+                        Dim DR1 As OleDbDataReader = ThreadDb.GetDataReader("Select Remarks from RepairRemarks1 Where " & If(row.Item("RetNo") = "", "RepNo=" & row.Item("RepNo"), "RetNo=" & row.Item("RetNo")))
+                        row.Item("RepRemarks1") = ""
+                        While DR1.Read
+                            row.Item("RepRemarks1") += DR1("Remarks").ToString + vbCrLf
+                        End While
+                    Next
+                    RPT.SetDataSource(DT1)
 
-                RPT.SetParameterValue("Cashier Name", UserName)
-                Dim rawKind1 As Integer
-                Dim c1 As Integer
-                Dim doctoprint1 As New Printing.PrintDocument()
-                doctoprint1.PrinterSettings.PrinterName = My.Settings.BillPrinterName
-                For c1 = 0 To doctoprint1.PrinterSettings.PaperSizes.Count - 1
-                    If doctoprint1.PrinterSettings.PaperSizes(c1).PaperName = My.Settings.BillPrinterPaperName Then
-                        rawKind1 = CInt(doctoprint1.PrinterSettings.PaperSizes(c1).
-                                                GetType().GetField("kind", Reflection.BindingFlags.Instance Or
-                                                Reflection.BindingFlags.NonPublic).GetValue(doctoprint1.PrinterSettings.PaperSizes(c1)))
-                        Exit For
+                    RPT.SetParameterValue("Cashier Name", UserName)
+                    Dim rawKind1 As Integer
+                    Dim c1 As Integer
+                    Dim doctoprint1 As New Printing.PrintDocument()
+                    doctoprint1.PrinterSettings.PrinterName = My.Settings.BillPrinterName
+                    For c1 = 0 To doctoprint1.PrinterSettings.PaperSizes.Count - 1
+                        If doctoprint1.PrinterSettings.PaperSizes(c1).PaperName = My.Settings.BillPrinterPaperName Then
+                            rawKind1 = CInt(doctoprint1.PrinterSettings.PaperSizes(c1).
+                                                    GetType().GetField("kind", Reflection.BindingFlags.Instance Or
+                                                    Reflection.BindingFlags.NonPublic).GetValue(doctoprint1.PrinterSettings.PaperSizes(c1)))
+                            Exit For
+                        End If
+                    Next
+                    RPT.PrintOptions.PaperSize = CType(rawKind1, CrystalDecisions.Shared.PaperSize)
+                    RPT.PrintOptions.PaperOrientation = CrystalDecisions.Shared.PaperOrientation.Portrait
+                    If boolPrint Then   'Choose the printer and paper size. Then, print the report
+                        RPT.PrintToPrinter(1, False, 0, 0)
                     End If
-                Next
-                RPT.PrintOptions.PaperSize = CType(rawKind1, CrystalDecisions.Shared.PaperSize)
-                RPT.PrintOptions.PaperOrientation = CrystalDecisions.Shared.PaperOrientation.Portrait
-                If boolPrint Then   'Choose the printer and paper size. Then, print the report
-                    RPT.PrintToPrinter(1, False, 0, 0)
-                End If
-                With frm1
-                    .ReportViewer.ReportSource = RPT
-                    .Name = "frmReport" + NextfrmNo(frmReport).ToString
-                    .boolClosed = boolClosed
-                    .Tag = formTag
-                    .WindowState = FormWindowState.Normal
-                    .Text = "Report - Received Receipt"
-                    Application.Run(frm1)
-                End With
-                RPT.Close()
-                'Catch ex As Exception
-                'MsgBox("Receipt Invoice එක print කර ගැනීමට අපොහොසත් විය." + vbCrLf + "Error: " + ex.Message, vbCritical, "Print Receipt Invoice Error")
-                'End Try
+                    With frm1
+                        .ReportViewer.ReportSource = RPT
+                        .Name = "frmReport" + NextfrmNo(frmReport).ToString
+                        .boolClosed = boolClosed
+                        .Tag = formTag
+                        .WindowState = FormWindowState.Normal
+                        .Text = "Report - Received Receipt"
+                        Application.Run(frm1)
+                    End With
+                    RPT.Close()
+                Catch ex As Exception
+                    MsgBox("Receipt Invoice එක print කර ගැනීමට අපොහොසත් විය." + vbCrLf + "Error: " + ex.Message, vbCritical, "Print Receipt Invoice Error")
+                Finally
+                    ThreadDb.Disconnect()
+                End Try
             End Sub) With {
                 .Name = "showInvoiceReport",
                 .IsBackground = False
@@ -344,164 +348,80 @@ Public Class frmReceive
         threadInvoice.Start()
     End Sub
 
-    'This method use for continues papers
-    'Public Sub PrintReceipt(RNo As String, Optional boolPrint As Boolean = False, Optional boolClosed As Boolean = False)
-
-    '    If IsNumeric(RNo) = False Or RNo = "" Then Exit Sub
-    '    Dim threadInvoice As New Thread(
-    '        Sub()
-    '            'Try
-    '            Dim frm1 As New frmReport
-    '            Dim RPT As New rptReceive
-    '            Dim DT1 As New DataTable
-    '            Dim DA1 As New OleDb.OleDbDataAdapter("SELECT RepNo,PCategory,PName,PModelNo," &
-    '                                                  "PSerialNo,Qty,Problem,'' as RepRemarks1 from Repair,Product,Receive" &
-    '                                                  " where Receive.RNO = Repair.RNo and Repair.PNo = Product.PNo and Receive.RNo = " &
-    '                                                  RNo & ";", CNN)
-    '            DA1.Fill(DT1)
-    '            For Each row As DataRow In DT1.Rows
-    '                Dim CMD1 As New OleDbCommand("Select Remarks from RepairRemarks1 Where RepNo=" & row.Item("RepNo"), CNN)
-    '                Dim DR1 As OleDbDataReader = CMD1.ExecuteReader
-    '                row.Item("RepRemarks1") = ""
-    '                While DR1.Read
-    '                    row.Item("RepRemarks1") += DR1("Remarks").ToString + vbCrLf
-    '                End While
-    '            Next
-    '            RPT.Subreports.Item("rptReceiveRepair.rpt").SetDataSource(DT1)
-
-    '            Dim DT2 As New DataTable
-    '            Dim DA2 As New OleDb.OleDbDataAdapter("Select Return.RetNo,
-    '                                                    RepNo,PCategory,Pname,PModelNo,PSerialNo,Qty,Problem,'' as RetRemarks1 
-    '                                                    from Return,Product,Receive
-    '                                                    where Receive.RNO = Return.RNo and 
-    '                                                    Return.PNo = Product.PNo and Receive.RNo = " & RNo & ";", CNN)
-    '            DA2.Fill(DT2)
-    '            For Each row As DataRow In DT2.Rows
-    '                Dim CMD1 As New OleDbCommand("Select Remarks from RepairRemarks1 Where RetNo=" & row.Item("RetNo"), CNN)
-    '                Dim DR1 As OleDbDataReader = CMD1.ExecuteReader
-    '                row.Item("RetRemarks1") = ""
-    '                While DR1.Read
-    '                    row.Item("RetRemarks1") += DR1("Remarks").ToString + vbCrLf
-    '                End While
-    '            Next
-    '            RPT.Subreports.Item("rptReceiveReturn.rpt").SetDataSource(DT2)
-
-    '            Dim DT3 As New DataTable
-    '            Dim DA3 As New OleDb.OleDbDataAdapter("SELECT RNo,RDate,Receive.CuNo,CuName,CuTelNo1,CuTelNo2," &
-    '                                          "CuTelNo3 from Receive,Customer where Receive.CuNo = Customer.CuNo and Receive.RNo = " & RNo & ";", CNN)
-    '            DA3.Fill(DT3)
-    '            RPT.SetDataSource(DT3)
-
-    '            RPT.SetParameterValue("Cashier Name", MdifrmMain.tslblUserName.Text)
-    '            If boolPrint Then
-    '                Dim rawKind1 As Integer
-    '                Dim c1 As Integer
-    '                Dim doctoprint1 As New Printing.PrintDocument()
-    '                doctoprint1.PrinterSettings.PrinterName = My.Settings.BillPrinterName
-    '                For c1 = 0 To doctoprint1.PrinterSettings.PaperSizes.Count - 1
-    '                    If doctoprint1.PrinterSettings.PaperSizes(c1).PaperName = My.Settings.BillPrinterPaperName Then
-    '                        rawKind1 = CInt(doctoprint1.PrinterSettings.PaperSizes(c1).
-    '                                              GetType().GetField("kind", Reflection.BindingFlags.Instance Or
-    '                                              Reflection.BindingFlags.NonPublic).GetValue(doctoprint1.PrinterSettings.PaperSizes(c1)))
-    '                        Exit For
-    '                    End If
-    '                Next
-    '                RPT.PrintOptions.PaperSize = CType(rawKind1, CrystalDecisions.Shared.PaperSize)
-    '                RPT.PrintOptions.PaperOrientation = CrystalDecisions.Shared.PaperOrientation.Portrait
-    '                RPT.PrintToPrinter(1, False, 0, 0)
-    '            End If
-    '            With frm1
-    '                .ReportViewer.ReportSource = RPT
-    '                .Name = "frmReport" + NextfrmNo(frmReport).ToString
-    '                If boolClosed = True Then .Tag = "ReceivedRecipt"
-    '                .WindowState = FormWindowState.Normal
-    '                .Text = "Report - Received Receipt"
-    '                Application.Run(frm1)
-    '            End With
-    '            RPT.Close()
-    '            'Catch ex As Exception
-    '            '    MsgBox("Receipt Invoice එක print කර ගැනීමට අපොහොසත් විය." + vbCrLf + "Error: " + ex.Message, vbCritical, "Print Receipt Invoice Error")
-    '            'End Try
-    '        End Sub) With {
-    '            .Name = "showInvoiceReport",
-    '            .IsBackground = False
-    '                                        }
-    '    threadInvoice.SetApartmentState(ApartmentState.STA)
-    '    threadInvoice.Priority = ThreadPriority.Highest
-    '    threadInvoice.Start()
-    'End Sub
-
     Public Sub PrintSticker(RNo As String, Optional boolPrint As Boolean = False, Optional boolClosed As Boolean = False, Optional formTag As String = "")
-
         If IsNumeric(RNo) = False Or RNo = "" Then Exit Sub
         Dim threadSticker As New Thread(
-    Sub()
-        Try
-            Dim rpt3 As New rptRepairSticker
-            Dim DT, DT1 As New DataTable
-            DT.Clear()
-            DT.Columns.Add("RepNo")
-            DT.Columns.Add("CuName")
-            DT.Columns.Add("CuTelNo1")
-            DT.Columns.Add("CuTelNo2")
-            DT.Columns.Add("CuTelNo3")
-            DT.Columns.Add("PCategory")
-            DT.Columns.Add("PName")
-            DT.Columns.Add("RDate")
-            DT.Columns.Add(New DataColumn("Barcode", GetType(Byte())))
-            Dim writer As New BarcodeWriter
-            writer.Format = BarcodeFormat.CODE_128
-            writer.Options.PureBarcode = True
-            DT1 = Db.GetDataTable("SELECT Repair.RepNo,RDate,CuName,CuTelNo1,CuTelNo2,CuTelNo3,PCategory,PName,Qty from " &
-                                                  "Repair,Product,Receive,Customer " &
-                                                  "where Receive.RNO = Repair.RNo and Repair.PNo = Product.PNo and Customer.CuNo = Receive.CuNo and Receive.RNo=" &
-                                                  RNo & ";")
-            For Each row As DataRow In DT1.Rows
-                Dim imgStream As MemoryStream = New MemoryStream()
-                Dim img As Image = writer.Write(row.Item("RepNo"))
-                img.Save(imgStream, System.Drawing.Imaging.ImageFormat.Png)
-                Dim byteArray As Byte() = imgStream.ToArray()
-                imgStream.Close()
-                For i As Integer = 1 To row.Item("Qty")
-                    DT.Rows.Add("R" & row.Item("RepNo"), row.Item("CuName"), row.Item("CuTelNo1"), row.Item("CuTelNo2"), row.Item("CuTelNo3"), row.Item("PCategory"),
-                            row.Item("PName"), row.Item("RDate"), byteArray)
+        Sub()
+            Dim ThreadDb As New Database()
+            Try
+                ThreadDb.Connect()
+                Dim rpt3 As New rptRepairSticker
+                Dim DT, DT1 As New DataTable
+                DT.Clear()
+                DT.Columns.Add("RepNo")
+                DT.Columns.Add("CuName")
+                DT.Columns.Add("CuTelNo1")
+                DT.Columns.Add("CuTelNo2")
+                DT.Columns.Add("CuTelNo3")
+                DT.Columns.Add("PCategory")
+                DT.Columns.Add("PName")
+                DT.Columns.Add("RDate")
+                DT.Columns.Add(New DataColumn("Barcode", GetType(Byte())))
+                Dim writer As New BarcodeWriter
+                writer.Format = BarcodeFormat.CODE_128
+                writer.Options.PureBarcode = True
+                DT1 = ThreadDb.GetDataTable("SELECT Repair.RepNo,RDate,CuName,CuTelNo1,CuTelNo2,CuTelNo3,PCategory,PName,Qty from " &
+                                                      "Repair,Product,Receive,Customer " &
+                                                      "where Receive.RNO = Repair.RNo and Repair.PNo = Product.PNo and Customer.CuNo = Receive.CuNo and Receive.RNo=" &
+                                                      RNo & ";")
+                For Each row As DataRow In DT1.Rows
+                    Dim imgStream As MemoryStream = New MemoryStream()
+                    Dim img As Image = writer.Write(row.Item("RepNo"))
+                    img.Save(imgStream, System.Drawing.Imaging.ImageFormat.Png)
+                    Dim byteArray As Byte() = imgStream.ToArray()
+                    imgStream.Close()
+                    For i As Integer = 1 To row.Item("Qty")
+                        DT.Rows.Add("R" & row.Item("RepNo"), row.Item("CuName"), row.Item("CuTelNo1"), row.Item("CuTelNo2"), row.Item("CuTelNo3"), row.Item("PCategory"),
+                                row.Item("PName"), row.Item("RDate"), byteArray)
+                    Next
                 Next
-            Next
-            rpt3.SetDataSource(DT)
-            If DT.Rows.Count < 1 Then Exit Sub
-            Dim frm2 As New frmReport
-            frm2.ReportViewer.ReportSource = rpt3
-            Dim c2 As Integer
-            Dim doctoprint2 As New System.Drawing.Printing.PrintDocument()
-            doctoprint2.PrinterSettings.PrinterName = My.Settings.StickerPrinterName
-            Dim rawKind As Integer
-            For c2 = 0 To doctoprint2.PrinterSettings.PaperSizes.Count - 1
-                If doctoprint2.PrinterSettings.PaperSizes(c2).PaperName = My.Settings.RepairStickerPrinterPaperName Then
-                    rawKind = CInt(doctoprint2.PrinterSettings.PaperSizes(c2).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint2.PrinterSettings.PaperSizes(c2)))
-                    Exit For
+                rpt3.SetDataSource(DT)
+                If DT.Rows.Count < 1 Then Exit Sub
+                Dim frm2 As New frmReport
+                frm2.ReportViewer.ReportSource = rpt3
+                Dim c2 As Integer
+                Dim doctoprint2 As New System.Drawing.Printing.PrintDocument()
+                doctoprint2.PrinterSettings.PrinterName = My.Settings.StickerPrinterName
+                Dim rawKind As Integer
+                For c2 = 0 To doctoprint2.PrinterSettings.PaperSizes.Count - 1
+                    If doctoprint2.PrinterSettings.PaperSizes(c2).PaperName = My.Settings.RepairStickerPrinterPaperName Then
+                        rawKind = CInt(doctoprint2.PrinterSettings.PaperSizes(c2).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint2.PrinterSettings.PaperSizes(c2)))
+                        Exit For
+                    End If
+                Next
+                rpt3.PrintOptions.PaperOrientation = CrystalDecisions.Shared.PaperOrientation.Portrait
+                rpt3.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
+                If boolPrint Then
+                    rpt3.PrintToPrinter(1, False, 0, 0)
                 End If
-            Next
-            rpt3.PrintOptions.PaperOrientation = CrystalDecisions.Shared.PaperOrientation.Portrait
-            rpt3.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
-            If boolPrint Then
-                rpt3.PrintToPrinter(1, False, 0, 0)
-            End If
-            With frm2
-                .Name = "frmReport" + NextfrmNo(frmReport).ToString
-                .boolClosed = boolClosed
-                .Tag = formTag
-                .WindowState = FormWindowState.Normal
-                .Text = "Report - Received Sticker/s"
-                Application.Run(frm2)
-            End With
-            rpt3.Close()
-        Catch ex As Exception
-            MsgBox("Receipt Sticker එක print කර ගැනීමට අපොහොසත් විය." + vbCrLf + "Error: " + ex.Message, vbCritical, "Print Receipt Sticker Error")
-        End Try
-    End Sub) With {
+                With frm2
+                    .Name = "frmReport" + NextfrmNo(frmReport).ToString
+                    .boolClosed = boolClosed
+                    .Tag = formTag
+                    .WindowState = FormWindowState.Normal
+                    .Text = "Report - Received Sticker/s"
+                    Application.Run(frm2)
+                End With
+                rpt3.Close()
+            Catch ex As Exception
+                MsgBox("Receipt Sticker එක print කර ගැනීමට අපොහොසත් විය." + vbCrLf + "Error: " + ex.Message, vbCritical, "Print Receipt Sticker Error")
+            Finally
+                ThreadDb.Disconnect()
+            End Try
+        End Sub) With {
             .Name = "showStickerReport",
             .IsBackground = False
-                                        }
+        }
         threadSticker.SetApartmentState(ApartmentState.STA)
         threadSticker.Priority = ThreadPriority.Highest
         threadSticker.Start()
