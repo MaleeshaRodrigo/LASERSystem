@@ -166,7 +166,7 @@ Public Class frmReceive
         Dim RNo As Integer = txtRNo.Text
         cmdNew_Click(sender, e)
         If sender Is cmdReceipt Or sender Is cmdReceiptSticker Then
-            PrintReceipt(RNo, True, True, "ReceivedReceipt")
+            PrintReceivedReceipt(RNo, True, True, "ReceivedReceipt")
         End If
         If sender Is cmdSticker Or sender Is cmdReceiptSticker Then
             PrintSticker(RNo, True, True, "ReceivedSticker")
@@ -284,23 +284,19 @@ Public Class frmReceive
         Cursor = Cursors.Default
     End Sub
 
-    Public Sub PrintReceipt(RNo As String, Optional boolPrint As Boolean = False, Optional boolClosed As Boolean = False, Optional formTag As String = "")
-        If IsNumeric(RNo) = False Or RNo = "" Then Exit Sub
+    Public Sub PrintReceivedReceipt(RNo As String, Optional boolPrint As Boolean = False, Optional boolClosed As Boolean = False, Optional formTag As String = "")
+        If IsNumeric(RNo) = False Or RNo = "" Then
+            Exit Sub
+        End If
         Dim UserName As String = MdifrmMain.tslblUserName.Text
         Dim threadInvoice As New Thread(
             Sub()
                 'Try
                 Dim frm1 As New frmReport
                 Dim RPT As New rptReceive
-                Dim DT1 As DataTable = Db.GetDataTable($"SELECT RDate,CuName,CuTelNo1,CuTelNo2,CuTelNo3,'' as RetNo, RepNo, PCategory, PName, PModelNo, 
-PSerialNo, Qty, Problem, '' as RepRemarks1 from (((Repair Inner Join Receive On Receive.RNo =Repair.RNo) Left Join Product On Product.PNo=Repair.PNo) 
-Left Join Customer On Customer.CuNo=Receive.CuNo) Where Receive.RNo = {RNo} 
-Union Select RDate,CuName,CuTelNo1,CuTelNo2,CuTelNo3, RetNo, RepNo, PCategory, PName, PModelNo, PSerialNo, Qty, Problem, '' as RepRemarks1 
-from (((Return Inner Join Receive On Receive.RNo =Return.RNo) Left Join Product On Product.PNo=Return.PNo) Left Join Customer On Customer.CuNo=Receive.CuNo) 
-Where Receive.RNo = {RNo}")
+                Dim DT1 As DataTable = Db.GetDataTable($"SELECT RDate,CuName,CuTelNo1,CuTelNo2,CuTelNo3,'' as RetNo, RepNo, PCategory, PName, PModelNo, PSerialNo, Qty, Problem, '' as RepRemarks1 from (((Repair Inner Join Receive On Receive.RNo =Repair.RNo) Left Join Product On Product.PNo=Repair.PNo) Left Join Customer On Customer.CuNo=Receive.CuNo) Where Receive.RNo = {RNo} Union Select RDate,CuName,CuTelNo1,CuTelNo2,CuTelNo3, RetNo, RepNo, PCategory, PName, PModelNo, PSerialNo, Qty, Problem, '' as RepRemarks1 from (((Return Inner Join Receive On Receive.RNo =Return.RNo) Left Join Product On Product.PNo=Return.PNo) Left Join Customer On Customer.CuNo=Receive.CuNo) Where Receive.RNo = {RNo}")
                 For Each row As DataRow In DT1.Rows
-                    Dim DR1 As OleDbDataReader = Db.GetDataReader("Select Remarks from RepairRemarks1 Where " &
-                                                 If(row.Item("RetNo") = "", "RepNo=" & row.Item("RepNo"), "RetNo=" & row.Item("RetNo")))
+                    Dim DR1 As OleDbDataReader = Db.GetDataReader("Select Remarks from RepairRemarks1 Where " & If(row.Item("RetNo") = "", "RepNo=" & row.Item("RepNo"), "RetNo=" & row.Item("RetNo")))
                     row.Item("RepRemarks1") = ""
                     While DR1.Read
                         row.Item("RepRemarks1") += DR1("Remarks").ToString + vbCrLf

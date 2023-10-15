@@ -94,7 +94,7 @@ Public Class frmDeliver
         cmdSave.Focus()
 
         If grdRepair.Rows.Count < 2 And grdRERepair.Rows.Count < 2 Then
-            MsgBox("ඔබ තවමත් කිසිදු Repair එකක් හෝ RERepair එකක් ඇතුලත් කර නොමැත. කරුණාකර Repair එකක් හෝ RERepair එකක් ඇතුලත් කර නැවත උත්සහ කරන්න.", vbExclamation + vbOKOnly)
+            MsgBox("ඔබ තවමත් කිසිදු Repair එකක් හෝ  RERepair එකක් ඇතුලත් කර නොමැත. කරුණාකර Repair එකක් හෝ  RERepair එකක් ඇතුලත් කර නැවත උත්සහ කරන්න.", vbExclamation + vbOKOnly)
             grdRepair.Focus()
             Exit Sub
         End If
@@ -232,7 +232,7 @@ Public Class frmDeliver
         End If
         Cursor = Cursors.WaitCursor
         'Send Admin to Verify the delivery data
-        Dim DNo As String = "?Key?DNo?"
+        Dim DNo As String = Db.GetNextKey("Deliver", "DNO")
         txtDDate.Value = DateAndTime.Now
         If cmdSave.Text = "Edit" And MdifrmMain.tslblUserType.Text <> "Admin" Then
         End If
@@ -262,7 +262,7 @@ Public Class frmDeliver
             DR.Read()
             CuNo = DR("CuNo").ToString
         Else
-            CuNo = "?Key?CuNo?"
+            CuNo = Db.GetNextKey("Customer", "CuNo")
             Db.Execute("Insert into Customer(CuNo,CuName,CuTelNo1,CuTelNo2,CutelNo3) Values(" & CuNo & ",'" & cmbCuName.Text & "','" & txtCuTelNo1.Text &
                       "','" & txtCuTelNo2.Text & "','" & txtCuTelNo3.Text & "');")
         End If
