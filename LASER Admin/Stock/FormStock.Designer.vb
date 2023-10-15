@@ -59,7 +59,6 @@ Partial Class FormStock
         Me.CloseToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.VIEWToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ViewStockTransactionDetailsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.WorkerStock = New System.ComponentModel.BackgroundWorker()
         Me.GrpSearch.SuspendLayout()
         CType(Me.grdStock, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.MenuStrip.SuspendLayout()
@@ -348,12 +347,7 @@ Partial Class FormStock
         Me.ViewStockTransactionDetailsToolStripMenuItem.Size = New System.Drawing.Size(293, 26)
         Me.ViewStockTransactionDetailsToolStripMenuItem.Text = "View Stock Transaction Details"
         '
-        'WorkerStock
-        '
-        Me.WorkerStock.WorkerReportsProgress = True
-        Me.WorkerStock.WorkerSupportsCancellation = True
-        '
-        'frmStock
+        'FormStock
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 19.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -365,7 +359,7 @@ Partial Class FormStock
         Me.Font = New System.Drawing.Font("Calibri", 9.75!)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MinimumSize = New System.Drawing.Size(818, 388)
-        Me.Name = "frmStock"
+        Me.Name = "FormStock"
         Me.Text = "LASER System - Stock"
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         Me.GrpSearch.ResumeLayout(False)
@@ -388,7 +382,6 @@ Partial Class FormStock
     Friend WithEvents txtSearch As TextBox
     Friend WithEvents grdStock As DataGridView
     Friend WithEvents cmbFilter As ComboBox
-    Friend WithEvents WorkerStock As System.ComponentModel.BackgroundWorker
     Friend WithEvents btnSearch As Button
     Friend WithEvents cmdNew As Button
     Friend WithEvents SNo As DataGridViewTextBoxColumn

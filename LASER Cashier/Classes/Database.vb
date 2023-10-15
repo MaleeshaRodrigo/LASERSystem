@@ -83,25 +83,23 @@ Public Class Database
     ''' <param name="Query">The SQL Query</param>
     ''' <param name="AdminPer">The Admin Permission</param>
     Public Sub Execute(Query As String, Optional Parameters() As OleDbParameter = Nothing, Optional AdminPer As AdminPermission = Nothing)
-        Dim CMDUPDATEDB As OleDbCommand
+        Dim CommandUpdate As OleDbCommand
         If AdminPer IsNot Nothing AndAlso AdminPer.AdminSend = True Then
             If GetRowsCount($"Select APNo from AdminPermission Where APNo={AdminPer.APNo}") = 0 Then
-                Dim APCommand As String = $"Insert into AdminPermission(APNo,APDate,`Status`,AppliedUNo,`Keys`,Remarks)
-Values({AdminPer.APNo},#{DateAndTime.Now}#,'Waiting',{MdifrmMain.Tag},
-'{JsonConvert.SerializeObject(AdminPer.Keys, Formatting.Indented)}','{AdminPer.Remarks}')"
+                Dim CommandInsertAdminPermission As String = $"Insert into AdminPermission(APNo,APDate,`Status`,AppliedUNo,`Keys`,Remarks) Values({AdminPer.APNo},#{DateAndTime.Now}#,'Waiting',{MdifrmMain.Tag},'{JsonConvert.SerializeObject(AdminPer.Keys, Formatting.Indented)}','{AdminPer.Remarks}')"
 
-                CMDUPDATEDB = New OleDbCommand(APCommand, _Connection)
-                CMDUPDATEDB.ExecuteNonQuery()
-                CMDUPDATEDB.Cancel()
+                CommandUpdate = New OleDbCommand(CommandInsertAdminPermission, _Connection)
+                CommandUpdate.ExecuteNonQuery()
+                CommandUpdate.Cancel()
 
-                UpdateOnlineTable(APCommand)
+                UpdateOnlineTable(CommandInsertAdminPermission)
             End If
-            Dim APCCommand As String = $"Insert into APCommand(APNo,Commands) Values({AdminPer.APNo},'{Query.ToString.Replace("'", "''")}')"
-            CMDUPDATEDB = New OleDbCommand(APCCommand, _Connection)
-            CMDUPDATEDB.ExecuteNonQuery()
-            CMDUPDATEDB.Cancel()
+            Dim CommandInsertAPCommand As String = $"Insert into APCommand(APNo,Commands) Values({AdminPer.APNo},'{Query.ToString.Replace("'", "''")}')"
+            CommandUpdate = New OleDbCommand(CommandInsertAPCommand, _Connection)
+            CommandUpdate.ExecuteNonQuery()
+            CommandUpdate.Cancel()
 
-            UpdateOnlineTable(APCCommand)
+            UpdateOnlineTable(CommandInsertAPCommand)
         Else
             'Replace a new index instead of command in keys dictionary in adminpermission
             If AdminPer IsNot Nothing AndAlso AdminPer.Keys.Count > 0 Then
@@ -136,12 +134,12 @@ Values({AdminPer.APNo},#{DateAndTime.Now}#,'Waiting',{MdifrmMain.Tag},
                     i += 1
                 End While
             End If
-            CMDUPDATEDB = New OleDb.OleDbCommand(Query, _Connection)
-            For Each Parameter As OleDbParameter In Parameters
-                CMDUPDATEDB.Parameters.AddWithValue(Parameter.ParameterName, Parameter.Value)
-            Next
-            CMDUPDATEDB.ExecuteNonQuery()
-            CMDUPDATEDB.Cancel()
+            CommandUpdate = New OleDbCommand(Query, _Connection)
+            If Parameters IsNot Nothing Then
+                CommandUpdate.Parameters.AddRange(Parameters)
+            End If
+            CommandUpdate.ExecuteNonQuery()
+            CommandUpdate.Cancel()
             UpdateOnlineTable(Query)
             WriteActivity(Query)
         End If

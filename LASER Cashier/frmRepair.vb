@@ -16,26 +16,17 @@ Public Class frmRepair
 
     Private Sub FrmRepair_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Db.Connect()
-        Call CmbRepNo_SelectedIndexChanged(Nothing, Nothing)
-        Call CmbRetNo_SelectedIndexChanged(Nothing, Nothing)
-        Call CmbTName_DropDown(Nothing, Nothing)
+        CmbRepNo_DropDown(sender, e)
+        CmbRetNo_DropDown(sender, e)
+        CmbRepNo_SelectedIndexChanged(Nothing, Nothing)
+        CmbRetNo_SelectedIndexChanged(Nothing, Nothing)
+        CmbTName_DropDown(Nothing, Nothing)
         If Me.Tag = "" Then
             cmdDone.Enabled = False
         Else
             cmdDone.Enabled = True
         End If
-        If MdifrmMain.Tag <> "Cashier" Then
-            For Each columns As DataGridViewColumn In {
-                grdRepRemarks1.Columns(0),
-                grdRepRemarks2.Columns(0),
-                grdActivity.Columns(0),
-                grdRepTask.Columns(0)}
-                columns.Visible = True
-            Next
-            For Each ctrl As Control In {txtRNo, txtPNo, txtCuNo, txtDNo}
-                ctrl.Visible = True
-            Next
-        End If
+
         If tabRepair.SelectedIndex = 0 Then
             cmbRepNo.Focus()
         Else
@@ -905,7 +896,7 @@ Public Class frmRepair
     End Sub
 
     Private Sub PrintReceivedReceiptToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PrintReceivedReceiptToolStripMenuItem.Click
-        frmReceive.PrintReceipt(txtRNo.Text, False, False, "RepairReceivedReceipt")
+        frmReceive.PrintReceivedReceipt(txtRNo.Text, False, False, "RepairReceivedReceipt")
     End Sub
 
     Private Sub PrintDeliverReceiptToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PrintDeliverReceiptToolStripMenuItem.Click
