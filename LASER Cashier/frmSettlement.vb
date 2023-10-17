@@ -1,13 +1,12 @@
-﻿Imports CrystalDecisions.Shared
-Imports Microsoft.VisualBasic.FileIO
-Imports System.Data.OleDb
+﻿Imports System.Data.OleDb
 Imports System.IO
+Imports CrystalDecisions.Shared
 Public Class frmSettlement
     Private Db As New Database
 
     Private Sub frmSettlement_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Db.Connect()
-        MenuStrip.Items.Add(mnustrpMENU)
+        Dim unused = MenuStrip.Items.Add(mnustrpMENU)
         txtFrom.Value = Today
         txtTo.Value = Today
         CmdTANew_Click(sender, e)
@@ -15,13 +14,13 @@ Public Class frmSettlement
 
     Private Sub cmdSave_Click(sender As Object, e As EventArgs) Handles cmdSave.Click
         If txtLockerCash.Text = "" Then
-            MsgBox("Cash in Locker is empty, fill it", vbOKOnly + vbExclamation)
+            Dim unused10 = MsgBox("Cash in Locker is empty, fill it", vbOKOnly + vbExclamation)
             Exit Sub
         ElseIf txtFrom.Value.Date <> txtTo.Value.Date Then
-            MsgBox("'From' Date Value and 'To' Date Value is different. Therefore this record couldn't be saved. You should change that to a date.", vbOKOnly + vbCritical)
+            Dim unused9 = MsgBox("'From' Date Value and 'To' Date Value is different. Therefore this record couldn't be saved. You should change that to a date.", vbOKOnly + vbCritical)
             Exit Sub
         ElseIf MdifrmMain.tslblUserType.Text <> "Admin" And txtFrom.Value.Date <> Today.Date Then
-            MsgBox("ඔබට පැරණි දින වල Settlement වෙනස් කිරීමට Permission ලබා දී නොමැත. කරුණාකර Admin කෙනෙකු අමතන්න.", vbCritical + vbOKOnly)
+            Dim unused8 = MsgBox("ඔබට පැරණි දින වල Settlement වෙනස් කිරීමට Permission ලබා දී නොමැත. කරුණාකර Admin කෙනෙකු අමතන්න.", vbCritical + vbOKOnly)
             Exit Sub
         End If
         Cursor = Cursors.WaitCursor
@@ -117,7 +116,7 @@ Public Class frmSettlement
             RPT.Subreports("rptSettlementTransaction").SetDataSource(DT3)
             Dim DS4 As New DataSet
             Dim DA4 As OleDbDataAdapter = Db.GetDataAdapter("SELECT * from Settlement;")
-            DA4.Fill(DS4, "Settlement")
+            Dim unused7 = DA4.Fill(DS4, "Settlement")
             RPT.SetDataSource(DS4)
             RPT.SetParameterValue("Cashier Name", MdifrmMain.tslblUserName.Text)
             RPT.SetParameterValue("SetDate", Today.Date)
@@ -138,9 +137,9 @@ Public Class frmSettlement
                                                       "RATE,QTY,TOTAL,TCREMARKS FROM (TECHNICIANCOST INNER JOIN TECHNICIAN  ON TECHNICIAN.TNO = " &
                                                       "TECHNICIANCOST.TNO) WHERE TCDATE Between #" &
                                                       Today.Date & " 00:00:00# and #" & Today.Date & " 23:59:59#;")
-            DA5.Fill(DS1, "TECHNICIANCOST")
-            DA5.Fill(DS1, "STOCK")
-            DA5.Fill(DS1, "TECHNICIAN")
+            Dim unused6 = DA5.Fill(DS1, "TECHNICIANCOST")
+            Dim unused5 = DA5.Fill(DS1, "STOCK")
+            Dim unused4 = DA5.Fill(DS1, "TECHNICIAN")
             RPT1.SetDataSource(DS1)
             MdifrmMain.tsProBar.Value = 40
             MdifrmMain.tslblLoad.Text = "Collecting Data for Technician Loan Report..."
@@ -150,9 +149,9 @@ Public Class frmSettlement
             Dim DA6 As OleDbDataAdapter = Db.GetDataAdapter("SELECT TLNO,TL.TNO,TNAME,TLDATE,SNO,SCATEGORY,SNAME,TLREASON,QTY,RATE,TOTAL FROM " &
                                                       "(TECHNICIANLOAN TL INNER JOIN TECHNICIAN T ON T.TNO = TL.TNO) " &
                                                       "WHERE TLDATE Between #" & Today.Date & " 00:00:00# and #" & Today.Date & " 23:59:59#;")
-            DA6.Fill(DS2, "TECHNICIANLOAN")
-            DA6.Fill(DS2, "STOCK")
-            DA6.Fill(DS2, "TECHNICIAN")
+            Dim unused3 = DA6.Fill(DS2, "TECHNICIANLOAN")
+            Dim unused2 = DA6.Fill(DS2, "STOCK")
+            Dim unused1 = DA6.Fill(DS2, "TECHNICIAN")
             RPT2.SetDataSource(DS2)
             MdifrmMain.tsProBar.Value = 50
             MdifrmMain.tslblLoad.Text = "Creating Settlement Report..."
@@ -243,11 +242,11 @@ Public Class frmSettlement
             Exit Sub
         End Try
         Cursor = Cursors.Default
-        MsgBox("Save Succefull!", vbOKOnly + vbExclamation)
+        Dim unused = MsgBox("Save Succefull!", vbOKOnly + vbExclamation)
     End Sub
 
-    Private Sub cmdClose_Click(sender As Object, e As EventArgs) Handles cmdClose.Click
-        Me.Close()
+    Private Sub cmdClose_Click(sender As Object, e As EventArgs)
+        Close()
     End Sub
 
     Private Sub CmdSearch_Click(sender As Object, e As EventArgs) Handles cmdSearch.Click
@@ -273,7 +272,7 @@ Public Class frmSettlement
         If txtFrom.Value.Date = txtTo.Value.Date Then
             Dim DR As OleDbDataReader = Db.GetDataReader("Select * from Settlement where SetDate =#" & txtFrom.Value.Date & "#")
             If DR.HasRows = True Then
-                DR.Read()
+                Dim unused = DR.Read()
                 txtLockerCash.Text = DR("CashinLocker").ToString
                 txtLKR5000.Text = DR("LKR5000").ToString
                 txtLKR1000.Text = DR("LKR1000").ToString
@@ -338,7 +337,7 @@ Public Class frmSettlement
         RPT.Subreports("rptSettlementTransaction").SetDataSource(DT3)
         Dim DS4 As New DataSet
         Dim DA4 As OleDbDataAdapter = Db.GetDataAdapter("SELECT * from Settlement Where SetDate=#" & Format(txtFrom.Value, "yyyy-MM-dd") & "#;")
-        DA4.Fill(DS4, "Settlement")
+        Dim unused6 = DA4.Fill(DS4, "Settlement")
         RPT.SetDataSource(DS4)
         RPT.SetParameterValue("Cashier Name", MdifrmMain.Tag)
         RPT.SetParameterValue("SetDate", txtFrom.Value.Date)
@@ -361,9 +360,9 @@ Public Class frmSettlement
                                               "TCREMARKS FROM (TECHNICIANCOST INNER JOIN TECHNICIAN  ON TECHNICIAN.TNO = TECHNICIANCOST.TNO) " &
                                               "WHERE TCDATE Between #" & Format(txtFrom.Value, "yyyy-MM-dd") & " 00:00:00# and #" &
                                               Format(txtTo.Value, "yyyy-MM-dd") & " 23:59:59#;")
-        DA5.Fill(DS1, "TECHNICIANCOST")
-        DA5.Fill(DS1, "STOCK")
-        DA5.Fill(DS1, "TECHNICIAN")
+        Dim unused5 = DA5.Fill(DS1, "TECHNICIANCOST")
+        Dim unused4 = DA5.Fill(DS1, "STOCK")
+        Dim unused3 = DA5.Fill(DS1, "TECHNICIAN")
         RPT1.SetDataSource(DS1)
         frm1.ReportViewer.ReportSource = RPT1
         frm1.Show(Me)
@@ -374,9 +373,9 @@ Public Class frmSettlement
         Dim DA6 As OleDbDataAdapter = Db.GetDataAdapter("SELECT TLNO,TL.TNO,TNAME,TLDATE,TL.SNO,SCATEGORY,SNAME,TLREASON,QTY,RATE,TOTAL FROM ((TECHNICIANLOAN TL INNER " &
                                               "JOIN TECHNICIAN T ON T.TNO = TL.TNO) LEFT JOIN STOCK S ON S.SNO = TL.SNO) WHERE TLDATE Between #" &
                                               Format(txtFrom.Value, "yyyy-MM-dd") & " 00:00:00# and #" & Format(txtTo.Value, "yyyy-MM-dd") & " 23:59:59#;")
-        DA6.Fill(DS2, "TECHNICIANLOAN")
-        DA6.Fill(DS2, "STOCK")
-        DA6.Fill(DS2, "TECHNICIAN")
+        Dim unused2 = DA6.Fill(DS2, "TECHNICIANLOAN")
+        Dim unused1 = DA6.Fill(DS2, "STOCK")
+        Dim unused = DA6.Fill(DS2, "TECHNICIAN")
         RPT2.SetDataSource(DS2)
         frm2.ReportViewer.ReportSource = RPT2
         frm2.Show(Me)
@@ -459,7 +458,7 @@ Public Class frmSettlement
     End Sub
 
     Private Sub frmSettlement_Resize(sender As Object, e As EventArgs) Handles Me.Resize
-        tabSettlement.Width = Me.Width - (tabSettlement.Left * 3)
+        tabSettlement.Width = Width - (tabSettlement.Left * 3)
         grdSale.Width = tabSettlement.Width - (grdSale.Left * 3)
         grdStockSale.Width = grdSale.Width
         grdDeliver.Width = tabSettlement.Width - (grdDeliver.Left * 3)
@@ -467,10 +466,10 @@ Public Class frmSettlement
         grdRERepair.Left = grdRepair.Left + grdRepair.Width + 5
         grdRERepair.Width = grdDeliver.Width - grdRERepair.Left + 5
         grdTransaction.Width = tabSettlement.Width - grdTransaction.Left - 15
-        cmdClose.Left = Me.Width - cmdClose.Width - 25
+        cmdClose.Left = Width - cmdClose.Width - 25
         cmdSave.Left = cmdClose.Left - cmdSave.Width - 5
         cmdPrint.Left = cmdSave.Left - cmdPrint.Width - 5
-        tabSettlement.Height = Me.Height - tabSettlement.Top - 130
+        tabSettlement.Height = Height - tabSettlement.Top - 130
         lblIncome.Top = tabSettlement.Top + tabSettlement.Height + 5
         txtIncome.Top = tabSettlement.Top + tabSettlement.Height + 5
         lblCTotal.Top = tabSettlement.Top + tabSettlement.Height + 5
@@ -486,7 +485,7 @@ Public Class frmSettlement
         lblChange.Top = txtCPQtyInvoice.Top + txtCPQtyInvoice.Height + 5
         txtChange.Top = lblChange.Top
         pnlMoneyCalculator.Top = lblCashinLocker.Top
-        pnlMoneyCalculator.Height = Me.Height - pnlMoneyCalculator.Top - 30
+        pnlMoneyCalculator.Height = Height - pnlMoneyCalculator.Top - 30
 
         cmdSave.Top = tabSettlement.Top + tabSettlement.Height + 5
         cmdPrint.Top = tabSettlement.Top + tabSettlement.Height + 5
