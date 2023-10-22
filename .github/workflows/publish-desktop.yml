@@ -18,29 +18,36 @@ jobs:
       Branch: development
       
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-    # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
-    - name: Setup MSBuild.exe
-      uses: microsoft/setup-msbuild@v1.0.2
+      - name: Install Crystal Report
+        run: |
+          mkdir ./Crystal Report 
+          cd ./Crystal Report
+          curl https://origin-az.softwaredownloads.sap.com/public/file/0020000000674472023 -O ./Setup.exe
+          msiexec /package CR13SP34MSI64_0-80007712.msi upgrade=1 /qn
 
-    - name: Setup Nuget
-      uses: nuget/setup-nuget@v1
-      with: 
-        nuget-version: latest 
+    # # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
+    # - name: Setup MSBuild.exe
+    #   uses: microsoft/setup-msbuild@v1.0.2
 
-    # Restore the Nuget packages
-    - name: Restore NuGet Packages
-      run: nuget restore
+    # - name: Setup Nuget
+    #   uses: nuget/setup-nuget@v1
+    #   with: 
+    #     nuget-version: latest 
 
-    - name: Build LASER Cashier Project
-      run: cd ./LASER Cashier & msbuild 
+    # # Restore the Nuget packages
+    # - name: Restore NuGet Packages
+    #   run: nuget restore
 
-    - name: Publish LASER Cashier Project
-      run: msbuild /t:publish /p:PublishDir="publish/" /property:UpdateEnabled=true /property:UpdateUrl="https://raw.githubusercontent.com/MaleeshaRodrigo/LASERSystem/${{env.Branch}}/LASER%20Cashier/publish/"
+    # - name: Build LASER Cashier Project
+    #   run: cd ./LASER Cashier & msbuild 
+
+    # - name: Publish LASER Cashier Project
+    #   run: msbuild /t:publish /p:PublishDir="publish/" /property:UpdateEnabled=true /property:UpdateUrl="https://raw.githubusercontent.com/MaleeshaRodrigo/LASERSystem/${{env.Branch}}/LASER%20Cashier/publish/"
             
 
     
