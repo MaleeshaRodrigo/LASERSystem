@@ -13,7 +13,7 @@ jobs:
     runs-on: windows-latest 
 
     env:
-      Solution_Name: LASER System.sln
+      Solution_Name: "LASER System.sln"
       Folder_Name: LASER Cashier                       
       Branch: development
       
