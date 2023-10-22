@@ -27,11 +27,13 @@ jobs:
     - name: Setup MSBuild.exe
       uses: microsoft/setup-msbuild@v1.0.2
 
-    # Restore the Nuget packages
-    - name: Restore NuGet Packages
+    - name: Setup Nuget
     - uses: nuget/setup-nuget@v1
       with: 
         nuget-version: latest 
+
+    # Restore the Nuget packages
+    - name: Restore NuGet Packages
     - run: nuget restore ${{ env.Solution_Name }}
 
     - name: Build LASER Cashier Project
