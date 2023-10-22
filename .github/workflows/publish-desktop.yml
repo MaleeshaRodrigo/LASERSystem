@@ -34,7 +34,7 @@ jobs:
 
     # Restore the Nuget packages
     - name: Restore NuGet Packages
-      run: nuget restore ${{ env.Solution_Name }}
+      run: nuget restore
 
     - name: Build LASER Cashier Project
       run: cd ./LASER Cashier
