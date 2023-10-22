@@ -296,15 +296,28 @@ Public Class frmReceive
                     ThreadDb.Connect()
                     Dim frm1 As New frmReport
                     Dim RPT As New rptReceive
-                    Dim DT1 As DataTable = ThreadDb.GetDataTable($"SELECT RDate,CuName,CuTelNo1,CuTelNo2,CuTelNo3,'' as RetNo, RepNo, PCategory, PName, PModelNo, PSerialNo, Qty, Problem, '' as RepRemarks1 from (((Repair Inner Join Receive On Receive.RNo =Repair.RNo) Left Join Product On Product.PNo=Repair.PNo) Left Join Customer On Customer.CuNo=Receive.CuNo) Where Receive.RNo = {RNo} Union Select RDate,CuName,CuTelNo1,CuTelNo2,CuTelNo3, RetNo, RepNo, PCategory, PName, PModelNo, PSerialNo, Qty, Problem, '' as RepRemarks1 from (((Return Inner Join Receive On Receive.RNo =Return.RNo) Left Join Product On Product.PNo=Return.PNo) Left Join Customer On Customer.CuNo=Receive.CuNo) Where Receive.RNo = {RNo}")
-                    For Each row As DataRow In DT1.Rows
+                    Dim DTRepair As DataTable = ThreadDb.GetDataTable($"SELECT RDate,CuName,CuTelNo1,CuTelNo2,CuTelNo3,'' as RetNo, RepNo, PCategory, PName, PModelNo, PSerialNo, Qty, Problem, '' as RepRemarks1 from (((Repair Inner Join Receive On Receive.RNo =Repair.RNo) Left Join Product On Product.PNo=Repair.PNo) Left Join Customer On Customer.CuNo=Receive.CuNo) Where Receive.RNo = {RNo}")
+                    For Each row As DataRow In DTRepair.Rows
                         Dim DR1 As OleDbDataReader = ThreadDb.GetDataReader("Select Remarks from RepairRemarks1 Where " & If(row.Item("RetNo") = "", "RepNo=" & row.Item("RepNo"), "RetNo=" & row.Item("RetNo")))
                         row.Item("RepRemarks1") = ""
                         While DR1.Read
                             row.Item("RepRemarks1") += DR1("Remarks").ToString + vbCrLf
                         End While
                     Next
-                    RPT.SetDataSource(DT1)
+                    RPT.Subreports("rptReceiveRepair").SetDataSource(DTRepair)
+
+                    Dim DTReRepair As DataTable = ThreadDb.GetDataTable($"Select RDate,CuName,CuTelNo1,CuTelNo2,CuTelNo3, RetNo, RepNo, PCategory, PName, PModelNo, PSerialNo, Qty, Problem, '' as RepRemarks1 from (((Return Inner Join Receive On Receive.RNo =Return.RNo) Left Join Product On Product.PNo=Return.PNo) Left Join Customer On Customer.CuNo=Receive.CuNo) Where Receive.RNo = {RNo}")
+                    For Each row As DataRow In DTReRepair.Rows
+                        Dim DR1 As OleDbDataReader = ThreadDb.GetDataReader("Select Remarks from RepairRemarks1 Where " & If(row.Item("RetNo") = "", "RepNo=" & row.Item("RepNo"), "RetNo=" & row.Item("RetNo")))
+                        row.Item("RepRemarks1") = ""
+                        While DR1.Read
+                            row.Item("RepRemarks1") += DR1("Remarks").ToString + vbCrLf
+                        End While
+                    Next
+                    RPT.Subreports("rptReceiveReRepair").SetDataSource(DTReRepair)
+
+                    Dim DTReceive As DataTable = ThreadDb.GetDataTable($"SELECT RDate,Receive.CuNo, CuName, CuTelNo1,CuTelNo2,CuTelNo3 from Receive, Customer Where Customer.CuNo = Receive.CuNo AND Receive.RNo = {RNo}")
+                    RPT.SetDataSource(DTReceive)
 
                     RPT.SetParameterValue("Cashier Name", UserName)
                     Dim rawKind1 As Integer
