@@ -186,7 +186,7 @@ Public Class Database
 
     Public Function GetNextKey(Table As String, Column As String) As Integer
         Dim Output As Integer
-        Dim Command As New OleDbCommand($"Select Top 1 {Column} from {Table} Order by {Column} Desc", _Connection)
+        Dim Command As New OleDbCommand($"Select Top 1 `{Column}` from `{Table}` Order by `{Column}` Desc", _Connection)
         Dim DataReader As OleDbDataReader = Command.ExecuteReader
         If DataReader.HasRows = True Then
             DataReader.Read()
