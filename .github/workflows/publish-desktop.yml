@@ -25,7 +25,7 @@ jobs:
 
       - name: Install Crystal Report
         run: |
-          mkdir ""./Crystal Report"
+          mkdir "./Crystal Report"
           cd "./Crystal Report"
           curl "https://origin-az.softwaredownloads.sap.com/public/file/0020000000674472023" -O "./Setup.msi"
           msiexec /package Setup.msi upgrade=1 /qn
