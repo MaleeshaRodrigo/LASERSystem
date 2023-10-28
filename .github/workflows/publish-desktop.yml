@@ -23,12 +23,14 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Setup Chocolatey 
+        uses: crazy-max/ghaction-chocolatey@v3
+        with:
+          args: -h
+        
       - name: Install Crystal Report
-        run: |
-          mkdir "./Crystal Report"
-          cd "./Crystal Report"
-          curl "https://origin-az.softwaredownloads.sap.com/public/file/0020000000674472023" -O "./Setup.msi"
-          msiexec /package Setup.msi upgrade=1 /qn
+        run: choco install crystalreports-for-visualstudio
+        
 
     # # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
     # - name: Setup MSBuild.exe
