@@ -29,13 +29,13 @@ Partial Class FrmSettings
         Me.TxtBGWokerPath = New System.Windows.Forms.TextBox()
         Me.BtnBGWokerPath = New System.Windows.Forms.Button()
         Me.Label11 = New System.Windows.Forms.Label()
-        Me.Guna2GroupBox4 = New Guna.UI2.WinForms.Guna2GroupBox()
+        Me.Guna2GroupBox4 = New System.Windows.Forms.GroupBox()
         Me.txtBSBaudRate = New System.Windows.Forms.TextBox()
         Me.cmbBSCOMPort = New System.Windows.Forms.ComboBox()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.chkBSCOMMode = New System.Windows.Forms.CheckBox()
-        Me.Guna2GroupBox3 = New Guna.UI2.WinForms.Guna2GroupBox()
+        Me.Guna2GroupBox3 = New System.Windows.Forms.GroupBox()
         Me.txtMAdminEmail = New System.Windows.Forms.TextBox()
         Me.Label15 = New System.Windows.Forms.Label()
         Me.chkDeliveredEmailtoT = New System.Windows.Forms.CheckBox()
@@ -49,12 +49,12 @@ Partial Class FrmSettings
         Me.cmdDBLocation = New System.Windows.Forms.Button()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.tpPrinter = New System.Windows.Forms.TabPage()
-        Me.Guna2GroupBox2 = New Guna.UI2.WinForms.Guna2GroupBox()
+        Me.Guna2GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.txtBillPaperName = New System.Windows.Forms.TextBox()
         Me.txtBillPrinterName = New System.Windows.Forms.TextBox()
         Me.Label22 = New System.Windows.Forms.Label()
         Me.Label23 = New System.Windows.Forms.Label()
-        Me.Guna2GroupBox1 = New Guna.UI2.WinForms.Guna2GroupBox()
+        Me.Guna2GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.txtStickerStockPaperName = New System.Windows.Forms.TextBox()
         Me.Label24 = New System.Windows.Forms.Label()
         Me.txtStickerRepairPaperName = New System.Windows.Forms.TextBox()
@@ -898,24 +898,24 @@ Partial Class FrmSettings
     Friend WithEvents UAType As DataGridViewTextBoxColumn
     Friend WithEvents UAEmail As DataGridViewTextBoxColumn
     Friend WithEvents tpPrinter As TabPage
-    Friend WithEvents Guna2GroupBox1 As Guna.UI2.WinForms.Guna2GroupBox
+    Friend WithEvents Guna2GroupBox1 As System.Windows.Forms.GroupBox
     Friend WithEvents txtStickerRepairPaperName As TextBox
     Friend WithEvents txtStickerPrinterName As TextBox
     Friend WithEvents Label18 As Label
     Friend WithEvents Label21 As Label
-    Friend WithEvents Guna2GroupBox2 As Guna.UI2.WinForms.Guna2GroupBox
+    Friend WithEvents Guna2GroupBox2 As System.Windows.Forms.GroupBox
     Friend WithEvents txtBillPaperName As TextBox
     Friend WithEvents txtBillPrinterName As TextBox
     Friend WithEvents Label22 As Label
     Friend WithEvents Label23 As Label
     Friend WithEvents txtStickerStockPaperName As TextBox
     Friend WithEvents Label24 As Label
-    Friend WithEvents Guna2GroupBox3 As Guna.UI2.WinForms.Guna2GroupBox
+    Friend WithEvents Guna2GroupBox3 As System.Windows.Forms.GroupBox
     Friend WithEvents txtMAdminEmail As TextBox
     Friend WithEvents Label15 As Label
     Friend WithEvents chkDeliveredEmailtoT As CheckBox
     Friend WithEvents chkMSetEmail As CheckBox
-    Friend WithEvents Guna2GroupBox4 As Guna.UI2.WinForms.Guna2GroupBox
+    Friend WithEvents Guna2GroupBox4 As System.Windows.Forms.GroupBox
     Friend WithEvents chkBSCOMMode As CheckBox
     Friend WithEvents Label6 As Label
     Friend WithEvents Label2 As Label

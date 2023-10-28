@@ -25,13 +25,13 @@ Partial Class frmSearch
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmSearch))
         Me.tabcontrol = New System.Windows.Forms.TabControl()
         Me.tabpageTextSearch = New System.Windows.Forms.TabPage()
-        Me.cmdLIKE = New Guna.UI2.WinForms.Guna2Button()
-        Me.cmbFilter = New Guna.UI2.WinForms.Guna2ComboBox()
-        Me.cmdRightBracket = New Guna.UI2.WinForms.Guna2Button()
-        Me.cmdLeftBracket = New Guna.UI2.WinForms.Guna2Button()
-        Me.cmdOR = New Guna.UI2.WinForms.Guna2Button()
-        Me.cmdAND = New Guna.UI2.WinForms.Guna2Button()
-        Me.txtTSSearch = New Guna.UI2.WinForms.Guna2TextBox()
+        Me.cmdLIKE = New System.Windows.Forms.Button()
+        Me.cmbFilter = New System.Windows.Forms.ComboBox()
+        Me.cmdRightBracket = New System.Windows.Forms.Button()
+        Me.cmdLeftBracket = New System.Windows.Forms.Button()
+        Me.cmdOR = New System.Windows.Forms.Button()
+        Me.cmdAND = New System.Windows.Forms.Button()
+        Me.txtTSSearch = New System.Windows.Forms.TextBox()
         Me.flpSearch = New System.Windows.Forms.FlowLayoutPanel()
         Me.cmdTSSearch = New System.Windows.Forms.Button()
         Me.grdSearch = New System.Windows.Forms.DataGridView()
@@ -78,12 +78,9 @@ Partial Class frmSearch
         '
         'cmdLIKE
         '
-        Me.cmdLIKE.BorderRadius = 10
         Me.cmdLIKE.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.cmdLIKE.FillColor = System.Drawing.Color.DarkBlue
         Me.cmdLIKE.Font = New System.Drawing.Font("Segoe UI", 9.0!)
         Me.cmdLIKE.ForeColor = System.Drawing.Color.White
-        Me.cmdLIKE.HoverState.FillColor = System.Drawing.Color.DodgerBlue
         Me.cmdLIKE.Location = New System.Drawing.Point(576, 7)
         Me.cmdLIKE.Name = "cmdLIKE"
         Me.cmdLIKE.Size = New System.Drawing.Size(53, 24)
@@ -95,7 +92,6 @@ Partial Class frmSearch
         Me.cmbFilter.BackColor = System.Drawing.Color.White
         Me.cmbFilter.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
         Me.cmbFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cmbFilter.FocusedColor = System.Drawing.Color.Empty
         Me.cmbFilter.Font = New System.Drawing.Font("Segoe UI", 10.0!)
         Me.cmbFilter.ForeColor = System.Drawing.Color.Black
         Me.cmbFilter.FormattingEnabled = True
@@ -104,16 +100,12 @@ Partial Class frmSearch
         Me.cmbFilter.Name = "cmbFilter"
         Me.cmbFilter.Size = New System.Drawing.Size(233, 22)
         Me.cmbFilter.TabIndex = 9
-        Me.cmbFilter.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault
         '
         'cmdRightBracket
         '
-        Me.cmdRightBracket.BorderRadius = 10
         Me.cmdRightBracket.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.cmdRightBracket.FillColor = System.Drawing.Color.DarkBlue
         Me.cmdRightBracket.Font = New System.Drawing.Font("Segoe UI", 9.0!)
         Me.cmdRightBracket.ForeColor = System.Drawing.Color.White
-        Me.cmdRightBracket.HoverState.FillColor = System.Drawing.Color.DodgerBlue
         Me.cmdRightBracket.Location = New System.Drawing.Point(542, 7)
         Me.cmdRightBracket.Name = "cmdRightBracket"
         Me.cmdRightBracket.Size = New System.Drawing.Size(28, 24)
@@ -122,12 +114,9 @@ Partial Class frmSearch
         '
         'cmdLeftBracket
         '
-        Me.cmdLeftBracket.BorderRadius = 10
         Me.cmdLeftBracket.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.cmdLeftBracket.FillColor = System.Drawing.Color.DarkBlue
         Me.cmdLeftBracket.Font = New System.Drawing.Font("Segoe UI", 9.0!)
         Me.cmdLeftBracket.ForeColor = System.Drawing.Color.White
-        Me.cmdLeftBracket.HoverState.FillColor = System.Drawing.Color.DodgerBlue
         Me.cmdLeftBracket.Location = New System.Drawing.Point(507, 7)
         Me.cmdLeftBracket.Name = "cmdLeftBracket"
         Me.cmdLeftBracket.Size = New System.Drawing.Size(29, 24)
@@ -136,12 +125,9 @@ Partial Class frmSearch
         '
         'cmdOR
         '
-        Me.cmdOR.BorderRadius = 10
         Me.cmdOR.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.cmdOR.FillColor = System.Drawing.Color.DarkBlue
         Me.cmdOR.Font = New System.Drawing.Font("Segoe UI", 9.0!)
         Me.cmdOR.ForeColor = System.Drawing.Color.White
-        Me.cmdOR.HoverState.FillColor = System.Drawing.Color.DodgerBlue
         Me.cmdOR.Location = New System.Drawing.Point(448, 6)
         Me.cmdOR.Name = "cmdOR"
         Me.cmdOR.Size = New System.Drawing.Size(53, 24)
@@ -150,12 +136,9 @@ Partial Class frmSearch
         '
         'cmdAND
         '
-        Me.cmdAND.BorderRadius = 10
         Me.cmdAND.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.cmdAND.FillColor = System.Drawing.Color.DodgerBlue
         Me.cmdAND.Font = New System.Drawing.Font("Segoe UI", 9.0!)
         Me.cmdAND.ForeColor = System.Drawing.Color.White
-        Me.cmdAND.HoverState.FillColor = System.Drawing.Color.DodgerBlue
         Me.cmdAND.Location = New System.Drawing.Point(389, 6)
         Me.cmdAND.Name = "cmdAND"
         Me.cmdAND.Size = New System.Drawing.Size(53, 24)
@@ -165,18 +148,10 @@ Partial Class frmSearch
         'txtTSSearch
         '
         Me.txtTSSearch.Cursor = System.Windows.Forms.Cursors.IBeam
-        Me.txtTSSearch.DefaultText = ""
-        Me.txtTSSearch.DisabledState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(208, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(208, Byte), Integer))
-        Me.txtTSSearch.DisabledState.FillColor = System.Drawing.Color.FromArgb(CType(CType(226, Byte), Integer), CType(CType(226, Byte), Integer), CType(CType(226, Byte), Integer))
-        Me.txtTSSearch.DisabledState.ForeColor = System.Drawing.Color.FromArgb(CType(CType(138, Byte), Integer), CType(CType(138, Byte), Integer), CType(CType(138, Byte), Integer))
-        Me.txtTSSearch.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(CType(CType(138, Byte), Integer), CType(CType(138, Byte), Integer), CType(CType(138, Byte), Integer))
-        Me.txtTSSearch.FocusedState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.txtTSSearch.Font = New System.Drawing.Font("Segoe UI", 9.0!)
-        Me.txtTSSearch.HoverState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.txtTSSearch.Location = New System.Drawing.Point(6, 6)
         Me.txtTSSearch.Name = "txtTSSearch"
         Me.txtTSSearch.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
-        Me.txtTSSearch.PlaceholderText = "Search Keyword"
         Me.txtTSSearch.SelectedText = ""
         Me.txtTSSearch.Size = New System.Drawing.Size(138, 22)
         Me.txtTSSearch.TabIndex = 4
@@ -291,12 +266,12 @@ Partial Class frmSearch
     Friend WithEvents ProgressBar As ProgressBar
     Friend WithEvents OPTIONToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ClearToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents cmdRightBracket As Guna.UI2.WinForms.Guna2Button
-    Friend WithEvents cmdLeftBracket As Guna.UI2.WinForms.Guna2Button
-    Friend WithEvents cmdOR As Guna.UI2.WinForms.Guna2Button
-    Friend WithEvents cmdAND As Guna.UI2.WinForms.Guna2Button
-    Friend WithEvents txtTSSearch As Guna.UI2.WinForms.Guna2TextBox
-    Friend WithEvents cmbFilter As Guna.UI2.WinForms.Guna2ComboBox
-    Friend WithEvents cmdLIKE As Guna.UI2.WinForms.Guna2Button
+    Friend WithEvents cmdRightBracket As System.Windows.Forms.Button
+    Friend WithEvents cmdLeftBracket As System.Windows.Forms.Button
+    Friend WithEvents cmdOR As System.Windows.Forms.Button
+    Friend WithEvents cmdAND As System.Windows.Forms.Button
+    Friend WithEvents txtTSSearch As System.Windows.Forms.TextBox
+    Friend WithEvents cmbFilter As System.Windows.Forms.ComboBox
+    Friend WithEvents cmdLIKE As System.Windows.Forms.Button
     Friend WithEvents bgwSearch As System.ComponentModel.BackgroundWorker
 End Class

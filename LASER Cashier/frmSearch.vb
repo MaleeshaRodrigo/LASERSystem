@@ -288,7 +288,7 @@ Public Class frmSearch
                    txtTSSearch.Text.ToString.Substring(4, 3) & " " & txtTSSearch.Text.ToString.Substring(7, 3)
                 End If
                 If _SearchPanelsAddedCount > 0 Then
-                    If cmdAND.FillColor = Color.DodgerBlue Then
+                    If cmdAND.BackColor = Color.DodgerBlue Then
                         CreateSearchPanel("AND")
                     Else
                         CreateSearchPanel("OR")
@@ -300,7 +300,7 @@ Public Class frmSearch
                     CreateSearchPanel($"{cmbFilter.Text}={txtTSSearch.Text}")
                 End If
             End If
-            cmdLeftBracket.FillColor = Color.DarkBlue
+            cmdLeftBracket.BackColor = Color.DarkBlue
             ProgressBar.Value = 0
             ProgressBar.Visible = True
             grdSearch.ScrollBars = ScrollBars.None
@@ -818,13 +818,12 @@ Public Class frmSearch
     'Add Message panel to flow layout panel
     Private Sub CreateSearchPanel(txt As String)
 
-        Dim SearchPanel As New Guna.UI2.WinForms.Guna2Panel()
+        Dim SearchPanel As New System.Windows.Forms.Panel()
         _SearchPanelsAddedCount += 1
 
         'Set panel properties
         With SearchPanel
             .Name = "pnlSearch" + (_SearchPanelsAddedCount).ToString
-            .BorderRadius = .Height / 2
             If txt = "AND" Or txt = "OR" Then
                 .BackColor = Color.DodgerBlue
             Else
@@ -945,13 +944,13 @@ end_for_loop:
     End Sub
 
     Private Sub cmdAND_Click(sender As Object, e As EventArgs) Handles cmdAND.Click
-        cmdAND.FillColor = Color.DodgerBlue
-        cmdOR.FillColor = Color.DarkBlue
+        cmdAND.BackColor = Color.DodgerBlue
+        cmdOR.BackColor = Color.DarkBlue
     End Sub
 
     Private Sub cmdOR_Click(sender As Object, e As EventArgs) Handles cmdOR.Click
-        cmdOR.FillColor = Color.DodgerBlue
-        cmdAND.FillColor = Color.DarkBlue
+        cmdOR.BackColor = Color.DodgerBlue
+        cmdAND.BackColor = Color.DarkBlue
     End Sub
 
     Private Sub grdSearch_SelectionChanged(sender As Object, e As EventArgs) Handles grdSearch.SelectionChanged

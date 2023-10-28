@@ -102,8 +102,8 @@ Partial Class frmDeliver
         Me.cmdReceipt = New System.Windows.Forms.Button()
         Me.cmdNotReceipt = New System.Windows.Forms.Button()
         Me.cmdCancel = New System.Windows.Forms.Button()
-        Me.pnlDSaveFinal = New Guna.UI2.WinForms.Guna2Panel()
-        Me.grpPaymentInfo = New Guna.UI2.WinForms.Guna2GroupBox()
+        Me.pnlDSaveFinal = New System.Windows.Forms.Panel()
+        Me.grpPaymentInfo = New System.Windows.Forms.GroupBox()
         Me.txtRepAdvanced = New System.Windows.Forms.TextBox()
         Me.Label16 = New System.Windows.Forms.Label()
         Me.Label17 = New System.Windows.Forms.Label()
@@ -873,12 +873,10 @@ Partial Class frmDeliver
         Me.pnlDSaveFinal.Name = "pnlDSaveFinal"
         Me.pnlDSaveFinal.Size = New System.Drawing.Size(443, 411)
         Me.pnlDSaveFinal.TabIndex = 83
-        Me.pnlDSaveFinal.UseTransparentBackground = True
         '
         'grpPaymentInfo
         '
         Me.grpPaymentInfo.BackColor = System.Drawing.Color.Transparent
-        Me.grpPaymentInfo.BorderRadius = 10
         Me.grpPaymentInfo.Controls.Add(Me.txtRepAdvanced)
         Me.grpPaymentInfo.Controls.Add(Me.Label16)
         Me.grpPaymentInfo.Controls.Add(Me.Label17)
@@ -898,8 +896,6 @@ Partial Class frmDeliver
         Me.grpPaymentInfo.ForeColor = System.Drawing.Color.FromArgb(CType(CType(125, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(149, Byte), Integer))
         Me.grpPaymentInfo.Location = New System.Drawing.Point(3, 3)
         Me.grpPaymentInfo.Name = "grpPaymentInfo"
-        Me.grpPaymentInfo.ShadowDecoration.BorderRadius = 10
-        Me.grpPaymentInfo.ShadowDecoration.Enabled = True
         Me.grpPaymentInfo.Size = New System.Drawing.Size(426, 405)
         Me.grpPaymentInfo.TabIndex = 84
         Me.grpPaymentInfo.Text = "Payment Info"
@@ -1112,8 +1108,8 @@ Partial Class frmDeliver
     Friend WithEvents Label33 As Label
     Friend WithEvents txtCuLAmount As TextBox
     Friend WithEvents Label30 As Label
-    Friend WithEvents pnlDSaveFinal As Guna.UI2.WinForms.Guna2Panel
-    Friend WithEvents grpPaymentInfo As Guna.UI2.WinForms.Guna2GroupBox
+    Friend WithEvents pnlDSaveFinal As System.Windows.Forms.Panel
+    Friend WithEvents grpPaymentInfo As System.Windows.Forms.GroupBox
     Friend WithEvents Label13 As Label
     Friend WithEvents chkCashDrawer As CheckBox
     Friend WithEvents txtRepAdvanced As TextBox
