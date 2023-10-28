@@ -23,31 +23,31 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Setup Chocolatey 
+        uses: crazy-max/ghaction-chocolatey@v3
+        with:
+          args: -h
+        
       - name: Install Crystal Report
-        run: |
-          mkdir "./Crystal Report"
-          cd "./Crystal Report"
-          curl "https://origin-az.softwaredownloads.sap.com/public/file/0020000000674472023" -O "./Setup.msi"
-          msiexec /package Setup.msi upgrade=1 /qn
-
-    # # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
-    # - name: Setup MSBuild.exe
-    #   uses: microsoft/setup-msbuild@v1.0.2
-
-    # - name: Setup Nuget
-    #   uses: nuget/setup-nuget@v1
-    #   with: 
-    #     nuget-version: latest 
-
-    # # Restore the Nuget packages
-    # - name: Restore NuGet Packages
-    #   run: nuget restore
-
-    # - name: Build LASER Cashier Project
-    #   run: cd ./LASER Cashier & msbuild 
-
-    # - name: Publish LASER Cashier Project
-    #   run: msbuild /t:publish /p:PublishDir="publish/" /property:UpdateEnabled=true /property:UpdateUrl="https://raw.githubusercontent.com/MaleeshaRodrigo/LASERSystem/${{env.Branch}}/LASER%20Cashier/publish/"
+        run: choco install crystalreports-for-visualstudio
+        
+      - name: Setup MSBuild.exe
+        uses: microsoft/setup-msbuild@v1.0.2
+  
+      - name: Setup Nuget
+        uses: nuget/setup-nuget@v1
+        with: 
+          nuget-version: latest 
+  
+      - name: Restore NuGet Packages
+        run: nuget restore
+  
+      - name: Build LASER Cashier Project      
+        working-directory: "./LASER Cashier"
+        run: msbuild 
+  
+      # - name: Publish LASER Cashier Project
+      #   run: msbuild /t:publish /p:PublishDir="publish/" /property:UpdateEnabled=true /property:UpdateUrl="https://raw.githubusercontent.com/MaleeshaRodrigo/LASERSystem/${{env.Branch}}/LASER%20Cashier/publish/"
             
 
     
