@@ -46,9 +46,5 @@ jobs:
         working-directory: "./LASER Cashier"
         run: msbuild 
   
-      # - name: Publish LASER Cashier Project
-      #   run: msbuild /t:publish /p:PublishDir="publish/" /property:UpdateEnabled=true /property:UpdateUrl="https://raw.githubusercontent.com/MaleeshaRodrigo/LASERSystem/${{env.Branch}}/LASER%20Cashier/publish/"
-            
-
-    
-    
+      - name: Publish LASER Cashier Project
+        run: msbuild /t:publish /p:PublishDir="publish/" /property:UpdateEnabled=true /property:UpdateUrl="https://raw.githubusercontent.com/MaleeshaRodrigo/LASERSystem/${{env.Branch}}/LASER%20Cashier/publish/"    
