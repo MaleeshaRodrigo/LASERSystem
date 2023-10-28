@@ -43,10 +43,12 @@ jobs:
         run: nuget restore
   
       - name: Build LASER Cashier Project
-        run: cd ./LASER Cashier & msbuild 
+        run: |
+          cd ./LASER Cashier/
+          msbuild 
   
-      - name: Publish LASER Cashier Project
-        run: msbuild /t:publish /p:PublishDir="publish/" /property:UpdateEnabled=true /property:UpdateUrl="https://raw.githubusercontent.com/MaleeshaRodrigo/LASERSystem/${{env.Branch}}/LASER%20Cashier/publish/"
+      # - name: Publish LASER Cashier Project
+      #   run: msbuild /t:publish /p:PublishDir="publish/" /property:UpdateEnabled=true /property:UpdateUrl="https://raw.githubusercontent.com/MaleeshaRodrigo/LASERSystem/${{env.Branch}}/LASER%20Cashier/publish/"
             
 
     
