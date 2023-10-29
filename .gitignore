@@ -249,3 +249,4 @@ paket-files/
 # JetBrains Rider
 .idea/
 *.sln.iml
+/.vs/LASER System/v17/.suo
