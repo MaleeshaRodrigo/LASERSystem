@@ -110,7 +110,7 @@ Partial Class frmRepair
         Me.PrintDeliverReceiptToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.cmdDone = New System.Windows.Forms.Button()
         Me.imgRepair = New System.Windows.Forms.PictureBox()
-        Me.Guna2Panel1 = New Guna.UI2.WinForms.Guna2Panel()
+        Me.Guna2Panel1 = New System.Windows.Forms.Panel()
         Me.grpAdvancePay = New System.Windows.Forms.GroupBox()
         Me.grdAdvance = New System.Windows.Forms.DataGridView()
         Me.AdvancePayAVNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -1004,7 +1004,6 @@ Partial Class frmRepair
         Me.Guna2Panel1.Controls.Add(Me.boxItem)
         Me.Guna2Panel1.Controls.Add(Me.lblRepRemarks2)
         Me.Guna2Panel1.Controls.Add(Me.boxRepair)
-        Me.Guna2Panel1.CustomBorderThickness = New System.Windows.Forms.Padding(5, 0, 0, 0)
         Me.Guna2Panel1.Location = New System.Drawing.Point(384, 27)
         Me.Guna2Panel1.Name = "Guna2Panel1"
         Me.Guna2Panel1.Size = New System.Drawing.Size(691, 667)
@@ -1539,7 +1538,7 @@ Partial Class frmRepair
     Friend WithEvents PrintReceivedReceiptToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents imgRepair As PictureBox
     Friend WithEvents PrintDeliverReceiptToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents Guna2Panel1 As Guna.UI2.WinForms.Guna2Panel
+    Friend WithEvents Guna2Panel1 As System.Windows.Forms.Panel
     Friend WithEvents boxItem As GroupBox
     Friend WithEvents grdTechnicianCost As DataGridView
     Friend WithEvents grdRepRemarks1 As DataGridView

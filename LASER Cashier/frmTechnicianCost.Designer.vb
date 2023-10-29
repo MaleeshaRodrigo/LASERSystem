@@ -41,7 +41,7 @@ Partial Class frmTechnicianCost
         Me.TechnicionInfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ItemInfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Label12 = New System.Windows.Forms.Label()
-        Me.txtSearch = New Guna.UI2.WinForms.Guna2TextBox()
+        Me.txtSearch = New System.Windows.Forms.TextBox()
         Me.txtTCFrom = New System.Windows.Forms.DateTimePicker()
         Me.txtTCTo = New System.Windows.Forms.DateTimePicker()
         Me.grdTechnicianCost = New System.Windows.Forms.DataGridView()
@@ -234,22 +234,10 @@ Partial Class frmTechnicianCost
         Me.txtSearch.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.txtSearch.Cursor = System.Windows.Forms.Cursors.IBeam
-        Me.txtSearch.DefaultText = ""
-        Me.txtSearch.DisabledState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(208, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(208, Byte), Integer))
-        Me.txtSearch.DisabledState.FillColor = System.Drawing.Color.FromArgb(CType(CType(226, Byte), Integer), CType(CType(226, Byte), Integer), CType(CType(226, Byte), Integer))
-        Me.txtSearch.DisabledState.ForeColor = System.Drawing.Color.FromArgb(CType(CType(138, Byte), Integer), CType(CType(138, Byte), Integer), CType(CType(138, Byte), Integer))
-        Me.txtSearch.DisabledState.Parent = Me.txtSearch
-        Me.txtSearch.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(CType(CType(138, Byte), Integer), CType(CType(138, Byte), Integer), CType(CType(138, Byte), Integer))
-        Me.txtSearch.FocusedState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.txtSearch.FocusedState.Parent = Me.txtSearch
-        Me.txtSearch.HoverState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.txtSearch.HoverState.Parent = Me.txtSearch
         Me.txtSearch.Location = New System.Drawing.Point(538, 85)
         Me.txtSearch.Name = "txtSearch"
         Me.txtSearch.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
-        Me.txtSearch.PlaceholderText = "Search Here"
         Me.txtSearch.SelectedText = ""
-        Me.txtSearch.ShadowDecoration.Parent = Me.txtSearch
         Me.txtSearch.Size = New System.Drawing.Size(133, 20)
         Me.txtSearch.TabIndex = 124
         '
@@ -439,7 +427,7 @@ Partial Class frmTechnicianCost
     Friend WithEvents TechnicionInfoToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ItemInfoToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents Label12 As Label
-    Friend WithEvents txtSearch As Guna.UI2.WinForms.Guna2TextBox
+    Friend WithEvents txtSearch As System.Windows.Forms.TextBox
     Friend WithEvents txtTCFrom As DateTimePicker
     Friend WithEvents txtTCTo As DateTimePicker
     Friend WithEvents grdTechnicianCost As DataGridView

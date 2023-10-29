@@ -1,0 +1,51 @@
+name: Publish LASER Cashier
+
+on:
+  push:
+    branches: [ "32" ]
+  pull_request:
+    branches: [ "32" ]
+
+jobs:
+
+  build:
+  
+    runs-on: windows-latest 
+
+    env:
+      Solution_Name: "LASER System.sln"
+      Folder_Name: LASER Cashier                       
+      Branch: development
+      
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Chocolatey 
+        uses: crazy-max/ghaction-chocolatey@v3
+        with:
+          args: -h
+        
+      - name: Install Crystal Report
+        run: choco install crystalreports-for-visualstudio
+        
+      - name: Setup MSBuild.exe
+        uses: microsoft/setup-msbuild@v1.0.2
+  
+      - name: Setup Nuget
+        uses: nuget/setup-nuget@v1
+        with: 
+          nuget-version: latest 
+  
+      - name: Restore NuGet Packages
+        run: nuget restore
+  
+      - name: Build LASER Cashier Project      
+        working-directory: "./LASER Cashier"
+        run: msbuild 
+  
+      - name: Publish LASER Cashier Project
+        working-directory: "./LASER Cashier"
+        run: msbuild /t:publish /p:PublishDir="publish/" /property:UpdateEnabled=true /property:UpdateUrl="https://raw.githubusercontent.com/MaleeshaRodrigo/LASERSystem/${{env.Branch}}/LASER%20Cashier/publish/"    
