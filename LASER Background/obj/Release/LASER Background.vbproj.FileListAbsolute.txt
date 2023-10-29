@@ -25,7 +25,6 @@ D:\Documents\Visual Studio Projects\LASER System\LASER Background\bin\Release\LA
 D:\Documents\Visual Studio Projects\LASER System\LASER Background\obj\Release\LASER Background.exe.manifest
 D:\Documents\Visual Studio Projects\LASER System\LASER Background\obj\Release\LASER Background.application
 C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\obj\Release\LASER Background.vbproj.AssemblyReference.cache
-C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\obj\Release\LASER Background.vbproj.SuggestedBindingRedirects.cache
 C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\obj\Release\LASER_Background.FrmAdvDB.resources
 C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\obj\Release\LASER_Background.frmBGTasks.resources
 C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\obj\Release\LASER_Background.Resources.resources
@@ -36,3 +35,15 @@ C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\obj\Release\LASER Back
 C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\obj\Release\LASER Background.exe
 C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\obj\Release\LASER Background.xml
 C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\obj\Release\LASER Background.pdb
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\bin\Release\LASER Background.exe.config
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\bin\Release\LASER Background.exe.manifest
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\bin\Release\LASER Background.application
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\bin\Release\LASER Background.exe
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\bin\Release\LASER Background.pdb
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\bin\Release\LASER Background.xml
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\bin\Release\MaterialSkin.dll
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\bin\Release\Newtonsoft.Json.dll
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\bin\Release\Newtonsoft.Json.xml
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\obj\Release\LASER Background.exe.manifest
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\obj\Release\LASER Background.application
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\obj\Release\LASER Background.vbproj.CopyComplete

@@ -41,7 +41,7 @@ Partial Class frmRepairAdvanced
         Me.Price = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Remarks = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.UName = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Guna2GroupBox1 = New Guna.UI2.WinForms.Guna2GroupBox()
+        Me.Guna2GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.cmdDelete = New System.Windows.Forms.Button()
         Me.rbRERep = New System.Windows.Forms.RadioButton()
         Me.cmdNew = New System.Windows.Forms.Button()
@@ -232,7 +232,6 @@ Partial Class frmRepairAdvanced
         Me.Guna2GroupBox1.ForeColor = System.Drawing.Color.FromArgb(CType(CType(125, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(149, Byte), Integer))
         Me.Guna2GroupBox1.Location = New System.Drawing.Point(12, 27)
         Me.Guna2GroupBox1.Name = "Guna2GroupBox1"
-        Me.Guna2GroupBox1.ShadowDecoration.Parent = Me.Guna2GroupBox1
         Me.Guna2GroupBox1.Size = New System.Drawing.Size(319, 357)
         Me.Guna2GroupBox1.TabIndex = 101
         Me.Guna2GroupBox1.Text = "Advanced Payment Info:"
@@ -511,7 +510,7 @@ Partial Class frmRepairAdvanced
     Friend WithEvents Price As DataGridViewTextBoxColumn
     Friend WithEvents Remarks As DataGridViewTextBoxColumn
     Friend WithEvents UName As DataGridViewTextBoxColumn
-    Friend WithEvents Guna2GroupBox1 As Guna.UI2.WinForms.Guna2GroupBox
+    Friend WithEvents Guna2GroupBox1 As System.Windows.Forms.GroupBox
     Friend WithEvents Label2 As Label
     Friend WithEvents txtAdDate As DateTimePicker
     Friend WithEvents txtAdNo As TextBox
