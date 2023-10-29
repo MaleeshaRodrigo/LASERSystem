@@ -68,24 +68,26 @@ Partial Class frmSearch
         Me.tabpageTextSearch.Controls.Add(Me.txtTSSearch)
         Me.tabpageTextSearch.Controls.Add(Me.flpSearch)
         Me.tabpageTextSearch.Controls.Add(Me.cmdTSSearch)
-        Me.tabpageTextSearch.Location = New System.Drawing.Point(4, 23)
+        Me.tabpageTextSearch.Location = New System.Drawing.Point(4, 27)
         Me.tabpageTextSearch.Name = "tabpageTextSearch"
         Me.tabpageTextSearch.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabpageTextSearch.Size = New System.Drawing.Size(729, 68)
+        Me.tabpageTextSearch.Size = New System.Drawing.Size(729, 64)
         Me.tabpageTextSearch.TabIndex = 0
         Me.tabpageTextSearch.Text = "Text Search"
         Me.tabpageTextSearch.UseVisualStyleBackColor = True
         '
         'cmdLIKE
         '
+        Me.cmdLIKE.BackColor = System.Drawing.SystemColors.ButtonFace
         Me.cmdLIKE.Cursor = System.Windows.Forms.Cursors.Hand
         Me.cmdLIKE.Font = New System.Drawing.Font("Segoe UI", 9.0!)
-        Me.cmdLIKE.ForeColor = System.Drawing.Color.White
+        Me.cmdLIKE.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.cmdLIKE.Location = New System.Drawing.Point(576, 7)
         Me.cmdLIKE.Name = "cmdLIKE"
         Me.cmdLIKE.Size = New System.Drawing.Size(53, 24)
         Me.cmdLIKE.TabIndex = 10
         Me.cmdLIKE.Text = "LIKE"
+        Me.cmdLIKE.UseVisualStyleBackColor = False
         '
         'cmbFilter
         '
@@ -103,47 +105,55 @@ Partial Class frmSearch
         '
         'cmdRightBracket
         '
+        Me.cmdRightBracket.BackColor = System.Drawing.SystemColors.ButtonFace
         Me.cmdRightBracket.Cursor = System.Windows.Forms.Cursors.Hand
         Me.cmdRightBracket.Font = New System.Drawing.Font("Segoe UI", 9.0!)
-        Me.cmdRightBracket.ForeColor = System.Drawing.Color.White
+        Me.cmdRightBracket.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.cmdRightBracket.Location = New System.Drawing.Point(542, 7)
         Me.cmdRightBracket.Name = "cmdRightBracket"
         Me.cmdRightBracket.Size = New System.Drawing.Size(28, 24)
         Me.cmdRightBracket.TabIndex = 8
         Me.cmdRightBracket.Text = ")"
+        Me.cmdRightBracket.UseVisualStyleBackColor = False
         '
         'cmdLeftBracket
         '
+        Me.cmdLeftBracket.BackColor = System.Drawing.SystemColors.ButtonFace
         Me.cmdLeftBracket.Cursor = System.Windows.Forms.Cursors.Hand
         Me.cmdLeftBracket.Font = New System.Drawing.Font("Segoe UI", 9.0!)
-        Me.cmdLeftBracket.ForeColor = System.Drawing.Color.White
+        Me.cmdLeftBracket.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.cmdLeftBracket.Location = New System.Drawing.Point(507, 7)
         Me.cmdLeftBracket.Name = "cmdLeftBracket"
         Me.cmdLeftBracket.Size = New System.Drawing.Size(29, 24)
         Me.cmdLeftBracket.TabIndex = 7
         Me.cmdLeftBracket.Text = "("
+        Me.cmdLeftBracket.UseVisualStyleBackColor = False
         '
         'cmdOR
         '
+        Me.cmdOR.BackColor = System.Drawing.SystemColors.ButtonFace
         Me.cmdOR.Cursor = System.Windows.Forms.Cursors.Hand
         Me.cmdOR.Font = New System.Drawing.Font("Segoe UI", 9.0!)
-        Me.cmdOR.ForeColor = System.Drawing.Color.White
+        Me.cmdOR.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.cmdOR.Location = New System.Drawing.Point(448, 6)
         Me.cmdOR.Name = "cmdOR"
         Me.cmdOR.Size = New System.Drawing.Size(53, 24)
         Me.cmdOR.TabIndex = 6
         Me.cmdOR.Text = "OR"
+        Me.cmdOR.UseVisualStyleBackColor = False
         '
         'cmdAND
         '
+        Me.cmdAND.BackColor = System.Drawing.SystemColors.ButtonFace
         Me.cmdAND.Cursor = System.Windows.Forms.Cursors.Hand
         Me.cmdAND.Font = New System.Drawing.Font("Segoe UI", 9.0!)
-        Me.cmdAND.ForeColor = System.Drawing.Color.White
+        Me.cmdAND.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.cmdAND.Location = New System.Drawing.Point(389, 6)
         Me.cmdAND.Name = "cmdAND"
         Me.cmdAND.Size = New System.Drawing.Size(53, 24)
         Me.cmdAND.TabIndex = 5
         Me.cmdAND.Text = "AND"
+        Me.cmdAND.UseVisualStyleBackColor = False
         '
         'txtTSSearch
         '
@@ -151,9 +161,7 @@ Partial Class frmSearch
         Me.txtTSSearch.Font = New System.Drawing.Font("Segoe UI", 9.0!)
         Me.txtTSSearch.Location = New System.Drawing.Point(6, 6)
         Me.txtTSSearch.Name = "txtTSSearch"
-        Me.txtTSSearch.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
-        Me.txtTSSearch.SelectedText = ""
-        Me.txtTSSearch.Size = New System.Drawing.Size(138, 22)
+        Me.txtTSSearch.Size = New System.Drawing.Size(138, 27)
         Me.txtTSSearch.TabIndex = 4
         '
         'flpSearch
@@ -197,10 +205,11 @@ Partial Class frmSearch
         '
         'MenuStrip1
         '
+        Me.MenuStrip1.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OPTIONToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(757, 24)
+        Me.MenuStrip1.Size = New System.Drawing.Size(757, 30)
         Me.MenuStrip1.TabIndex = 2
         Me.MenuStrip1.Text = "MenuStrip"
         '
@@ -208,7 +217,7 @@ Partial Class frmSearch
         '
         Me.OPTIONToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ClearToolStripMenuItem})
         Me.OPTIONToolStripMenuItem.Name = "OPTIONToolStripMenuItem"
-        Me.OPTIONToolStripMenuItem.Size = New System.Drawing.Size(62, 20)
+        Me.OPTIONToolStripMenuItem.Size = New System.Drawing.Size(76, 26)
         Me.OPTIONToolStripMenuItem.Text = "OPTION"
         '
         'ClearToolStripMenuItem
@@ -216,13 +225,13 @@ Partial Class frmSearch
         Me.ClearToolStripMenuItem.Name = "ClearToolStripMenuItem"
         Me.ClearToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
             Or System.Windows.Forms.Keys.C), System.Windows.Forms.Keys)
-        Me.ClearToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
+        Me.ClearToolStripMenuItem.Size = New System.Drawing.Size(217, 26)
         Me.ClearToolStripMenuItem.Text = "Clear"
         '
         'ProgressBar
         '
         Me.ProgressBar.Dock = System.Windows.Forms.DockStyle.Top
-        Me.ProgressBar.Location = New System.Drawing.Point(0, 24)
+        Me.ProgressBar.Location = New System.Drawing.Point(0, 30)
         Me.ProgressBar.Name = "ProgressBar"
         Me.ProgressBar.Size = New System.Drawing.Size(757, 10)
         Me.ProgressBar.TabIndex = 5
@@ -234,7 +243,7 @@ Partial Class frmSearch
         '
         'frmSearch
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 14.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 18.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(757, 294)
         Me.Controls.Add(Me.ProgressBar)
@@ -250,6 +259,7 @@ Partial Class frmSearch
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         Me.tabcontrol.ResumeLayout(False)
         Me.tabpageTextSearch.ResumeLayout(False)
+        Me.tabpageTextSearch.PerformLayout()
         CType(Me.grdSearch, System.ComponentModel.ISupportInitialize).EndInit()
         Me.MenuStrip1.ResumeLayout(False)
         Me.MenuStrip1.PerformLayout()
