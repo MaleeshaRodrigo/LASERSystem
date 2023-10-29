@@ -153,6 +153,12 @@
     <Compile Include="Classes\Validators\ExecuteValidators.vb" />
     <Compile Include="Classes\Validators\RequiredValidator.vb" />
     <Compile Include="Interfaces\Validator.vb" />
+    <Compile Include="Reports\rptReceive.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptReceive.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Stock\Controls\ControlStockInfo.Designer.vb">
       <DependentUpon>ControlStockInfo.vb</DependentUpon>
     </Compile>
@@ -337,12 +343,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>rptDeliver.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Reports\rptReceive.vb">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>rptReceive.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\rptRepairAdvanced.vb">
