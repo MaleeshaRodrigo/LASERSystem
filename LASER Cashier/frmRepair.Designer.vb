@@ -110,7 +110,7 @@ Partial Class frmRepair
         Me.PrintDeliverReceiptToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.cmdDone = New System.Windows.Forms.Button()
         Me.imgRepair = New System.Windows.Forms.PictureBox()
-        Me.Guna2Panel1 = New System.Windows.Forms.Panel()
+        Me.Panel1 = New System.Windows.Forms.Panel()
         Me.grpAdvancePay = New System.Windows.Forms.GroupBox()
         Me.grdAdvance = New System.Windows.Forms.DataGridView()
         Me.AdvancePayAVNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -166,7 +166,7 @@ Partial Class frmRepair
         Me.boxDeliver.SuspendLayout()
         Me.MenuStrip.SuspendLayout()
         CType(Me.imgRepair, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.Guna2Panel1.SuspendLayout()
+        Me.Panel1.SuspendLayout()
         Me.grpAdvancePay.SuspendLayout()
         CType(Me.grdAdvance, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpActivity.SuspendLayout()
@@ -984,30 +984,30 @@ Partial Class frmRepair
         Me.imgRepair.TabIndex = 69
         Me.imgRepair.TabStop = False
         '
-        'Guna2Panel1
+        'Panel1
         '
-        Me.Guna2Panel1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+        Me.Panel1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Guna2Panel1.AutoScroll = True
-        Me.Guna2Panel1.Controls.Add(Me.grpAdvancePay)
-        Me.Guna2Panel1.Controls.Add(Me.grpActivity)
-        Me.Guna2Panel1.Controls.Add(Me.grpRepTask)
-        Me.Guna2Panel1.Controls.Add(Me.cmbLocation)
-        Me.Guna2Panel1.Controls.Add(Me.lblLocation)
-        Me.Guna2Panel1.Controls.Add(Me.grdRepRemarks2)
-        Me.Guna2Panel1.Controls.Add(Me.grdRepRemarks1)
-        Me.Guna2Panel1.Controls.Add(Me.imgRepair)
-        Me.Guna2Panel1.Controls.Add(Me.lblRepRemarks1)
-        Me.Guna2Panel1.Controls.Add(Me.boxTechnician)
-        Me.Guna2Panel1.Controls.Add(Me.boxDeliver)
-        Me.Guna2Panel1.Controls.Add(Me.boxItem)
-        Me.Guna2Panel1.Controls.Add(Me.lblRepRemarks2)
-        Me.Guna2Panel1.Controls.Add(Me.boxRepair)
-        Me.Guna2Panel1.Location = New System.Drawing.Point(384, 27)
-        Me.Guna2Panel1.Name = "Guna2Panel1"
-        Me.Guna2Panel1.Size = New System.Drawing.Size(691, 667)
-        Me.Guna2Panel1.TabIndex = 70
+        Me.Panel1.AutoScroll = True
+        Me.Panel1.Controls.Add(Me.grpAdvancePay)
+        Me.Panel1.Controls.Add(Me.grpActivity)
+        Me.Panel1.Controls.Add(Me.grpRepTask)
+        Me.Panel1.Controls.Add(Me.cmbLocation)
+        Me.Panel1.Controls.Add(Me.lblLocation)
+        Me.Panel1.Controls.Add(Me.grdRepRemarks2)
+        Me.Panel1.Controls.Add(Me.grdRepRemarks1)
+        Me.Panel1.Controls.Add(Me.imgRepair)
+        Me.Panel1.Controls.Add(Me.lblRepRemarks1)
+        Me.Panel1.Controls.Add(Me.boxTechnician)
+        Me.Panel1.Controls.Add(Me.boxDeliver)
+        Me.Panel1.Controls.Add(Me.boxItem)
+        Me.Panel1.Controls.Add(Me.lblRepRemarks2)
+        Me.Panel1.Controls.Add(Me.boxRepair)
+        Me.Panel1.Location = New System.Drawing.Point(384, 27)
+        Me.Panel1.Name = "Panel1"
+        Me.Panel1.Size = New System.Drawing.Size(691, 667)
+        Me.Panel1.TabIndex = 70
         '
         'grpAdvancePay
         '
@@ -1401,7 +1401,7 @@ Partial Class frmRepair
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 14.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1172, 709)
-        Me.Controls.Add(Me.Guna2Panel1)
+        Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.cmdDone)
         Me.Controls.Add(Me.txtPProblem)
         Me.Controls.Add(Me.lblPProblem)
@@ -1438,8 +1438,8 @@ Partial Class frmRepair
         Me.MenuStrip.ResumeLayout(False)
         Me.MenuStrip.PerformLayout()
         CType(Me.imgRepair, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.Guna2Panel1.ResumeLayout(False)
-        Me.Guna2Panel1.PerformLayout()
+        Me.Panel1.ResumeLayout(False)
+        Me.Panel1.PerformLayout()
         Me.grpAdvancePay.ResumeLayout(False)
         CType(Me.grdAdvance, System.ComponentModel.ISupportInitialize).EndInit()
         Me.grpActivity.ResumeLayout(False)
@@ -1538,7 +1538,7 @@ Partial Class frmRepair
     Friend WithEvents PrintReceivedReceiptToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents imgRepair As PictureBox
     Friend WithEvents PrintDeliverReceiptToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents Guna2Panel1 As System.Windows.Forms.Panel
+    Friend WithEvents Panel1 As System.Windows.Forms.Panel
     Friend WithEvents boxItem As GroupBox
     Friend WithEvents grdTechnicianCost As DataGridView
     Friend WithEvents grdRepRemarks1 As DataGridView
