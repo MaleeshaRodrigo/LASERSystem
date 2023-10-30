@@ -329,12 +329,12 @@
   </file>
   <file name="LASER Cashier.exe.config" size="3911">
     <hash>
-      <dsig:Transforms>
-        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
-      </dsig:Transforms>
-      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>korah4A2B6jjKMUCkmbQh72dHMRVOYE83dZZG1ifxnE=</dsig:DigestValue>
-    </hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>7FCTd+OvmXafPXNMEzd7nbMfD7sIm27UN0msxjGlJSQ=</dsig:DigestValue>
+      </hash>
   </file>
   <compatibility xmlns="urn:schemas-microsoft-com:compatibility.v1">
     <application>
