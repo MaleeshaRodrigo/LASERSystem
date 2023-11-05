@@ -29,13 +29,13 @@ Partial Class FrmSettings
         Me.TxtBGWokerPath = New System.Windows.Forms.TextBox()
         Me.BtnBGWokerPath = New System.Windows.Forms.Button()
         Me.Label11 = New System.Windows.Forms.Label()
-        Me.Guna2GroupBox4 = New System.Windows.Forms.GroupBox()
+        Me.GroupBox4 = New System.Windows.Forms.GroupBox()
         Me.txtBSBaudRate = New System.Windows.Forms.TextBox()
         Me.cmbBSCOMPort = New System.Windows.Forms.ComboBox()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.chkBSCOMMode = New System.Windows.Forms.CheckBox()
-        Me.Guna2GroupBox3 = New System.Windows.Forms.GroupBox()
+        Me.GroupBox3 = New System.Windows.Forms.GroupBox()
         Me.txtMAdminEmail = New System.Windows.Forms.TextBox()
         Me.Label15 = New System.Windows.Forms.Label()
         Me.chkDeliveredEmailtoT = New System.Windows.Forms.CheckBox()
@@ -49,12 +49,12 @@ Partial Class FrmSettings
         Me.cmdDBLocation = New System.Windows.Forms.Button()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.tpPrinter = New System.Windows.Forms.TabPage()
-        Me.Guna2GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.txtBillPaperName = New System.Windows.Forms.TextBox()
         Me.txtBillPrinterName = New System.Windows.Forms.TextBox()
         Me.Label22 = New System.Windows.Forms.Label()
         Me.Label23 = New System.Windows.Forms.Label()
-        Me.Guna2GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.txtStickerStockPaperName = New System.Windows.Forms.TextBox()
         Me.Label24 = New System.Windows.Forms.Label()
         Me.txtStickerRepairPaperName = New System.Windows.Forms.TextBox()
@@ -96,12 +96,12 @@ Partial Class FrmSettings
         Me.ofdDatabase = New System.Windows.Forms.OpenFileDialog()
         Me.tcSettings.SuspendLayout()
         Me.tpGeneral.SuspendLayout()
-        Me.Guna2GroupBox4.SuspendLayout()
-        Me.Guna2GroupBox3.SuspendLayout()
+        Me.GroupBox4.SuspendLayout()
+        Me.GroupBox3.SuspendLayout()
         Me.tpDatabase.SuspendLayout()
         Me.tpPrinter.SuspendLayout()
-        Me.Guna2GroupBox2.SuspendLayout()
-        Me.Guna2GroupBox1.SuspendLayout()
+        Me.GroupBox2.SuspendLayout()
+        Me.GroupBox1.SuspendLayout()
         Me.tpUserAccount.SuspendLayout()
         CType(Me.grdUAUser, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpUAUser.SuspendLayout()
@@ -130,8 +130,8 @@ Partial Class FrmSettings
         Me.tpGeneral.Controls.Add(Me.TxtBGWokerPath)
         Me.tpGeneral.Controls.Add(Me.BtnBGWokerPath)
         Me.tpGeneral.Controls.Add(Me.Label11)
-        Me.tpGeneral.Controls.Add(Me.Guna2GroupBox4)
-        Me.tpGeneral.Controls.Add(Me.Guna2GroupBox3)
+        Me.tpGeneral.Controls.Add(Me.GroupBox4)
+        Me.tpGeneral.Controls.Add(Me.GroupBox3)
         Me.tpGeneral.Location = New System.Drawing.Point(4, 26)
         Me.tpGeneral.Name = "tpGeneral"
         Me.tpGeneral.Padding = New System.Windows.Forms.Padding(3)
@@ -178,20 +178,20 @@ Partial Class FrmSettings
         Me.Label11.TabIndex = 25
         Me.Label11.Text = "Background Worker Path:"
         '
-        'Guna2GroupBox4
+        'GroupBox4
         '
-        Me.Guna2GroupBox4.Controls.Add(Me.txtBSBaudRate)
-        Me.Guna2GroupBox4.Controls.Add(Me.cmbBSCOMPort)
-        Me.Guna2GroupBox4.Controls.Add(Me.Label6)
-        Me.Guna2GroupBox4.Controls.Add(Me.Label2)
-        Me.Guna2GroupBox4.Controls.Add(Me.chkBSCOMMode)
-        Me.Guna2GroupBox4.Font = New System.Drawing.Font("Segoe UI", 9.0!)
-        Me.Guna2GroupBox4.ForeColor = System.Drawing.Color.FromArgb(CType(CType(125, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(149, Byte), Integer))
-        Me.Guna2GroupBox4.Location = New System.Drawing.Point(377, 7)
-        Me.Guna2GroupBox4.Name = "Guna2GroupBox4"
-        Me.Guna2GroupBox4.Size = New System.Drawing.Size(322, 155)
-        Me.Guna2GroupBox4.TabIndex = 22
-        Me.Guna2GroupBox4.Text = "Barcode Scanner Info"
+        Me.GroupBox4.Controls.Add(Me.txtBSBaudRate)
+        Me.GroupBox4.Controls.Add(Me.cmbBSCOMPort)
+        Me.GroupBox4.Controls.Add(Me.Label6)
+        Me.GroupBox4.Controls.Add(Me.Label2)
+        Me.GroupBox4.Controls.Add(Me.chkBSCOMMode)
+        Me.GroupBox4.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.GroupBox4.ForeColor = System.Drawing.Color.FromArgb(CType(CType(125, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(149, Byte), Integer))
+        Me.GroupBox4.Location = New System.Drawing.Point(377, 7)
+        Me.GroupBox4.Name = "GroupBox4"
+        Me.GroupBox4.Size = New System.Drawing.Size(322, 155)
+        Me.GroupBox4.TabIndex = 22
+        Me.GroupBox4.Text = "Barcode Scanner Info"
         '
         'txtBSBaudRate
         '
@@ -237,19 +237,19 @@ Partial Class FrmSettings
         Me.chkBSCOMMode.Text = "COM Mode"
         Me.chkBSCOMMode.UseVisualStyleBackColor = True
         '
-        'Guna2GroupBox3
+        'GroupBox3
         '
-        Me.Guna2GroupBox3.Controls.Add(Me.txtMAdminEmail)
-        Me.Guna2GroupBox3.Controls.Add(Me.Label15)
-        Me.Guna2GroupBox3.Controls.Add(Me.chkDeliveredEmailtoT)
-        Me.Guna2GroupBox3.Controls.Add(Me.chkMSetEmail)
-        Me.Guna2GroupBox3.Font = New System.Drawing.Font("Segoe UI", 9.0!)
-        Me.Guna2GroupBox3.ForeColor = System.Drawing.Color.FromArgb(CType(CType(125, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(149, Byte), Integer))
-        Me.Guna2GroupBox3.Location = New System.Drawing.Point(6, 6)
-        Me.Guna2GroupBox3.Name = "Guna2GroupBox3"
-        Me.Guna2GroupBox3.Size = New System.Drawing.Size(365, 157)
-        Me.Guna2GroupBox3.TabIndex = 21
-        Me.Guna2GroupBox3.Text = "Email Info"
+        Me.GroupBox3.Controls.Add(Me.txtMAdminEmail)
+        Me.GroupBox3.Controls.Add(Me.Label15)
+        Me.GroupBox3.Controls.Add(Me.chkDeliveredEmailtoT)
+        Me.GroupBox3.Controls.Add(Me.chkMSetEmail)
+        Me.GroupBox3.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.GroupBox3.ForeColor = System.Drawing.Color.FromArgb(CType(CType(125, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(149, Byte), Integer))
+        Me.GroupBox3.Location = New System.Drawing.Point(6, 6)
+        Me.GroupBox3.Name = "GroupBox3"
+        Me.GroupBox3.Size = New System.Drawing.Size(365, 157)
+        Me.GroupBox3.TabIndex = 21
+        Me.GroupBox3.Text = "Email Info"
         '
         'txtMAdminEmail
         '
@@ -370,8 +370,8 @@ Partial Class FrmSettings
         '
         'tpPrinter
         '
-        Me.tpPrinter.Controls.Add(Me.Guna2GroupBox2)
-        Me.tpPrinter.Controls.Add(Me.Guna2GroupBox1)
+        Me.tpPrinter.Controls.Add(Me.GroupBox2)
+        Me.tpPrinter.Controls.Add(Me.GroupBox1)
         Me.tpPrinter.Location = New System.Drawing.Point(4, 26)
         Me.tpPrinter.Name = "tpPrinter"
         Me.tpPrinter.Padding = New System.Windows.Forms.Padding(3)
@@ -380,19 +380,19 @@ Partial Class FrmSettings
         Me.tpPrinter.Text = "Print"
         Me.tpPrinter.UseVisualStyleBackColor = True
         '
-        'Guna2GroupBox2
+        'GroupBox2
         '
-        Me.Guna2GroupBox2.Controls.Add(Me.txtBillPaperName)
-        Me.Guna2GroupBox2.Controls.Add(Me.txtBillPrinterName)
-        Me.Guna2GroupBox2.Controls.Add(Me.Label22)
-        Me.Guna2GroupBox2.Controls.Add(Me.Label23)
-        Me.Guna2GroupBox2.Font = New System.Drawing.Font("Segoe UI", 9.0!)
-        Me.Guna2GroupBox2.ForeColor = System.Drawing.Color.FromArgb(CType(CType(125, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(149, Byte), Integer))
-        Me.Guna2GroupBox2.Location = New System.Drawing.Point(6, 152)
-        Me.Guna2GroupBox2.Name = "Guna2GroupBox2"
-        Me.Guna2GroupBox2.Size = New System.Drawing.Size(308, 104)
-        Me.Guna2GroupBox2.TabIndex = 1
-        Me.Guna2GroupBox2.Text = "Bill Printer Info"
+        Me.GroupBox2.Controls.Add(Me.txtBillPaperName)
+        Me.GroupBox2.Controls.Add(Me.txtBillPrinterName)
+        Me.GroupBox2.Controls.Add(Me.Label22)
+        Me.GroupBox2.Controls.Add(Me.Label23)
+        Me.GroupBox2.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.GroupBox2.ForeColor = System.Drawing.Color.FromArgb(CType(CType(125, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(149, Byte), Integer))
+        Me.GroupBox2.Location = New System.Drawing.Point(6, 152)
+        Me.GroupBox2.Name = "GroupBox2"
+        Me.GroupBox2.Size = New System.Drawing.Size(308, 104)
+        Me.GroupBox2.TabIndex = 1
+        Me.GroupBox2.Text = "Bill Printer Info"
         '
         'txtBillPaperName
         '
@@ -426,21 +426,21 @@ Partial Class FrmSettings
         Me.Label23.TabIndex = 32
         Me.Label23.Text = "Printer Name:"
         '
-        'Guna2GroupBox1
+        'GroupBox1
         '
-        Me.Guna2GroupBox1.Controls.Add(Me.txtStickerStockPaperName)
-        Me.Guna2GroupBox1.Controls.Add(Me.Label24)
-        Me.Guna2GroupBox1.Controls.Add(Me.txtStickerRepairPaperName)
-        Me.Guna2GroupBox1.Controls.Add(Me.txtStickerPrinterName)
-        Me.Guna2GroupBox1.Controls.Add(Me.Label18)
-        Me.Guna2GroupBox1.Controls.Add(Me.Label21)
-        Me.Guna2GroupBox1.Font = New System.Drawing.Font("Segoe UI", 9.0!)
-        Me.Guna2GroupBox1.ForeColor = System.Drawing.Color.FromArgb(CType(CType(125, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(149, Byte), Integer))
-        Me.Guna2GroupBox1.Location = New System.Drawing.Point(6, 6)
-        Me.Guna2GroupBox1.Name = "Guna2GroupBox1"
-        Me.Guna2GroupBox1.Size = New System.Drawing.Size(308, 140)
-        Me.Guna2GroupBox1.TabIndex = 0
-        Me.Guna2GroupBox1.Text = "Sticker Printer Info"
+        Me.GroupBox1.Controls.Add(Me.txtStickerStockPaperName)
+        Me.GroupBox1.Controls.Add(Me.Label24)
+        Me.GroupBox1.Controls.Add(Me.txtStickerRepairPaperName)
+        Me.GroupBox1.Controls.Add(Me.txtStickerPrinterName)
+        Me.GroupBox1.Controls.Add(Me.Label18)
+        Me.GroupBox1.Controls.Add(Me.Label21)
+        Me.GroupBox1.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.GroupBox1.ForeColor = System.Drawing.Color.FromArgb(CType(CType(125, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(149, Byte), Integer))
+        Me.GroupBox1.Location = New System.Drawing.Point(6, 6)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(308, 140)
+        Me.GroupBox1.TabIndex = 0
+        Me.GroupBox1.Text = "Sticker Printer Info"
         '
         'txtStickerStockPaperName
         '
@@ -837,17 +837,17 @@ Partial Class FrmSettings
         Me.tcSettings.ResumeLayout(False)
         Me.tpGeneral.ResumeLayout(False)
         Me.tpGeneral.PerformLayout()
-        Me.Guna2GroupBox4.ResumeLayout(False)
-        Me.Guna2GroupBox4.PerformLayout()
-        Me.Guna2GroupBox3.ResumeLayout(False)
-        Me.Guna2GroupBox3.PerformLayout()
+        Me.GroupBox4.ResumeLayout(False)
+        Me.GroupBox4.PerformLayout()
+        Me.GroupBox3.ResumeLayout(False)
+        Me.GroupBox3.PerformLayout()
         Me.tpDatabase.ResumeLayout(False)
         Me.tpDatabase.PerformLayout()
         Me.tpPrinter.ResumeLayout(False)
-        Me.Guna2GroupBox2.ResumeLayout(False)
-        Me.Guna2GroupBox2.PerformLayout()
-        Me.Guna2GroupBox1.ResumeLayout(False)
-        Me.Guna2GroupBox1.PerformLayout()
+        Me.GroupBox2.ResumeLayout(False)
+        Me.GroupBox2.PerformLayout()
+        Me.GroupBox1.ResumeLayout(False)
+        Me.GroupBox1.PerformLayout()
         Me.tpUserAccount.ResumeLayout(False)
         CType(Me.grdUAUser, System.ComponentModel.ISupportInitialize).EndInit()
         Me.grpUAUser.ResumeLayout(False)
@@ -898,24 +898,24 @@ Partial Class FrmSettings
     Friend WithEvents UAType As DataGridViewTextBoxColumn
     Friend WithEvents UAEmail As DataGridViewTextBoxColumn
     Friend WithEvents tpPrinter As TabPage
-    Friend WithEvents Guna2GroupBox1 As System.Windows.Forms.GroupBox
+    Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
     Friend WithEvents txtStickerRepairPaperName As TextBox
     Friend WithEvents txtStickerPrinterName As TextBox
     Friend WithEvents Label18 As Label
     Friend WithEvents Label21 As Label
-    Friend WithEvents Guna2GroupBox2 As System.Windows.Forms.GroupBox
+    Friend WithEvents GroupBox2 As System.Windows.Forms.GroupBox
     Friend WithEvents txtBillPaperName As TextBox
     Friend WithEvents txtBillPrinterName As TextBox
     Friend WithEvents Label22 As Label
     Friend WithEvents Label23 As Label
     Friend WithEvents txtStickerStockPaperName As TextBox
     Friend WithEvents Label24 As Label
-    Friend WithEvents Guna2GroupBox3 As System.Windows.Forms.GroupBox
+    Friend WithEvents GroupBox3 As System.Windows.Forms.GroupBox
     Friend WithEvents txtMAdminEmail As TextBox
     Friend WithEvents Label15 As Label
     Friend WithEvents chkDeliveredEmailtoT As CheckBox
     Friend WithEvents chkMSetEmail As CheckBox
-    Friend WithEvents Guna2GroupBox4 As System.Windows.Forms.GroupBox
+    Friend WithEvents GroupBox4 As System.Windows.Forms.GroupBox
     Friend WithEvents chkBSCOMMode As CheckBox
     Friend WithEvents Label6 As Label
     Friend WithEvents Label2 As Label

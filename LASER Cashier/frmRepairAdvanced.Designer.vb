@@ -41,7 +41,7 @@ Partial Class frmRepairAdvanced
         Me.Price = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Remarks = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.UName = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Guna2GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.cmdDelete = New System.Windows.Forms.Button()
         Me.rbRERep = New System.Windows.Forms.RadioButton()
         Me.cmdNew = New System.Windows.Forms.Button()
@@ -68,7 +68,7 @@ Partial Class frmRepairAdvanced
         Me.PRINTToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.PrintRepairAdvancedToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         CType(Me.grdRepAdvanced, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.Guna2GroupBox1.SuspendLayout()
+        Me.GroupBox1.SuspendLayout()
         Me.MenuStrip.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -207,34 +207,34 @@ Partial Class frmRepairAdvanced
         Me.UName.Name = "UName"
         Me.UName.ReadOnly = True
         '
-        'Guna2GroupBox1
+        'GroupBox1
         '
-        Me.Guna2GroupBox1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+        Me.GroupBox1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.Guna2GroupBox1.Controls.Add(Me.cmdDelete)
-        Me.Guna2GroupBox1.Controls.Add(Me.rbRERep)
-        Me.Guna2GroupBox1.Controls.Add(Me.cmdNew)
-        Me.Guna2GroupBox1.Controls.Add(Me.cmdSave)
-        Me.Guna2GroupBox1.Controls.Add(Me.rbRep)
-        Me.Guna2GroupBox1.Controls.Add(Me.cmdClose)
-        Me.Guna2GroupBox1.Controls.Add(Me.txtRemarks)
-        Me.Guna2GroupBox1.Controls.Add(Me.Label7)
-        Me.Guna2GroupBox1.Controls.Add(Me.Label6)
-        Me.Guna2GroupBox1.Controls.Add(Me.txtAmount)
-        Me.Guna2GroupBox1.Controls.Add(Me.Label5)
-        Me.Guna2GroupBox1.Controls.Add(Me.cmdRepView)
-        Me.Guna2GroupBox1.Controls.Add(Me.cmbRepNo)
-        Me.Guna2GroupBox1.Controls.Add(Me.Label3)
-        Me.Guna2GroupBox1.Controls.Add(Me.txtAdNo)
-        Me.Guna2GroupBox1.Controls.Add(Me.txtAdDate)
-        Me.Guna2GroupBox1.Controls.Add(Me.Label2)
-        Me.Guna2GroupBox1.Font = New System.Drawing.Font("Segoe UI", 9.0!)
-        Me.Guna2GroupBox1.ForeColor = System.Drawing.Color.FromArgb(CType(CType(125, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(149, Byte), Integer))
-        Me.Guna2GroupBox1.Location = New System.Drawing.Point(12, 27)
-        Me.Guna2GroupBox1.Name = "Guna2GroupBox1"
-        Me.Guna2GroupBox1.Size = New System.Drawing.Size(319, 357)
-        Me.Guna2GroupBox1.TabIndex = 101
-        Me.Guna2GroupBox1.Text = "Advanced Payment Info:"
+        Me.GroupBox1.Controls.Add(Me.cmdDelete)
+        Me.GroupBox1.Controls.Add(Me.rbRERep)
+        Me.GroupBox1.Controls.Add(Me.cmdNew)
+        Me.GroupBox1.Controls.Add(Me.cmdSave)
+        Me.GroupBox1.Controls.Add(Me.rbRep)
+        Me.GroupBox1.Controls.Add(Me.cmdClose)
+        Me.GroupBox1.Controls.Add(Me.txtRemarks)
+        Me.GroupBox1.Controls.Add(Me.Label7)
+        Me.GroupBox1.Controls.Add(Me.Label6)
+        Me.GroupBox1.Controls.Add(Me.txtAmount)
+        Me.GroupBox1.Controls.Add(Me.Label5)
+        Me.GroupBox1.Controls.Add(Me.cmdRepView)
+        Me.GroupBox1.Controls.Add(Me.cmbRepNo)
+        Me.GroupBox1.Controls.Add(Me.Label3)
+        Me.GroupBox1.Controls.Add(Me.txtAdNo)
+        Me.GroupBox1.Controls.Add(Me.txtAdDate)
+        Me.GroupBox1.Controls.Add(Me.Label2)
+        Me.GroupBox1.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.GroupBox1.ForeColor = System.Drawing.Color.FromArgb(CType(CType(125, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(149, Byte), Integer))
+        Me.GroupBox1.Location = New System.Drawing.Point(12, 27)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(319, 357)
+        Me.GroupBox1.TabIndex = 101
+        Me.GroupBox1.Text = "Advanced Payment Info:"
         '
         'cmdDelete
         '
@@ -475,7 +475,7 @@ Partial Class frmRepairAdvanced
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(800, 396)
         Me.Controls.Add(Me.MenuStrip)
-        Me.Controls.Add(Me.Guna2GroupBox1)
+        Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.cmdSearch)
         Me.Controls.Add(Me.cmbFilter)
         Me.Controls.Add(Me.Label13)
@@ -488,8 +488,8 @@ Partial Class frmRepairAdvanced
         Me.Name = "frmRepairAdvanced"
         Me.Text = "LASER System - Repair Advanced"
         CType(Me.grdRepAdvanced, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.Guna2GroupBox1.ResumeLayout(False)
-        Me.Guna2GroupBox1.PerformLayout()
+        Me.GroupBox1.ResumeLayout(False)
+        Me.GroupBox1.PerformLayout()
         Me.MenuStrip.ResumeLayout(False)
         Me.MenuStrip.PerformLayout()
         Me.ResumeLayout(False)
@@ -510,7 +510,7 @@ Partial Class frmRepairAdvanced
     Friend WithEvents Price As DataGridViewTextBoxColumn
     Friend WithEvents Remarks As DataGridViewTextBoxColumn
     Friend WithEvents UName As DataGridViewTextBoxColumn
-    Friend WithEvents Guna2GroupBox1 As System.Windows.Forms.GroupBox
+    Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
     Friend WithEvents Label2 As Label
     Friend WithEvents txtAdDate As DateTimePicker
     Friend WithEvents txtAdNo As TextBox
