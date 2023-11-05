@@ -1,0 +1,149 @@
+D:\Documents\Visual Studio Projects\LASER System\LASER System\bin\Release\LASER System.exe.config
+D:\Documents\Visual Studio Projects\LASER System\LASER System\bin\Release\LASER System.exe
+D:\Documents\Visual Studio Projects\LASER System\LASER System\bin\Release\LASER System.pdb
+D:\Documents\Visual Studio Projects\LASER System\LASER System\bin\Release\LASER System.xml
+D:\Documents\Visual Studio Projects\LASER System\LASER System\bin\Release\si\LASER System.resources.dll
+D:\Documents\Visual Studio Projects\LASER System\LASER System\bin\Release\CrystalDecisions.CrystalReports.Engine.dll
+D:\Documents\Visual Studio Projects\LASER System\LASER System\bin\Release\CrystalDecisions.ReportSource.dll
+D:\Documents\Visual Studio Projects\LASER System\LASER System\bin\Release\CrystalDecisions.Shared.dll
+D:\Documents\Visual Studio Projects\LASER System\LASER System\bin\Release\CrystalDecisions.Windows.Forms.dll
+D:\Documents\Visual Studio Projects\LASER System\LASER System\bin\Release\Guna.UI2.dll
+D:\Documents\Visual Studio Projects\LASER System\LASER System\bin\Release\log4net.dll
+D:\Documents\Visual Studio Projects\LASER System\LASER System\bin\Release\Newtonsoft.Json.dll
+D:\Documents\Visual Studio Projects\LASER System\LASER System\bin\Release\zxing.dll
+D:\Documents\Visual Studio Projects\LASER System\LASER System\bin\Release\zxing.presentation.dll
+D:\Documents\Visual Studio Projects\LASER System\LASER System\bin\Release\CrystalDecisions.ReportAppServer.DataDefModel.dll
+D:\Documents\Visual Studio Projects\LASER System\LASER System\bin\Release\CrystalDecisions.ReportAppServer.ClientDoc.dll
+D:\Documents\Visual Studio Projects\LASER System\LASER System\bin\Release\CrystalDecisions.ReportAppServer.ReportDefModel.dll
+D:\Documents\Visual Studio Projects\LASER System\LASER System\bin\Release\CrystalDecisions.ReportAppServer.Controllers.dll
+D:\Documents\Visual Studio Projects\LASER System\LASER System\bin\Release\CrystalDecisions.ReportAppServer.CommLayer.dll
+D:\Documents\Visual Studio Projects\LASER System\LASER System\bin\Release\CrystalDecisions.ReportAppServer.DataSetConversion.dll
+D:\Documents\Visual Studio Projects\LASER System\LASER System\bin\Release\CrystalDecisions.ReportAppServer.Prompting.dll
+D:\Documents\Visual Studio Projects\LASER System\LASER System\bin\Release\CrystalDecisions.ReportAppServer.XmlSerialize.dll
+D:\Documents\Visual Studio Projects\LASER System\LASER System\bin\Release\CrystalDecisions.ReportAppServer.CubeDefModel.dll
+D:\Documents\Visual Studio Projects\LASER System\LASER System\bin\Release\CrystalDecisions.ReportAppServer.CommonObjectModel.dll
+D:\Documents\Visual Studio Projects\LASER System\LASER System\bin\Release\CrystalDecisions.ReportAppServer.ObjectFactory.dll
+D:\Documents\Visual Studio Projects\LASER System\LASER System\bin\Release\CrystalDecisions.ReportAppServer.CommonControls.dll
+D:\Documents\Visual Studio Projects\LASER System\LASER System\bin\Release\stdole.dll
+D:\Documents\Visual Studio Projects\LASER System\LASER System\bin\Release\log4net.xml
+D:\Documents\Visual Studio Projects\LASER System\LASER System\bin\Release\Newtonsoft.Json.xml
+D:\Documents\Visual Studio Projects\LASER System\LASER System\bin\Release\zxing.xml
+D:\Documents\Visual Studio Projects\LASER System\LASER System\bin\Release\zxing.presentation.xml
+D:\Documents\Visual Studio Projects\LASER System\LASER System\obj\Release\LASER System.vbproj.AssemblyReference.cache
+D:\Documents\Visual Studio Projects\LASER System\LASER System\obj\Release\LASER System.vbproj.SuggestedBindingRedirects.cache
+D:\Documents\Visual Studio Projects\LASER System\LASER System\obj\Release\LASER System.vbproj.ResolveComReference.cache
+D:\Documents\Visual Studio Projects\LASER System\LASER System\obj\Release\LASER_System.frmCustomer.resources
+D:\Documents\Visual Studio Projects\LASER System\LASER System\obj\Release\LASER_System.frmCustomerLoan.resources
+D:\Documents\Visual Studio Projects\LASER System\LASER System\obj\Release\LASER_System.frmDeliver.resources
+D:\Documents\Visual Studio Projects\LASER System\LASER System\obj\Release\LASER_System.frmLogin.resources
+D:\Documents\Visual Studio Projects\LASER System\LASER System\obj\Release\LASER_System.frmMessage.resources
+D:\Documents\Visual Studio Projects\LASER System\LASER System\obj\Release\LASER_System.frmProduct.resources
+D:\Documents\Visual Studio Projects\LASER System\LASER System\obj\Release\LASER_System.frmReceive.resources
+D:\Documents\Visual Studio Projects\LASER System\LASER System\obj\Release\LASER_System.frmRepair.resources
+D:\Documents\Visual Studio Projects\LASER System\LASER System\obj\Release\LASER_System.frmRepairAdvanced.resources
+D:\Documents\Visual Studio Projects\LASER System\LASER System\obj\Release\LASER_System.frmReport.resources
+D:\Documents\Visual Studio Projects\LASER System\LASER System\obj\Release\LASER_System.frmSale.resources
+D:\Documents\Visual Studio Projects\LASER System\LASER System\obj\Release\LASER_System.frmSalesRepair.resources
+D:\Documents\Visual Studio Projects\LASER System\LASER System\obj\Release\LASER_System.frmSearch.resources
+D:\Documents\Visual Studio Projects\LASER System\LASER System\obj\Release\LASER_System.FrmSettings.resources
+D:\Documents\Visual Studio Projects\LASER System\LASER System\obj\Release\LASER_System.frmSettlement.resources
+D:\Documents\Visual Studio Projects\LASER System\LASER System\obj\Release\LASER_System.FrmSplash.resources
+D:\Documents\Visual Studio Projects\LASER System\LASER System\obj\Release\LASER_System.frmStock.resources
+D:\Documents\Visual Studio Projects\LASER System\LASER System\obj\Release\LASER_System.frmStockSticker.resources
+D:\Documents\Visual Studio Projects\LASER System\LASER System\obj\Release\LASER_System.frmStockTransaction.resources
+D:\Documents\Visual Studio Projects\LASER System\LASER System\obj\Release\LASER_System.frmSupplier.resources
+D:\Documents\Visual Studio Projects\LASER System\LASER System\obj\Release\LASER_System.frmSupply.resources
+D:\Documents\Visual Studio Projects\LASER System\LASER System\obj\Release\LASER_System.frmTechnician.resources
+D:\Documents\Visual Studio Projects\LASER System\LASER System\obj\Release\LASER_System.frmTechnicianCost.resources
+D:\Documents\Visual Studio Projects\LASER System\LASER System\obj\Release\LASER_System.frmTechnicianLoan.resources
+D:\Documents\Visual Studio Projects\LASER System\LASER System\obj\Release\LASER_System.frmTechnicianSalary.resources
+D:\Documents\Visual Studio Projects\LASER System\LASER System\obj\Release\LASER_System.MdifrmMain.resources
+D:\Documents\Visual Studio Projects\LASER System\LASER System\obj\Release\LASER_System.Resources.resources
+D:\Documents\Visual Studio Projects\LASER System\LASER System\obj\Release\LASER_System.compMessageBox.resources
+D:\Documents\Visual Studio Projects\LASER System\LASER System\obj\Release\LASER_System.frmStock.si.resources
+D:\Documents\Visual Studio Projects\LASER System\LASER System\obj\Release\LASER System.vbproj.GenerateResource.cache
+D:\Documents\Visual Studio Projects\LASER System\LASER System\obj\Release\LASER System.vbproj.CoreCompileInputs.cache
+D:\Documents\Visual Studio Projects\LASER System\LASER System\obj\Release\si\LASER System.resources.dll
+D:\Documents\Visual Studio Projects\LASER System\LASER System\obj\Release\LASER System.vbproj.CopyComplete
+D:\Documents\Visual Studio Projects\LASER System\LASER System\obj\Release\LASER System.exe
+D:\Documents\Visual Studio Projects\LASER System\LASER System\obj\Release\LASER System.xml
+D:\Documents\Visual Studio Projects\LASER System\LASER System\obj\Release\LASER System.pdb
+D:\Documents\Visual Studio Projects\LASER System\LASER System\bin\Release\LASER System.exe.manifest
+D:\Documents\Visual Studio Projects\LASER System\LASER System\bin\Release\LASER System.application
+D:\Documents\Visual Studio Projects\LASER System\LASER System\obj\Release\LASER System.exe.manifest
+D:\Documents\Visual Studio Projects\LASER System\LASER System\obj\Release\LASER System.application
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\bin\Release\LASER System.exe.config
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\bin\Release\LASER System.exe.manifest
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\bin\Release\LASER System.application
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\bin\Release\LASER System.exe
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\bin\Release\LASER System.pdb
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\bin\Release\LASER System.xml
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\bin\Release\si\LASER System.resources.dll
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\bin\Release\CrystalDecisions.CrystalReports.Engine.dll
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\bin\Release\CrystalDecisions.ReportSource.dll
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\bin\Release\CrystalDecisions.Shared.dll
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\bin\Release\CrystalDecisions.Windows.Forms.dll
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\bin\Release\Guna.UI2.dll
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\bin\Release\log4net.dll
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\bin\Release\Newtonsoft.Json.dll
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\bin\Release\zxing.dll
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\bin\Release\zxing.presentation.dll
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\bin\Release\CrystalDecisions.ReportAppServer.DataDefModel.dll
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\bin\Release\CrystalDecisions.ReportAppServer.ClientDoc.dll
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\bin\Release\CrystalDecisions.ReportAppServer.ReportDefModel.dll
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\bin\Release\CrystalDecisions.ReportAppServer.Controllers.dll
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\bin\Release\CrystalDecisions.ReportAppServer.CommLayer.dll
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\bin\Release\CrystalDecisions.ReportAppServer.DataSetConversion.dll
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\bin\Release\CrystalDecisions.ReportAppServer.Prompting.dll
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\bin\Release\CrystalDecisions.ReportAppServer.XmlSerialize.dll
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\bin\Release\CrystalDecisions.ReportAppServer.CubeDefModel.dll
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\bin\Release\CrystalDecisions.ReportAppServer.CommonObjectModel.dll
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\bin\Release\CrystalDecisions.ReportAppServer.ObjectFactory.dll
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\bin\Release\CrystalDecisions.ReportAppServer.CommonControls.dll
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\bin\Release\stdole.dll
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\bin\Release\log4net.xml
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\bin\Release\Newtonsoft.Json.xml
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\bin\Release\zxing.xml
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\bin\Release\zxing.presentation.xml
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Release\LASER System.vbproj.AssemblyReference.cache
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Release\LASER System.vbproj.SuggestedBindingRedirects.cache
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Release\LASER System.vbproj.ResolveComReference.cache
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Release\LASER_System.frmCustomer.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Release\LASER_System.frmCustomerLoan.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Release\LASER_System.frmDeliver.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Release\LASER_System.frmLogin.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Release\LASER_System.frmMessage.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Release\LASER_System.frmProduct.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Release\LASER_System.frmReceive.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Release\LASER_System.frmRepair.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Release\LASER_System.frmRepairAdvanced.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Release\LASER_System.frmReport.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Release\LASER_System.frmSale.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Release\LASER_System.frmSalesRepair.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Release\LASER_System.frmSearch.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Release\LASER_System.FrmSettings.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Release\LASER_System.frmSettlement.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Release\LASER_System.FrmSplash.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Release\LASER_System.frmStockSticker.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Release\LASER_System.frmStockTransaction.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Release\LASER_System.frmSupplier.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Release\LASER_System.frmSupply.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Release\LASER_System.frmTechnician.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Release\LASER_System.frmTechnicianCost.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Release\LASER_System.frmTechnicianLoan.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Release\LASER_System.frmTechnicianSalary.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Release\LASER_System.MdifrmMain.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Release\LASER_System.Resources.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Release\LASER_System.ControlStockInfo.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Release\LASER_System.frmStock.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Release\LASER_System.ControlMessageBox.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Release\LASER_System.frmStock.si.resources
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Release\LASER System.vbproj.GenerateResource.cache
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Release\LASER System.vbproj.CoreCompileInputs.cache
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Release\si\LASER System.resources.dll
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Release\LASER System.exe.manifest
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Release\LASER System.application
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Release\LASER System.vbproj.CopyComplete
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Release\LASER System.exe
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Release\LASER System.xml
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER System\obj\Release\LASER System.pdb
