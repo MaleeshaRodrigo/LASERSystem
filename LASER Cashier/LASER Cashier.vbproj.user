@@ -2,11 +2,11 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <PublishUrlHistory>publish\</PublishUrlHistory>
-    <InstallUrlHistory>https://raw.githubusercontent.com/MaleeshaRodrigo/LASERSystem/main/LASER%2520Cashier/publish/|https://raw.githubusercontent.com/MaleeshaRodrigo/LASERSystem/main/LASER%2520System%2520Cashier/publish/</InstallUrlHistory>
-    <SupportUrlHistory>https://github.com/MaleeshaRodrigo/LASERSystem</SupportUrlHistory>
-    <UpdateUrlHistory>https://raw.githubusercontent.com/MaleeshaRodrigo/LASERSystem/main/LASER%2520Cashier/publish/|https://raw.githubusercontent.com/MaleeshaRodrigo/LASERSystem/main/LASER%2520System%2520Cashier/publish/</UpdateUrlHistory>
+    <InstallUrlHistory>https://raw.githubusercontent.com/MaleeshaRodrigo/LASERSystem/main/LASER%2520System%2520Cashier/publish/|https://raw.githubusercontent.com/MaleeshaRodrigo/LASERSystem/main/LASER%2520Cashier/publish/</InstallUrlHistory>
+    <SupportUrlHistory />
+    <UpdateUrlHistory>https://raw.githubusercontent.com/MaleeshaRodrigo/LASERSystem/main/LASER%2520System%2520Cashier/publish/</UpdateUrlHistory>
     <BootstrapperUrlHistory />
-    <ErrorReportUrlHistory>https://github.com/MaleeshaRodrigo/LASERSystem/issues</ErrorReportUrlHistory>
+    <ErrorReportUrlHistory />
     <FallbackCulture>en-US</FallbackCulture>
     <VerifyUploadedFiles>false</VerifyUploadedFiles>
   </PropertyGroup>
