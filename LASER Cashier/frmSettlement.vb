@@ -370,7 +370,6 @@ Public Class frmSettlement
         grdTransaction.Refresh()
         cmdTASave.Text = "Save"
         cmdTADelete.Enabled = False
-        CmdSearch_Click(sender, e)
     End Sub
 
     Private Sub CmdTASave_Click(sender As Object, e As EventArgs) Handles cmdTASave.Click
