@@ -7,7 +7,7 @@ Imports LASER_Cashier.StructureDatabase
 Public Class FormStock
     Public Property Caller As String = ""
     Private ReadOnly DB As New Database
-    Private ControlStockInfo As New ControlStockInfo(DB)
+    Private ControlStockInfo As New ControlCashierStockInfo(DB)
 
     Public Sub New()
         ' This call is required by the designer.
@@ -56,7 +56,7 @@ Public Class FormStock
                 End With
                 Me.Close()
             Case Else
-                ControlStockInfo = New ControlStockInfo(DB)
+                ControlStockInfo = New ControlCashierStockInfo(DB)
                 With ControlStockInfo
                     Me.Controls.Add(ControlStockInfo)
                     .ClearControls()
@@ -165,7 +165,7 @@ Public Class FormStock
     End Sub
 
     Private Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click
-        ControlStockInfo = New ControlStockInfo(DB)
+        ControlStockInfo = New ControlCashierStockInfo(DB)
         Me.Controls.Add(ControlStockInfo)
         ControlStockInfo.ClearControls()
         ControlStockInfo.Dock = DockStyle.Fill

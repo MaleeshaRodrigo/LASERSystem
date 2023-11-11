@@ -23,11 +23,11 @@ Partial Class FormStock
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormStock))
-        Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle8 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle9 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle10 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle7 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.GrpSearch = New System.Windows.Forms.GroupBox()
         Me.btnSearch = New System.Windows.Forms.Button()
         Me.cmbFilter = New System.Windows.Forms.ComboBox()
@@ -35,23 +35,24 @@ Partial Class FormStock
         Me.Label11 = New System.Windows.Forms.Label()
         Me.cmdNew = New System.Windows.Forms.Button()
         Me.grdStock = New System.Windows.Forms.DataGridView()
-        Me.SNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.SCategory = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.SName = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.SModelNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.SLocation = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.SLowestPrice = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.SSalePrice = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.SAvailableStocks = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.SOutofstocks = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.SMinStocks = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.SDetails = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.OpenFileDialog = New System.Windows.Forms.OpenFileDialog()
         Me.MenuStrip = New System.Windows.Forms.MenuStrip()
         Me.OPTIONToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CloseToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.VIEWToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ViewStockTransactionDetailsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.SCategory = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.SName = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.SModelNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.SLocation = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.SCostPrice = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.SLowestPrice = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.SSalePrice = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.SAvailableStocks = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.SOutofstocks = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.SMinStocks = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.SDetails = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.GrpSearch.SuspendLayout()
         CType(Me.grdStock, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.MenuStrip.SuspendLayout()
@@ -139,152 +140,49 @@ Partial Class FormStock
         Me.grdStock.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells
         Me.grdStock.BackgroundColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.grdStock.BorderStyle = System.Windows.Forms.BorderStyle.None
-        DataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle6.Font = New System.Drawing.Font("Calibri", 9.75!)
-        DataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.DodgerBlue
-        DataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.grdStock.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle6
+        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle1.Font = New System.Drawing.Font("Calibri", 9.75!)
+        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.DodgerBlue
+        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.grdStock.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         Me.grdStock.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.grdStock.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.SNo, Me.SCategory, Me.SName, Me.SModelNo, Me.SLocation, Me.SLowestPrice, Me.SSalePrice, Me.SAvailableStocks, Me.SOutofstocks, Me.SMinStocks, Me.SDetails})
-        DataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle8.BackColor = System.Drawing.Color.White
-        DataGridViewCellStyle8.Font = New System.Drawing.Font("Calibri", 9.75!)
-        DataGridViewCellStyle8.ForeColor = System.Drawing.Color.Black
-        DataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.DodgerBlue
-        DataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
-        Me.grdStock.DefaultCellStyle = DataGridViewCellStyle8
+        Me.grdStock.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.SNo, Me.SCategory, Me.SName, Me.SModelNo, Me.SLocation, Me.SCostPrice, Me.SLowestPrice, Me.SSalePrice, Me.SAvailableStocks, Me.SOutofstocks, Me.SMinStocks, Me.SDetails})
+        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle3.BackColor = System.Drawing.Color.White
+        DataGridViewCellStyle3.Font = New System.Drawing.Font("Calibri", 9.75!)
+        DataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black
+        DataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.DodgerBlue
+        DataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
+        Me.grdStock.DefaultCellStyle = DataGridViewCellStyle3
         Me.grdStock.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically
         Me.grdStock.GridColor = System.Drawing.Color.White
         Me.grdStock.Location = New System.Drawing.Point(6, 70)
         Me.grdStock.Name = "grdStock"
         Me.grdStock.ReadOnly = True
-        DataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle9.BackColor = System.Drawing.Color.White
-        DataGridViewCellStyle9.Font = New System.Drawing.Font("Calibri", 9.75!)
-        DataGridViewCellStyle9.ForeColor = System.Drawing.Color.Black
-        DataGridViewCellStyle9.SelectionBackColor = System.Drawing.Color.DarkBlue
-        DataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.grdStock.RowHeadersDefaultCellStyle = DataGridViewCellStyle9
+        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle4.BackColor = System.Drawing.Color.White
+        DataGridViewCellStyle4.Font = New System.Drawing.Font("Calibri", 9.75!)
+        DataGridViewCellStyle4.ForeColor = System.Drawing.Color.Black
+        DataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.DarkBlue
+        DataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.grdStock.RowHeadersDefaultCellStyle = DataGridViewCellStyle4
         Me.grdStock.RowHeadersWidth = 51
-        DataGridViewCellStyle10.BackColor = System.Drawing.Color.White
-        DataGridViewCellStyle10.ForeColor = System.Drawing.Color.Black
-        DataGridViewCellStyle10.SelectionBackColor = System.Drawing.Color.DarkBlue
-        DataGridViewCellStyle10.SelectionForeColor = System.Drawing.Color.White
-        Me.grdStock.RowsDefaultCellStyle = DataGridViewCellStyle10
+        DataGridViewCellStyle5.BackColor = System.Drawing.Color.White
+        DataGridViewCellStyle5.ForeColor = System.Drawing.Color.Black
+        DataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.DarkBlue
+        DataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.White
+        Me.grdStock.RowsDefaultCellStyle = DataGridViewCellStyle5
         Me.grdStock.RowTemplate.DefaultCellStyle.BackColor = System.Drawing.Color.White
         Me.grdStock.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Black
         Me.grdStock.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.DarkBlue
         Me.grdStock.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.White
         Me.grdStock.Size = New System.Drawing.Size(790, 249)
         Me.grdStock.TabIndex = 18
-        '
-        'SNo
-        '
-        Me.SNo.DataPropertyName = "Sno"
-        Me.SNo.HeaderText = "Code"
-        Me.SNo.MinimumWidth = 6
-        Me.SNo.Name = "SNo"
-        Me.SNo.ReadOnly = True
-        Me.SNo.Width = 59
-        '
-        'SCategory
-        '
-        Me.SCategory.DataPropertyName = "SCategory"
-        Me.SCategory.HeaderText = "Category"
-        Me.SCategory.MinimumWidth = 6
-        Me.SCategory.Name = "SCategory"
-        Me.SCategory.ReadOnly = True
-        Me.SCategory.Width = 80
-        '
-        'SName
-        '
-        Me.SName.DataPropertyName = "SName"
-        Me.SName.HeaderText = "Name"
-        Me.SName.MinimumWidth = 6
-        Me.SName.Name = "SName"
-        Me.SName.ReadOnly = True
-        Me.SName.Width = 63
-        '
-        'SModelNo
-        '
-        Me.SModelNo.DataPropertyName = "SModelNo"
-        Me.SModelNo.HeaderText = "Model No"
-        Me.SModelNo.MinimumWidth = 6
-        Me.SModelNo.Name = "SModelNo"
-        Me.SModelNo.ReadOnly = True
-        Me.SModelNo.Width = 79
-        '
-        'SLocation
-        '
-        Me.SLocation.DataPropertyName = "SLocation"
-        Me.SLocation.HeaderText = "Location"
-        Me.SLocation.MinimumWidth = 6
-        Me.SLocation.Name = "SLocation"
-        Me.SLocation.ReadOnly = True
-        Me.SLocation.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.SLocation.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable
-        Me.SLocation.Width = 59
-        '
-        'SLowestPrice
-        '
-        Me.SLowestPrice.DataPropertyName = "SLowestPrice"
-        Me.SLowestPrice.HeaderText = "Lowest Price"
-        Me.SLowestPrice.MinimumWidth = 6
-        Me.SLowestPrice.Name = "SLowestPrice"
-        Me.SLowestPrice.ReadOnly = True
-        Me.SLowestPrice.Width = 92
-        '
-        'SSalePrice
-        '
-        Me.SSalePrice.DataPropertyName = "SSalePrice"
-        Me.SSalePrice.HeaderText = "Sale Price"
-        Me.SSalePrice.MinimumWidth = 6
-        Me.SSalePrice.Name = "SSalePrice"
-        Me.SSalePrice.ReadOnly = True
-        Me.SSalePrice.Width = 79
-        '
-        'SAvailableStocks
-        '
-        Me.SAvailableStocks.DataPropertyName = "SAvailableStocks"
-        Me.SAvailableStocks.HeaderText = "Available Units"
-        Me.SAvailableStocks.MinimumWidth = 6
-        Me.SAvailableStocks.Name = "SAvailableStocks"
-        Me.SAvailableStocks.ReadOnly = True
-        Me.SAvailableStocks.Width = 106
-        '
-        'SOutofstocks
-        '
-        Me.SOutofstocks.DataPropertyName = "SOutofStocks"
-        Me.SOutofstocks.HeaderText = "Damaged Units"
-        Me.SOutofstocks.MinimumWidth = 6
-        Me.SOutofstocks.Name = "SOutofstocks"
-        Me.SOutofstocks.ReadOnly = True
-        Me.SOutofstocks.Width = 106
-        '
-        'SMinStocks
-        '
-        Me.SMinStocks.DataPropertyName = "SMinStocks"
-        Me.SMinStocks.HeaderText = "Reorder Point"
-        Me.SMinStocks.MinimumWidth = 6
-        Me.SMinStocks.Name = "SMinStocks"
-        Me.SMinStocks.ReadOnly = True
-        Me.SMinStocks.Width = 98
-        '
-        'SDetails
-        '
-        Me.SDetails.DataPropertyName = "SDetails"
-        DataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.SDetails.DefaultCellStyle = DataGridViewCellStyle7
-        Me.SDetails.HeaderText = "Details"
-        Me.SDetails.MinimumWidth = 6
-        Me.SDetails.Name = "SDetails"
-        Me.SDetails.ReadOnly = True
-        Me.SDetails.Width = 71
         '
         'OpenFileDialog
         '
@@ -328,6 +226,117 @@ Partial Class FormStock
         Me.ViewStockTransactionDetailsToolStripMenuItem.Size = New System.Drawing.Size(232, 22)
         Me.ViewStockTransactionDetailsToolStripMenuItem.Text = "View Stock Transaction Details"
         '
+        'SNo
+        '
+        Me.SNo.DataPropertyName = "Sno"
+        Me.SNo.HeaderText = "Code"
+        Me.SNo.MinimumWidth = 6
+        Me.SNo.Name = "SNo"
+        Me.SNo.ReadOnly = True
+        Me.SNo.Width = 59
+        '
+        'SCategory
+        '
+        Me.SCategory.DataPropertyName = "SCategory"
+        Me.SCategory.HeaderText = "Category"
+        Me.SCategory.MinimumWidth = 6
+        Me.SCategory.Name = "SCategory"
+        Me.SCategory.ReadOnly = True
+        Me.SCategory.Width = 80
+        '
+        'SName
+        '
+        Me.SName.DataPropertyName = "SName"
+        Me.SName.HeaderText = "Name"
+        Me.SName.MinimumWidth = 6
+        Me.SName.Name = "SName"
+        Me.SName.ReadOnly = True
+        Me.SName.Width = 63
+        '
+        'SModelNo
+        '
+        Me.SModelNo.DataPropertyName = "SModelNo"
+        Me.SModelNo.HeaderText = "Model No"
+        Me.SModelNo.MinimumWidth = 6
+        Me.SModelNo.Name = "SModelNo"
+        Me.SModelNo.ReadOnly = True
+        Me.SModelNo.Width = 85
+        '
+        'SLocation
+        '
+        Me.SLocation.DataPropertyName = "SLocation"
+        Me.SLocation.HeaderText = "Location"
+        Me.SLocation.MinimumWidth = 6
+        Me.SLocation.Name = "SLocation"
+        Me.SLocation.ReadOnly = True
+        Me.SLocation.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.SLocation.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable
+        Me.SLocation.Width = 59
+        '
+        'SCostPrice
+        '
+        Me.SCostPrice.DataPropertyName = "SCostPrice"
+        Me.SCostPrice.HeaderText = "Cost Price"
+        Me.SCostPrice.Name = "SCostPrice"
+        Me.SCostPrice.ReadOnly = True
+        Me.SCostPrice.Visible = False
+        Me.SCostPrice.Width = 87
+        '
+        'SLowestPrice
+        '
+        Me.SLowestPrice.DataPropertyName = "SLowestPrice"
+        Me.SLowestPrice.HeaderText = "Lowest Price"
+        Me.SLowestPrice.MinimumWidth = 6
+        Me.SLowestPrice.Name = "SLowestPrice"
+        Me.SLowestPrice.ReadOnly = True
+        '
+        'SSalePrice
+        '
+        Me.SSalePrice.DataPropertyName = "SSalePrice"
+        Me.SSalePrice.HeaderText = "Sale Price"
+        Me.SSalePrice.MinimumWidth = 6
+        Me.SSalePrice.Name = "SSalePrice"
+        Me.SSalePrice.ReadOnly = True
+        Me.SSalePrice.Width = 86
+        '
+        'SAvailableStocks
+        '
+        Me.SAvailableStocks.DataPropertyName = "SAvailableStocks"
+        Me.SAvailableStocks.HeaderText = "Available Units"
+        Me.SAvailableStocks.MinimumWidth = 6
+        Me.SAvailableStocks.Name = "SAvailableStocks"
+        Me.SAvailableStocks.ReadOnly = True
+        Me.SAvailableStocks.Width = 106
+        '
+        'SOutofstocks
+        '
+        Me.SOutofstocks.DataPropertyName = "SOutofStocks"
+        Me.SOutofstocks.HeaderText = "Damaged Units"
+        Me.SOutofstocks.MinimumWidth = 6
+        Me.SOutofstocks.Name = "SOutofstocks"
+        Me.SOutofstocks.ReadOnly = True
+        Me.SOutofstocks.Width = 106
+        '
+        'SMinStocks
+        '
+        Me.SMinStocks.DataPropertyName = "SMinStocks"
+        Me.SMinStocks.HeaderText = "Reorder Point"
+        Me.SMinStocks.MinimumWidth = 6
+        Me.SMinStocks.Name = "SMinStocks"
+        Me.SMinStocks.ReadOnly = True
+        Me.SMinStocks.Width = 98
+        '
+        'SDetails
+        '
+        Me.SDetails.DataPropertyName = "SDetails"
+        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.SDetails.DefaultCellStyle = DataGridViewCellStyle2
+        Me.SDetails.HeaderText = "Details"
+        Me.SDetails.MinimumWidth = 6
+        Me.SDetails.Name = "SDetails"
+        Me.SDetails.ReadOnly = True
+        Me.SDetails.Width = 71
+        '
         'FormStock
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
@@ -370,6 +379,7 @@ Partial Class FormStock
     Friend WithEvents SName As DataGridViewTextBoxColumn
     Friend WithEvents SModelNo As DataGridViewTextBoxColumn
     Friend WithEvents SLocation As DataGridViewTextBoxColumn
+    Friend WithEvents SCostPrice As DataGridViewTextBoxColumn
     Friend WithEvents SLowestPrice As DataGridViewTextBoxColumn
     Friend WithEvents SSalePrice As DataGridViewTextBoxColumn
     Friend WithEvents SAvailableStocks As DataGridViewTextBoxColumn

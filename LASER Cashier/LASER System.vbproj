@@ -153,6 +153,7 @@
     <Compile Include="Classes\Database.vb" />
     <Compile Include="Classes\Encoder.vb" />
     <Compile Include="Classes\MessagePanel.vb" />
+    <Compile Include="Classes\User.vb" />
     <Compile Include="Classes\Validators\CustomValidator.vb" />
     <Compile Include="Classes\Validators\ExecuteValidators.vb" />
     <Compile Include="Classes\Validators\RequiredValidator.vb" />
@@ -163,10 +164,16 @@
       <DependentUpon>rptReceive.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Stock\Controls\ControlStockInfo.Designer.vb">
-      <DependentUpon>ControlStockInfo.vb</DependentUpon>
+    <Compile Include="Stock\Controls\Admin\ControlAdminStockInfo.Designer.vb">
+      <DependentUpon>ControlAdminStockInfo.vb</DependentUpon>
     </Compile>
-    <Compile Include="Stock\Controls\ControlStockInfo.vb">
+    <Compile Include="Stock\Controls\Admin\ControlAdminStockInfo.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Stock\Controls\Cashier\ControlCashierStockInfo.Designer.vb">
+      <DependentUpon>ControlCashierStockInfo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Stock\Controls\Cashier\ControlCashierStockInfo.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Stock\FormStock.Designer.vb">
@@ -397,22 +404,22 @@
       <DependentUpon>rptTechnicianSalary.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\compMessageBox.Designer.vb">
+    <Compile Include="Shared Controls\compMessageBox.Designer.vb">
       <DependentUpon>compMessageBox.vb</DependentUpon>
     </Compile>
-    <Compile Include="Controls\compMessageBox.vb">
+    <Compile Include="Shared Controls\compMessageBox.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\frmDatagridviewTool.Designer.vb">
+    <Compile Include="Shared Controls\frmDatagridviewTool.Designer.vb">
       <DependentUpon>frmDatagridviewTool.vb</DependentUpon>
     </Compile>
-    <Compile Include="Controls\frmDatagridviewTool.vb">
+    <Compile Include="Shared Controls\frmDatagridviewTool.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Controls\frmSearchDropDown.Designer.vb">
+    <Compile Include="Shared Controls\frmSearchDropDown.Designer.vb">
       <DependentUpon>frmSearchDropDown.vb</DependentUpon>
     </Compile>
-    <Compile Include="Controls\frmSearchDropDown.vb">
+    <Compile Include="Shared Controls\frmSearchDropDown.vb">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>
@@ -538,8 +545,11 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>rptTechnicianSalary.vb</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Stock\Controls\ControlStockInfo.resx">
-      <DependentUpon>ControlStockInfo.vb</DependentUpon>
+    <EmbeddedResource Include="Stock\Controls\Admin\ControlAdminStockInfo.resx">
+      <DependentUpon>ControlAdminStockInfo.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Stock\Controls\Cashier\ControlCashierStockInfo.resx">
+      <DependentUpon>ControlCashierStockInfo.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Stock\FormStock.resx">
       <DependentUpon>FormStock.vb</DependentUpon>
@@ -547,7 +557,7 @@
     <EmbeddedResource Include="Stock\FormStock.si.resx">
       <DependentUpon>FormStock.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\compMessageBox.resx">
+    <EmbeddedResource Include="Shared Controls\compMessageBox.resx">
       <DependentUpon>compMessageBox.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
