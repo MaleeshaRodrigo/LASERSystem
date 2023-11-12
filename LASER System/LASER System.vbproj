@@ -27,7 +27,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>false</MapFileExtensions>
     <InstallUrl>https://raw.githubusercontent.com/MaleeshaRodrigo/LASERSystem/main/LASER%2520System/publish/</InstallUrl>
-    <UpdateUrl>https://raw.githubusercontent.com/MaleeshaRodrigo/LASERSystem/main/LASER%2520Cashier/publish/</UpdateUrl>
+    <UpdateUrl>https://raw.githubusercontent.com/MaleeshaRodrigo/LASERSystem/main/LASER%2520System/publish/</UpdateUrl>
     <SupportUrl>https://github.com/MaleeshaRodrigo/LASERSystem</SupportUrl>
     <ErrorReportUrl>https://github.com/MaleeshaRodrigo/LASERSystem/issues</ErrorReportUrl>
     <ProductName>LASER Cashier</ProductName>
