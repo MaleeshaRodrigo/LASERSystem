@@ -2,12 +2,11 @@
 Imports System.IO
 Imports System.Data.OleDb
 Imports Microsoft.VisualBasic.FileIO
-Imports LASER_Cashier.StructureDatabase
+Imports LASER_System.StructureDatabase
 
 Public Class FormStock
     Public Property Caller As String = ""
     Private ReadOnly DB As New Database
-    Private ControlStockInfo As New ControlCashierStockInfo(DB)
 
     Public Sub New()
         ' This call is required by the designer.
@@ -15,15 +14,20 @@ Public Class FormStock
         ' Add any initialization after the InitializeComponent() call.
 
         MenuStrip.Items.Add(mnustrpMENU)
-        System.Windows.Forms.Control.CheckForIllegalCrossThreadCalls = False
+        Control.CheckForIllegalCrossThreadCalls = False
         AcceptButton = btnSearch
     End Sub
 
     Private Sub FormStock_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         DB.Connect()
         cmbFilter.SelectedIndex = 0
+        If User.Instance.UserType = User.Type.Admin Then
+            grdStock.Columns.Item("SCostPrice").Visible = True
+        End If
+
         btnSearch.PerformClick()
     End Sub
+
     Private Sub grdStock_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles grdStock.CellDoubleClick
         Dim CurrentRow = grdStock.Rows.Item(e.RowIndex)
         Select Case Me.Tag
@@ -56,9 +60,8 @@ Public Class FormStock
                 End With
                 Me.Close()
             Case Else
-                ControlStockInfo = New ControlCashierStockInfo(DB)
+                Dim ControlStockInfo As New ControlStockInfo(DB)
                 With ControlStockInfo
-                    Me.Controls.Add(ControlStockInfo)
                     .ClearControls()
                     .TxtSNo.Text = CurrentRow.Cells.Item(StructureDatabase.Stock.Code).Value
                     .CmbCategory.Text = CurrentRow.Cells.Item(StructureDatabase.Stock.Category).Value
@@ -71,6 +74,7 @@ Public Class FormStock
                     .TxtDamagedUnits.Text = CurrentRow.Cells.Item(StructureDatabase.Stock.DamagedUnits).Value
                     .TxtReorderPoint.Text = CurrentRow.Cells.Item(StructureDatabase.Stock.ReorderPoint).Value
                     .TxtDetails.Text = CurrentRow.Cells.Item(StructureDatabase.Stock.Details).Value
+                    Me.Controls.Add(ControlStockInfo)
                     .Dock = DockStyle.Fill
                     .BringToFront()
                 End With
@@ -165,7 +169,7 @@ Public Class FormStock
     End Sub
 
     Private Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click
-        ControlStockInfo = New ControlCashierStockInfo(DB)
+        Dim ControlStockInfo As New ControlStockInfo(DB)
         Me.Controls.Add(ControlStockInfo)
         ControlStockInfo.ClearControls()
         ControlStockInfo.Dock = DockStyle.Fill

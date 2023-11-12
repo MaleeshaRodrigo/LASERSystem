@@ -434,7 +434,7 @@ Partial Class MdifrmMain
         '
         'ExitToolStripMenuItem
         '
-        Me.ExitToolStripMenuItem.Image = Global.LASER_Cashier.My.Resources.Resources.close
+        Me.ExitToolStripMenuItem.Image = Global.LASER_System.My.Resources.Resources.close
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
         Me.ExitToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.F4), System.Windows.Forms.Keys)
         Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(161, 26)
@@ -785,7 +785,7 @@ Partial Class MdifrmMain
         Me.picUImage.BackColor = System.Drawing.Color.Transparent
         Me.picUImage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
         Me.picUImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.picUImage.Image = Global.LASER_Cashier.My.Resources.Resources.Customer
+        Me.picUImage.Image = Global.LASER_System.My.Resources.Resources.Customer
         Me.picUImage.InitialImage = CType(resources.GetObject("picUImage.InitialImage"), System.Drawing.Image)
         Me.picUImage.Location = New System.Drawing.Point(3, 3)
         Me.picUImage.Name = "picUImage"

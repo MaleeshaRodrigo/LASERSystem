@@ -6,9 +6,9 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{8D5F8DED-BCC0-4212-B564-8D5F28893E1E}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <StartupObject>LASER_Cashier.My.MyApplication</StartupObject>
-    <RootNamespace>LASER_Cashier</RootNamespace>
-    <AssemblyName>LASER Cashier</AssemblyName>
+    <StartupObject>LASER_System.My.MyApplication</StartupObject>
+    <RootNamespace>LASER_System</RootNamespace>
+    <AssemblyName>LASER System</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>WindowsForms</MyType>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
@@ -50,7 +50,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>LASER Cashier.xml</DocumentationFile>
+    <DocumentationFile>LASER System.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
@@ -61,7 +61,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>LASER Cashier.xml</DocumentationFile>
+    <DocumentationFile>LASER System.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
@@ -164,16 +164,10 @@
       <DependentUpon>rptReceive.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Stock\Controls\Admin\ControlAdminStockInfo.Designer.vb">
-      <DependentUpon>ControlAdminStockInfo.vb</DependentUpon>
+    <Compile Include="Stock\Controls\ControlStockInfo.Designer.vb">
+      <DependentUpon>ControlStockInfo.vb</DependentUpon>
     </Compile>
-    <Compile Include="Stock\Controls\Admin\ControlAdminStockInfo.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Stock\Controls\Cashier\ControlCashierStockInfo.Designer.vb">
-      <DependentUpon>ControlCashierStockInfo.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Stock\Controls\Cashier\ControlCashierStockInfo.vb">
+    <Compile Include="Stock\Controls\ControlStockInfo.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Stock\FormStock.Designer.vb">
@@ -545,11 +539,8 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>rptTechnicianSalary.vb</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Stock\Controls\Admin\ControlAdminStockInfo.resx">
-      <DependentUpon>ControlAdminStockInfo.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Stock\Controls\Cashier\ControlCashierStockInfo.resx">
-      <DependentUpon>ControlCashierStockInfo.vb</DependentUpon>
+    <EmbeddedResource Include="Stock\Controls\ControlStockInfo.resx">
+      <DependentUpon>ControlStockInfo.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Stock\FormStock.resx">
       <DependentUpon>FormStock.vb</DependentUpon>

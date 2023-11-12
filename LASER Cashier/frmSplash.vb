@@ -78,7 +78,6 @@ Public NotInheritable Class FrmSplash
                 End With
             Case 70
                 With MdifrmMain
-                    .Hide()
                     LoadingBar.Value += 5
                     txtLoad.Text = "Getting Message to the Message Panel in Main Menu..."
                     Dim DrCheckStockUnits As OleDbDataReader = Db.GetDataReader("Select COUNT(SNo) as SNoCount from [Stock] Where SAvailableStocks < SMinStocks")
@@ -118,10 +117,8 @@ Public NotInheritable Class FrmSplash
                         End Try
                     End If
                 End With
-            Case 90
-                txtLoad.Text = "Finalizing..."
-                MdifrmMain.GrdActivity.Left = MdifrmMain.tabChart.Left
             Case 99
+                txtLoad.Text = "Finalizing..."
                 MdifrmMain.Visible = True
         End Select
         tmrSplash.Start()
