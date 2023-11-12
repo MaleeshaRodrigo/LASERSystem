@@ -1099,6 +1099,146 @@
       "ID": "220",
       "Date": "2023-11-09 08:22:56 PM",
       "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "221",
+      "Date": "2023-11-12 8:12:34 AM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "222",
+      "Date": "2023-11-12 8:18:23 AM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "223",
+      "Date": "2023-11-12 8:33:58 AM",
+      "Command": "Logged In Successfull by Admin as a Admin"
+    },
+    {
+      "ID": "224",
+      "Date": "2023-11-12 8:42:37 AM",
+      "Command": "Logged In Successfull by Admin as a Admin"
+    },
+    {
+      "ID": "225",
+      "Date": "2023-11-12 10:32:03 AM",
+      "Command": "Logged In Successfull by Admin as a Admin"
+    },
+    {
+      "ID": "226",
+      "Date": "2023-11-12 10:57:45 AM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "227",
+      "Date": "2023-11-12 12:27:28 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "228",
+      "Date": "2023-11-12 12:44:45 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "229",
+      "Date": "2023-11-12 12:45:08 PM",
+      "Command": "Insert into RepairRemarks1(Rem1No,RepNo, Rem1Date, Remarks, UNo) Values(8731,16742,#2023-11-12 12:45:08 PM#,'This is an example...',1)"
+    },
+    {
+      "ID": "230",
+      "Date": "2023-11-12 12:45:24 PM",
+      "Command": "Insert into RepairRemarks2(Rem2No,RepNo,Rem2Date,Remarks,UNo) Values(4227,16742,#2023-11-12 12:45:24 PM#,'This is also an example...',1)"
+    },
+    {
+      "ID": "231",
+      "Date": "2023-11-12 12:45:38 PM",
+      "Command": "update Repair set status ='Hand Over to Technician' where repno=16742;"
+    },
+    {
+      "ID": "232",
+      "Date": "2023-11-12 12:45:38 PM",
+      "Command": "Insert into RepairActivity(RepANo,RepNo,RepADate,Activity,UNo) Values(36422,16742,#2023-11-12 12:45:38 PM#,'Status -> Hand Over to Technician',1)"
+    },
+    {
+      "ID": "233",
+      "Date": "2023-11-12 12:45:38 PM",
+      "Command": "update Repair set tno =3 where repno=16742;"
+    },
+    {
+      "ID": "234",
+      "Date": "2023-11-12 12:45:38 PM",
+      "Command": "Insert into RepairActivity(RepANo,RepNo,RepADate,Activity,UNo) Values(36423,16742,#2023-11-12 12:45:38 PM#,'Technician -> Ajith',1)"
+    },
+    {
+      "ID": "235",
+      "Date": "2023-11-12 12:50:30 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "236",
+      "Date": "2023-11-12 12:53:09 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "237",
+      "Date": "2023-11-12 12:53:47 PM",
+      "Command": "INSERT INTO Stock(\r\n                SNo,\r\n                SCategory,\r\n                SName,\r\n                SModelNo,\r\n                SLocation,\r\n                SDetails,\r\n                SSalePrice,\r\n                SLowestPrice,\r\n                SCostPrice,\r\n                SMinStocks\r\n            ) VALUES(@CODE,@CATEGORY,@NAME,@MODELNO,@LOCATION,@DETAILS,@SALEPRICE,@LOWESTPRICE,@COSTPRICE,@REORDERPOINT);"
+    },
+    {
+      "ID": "238",
+      "Date": "2023-11-12 1:10:46 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "239",
+      "Date": "2023-11-12 1:17:17 PM",
+      "Command": "INSERT INTO Stock(\r\n                SNo,\r\n                SCategory,\r\n                SName,\r\n                SModelNo,\r\n                SLocation,\r\n                SDetails,\r\n                SSalePrice,\r\n                SLowestPrice,\r\n                SCostPrice,\r\n                SMinStocks\r\n            ) VALUES(@CODE,@CATEGORY,@NAME,@MODELNO,@LOCATION,@DETAILS,@SALEPRICE,@LOWESTPRICE,@COSTPRICE,@REORDERPOINT);"
+    },
+    {
+      "ID": "240",
+      "Date": "2023-11-12 2:59:48 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "241",
+      "Date": "2023-11-12 3:01:40 PM",
+      "Command": "INSERT INTO Stock(\r\n                SNo,\r\n                SCategory,\r\n                SName,\r\n                SModelNo,\r\n                SLocation,\r\n                SDetails,\r\n                SSalePrice,\r\n                SLowestPrice,\r\n                SCostPrice,\r\n                SMinStocks\r\n            ) VALUES(@CODE,@CATEGORY,@NAME,@MODELNO,@LOCATION,@DETAILS,@SALEPRICE,@LOWESTPRICE,@COSTPRICE,@REORDERPOINT);"
+    },
+    {
+      "ID": "242",
+      "Date": "2023-11-12 3:02:18 PM",
+      "Command": "INSERT INTO Stock(\r\n                SNo,\r\n                SCategory,\r\n                SName,\r\n                SModelNo,\r\n                SLocation,\r\n                SDetails,\r\n                SSalePrice,\r\n                SLowestPrice,\r\n                SCostPrice,\r\n                SMinStocks\r\n            ) VALUES(@CODE,@CATEGORY,@NAME,@MODELNO,@LOCATION,@DETAILS,@SALEPRICE,@LOWESTPRICE,@COSTPRICE,@REORDERPOINT);"
+    },
+    {
+      "ID": "243",
+      "Date": "2023-11-12 3:03:03 PM",
+      "Command": "Logged In Successfull by Admin as a Admin"
+    },
+    {
+      "ID": "244",
+      "Date": "2023-11-12 3:03:41 PM",
+      "Command": "INSERT INTO Stock(\r\n                SNo,\r\n                SCategory,\r\n                SName,\r\n                SModelNo,\r\n                SLocation,\r\n                SDetails,\r\n                SSalePrice,\r\n                SLowestPrice,\r\n                SCostPrice,\r\n                SMinStocks\r\n            ) VALUES(@CODE,@CATEGORY,@NAME,@MODELNO,@LOCATION,@DETAILS,@SALEPRICE,@LOWESTPRICE,@COSTPRICE,@REORDERPOINT);"
+    },
+    {
+      "ID": "245",
+      "Date": "2023-11-12 3:25:04 PM",
+      "Command": "Logged In Successfull by Admin as a Admin"
+    },
+    {
+      "ID": "246",
+      "Date": "2023-11-12 3:25:52 PM",
+      "Command": "UPDATE Stock SET \r\n                SCategory = @CATEGORY,\r\n                SName = @NAME,\r\n                SModelNo = @MODELNO,\r\n                SLocation = @LOCATION,\r\n                SDetails = @DETAILS,\r\n                SCostPrice = @COSTPRICE,\r\n                SLowestPrice = @LOWESTPRICE,\r\n                SSalePrice = @SALEPRICE,\r\n                SMinStocks = @REORDERPOINT\r\n                WHERE SNo = @CODE;"
+    },
+    {
+      "ID": "247",
+      "Date": "2023-11-12 3:59:23 PM",
+      "Command": "Logged In Successfull by Admin as a Admin"
+    },
+    {
+      "ID": "248",
+      "Date": "2023-11-12 4:02:48 PM",
+      "Command": "Logged In Successfull by Admin as a Admin"
     }
   ]
 }

@@ -880,7 +880,7 @@ Partial Class frmSettlement
         '
         'cmdTADelete
         '
-        Me.cmdTADelete.Image = Global.LASER_Cashier.My.Resources.Resources.Delete
+        Me.cmdTADelete.Image = Global.LASER_System.My.Resources.Resources.Delete
         Me.cmdTADelete.Location = New System.Drawing.Point(416, 216)
         Me.cmdTADelete.Name = "cmdTADelete"
         Me.cmdTADelete.Size = New System.Drawing.Size(75, 39)
@@ -891,7 +891,7 @@ Partial Class frmSettlement
         '
         'cmdTASave
         '
-        Me.cmdTASave.Image = Global.LASER_Cashier.My.Resources.Resources.Save
+        Me.cmdTASave.Image = Global.LASER_System.My.Resources.Resources.Save
         Me.cmdTASave.Location = New System.Drawing.Point(340, 216)
         Me.cmdTASave.Name = "cmdTASave"
         Me.cmdTASave.Size = New System.Drawing.Size(70, 39)
@@ -902,7 +902,7 @@ Partial Class frmSettlement
         '
         'cmdTANew
         '
-        Me.cmdTANew.Image = Global.LASER_Cashier.My.Resources.Resources._new
+        Me.cmdTANew.Image = Global.LASER_System.My.Resources.Resources._new
         Me.cmdTANew.Location = New System.Drawing.Point(264, 216)
         Me.cmdTANew.Name = "cmdTANew"
         Me.cmdTANew.Size = New System.Drawing.Size(70, 39)

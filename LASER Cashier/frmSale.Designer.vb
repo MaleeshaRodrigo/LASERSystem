@@ -412,7 +412,7 @@ Partial Class frmSale
         '
         Me.cmdClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.cmdClose.Font = New System.Drawing.Font("Calibri", 10.0!)
-        Me.cmdClose.Image = Global.LASER_Cashier.My.Resources.Resources.close
+        Me.cmdClose.Image = Global.LASER_System.My.Resources.Resources.close
         Me.cmdClose.Location = New System.Drawing.Point(1261, 144)
         Me.cmdClose.Name = "cmdClose"
         Me.cmdClose.Size = New System.Drawing.Size(92, 33)
@@ -426,7 +426,7 @@ Partial Class frmSale
         Me.cmdDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.cmdDelete.Enabled = False
         Me.cmdDelete.Font = New System.Drawing.Font("Calibri", 10.0!)
-        Me.cmdDelete.Image = Global.LASER_Cashier.My.Resources.Resources.Delete
+        Me.cmdDelete.Image = Global.LASER_System.My.Resources.Resources.Delete
         Me.cmdDelete.Location = New System.Drawing.Point(1261, 105)
         Me.cmdDelete.Name = "cmdDelete"
         Me.cmdDelete.Size = New System.Drawing.Size(91, 33)
@@ -439,7 +439,7 @@ Partial Class frmSale
         '
         Me.cmdSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.cmdSave.Font = New System.Drawing.Font("Calibri", 10.0!)
-        Me.cmdSave.Image = Global.LASER_Cashier.My.Resources.Resources.Save
+        Me.cmdSave.Image = Global.LASER_System.My.Resources.Resources.Save
         Me.cmdSave.Location = New System.Drawing.Point(1261, 66)
         Me.cmdSave.Name = "cmdSave"
         Me.cmdSave.Size = New System.Drawing.Size(91, 33)
@@ -452,7 +452,7 @@ Partial Class frmSale
         '
         Me.cmdNew.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.cmdNew.Font = New System.Drawing.Font("Calibri", 10.0!)
-        Me.cmdNew.Image = Global.LASER_Cashier.My.Resources.Resources._new
+        Me.cmdNew.Image = Global.LASER_System.My.Resources.Resources._new
         Me.cmdNew.Location = New System.Drawing.Point(1261, 27)
         Me.cmdNew.Name = "cmdNew"
         Me.cmdNew.Size = New System.Drawing.Size(91, 33)
@@ -522,7 +522,7 @@ Partial Class frmSale
         'cmdCancel
         '
         Me.cmdCancel.Font = New System.Drawing.Font("Calibri", 12.0!)
-        Me.cmdCancel.Image = Global.LASER_Cashier.My.Resources.Resources.close
+        Me.cmdCancel.Image = Global.LASER_System.My.Resources.Resources.close
         Me.cmdCancel.Location = New System.Drawing.Point(354, 7)
         Me.cmdCancel.Name = "cmdCancel"
         Me.cmdCancel.Size = New System.Drawing.Size(34, 30)

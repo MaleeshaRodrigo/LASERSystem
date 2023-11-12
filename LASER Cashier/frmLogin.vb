@@ -63,6 +63,11 @@ Public Class frmLogin
                 Db.DirectExecute("Update [User] set LogInCount='0' Where LoginCount IS NULL")
                 Db.DirectExecute("Update [User] set LogInCount= (LogInCount + 1) Where UNo = " & DR("UNo").ToString)
                 Db.DirectExecute("Update [User] set LastLogin=#" & DateAndTime.Now & "# Where UNo = " & DR("UNo").ToString)
+
+                'Set the User object
+                User.Instance.UserName = DR("UserName").ToString
+                User.Instance.UserType = DR("Type").ToString
+                User.Instance.Email = DR("Email").ToString
                 Select Case Me.Tag
                     Case "MainMenu"
                         With MdifrmMain

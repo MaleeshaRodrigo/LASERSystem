@@ -228,7 +228,7 @@ Partial Class frmProduct
         '
         'cmdDone
         '
-        Me.cmdDone.Image = Global.LASER_Cashier.My.Resources.Resources.Done
+        Me.cmdDone.Image = Global.LASER_System.My.Resources.Resources.Done
         Me.cmdDone.Location = New System.Drawing.Point(6, 234)
         Me.cmdDone.Name = "cmdDone"
         Me.cmdDone.Size = New System.Drawing.Size(96, 42)

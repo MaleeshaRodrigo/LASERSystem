@@ -515,7 +515,7 @@ Partial Class frmReceive
         'cmdCancel
         '
         Me.cmdCancel.Font = New System.Drawing.Font("Calibri", 12.0!)
-        Me.cmdCancel.Image = Global.LASER_Cashier.My.Resources.Resources.close
+        Me.cmdCancel.Image = Global.LASER_System.My.Resources.Resources.close
         Me.cmdCancel.Location = New System.Drawing.Point(488, 7)
         Me.cmdCancel.Name = "cmdCancel"
         Me.cmdCancel.Size = New System.Drawing.Size(34, 30)

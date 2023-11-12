@@ -301,9 +301,9 @@ Namespace My
     Friend Module MySettingsProperty
         
         <Global.System.ComponentModel.Design.HelpKeywordAttribute("My.Settings")>  _
-        Friend ReadOnly Property Settings() As Global.LASER_Cashier.My.MySettings
+        Friend ReadOnly Property Settings() As Global.LASER_System.My.MySettings
             Get
-                Return Global.LASER_Cashier.My.MySettings.Default
+                Return Global.LASER_System.My.MySettings.Default
             End Get
         End Property
     End Module
