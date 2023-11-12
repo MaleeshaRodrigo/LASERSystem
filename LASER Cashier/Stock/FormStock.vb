@@ -63,18 +63,18 @@ Public Class FormStock
                 Dim ControlStockInfo As New ControlStockInfo(DB)
                 With ControlStockInfo
                     .ClearControls()
-                    .TxtSNo.Text = CurrentRow.Cells.Item(Stock.Code).Value
-                    .CmbCategory.Text = CurrentRow.Cells.Item(Stock.Category).Value
-                    .CmbName.Text = CurrentRow.Cells.Item(Stock.Name).Value
-                    .TxtModelNo.Text = CurrentRow.Cells.Item(Stock.ModelNo).Value
-                    .CmbLocation.Text = CurrentRow.Cells.Item(Stock.Location).Value
-                    .TxtCostPrice.Text = CurrentRow.Cells.Item(Stock.CostPrice).Value
-                    .TxtLowestPrice.Text = CurrentRow.Cells.Item(Stock.LowestPrice).Value
-                    .TxtSalePrice.Text = CurrentRow.Cells.Item(Stock.SalePrice).Value
-                    .TxtAvailableUnits.Text = CurrentRow.Cells.Item(Stock.AvailableUnits).Value
-                    .TxtDamagedUnits.Text = CurrentRow.Cells.Item(Stock.DamagedUnits).Value
-                    .TxtReorderPoint.Text = CurrentRow.Cells.Item(Stock.ReorderPoint).Value
-                    .TxtDetails.Text = CurrentRow.Cells.Item(Stock.Details).Value
+                    .TxtSNo.Text = CurrentRow.Cells.Item(Stock.Code).Value.ToString()
+                    .CmbCategory.Text = CurrentRow.Cells.Item(Stock.Category).Value.ToString()
+                    .CmbName.Text = CurrentRow.Cells.Item(Stock.Name).Value.ToString()
+                    .TxtModelNo.Text = CurrentRow.Cells.Item(Stock.ModelNo).Value.ToString()
+                    .CmbLocation.Text = CurrentRow.Cells.Item(Stock.Location).Value.ToString()
+                    .TxtCostPrice.Text = CurrentRow.Cells.Item(Stock.CostPrice).Value.ToString
+                    .TxtLowestPrice.Text = CurrentRow.Cells.Item(Stock.LowestPrice).Value.ToString
+                    .TxtSalePrice.Text = CurrentRow.Cells.Item(Stock.SalePrice).Value.ToString
+                    .TxtAvailableUnits.Text = CurrentRow.Cells.Item(Stock.AvailableUnits).Value.ToString
+                    .TxtDamagedUnits.Text = CurrentRow.Cells.Item(Stock.DamagedUnits).Value.ToString
+                    .TxtReorderPoint.Text = CurrentRow.Cells.Item(Stock.ReorderPoint).Value.ToString
+                    .TxtDetails.Text = CurrentRow.Cells.Item(Stock.Details).Value.ToString()
                     Me.Controls.Add(ControlStockInfo)
                     .Dock = DockStyle.Fill
                     .BringToFront()
@@ -123,6 +123,7 @@ Public Class FormStock
             Stock.Name,
             Stock.ModelNo,
             Stock.Location,
+            Stock.CostPrice,
             Stock.LowestPrice,
             Stock.SalePrice,
             Stock.AvailableUnits,
