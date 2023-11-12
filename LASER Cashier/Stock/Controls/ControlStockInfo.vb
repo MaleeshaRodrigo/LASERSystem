@@ -22,7 +22,7 @@ Public Class ControlStockInfo
         CmbName.Text = ""
         TxtModelNo.Text = ""
         CmbLocation.Text = ""
-        TxtLowestPrice.Text = "0"
+        TxtCostPrice.Text = "0"
         TxtLowestPrice.Text = "0"
         TxtSalePrice.Text = "0"
         TxtReorderPoint.Text = "3"
@@ -63,8 +63,8 @@ Public Class ControlStockInfo
             .AddValidator(New RequiredValidator(TxtAvailableUnits.Text, "Available Units"))
             .AddValidator(New RequiredValidator(TxtDamagedUnits.Text, "Damaged Units"))
             .AddValidator(New RequiredValidator(TxtReorderPoint.Text, "Reorder Point"))
-            .AddValidator(New CustomValidator(TxtLowestPrice.Text > TxtSalePrice.Text, "Sale Price එක Cost Price එකට වඩා  වැඩි අගයක් ඇතුලත් කරන්න."))
-            .AddValidator(New CustomValidator(TxtLowestPrice.Text > TxtLowestPrice.Text, "Lowest Price එක Cost Price එකට වඩා  වැඩි අගයක් ඇතුලත් කරන්න."))
+            '.AddValidator(New CustomValidator(TxtSalePrice.Text > TxtLowestPrice.Text, "Sale Price එක Cost Price එකට වඩා  වැඩි අගයක් ඇතුලත් කරන්න."))
+            '.AddValidator(New CustomValidator(TxtLowestPrice.Text > TxtCostPrice.Text, "Lowest Price එක Cost Price එකට වඩා  වැඩි අගයක් ඇතුලත් කරන්න."))
             If Not .Execute() Then Exit Sub
         End With
 

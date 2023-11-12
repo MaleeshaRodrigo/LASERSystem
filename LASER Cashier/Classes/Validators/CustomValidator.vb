@@ -11,7 +11,7 @@
     End Sub
 
     Public Function Execute() As Boolean Implements IValidator.Execute
-        If _Condition Then
+        If Not _Condition Then
             MsgBox(_Message, _MsgBoxStyle)
             Return False
         End If

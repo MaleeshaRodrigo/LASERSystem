@@ -1169,6 +1169,31 @@
       "ID": "234",
       "Date": "2023-11-12 12:45:38 PM",
       "Command": "Insert into RepairActivity(RepANo,RepNo,RepADate,Activity,UNo) Values(36423,16742,#2023-11-12 12:45:38 PM#,'Technician -> Ajith',1)"
+    },
+    {
+      "ID": "235",
+      "Date": "2023-11-12 12:50:30 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "236",
+      "Date": "2023-11-12 12:53:09 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "237",
+      "Date": "2023-11-12 12:53:47 PM",
+      "Command": "INSERT INTO Stock(\r\n                SNo,\r\n                SCategory,\r\n                SName,\r\n                SModelNo,\r\n                SLocation,\r\n                SDetails,\r\n                SSalePrice,\r\n                SLowestPrice,\r\n                SCostPrice,\r\n                SMinStocks\r\n            ) VALUES(@CODE,@CATEGORY,@NAME,@MODELNO,@LOCATION,@DETAILS,@SALEPRICE,@LOWESTPRICE,@COSTPRICE,@REORDERPOINT);"
+    },
+    {
+      "ID": "238",
+      "Date": "2023-11-12 1:10:46 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "239",
+      "Date": "2023-11-12 1:17:17 PM",
+      "Command": "INSERT INTO Stock(\r\n                SNo,\r\n                SCategory,\r\n                SName,\r\n                SModelNo,\r\n                SLocation,\r\n                SDetails,\r\n                SSalePrice,\r\n                SLowestPrice,\r\n                SCostPrice,\r\n                SMinStocks\r\n            ) VALUES(@CODE,@CATEGORY,@NAME,@MODELNO,@LOCATION,@DETAILS,@SALEPRICE,@LOWESTPRICE,@COSTPRICE,@REORDERPOINT);"
     }
   ]
 }

@@ -63,17 +63,18 @@ Public Class FormStock
                 Dim ControlStockInfo As New ControlStockInfo(DB)
                 With ControlStockInfo
                     .ClearControls()
-                    .TxtSNo.Text = CurrentRow.Cells.Item(StructureDatabase.Stock.Code).Value
-                    .CmbCategory.Text = CurrentRow.Cells.Item(StructureDatabase.Stock.Category).Value
-                    .CmbName.Text = CurrentRow.Cells.Item(StructureDatabase.Stock.Name).Value
-                    .TxtModelNo.Text = CurrentRow.Cells.Item(StructureDatabase.Stock.ModelNo).Value
-                    .CmbLocation.Text = CurrentRow.Cells.Item(StructureDatabase.Stock.Location).Value
-                    .TxtLowestPrice.Text = CurrentRow.Cells.Item(StructureDatabase.Stock.CostPrice).Value
-                    .TxtSalePrice.Text = CurrentRow.Cells.Item(StructureDatabase.Stock.SalePrice).Value
-                    .TxtAvailableUnits.Text = CurrentRow.Cells.Item(StructureDatabase.Stock.AvailableUnits).Value
-                    .TxtDamagedUnits.Text = CurrentRow.Cells.Item(StructureDatabase.Stock.DamagedUnits).Value
-                    .TxtReorderPoint.Text = CurrentRow.Cells.Item(StructureDatabase.Stock.ReorderPoint).Value
-                    .TxtDetails.Text = CurrentRow.Cells.Item(StructureDatabase.Stock.Details).Value
+                    .TxtSNo.Text = CurrentRow.Cells.Item(Stock.Code).Value
+                    .CmbCategory.Text = CurrentRow.Cells.Item(Stock.Category).Value
+                    .CmbName.Text = CurrentRow.Cells.Item(Stock.Name).Value
+                    .TxtModelNo.Text = CurrentRow.Cells.Item(Stock.ModelNo).Value
+                    .CmbLocation.Text = CurrentRow.Cells.Item(Stock.Location).Value
+                    .TxtCostPrice.Text = CurrentRow.Cells.Item(Stock.CostPrice).Value
+                    .TxtLowestPrice.Text = CurrentRow.Cells.Item(Stock.LowestPrice).Value
+                    .TxtSalePrice.Text = CurrentRow.Cells.Item(Stock.SalePrice).Value
+                    .TxtAvailableUnits.Text = CurrentRow.Cells.Item(Stock.AvailableUnits).Value
+                    .TxtDamagedUnits.Text = CurrentRow.Cells.Item(Stock.DamagedUnits).Value
+                    .TxtReorderPoint.Text = CurrentRow.Cells.Item(Stock.ReorderPoint).Value
+                    .TxtDetails.Text = CurrentRow.Cells.Item(Stock.Details).Value
                     Me.Controls.Add(ControlStockInfo)
                     .Dock = DockStyle.Fill
                     .BringToFront()
@@ -184,16 +185,20 @@ Public Class FormStock
         If e.ColumnIndex <> grdStock.Columns.Item("SAvailableStocks").Index Then
             Exit Sub
         End If
-        Dim Row As DataGridViewRow = grdStock.Rows.Item(e.RowIndex)
-        If Row.Cells.Item("SAvailableStocks").Value < Row.Cells.Item("SMinStocks").Value Then
-            e.CellStyle.BackColor = Color.Red
-            e.CellStyle.ForeColor = Color.White
-        ElseIf Row.Cells.Item("SAvailableStocks").Value = Row.Cells.Item("SMinStocks").Value Then
-            e.CellStyle.BackColor = Color.DarkOrange
-            e.CellStyle.ForeColor = Color.White
-        Else
-            e.CellStyle.BackColor = Color.White
-            e.CellStyle.ForeColor = Color.Black
-        End If
+        Try
+            Dim Row As DataGridViewRow = grdStock.Rows.Item(e.RowIndex)
+            If Row.Cells.Item("SAvailableStocks").Value < Row.Cells.Item("SMinStocks").Value Then
+                e.CellStyle.BackColor = Color.Red
+                e.CellStyle.ForeColor = Color.White
+            ElseIf Row.Cells.Item("SAvailableStocks").Value = Row.Cells.Item("SMinStocks").Value Then
+                e.CellStyle.BackColor = Color.DarkOrange
+                e.CellStyle.ForeColor = Color.White
+            Else
+                e.CellStyle.BackColor = Color.White
+                e.CellStyle.ForeColor = Color.Black
+            End If
+        Catch ex As Exception
+            Console.Error.Write(ex)
+        End Try
     End Sub
 End Class
