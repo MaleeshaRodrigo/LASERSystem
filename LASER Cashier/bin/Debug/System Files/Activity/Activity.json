@@ -1129,6 +1129,46 @@
       "ID": "226",
       "Date": "2023-11-12 10:57:45 AM",
       "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "227",
+      "Date": "2023-11-12 12:27:28 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "228",
+      "Date": "2023-11-12 12:44:45 PM",
+      "Command": "Logged In Successfull by Maleesha as a Cashier"
+    },
+    {
+      "ID": "229",
+      "Date": "2023-11-12 12:45:08 PM",
+      "Command": "Insert into RepairRemarks1(Rem1No,RepNo, Rem1Date, Remarks, UNo) Values(8731,16742,#2023-11-12 12:45:08 PM#,'This is an example...',1)"
+    },
+    {
+      "ID": "230",
+      "Date": "2023-11-12 12:45:24 PM",
+      "Command": "Insert into RepairRemarks2(Rem2No,RepNo,Rem2Date,Remarks,UNo) Values(4227,16742,#2023-11-12 12:45:24 PM#,'This is also an example...',1)"
+    },
+    {
+      "ID": "231",
+      "Date": "2023-11-12 12:45:38 PM",
+      "Command": "update Repair set status ='Hand Over to Technician' where repno=16742;"
+    },
+    {
+      "ID": "232",
+      "Date": "2023-11-12 12:45:38 PM",
+      "Command": "Insert into RepairActivity(RepANo,RepNo,RepADate,Activity,UNo) Values(36422,16742,#2023-11-12 12:45:38 PM#,'Status -> Hand Over to Technician',1)"
+    },
+    {
+      "ID": "233",
+      "Date": "2023-11-12 12:45:38 PM",
+      "Command": "update Repair set tno =3 where repno=16742;"
+    },
+    {
+      "ID": "234",
+      "Date": "2023-11-12 12:45:38 PM",
+      "Command": "Insert into RepairActivity(RepANo,RepNo,RepADate,Activity,UNo) Values(36423,16742,#2023-11-12 12:45:38 PM#,'Technician -> Ajith',1)"
     }
   ]
 }
