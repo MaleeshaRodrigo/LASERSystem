@@ -200,7 +200,11 @@ Public Class ControlStockInfo
     End Sub
 
     Private Sub CmdDelete_Click(sender As Object, e As EventArgs) Handles CmdDelete.Click
-        If Db.CheckDataIsExist(Tables.Stock, Stock.Code, TxtSNo.Text) AndAlso MsgBox("ඔබට මෙම Record එක Delete කිරිමට අවශ්‍යද?", vbInformation + vbYesNo) = vbYes Then
+        If User.Instance.UserType = User.Type.Cashier Then
+            Exit Sub
+        End If
+        If Db.CheckDataIsExist(Tables.Stock, Stock.Code, TxtSNo.Text) AndAlso
+            MsgBox("ඔබට මෙම Record එක Delete කිරිමට අවශ්‍යද?", vbInformation + vbYesNo) = vbYes Then
             Db.Execute($"DELETE FROM {Tables.Stock} WHERE {Stock.Code}=@SNO", {
                     New OleDbParameter("@SNO", TxtSNo.Text)
                 })
@@ -209,6 +213,8 @@ Public Class ControlStockInfo
     End Sub
 
     Private Sub CmbCategory_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbCategory.SelectedIndexChanged
-        ComboBoxDropDown(Db, CmbName, $"SELECT {Stock.Name} FROM {Tables.Stock} WHERE {Stock.Category} = '{CmbCategory.Text}' GROUP BY {Stock.Name};")
+        ComboBoxDropDown(Db,
+                         CmbName,
+                         $"SELECT {Stock.Name} FROM {Tables.Stock} WHERE {Stock.Category} = '{CmbCategory.Text}' GROUP BY {Stock.Name};")
     End Sub
 End Class

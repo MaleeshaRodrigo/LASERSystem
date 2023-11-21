@@ -1,7 +1,7 @@
 ﻿Imports System.Data.OleDb
 Imports System.Threading
 
-Public Class frmDeliver
+Public Class FormDeliver
     Private Db As New Database
     Public Sub New()
         ' This call is required by the designer.

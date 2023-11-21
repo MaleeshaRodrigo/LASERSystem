@@ -188,10 +188,10 @@
     <Compile Include="frmCustomerLoan.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmDeliver.Designer.vb">
-      <DependentUpon>frmDeliver.vb</DependentUpon>
+    <Compile Include="Deliver\FormDeliver.Designer.vb">
+      <DependentUpon>FormDeliver.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmDeliver.vb">
+    <Compile Include="Deliver\FormDeliver.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmLogin.Designer.vb">
@@ -424,8 +424,8 @@
     <EmbeddedResource Include="frmCustomerLoan.resx">
       <DependentUpon>frmCustomerLoan.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmDeliver.resx">
-      <DependentUpon>frmDeliver.vb</DependentUpon>
+    <EmbeddedResource Include="Deliver\FormDeliver.resx">
+      <DependentUpon>FormDeliver.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmLogin.resx">
       <DependentUpon>frmLogin.vb</DependentUpon>

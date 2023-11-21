@@ -775,14 +775,14 @@ Public Class frmRepair
     Private Sub CmdDone_Click(sender As Object, e As EventArgs) Handles cmdDone.Click
         Select Case Me.Tag
             Case "DeliverRepair"
-                With frmDeliver
+                With FormDeliver
                     Call CmdSave_Click(sender, e)
                     .grdRepair.Item(0, .grdRepair.CurrentCell.RowIndex).Value = cmbRepNo.Text
                     Dim E1 As New DataGridViewCellEventArgs(0, .grdRepair.CurrentCell.RowIndex)
                     Call .GrdRepair_CellEndEdit(sender, E1)
                 End With
             Case "DeliverReRepair"
-                With frmDeliver
+                With FormDeliver
                     .grdRERepair.Item(0, .grdRERepair.CurrentCell.RowIndex).Value = cmbRetNo.Text
                     Dim E1 As New DataGridViewCellEventArgs(0, .grdRERepair.CurrentCell.RowIndex)
                     Call .grdRERepair_CellEndEdit(sender, E1)
@@ -901,7 +901,7 @@ Public Class frmRepair
 
     Private Sub PrintDeliverReceiptToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PrintDeliverReceiptToolStripMenuItem.Click
         If boxDeliver.Visible = False Or txtDNo.Text = "" Then Exit Sub
-        frmDeliver.PrintDeliveryReceipt(txtDNo.Text, False)
+        FormDeliver.PrintDeliveryReceipt(txtDNo.Text, False)
     End Sub
 
 #Region "grdRepRemarks1Property"

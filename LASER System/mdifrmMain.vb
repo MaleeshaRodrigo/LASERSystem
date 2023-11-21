@@ -72,7 +72,7 @@ Public Class MdifrmMain
     End Sub
 
     Public Sub cmdDeliver_Click(sender As Object, e As EventArgs) Handles cmdDeliver.Click
-        With frmDeliver
+        With FormDeliver
             .Show()
             .BringToFront()
             If .WindowState = FormWindowState.Minimized Then .WindowState = FormWindowState.Maximized

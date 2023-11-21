@@ -1151,7 +1151,7 @@ end_for_loop:
                 'End With
             Case "Deliver"
                 bgwSearch.CancelAsync()
-                With frmDeliver
+                With FormDeliver
                     .txtDNo.Text = grdSearch.Item(0, e.RowIndex).Value
                     .cmdSave.Text = "Edit"
                     DR = Db.GetDataReader("Select D.*,CuName,CuTelNo1,CuTelNo2,CuTelNo3 from (Deliver D Inner Join Customer Cu On Cu.CuNo = D.CuNo) " &
@@ -1210,20 +1210,16 @@ end_for_loop:
                     End If
                 End With
             Case "DeliverRepair"
-                With frmDeliver
-                    With frmDeliver
-                        .grdRepair.Item(0, .grdRepair.CurrentCell.RowIndex).Value = grdSearch.Item(0, grdSearch.CurrentCell.RowIndex).Value
-                        Dim E1 As New DataGridViewCellEventArgs(0, .grdRepair.CurrentCell.RowIndex)
-                        Call .GrdRepair_CellEndEdit(sender, E1)
-                    End With
+                With FormDeliver
+                    .grdRepair.Item(0, .grdRepair.CurrentCell.RowIndex).Value = grdSearch.Item(0, grdSearch.CurrentCell.RowIndex).Value
+                    Dim E1 As New DataGridViewCellEventArgs(0, .grdRepair.CurrentCell.RowIndex)
+                    Call .GrdRepair_CellEndEdit(sender, E1)
                 End With
             Case "DeliverReRepair"
-                With frmDeliver
-                    With frmDeliver
-                        .grdRepair.Item(0, .grdRepair.CurrentCell.RowIndex).Value = grdSearch.Item(0, grdSearch.CurrentCell.RowIndex).Value
-                        Dim E1 As New DataGridViewCellEventArgs(0, .grdRepair.CurrentCell.RowIndex)
-                        Call .GrdRepair_CellEndEdit(sender, E1)
-                    End With
+                With FormDeliver
+                    .grdRepair.Item(0, .grdRepair.CurrentCell.RowIndex).Value = grdSearch.Item(0, grdSearch.CurrentCell.RowIndex).Value
+                    Dim E1 As New DataGridViewCellEventArgs(0, .grdRepair.CurrentCell.RowIndex)
+                    Call .GrdRepair_CellEndEdit(sender, E1)
                 End With
         End Select
         If Me.Tag <> "Repair" Then

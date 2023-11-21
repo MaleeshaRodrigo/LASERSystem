@@ -224,7 +224,7 @@ Public Class frmReceive
                       row.Cells(0).Value & ",'" & row.Cells(8).Value & "'," & MdifrmMain.Tag & ")")
             End If
             If Me.Tag = "Deliver" Then
-                For Each oForm As frmDeliver In Application.OpenForms().OfType(Of frmDeliver)()
+                For Each oForm As FormDeliver In Application.OpenForms().OfType(Of FormDeliver)()
                     If oForm.Name = Me.Caller Then
                         With oForm
                             .cmbCuName.Text = cmbCuMr.Text & cmbCuName.Text
@@ -267,7 +267,7 @@ Public Class frmReceive
                       row.Cells(0).Value & ",'" & row.Cells(9).Value & "'," & MdifrmMain.Tag & ")")
             End If
             If Me.Tag = "Deliver" Then
-                For Each oForm As frmDeliver In Application.OpenForms().OfType(Of frmDeliver)()
+                For Each oForm As FormDeliver In Application.OpenForms().OfType(Of FormDeliver)()
                     If oForm.Name = Me.Caller Then
                         With oForm
                             .cmbCuName.Text = cmbCuMr.Text & cmbCuName.Text
