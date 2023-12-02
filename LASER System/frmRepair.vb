@@ -184,7 +184,7 @@ Public Class frmRepair
             While DRREPNO1.Read
                 grdRepRemarks2.Rows.Add(DRREPNO1("Rem2No").ToString, DRREPNO1("Rem2Date").ToString, DRREPNO1("Remarks").ToString,
                                             Db.GetData("Select UserName from [User] Where UNo=" & DRREPNO1("UNo").ToString))
-                If MdifrmMain.tslblUserType.Text <> "Admin" And txtDDate.Value.Month <> Today.Month Then
+                If User.Instance.UserType!= User.Type.Admin And txtDDate.Value.Month <> Today.Month Then
                     grdRepRemarks2.Rows.Item(grdRepRemarks2.Rows.Count - 1).ReadOnly = True
                 End If
             End While
@@ -222,7 +222,7 @@ Public Class frmRepair
             End If
             DRREPNO1.Close()
             If cmbRepStatus.Text = "Repaired Delivered" Or cmbRepStatus.Text = "Returned Delivered" Then
-                If MdifrmMain.tslblUserType.Text <> "Admin" And txtDDate.Value.Month <> Today.Month Then
+                If User.Instance.UserType!= User.Type.Admin And txtDDate.Value.Month <> Today.Month Then
                     For Each ctrl As Control In {boxTechnician, boxReceive, boxProduct, boxRepair, boxDeliver, boxCustomer, txtPProblem, lblLocation, cmbLocation,
                         grpAdvancePay, grpRepTask, grpActivity}
                         ctrl.Enabled = False
@@ -1162,7 +1162,7 @@ Public Class frmRepair
                     grdTechnicianCost.Item(7, e.RowIndex).Value = grdTechnicianCost.Item(5, e.RowIndex).Value * grdTechnicianCost.Item(6, e.RowIndex).Value
                 End If
         End Select
-        If MdifrmMain.tslblUserType.Text <> "Admin" And (grdTechnicianCost.Item(1, e.RowIndex).Value IsNot Nothing AndAlso
+        If User.Instance.UserType!= User.Type.Admin And (grdTechnicianCost.Item(1, e.RowIndex).Value IsNot Nothing AndAlso
            Convert.ToDateTime(grdTechnicianCost.Item(1, e.RowIndex).Value).Date <> DateTime.Today.Date) Then
             AdminPer.AdminSend = True
             AdminPer.Remarks = "Repair හි Technician Cost හිදි අද දිනට නොමැති Technician Cost එකක් වෙනස් කෙරුණි."

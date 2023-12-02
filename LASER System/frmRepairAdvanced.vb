@@ -9,7 +9,7 @@ Public Class frmRepairAdvanced
         cmbFilter.Text = "All"
         cmdSearch_Click(sender, e)
         cmdNew_Click(sender, e)
-        If MdifrmMain.tslblUserType.Text = "Admin" Then
+        If User.Instance.UserType = User.Type.Admin Then
             grdRepAdvanced.Columns(0).Visible = True
         End If
     End Sub
@@ -38,7 +38,7 @@ Public Class frmRepairAdvanced
         End If
         Select Case cmdSave.Text
             Case "Save"
-                If (MdifrmMain.tslblUserType.Text <> "Admin" And DateAndTime.DateValue(txtAdDate.Value) <> DateTime.Today.Date) Then
+                If (User.Instance.UserType <> User.Type.Admin And DateAndTime.DateValue(txtAdDate.Value) <> DateTime.Today.Date) Then
                     AdminPer.AdminSend = True
                     AdminPer.Remarks = "අද දිනට නොමැති Repair එකෙහි " & txtAdNo.Text & " වන Advanced Payment එකක් ඇතුලත් කෙරුණි. "
                 End If
@@ -55,7 +55,7 @@ Public Class frmRepairAdvanced
                     PrintRepairAdvancedToolStripMenuItem_Click(sender, e)
                 End If
             Case "Edit"
-                If (MdifrmMain.tslblUserType.Text <> "Admin" And DateAndTime.DateValue(txtAdDate.Value) <> DateTime.Today.Date) Then
+                If (User.Instance.UserType <> User.Type.Admin And DateAndTime.DateValue(txtAdDate.Value) <> DateTime.Today.Date) Then
                     AdminPer.AdminSend = True
                     AdminPer.Remarks = "අද දිනට නොමැති Repair එකෙහි " & txtAdNo.Text & " වන Advanced Payment එකක් වෙනස් කෙරුණි. "
                 End If
@@ -112,7 +112,7 @@ Public Class frmRepairAdvanced
         If CheckExistData(txtAdNo, "Select AdNo from RepairAdvanced Where AdNo=" & txtAdNo.Text, "මෙම Advanced එක ඇතුලත් කර නොමැති එකකි. කරුණාකර පරික්ෂා කර නැවත උත්සහ කරන්න.", False) = False Then
             Exit Sub
         End If
-        If MdifrmMain.tslblUserType.Text <> "Admin" And Convert.ToDateTime(txtAdDate.Value).Date <> DateTime.Today.Date Then
+        If User.Instance.UserType <> User.Type.Admin And Convert.ToDateTime(txtAdDate.Value).Date <> DateTime.Today.Date Then
             AdminPer.AdminSend = True
             AdminPer.Remarks = "Repair හි " & txtAdNo.Text & " Advanced Payment එකක් Delete කෙරුණි."
         End If

@@ -48,7 +48,7 @@ Public Class frmSearch
                 grdSearch.Columns.Add("SupRemarks", "Remarks")
             Case "Deliver"
                 grdSearch.Columns.Add("DNo", "Deliver No")
-                'If MdifrmMain.tslblUserType.Text <> "Admin" Then grdSearch.Columns.Item("DNo").Visible = False
+                'If User.Instance.UserType <> User.Type.Admin Then grdSearch.Columns.Item("DNo").Visible = False
                 grdSearch.Columns.Add("DDate", "Delivered Date")
                 grdSearch.Columns.Add("CuName", "Customer Name")
                 grdSearch.Columns.Add("CuTelNo1", "Customer Telephone No 1")

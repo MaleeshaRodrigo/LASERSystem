@@ -23,7 +23,7 @@ Partial Class FormDeliver
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormDeliver))
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.txtCuTelNo3 = New System.Windows.Forms.MaskedTextBox()
         Me.Label12 = New System.Windows.Forms.Label()
@@ -73,6 +73,7 @@ Partial Class FormDeliver
         Me.VIEWToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SearchRepairsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ReceiveInfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
         Me.GroupBox2.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox6.SuspendLayout()
@@ -80,6 +81,7 @@ Partial Class FormDeliver
         Me.GroupBox7.SuspendLayout()
         CType(Me.grdRepair, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.MenuStrip.SuspendLayout()
+        Me.TableLayoutPanel1.SuspendLayout()
         Me.SuspendLayout()
         '
         'GroupBox2
@@ -256,7 +258,7 @@ Partial Class FormDeliver
         '
         Me.cmdClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.cmdClose.Image = CType(resources.GetObject("cmdClose.Image"), System.Drawing.Image)
-        Me.cmdClose.Location = New System.Drawing.Point(1294, 105)
+        Me.cmdClose.Location = New System.Drawing.Point(1159, 105)
         Me.cmdClose.Name = "cmdClose"
         Me.cmdClose.Size = New System.Drawing.Size(64, 33)
         Me.cmdClose.TabIndex = 63
@@ -268,7 +270,7 @@ Partial Class FormDeliver
         '
         Me.cmdSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.cmdSave.Image = CType(resources.GetObject("cmdSave.Image"), System.Drawing.Image)
-        Me.cmdSave.Location = New System.Drawing.Point(1294, 66)
+        Me.cmdSave.Location = New System.Drawing.Point(1159, 66)
         Me.cmdSave.Name = "cmdSave"
         Me.cmdSave.Size = New System.Drawing.Size(64, 33)
         Me.cmdSave.TabIndex = 60
@@ -280,7 +282,7 @@ Partial Class FormDeliver
         '
         Me.cmdNew.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.cmdNew.Image = CType(resources.GetObject("cmdNew.Image"), System.Drawing.Image)
-        Me.cmdNew.Location = New System.Drawing.Point(1294, 27)
+        Me.cmdNew.Location = New System.Drawing.Point(1159, 27)
         Me.cmdNew.Name = "cmdNew"
         Me.cmdNew.Size = New System.Drawing.Size(64, 33)
         Me.cmdNew.TabIndex = 59
@@ -290,13 +292,12 @@ Partial Class FormDeliver
         '
         'GroupBox6
         '
-        Me.GroupBox6.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.GroupBox6.Controls.Add(Me.grdRERepair)
+        Me.GroupBox6.Dock = System.Windows.Forms.DockStyle.Fill
         Me.GroupBox6.Font = New System.Drawing.Font("Calibri", 10.0!)
-        Me.GroupBox6.Location = New System.Drawing.Point(12, 423)
+        Me.GroupBox6.Location = New System.Drawing.Point(3, 230)
         Me.GroupBox6.Name = "GroupBox6"
-        Me.GroupBox6.Size = New System.Drawing.Size(1340, 273)
+        Me.GroupBox6.Size = New System.Drawing.Size(1199, 221)
         Me.GroupBox6.TabIndex = 58
         Me.GroupBox6.TabStop = False
         Me.GroupBox6.Text = "RERepair Collection"
@@ -312,7 +313,7 @@ Partial Class FormDeliver
         Me.grdRERepair.MultiSelect = False
         Me.grdRERepair.Name = "grdRERepair"
         Me.grdRERepair.RowHeadersWidth = 51
-        Me.grdRERepair.Size = New System.Drawing.Size(1328, 246)
+        Me.grdRERepair.Size = New System.Drawing.Size(1187, 194)
         Me.grdRERepair.TabIndex = 19
         '
         'DataGridViewTextBoxColumn1
@@ -360,8 +361,8 @@ Partial Class FormDeliver
         'DataGridViewTextBoxColumn8
         '
         Me.DataGridViewTextBoxColumn8.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        DataGridViewCellStyle1.NullValue = Nothing
-        Me.DataGridViewTextBoxColumn8.DefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle2.NullValue = Nothing
+        Me.DataGridViewTextBoxColumn8.DefaultCellStyle = DataGridViewCellStyle2
         Me.DataGridViewTextBoxColumn8.HeaderText = "Paid Charge"
         Me.DataGridViewTextBoxColumn8.MinimumWidth = 6
         Me.DataGridViewTextBoxColumn8.Name = "DataGridViewTextBoxColumn8"
@@ -390,13 +391,12 @@ Partial Class FormDeliver
         '
         'GroupBox7
         '
-        Me.GroupBox7.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.GroupBox7.Controls.Add(Me.grdRepair)
+        Me.GroupBox7.Dock = System.Windows.Forms.DockStyle.Fill
         Me.GroupBox7.Font = New System.Drawing.Font("Calibri", 10.0!)
-        Me.GroupBox7.Location = New System.Drawing.Point(12, 178)
+        Me.GroupBox7.Location = New System.Drawing.Point(3, 3)
         Me.GroupBox7.Name = "GroupBox7"
-        Me.GroupBox7.Size = New System.Drawing.Size(1340, 245)
+        Me.GroupBox7.Size = New System.Drawing.Size(1199, 221)
         Me.GroupBox7.TabIndex = 57
         Me.GroupBox7.TabStop = False
         Me.GroupBox7.Text = "Repair Collection"
@@ -412,7 +412,7 @@ Partial Class FormDeliver
         Me.grdRepair.MultiSelect = False
         Me.grdRepair.Name = "grdRepair"
         Me.grdRepair.RowHeadersWidth = 51
-        Me.grdRepair.Size = New System.Drawing.Size(1328, 219)
+        Me.grdRepair.Size = New System.Drawing.Size(1187, 195)
         Me.grdRepair.TabIndex = 0
         '
         'RepairNo
@@ -472,7 +472,7 @@ Partial Class FormDeliver
         Me.txtDRemarks.Multiline = True
         Me.txtDRemarks.Name = "txtDRemarks"
         Me.txtDRemarks.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.txtDRemarks.Size = New System.Drawing.Size(422, 125)
+        Me.txtDRemarks.Size = New System.Drawing.Size(310, 125)
         Me.txtDRemarks.TabIndex = 74
         '
         'Label22
@@ -492,7 +492,7 @@ Partial Class FormDeliver
         Me.MenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OPTIONToolStripMenuItem, Me.VIEWToolStripMenuItem})
         Me.MenuStrip.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip.Name = "MenuStrip"
-        Me.MenuStrip.Size = New System.Drawing.Size(1364, 28)
+        Me.MenuStrip.Size = New System.Drawing.Size(1229, 28)
         Me.MenuStrip.TabIndex = 75
         Me.MenuStrip.Text = "MenuStrip1"
         '
@@ -552,15 +552,31 @@ Partial Class FormDeliver
         Me.ReceiveInfoToolStripMenuItem.Size = New System.Drawing.Size(256, 26)
         Me.ReceiveInfoToolStripMenuItem.Text = "Receive Info"
         '
+        'TableLayoutPanel1
+        '
+        Me.TableLayoutPanel1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TableLayoutPanel1.ColumnCount = 1
+        Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.TableLayoutPanel1.Controls.Add(Me.GroupBox7, 0, 0)
+        Me.TableLayoutPanel1.Controls.Add(Me.GroupBox6, 0, 1)
+        Me.TableLayoutPanel1.Location = New System.Drawing.Point(12, 178)
+        Me.TableLayoutPanel1.Name = "TableLayoutPanel1"
+        Me.TableLayoutPanel1.RowCount = 2
+        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.TableLayoutPanel1.Size = New System.Drawing.Size(1205, 454)
+        Me.TableLayoutPanel1.TabIndex = 76
+        '
         'FormDeliver
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 18.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1364, 749)
+        Me.ClientSize = New System.Drawing.Size(1229, 644)
+        Me.Controls.Add(Me.TableLayoutPanel1)
         Me.Controls.Add(Me.txtDRemarks)
         Me.Controls.Add(Me.Label22)
-        Me.Controls.Add(Me.GroupBox6)
-        Me.Controls.Add(Me.GroupBox7)
         Me.Controls.Add(Me.cmdClose)
         Me.Controls.Add(Me.cmdSave)
         Me.Controls.Add(Me.cmdNew)
@@ -571,6 +587,7 @@ Partial Class FormDeliver
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.KeyPreview = True
         Me.MainMenuStrip = Me.MenuStrip
+        Me.MinimumSize = New System.Drawing.Size(1088, 573)
         Me.Name = "FormDeliver"
         Me.Text = "LASER System - Deliver Product"
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
@@ -584,6 +601,7 @@ Partial Class FormDeliver
         CType(Me.grdRepair, System.ComponentModel.ISupportInitialize).EndInit()
         Me.MenuStrip.ResumeLayout(False)
         Me.MenuStrip.PerformLayout()
+        Me.TableLayoutPanel1.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -637,4 +655,5 @@ Partial Class FormDeliver
     Friend WithEvents DataGridViewTextBoxColumn9 As DataGridViewComboBoxColumn
     Friend WithEvents DataGridViewTextBoxColumn10 As DataGridViewComboBoxColumn
     Friend WithEvents GetDataToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents TableLayoutPanel1 As TableLayoutPanel
 End Class

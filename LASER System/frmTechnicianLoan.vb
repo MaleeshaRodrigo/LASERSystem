@@ -56,7 +56,7 @@ Public Class frmTechnicianLoan
             Exit Sub
         End If
         Dim AdminPer As New AdminPermission(Db)
-        If MdifrmMain.tslblUserType.Text <> "Admin" And txtTLDate.Value.Date <> Today.Date Then
+        If User.Instance.UserType <> User.Type.Admin And txtTLDate.Value.Date <> Today.Date Then
             AdminPer.AdminSend = True
             AdminPer.Remarks = "අද දිනට නොමැති Technician Loan එකක් Update කෙරුණි."
         End If
@@ -264,7 +264,7 @@ Public Class frmTechnicianLoan
             Exit Sub
         End If
         Dim AdminPer As New AdminPermission(Db)
-        If MdifrmMain.tslblUserType.Text <> "Admin" And txtTLDate.Value.Date <> Today.Date Then
+        If User.Instance.UserType <> User.Type.Admin And txtTLDate.Value.Date <> Today.Date Then
             AdminPer.AdminSend = True
             AdminPer.Remarks = "අද දිනට නොමැති Technician Loan data එකක් ඉවත් කෙරුණි."
         End If

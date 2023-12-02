@@ -16,7 +16,7 @@ Public Class frmSettlement
         If txtLockerCash.Text = "" Then
             MsgBox("Cash in Locker is empty, fill it", vbOKOnly + vbExclamation)
             Exit Sub
-        ElseIf MdifrmMain.tslblUserType.Text <> "Admin" And txtFrom.Value.Date <> Today.Date Then
+        ElseIf User.Instance.UserType <> User.Type.Admin And txtFrom.Value.Date <> Today.Date Then
             MsgBox("ඔබට පැරණි දින වල Settlement වෙනස් කිරීමට Permission ලබා දී නොමැත. කරුණාකර Admin කෙනෙකු අමතන්න.", vbCritical + vbOKOnly)
             Exit Sub
         End If

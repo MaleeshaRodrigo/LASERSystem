@@ -131,7 +131,7 @@ Public Class frmTechnicianCost
         Select Case e.ColumnIndex
             Case 1
                 If Convert.ToDateTime(grdTechnicianCost.Item(1, e.RowIndex).Tag).Date <> Today.Date And
-                    MdifrmMain.tslblUserType.Text <> "Admin" Then
+                    User.Instance.UserType <> User.Type.Admin Then
                     AdminPer.AdminSend = True
                     AdminPer.Remarks = "අද දිනට නොමැති Technician Cost Data එකක Time එක update කෙරුණි."
                 Else
@@ -232,7 +232,7 @@ Public Class frmTechnicianCost
             e.Cancel = True
             Exit Sub
         End If
-        If MdifrmMain.tslblUserType.Text = "Admin" Then
+        If User.Instance.UserType = User.Type.Admin Then
             Dim DR As OleDbDataReader = Db.GetDataReader("Select TCNo from TechnicianCost Where TCNo=" & grdTechnicianCost.Item("TCNo", e.Row.Index).Value)
             If DR.HasRows = True Then
                 DR.Read()

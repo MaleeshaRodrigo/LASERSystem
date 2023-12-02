@@ -59,15 +59,10 @@ Public Class FormDeliver
         Call SetNextKey(Db, ControlPopUp.txtCuLNo, "SELECT top 1 CuLNo from CustomerLoan ORDER BY CuLNo Desc;", "CuLNo")
         grdRepair.Focus()
         grdRepair.CurrentCell = grdRepair.Item(0, grdRepair.Rows.Count - 1)
-        cmdCancel_Click(sender, e)
         Cursor = Cursors.Default
     End Sub
 
     Private Sub CmdSave_Click(sender As Object, e As EventArgs) Handles cmdSave.Click, SaveToolStripMenuItem.Click
-        grdRepair.EndEdit()
-        grdRERepair.EndEdit()
-        cmdSave.Focus()
-
         If grdRepair.Rows.Count < 2 And grdRERepair.Rows.Count < 2 Then
             MsgBox("ඔබ තවමත් කිසිදු Repair එකක් හෝ RERepair එකක් ඇතුලත් කර නොමැත. කරුණාකර Repair එකක් හෝ RERepair එකක් ඇතුලත් කර නැවත උත්සහ කරන්න.", vbExclamation + vbOKOnly)
             grdRepair.Focus()
@@ -113,7 +108,8 @@ Public Class FormDeliver
         Next
 
         CalculateGrandTotal()
-        If txtDDate.Value.Date <> Today.Date And MdifrmMain.tslblUserType.Text <> "Admin" Then
+
+        If txtDDate.Value.Date <> Today.Date And User.Instance.UserType!= User.Type.Admin Then
             Me.AcceptButton = ControlPopUp.cmdNotReceipt
             ControlPopUp.chkCashDrawer.Checked = False
             ControlPopUp.chkCashDrawer.Enabled = False
@@ -123,14 +119,8 @@ Public Class FormDeliver
             ControlPopUp.cmdReceipt.Enabled = True
             ControlPopUp.chkCashDrawer.Enabled = False
         End If
-        ControlPopUp.chkCashDrawer.Checked = My.Settings.CashDrawer
-        ControlPopUp.Dock = DockStyle.Fill
-        ControlPopUp.BringToFront()
-        ControlPopUp.grpPaymentInfo.Visible = False
-        ControlPopUp.Visible = True
+        Me.Controls.Add(ControlPopUp)
         MenuStrip.Enabled = False
-        ControlPopUp.grpPaymentInfo.Visible = True
-        ControlPopUp.txtCReceived.Focus()
     End Sub
 
     Public Sub PrintDeliveryReceipt(DNo As Integer, Optional boolPrint As Boolean = False)
@@ -473,15 +463,6 @@ Public Class FormDeliver
 
         ControlPopUp.txtGrandTotal.Text = Val(ControlPopUp.txtSubTotal.Text) - Val(ControlPopUp.txtRepAdvanced.Text)
         ControlPopUp.txtCAmount.Text = ControlPopUp.txtGrandTotal.Text
-    End Sub
-
-    Private Sub cmdCancel_Click(sender As Object, e As EventArgs)
-        ControlPopUp.Visible = False
-        ControlPopUp.Dock = DockStyle.None
-        MenuStrip.Enabled = True
-        AcceptButton = cmdSave
-        grdRepair.Focus()
-        grdRepair.CurrentCell = grdRepair.Item(0, grdRepair.Rows.Count - 1)
     End Sub
 
     Private Sub frmDeliver_Leave(sender As Object, e As EventArgs) Handles Me.Leave, cmdClose.Click, CloseToolStripMenuItem.Click
