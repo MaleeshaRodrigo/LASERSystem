@@ -456,7 +456,10 @@ Public Class frmSale
                 End If
             Case 1, 2
                 frmSearchDropDown.frm_Close()
-                Dim DR As OleDbDataReader = Db.GetDataReader("Select * from Stock where SCategory='" & grdSale.Item(1, e.RowIndex).Value & "' and SName='" & grdSale.Item(2, e.RowIndex).Value & "';")
+                Dim DR As OleDbDataReader = Db.GetDataReader("Select * from Stock where SCategory=@CATEGORY and SName=@NAME", {
+                                                             New OleDbParameter("CATEGORY", If(grdSale.Item(1, e.RowIndex).Value, "")),
+                                                             New OleDbParameter("NAME", If(grdSale.Item(2, e.RowIndex).Value, ""))
+                                                                                })
                 If DR.HasRows = True Then
                     DR.Read()
                     grdSale.Item(0, e.RowIndex).Value = DR("SNo").ToString
@@ -716,5 +719,4 @@ Public Class frmSale
             cmdDelete.Enabled = False
         End If
     End Sub
-
 End Class

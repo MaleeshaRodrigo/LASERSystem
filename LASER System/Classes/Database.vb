@@ -1,4 +1,5 @@
-﻿Imports System.Data.OleDb
+﻿Imports System.Data.Common
+Imports System.Data.OleDb
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Threading
@@ -209,9 +210,12 @@ Public Class Database
         Return (Output)
     End Function
 
-    Public Function GetDataReader(Sql As String) As OleDbDataReader
-        CMD = New OleDbCommand(Sql, _Connection)
-        Return (CMD.ExecuteReader())
+    Public Function GetDataReader(Sql As String, Optional Values As OleDbParameter() = Nothing) As OleDbDataReader
+        Dim Command As New OleDbCommand(Sql, _Connection)
+        If Values IsNot Nothing Then
+            Command.Parameters.AddRange(Values)
+        End If
+        Return (Command.ExecuteReader())
     End Function
 
     Public Function GetDataAdapter(Query As String) As OleDbDataAdapter

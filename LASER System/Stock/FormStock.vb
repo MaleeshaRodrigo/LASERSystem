@@ -68,12 +68,12 @@ Public Class FormStock
                     .CmbName.Text = CurrentRow.Cells.Item(Stock.Name).Value.ToString()
                     .TxtModelNo.Text = CurrentRow.Cells.Item(Stock.ModelNo).Value.ToString()
                     .CmbLocation.Text = CurrentRow.Cells.Item(Stock.Location).Value.ToString()
-                    .TxtCostPrice.Text = CurrentRow.Cells.Item(Stock.CostPrice).Value.ToString
-                    .TxtLowestPrice.Text = CurrentRow.Cells.Item(Stock.LowestPrice).Value.ToString
-                    .TxtSalePrice.Text = CurrentRow.Cells.Item(Stock.SalePrice).Value.ToString
-                    .TxtAvailableUnits.Text = CurrentRow.Cells.Item(Stock.AvailableUnits).Value.ToString
-                    .TxtDamagedUnits.Text = CurrentRow.Cells.Item(Stock.DamagedUnits).Value.ToString
-                    .TxtReorderPoint.Text = CurrentRow.Cells.Item(Stock.ReorderPoint).Value.ToString
+                    .TxtCostPrice.Text = CurrentRow.Cells.Item(Stock.CostPrice).Value.ToString()
+                    .TxtLowestPrice.Text = CurrentRow.Cells.Item(Stock.LowestPrice).Value.ToString()
+                    .TxtSalePrice.Text = CurrentRow.Cells.Item(Stock.SalePrice).Value.ToString()
+                    .TxtAvailableUnits.Text = CurrentRow.Cells.Item(Stock.AvailableUnits).Value.ToString()
+                    .TxtDamagedUnits.Text = CurrentRow.Cells.Item(Stock.DamagedUnits).Value.ToString()
+                    .TxtReorderPoint.Text = CurrentRow.Cells.Item(Stock.ReorderPoint).Value.ToString()
                     .TxtDetails.Text = CurrentRow.Cells.Item(Stock.Details).Value.ToString()
                     Me.Controls.Add(ControlStockInfo)
                     .Dock = DockStyle.Fill
