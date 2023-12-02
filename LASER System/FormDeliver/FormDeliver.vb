@@ -109,7 +109,7 @@ Public Class FormDeliver
 
         CalculateGrandTotal()
 
-        If txtDDate.Value.Date <> Today.Date And User.Instance.UserType!= User.Type.Admin Then
+        If txtDDate.Value.Date <> Today.Date And User.Instance.UserType <> User.Type.Admin Then
             Me.AcceptButton = ControlPopUp.cmdNotReceipt
             ControlPopUp.chkCashDrawer.Checked = False
             ControlPopUp.chkCashDrawer.Enabled = False
