@@ -282,8 +282,7 @@ Partial Class FrmSettings
         Me.chkMSetEmail.Name = "chkMSetEmail"
         Me.chkMSetEmail.Size = New System.Drawing.Size(350, 34)
         Me.chkMSetEmail.TabIndex = 30
-        Me.chkMSetEmail.Text = "Send Settlement, Technician Cost,Technician Loan and Transaction to Admin via Ema" &
-    "il" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
+        Me.chkMSetEmail.Text = "Send Settlement, Technician Cost,Technician Loan and Transaction to Admin via Email" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
         Me.chkMSetEmail.UseVisualStyleBackColor = True
         '
         'tpDatabase

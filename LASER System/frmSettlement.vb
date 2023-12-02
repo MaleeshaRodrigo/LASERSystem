@@ -30,8 +30,7 @@ Public Class frmSettlement
                                               ",LKR50=" & txtLKR50.Text & ",LKR20=" & txtLKR20.Text & ",LKR10=" & txtLKR10.Text & ",LKR5=" & txtLKR5.Text & ",LKR2=" & txtLKR2.Text &
                                               ",LKR1=" & txtLKR1.Text & " Where SetDate =#" & txtFrom.Value.Date & "#;")
         Else
-            Db.Execute("Insert into Settlement(SetDate,SaTotal,RepTotal,TATotal,SetGrandTotal,CTotal,CPTotal,CuLTotal,CPReceiptQty,CashinLocker,SetChange," &
-                                              "LKR5000,LKR1000,LKR500,LKR100,LKR50,LKR20,LKR10,LKR5,LKR2,LKR1) Values(#" & txtFrom.Value.Date & "#," & txtTotalofSales.Text & "," &
+            Db.Execute("Insert into Settlement(SetDate,SaTotal,RepTotal,TATotal,SetGrandTotal,CTotal,CPTotal,CuLTotal,CPReceiptQty,CashinLocker,SetChange,LKR5000,LKR1000,LKR500,LKR100,LKR50,LKR20,LKR10,LKR5,LKR2,LKR1) Values(#" & txtFrom.Value.Date & "#," & txtTotalofSales.Text & "," &
                                               txtTotalofRepairs.Text & "," & txtTotalofTransactions.Text & "," & txtIncome.Text & "," & txtCTotal.Text & "," & txtCPTotal.Text & "," &
                                               txtCuLTotal.Text & "," & txtCPQtyInvoice.Text & "," & txtLockerCash.Text & "," & txtChange.Text & "," & txtLKR5000.Text & "," & txtLKR1000.Text &
                                               "," & txtLKR500.Text & "," & txtLKR100.Text & "," & txtLKR50.Text & "," & txtLKR20.Text & "," & txtLKR10.Text & "," & txtLKR5.Text & "," & txtLKR2.Text &
@@ -58,12 +57,7 @@ Public Class frmSettlement
 
             Dim RPT As New rptSettlement
             Dim SaTotal, RepTotal, CTotal, CPTotal, CuLTotal, CPQty, TATotal, GrandTotal As Integer
-            Dim DT1 As DataTable = Db.GetDataTable("SELECT sale.SaNo, sale.SaDate, sale.CuNo, Customer.CuName, Customer.CuTelNo1, Customer.CuTelNo2, " &
-                                                      "Customer.CuTelNo3, StockSale.SNo, SCategory, SName, StockSale.SaType, StockSale.SaUnits, " &
-                                                      "StockSale.SaRate, StockSale.SaTotal, sale.SaSubTotal, sale.SaLess, sale.SaDue, sale.CReceived, sale.CBalance, " &
-                                                      "sale.CAmount, sale.CPInvoiceNo, sale.CPAmount, sale.CuLNo, sale.CuLAmount FROM [Customer], [sale], " &
-                                                      "[StockSale] where Customer.CuNo = Sale.CuNo And Sale.SaNo = StockSale.SaNo And " &
-                                                      "SaDate Between #" & Today.Date & " 00:00:00# And #" & Today.Date & " 23:59:59#")
+            Dim DT1 As DataTable = Db.GetDataTable("SELECT sale.SaNo, sale.SaDate, sale.CuNo, Customer.CuName, Customer.CuTelNo1, Customer.CuTelNo2, Customer.CuTelNo3, StockSale.SNo, SCategory, SName, StockSale.SaType, StockSale.SaUnits, StockSale.SaRate, StockSale.SaTotal, sale.SaSubTotal, sale.SaLess, sale.SaDue, sale.CReceived, sale.CBalance, sale.CAmount, sale.CPInvoiceNo, sale.CPAmount, sale.CuLNo, sale.CuLAmount FROM [Customer], [sale], [StockSale] where Customer.CuNo = Sale.CuNo And Sale.SaNo = StockSale.SaNo And SaDate Between #" & Today.Date & " 00:00:00# And #" & Today.Date & " 23:59:59#")
             SaTotal = 0
             CTotal = 0
             CuLTotal = 0
@@ -81,16 +75,8 @@ Public Class frmSettlement
                 End If
             Next
             RPT.Subreports("rptSettlementSale.rpt").SetDataSource(DT1)
-            Dim DT2 As DataTable = Db.GetDataTable("SELECT RepNo,Repair.PNo,PCategory,PName, PaidPrice, Qty, Status, Repair.TNo,TName, Repair.Dno, DDate, " &
-                                                      "Deliver.CuNo, CuName, CuTelNo1,DGrandTotal, CAmount, CReceived, CBalance, CPInvoiceNo, CPAmount, CuLNo, " &
-                                                      "CuLAmount, 'Repair' as [TableName]  from Deliver, Customer,Repair,Technician, Product where " &
-                                                      "Product.Pno = Repair.Pno and Repair.TNo = Technician.TNo and Customer.Cuno = Deliver.CuNo and " &
-                                                      "Repair.Dno = Deliver.Dno and Deliver.DDate Between #" & Today.Date & " 00:00:00# and #" & Today.Date &
-                                                      " 23:59:59# UNION Select RetNo, Return.PNo,PCategory,PName, PaidPrice, Qty, Status, Return.TNo, TName, " &
-                                                      "Return.Dno, DDate, Deliver.CuNo, CuName, CuTelNo1,DGrandTotal, CAmount, CReceived, CBalance, CPInvoiceNo, " &
-                                                      "CPAmount, CuLNo, CuLAmount, 'Re-Repair' as [TableName] from Deliver, Customer,Return,Product, Technician " &
-                                                      "where Product.Pno = Return.Pno and Return.TNo = Technician.TNo and Customer.Cuno = Deliver.CuNo and " &
-                                                      "Return.Dno = Deliver.Dno and Deliver.DDate Between #" & Today.Date & " 00:00:00# and #" & Today.Date &
+            Dim DT2 As DataTable = Db.GetDataTable("SELECT RepNo,Repair.PNo,PCategory,PName, PaidPrice, Qty, Status, Repair.TNo,TName, Repair.Dno, DDate, Deliver.CuNo, CuName, CuTelNo1,DGrandTotal, CAmount, CReceived, CBalance, CPInvoiceNo, CPAmount, CuLNo, CuLAmount, 'Repair' as [TableName]  from Deliver, Customer,Repair,Technician, Product where Product.Pno = Repair.Pno and Repair.TNo = Technician.TNo and Customer.Cuno = Deliver.CuNo and Repair.Dno = Deliver.Dno and Deliver.DDate Between #" & Today.Date & " 00:00:00# and #" & Today.Date &
+                                                      " 23:59:59# UNION Select RetNo, Return.PNo,PCategory,PName, PaidPrice, Qty, Status, Return.TNo, TName, Return.Dno, DDate, Deliver.CuNo, CuName, CuTelNo1,DGrandTotal, CAmount, CReceived, CBalance, CPInvoiceNo, CPAmount, CuLNo, CuLAmount, 'Re-Repair' as [TableName] from Deliver, Customer,Return,Product, Technician where Product.Pno = Return.Pno and Return.TNo = Technician.TNo and Customer.Cuno = Deliver.CuNo and Return.Dno = Deliver.Dno and Deliver.DDate Between #" & Today.Date & " 00:00:00# and #" & Today.Date &
                                                       " 23:59:59#;")
             RepTotal = 0
             For Each row As DataRow In DT2.Rows
@@ -130,9 +116,7 @@ Public Class frmSettlement
             MdifrmMain.tslblLoad.Text = "Collecting Data for Technician Cost Report..."
             Dim RPT1 As New rptTechnicianCost
             Dim DS1 As New DataSet
-            Dim DA5 As OleDbDataAdapter = Db.GetDataAdapter("SELECT TCNO,TCDATE,TECHNICIANCOST.TNO,TNAME,REPNO,RETNO,SNO,SCATEGORY,SNAME," &
-                                                      "RATE,QTY,TOTAL,TCREMARKS FROM (TECHNICIANCOST INNER JOIN TECHNICIAN  ON TECHNICIAN.TNO = " &
-                                                      "TECHNICIANCOST.TNO) WHERE TCDATE Between #" &
+            Dim DA5 As OleDbDataAdapter = Db.GetDataAdapter("SELECT TCNO,TCDATE,TECHNICIANCOST.TNO,TNAME,REPNO,RETNO,SNO,SCATEGORY,SNAME,RATE,QTY,TOTAL,TCREMARKS FROM (TECHNICIANCOST INNER JOIN TECHNICIAN  ON TECHNICIAN.TNO = TECHNICIANCOST.TNO) WHERE TCDATE Between #" &
                                                       Today.Date & " 00:00:00# and #" & Today.Date & " 23:59:59#;")
             Dim unused6 = DA5.Fill(DS1, "TECHNICIANCOST")
             Dim unused5 = DA5.Fill(DS1, "STOCK")
@@ -143,9 +127,7 @@ Public Class frmSettlement
             Dim RPT2 As New rptTechnicianLoan
             Dim frm2 As New frmReport
             Dim DS2 As New DataSet
-            Dim DA6 As OleDbDataAdapter = Db.GetDataAdapter("SELECT TLNO,TL.TNO,TNAME,TLDATE,SNO,SCATEGORY,SNAME,TLREASON,QTY,RATE,TOTAL FROM " &
-                                                      "(TECHNICIANLOAN TL INNER JOIN TECHNICIAN T ON T.TNO = TL.TNO) " &
-                                                      "WHERE TLDATE Between #" & Today.Date & " 00:00:00# and #" & Today.Date & " 23:59:59#;")
+            Dim DA6 As OleDbDataAdapter = Db.GetDataAdapter("SELECT TLNO,TL.TNO,TNAME,TLDATE,SNO,SCATEGORY,SNAME,TLREASON,QTY,RATE,TOTAL FROM (TECHNICIANLOAN TL INNER JOIN TECHNICIAN T ON T.TNO = TL.TNO) WHERE TLDATE Between #" & Today.Date & " 00:00:00# and #" & Today.Date & " 23:59:59#;")
             Dim unused3 = DA6.Fill(DS2, "TECHNICIANLOAN")
             Dim unused2 = DA6.Fill(DS2, "STOCK")
             Dim unused1 = DA6.Fill(DS2, "TECHNICIAN")
@@ -214,8 +196,7 @@ Public Class frmSettlement
                 MdifrmMain.tslblLoad.Text = "Sending Email..."
                 Db.Execute("Insert Into Mail(MailNo,MailDate,EmailTo,Subject,Body,Status,Attachment1,Attachment2,Attachment3) Values(" &
                                 Db.GetNextKey("Mail", "MailNo") & ",#" & DateAndTime.Now &
-                                "#,'" & My.Settings.AdminEmail & "','Settlement " & Today.Date.ToString & "','මෙය LASER System එකෙන් Automatically පැමිණන Email " &
-                              "එකක් බැවින් ඔබට මෙය නැවැත්වීමට අවශ්‍යනම්, අපගේ Programe Developer හට දැනුම් දෙන්න.','Waiting','" &
+                                "#,'" & My.Settings.AdminEmail & "','Settlement " & Today.Date.ToString & "','මෙය LASER System එකෙන් Automatically පැමිණන Email එකක් බැවින් ඔබට මෙය නැවැත්වීමට අවශ්‍යනම්, අපගේ Programe Developer හට දැනුම් දෙන්න.','Waiting','" &
                     If(File.Exists(Application.StartupPath & "\Reports\SettlementSheet " & Today.Year.ToString & " - " & Today.Month.ToString & " - " &
                                    Today.Day.ToString & ".pdf"), Application.StartupPath & "\Reports\SettlementSheet " & Today.Year.ToString & " - " &
                                                                     Today.Month.ToString & " - " & Today.Day.ToString & ".pdf", "") & "','" &
@@ -333,9 +314,7 @@ Public Class frmSettlement
         Dim frm1 As New frmReport
         Dim RPT1 As New rptTechnicianCost
         Dim DS1 As New DataSet
-        Dim DA5 As OleDbDataAdapter = Db.GetDataAdapter("SELECT TCNO,TCDATE,TECHNICIANCOST.TNO,TNAME,REPNO,RETNO,TECHNICIANCOST.SNO,SCATEGORY,SNAME, RATE,QTY,TOTAL," &
-                                              "TCREMARKS FROM (TECHNICIANCOST INNER JOIN TECHNICIAN  ON TECHNICIAN.TNO = TECHNICIANCOST.TNO) " &
-                                              "WHERE TCDATE Between #" & Format(txtFrom.Value, "yyyy-MM-dd") & " 00:00:00# and #" &
+        Dim DA5 As OleDbDataAdapter = Db.GetDataAdapter("SELECT TCNO,TCDATE,TECHNICIANCOST.TNO,TNAME,REPNO,RETNO,TECHNICIANCOST.SNO,SCATEGORY,SNAME, RATE,QTY,TOTAL,TCREMARKS FROM (TECHNICIANCOST INNER JOIN TECHNICIAN  ON TECHNICIAN.TNO = TECHNICIANCOST.TNO) WHERE TCDATE Between #" & Format(txtFrom.Value, "yyyy-MM-dd") & " 00:00:00# and #" &
                                               Format(txtFrom.Value, "yyyy-MM-dd") & " 23:59:59#;")
         DA5.Fill(DS1, "TECHNICIANCOST")
         DA5.Fill(DS1, "STOCK")
@@ -440,14 +419,10 @@ Public Class frmSettlement
     Private Sub grdDeliver_SelectionChanged(sender As Object, e As EventArgs) Handles grdDeliver.SelectionChanged
         If grdDeliver.CurrentCell Is Nothing Then Exit Sub
         Dim dgv As New DataGridView
-        Dim DT1 As DataTable = Db.GetDataTable("SELECT rep.RepNo as [Repair No],PCategory as [Product Category],PName as [Product Name]," &
-                                         "Qty, PaidPrice as [Paid Charge],TName as [Technician Name],Status from Repair Rep,Technician T, Product P " &
-                                         "Where P.Pno = Rep.Pno and Rep.TNo = T.TNo and DNo = " & grdDeliver.Item(0, grdDeliver.CurrentCell.RowIndex).Value)
+        Dim DT1 As DataTable = Db.GetDataTable("SELECT rep.RepNo as [Repair No],PCategory as [Product Category],PName as [Product Name],Qty, PaidPrice as [Paid Charge],TName as [Technician Name],Status from Repair Rep,Technician T, Product P Where P.Pno = Rep.Pno and Rep.TNo = T.TNo and DNo = " & grdDeliver.Item(0, grdDeliver.CurrentCell.RowIndex).Value)
         grdRepair.DataSource = DT1
         grdRepair.Refresh()
-        Dim DT2 As DataTable = Db.GetDataTable("SELECT Ret.RetNo as [RERepair No],RepNo as [Repair No],PCategory as [Product Category],PName as [Product Name]," &
-                                         "Qty, PaidPrice as [Paid Charge],TName as [Technician Name],Status from Return Ret,Technician T, Product P " &
-                                         "Where P.Pno = Ret.Pno and Ret.TNo = T.TNo and DNo = " & grdDeliver.Item(0, grdDeliver.CurrentCell.RowIndex).Value)
+        Dim DT2 As DataTable = Db.GetDataTable("SELECT Ret.RetNo as [RERepair No],RepNo as [Repair No],PCategory as [Product Category],PName as [Product Name],Qty, PaidPrice as [Paid Charge],TName as [Technician Name],Status from Return Ret,Technician T, Product P Where P.Pno = Ret.Pno and Ret.TNo = T.TNo and DNo = " & grdDeliver.Item(0, grdDeliver.CurrentCell.RowIndex).Value)
         grdRERepair.DataSource = DT2
         grdRERepair.Refresh()
     End Sub

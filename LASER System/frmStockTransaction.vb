@@ -33,17 +33,13 @@ Public Class frmStockTransaction
         If DR.HasRows = True Then
             DR.Read()
             txtSNo.Text = DR("SNO").ToString
-            grdSupply.DataSource = Db.GetDataTable("Select SupDate,SuName,SupType,SupUnits,SupCostPrice,SupTotal from (((Supply Sup Left Join Supplier Su On Su.SuNo = Sup.SuNo) " &
-                                                  "Inner Join StockSupply SSup On SSup.SupNo = Sup.SupNo) Inner Join Stock S On S.SNo =SSup.SNo) Where S.SNo = " & txtSNo.Text & " Order by SupDate;")
+            grdSupply.DataSource = Db.GetDataTable("Select SupDate,SuName,SupType,SupUnits,SupCostPrice,SupTotal from (((Supply Sup Left Join Supplier Su On Su.SuNo = Sup.SuNo) Inner Join StockSupply SSup On SSup.SupNo = Sup.SupNo) Inner Join Stock S On S.SNo =SSup.SNo) Where S.SNo = " & txtSNo.Text & " Order by SupDate;")
 
-            grdSale.DataSource = Db.GetDataTable("Select SaDate,CuName,SaType,SaUnits,SaRate,SaTotal from (((Sale Sa Left Join Customer Cu On Cu.CuNo = Sa.CuNo) Inner Join StockSale SSa " &
-                                                  "On SSa.SaNo = Sa.SaNo) Inner Join Stock S On S.SNo =SSa.SNo) Where S.SNo = " & txtSNo.Text & " Order by SaDate;")
+            grdSale.DataSource = Db.GetDataTable("Select SaDate,CuName,SaType,SaUnits,SaRate,SaTotal from (((Sale Sa Left Join Customer Cu On Cu.CuNo = Sa.CuNo) Inner Join StockSale SSa On SSa.SaNo = Sa.SaNo) Inner Join Stock S On S.SNo =SSa.SNo) Where S.SNo = " & txtSNo.Text & " Order by SaDate;")
 
-            grdTCost.DataSource = Db.GetDataTable("Select TCDate,TName,RepNo,RetNo,TCRemarks,Rate,Qty,Total from ((TechnicianCost TC Inner Join Stock S On S.SNo = TC.SNo) " &
-                                                  "Inner Join Technician T On T.TNo = TC.TNo) Where S.SNo = " & txtSNo.Text & " Order by TCDate;")
+            grdTCost.DataSource = Db.GetDataTable("Select TCDate,TName,RepNo,RetNo,TCRemarks,Rate,Qty,Total from ((TechnicianCost TC Inner Join Stock S On S.SNo = TC.SNo) Inner Join Technician T On T.TNo = TC.TNo) Where S.SNo = " & txtSNo.Text & " Order by TCDate;")
 
-            grdTLoan.DataSource = Db.GetDataTable("Select TLDate,TName,TLReason,Rate,Qty,Total from ((TechnicianLoan TL Inner Join Stock S On S.SNo = TL.SNo) " &
-                                                  "Inner Join Technician T On T.TNo = TL.TNo) Where S.SNo = " & txtSNo.Text & " Order by TLDate;")
+            grdTLoan.DataSource = Db.GetDataTable("Select TLDate,TName,TLReason,Rate,Qty,Total from ((TechnicianLoan TL Inner Join Stock S On S.SNo = TL.SNo) Inner Join Technician T On T.TNo = TL.TNo) Where S.SNo = " & txtSNo.Text & " Order by TLDate;")
         End If
     End Sub
 

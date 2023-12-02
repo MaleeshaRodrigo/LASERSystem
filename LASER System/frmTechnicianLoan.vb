@@ -29,9 +29,7 @@ Public Class frmTechnicianLoan
             grdTLSearch.Rows.Clear()
             Exit Sub
         End If
-        Me.grdTLSearch.DataSource = Db.GetDataTable("Select TLNo as [Technician Loan No],TLDate as [Date],SCategory as [Stock Category],SName as [Stock Name],TLReason as [Reason]," &
-                                             "Rate,Qty,Total from (TechnicianLoan Inner Join Technician On Technician.TNO = TechnicianLoan.TNo) " &
-                                             "where TName='" & cmbTName.Text & "' and TLDate BETWEEN #" & txtTLFrom.Value.Date & " 00:00:00# AND #" &
+        Me.grdTLSearch.DataSource = Db.GetDataTable("Select TLNo as [Technician Loan No],TLDate as [Date],SCategory as [Stock Category],SName as [Stock Name],TLReason as [Reason],Rate,Qty,Total from (TechnicianLoan Inner Join Technician On Technician.TNO = TechnicianLoan.TNo) where TName='" & cmbTName.Text & "' and TLDate BETWEEN #" & txtTLFrom.Value.Date & " 00:00:00# AND #" &
                                              txtTLTo.Value.Date & " 23:59:59#")
         grdTLSearch.Refresh()
         txtTLSubTotal.Text = "0"
@@ -67,13 +65,11 @@ Public Class frmTechnicianLoan
                                                         cmbTName.Text & "'"))
         If cmdTLSave.Text = "Save" Then
             If txtSNo.Text <> "" Then
-                Db.Execute("Insert Into TechnicianLoan(TLNo,TNo,TLDate,SNo,SCategory,SName,TLReason,Rate,Qty,Total,UNo) " &
-                        "Values(" & txtTLNo.Text & "," & TNo & ",#" & txtTLDate.Value & "#," & txtSNo.Text & ",'" &
+                Db.Execute("Insert Into TechnicianLoan(TLNo,TNo,TLDate,SNo,SCategory,SName,TLReason,Rate,Qty,Total,UNo) Values(" & txtTLNo.Text & "," & TNo & ",#" & txtTLDate.Value & "#," & txtSNo.Text & ",'" &
                         cmbSCategory.Text & "','" & cmbSName.Text & "','" & txtTLReason.Text &
                         "'," & txtSUnitPrice.Text & "," & txtSQty.Text & "," & txtTLAmount.Text & ",'" & MdifrmMain.Tag & "')", {}, AdminPer)
             Else
-                Db.Execute("Insert Into TechnicianLoan(TLNo,TNo,TLDate,TLReason,Total,UNo) " &
-                        "Values(" & txtTLNo.Text & "," & TNo & ",#" & txtTLDate.Value & "#,'" & txtTLReason.Text & "'," &
+                Db.Execute("Insert Into TechnicianLoan(TLNo,TNo,TLDate,TLReason,Total,UNo) Values(" & txtTLNo.Text & "," & TNo & ",#" & txtTLDate.Value & "#,'" & txtTLReason.Text & "'," &
                         txtTLAmount.Text & ",'" & MdifrmMain.Tag & "')", {}, AdminPer)
             End If
             MsgBox("Save Successfull!", vbExclamation + vbOKOnly)
