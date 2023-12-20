@@ -1,4 +1,5 @@
 ﻿Imports System.Data.OleDb
+Imports System.IO
 Imports Microsoft.VisualBasic.FileIO
 
 Public Class frmLogin
@@ -11,8 +12,8 @@ Public Class frmLogin
     End Sub
 
     Private Sub FrmLogin_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Process.GetCurrentProcess().PriorityClass = System.Diagnostics.ProcessPriorityClass.High
-        If My.Settings.DBPath = "" Then My.Settings.DBPath = Application.StartupPath + "\Database.accdb"
+        Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.High
+        If My.Settings.DBPath = "" Then My.Settings.DBPath = Path.Combine(SystemFolderPath, "Database.accdb")
         Dim ConnectionResult = Db.CheckConnection()
         If ConnectionResult.Valid = False Then
             MsgBox(ConnectionResult.Message, vbCritical, "Database Connection Error")

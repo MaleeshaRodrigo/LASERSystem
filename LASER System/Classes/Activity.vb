@@ -3,7 +3,7 @@ Imports Newtonsoft.Json
 
 Public NotInheritable Class Activity
     Private Shared _Instance As Activity
-    Public Shared ReadOnly FilePath As String = Path.Combine(Application.StartupPath, "System Files\Activity\Activity.json")
+    Public Shared ReadOnly FilePath As String = Path.Combine(SystemFolderPath, "System Files\Activity\Activity.json")
 
     Private Sub New()
     End Sub

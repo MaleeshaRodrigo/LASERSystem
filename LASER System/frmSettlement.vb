@@ -3,6 +3,13 @@ Imports System.IO
 Imports CrystalDecisions.Shared
 Public Class frmSettlement
     Private Db As New Database
+    Private ReportFolderPath As String
+
+    Public Sub New()
+        InitializeComponent()
+
+        ReportFolderPath = Path.Combine(SystemFolderPath, "Reports")
+    End Sub
 
     Private Sub frmSettlement_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Db.Connect()
@@ -46,11 +53,12 @@ Public Class frmSettlement
                     Exit Try
                 End If
             Next
-            If File.Exists(Path.Combine(Application.StartupPath & "\Reports", "SettlementSheet " & Today.Year.ToString & " - " &
-                                            Today.Month.ToString & " - " & Today.Day.ToString & ".pdf")) Or File.Exists(Path.Combine(Application.StartupPath &
-                                            "\Reports", "TechnicianCost " & Today.Year.ToString & " - " & Today.Month.ToString & " - " & Today.Day.ToString &
-                                            ".pdf")) Or File.Exists(Path.Combine(Application.StartupPath & "\Reports", "TechinicianLoan " & Today.Year.ToString &
-                                            " - " & Today.Month.ToString & " - " & Today.Day.ToString & ".pdf")) Then Exit Sub
+            Dim ReportsFolderPath As String = Path.Combine(SystemFolderPath, "Reports")
+            If File.Exists(Path.Combine(ReportsFolderPath, $"SettlementSheet {Today.Year } - {Today.Month} - {Today.Day}.pdf")) Or
+                File.Exists(Path.Combine(ReportsFolderPath, $"TechnicianCost {Today.Year} - {Today.Month} - {Today.Day}.pdf")) Or
+                File.Exists(Path.Combine(ReportsFolderPath, $"TechinicianLoan {Today.Year } - { Today.Month} - {Today.Day }.pdf")) Then
+                Exit Sub
+            End If
             MdifrmMain.tsProBar.Visible = True
             MdifrmMain.tsProBar.Value = 0
             MdifrmMain.tslblLoad.Text = "Collecting Data for Settlement Report..."
@@ -138,9 +146,7 @@ Public Class frmSettlement
                 Dim CrExportOptions As ExportOptions
                 Dim CrDiskFileDestinationOptions As New DiskFileDestinationOptions()
                 Dim CrFormatTypeOptions As New PdfRtfWordFormatOptions
-                CrDiskFileDestinationOptions.DiskFileName = Path.Combine(Application.StartupPath & "\Reports", "SettlementSheet " &
-                                                                             Today.Year.ToString & " - " & Today.Month.ToString & " - " &
-                                                                             Today.Day.ToString & ".pdf")
+                CrDiskFileDestinationOptions.DiskFileName = Path.Combine(ReportFolderPath, $"SettlementSheet {Today.Year} - {Today.Month} - {Today.Day}.pdf")
                 CrExportOptions = RPT.ExportOptions
                 With CrExportOptions
                     .ExportDestinationType = ExportDestinationType.DiskFile
@@ -157,9 +163,7 @@ Public Class frmSettlement
                 Dim CrExportOptions1 As ExportOptions
                 Dim CrDiskFileDestinationOptions1 As New DiskFileDestinationOptions()
                 Dim CrFormatTypeOptions1 As New PdfRtfWordFormatOptions
-                CrDiskFileDestinationOptions1.DiskFileName = Path.Combine(Application.StartupPath & "\Reports", "TechnicianCost " &
-                                                                              Today.Year.ToString & " - " & Today.Month.ToString & " - " &
-                                                                              Today.Day.ToString & ".pdf")
+                CrDiskFileDestinationOptions1.DiskFileName = Path.Combine(ReportFolderPath, $"TechnicianCost {Today.Year} - {Today.Month} - {Today.Day}.pdf")
                 CrExportOptions1 = RPT1.ExportOptions
                 With CrExportOptions1
                     .ExportDestinationType = ExportDestinationType.DiskFile
@@ -176,9 +180,7 @@ Public Class frmSettlement
                 Dim CrExportOptions2 As ExportOptions
                 Dim CrDiskFileDestinationOptions2 As New DiskFileDestinationOptions()
                 Dim CrFormatTypeOptions2 As New PdfRtfWordFormatOptions
-                CrDiskFileDestinationOptions2.DiskFileName = Path.Combine(Application.StartupPath & "\Reports", "TechnicianLoan " &
-                                                                              Today.Year.ToString & " - " & Today.Month.ToString & " - " &
-                                                                              Today.Day.ToString & ".pdf")
+                CrDiskFileDestinationOptions2.DiskFileName = Path.Combine(ReportFolderPath, $"TechnicianLoan {Today.Year} - {Today.Month} - {Today.Day}.pdf")
                 CrExportOptions2 = RPT2.ExportOptions
                 With CrExportOptions2
                     .ExportDestinationType = ExportDestinationType.DiskFile
@@ -194,20 +196,12 @@ Public Class frmSettlement
                     DS2.Tables("TechnicianLoan").Rows.Count > 0 Then
                 MdifrmMain.tsProBar.Value = 80
                 MdifrmMain.tslblLoad.Text = "Sending Email..."
-                Db.Execute("Insert Into Mail(MailNo,MailDate,EmailTo,Subject,Body,Status,Attachment1,Attachment2,Attachment3) Values(" &
-                                Db.GetNextKey("Mail", "MailNo") & ",#" & DateAndTime.Now &
-                                "#,'" & My.Settings.AdminEmail & "','Settlement " & Today.Date.ToString & "','මෙය LASER System එකෙන් Automatically පැමිණන Email එකක් බැවින් ඔබට මෙය නැවැත්වීමට අවශ්‍යනම්, අපගේ Programe Developer හට දැනුම් දෙන්න.','Waiting','" &
-                    If(File.Exists(Application.StartupPath & "\Reports\SettlementSheet " & Today.Year.ToString & " - " & Today.Month.ToString & " - " &
-                                   Today.Day.ToString & ".pdf"), Application.StartupPath & "\Reports\SettlementSheet " & Today.Year.ToString & " - " &
-                                                                    Today.Month.ToString & " - " & Today.Day.ToString & ".pdf", "") & "','" &
-                    If(File.Exists(Application.StartupPath & "\Reports\TechnicianCost " & Today.Year.ToString & " - " & Today.Month.ToString & " - " &
-                                   Today.Day.ToString & ".pdf"), Application.StartupPath & "\Reports\TechnicianCost " & Today.Year.ToString & " - " &
-                                                                     Today.Month.ToString & " - " & Today.Day.ToString & ".pdf", "") & "','" &
-                    If(File.Exists(Application.StartupPath & "\Reports\TechnicianLoan " & Today.Year.ToString & " - " & Today.Month.ToString & " - " &
-                                   Today.Day.ToString & ".pdf"), Application.StartupPath & "\Reports\TechnicianLoan " & Today.Year.ToString & " - " &
-                                                                     Today.Month.ToString & " - " & Today.Day.ToString & ".pdf", "") & "')")
+                Dim SettlementSheetFilePath As String = Path.Combine(ReportFolderPath, $"SettlementSheet {Today.Year} - {Today.Month} - {Today.Day}.pdf")
+                Dim TechnicianCostFilePath As String = Path.Combine(ReportFolderPath, $"TechnicianCost {Today.Year} - {Today.Month} - {Today.Day}.pdf")
+                Dim TechnicianLoanFilePath As String = Path.Combine(ReportFolderPath, $"TechnicianLoan {Today.Year} - {Today.Month} - {Today.Day}.pdf")
+                Db.Execute($"Insert Into Mail(MailNo,MailDate,EmailTo,Subject,Body,Status,Attachment1,Attachment2,Attachment3) Values({Db.GetNextKey("Mail", "MailNo")},#{DateAndTime.Now}#,'{My.Settings.AdminEmail}','Settlement {Today.Date.ToString}','මෙය LASER System එකෙන් Automatically පැමිණන Email එකක් බැවින් ඔබට මෙය නැවැත්වීමට අවශ්‍යනම්, අපගේ Programe Developer හට දැනුම් දෙන්න.','Waiting','{If(File.Exists(SettlementSheetFilePath), SettlementSheetFilePath, "")}','{If(File.Exists(TechnicianCostFilePath), TechnicianCostFilePath, "")}','{If(File.Exists(TechnicianLoanFilePath), TechnicianLoanFilePath, "") }')")
             End If
-            MdifrmMain.tsProBar.Value = 100
+                MdifrmMain.tsProBar.Value = 100
             MdifrmMain.tslblLoad.Text = "Settlement Email sent successfull..."
             RPT.Close()
             RPT1.Close()
@@ -360,7 +354,7 @@ Public Class frmSettlement
 
         Dim AdminPer As New AdminPermission(Db) With {
             .Remarks = "අද දිනට නොමැති " & txtTANo.Text & " වන Transaction Data එක Edit කෙරුණි."
-        }
+       }
 
         If dtpTADate.Value.Date = Today.Date Then
             dtpTADate.Value = DateAndTime.Now
