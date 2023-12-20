@@ -189,7 +189,7 @@ Public Class frmReceive
         End If
         If txtRDate.Value.Date = Today.Date Then txtRDate.Value = DateAndTime.Now
         txtRNo.Text = Db.GetNextKey("Receive", "RNo")
-        Db.Execute("Insert into Receive(RNo,RDate,CuNo,UNo) values(" & txtRNo.Text & ",#" & txtRDate.Value & "#," & CuNo & ",'" & MdifrmMain.Tag & "');")
+        Db.Execute("Insert into Receive(RNo,RDate,CuNo,UNo) values(" & txtRNo.Text & ",#" & txtRDate.Value & "#," & CuNo & ",'" & User.Instance.UserNo & "');")
         For Each row As DataGridViewRow In grdRepair.Rows
             If row.Index = grdRepair.Rows.Count - 1 Then Continue For
             'Product Management
@@ -199,15 +199,12 @@ Public Class frmReceive
                 PNo = DrProduct("PNo")
             Else
                 PNo = Db.GetNextKey("Product", "PNo")
-                Db.Execute("Insert into Product(PNO,PCATEGORY,PNAME,PMODELNO,PDETAILS) " &
-                          "Values(" & PNo & ",'" & row.Cells(1).Value & "','" & row.Cells(2).Value & "','" & row.Cells(3).Value & "','" &
+                Db.Execute("Insert into Product(PNO,PCATEGORY,PNAME,PMODELNO,PDETAILS) Values(" & PNo & ",'" & row.Cells(1).Value & "','" & row.Cells(2).Value & "','" & row.Cells(3).Value & "','" &
                           row.Cells(5).Value & "');")
             End If
-            Db.Execute("Insert into Repair(RepNo,RNo,PNo,PSerialNo,Qty,Problem,Status)" &
-                                        "Values(" & row.Cells(0).Value & "," & txtRNo.Text & "," & PNo & ",'" & row.Cells(4).Value & "'," &
+            Db.Execute("Insert into Repair(RepNo,RNo,PNo,PSerialNo,Qty,Problem,Status)Values(" & row.Cells(0).Value & "," & txtRNo.Text & "," & PNo & ",'" & row.Cells(4).Value & "'," &
                                         row.Cells(6).Value & ",'" & row.Cells(7).Value & "','Received');")
-            Db.Execute("Insert into RepairActivity(RepANo,RepNo,RepADate,Activity,UNo)" &
-                      " Values(?NewKey?RepairActivity?RepANo?," &
+            Db.Execute("Insert into RepairActivity(RepANo,RepNo,RepADate,Activity,UNo) Values(?NewKey?RepairActivity?RepANo?," &
                       row.Cells(0).Value & ",#" & DateAndTime.Now &
                       "#,'Received Date -> " & txtRDate.Value & vbCrLf &
                       ", Name -> " & cmbCuMr.Text & cmbCuName.Text &
@@ -218,13 +215,13 @@ Public Class frmReceive
                       ", Product Name -> " & row.Cells(2).Value &
                       ", Model No -> " & row.Cells(3).Value &
                       ", Serial No -> " & row.Cells(4).Value &
-                      ", Problem -> " & row.Cells(5).Value & ".'," & MdifrmMain.Tag & ")")
+                      ", Problem -> " & row.Cells(5).Value & ".'," & User.Instance.UserNo & ")")
             If row.Cells(8).Value IsNot Nothing Then
                 Db.Execute("Insert into RepairRemarks1(Rem1No,Rem1Date,RepNo,Remarks,UNo) Values(?NewKey?RepairRemarks1?Rem1No?,#" & DateAndTime.Now & "#," &
-                      row.Cells(0).Value & ",'" & row.Cells(8).Value & "'," & MdifrmMain.Tag & ")")
+                      row.Cells(0).Value & ",'" & row.Cells(8).Value & "'," & User.Instance.UserNo & ")")
             End If
             If Me.Tag = "Deliver" Then
-                For Each oForm As frmDeliver In Application.OpenForms().OfType(Of frmDeliver)()
+                For Each oForm As FormDeliver In Application.OpenForms().OfType(Of FormDeliver)()
                     If oForm.Name = Me.Caller Then
                         With oForm
                             .cmbCuName.Text = cmbCuMr.Text & cmbCuName.Text
@@ -248,26 +245,23 @@ Public Class frmReceive
                 PNo = DrProduct("PNo")
             Else
                 PNo = Db.GetNextKey("Product", "PNo")
-                Db.Execute("Insert into Product(PNO,PCATEGORY,PNAME,PMODELNO,PDETAILS) " &
-                          "Values(" & PNo & ",'" & row.Cells(2).Value & "','" & row.Cells(3).Value & "','" & row.Cells(4).Value &
+                Db.Execute("Insert into Product(PNO,PCATEGORY,PNAME,PMODELNO,PDETAILS) Values(" & PNo & ",'" & row.Cells(2).Value & "','" & row.Cells(3).Value & "','" & row.Cells(4).Value &
                           "','" & row.Cells(6).Value & "');")
             End If
-            Db.Execute("Insert Into `Return`(RetNo,RNo,RepNo,PNo,PSerialNo,Qty,Problem,Status,RetRemarks1) " &
-            "Values(" & row.Cells(0).Value & "," & txtRNo.Text & "," & row.Cells(1).Value & "," & PNo & ",'" & row.Cells(5).Value & "'," &
+            Db.Execute("Insert Into `Return`(RetNo,RNo,RepNo,PNo,PSerialNo,Qty,Problem,Status,RetRemarks1) Values(" & row.Cells(0).Value & "," & txtRNo.Text & "," & row.Cells(1).Value & "," & PNo & ",'" & row.Cells(5).Value & "'," &
             row.Cells(7).Value & ",'" & row.Cells(8).Value & "','Received','" & row.Cells(9).Value & "');")
-            Db.Execute("Insert into RepairActivity(RepANo,RetNo,RepADate,Activity,UNo)" &
-                      " Values(?NewKey?RepairActivity?RepANo?," &
+            Db.Execute("Insert into RepairActivity(RepANo,RetNo,RepADate,Activity,UNo) Values(?NewKey?RepairActivity?RepANo?," &
                       row.Cells(0).Value & ",#" & DateAndTime.Now & "#,'Received Date -> " & txtRDate.Value & vbCrLf & ", Name -> " & cmbCuMr.Text & cmbCuName.Text &
                       ", Telephone No1 -> " & txtCuTelNo1.Text & ", Telephone No2 -> " & txtCuTelNo2.Text & ", Telephone No3 -> " & txtCuTelNo3.Text &
                       vbCrLf & ", Product Category -> " & row.Cells(2).Value &
                       ", Product Name -> " & row.Cells(3).Value & ", Model No -> " & row.Cells(4).Value & ", Serial No -> " & row.Cells(5).Value &
-                      ", Problem -> " & row.Cells(6).Value & ".'," & MdifrmMain.Tag & ")")
+                      ", Problem -> " & row.Cells(6).Value & ".'," & User.Instance.UserNo & ")")
             If row.Cells(9).Value IsNot Nothing Then
                 Db.Execute("Insert into RepairRemarks1(Rem1No,Rem1Date,RetNo,Remarks,UNo) Values(?NewKey?RepairRemarks1?Rem1No?,#" & DateAndTime.Now & "#," &
-                      row.Cells(0).Value & ",'" & row.Cells(9).Value & "'," & MdifrmMain.Tag & ")")
+                      row.Cells(0).Value & ",'" & row.Cells(9).Value & "'," & User.Instance.UserNo & ")")
             End If
             If Me.Tag = "Deliver" Then
-                For Each oForm As frmDeliver In Application.OpenForms().OfType(Of frmDeliver)()
+                For Each oForm As FormDeliver In Application.OpenForms().OfType(Of FormDeliver)()
                     If oForm.Name = Me.Caller Then
                         With oForm
                             .cmbCuName.Text = cmbCuMr.Text & cmbCuName.Text
@@ -370,9 +364,7 @@ Public Class frmReceive
                 Dim writer As New BarcodeWriter
                 writer.Format = BarcodeFormat.CODE_128
                 writer.Options.PureBarcode = True
-                DT1 = ThreadDb.GetDataTable("SELECT Repair.RepNo,RDate,CuName,CuTelNo1,CuTelNo2,CuTelNo3,PCategory,PName,Qty from " &
-                                                      "Repair,Product,Receive,Customer " &
-                                                      "where Receive.RNO = Repair.RNo and Repair.PNo = Product.PNo and Customer.CuNo = Receive.CuNo and Receive.RNo=" &
+                DT1 = ThreadDb.GetDataTable("SELECT Repair.RepNo,RDate,CuName,CuTelNo1,CuTelNo2,CuTelNo3,PCategory,PName,Qty from Repair,Product,Receive,Customer where Receive.RNO = Repair.RNo and Repair.PNo = Product.PNo and Customer.CuNo = Receive.CuNo and Receive.RNo=" &
                                                       RNo & ";")
                 For Each row As DataRow In DT1.Rows
                     Dim imgStream As MemoryStream = New MemoryStream()

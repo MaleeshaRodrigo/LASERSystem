@@ -168,8 +168,7 @@ Partial Class MdifrmMain
         '
         Me.ToolStripStatusDetailsTitle.Name = "ToolStripStatusDetailsTitle"
         Me.ToolStripStatusDetailsTitle.Size = New System.Drawing.Size(476, 19)
-        Me.ToolStripStatusDetailsTitle.Text = "This Product is licensed to LASER Electronics.  Copyright © 2018 - 2020 All Right" &
-    " Reserved"
+        Me.ToolStripStatusDetailsTitle.Text = "This Product is licensed to LASER Electronics.  Copyright © 2018 - 2020 All Right Reserved"
         '
         'ToolStripStatusLabel4
         '

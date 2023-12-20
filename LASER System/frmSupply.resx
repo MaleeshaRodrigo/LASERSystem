@@ -135,6 +135,9 @@
   <metadata name="SSalePrice.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <metadata name="SLowestPrice.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
   <metadata name="SMinStocks.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -157,7 +160,7 @@
   <data name="cmdNew.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAA
-        WQAAAFkBqp2phgAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAADoSURBVDhPY/j/
+        WAAAAFgBeNpLYgAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAADoSURBVDhPY/j/
         /z9ROHnN39/+Lf/++1T+t0QWR1EEww8+/Zlz+92vq5fe/l696OyfTT17/xxNXvvnP8iA9Cn/+5ENwdT8
         8dfy19/+/H/48df/y29//89e8/d/6sY/YAwywKvqPxg7NPznwDAAqHkJSDOyAQXr/v5PWYcwwLf2/2+v
         yv8vjdP+s6IY8PDjn4UwzcgGnH39B4xToF6Yf/jPDpgeFAOeffnz79nn3/9B+PGnXxgGFKz9+79wwb//
@@ -168,7 +171,7 @@
   <data name="cmdSave.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAA
-        RwAAAEcBRwD1sgAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAHGSURBVDhPY/j/
+        RgAAAEYBlUcXVgAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAHGSURBVDhPY/j/
         /z8Dw5qXyxjWvPoNxP9R8JYXnxneXYoGqcGFgZpfGWJohOEtz/8zfLj4m+H9pQBsmkGYgWH1awesmkF4
         04v/QM3/gIb8ZPhwwY10A0D41P3/DHdv/GG4f+0hw6GH1qQbgIzXvi6goQGrXvxnjev/zxbRCcasCZP+
         M6x+SYIBILwSGOorniEwkK+z5ez/OSeb/p+7lPj/ybWgh/9vOdX8v2HNi2kAyAWp04E2T4TjyN7q/99v
@@ -182,7 +185,7 @@
   <data name="cmdDelete.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
-        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAB3RJ
+        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAB3RJ
         TUUH5AQXECABh+qNlgAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAEGSURBVDhP
         jdKxSkJxFMfxOxU6mA7RUiroAwgNTYVQDyD6EPUGNejg4ly45AOoPYGSQeAQbroEFbVJuYQEgrRUfn/d
         W+itg/cHH/jD/9zD4dy/YySFF4w9I6QROHEcuMfv7CPhHu0coxbQCRayiU98BaTaLfxmBRpTYwe1ij9p
@@ -194,7 +197,7 @@
   <data name="cmdGetData.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAA
-        dgAAAHYBTnsmCAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAADVSURBVDhPtdPB
+        dQAAAHUB48IHZQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAADVSURBVDhPtdPB
         CgFBGAfw2TmQQpHj3kSegRuPICcXb+GkHNy8hNwo4lHceAHHVU5Erf9/d9Q0zZqG/Ou3fc30fTNtjUAk
         9GDgqQtS5PKFbblau4b1VuSDPejdiCCQz+F4Fo8mcy/sCaR84BYi/lH6+TLOAfy5lBXngKmSlf8OqMB7
         AGtbPg44wh52cOKCJdYBJWhCAyK4qJprRdBjHdCHVVqKUGG4xj091gFtOMPawDXu6Ul678Br6+mA+XjM
@@ -204,7 +207,7 @@
   <data name="cmdClose.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAA
-        fQAAAH0Bx0gPAAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAFKSURBVDhPnVNL
+        fAAAAHwBFQ/t5AAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAFKSURBVDhPnVNL
         TsMwFHR7GK7RJraTKnbvwhG4RpcsumWDwhIkbgCF0I9ASvoRrEBC6qro4XGbxClm0Vga5cWZGft9woio
         gVWSnOVaXyy1vi6GagMgxh6+HfPrF8Y6uVLnhVZbA/oHW3AMt9s0gFir1CPw4i0Z3ENTGRxO9pJ9yFVC
         s0hcWgPkZTara3+ORvQ1HlMx1LXIxNjDt3LvRfDdQoiYoTgV0QBErO803ZsYIMayxgfePJI0kyJlttqO

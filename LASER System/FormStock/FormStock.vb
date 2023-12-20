@@ -68,12 +68,12 @@ Public Class FormStock
                     .CmbName.Text = CurrentRow.Cells.Item(Stock.Name).Value.ToString()
                     .TxtModelNo.Text = CurrentRow.Cells.Item(Stock.ModelNo).Value.ToString()
                     .CmbLocation.Text = CurrentRow.Cells.Item(Stock.Location).Value.ToString()
-                    .TxtCostPrice.Text = CurrentRow.Cells.Item(Stock.CostPrice).Value.ToString
-                    .TxtLowestPrice.Text = CurrentRow.Cells.Item(Stock.LowestPrice).Value.ToString
-                    .TxtSalePrice.Text = CurrentRow.Cells.Item(Stock.SalePrice).Value.ToString
-                    .TxtAvailableUnits.Text = CurrentRow.Cells.Item(Stock.AvailableUnits).Value.ToString
-                    .TxtDamagedUnits.Text = CurrentRow.Cells.Item(Stock.DamagedUnits).Value.ToString
-                    .TxtReorderPoint.Text = CurrentRow.Cells.Item(Stock.ReorderPoint).Value.ToString
+                    .TxtCostPrice.Text = CurrentRow.Cells.Item(Stock.CostPrice).Value.ToString()
+                    .TxtLowestPrice.Text = CurrentRow.Cells.Item(Stock.LowestPrice).Value.ToString()
+                    .TxtSalePrice.Text = CurrentRow.Cells.Item(Stock.SalePrice).Value.ToString()
+                    .TxtAvailableUnits.Text = CurrentRow.Cells.Item(Stock.AvailableUnits).Value.ToString()
+                    .TxtDamagedUnits.Text = CurrentRow.Cells.Item(Stock.DamagedUnits).Value.ToString()
+                    .TxtReorderPoint.Text = CurrentRow.Cells.Item(Stock.ReorderPoint).Value.ToString()
                     .TxtDetails.Text = CurrentRow.Cells.Item(Stock.Details).Value.ToString()
                     Me.Controls.Add(ControlStockInfo)
                     .Dock = DockStyle.Fill
@@ -87,22 +87,22 @@ Public Class FormStock
     End Sub
 
     Private Sub ViewStockTransactionDetailsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ViewStockTransactionDetailsToolStripMenuItem.Click
-        If grdStock.CurrentCell.ColumnIndex > 0 And grdStock.CurrentCell.RowIndex > 0 Then
-            Dim txtsno As New TextBox
-            txtsno.Text = grdStock.Item(0, grdStock.CurrentRow.Index).Value
-            If CheckExistData(txtsno, "Select SNo from Stock where SNo = " & txtsno.Text, "ඔබ Stock එකක් තෝරා ගෙන නොමැත. කරුණාකර Stock එකක් තෝරා ගන්න.", False) = False Then
-                frmStockTransaction.Show()
-                Exit Sub
-            End If
-            With frmStockTransaction
-                .txtSNo.Text = txtsno.Text
-                .txtSNo_TextChanged(sender, e)
-                .cmdDone_Click(sender, e)
-                .Show()
-            End With
-        Else
+        If Not (grdStock.CurrentCell.ColumnIndex > 0 And grdStock.CurrentCell.RowIndex > 0) Then
             frmStockTransaction.Show()
+            Exit Sub
         End If
+        Dim SNo As Integer = grdStock.Item(0, grdStock.CurrentRow.Index).Value
+        If Not DB.CheckDataExists(Tables.Stock, Stock.Code, SNo) Then
+            MsgBox("ඔබ Stock එකක් තෝරා ගෙන නොමැත. කරුණාකර Stock එකක් තෝරා ගන්න.", vbCritical)
+            frmStockTransaction.Show()
+            Exit Sub
+        End If
+        With frmStockTransaction
+            .txtSNo.Text = SNo
+            .txtSNo_TextChanged(sender, e)
+            .cmdDone_Click(sender, e)
+            .Show()
+        End With
     End Sub
     Private Sub bgwStock_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs)
         grdStock.ScrollBars = ScrollBars.Both
@@ -170,7 +170,7 @@ Public Class FormStock
         grdStock.DataSource = DT
     End Sub
 
-    Private Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click
+    Private Sub CmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click
         Dim ControlStockInfo As New ControlStockInfo(DB)
         Me.Controls.Add(ControlStockInfo)
         ControlStockInfo.ClearControls()

@@ -36,8 +36,7 @@ Public Class frmTechnician
                 ElseIf CheckExistData(txtTNo, "Select TNo from Technician where TNo =" & txtTNo.Text & ";", "This data couldn't be saved to database because Technicino No which you added has already located in the database. You have to change that to save.", True) = True Then
                     Exit Sub
                 End If
-                Db.Execute("Insert into Technician(TNo,TName,TFullName,TAddress,TEmail,TNicNo,TTelNo1,TTelno2,TTelno3,TRemarks,TActive) " &
-                                             "Values(" & txtTNo.Text & ",'" & cmbTName.Text & "','" & txtTFullName.Text & "','" & txtTAddress.Text & "','" &
+                Db.Execute("Insert into Technician(TNo,TName,TFullName,TAddress,TEmail,TNicNo,TTelNo1,TTelno2,TTelno3,TRemarks,TActive) Values(" & txtTNo.Text & ",'" & cmbTName.Text & "','" & txtTFullName.Text & "','" & txtTAddress.Text & "','" &
                                              txtTEmail.Text & "','" & txtTNICNo.Text & "','" & txtTTelNo1.Text & "','" & txtTTelNo2.Text & "','" &
                                              txtTTelNo3.Text & "','" & txtTRemarks.Text & "'," & chkActive.Checked & ");")
 
@@ -47,16 +46,7 @@ Public Class frmTechnician
             Case "Edit"
                 If MsgBox("Are you sure edit?", vbYesNo + vbInformation) = vbYes Then
                     Db.Execute("Update Technician Set TNo=" & txtTNo.Text &
-                                                 ",TName = '" & cmbTName.Text & "'" &
-                                                 ",TFullName = '" & txtTFullName.Text & "'" &
-                                                 ",TNICNo = '" & txtTNICNo.Text & "'" &
-                                                 ", TEmail ='" & txtTEmail.Text & "'" &
-                                                 ",TAddress = '" & txtTAddress.Text & "'" &
-                                                 ",TTelNo1 =  '" & txtTTelNo1.Text & "'" &
-                                                 ",TTelNo2 =  '" & txtTTelNo2.Text & "'" &
-                                                 ",TTelNo3 =  '" & txtTTelNo3.Text & "'" &
-                                                 ",TRemarks =  '" & txtTRemarks.Text & "'" &
-                                                 ",TActive= " & chkActive.Checked &
+                                                 ",TName = '" & cmbTName.Text & "',TFullName = '" & txtTFullName.Text & "',TNICNo = '" & txtTNICNo.Text & "', TEmail ='" & txtTEmail.Text & "',TAddress = '" & txtTAddress.Text & "',TTelNo1 =  '" & txtTTelNo1.Text & "',TTelNo2 =  '" & txtTTelNo2.Text & "',TTelNo3 =  '" & txtTTelNo3.Text & "',TRemarks =  '" & txtTRemarks.Text & "',TActive= " & chkActive.Checked &
                                                  " where TNo=" & txtTNo.Text)
                     Call txtSearch_TextChanged(sender, e)
                 End If
@@ -159,18 +149,15 @@ Public Class frmTechnician
 
     Private Sub cmdDelete_Click(sender As Object, e As EventArgs) Handles cmdDelete.Click
         If CheckExistRelationsforDelete("Select TNo,RepNo from Repair where TNo = " & txtTNo.Text, "RepNo",
-                                        "This Technician couldn't be deleted because this technician has relations with the field/s in 'Repair' table." &
-                                        " They are given below.") = False Then
+                                        "This Technician couldn't be deleted because this technician has relations with the field/s in 'Repair' table. They are given below.") = False Then
             Exit Sub
         End If
         If CheckExistRelationsforDelete("Select TNo,RetNo from Return where TNo = " & txtTNo.Text, "RetNo",
-                                        "This Technician couldn't be deleted because this technician has relations with the field/s in 'Return' table." &
-                                        " They are given below.") = False Then
+                                        "This Technician couldn't be deleted because this technician has relations with the field/s in 'Return' table. They are given below.") = False Then
             Exit Sub
         End If
         If CheckExistRelationsforDelete("Select TNo,SaRepNo from SalesRepair where TNo = " & txtTNo.Text, "SaRepNo",
-                                        "This Technician couldn't be deleted because this technician has relations with the field/s in 'SalesRepair' table." &
-                                        " They are given below.") = False Then
+                                        "This Technician couldn't be deleted because this technician has relations with the field/s in 'SalesRepair' table. They are given below.") = False Then
             Exit Sub
         End If
         If CheckEmptyfield(txtTNo, "This Technician couldn't be deleted because Technician No was empty. Please fill it and try again.") = False Then

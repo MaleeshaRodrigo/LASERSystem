@@ -1,15 +1,13 @@
 ﻿Imports System.Data.OleDb
-Imports System.Threading
 
-Public Class frmDeliver
+Public Class FormDeliver
     Private Db As New Database
+    Public ControlPopUp As ControlPopUp
     Public Sub New()
-        ' This call is required by the designer.
         InitializeComponent()
 
         MenuStrip.Items.Add(mnustrpMENU)
-        ' Add any initialization after the InitializeComponent() call.
-
+        ControlPopUp = New ControlPopUp(Db, Me)
     End Sub
 
     Private Sub frmDeliver_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -17,26 +15,6 @@ Public Class frmDeliver
         Call cmdNew_Click(Nothing, Nothing)
         txtDDate.Value = Date.Today
         grdRepair.Focus()
-    End Sub
-
-    Private Sub frmDeliver_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
-        If pnlDSaveFinal.Visible = True And cmdReceipt.Enabled = True Then
-            If (e.KeyCode = System.Windows.Forms.Keys.Escape) Then
-                cmdCancel_Click(sender, e)
-            ElseIf (e.KeyCode And Not Keys.Modifiers) = Keys.D1 AndAlso e.Modifiers = Keys.Control Then
-                chkCashDrawer.Checked = True
-                cmdReceipt_Click(cmdReceipt, e)
-            ElseIf (e.KeyCode And Not Keys.Modifiers) = Keys.D2 AndAlso e.Modifiers = Keys.Control Then
-                chkCashDrawer.Checked = True
-                cmdReceipt_Click(cmdNotReceipt, e)
-            ElseIf (e.KeyCode And Not Keys.Modifiers) = Keys.D3 AndAlso e.Modifiers = Keys.Control Then
-                chkCashDrawer.Checked = False
-                cmdReceipt_Click(cmdReceipt, e)
-            ElseIf (e.KeyCode And Not Keys.Modifiers) = Keys.D4 AndAlso e.Modifiers = Keys.Control Then
-                chkCashDrawer.Checked = False
-                cmdReceipt_Click(cmdNotReceipt, e)
-            End If
-        End If
     End Sub
 
     Private Sub cmbCuName_DropDown(sender As Object, e As EventArgs) Handles cmbCuName.DropDown
@@ -55,11 +33,7 @@ Public Class frmDeliver
         txtCuTelNo1.Tag = ""
     End Sub
 
-    Private Sub cmdClose_Click(sender As Object, e As EventArgs) Handles cmdClose.Click
-        Call frmDeliver_Leave(sender, e)
-    End Sub
-
-    Private Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click
+    Public Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click, NewToolStripMenuItem.Click
         Cursor = Cursors.WaitCursor
         Call SetNextKey(Db, txtDNo, "SELECT top 1 DNo from Deliver ORDER BY DNo Desc;", "DNo")
         For Each obj As Object In {cmbCuName, txtCuTelNo1, txtCuTelNo2, txtCuTelNo3, txtDRemarks}
@@ -67,8 +41,8 @@ Public Class frmDeliver
         Next
         grdRepair.Rows.Clear()
         grdRERepair.Rows.Clear()
-        For Each obj As Object In {txtGrandTotal, txtCAmount, txtCBalance, txtCReceived, txtCPInvoiceNo, txtCPAmount,
-            txtCuLAmount}
+        For Each obj As Object In {ControlPopUp.txtGrandTotal, ControlPopUp.txtCAmount, ControlPopUp.txtCBalance, ControlPopUp.txtCReceived, ControlPopUp.txtCPInvoiceNo, ControlPopUp.txtCPAmount,
+            ControlPopUp.txtCuLAmount}
             obj.text = "0"
         Next
 
@@ -81,18 +55,13 @@ Public Class frmDeliver
         grdtxt1.DataSource = items
 
         cmdSave.Enabled = True
-        Call SetNextKey(Db, txtCuLNo, "SELECT top 1 CuLNo from CustomerLoan ORDER BY CuLNo Desc;", "CuLNo")
+        Call SetNextKey(Db, ControlPopUp.txtCuLNo, "SELECT top 1 CuLNo from CustomerLoan ORDER BY CuLNo Desc;", "CuLNo")
         grdRepair.Focus()
         grdRepair.CurrentCell = grdRepair.Item(0, grdRepair.Rows.Count - 1)
-        cmdCancel_Click(sender, e)
         Cursor = Cursors.Default
     End Sub
 
-    Private Sub cmdSave_Click(sender As Object, e As EventArgs) Handles cmdSave.Click
-        grdRepair.EndEdit()
-        grdRERepair.EndEdit()
-        cmdSave.Focus()
-
+    Private Sub CmdSave_Click(sender As Object, e As EventArgs) Handles cmdSave.Click, SaveToolStripMenuItem.Click
         If grdRepair.Rows.Count < 2 And grdRERepair.Rows.Count < 2 Then
             MsgBox("ඔබ තවමත් කිසිදු Repair එකක් හෝ RERepair එකක් ඇතුලත් කර නොමැත. කරුණාකර Repair එකක් හෝ RERepair එකක් ඇතුලත් කර නැවත උත්සහ කරන්න.", vbExclamation + vbOKOnly)
             grdRepair.Focus()
@@ -138,42 +107,19 @@ Public Class frmDeliver
         Next
 
         CalculateGrandTotal()
-        If txtDDate.Value.Date <> Today.Date And MdifrmMain.tslblUserType.Text <> "Admin" Then
-            Me.AcceptButton = cmdNotReceipt
-            chkCashDrawer.Checked = False
-            chkCashDrawer.Enabled = False
-            cmdReceipt.Enabled = False
-        Else
-            Me.AcceptButton = cmdReceipt
-            cmdReceipt.Enabled = True
-            chkCashDrawer.Enabled = False
-        End If
-        chkCashDrawer.Checked = My.Settings.CashDrawer
-        pnlDSaveFinal.Dock = DockStyle.Fill
-        pnlDSaveFinal.BringToFront()
-        grpPaymentInfo.Visible = False
-        pnlDSaveFinal.Visible = True
-        grpPaymentInfo.Top = (pnlDSaveFinal.Height / 2) - (grpPaymentInfo.Height / 2)
-        grpPaymentInfo.Left = (pnlDSaveFinal.Width / 2) - (grpPaymentInfo.Width / 2)
-        MenuStrip.Enabled = False
-        grpPaymentInfo.Visible = True
-        txtCReceived.Focus()
-    End Sub
 
-    Private Sub cmdReceipt_Click(sender As Object, e As EventArgs) Handles cmdReceipt.Click, cmdNotReceipt.Click
-        If SaveDeliver() = True Then
-            Dim DNo As Integer = txtDNo.Text
-            Dim threadDeliver As New Thread(Sub()
-                                                If sender Is cmdReceipt Then PrintDeliveryReceipt(DNo, True)
-                                                AutomatedDeliver(txtDNo.Text)
-                                            End Sub)
-            threadDeliver.Name = "showDeliverReceiptReport"
-            threadDeliver.IsBackground = False
-            threadDeliver.Priority = ThreadPriority.Highest
-            threadDeliver.SetApartmentState(ApartmentState.STA)
-            threadDeliver.Start()
-            Call cmdNew_Click(sender, e)
+        If txtDDate.Value.Date <> Today.Date And User.Instance.UserType <> User.Type.Admin Then
+            Me.AcceptButton = ControlPopUp.cmdNotReceipt
+            ControlPopUp.chkCashDrawer.Checked = False
+            ControlPopUp.chkCashDrawer.Enabled = False
+            ControlPopUp.cmdReceipt.Enabled = False
+        Else
+            Me.AcceptButton = ControlPopUp.cmdReceipt
+            ControlPopUp.cmdReceipt.Enabled = True
+            ControlPopUp.chkCashDrawer.Enabled = False
         End If
+        Me.Controls.Add(ControlPopUp)
+        MenuStrip.Enabled = False
     End Sub
 
     Public Sub PrintDeliveryReceipt(DNo As Integer, Optional boolPrint As Boolean = False)
@@ -182,23 +128,19 @@ Public Class frmDeliver
             Dim frm As New frmReport
             Dim DT1 As New DataTable
             Dim DS1 As New DataSet
-            Dim DA1 As OleDbDataAdapter = Db.GetDataAdapter("SELECT Repair.RepNo,Repair.PNo,Product.PCategory,Product.PName,Repair.Qty,Repair.PaidPrice,Repair.TNo from Repair,Product," &
-                                              "Deliver where Deliver.DNO = Repair.DNo And Repair.PNo = Product.PNo And Deliver.DNo = " & DNo & ";")
+            Dim DA1 As OleDbDataAdapter = Db.GetDataAdapter("SELECT Repair.RepNo,Repair.PNo,Product.PCategory,Product.PName,Repair.Qty,Repair.PaidPrice,Repair.TNo from Repair,Product,Deliver where Deliver.DNO = Repair.DNo And Repair.PNo = Product.PNo And Deliver.DNo = " & DNo & ";")
             DA1.Fill(DS1, "Repair")
             DA1.Fill(DS1, "Product")
             RPT.Subreports.Item("rptDeliverRepair.rpt").SetDataSource(DS1)
             Dim DT2 As New DataTable
             Dim DS2 As New DataSet
-            Dim DA2 As OleDbDataAdapter = Db.GetDataAdapter("Select Return.RetNo,Return.RepNo,Return.PNo,Product.PCategory,Product.Pname,Return.Qty,Return.PaidPrice,Return.TNo from " &
-                                              "Return,Product,Deliver where Deliver.DNO = Return.DNo And Return.PNo = Product.PNo And Deliver.DNO  = " & DNo & ";")
+            Dim DA2 As OleDbDataAdapter = Db.GetDataAdapter("Select Return.RetNo,Return.RepNo,Return.PNo,Product.PCategory,Product.Pname,Return.Qty,Return.PaidPrice,Return.TNo from Return,Product,Deliver where Deliver.DNO = Return.DNo And Return.PNo = Product.PNo And Deliver.DNO  = " & DNo & ";")
             DA2.Fill(DS2, "Return")
             DA2.Fill(DS2, "Product")
             RPT.Subreports.Item("rptDeliverReturn.rpt").SetDataSource(DS2)
             Dim DT3 As New DataTable
             Dim DS3 As New DataSet
-            Dim DA3 As OleDbDataAdapter = Db.GetDataAdapter("SELECT Deliver.DNo, Deliver.DDate,Deliver.CuNo,Customer.CuName,Customer.CuTelNo1,Customer.CuTelNo2,Customer.CuTelNo3," &
-                                              "Deliver.DGrandTotal,Deliver.CReceived,Deliver.CBalance,Deliver.CAmount,Deliver.CPInvoiceNO,Deliver.CPAmount,Deliver.CuLNo," &
-                                              "Deliver.CuLAmount,Deliver.DRemarks from Deliver,Customer where Deliver.CuNo = Customer.CuNo And Deliver.DNo = " & DNo &
+            Dim DA3 As OleDbDataAdapter = Db.GetDataAdapter("SELECT Deliver.DNo, Deliver.DDate,Deliver.CuNo,Customer.CuName,Customer.CuTelNo1,Customer.CuTelNo2,Customer.CuTelNo3,Deliver.DGrandTotal,Deliver.CReceived,Deliver.CBalance,Deliver.CAmount,Deliver.CPInvoiceNO,Deliver.CPAmount,Deliver.CuLNo,Deliver.CuLAmount,Deliver.DRemarks from Deliver,Customer where Deliver.CuNo = Customer.CuNo And Deliver.DNo = " & DNo &
                                               ";")
             DA3.Fill(DS3, "Deliver")
             DA3.Fill(DS3, "Customer")
@@ -227,203 +169,6 @@ Public Class frmDeliver
         End Try
     End Sub
 
-    Private Function SaveDeliver() As Boolean
-        SaveDeliver = True
-        If txtGrandTotal.Text <> Val(txtCAmount.Text) + Val(txtCPAmount.Text) + Val(txtCuLAmount.Text) Then
-            MsgBox("Grand Total Field එක Cash Amount, Card Payment Amount සහ Customer Loan Amount එකට සමාන නැත. කරුණාකර එය නැවත පරිකෂා කරන්න.", vbExclamation + vbOKOnly)
-            Return False
-            Exit Function
-        End If
-        Cursor = Cursors.WaitCursor
-        'Send Admin to Verify the delivery data
-        Dim AdminPer As New AdminPermission(Db)
-        AdminPer.Keys.Add("DNo", "?NewKey?Deliver?DNo?")
-        Dim DNo As String = "?Key?DNo?"
-        If txtDDate.Value.Date = Today.Date Then
-            txtDDate.Value = DateAndTime.Now
-        ElseIf MdifrmMain.tslblUserType.Text <> "Admin" Then
-            AdminPer.AdminSend = True
-            AdminPer.Remarks = $"Date එක අද දිනයට වෙනස් Delivery එකක් Cashier කෙනෙකු වන {MdifrmMain.tslblUserName.Text} 
-විසින් ඇතුලත් කෙරුණි."
-        End If
-        If cmdSave.Text = "Edit" And MdifrmMain.tslblUserType.Text <> "Admin" Then
-            AdminPer.AdminSend = True
-            AdminPer.Remarks = $"Deliver එකක් Cashier කෙනෙකු වන {MdifrmMain.tslblUserName.Text} විසින් වෙනස් කෙරුණි."
-        End If
-        If (Val(txtCAmount.Text) > 0 Or Val(txtCPAmount.Text) > 0) And chkCashDrawer.Checked = True Then CashDrawer.Open()
-        SetNextKey(Db, txtCuLNo, "Select Top 1 CulNo from CustomerLoan order by CuLNo Desc;", "CuLNo")
-        If txtCAmount.Text = "" Or txtCAmount.Text = "0" Then
-            txtCAmount.Text = "0"
-            txtCReceived.Text = "0"
-            txtCBalance.Text = "0"
-        End If
-        If txtCPAmount.Text = "" Or txtCPAmount.Text = "0" Then
-            txtCPAmount.Text = "0"
-            txtCPInvoiceNo.Text = "0"
-        End If
-        If txtCuLAmount.Text = "" Or txtCuLAmount.Text = "0" Then
-            txtCuLAmount.Text = "0"
-            txtCuLNo.Text = "0"
-        End If
-        grdRepair.EndEdit()
-        grdRERepair.EndEdit()
-        cmdSave.Focus()
-        Dim DR As OleDbDataReader = Db.GetDataReader("Select * from Customer where CuName='" & cmbCuName.Text & "' and CuTelNo1='" & txtCuTelNo1.Text & "' and CuTelNo2 ='" &
-                                     txtCuTelNo2.Text & "' and CuTelNo3='" & txtCuTelNo3.Text & "'")
-        'Customer Management
-        Dim CuNo As String
-        If DR.HasRows = True Then
-            DR.Read()
-            CuNo = DR("CuNo").ToString
-        Else
-            AdminPer.Keys.Add("CuNo", "?NewKey?Customer?CuNo?")
-            CuNo = "?Key?CuNo?"
-            Db.Execute("Insert into Customer(CuNo,CuName,CuTelNo1,CuTelNo2,CutelNo3) Values(" & CuNo & ",'" & cmbCuName.Text & "','" & txtCuTelNo1.Text &
-                      "','" & txtCuTelNo2.Text & "','" & txtCuTelNo3.Text & "');", {}, AdminPer)
-        End If
-
-        '-------------Edit Mode------------------------------------------------
-        If cmdSave.Text = "Edit" Then
-            AdminPer.Keys.Item("DNo") = txtDNo.Text
-            Dim DrDeliver As OleDbDataReader = Db.GetDataReader("SELECT * from Deliver where DNo=" & txtDNo.Text & ";")
-            If DrDeliver.HasRows = True Then
-                DrDeliver.Read()
-                If DrDeliver("CuLNo").ToString <> "0" And txtCuLNo.Text = "0" Then
-                    Db.Execute("DELETE from CustomerLoan where CuLNo=" & DrDeliver("CuLNO").ToString, {}, AdminPer)
-                ElseIf DrDeliver("CuLNo").ToString <> "0" And txtCuLNo.Text <> "0" Then
-                    Db.Execute("Update CustomerLoan set CuLNo = " & DrDeliver("CuLNO").ToString &
-                                                      "CuNo = " & CuNo &
-                                                      ",CuLAmount = " & txtCuLAmount.Text &
-                                                      ",DNo = " & txtDNo.Text &
-                                                      ",CuLDate = #" & txtDDate.Value &
-                                                      "# where CuLNo=" & DrDeliver("CuLNO").ToString, {}, AdminPer)
-                    txtCuLNo.Text = DrDeliver("CuLNo").ToString
-                ElseIf DrDeliver("CuLNo").ToString = "0" And txtCuLNo.Text <> "0" Then
-                    Db.Execute("Insert into CustomerLoan(CuLNO,CuLAmount,CuNo,DNo,CulDate,Status) values(?NewKey?CustomerLoan?CuLNo?," &
-                              txtCuLAmount.Text & "," & CuNo & "," & txtDNo.Text & ",#" & txtDDate.Value & "#,'Not Paid')", {}, AdminPer)
-                End If
-                Dim DR1 As OleDbDataReader = Db.GetDataReader("SELECT RepNo,REP.PNo,PCategory,PName,Qty,Status,REP.TNo, TName,PaidPrice from " &
-                                                    "(((Repair REP INNER JOIN PRODUCT  P ON P.PNO = REP.PNO) LEFT JOIN Technician T " &
-                                                    "ON T.TNO = REP.TNO) LEFT JOIN DELIVER D ON D.DNO = REP.DNO) Where D.DNo=" & txtDNo.Text)
-                While DR1.Read
-                    Db.Execute("Update Repair Set " & If(DR1("Status").ToString = "Repaired Delivered", "Status='Repaired Not Delivered'",
-                              "Status='Returned Not Delivered'") & ",PaidPrice=0,DNo=0 " &
-                              "Where DNo=?Key?DNo?", {}, AdminPer)
-                End While
-                Dim DRReturn As OleDbDataReader = Db.GetDataReader("SELECT RetNo,RepNo,RET.PNo,PCategory,PName,Qty,Status,RET.TNo, TName,PaidPrice from " &
-                                                "(((RETURN RET INNER JOIN PRODUCT  P ON P.PNO = RET.PNO) LEFT JOIN Technician T " &
-                                                "ON T.TNO = RET.TNO) LEFT JOIN DELIVER D ON D.DNO = RET.DNO) Where D.DNo=" & txtDNo.Text)
-                While DRReturn.Read
-                    Db.Execute($"Update `Return` Set {If(DRReturn("Status").ToString = "Repaired Delivered", "Status='Repaired Not Delivered'",
-                              "Status='Returned Not Delivered'")},PaidPrice=0,DNo=0 Where DNo={txtDNo.Text}", {}, AdminPer)
-                End While
-                Db.Execute($"DELETE FROM Deliver WHERE DNo={txtDNo.Text}", {}, AdminPer)
-            End If
-        End If
-        '---------------Exit Edit Mode-----------------------------------------
-        Db.Execute("Insert into Deliver(DNo,DDate,Cuno,DGrandTotal,CAmount,CReceived,CBalance,CPINvoiceNo,CPAmount,CuLNO,CuLAmount,DRemarks) " &
-                  "Values(" & DNo & ",#" & txtDDate.Value & "#," & CuNo & "," & txtGrandTotal.Text &
-                  "," & txtCAmount.Text & "," &
-                  txtCReceived.Text & "," & txtCBalance.Text & "," & txtCPInvoiceNo.Text & "," & txtCPAmount.Text & "," & txtCuLNo.Text & "," &
-                  txtCuLAmount.Text & ",'" & txtDRemarks.Text & "');", {}, AdminPer)
-        If txtCuLAmount.Text <> "0" Then
-            Db.Execute("Insert into CustomerLoan(CuLNo,CuLDate,CuNO,CuLAmount,DNo,Status) Values(" &
-                      "?NewKey?CustomerLoan?CuLNo?,#" & txtDDate.Value & "#," &
-                      CuNo & "," & txtCuLAmount.Text & "," & DNo & ",'Not Paid')", {}, AdminPer)
-        End If
-        If grdRepair.Rows.Count > 1 Then
-            For Each Row1 As DataGridViewRow In grdRepair.Rows
-                If Row1.Index = grdRepair.Rows.Count - 1 Then Continue For
-                Dim DrRepStatus As OleDbDataReader = Db.GetDataReader("Select Status,RepNo from Repair where RepNo=" & Row1.Cells(0).Value)
-                If DrRepStatus.HasRows = True Then
-                    DrRepStatus.Read()
-                    If DrRepStatus("Status").ToString = "Received" Or DrRepStatus("Status").ToString = "Hand Over to Technician" Or
-                        DrRepStatus("Status").ToString = "Repairing" Then
-                        Db.Execute("Update Repair set RepDate = #" & txtDDate.Value &
-                                  "#,Charge=" & Row1.Cells(4).Value & " where RepNo= " & Row1.Cells(0).Value, {}, AdminPer)
-                    End If
-                End If
-                Db.Execute("Update Repair set PaidPrice = " & Row1.Cells(4).Value.ToString &
-                                             ",TNo = " & Db.GetData("Select TNo from Technician Where TName='" &
-                                             Row1.Cells(5).Value & "'") &
-                                             ",Status='" & Row1.Cells(6).Value.ToString & "'" &
-                                             ",DNo = " & DNo & " where RepNo= " & Row1.Cells(0).Value.ToString, {}, AdminPer)
-            Next
-        End If
-        If grdRERepair.Rows.Count > 1 Then
-            For Each Row As DataGridViewRow In grdRERepair.Rows
-                If Row.Index = grdRERepair.Rows.Count - 1 Then Continue For
-                Dim DrRetStatus As OleDbDataReader = Db.GetDataReader("Select Status,RetNo from Return where RetNo=" & Row.Cells(0).Value)
-                If DrRetStatus.HasRows = True Then
-                    DrRetStatus.Read()
-                    If DrRetStatus("Status").ToString = "Received" Or DrRetStatus("Status").ToString = "Hand Over to Technician" Or DrRetStatus("Status").ToString = "Repairing" Then
-                        Db.Execute("Update `Return` set RetRepDate = #" & txtDDate.Value &
-                                "#,Charge=" & Row.Cells(5).Value.ToString & " where RepNo= " & Row.Cells(0).Value.ToString, {}, AdminPer)
-                    End If
-                End If
-                Db.Execute("Update `Return` set PaidPrice = " & Row.Cells(5).Value.ToString &
-                        ",TNo = " & Db.GetData("Select TNo from Technician Where TName='" & Row.Cells(6).Value & "'") &
-                        ",Status='" & Row.Cells(7).Value.ToString & "'" &
-                        ",DNo = " & DNo & " where RetNo= " & Row.Cells(0).Value.ToString, {}, AdminPer)
-            Next
-        End If
-    End Function
-
-    Private Sub AutomatedDeliver(DNo As String)
-        Try
-            If My.Settings.DeliveredEmailtoT = False Then Exit Sub
-            Dim DRAutoD As OleDbDataReader = Db.GetDataReader("SELECT RepNo,DDate, TEmail,TName, CuName, CuTelNo1, PCategory, PName, Qty, PaidPrice, TName, Status " &
-                                                  "from ((((Repair Rep Inner Join Deliver D On D.DNo=Rep.DNo) Inner Join " &
-                                                  "Technician T On T.TNo = Rep.TNo) Left Join Product P On P.Pno = Rep.PNo) " &
-                                                  "Left Join Customer Cu On Cu.CuNo = D.CuNo) Where TEmail <> NULL and " &
-                                                  "Status <>'Returned Delivered' and TBlockEmails <> Yes and D.DNo =" &
-                                                  DNo)
-            While DRAutoD.Read()
-                Db.Execute("Insert Into Mail(MailNo,MailDate,EmailTo,Subject,Body,Status) Values(?NewKey?Mail?MailNo?,#" & DateAndTime.Now &
-                                  "#,'" & DRAutoD("TEmail").ToString & "','Repair No:  " + DRAutoD("RepNo").ToString + " එක Customer විසින් රු." +
-                                  DRAutoD("PaidPrice").ToString + " දී රුගෙන ගොස් ඇත.',""LASER System " + vbCrLf + vbCrLf +
-                                    "Repair No: " + DRAutoD("RepNo").ToString + vbCrLf +
-                                    "Delivered Date: " + DRAutoD("DDate").ToString + vbCrLf +
-                                    "Customer Name: " + DRAutoD("CuName").ToString + vbCrLf +
-                                    "Customer Telephone No1: " + DRAutoD("CuTelNo1").ToString + vbCrLf +
-                                    "Product Category: " + DRAutoD("PCategory").ToString.Replace("""", """""") + vbCrLf +
-                                    "Product Name: " + DRAutoD("PName").ToString.Replace("""", """""") + vbCrLf +
-                                    "Qty: " + DRAutoD("Qty").ToString + vbCrLf +
-                                    "Paid Charge: Rs. " + DRAutoD("PaidPrice").ToString + vbCrLf +
-                                    "Technician Name: " + DRAutoD("TName").ToString + vbCrLf +
-                                    "Status: " + DRAutoD("Status").ToString + vbCrLf + vbCrLf +
-                                    "මෙම Message එක ස්වයංක්‍රීයව LASER System එකෙන් පැමිණෙන්නක් බැවින් ඉහත දත්ත සඳහා යම් ගැටලුවක් පවතියි නම්, " &
-                                    "කරුණාකර දත්ත කළමනාකරු අමතන්න"",'Waiting');")
-            End While
-            DRAutoD = Db.GetDataReader("SELECT RetNo,RepNo,DDate, TEmail,TName, CuName, CuTelNo1, PCategory, PName, Qty, PaidPrice, TName, Status " &
-                                        "from ((((Return Ret Inner Join Deliver D On D.DNo=Ret.DNo) Inner Join Technician T On T.TNo = Ret.TNo) " &
-                                        " Left Join Product P On P.Pno = Ret.PNo) Left Join Customer Cu On Cu.CuNo = D.CuNo) Where TEmail <> NULL " &
-                                        "and Status <>'Returned Delivered' and TBlockEmails <> Yes and D.DNo =" &
-                                              DNo)
-            While DRAutoD.Read()
-                Db.Execute("Insert Into Mail(MailNo,MailDate,EmailTo,Subject,Body,Status) Values(?NewKey?Mail?MailNo?,#" & DateAndTime.Now &
-                                  "#,'" & DRAutoD("TEmail").ToString & "','RERepair No:  " + DRAutoD("RetNo").ToString + " එක Customer විසින් රු." +
-                                  DRAutoD("PaidPrice").ToString + "දී රුගෙන ගොස් ඇත.',
-                                  ""LASER System " + vbCrLf + vbCrLf +
-                                "RERepair No: " + DRAutoD("RetNo").ToString + vbCrLf +
-                                "Repair No: " + DRAutoD("RepNo").ToString + vbCrLf +
-                                    "Delivered Date: " + DRAutoD("DDate").ToString + vbCrLf +
-                                    "Customer Name: " + DRAutoD("CuName").ToString + vbCrLf +
-                                    "Customer Telephone No1: " + DRAutoD("CuTelNo1").ToString + vbCrLf +
-                                    "Product Category: " + DRAutoD("PCategory").ToString.Replace("""", """""") + vbCrLf +
-                                    "Product Name: " + DRAutoD("PName").ToString.Replace("""", """""") + vbCrLf +
-                                    "Qty: " + DRAutoD("Qty").ToString + vbCrLf +
-                                    "Paid Charge: Rs. " + DRAutoD("PaidPrice").ToString + vbCrLf +
-                                    "Technician Name: " + DRAutoD("TName").ToString + vbCrLf +
-                                    "Status: " + DRAutoD("Status").ToString + vbCrLf + vbCrLf +
-                                    "මෙම Message එක ස්වයංක්‍රීයව LASER System එකෙන් පැමිණෙන්නක් බැවින් ඉහත දත්ත සඳහා යම් ගැටලුවක් පවතියි නම්, " &
-                                    "කරුණාකර දත්ත කළමනාකරු අමතන්න"",'Waiting');")
-            End While
-        Catch ex As Exception
-            MsgBox("Technician හට Gmail එක යැවීමට අපොහොසත් විය. කරුණාකර Internet Connection එක පරික්ෂා කරන්න." + vbCrLf + vbCrLf + "Error: " + ex.ToString, vbExclamation, "Technician හට Gmail එක යැවීමට නොහැක.")
-        End Try
-    End Sub
-
     Public Sub GrdRepair_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs) Handles grdRepair.CellEndEdit
         Select Case e.ColumnIndex
             Case 0
@@ -432,9 +177,7 @@ Public Class frmDeliver
                     grdRepair.Rows.RemoveAt(grdRepair.CurrentCell.RowIndex)
                     Exit Sub
                 End If
-                Dim DRD As OleDbDataReader = Db.GetDataReader("Select RepNo,PCategory,PName,PMOdelNO,PSerialNo,PDetails,Qty,Charge,TName,Status,CuName,CuTelNo1,CuTelNo2,CuTelNo3 " &
-                                             "from ((((Repair REP INNER JOIN RECEIVE R ON R.RNO = REP.RNO) INNER JOIN PRODUCT P ON P.PNO = REP.PNO) " &
-                                             "INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = REP.TNO) Where RepNo = " &
+                Dim DRD As OleDbDataReader = Db.GetDataReader("Select RepNo,PCategory,PName,PMOdelNO,PSerialNo,PDetails,Qty,Charge,TName,Status,CuName,CuTelNo1,CuTelNo2,CuTelNo3 from ((((Repair REP INNER JOIN RECEIVE R ON R.RNO = REP.RNO) INNER JOIN PRODUCT P ON P.PNO = REP.PNO) INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = REP.TNO) Where RepNo = " &
                                              grdRepair.Item(0, grdRepair.CurrentCell.RowIndex).Value)
                 If DRD.HasRows = True Then
                     DRD.Read()
@@ -544,14 +287,6 @@ Public Class frmDeliver
         End Select
     End Sub
 
-    Private Sub TextBoxQty_keyPress(ByVal sender As Object, ByVal e As KeyPressEventArgs)
-        OnlynumberQty(e)
-    End Sub
-
-    Private Sub TextBoxPrice_keyPress(ByVal sender As Object, ByVal e As KeyPressEventArgs)
-        OnlynumberPrice(e)
-    End Sub
-
     Private Sub txtKeyPress_Keypress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs)
         If e.KeyChar = "'" Then
             e.Handled = True
@@ -613,8 +348,7 @@ Public Class frmDeliver
                     grdRERepair.Rows.RemoveAt(grdRERepair.CurrentCell.RowIndex)
                     Exit Sub
                 End If
-                DR = Db.GetDataReader("Select RetNo,RepNo,PCategory,PName,PMOdelNO,PSerialNo,PDetails,Qty,Charge,TName,Status,CuName,CuTelNo1,CuTelNo2,CuTelNo3 from ((((Return RET INNER JOIN RECEIVE R ON R.RNO = RET.RNO) INNER JOIN PRODUCT  P ON P.PNO = RET.PNO) " &
-                                             "INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = RET.TNO) Where RetNo = " & grdRERepair.Item(0, grdRERepair.CurrentCell.RowIndex).Value)
+                DR = Db.GetDataReader("Select RetNo,RepNo,PCategory,PName,PMOdelNO,PSerialNo,PDetails,Qty,Charge,TName,Status,CuName,CuTelNo1,CuTelNo2,CuTelNo3 from ((((Return RET INNER JOIN RECEIVE R ON R.RNO = RET.RNO) INNER JOIN PRODUCT  P ON P.PNO = RET.PNO) INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = RET.TNO) Where RetNo = " & grdRERepair.Item(0, grdRERepair.CurrentCell.RowIndex).Value)
                 If DR.HasRows = True Then
                     DR.Read()
                     If DR("Status").ToString = "Repaired Delivered" Or DR("Status").ToString = "Returned Delivered" Then
@@ -707,39 +441,30 @@ Public Class frmDeliver
     End Sub
 
     Private Sub CalculateGrandTotal()
-        txtSubTotal.Text = "0"
-        txtRepAdvanced.Text = "0"
+        ControlPopUp.txtSubTotal.Text = "0"
+        ControlPopUp.txtRepAdvanced.Text = "0"
         For Each row As DataGridViewRow In grdRepair.Rows
             If row.Index >= grdRepair.Rows.Count - 1 Then Continue For
-            txtSubTotal.Text += Val(row.Cells(4).Value)
+            ControlPopUp.txtSubTotal.Text += Val(row.Cells(4).Value)
             For Each str As String In Db.GetArray("Select Amount from RepairAdvanced Where RepNo=" &
                                                       row.Cells(0).Value, "Amount")
-                txtRepAdvanced.Text += Val(str)
+                ControlPopUp.txtRepAdvanced.Text += Val(str)
             Next
         Next
         For Each row As DataGridViewRow In grdRERepair.Rows
             If row.Index >= grdRERepair.Rows.Count - 1 Then Continue For
-            txtSubTotal.Text += Val(row.Cells(5).Value)
+            ControlPopUp.txtSubTotal.Text += Val(row.Cells(5).Value)
             For Each str As String In Db.GetArray("Select Amount from RepairAdvanced Where RetNo=" &
                                                       row.Cells(0).Value, "Amount")
-                txtRepAdvanced.Text += Val(str)
+                ControlPopUp.txtRepAdvanced.Text += Val(str)
             Next
         Next
 
-        txtGrandTotal.Text = Val(txtSubTotal.Text) - Val(txtRepAdvanced.Text)
-        txtCAmount.Text = txtGrandTotal.Text
+        ControlPopUp.txtGrandTotal.Text = Val(ControlPopUp.txtSubTotal.Text) - Val(ControlPopUp.txtRepAdvanced.Text)
+        ControlPopUp.txtCAmount.Text = ControlPopUp.txtGrandTotal.Text
     End Sub
 
-    Private Sub cmdCancel_Click(sender As Object, e As EventArgs) Handles cmdCancel.Click
-        pnlDSaveFinal.Visible = False
-        pnlDSaveFinal.Dock = DockStyle.None
-        MenuStrip.Enabled = True
-        AcceptButton = cmdSave
-        grdRepair.Focus()
-        grdRepair.CurrentCell = grdRepair.Item(0, grdRepair.Rows.Count - 1)
-    End Sub
-
-    Private Sub frmDeliver_Leave(sender As Object, e As EventArgs) Handles Me.Leave
+    Private Sub frmDeliver_Leave(sender As Object, e As EventArgs) Handles Me.Leave, cmdClose.Click, CloseToolStripMenuItem.Click
         Db.Disconnect()
     End Sub
 
@@ -753,30 +478,8 @@ Public Class frmDeliver
         End With
     End Sub
 
-    Private Sub txtCReceived_TextChanged(sender As Object, e As EventArgs) Handles txtCReceived.TextChanged
-        If txtCAmount.Text <> "" And txtCReceived.Text <> "" Then
-            txtCBalance.Text = Val(txtCReceived.Text) - Val(txtCAmount.Text)
-        End If
-    End Sub
-
     Private Sub grdRepair_SelectionChanged(sender As Object, e As EventArgs) Handles grdRepair.SelectionChanged
         grdRepair.EndEdit()
-    End Sub
-
-    Private Sub NewToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NewToolStripMenuItem.Click
-        Call cmdNew_Click(sender, e)
-    End Sub
-
-    Private Sub SaveToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveToolStripMenuItem.Click
-        Call cmdSave_Click(sender, e)
-    End Sub
-
-    Private Sub CloseToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CloseToolStripMenuItem.Click
-        Call cmdClose_Click(sender, e)
-    End Sub
-
-    Private Sub txtCAmount_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtCAmount.KeyPress, txtCReceived.KeyPress, txtCPAmount.KeyPress, txtCuLAmount.KeyPress
-        OnlynumberPrice(e)
     End Sub
 
     Private Sub txtCuTelNo1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtCuTelNo1.KeyPress, txtCuTelNo2.KeyPress, txtCuTelNo3.KeyPress

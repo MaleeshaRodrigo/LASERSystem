@@ -41,7 +41,6 @@ Public Class frmSearchDropDown
     End Sub
 
     Public Sub frm_Close()
-        Db.Disconnect()
         Me.Close()
     End Sub
 

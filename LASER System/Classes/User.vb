@@ -1,5 +1,6 @@
 ﻿Public NotInheritable Class User
     Private Shared _Instance As User
+    Public UserNo As Integer
     Public UserName As String
     Public UserType As String
     Public Email As String

@@ -36,7 +36,7 @@
     <MinimumRequiredVersion>1.0.0.0</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>17</ApplicationRevision>
+    <ApplicationRevision>18</ApplicationRevision>
     <ApplicationVersion>2.0.2.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -148,6 +148,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationEvents.vb" />
+    <Compile Include="Classes\Activity.vb" />
     <Compile Include="Classes\AdminPermission.vb" />
     <Compile Include="Classes\CashDrawer.vb" />
     <Compile Include="Classes\Database.vb" />
@@ -157,6 +158,12 @@
     <Compile Include="Classes\Validators\CustomValidator.vb" />
     <Compile Include="Classes\Validators\ExecuteValidators.vb" />
     <Compile Include="Classes\Validators\RequiredValidator.vb" />
+    <Compile Include="FormDeliver\Controls\ControlPopUp.Designer.vb">
+      <DependentUpon>ControlPopUp.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormDeliver\Controls\ControlPopUp.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Interfaces\Validator.vb" />
     <Compile Include="Reports\rptReceive.vb">
       <AutoGen>True</AutoGen>
@@ -164,16 +171,16 @@
       <DependentUpon>rptReceive.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Stock\Controls\ControlStockInfo.Designer.vb">
+    <Compile Include="FormStock\Controls\ControlStockInfo.Designer.vb">
       <DependentUpon>ControlStockInfo.vb</DependentUpon>
     </Compile>
-    <Compile Include="Stock\Controls\ControlStockInfo.vb">
+    <Compile Include="FormStock\Controls\ControlStockInfo.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Stock\FormStock.Designer.vb">
+    <Compile Include="FormStock\FormStock.Designer.vb">
       <DependentUpon>FormStock.vb</DependentUpon>
     </Compile>
-    <Compile Include="Stock\FormStock.vb">
+    <Compile Include="FormStock\FormStock.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmCustomer.Designer.vb">
@@ -188,10 +195,10 @@
     <Compile Include="frmCustomerLoan.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmDeliver.Designer.vb">
-      <DependentUpon>frmDeliver.vb</DependentUpon>
+    <Compile Include="FormDeliver\FormDeliver.Designer.vb">
+      <DependentUpon>FormDeliver.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmDeliver.vb">
+    <Compile Include="FormDeliver\FormDeliver.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmLogin.Designer.vb">
@@ -418,14 +425,17 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="FormDeliver\Controls\ControlPopUp.resx">
+      <DependentUpon>ControlPopUp.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmCustomer.resx">
       <DependentUpon>frmCustomer.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmCustomerLoan.resx">
       <DependentUpon>frmCustomerLoan.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmDeliver.resx">
-      <DependentUpon>frmDeliver.vb</DependentUpon>
+    <EmbeddedResource Include="FormDeliver\FormDeliver.resx">
+      <DependentUpon>FormDeliver.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmLogin.resx">
       <DependentUpon>frmLogin.vb</DependentUpon>
@@ -539,13 +549,13 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>rptTechnicianSalary.vb</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Stock\Controls\ControlStockInfo.resx">
+    <EmbeddedResource Include="FormStock\Controls\ControlStockInfo.resx">
       <DependentUpon>ControlStockInfo.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Stock\FormStock.resx">
+    <EmbeddedResource Include="FormStock\FormStock.resx">
       <DependentUpon>FormStock.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Stock\FormStock.si.resx">
+    <EmbeddedResource Include="FormStock\FormStock.si.resx">
       <DependentUpon>FormStock.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Shared Controls\compMessageBox.resx">
@@ -798,5 +808,6 @@
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

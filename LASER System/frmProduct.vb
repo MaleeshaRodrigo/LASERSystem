@@ -124,11 +124,7 @@ Public Class frmProduct
                 MsgBox("Save Successful", vbExclamation + vbOKOnly)
             Case "Edit"
                 Db.Execute("Update Product set PNo=" & txtPNo.Text &
-                                                 ",PCategory = '" & cmbPCategory.Text & "'" &
-                                                 ",PName = '" & cmbPName.Text & "'" &
-                                                 ",PModelNo =  '" & txtPModelNo.Text & "'" &
-                                                 ",PDetails =  '" & txtPDetails.Text & "'" &
-                                                 " where PNo=" & txtPNo.Text)
+                                                 ",PCategory = '" & cmbPCategory.Text & "',PName = '" & cmbPName.Text & "',PModelNo =  '" & txtPModelNo.Text & "',PDetails =  '" & txtPDetails.Text & "' where PNo=" & txtPNo.Text)
                 Call txtSearch_TextChanged(sender, e)
         End Select
         For Each Row As DataGridViewRow In grdProduct.Rows

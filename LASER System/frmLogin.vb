@@ -36,7 +36,7 @@ Public Class frmLogin
         cmbUserName.Focus()
         '--------Developer Mode-------------
         If My.Settings.DeveloperMode = True Then
-            txtPassword.Text = "cashier"
+            txtPassword.Text = "admin"
             CmdLogin_Click(sender, e)
         End If
         '-----------------------------------
@@ -56,8 +56,7 @@ Public Class frmLogin
         End If
         Dim DR As OleDbDataReader = Db.GetDataReader("Select * from [User] where UserName ='" & cmbUserName.Text & "'")
         If DR.HasRows = True Then
-            DR = Db.GetDataReader("Select * from [User] where  StrComp('" & cmbUserName.Text & "',UserName,0)=0 and " &
-                                         "StrComp(Password,'" & txtPassword.Text & "',0)=0")
+            DR = Db.GetDataReader("Select * from [User] where  StrComp('" & cmbUserName.Text & "',UserName,0)=0 and StrComp(Password,'" & txtPassword.Text & "',0)=0")
             If DR.HasRows = True Then
                 DR.Read()
                 Db.DirectExecute("Update [User] set LogInCount='0' Where LoginCount IS NULL")
@@ -65,6 +64,7 @@ Public Class frmLogin
                 Db.DirectExecute("Update [User] set LastLogin=#" & DateAndTime.Now & "# Where UNo = " & DR("UNo").ToString)
 
                 'Set the User object
+                User.Instance.UserNo = Int(DR("UNo"))
                 User.Instance.UserName = DR("UserName").ToString
                 User.Instance.UserType = DR("Type").ToString
                 User.Instance.Email = DR("Email").ToString
@@ -132,8 +132,7 @@ Public Class frmLogin
                 sPrefix &= ChrW(rdm.Next(65, 90))
             Next
             Db.Execute("Insert Into Mail(MailNo,MailDate,EmailTo,Subject,Body,Status) Values(?NewKey?Mail?MailNo?,#" &
-                      DateAndTime.Now & "#,'" & DR("Email").ToString & "','New Signed in Detected from your LASER System account','" &
-                      "Please use the following security code for the LASER System account " & txtOTPUserName.Text & "." + vbCrLf + vbCrLf +
+                      DateAndTime.Now & "#,'" & DR("Email").ToString & "','New Signed in Detected from your LASER System account','Please use the following security code for the LASER System account " & txtOTPUserName.Text & "." + vbCrLf + vbCrLf +
                         "Security code: " + sPrefix & "','Waiting');")
             txtOTPCode.Tag = sPrefix
         End If

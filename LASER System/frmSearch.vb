@@ -48,7 +48,7 @@ Public Class frmSearch
                 grdSearch.Columns.Add("SupRemarks", "Remarks")
             Case "Deliver"
                 grdSearch.Columns.Add("DNo", "Deliver No")
-                'If MdifrmMain.tslblUserType.Text <> "Admin" Then grdSearch.Columns.Item("DNo").Visible = False
+                'If User.Instance.UserType <> User.Type.Admin Then grdSearch.Columns.Item("DNo").Visible = False
                 grdSearch.Columns.Add("DDate", "Delivered Date")
                 grdSearch.Columns.Add("CuName", "Customer Name")
                 grdSearch.Columns.Add("CuTelNo1", "Customer Telephone No 1")
@@ -471,12 +471,7 @@ Public Class frmSearch
                                 Case "Remarks for Technician"
                                     x += " and RepRemarks2 like '%" & Search & "%'"
                                 Case "All"
-                                    x += " and (REP.RepNo like '%" & Search & "%' or R.RNo like '%" & Search & "%' or RDate like '%" & Search & "%' " &
-                                        "or CU.CuNo like '%" & Search & "%' or CuName like '%" & Search & "%' or CuTelNo1 like '%" & Search & "%' " &
-                                        "or CuTelNo2 like '%" & Search & "%' or CuTelNo3 like '%" & Search & "%' or P.PNo like '%" & Search & "%' " &
-                                        "or PCategory like '%" & Search & "%' or PName like '%" & Search & "%' or PModelNo like '%" & Search & "%' " &
-                                        "or PSerialNo like '%" & Search & "%' or Problem like '%" & Search & "%' or PaidPrice like '%" & Search & "%' or T.TNo like '%" & Search & "%' or TName like '%" & Search & "%' " &
-                                        "or Status like '%" & Search & "%' or RepDate like '%" & Search & "%' or RepRemarks1 like '%" & Search & "%' or RepRemarks2 like '%" & Search & "%')"
+                                    x += " and (REP.RepNo like '%" & Search & "%' or R.RNo like '%" & Search & "%' or RDate like '%" & Search & "%' or CU.CuNo like '%" & Search & "%' or CuName like '%" & Search & "%' or CuTelNo1 like '%" & Search & "%' or CuTelNo2 like '%" & Search & "%' or CuTelNo3 like '%" & Search & "%' or P.PNo like '%" & Search & "%' or PCategory like '%" & Search & "%' or PName like '%" & Search & "%' or PModelNo like '%" & Search & "%' or PSerialNo like '%" & Search & "%' or Problem like '%" & Search & "%' or PaidPrice like '%" & Search & "%' or T.TNo like '%" & Search & "%' or TName like '%" & Search & "%' or Status like '%" & Search & "%' or RepDate like '%" & Search & "%' or RepRemarks1 like '%" & Search & "%' or RepRemarks2 like '%" & Search & "%')"
                             End Select
                         Case "Repair"
                             If x = "" Then x = " Where "
@@ -610,13 +605,8 @@ Public Class frmSearch
                                         CMDSearch2.Cancel()
                                     End If
                                 Case "All"
-                                    x += " (RET.RETNo like '%" & Search & "%' or RET.RepNo like '%" & Search & "%' or R.RDate like '%" & Search & "%' " &
-                                        "or CU.CuName like '%" & Search & "%' or CU.CuTelNo1 like '%" & Search & "%' " &
-                                        "or CU.CuTelNo2 like '%" & Search & "%' or CU.CuTelNo3 like '%" & Search & "%' " &
-                                        "or P.PCategory like '%" & Search & "%' or P.PName like '%" & Search & "%' or P.PModelNo like '%" & Search & "%' " &
-                                        "or RET.PSerialNo like '%" & Search & "%' or RET.Problem like '%" & Search & "%' or RET.Charge like '%" & Search &
-                                        "%' or RET.PaidPrice like '%" & Search & "%' or T.TName like '%" & Search & "%' " &
-                                        "or RET.Status like '%" & Search & "%' or RET.RetRepDate like '%" & Search & "%' or D.DDate like '%" & Search & "%')"
+                                    x += " (RET.RETNo like '%" & Search & "%' or RET.RepNo like '%" & Search & "%' or R.RDate like '%" & Search & "%' or CU.CuName like '%" & Search & "%' or CU.CuTelNo1 like '%" & Search & "%' or CU.CuTelNo2 like '%" & Search & "%' or CU.CuTelNo3 like '%" & Search & "%' or P.PCategory like '%" & Search & "%' or P.PName like '%" & Search & "%' or P.PModelNo like '%" & Search & "%' or RET.PSerialNo like '%" & Search & "%' or RET.Problem like '%" & Search & "%' or RET.Charge like '%" & Search &
+                                        "%' or RET.PaidPrice like '%" & Search & "%' or T.TName like '%" & Search & "%' or RET.Status like '%" & Search & "%' or RET.RetRepDate like '%" & Search & "%' or D.DDate like '%" & Search & "%')"
                             End Select
                         Case "DeliverReRepair"
                             Select Case Filter
@@ -661,12 +651,7 @@ Public Class frmSearch
                                 Case "Remarks for Technician"
                                     x += " and RET.RETRemarks2 like '%" & Search & "%' "
                                 Case "All"
-                                    x += " and (RET.RETNo like '%" & Search & "%' or R.RNo like '%" & Search & "%' or R.RDate like '%" & Search & "%' " &
-                                        "or CU.CuName like '%" & Search & "%' or CU.CuTelNo1 like '%" & Search & "%' " &
-                                        "or CU.CuTelNo2 like '%" & Search & "%' or CU.CuTelNo3 like '%" & Search & "%' " &
-                                        "or P.PCategory like '%" & Search & "%' or P.PName like '%" & Search & "%' or P.PModelNo like '%" & Search & "%' " &
-                                        "or RET.PSerialNo like '%" & Search & "%' or RET.Problem like '%" & Search & "%' or RET.Charge like '%" & Search & "%' or T.TName like '%" & Search & "%' " &
-                                        "or RET.Status like '%" & Search & "%' or RET.RetRepDate like '%" & Search & "%' or RET.RETRemarks1 like '%" & Search & "%' or RET.RETRemarks2 like '%" & Search & "%') "
+                                    x += " and (RET.RETNo like '%" & Search & "%' or R.RNo like '%" & Search & "%' or R.RDate like '%" & Search & "%' or CU.CuName like '%" & Search & "%' or CU.CuTelNo1 like '%" & Search & "%' or CU.CuTelNo2 like '%" & Search & "%' or CU.CuTelNo3 like '%" & Search & "%' or P.PCategory like '%" & Search & "%' or P.PName like '%" & Search & "%' or P.PModelNo like '%" & Search & "%' or RET.PSerialNo like '%" & Search & "%' or RET.Problem like '%" & Search & "%' or RET.Charge like '%" & Search & "%' or T.TName like '%" & Search & "%' or RET.Status like '%" & Search & "%' or RET.RetRepDate like '%" & Search & "%' or RET.RETRemarks1 like '%" & Search & "%' or RET.RETRemarks2 like '%" & Search & "%') "
                             End Select
                     End Select
                 Next
@@ -687,39 +672,21 @@ Public Class frmSearch
         Dim Query As String = ""
         Select Case Me.Tag
             Case "Sale"
-                Query = "SELECT Sale.SaNo,Sale.SaDate,Sale.CuNo,Customer.CuName,Customer.CuTelNo1,Customer.CuTelNo2,Customer.CuTelNo3,Sale.SaSubTotal," &
-                                                 "Sale.SaLess,Sale.SaDue,Sale.CReceived,Sale.CBalance,Sale.CAmount,Sale.CPInvoiceNo,Sale.CPAmount,Sale.CuLNo,Sale.CuLAmount," &
-                                                 "Sale.SaRemarks from Sale,Customer where Customer.CuNo=Sale.CuNo " & x & " Order by SaDate Desc;"
+                Query = "SELECT Sale.SaNo,Sale.SaDate,Sale.CuNo,Customer.CuName,Customer.CuTelNo1,Customer.CuTelNo2,Customer.CuTelNo3,Sale.SaSubTotal,Sale.SaLess,Sale.SaDue,Sale.CReceived,Sale.CBalance,Sale.CAmount,Sale.CPInvoiceNo,Sale.CPAmount,Sale.CuLNo,Sale.CuLAmount,Sale.SaRemarks from Sale,Customer where Customer.CuNo=Sale.CuNo " & x & " Order by SaDate Desc;"
             Case "Supply"
                 Query = "SELECT Supply.SupNo,SupDate,Supply.SuNo,SuName,SupRemarks,SupStatus,SupPaidDate from ([Supply] Inner Join [Supplier] On Supplier.SuNo=Supply.SuNo) " & x & ";"
             Case "Receive"
-                Query = "SELECT RepNo,REP.RNo,RDate, R.CuNo, CuName, CuTelNo1,CuTelNo2, CuTelNo3, REP.PNo,PCategory,PName, PModelNo, " &
-                                                         "PSerialNo,Problem,Qty,RepRemarks1,Status,REP.TNo, TName,RepRemarks2,RepDate,Charge,REP.DNo, DDate, PaidPrice from (((((Repair REP INNER JOIN RECEIVE R ON R.RNO = REP.RNO) INNER JOIN PRODUCT  P ON P.PNO = REP.PNO) " &
-                                                         "INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = REP.TNO) LEFT JOIN DELIVER D ON D.DNO = REP.DNO) Where (Status='Repaired Delivered' or Status='Returned Delivered') " & x & ";"
+                Query = "SELECT RepNo,REP.RNo,RDate, R.CuNo, CuName, CuTelNo1,CuTelNo2, CuTelNo3, REP.PNo,PCategory,PName, PModelNo, PSerialNo,Problem,Qty,RepRemarks1,Status,REP.TNo, TName,RepRemarks2,RepDate,Charge,REP.DNo, DDate, PaidPrice from (((((Repair REP INNER JOIN RECEIVE R ON R.RNO = REP.RNO) INNER JOIN PRODUCT  P ON P.PNO = REP.PNO) INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = REP.TNO) LEFT JOIN DELIVER D ON D.DNO = REP.DNO) Where (Status='Repaired Delivered' or Status='Returned Delivered') " & x & ";"
             Case "Deliver"
-                Query = "SELECT Deliver.DNo,DDate,Customer.CuNo,CuName,CuTelNo1,CuTelNo2,CuTelNo3,DGrandTotal," &
-                                                    "CReceived,CBalance,CAmount,CPInvoiceNo,CPAmount,CuLNo,CuLAmount," &
-                                                    "DRemarks from Deliver,Customer where Customer.CuNo=Deliver.CuNo " & x & " Order by DDate Desc;"
+                Query = "SELECT Deliver.DNo,DDate,Customer.CuNo,CuName,CuTelNo1,CuTelNo2,CuTelNo3,DGrandTotal,CReceived,CBalance,CAmount,CPInvoiceNo,CPAmount,CuLNo,CuLAmount,DRemarks from Deliver,Customer where Customer.CuNo=Deliver.CuNo " & x & " Order by DDate Desc;"
             Case "Repair"
-                Query = "SELECT RepNo,REP.RNo,RDate, R.CuNo, CuName, CuTelNo1,CuTelNo2, CuTelNo3, REP.PNo,PCategory,PName, PModelNo, " &
-                                                         "PSerialNo,Problem,Location,Qty,Status,REP.TNo, TName,RepDate,Charge,REP.DNo, DDate, PaidPrice " &
-                                                         "from (((((Repair REP INNER JOIN RECEIVE R ON R.RNO = REP.RNO) INNER JOIN PRODUCT  P ON P.PNO = REP.PNO) " &
-                                                         "INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = REP.TNO) LEFT JOIN DELIVER D " &
-                                                         "ON D.DNO = REP.DNO)" & x
+                Query = "SELECT RepNo,REP.RNo,RDate, R.CuNo, CuName, CuTelNo1,CuTelNo2, CuTelNo3, REP.PNo,PCategory,PName, PModelNo, PSerialNo,Problem,Location,Qty,Status,REP.TNo, TName,RepDate,Charge,REP.DNo, DDate, PaidPrice from (((((Repair REP INNER JOIN RECEIVE R ON R.RNO = REP.RNO) INNER JOIN PRODUCT  P ON P.PNO = REP.PNO) INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = REP.TNO) LEFT JOIN DELIVER D ON D.DNO = REP.DNO)" & x
             Case "ReRepair"
-                Query = "SELECT RetNo, RepNo,Ret.RNo,RDate, R.CuNo, CuName, CuTelNo1,CuTelNo2, CuTelNo3, Ret.PNo,PCategory,PName, PModelNo, " &
-                                                         "PSerialNo,Problem,Qty,Status, TName,RetREpDate,Charge,Ret.DNo, DDate, PaidPrice from (((((Return RET INNER JOIN RECEIVE R ON R.RNO = Ret.RNO) INNER JOIN PRODUCT  P ON P.PNO = Ret.PNO) " &
-                                                         "INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = Ret.TNO) LEFT JOIN DELIVER D ON D.DNO = Ret.DNO) " & x & ";"
+                Query = "SELECT RetNo, RepNo,Ret.RNo,RDate, R.CuNo, CuName, CuTelNo1,CuTelNo2, CuTelNo3, Ret.PNo,PCategory,PName, PModelNo, PSerialNo,Problem,Qty,Status, TName,RetREpDate,Charge,Ret.DNo, DDate, PaidPrice from (((((Return RET INNER JOIN RECEIVE R ON R.RNO = Ret.RNO) INNER JOIN PRODUCT  P ON P.PNO = Ret.PNO) INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = Ret.TNO) LEFT JOIN DELIVER D ON D.DNO = Ret.DNO) " & x & ";"
             Case "DeliverRepair"
-                Query = "SELECT RepNo,REP.RNo,RDate, R.CuNo, CuName, CuTelNo1,CuTelNo2, CuTelNo3, REP.PNo,PCategory,PName, PModelNo, " &
-                                                         "PSerialNo,Problem,Qty,Charge, PaidPrice, REP.TNo, TName, Status, RepDate,REP.DNo, DDate" &
-                                                         " from (((((Repair REP INNER JOIN RECEIVE R ON R.RNO = REP.RNO) INNER JOIN PRODUCT  P ON P.PNO = " &
-                                                         "REP.PNO) INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = REP.TNO) LEFT JOIN " &
-                                                         "DELIVER D ON D.DNO = REP.DNO) Where Status <> 'Repaired Delivered' and Status <> 'Returned Delivered' " & x & ";"
+                Query = "SELECT RepNo,REP.RNo,RDate, R.CuNo, CuName, CuTelNo1,CuTelNo2, CuTelNo3, REP.PNo,PCategory,PName, PModelNo, PSerialNo,Problem,Qty,Charge, PaidPrice, REP.TNo, TName, Status, RepDate,REP.DNo, DDate from (((((Repair REP INNER JOIN RECEIVE R ON R.RNO = REP.RNO) INNER JOIN PRODUCT  P ON P.PNO = REP.PNO) INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = REP.TNO) LEFT JOIN DELIVER D ON D.DNO = REP.DNO) Where Status <> 'Repaired Delivered' and Status <> 'Returned Delivered' " & x & ";"
             Case "DeliverReRepair"
-                Query = "SELECT RETNo,RET.RepNo,RET.RNo,RDate, R.CuNo, CuName, CuTelNo1,CuTelNo2, CuTelNo3, RET.PNo,PCategory,PName, PModelNo, " &
-                                                         "PSerialNo,Problem,Qty,Charge, RET.TNo, TName, Status, RetRepDate from (((((RETURN RET INNER JOIN RECEIVE R ON R.RNO = RET.RNO) INNER JOIN PRODUCT  P ON P.PNO = RET.PNO) " &
-            "INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = RET.TNO) LEFT JOIN DELIVER D ON D.DNO = RET.DNO) Where Status <> 'Repaired Delivered' and Status <> 'Returned Delivered' " & x & ";"
+                Query = "SELECT RETNo,RET.RepNo,RET.RNo,RDate, R.CuNo, CuName, CuTelNo1,CuTelNo2, CuTelNo3, RET.PNo,PCategory,PName, PModelNo, PSerialNo,Problem,Qty,Charge, RET.TNo, TName, Status, RetRepDate from (((((RETURN RET INNER JOIN RECEIVE R ON R.RNO = RET.RNO) INNER JOIN PRODUCT  P ON P.PNO = RET.PNO) INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = RET.TNO) LEFT JOIN DELIVER D ON D.DNO = RET.DNO) Where Status <> 'Repaired Delivered' and Status <> 'Returned Delivered' " & x & ";"
         End Select
         Dim Rows_Count As Integer = Db.GetRowsCount(Query)
         Dim DRSearch1 As OleDbDataReader = Db.GetDataReader(Query)
@@ -958,32 +925,27 @@ end_for_loop:
             Case "Repair"
                 frmDatagridviewTool.frm_Close()
                 If grdSearch.CurrentCell.ColumnIndex = 13 Then
-                    Dim DT As DataTable = Db.GetDataTable("Select Rem1Date as [Date],Remarks,UserName as [User] from ([RepairRemarks1] RepRem1 Left join " &
-                                                        "[User] U on U.Uno= RepRem1.UNo) Where RepNo=" & grdSearch.Item(0, grdSearch.CurrentRow.Index).Value)
+                    Dim DT As DataTable = Db.GetDataTable("Select Rem1Date as [Date],Remarks,UserName as [User] from ([RepairRemarks1] RepRem1 Left join [User] U on U.Uno= RepRem1.UNo) Where RepNo=" & grdSearch.Item(0, grdSearch.CurrentRow.Index).Value)
                     If DT.Rows.Count > 0 Then
                         frmDatagridviewTool.Tag = "RepRem"
                         frmDatagridviewTool.frm_Open(grdSearch, Me, DT)
                     End If
                 ElseIf grdSearch.CurrentCell.ColumnIndex = 16 Then
-                    Dim DT As DataTable = Db.GetDataTable("Select Rem2Date as [Date],Remarks,UserName as [User] from ([RepairRemarks2] RepRem2 Left join " &
-                                                        "[User] U on U.Uno= RepRem2.UNo) Where RepNo=" & grdSearch.Item(0, grdSearch.CurrentRow.Index).Value)
+                    Dim DT As DataTable = Db.GetDataTable("Select Rem2Date as [Date],Remarks,UserName as [User] from ([RepairRemarks2] RepRem2 Left join [User] U on U.Uno= RepRem2.UNo) Where RepNo=" & grdSearch.Item(0, grdSearch.CurrentRow.Index).Value)
                     If DT.Rows.Count > 0 Then
                         frmDatagridviewTool.Tag = "RepRem"
                         frmDatagridviewTool.frm_Open(grdSearch, Me, DT)
                     End If
                 End If
             Case "Deliver"
-                Dim DR As OleDbDataReader = Db.GetDataReader("Select RepNo,PCategory,PName,Qty,PaidPrice,TName,Status from (((Repair Rep Inner Join Deliver D On D.DNo=Rep.DNo) " &
-                                             "Inner Join Product P On p.pno = Rep.pno) Inner Join Technician T On T.TNo = Rep.TNo) Where D.DNo = " &
+                Dim DR As OleDbDataReader = Db.GetDataReader("Select RepNo,PCategory,PName,Qty,PaidPrice,TName,Status from (((Repair Rep Inner Join Deliver D On D.DNo=Rep.DNo) Inner Join Product P On p.pno = Rep.pno) Inner Join Technician T On T.TNo = Rep.TNo) Where D.DNo = " &
                                              grdSearch.Item(0, grdSearch.CurrentRow.Index).Value.ToString)
                 grdsubsearch1.Rows.Clear()
                 While DR.Read
                     grdsubsearch1.Rows.Add(DR("RepNo").ToString, DR("PCategory").ToString, DR("PName").ToString, DR("Qty").ToString,
                                             DR("PaidPrice").ToString, DR("TName").ToString, DR("Status").ToString)
                 End While
-                DR = Db.GetDataReader("Select RetNo,RepNo,PCAtegory,PName,Qty,PaidPrice,TName,Status from (((Return Ret Inner Join Deliver D" &
-                                                       " On D.DNo = Ret.DNo) Inner Join Product P On p.pno = Ret.pno) Inner Join Technician T On T.TNo = Ret.TNo) " &
-                                                       "Where D.DNo = " & grdSearch.Item(0, grdSearch.CurrentRow.Index).Value.ToString)
+                DR = Db.GetDataReader("Select RetNo,RepNo,PCAtegory,PName,Qty,PaidPrice,TName,Status from (((Return Ret Inner Join Deliver D On D.DNo = Ret.DNo) Inner Join Product P On p.pno = Ret.pno) Inner Join Technician T On T.TNo = Ret.TNo) Where D.DNo = " & grdSearch.Item(0, grdSearch.CurrentRow.Index).Value.ToString)
                 grdsubsearch2.Rows.Clear()
                 While DR.Read
                     grdsubsearch2.Rows.Add(DR("RetNo").ToString, DR("RepNo").ToString, DR("PCategory").ToString, DR("PName").ToString, DR("Qty").ToString,
@@ -1085,8 +1047,7 @@ end_for_loop:
                                 .txtCuLNo.Text = selectedrow.Cells(15).Value.ToString
                                 .txtCuLAmount.Text = selectedrow.Cells(16).Value.ToString
                                 .txtSaRemarks.Text = selectedrow.Cells(17).Value.ToString
-                                DR = Db.GetDataReader("Select Stock.SNo,Stock.SCategory,Stock.SName,StockSale.SaType,StockSale.SaUnits,StockSale.SaRate," &
-                                                                       "SaTotal from StockSale,Stock where StockSale.SNo = Stock.SNo And SaNo = " & .txtSaNo.Text & ";")
+                                DR = Db.GetDataReader("Select Stock.SNo,Stock.SCategory,Stock.SName,StockSale.SaType,StockSale.SaUnits,StockSale.SaRate,SaTotal from StockSale,Stock where StockSale.SNo = Stock.SNo And SaNo = " & .txtSaNo.Text & ";")
                                 If DR.HasRows = True Then
                                     While DR.Read
                                         .grdSale.Rows.Add(DR("SNo").ToString(), DR("SCategory").ToString(), DR("SName").ToString(), DR("SaType").ToString(),
@@ -1115,8 +1076,7 @@ end_for_loop:
                         .cmbSupStatus.Text = selectedrow.Cells("SupStatus").Value.ToString
                         If selectedrow.Cells("SupPaidDate").Value <> "" And
                             selectedrow.Cells("SupStatus").Value = "Paid" Then .txtSupPaidDate.Value = selectedrow.Cells("SupPaidDate").Value
-                        DR = Db.GetDataReader("Select Stock.SNo,Stock.SCategory,Stock.SName,StockSupply.SupType,StockSupply.SupUnits," &
-                                                               "StockSupply.SupCostPrice from StockSupply,Stock where StockSupply.SNo = Stock.SNo And SupNo=" &
+                        DR = Db.GetDataReader("Select Stock.SNo,Stock.SCategory,Stock.SName,StockSupply.SupType,StockSupply.SupUnits,StockSupply.SupCostPrice from StockSupply,Stock where StockSupply.SNo = Stock.SNo And SupNo=" &
                                                                .txtSupNo.Text & ";")
                         If DR.HasRows = True Then
                             While DR.Read
@@ -1151,11 +1111,10 @@ end_for_loop:
                 'End With
             Case "Deliver"
                 bgwSearch.CancelAsync()
-                With frmDeliver
+                With FormDeliver
                     .txtDNo.Text = grdSearch.Item(0, e.RowIndex).Value
                     .cmdSave.Text = "Edit"
-                    DR = Db.GetDataReader("Select D.*,CuName,CuTelNo1,CuTelNo2,CuTelNo3 from (Deliver D Inner Join Customer Cu On Cu.CuNo = D.CuNo) " &
-                                                 "Where DNo=" & .txtDNo.Text)
+                    DR = Db.GetDataReader("Select D.*,CuName,CuTelNo1,CuTelNo2,CuTelNo3 from (Deliver D Inner Join Customer Cu On Cu.CuNo = D.CuNo) Where DNo=" & .txtDNo.Text)
                     If DR.HasRows Then
                         DR.Read()
                         .txtDDate.Value = DR("DDate").ToString
@@ -1165,21 +1124,19 @@ end_for_loop:
                         .txtCuTelNo3.Text = DR("CuTelNo3").ToString
                         .txtDRemarks.Text = DR("DRemarks").ToString
                         If DR("CAmount").ToString <> "" Then
-                            .txtCAmount.Text = DR("CAmount").ToString
-                            .txtCReceived.Text = DR("CReceived").ToString
-                            .txtCBalance.Text = DR("CBalance").ToString
+                            .ControlPopUp.txtCAmount.Text = DR("CAmount").ToString
+                            .ControlPopUp.txtCReceived.Text = DR("CReceived").ToString
+                            .ControlPopUp.txtCBalance.Text = DR("CBalance").ToString
                         End If
                         If DR("CPAmount").ToString <> "" Then
-                            .txtCPAmount.Text = DR("CPAmount").ToString
-                            .txtCPInvoiceNo.Text = DR("CPInvoiceNo").ToString
+                            .ControlPopUp.txtCPAmount.Text = DR("CPAmount").ToString
+                            .ControlPopUp.txtCPInvoiceNo.Text = DR("CPInvoiceNo").ToString
                         End If
                         If DR("CuLAmount").ToString <> "" Then
-                            .txtCuLAmount.Text = DR("CuLAmount").ToString
-                            .txtCuLNo.Text = DR("CuLNo").ToString
+                            .ControlPopUp.txtCuLAmount.Text = DR("CuLAmount").ToString
+                            .ControlPopUp.txtCuLNo.Text = DR("CuLNo").ToString
                         End If
-                        Dim DR1 As OleDbDataReader = Db.GetDataReader("Select RepNo,REP.PNo,PCategory,PName,Qty,Status,REP.TNo, TName,PaidPrice from " &
-                                                                                "(((Repair REP INNER JOIN PRODUCT  P On P.PNO = REP.PNO) LEFT JOIN Technician T " &
-                                                                                "On T.TNO = REP.TNO) LEFT JOIN DELIVER D On D.DNO = REP.DNO) Where D.DNo=" &
+                        Dim DR1 As OleDbDataReader = Db.GetDataReader("Select RepNo,REP.PNo,PCategory,PName,Qty,Status,REP.TNo, TName,PaidPrice from (((Repair REP INNER JOIN PRODUCT  P On P.PNO = REP.PNO) LEFT JOIN Technician T On T.TNO = REP.TNO) LEFT JOIN DELIVER D On D.DNO = REP.DNO) Where D.DNo=" &
                                                                                 .txtDNo.Text)
                         .grdRepair.Rows.Clear()
                         While DR1.Read
@@ -1187,9 +1144,7 @@ end_for_loop:
                                                 DR1("PaidPrice").ToString, DR1("TName").ToString, DR1("Status").ToString)
 
                         End While
-                        DR1 = Db.GetDataReader("Select RetNo,RepNo,RET.PNo,PCategory,PName,Qty,Status,RET.TNo, TName,PaidPrice from " &
-                                                    "(((Return RET INNER JOIN PRODUCT  P On P.PNO = RET.PNO) LEFT JOIN Technician T " &
-                                                    "On T.TNO = RET.TNO) LEFT JOIN DELIVER D On D.DNO = RET.DNO) Where D.DNo=" &
+                        DR1 = Db.GetDataReader("Select RetNo,RepNo,RET.PNo,PCategory,PName,Qty,Status,RET.TNo, TName,PaidPrice from (((Return RET INNER JOIN PRODUCT  P On P.PNO = RET.PNO) LEFT JOIN Technician T On T.TNO = RET.TNO) LEFT JOIN DELIVER D On D.DNO = RET.DNO) Where D.DNo=" &
                                                     .txtDNo.Text)
                         .grdRERepair.Rows.Clear()
                         While DR1.Read
@@ -1210,20 +1165,16 @@ end_for_loop:
                     End If
                 End With
             Case "DeliverRepair"
-                With frmDeliver
-                    With frmDeliver
-                        .grdRepair.Item(0, .grdRepair.CurrentCell.RowIndex).Value = grdSearch.Item(0, grdSearch.CurrentCell.RowIndex).Value
-                        Dim E1 As New DataGridViewCellEventArgs(0, .grdRepair.CurrentCell.RowIndex)
-                        Call .GrdRepair_CellEndEdit(sender, E1)
-                    End With
+                With FormDeliver
+                    .grdRepair.Item(0, .grdRepair.CurrentCell.RowIndex).Value = grdSearch.Item(0, grdSearch.CurrentCell.RowIndex).Value
+                    Dim E1 As New DataGridViewCellEventArgs(0, .grdRepair.CurrentCell.RowIndex)
+                    Call .GrdRepair_CellEndEdit(sender, E1)
                 End With
             Case "DeliverReRepair"
-                With frmDeliver
-                    With frmDeliver
-                        .grdRepair.Item(0, .grdRepair.CurrentCell.RowIndex).Value = grdSearch.Item(0, grdSearch.CurrentCell.RowIndex).Value
-                        Dim E1 As New DataGridViewCellEventArgs(0, .grdRepair.CurrentCell.RowIndex)
-                        Call .GrdRepair_CellEndEdit(sender, E1)
-                    End With
+                With FormDeliver
+                    .grdRepair.Item(0, .grdRepair.CurrentCell.RowIndex).Value = grdSearch.Item(0, grdSearch.CurrentCell.RowIndex).Value
+                    Dim E1 As New DataGridViewCellEventArgs(0, .grdRepair.CurrentCell.RowIndex)
+                    Call .GrdRepair_CellEndEdit(sender, E1)
                 End With
         End Select
         If Me.Tag <> "Repair" Then
@@ -1244,7 +1195,7 @@ end_for_loop:
         Dim currentvalue As String = "", previousvalue As String = ""
         If grdSearch.Item(e.ColumnIndex, e.RowIndex).Value IsNot Nothing Then currentvalue = grdSearch.Item(e.ColumnIndex, e.RowIndex).Value
         If grdSearch.Item(e.ColumnIndex, e.RowIndex).Tag IsNot Nothing Then previousvalue = grdSearch.Item(e.ColumnIndex, e.RowIndex).Tag
-        Dim UNo As Integer = MdifrmMain.Tag
+        Dim UNo As Integer = User.Instance.UserNo
         If Me.Tag = "Repair" Then
             If e.ColumnIndex = 11 Then frmSearchDropDown.frm_Close()
             If e.ColumnIndex = 13 Or e.ColumnIndex = 16 Then frmDatagridviewTool.frm_Close()
@@ -1254,8 +1205,7 @@ end_for_loop:
                                  If previousvalue <> currentvalue Then
                                      Db.Execute("UPDATE Repair SET " & grdSearch.Columns(e.ColumnIndex).Name & " ='" & currentvalue & "' where repno = " &
                   grdSearch.Item(0, e.RowIndex).Value)
-                                     Db.Execute("Insert into RepairActivity(RepNo,RepADate,Activity,UNo)" &
- " Values(" &
+                                     Db.Execute("Insert into RepairActivity(RepNo,RepADate,Activity,UNo) Values(" &
  grdSearch.Item(0, e.RowIndex).Value & ",#" & DateAndTime.Now & "#,'" & grdSearch.Columns(e.ColumnIndex).HeaderText & " -> " &
  currentvalue & "'," & UNo & ")")
                                  End If
@@ -1296,8 +1246,7 @@ end_for_loop:
                                  If Db.GetData("Select RepDate from Repair Where RepNo=" & grdSearch.Item(0, e.RowIndex).Value) <>
                                  currentvalue Then
                                      Db.Execute("update Repair set repdate=#" & currentvalue & "# where repno=" & grdSearch.Item(0, e.RowIndex).Value & ";")
-                                     Db.Execute("Insert into RepairActivity(RepNo,RepADate,Activity,UNo)" &
-                          " Values(" &
+                                     Db.Execute("Insert into RepairActivity(RepNo,RepADate,Activity,UNo) Values(" &
                           grdSearch.Item(0, e.RowIndex).Value & ",#" & DateAndTime.Now & "#,'Repaired Date එක " & currentvalue &
                           " වෙනස් කෙරුණි.'," & UNo & ")")
                                  End If
@@ -1313,10 +1262,8 @@ end_for_loop:
                               "',RepDate=#" & grdSearch.Item(17, e.RowIndex).Value &
                               "#,Charge=" & currentvalue & " where repno=" &
                               grdSearch.Item(0, e.RowIndex).Value & ";")
-                                     Db.Execute("Insert into RepairActivity(RepNo,RepADate,Activity,UNo)" &
-             " Values(" &
-             grdSearch.Item(0, e.RowIndex).Value & ",#" & DateAndTime.Now & "#,'" &
-             "Repaired Date -> " & grdSearch.Item(17, e.RowIndex).Value &
+                                     Db.Execute("Insert into RepairActivity(RepNo,RepADate,Activity,UNo) Values(" &
+             grdSearch.Item(0, e.RowIndex).Value & ",#" & DateAndTime.Now & "#,'Repaired Date -> " & grdSearch.Item(17, e.RowIndex).Value &
              ", Status -> " & grdSearch.Item(14, e.RowIndex).Value &
              ", Repair Charge -> " & currentvalue &
              "'," & UNo & ")")

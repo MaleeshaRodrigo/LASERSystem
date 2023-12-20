@@ -9,7 +9,7 @@ Public Class frmRepairAdvanced
         cmbFilter.Text = "All"
         cmdSearch_Click(sender, e)
         cmdNew_Click(sender, e)
-        If MdifrmMain.tslblUserType.Text = "Admin" Then
+        If User.Instance.UserType = User.Type.Admin Then
             grdRepAdvanced.Columns(0).Visible = True
         End If
     End Sub
@@ -38,42 +38,40 @@ Public Class frmRepairAdvanced
         End If
         Select Case cmdSave.Text
             Case "Save"
-                If (MdifrmMain.tslblUserType.Text <> "Admin" And DateAndTime.DateValue(txtAdDate.Value) <> DateTime.Today.Date) Then
+                If (User.Instance.UserType <> User.Type.Admin And DateAndTime.DateValue(txtAdDate.Value) <> DateTime.Today.Date) Then
                     AdminPer.AdminSend = True
                     AdminPer.Remarks = "අද දිනට නොමැති Repair එකෙහි " & txtAdNo.Text & " වන Advanced Payment එකක් ඇතුලත් කෙරුණි. "
                 End If
                 If rbRep.Checked = True Then
                     Db.Execute("Insert into RepairAdvanced(ADNo,ADDate,RepNo,RetNo,Amount,Remarks,UNo) Values(?NewKey?RepairAdvanced?AdNo?,#" &
-                          txtAdDate.Value & "#," & cmbRepNo.Text & ",0," & txtAmount.Text & ",'" & txtRemarks.Text & "'," & MdifrmMain.Tag & ")",
+                          txtAdDate.Value & "#," & cmbRepNo.Text & ",0," & txtAmount.Text & ",'" & txtRemarks.Text & "'," & User.Instance.UserNo & ")",
                               {}, AdminPer)
                 Else
                     Db.Execute("Insert into RepairAdvanced(ADNo,ADDate,RepNo,RetNo,Amount,Remarks,UNo) Values(?NewKey?RepairAdvanced?AdNo?,#" &
-                          txtAdDate.Value & "#,0," & cmbRepNo.Text & "," & txtAmount.Text & ",'" & txtRemarks.Text & "'," & MdifrmMain.Tag & ")",
+                          txtAdDate.Value & "#,0," & cmbRepNo.Text & "," & txtAmount.Text & ",'" & txtRemarks.Text & "'," & User.Instance.UserNo & ")",
                               {}, AdminPer)
                 End If
                 If MsgBox("Repair Advanced Invoice එක print කිරීමට අවශ්‍යද?", vbYesNo) = vbYes Then
                     PrintRepairAdvancedToolStripMenuItem_Click(sender, e)
                 End If
             Case "Edit"
-                If (MdifrmMain.tslblUserType.Text <> "Admin" And DateAndTime.DateValue(txtAdDate.Value) <> DateTime.Today.Date) Then
+                If (User.Instance.UserType <> User.Type.Admin And DateAndTime.DateValue(txtAdDate.Value) <> DateTime.Today.Date) Then
                     AdminPer.AdminSend = True
                     AdminPer.Remarks = "අද දිනට නොමැති Repair එකෙහි " & txtAdNo.Text & " වන Advanced Payment එකක් වෙනස් කෙරුණි. "
                 End If
                 If rbRep.Checked = True Then
                     Db.Execute("Update RepairAdvanced set ADDate=#" & txtAdDate.Value &
                               "#, RepNo=" & cmbRepNo.Text &
-                              ", RetNo=0" &
-                              ", Amount=" & txtAmount.Text &
+                              ", RetNo=0, Amount=" & txtAmount.Text &
                               ", Remarks='" & txtRemarks.Text &
-                              "', UNo=" & MdifrmMain.Tag &
+                              "', UNo=" & User.Instance.UserNo &
                               " Where AdNo=" & txtAdNo.Text, {}, AdminPer)
                 Else
                     Db.Execute("Update RepairAdvanced set ADDate=#" & txtAdDate.Value &
                               "#, RetNo=" & cmbRepNo.Text &
-                              ", RepNo=0" &
-                              ", Amount=" & txtAmount.Text &
+                              ", RepNo=0, Amount=" & txtAmount.Text &
                               ", Remarks='" & txtRemarks.Text &
-                              "', UNo=" & MdifrmMain.Tag &
+                              "', UNo=" & User.Instance.UserNo &
                               " Where AdNo=" & txtAdNo.Text, {}, AdminPer)
                 End If
         End Select
@@ -111,11 +109,10 @@ Public Class frmRepairAdvanced
 
     Private Sub cmdDelete_Click(sender As Object, e As EventArgs) Handles cmdDelete.Click
         Dim AdminPer As New AdminPermission(Db)
-        If CheckExistData(txtAdNo, "Select AdNo from RepairAdvanced Where AdNo=" & txtAdNo.Text, "මෙම Advanced එක ඇතුලත් කර නොමැති එකකි." &
-                             " කරුණාකර පරික්ෂා කර නැවත උත්සහ කරන්න.", False) = False Then
+        If CheckExistData(txtAdNo, "Select AdNo from RepairAdvanced Where AdNo=" & txtAdNo.Text, "මෙම Advanced එක ඇතුලත් කර නොමැති එකකි. කරුණාකර පරික්ෂා කර නැවත උත්සහ කරන්න.", False) = False Then
             Exit Sub
         End If
-        If MdifrmMain.tslblUserType.Text <> "Admin" And Convert.ToDateTime(txtAdDate.Value).Date <> DateTime.Today.Date Then
+        If User.Instance.UserType <> User.Type.Admin And Convert.ToDateTime(txtAdDate.Value).Date <> DateTime.Today.Date Then
             AdminPer.AdminSend = True
             AdminPer.Remarks = "Repair හි " & txtAdNo.Text & " Advanced Payment එකක් Delete කෙරුණි."
         End If
@@ -137,8 +134,7 @@ Public Class frmRepairAdvanced
     Private Sub grdRepAdvanced_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles grdRepAdvanced.CellDoubleClick
         If e.RowIndex < 0 Then Exit Sub
         If grdRepAdvanced.Item(0, e.RowIndex).Value Is Nothing Then Exit Sub
-        Dim DRRepAdv As OleDb.OleDbDataReader = Db.GetDataReader("SELECT * from " &
-                                        "RepairAdvanced where AdNo=" & grdRepAdvanced.Item(0, e.RowIndex).Value & ";")
+        Dim DRRepAdv As OleDb.OleDbDataReader = Db.GetDataReader("SELECT * from RepairAdvanced where AdNo=" & grdRepAdvanced.Item(0, e.RowIndex).Value & ";")
         If DRRepAdv.HasRows Then
             DRRepAdv.Read()
             txtAdNo.Text = grdRepAdvanced.Item(0, e.RowIndex).Value
@@ -228,15 +224,9 @@ Public Class frmRepairAdvanced
         Dim DS1 As New DataSet
         Dim DA1 As OleDbDataAdapter
         If rbRep.Checked = True Then
-            DA1 = Db.GetDataAdapter("SELECT CuName,CuTelNo1,CuTelNo2,CuTelNo3,ADDate,Rep.RepNo,Ret.RetNo,PCategory,PName,Amount from " &
-                                       "(((((RepairAdvanced AD Left Join Repair Rep On Rep.RepNo=AD.RepNo) Left JOin Return Ret On " &
-                                       "Ret.RetNo=AD.RetNo) LEft Join Product P ON P.PNo = Rep.PNo) Left Join Receive R ON R.RNo = Rep.RNo) " &
-                                       "Left Join Customer Cu ON Cu.CuNo=R.CuNo) Where ADNo=" & txtAdNo.Text & ";")
+            DA1 = Db.GetDataAdapter("SELECT CuName,CuTelNo1,CuTelNo2,CuTelNo3,ADDate,Rep.RepNo,Ret.RetNo,PCategory,PName,Amount from (((((RepairAdvanced AD Left Join Repair Rep On Rep.RepNo=AD.RepNo) Left JOin Return Ret On Ret.RetNo=AD.RetNo) LEft Join Product P ON P.PNo = Rep.PNo) Left Join Receive R ON R.RNo = Rep.RNo) Left Join Customer Cu ON Cu.CuNo=R.CuNo) Where ADNo=" & txtAdNo.Text & ";")
         Else
-            DA1 = Db.GetDataAdapter("SELECT CuName,CuTelNo1,CuTelNo2,CuTelNo3,ADDate,Rep.RepNo,Ret.RetNo,PCategory,PName,Amount from " &
-                                                  "(((((RepairAdvanced AD Left Join Return Ret On Ret.RetNo=AD.RetNo) Left Join Repair Rep On " &
-                                                  "Rep.RepNo=Ret.RepNo) LEft Join Product P ON P.PNo = Rep.PNo) Left Join Receive R ON R.RNo = Rep.RNo) " &
-                                                  "Left Join Customer Cu ON Cu.CuNo=R.CuNo) Where ADNo=" & txtAdNo.Text & ";")
+            DA1 = Db.GetDataAdapter("SELECT CuName,CuTelNo1,CuTelNo2,CuTelNo3,ADDate,Rep.RepNo,Ret.RetNo,PCategory,PName,Amount from (((((RepairAdvanced AD Left Join Return Ret On Ret.RetNo=AD.RetNo) Left Join Repair Rep On Rep.RepNo=Ret.RepNo) LEft Join Product P ON P.PNo = Rep.PNo) Left Join Receive R ON R.RNo = Rep.RNo) Left Join Customer Cu ON Cu.CuNo=R.CuNo) Where ADNo=" & txtAdNo.Text & ";")
         End If
         DA1.Fill(DS1, "Repair")
         DA1.Fill(DS1, "Product")

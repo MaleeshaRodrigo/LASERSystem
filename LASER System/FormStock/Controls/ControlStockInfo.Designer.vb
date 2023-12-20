@@ -76,11 +76,11 @@ Partial Class ControlStockInfo
         Me.GrpInfo.Controls.Add(Me.TlpStockForm)
         Me.GrpInfo.Controls.Add(Me.GroupBox1)
         Me.GrpInfo.Font = New System.Drawing.Font("Calibri", 9.75!)
-        Me.GrpInfo.Location = New System.Drawing.Point(2, 2)
-        Me.GrpInfo.Margin = New System.Windows.Forms.Padding(2)
+        Me.GrpInfo.Location = New System.Drawing.Point(3, 2)
+        Me.GrpInfo.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.GrpInfo.Name = "GrpInfo"
-        Me.GrpInfo.Padding = New System.Windows.Forms.Padding(2)
-        Me.GrpInfo.Size = New System.Drawing.Size(763, 506)
+        Me.GrpInfo.Padding = New System.Windows.Forms.Padding(3, 2, 3, 2)
+        Me.GrpInfo.Size = New System.Drawing.Size(1017, 600)
         Me.GrpInfo.TabIndex = 24
         Me.GrpInfo.TabStop = False
         Me.GrpInfo.Text = "Info"
@@ -115,53 +115,53 @@ Partial Class ControlStockInfo
         Me.TlpStockForm.Controls.Add(Me.TxtSalePrice, 1, 7)
         Me.TlpStockForm.Controls.Add(Me.TxtLowestPrice, 1, 6)
         Me.TlpStockForm.Controls.Add(Me.Label6, 0, 6)
-        Me.TlpStockForm.Location = New System.Drawing.Point(5, 21)
+        Me.TlpStockForm.Location = New System.Drawing.Point(7, 26)
+        Me.TlpStockForm.Margin = New System.Windows.Forms.Padding(4)
         Me.TlpStockForm.Name = "TlpStockForm"
         Me.TlpStockForm.RowCount = 13
-        Me.TlpStockForm.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30.0!))
-        Me.TlpStockForm.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30.0!))
-        Me.TlpStockForm.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30.0!))
-        Me.TlpStockForm.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30.0!))
-        Me.TlpStockForm.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30.0!))
-        Me.TlpStockForm.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30.0!))
-        Me.TlpStockForm.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30.0!))
-        Me.TlpStockForm.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30.0!))
-        Me.TlpStockForm.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30.0!))
-        Me.TlpStockForm.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30.0!))
-        Me.TlpStockForm.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30.0!))
-        Me.TlpStockForm.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 80.0!))
-        Me.TlpStockForm.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40.0!))
-        Me.TlpStockForm.Size = New System.Drawing.Size(400, 480)
+        Me.TlpStockForm.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 37.0!))
+        Me.TlpStockForm.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 37.0!))
+        Me.TlpStockForm.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 37.0!))
+        Me.TlpStockForm.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 37.0!))
+        Me.TlpStockForm.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 37.0!))
+        Me.TlpStockForm.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 37.0!))
+        Me.TlpStockForm.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 37.0!))
+        Me.TlpStockForm.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 37.0!))
+        Me.TlpStockForm.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 37.0!))
+        Me.TlpStockForm.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 37.0!))
+        Me.TlpStockForm.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 37.0!))
+        Me.TlpStockForm.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 98.0!))
+        Me.TlpStockForm.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 49.0!))
+        Me.TlpStockForm.Size = New System.Drawing.Size(533, 566)
         Me.TlpStockForm.TabIndex = 25
         '
         'TxtSNo
         '
         Me.TxtSNo.Enabled = False
-        Me.TxtSNo.Location = New System.Drawing.Point(122, 2)
-        Me.TxtSNo.Margin = New System.Windows.Forms.Padding(2)
+        Me.TxtSNo.Location = New System.Drawing.Point(162, 2)
+        Me.TxtSNo.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.TxtSNo.Name = "TxtSNo"
-        Me.TxtSNo.Size = New System.Drawing.Size(51, 23)
+        Me.TxtSNo.Size = New System.Drawing.Size(67, 27)
         Me.TxtSNo.TabIndex = 10
         '
         'TxtCostPrice
         '
         Me.TxtCostPrice.DecimalPlaces = 2
         Me.TxtCostPrice.Increment = New Decimal(New Integer() {50, 0, 0, 0})
-        Me.TxtCostPrice.Location = New System.Drawing.Point(122, 152)
-        Me.TxtCostPrice.Margin = New System.Windows.Forms.Padding(2)
+        Me.TxtCostPrice.Location = New System.Drawing.Point(162, 187)
+        Me.TxtCostPrice.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.TxtCostPrice.Maximum = New Decimal(New Integer() {10000000, 0, 0, 0})
         Me.TxtCostPrice.Name = "TxtCostPrice"
-        Me.TxtCostPrice.Size = New System.Drawing.Size(72, 23)
+        Me.TxtCostPrice.Size = New System.Drawing.Size(96, 27)
         Me.TxtCostPrice.TabIndex = 15
         Me.TxtCostPrice.ThousandsSeparator = True
         '
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(2, 30)
-        Me.Label2.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.Label2.Location = New System.Drawing.Point(3, 37)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(58, 15)
+        Me.Label2.Size = New System.Drawing.Size(77, 21)
         Me.Label2.TabIndex = 1
         Me.Label2.Text = "Category:"
         Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -169,10 +169,9 @@ Partial Class ControlStockInfo
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(2, 60)
-        Me.Label3.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.Label3.Location = New System.Drawing.Point(3, 74)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(41, 15)
+        Me.Label3.Size = New System.Drawing.Size(56, 21)
         Me.Label3.TabIndex = 2
         Me.Label3.Text = "Name:"
         Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -180,10 +179,9 @@ Partial Class ControlStockInfo
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(2, 90)
-        Me.Label4.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.Label4.Location = New System.Drawing.Point(3, 111)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(63, 15)
+        Me.Label4.Size = New System.Drawing.Size(84, 21)
         Me.Label4.TabIndex = 3
         Me.Label4.Text = "Model No:"
         Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -191,10 +189,9 @@ Partial Class ControlStockInfo
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(2, 120)
-        Me.Label5.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.Label5.Location = New System.Drawing.Point(3, 148)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(56, 15)
+        Me.Label5.Size = New System.Drawing.Size(73, 21)
         Me.Label5.TabIndex = 4
         Me.Label5.Text = "Location:"
         Me.Label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -203,10 +200,10 @@ Partial Class ControlStockInfo
         '
         Me.CmbCategory.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend
         Me.CmbCategory.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems
-        Me.CmbCategory.Location = New System.Drawing.Point(122, 32)
-        Me.CmbCategory.Margin = New System.Windows.Forms.Padding(2)
+        Me.CmbCategory.Location = New System.Drawing.Point(162, 39)
+        Me.CmbCategory.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.CmbCategory.Name = "CmbCategory"
-        Me.CmbCategory.Size = New System.Drawing.Size(244, 23)
+        Me.CmbCategory.Size = New System.Drawing.Size(324, 27)
         Me.CmbCategory.TabIndex = 11
         '
         'CmbName
@@ -214,35 +211,34 @@ Partial Class ControlStockInfo
         Me.CmbName.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest
         Me.CmbName.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems
         Me.CmbName.FormattingEnabled = True
-        Me.CmbName.Location = New System.Drawing.Point(122, 62)
-        Me.CmbName.Margin = New System.Windows.Forms.Padding(2)
+        Me.CmbName.Location = New System.Drawing.Point(162, 76)
+        Me.CmbName.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.CmbName.Name = "CmbName"
-        Me.CmbName.Size = New System.Drawing.Size(244, 23)
+        Me.CmbName.Size = New System.Drawing.Size(324, 27)
         Me.CmbName.TabIndex = 12
         '
         'CmbLocation
         '
-        Me.CmbLocation.Location = New System.Drawing.Point(122, 122)
-        Me.CmbLocation.Margin = New System.Windows.Forms.Padding(2)
+        Me.CmbLocation.Location = New System.Drawing.Point(162, 150)
+        Me.CmbLocation.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.CmbLocation.Name = "CmbLocation"
-        Me.CmbLocation.Size = New System.Drawing.Size(162, 23)
+        Me.CmbLocation.Size = New System.Drawing.Size(215, 27)
         Me.CmbLocation.TabIndex = 14
         '
         'TxtModelNo
         '
-        Me.TxtModelNo.Location = New System.Drawing.Point(122, 92)
-        Me.TxtModelNo.Margin = New System.Windows.Forms.Padding(2)
+        Me.TxtModelNo.Location = New System.Drawing.Point(162, 113)
+        Me.TxtModelNo.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.TxtModelNo.Name = "TxtModelNo"
-        Me.TxtModelNo.Size = New System.Drawing.Size(118, 23)
+        Me.TxtModelNo.Size = New System.Drawing.Size(156, 27)
         Me.TxtModelNo.TabIndex = 13
         '
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(2, 0)
-        Me.Label1.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.Label1.Location = New System.Drawing.Point(3, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(37, 15)
+        Me.Label1.Size = New System.Drawing.Size(50, 21)
         Me.Label1.TabIndex = 0
         Me.Label1.Text = "Code:"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -254,19 +250,20 @@ Partial Class ControlStockInfo
         Me.Panel1.Controls.Add(Me.CmdDelete)
         Me.Panel1.Controls.Add(Me.CmdClose)
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Panel1.Location = New System.Drawing.Point(3, 413)
+        Me.Panel1.Location = New System.Drawing.Point(4, 509)
+        Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(394, 64)
+        Me.Panel1.Size = New System.Drawing.Size(525, 53)
         Me.Panel1.TabIndex = 35
         '
         'CmdSave
         '
         Me.CmdSave.Font = New System.Drawing.Font("Calibri", 10.0!)
         Me.CmdSave.Image = CType(resources.GetObject("CmdSave.Image"), System.Drawing.Image)
-        Me.CmdSave.Location = New System.Drawing.Point(2, 2)
-        Me.CmdSave.Margin = New System.Windows.Forms.Padding(2)
+        Me.CmdSave.Location = New System.Drawing.Point(3, 2)
+        Me.CmdSave.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.CmdSave.Name = "CmdSave"
-        Me.CmdSave.Size = New System.Drawing.Size(95, 38)
+        Me.CmdSave.Size = New System.Drawing.Size(127, 47)
         Me.CmdSave.TabIndex = 28
         Me.CmdSave.Text = "Save"
         Me.CmdSave.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -277,10 +274,10 @@ Partial Class ControlStockInfo
         '
         Me.CmdDelete.Font = New System.Drawing.Font("Calibri", 10.0!)
         Me.CmdDelete.Image = CType(resources.GetObject("CmdDelete.Image"), System.Drawing.Image)
-        Me.CmdDelete.Location = New System.Drawing.Point(101, 2)
-        Me.CmdDelete.Margin = New System.Windows.Forms.Padding(2)
+        Me.CmdDelete.Location = New System.Drawing.Point(135, 2)
+        Me.CmdDelete.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.CmdDelete.Name = "CmdDelete"
-        Me.CmdDelete.Size = New System.Drawing.Size(80, 38)
+        Me.CmdDelete.Size = New System.Drawing.Size(107, 47)
         Me.CmdDelete.TabIndex = 29
         Me.CmdDelete.Text = "Delete"
         Me.CmdDelete.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -291,10 +288,10 @@ Partial Class ControlStockInfo
         '
         Me.CmdClose.Font = New System.Drawing.Font("Calibri", 10.0!)
         Me.CmdClose.Image = CType(resources.GetObject("CmdClose.Image"), System.Drawing.Image)
-        Me.CmdClose.Location = New System.Drawing.Point(185, 2)
-        Me.CmdClose.Margin = New System.Windows.Forms.Padding(2)
+        Me.CmdClose.Location = New System.Drawing.Point(247, 2)
+        Me.CmdClose.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.CmdClose.Name = "CmdClose"
-        Me.CmdClose.Size = New System.Drawing.Size(86, 38)
+        Me.CmdClose.Size = New System.Drawing.Size(115, 47)
         Me.CmdClose.TabIndex = 31
         Me.CmdClose.Text = "Close"
         Me.CmdClose.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -303,21 +300,20 @@ Partial Class ControlStockInfo
         '
         'TxtDetails
         '
-        Me.TxtDetails.Location = New System.Drawing.Point(122, 332)
-        Me.TxtDetails.Margin = New System.Windows.Forms.Padding(2)
+        Me.TxtDetails.Location = New System.Drawing.Point(162, 409)
+        Me.TxtDetails.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.TxtDetails.Multiline = True
         Me.TxtDetails.Name = "TxtDetails"
         Me.TxtDetails.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.TxtDetails.Size = New System.Drawing.Size(244, 76)
+        Me.TxtDetails.Size = New System.Drawing.Size(324, 93)
         Me.TxtDetails.TabIndex = 34
         '
         'Label11
         '
         Me.Label11.AutoSize = True
-        Me.Label11.Location = New System.Drawing.Point(2, 330)
-        Me.Label11.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.Label11.Location = New System.Drawing.Point(3, 407)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(49, 15)
+        Me.Label11.Size = New System.Drawing.Size(62, 21)
         Me.Label11.TabIndex = 33
         Me.Label11.Text = "Details:"
         Me.Label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -325,10 +321,9 @@ Partial Class ControlStockInfo
         'Label9
         '
         Me.Label9.AutoSize = True
-        Me.Label9.Location = New System.Drawing.Point(2, 300)
-        Me.Label9.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.Label9.Location = New System.Drawing.Point(3, 370)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(93, 15)
+        Me.Label9.Size = New System.Drawing.Size(121, 21)
         Me.Label9.TabIndex = 8
         Me.Label9.Text = "Damaged Units:"
         Me.Label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -336,10 +331,9 @@ Partial Class ControlStockInfo
         'Label8
         '
         Me.Label8.AutoSize = True
-        Me.Label8.Location = New System.Drawing.Point(2, 270)
-        Me.Label8.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.Label8.Location = New System.Drawing.Point(3, 333)
         Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(94, 15)
+        Me.Label8.Size = New System.Drawing.Size(119, 21)
         Me.Label8.TabIndex = 7
         Me.Label8.Text = "Available Units:"
         Me.Label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -347,10 +341,9 @@ Partial Class ControlStockInfo
         'Label10
         '
         Me.Label10.AutoSize = True
-        Me.Label10.Location = New System.Drawing.Point(2, 240)
-        Me.Label10.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.Label10.Location = New System.Drawing.Point(3, 296)
         Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(85, 15)
+        Me.Label10.Size = New System.Drawing.Size(111, 21)
         Me.Label10.TabIndex = 9
         Me.Label10.Text = "Reorder Point:"
         Me.Label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -358,46 +351,44 @@ Partial Class ControlStockInfo
         'LblCostPrice
         '
         Me.LblCostPrice.AutoSize = True
-        Me.LblCostPrice.Location = New System.Drawing.Point(2, 150)
-        Me.LblCostPrice.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.LblCostPrice.Location = New System.Drawing.Point(3, 185)
         Me.LblCostPrice.Name = "LblCostPrice"
-        Me.LblCostPrice.Size = New System.Drawing.Size(65, 15)
+        Me.LblCostPrice.Size = New System.Drawing.Size(84, 21)
         Me.LblCostPrice.TabIndex = 5
         Me.LblCostPrice.Text = "Cost Price:"
         Me.LblCostPrice.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'TxtDamagedUnits
         '
-        Me.TxtDamagedUnits.Location = New System.Drawing.Point(122, 302)
-        Me.TxtDamagedUnits.Margin = New System.Windows.Forms.Padding(2)
+        Me.TxtDamagedUnits.Location = New System.Drawing.Point(162, 372)
+        Me.TxtDamagedUnits.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.TxtDamagedUnits.Name = "TxtDamagedUnits"
-        Me.TxtDamagedUnits.Size = New System.Drawing.Size(41, 23)
+        Me.TxtDamagedUnits.Size = New System.Drawing.Size(55, 27)
         Me.TxtDamagedUnits.TabIndex = 19
         '
         'TxtAvailableUnits
         '
-        Me.TxtAvailableUnits.Location = New System.Drawing.Point(122, 272)
-        Me.TxtAvailableUnits.Margin = New System.Windows.Forms.Padding(2)
+        Me.TxtAvailableUnits.Location = New System.Drawing.Point(162, 335)
+        Me.TxtAvailableUnits.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.TxtAvailableUnits.Name = "TxtAvailableUnits"
-        Me.TxtAvailableUnits.Size = New System.Drawing.Size(41, 23)
+        Me.TxtAvailableUnits.Size = New System.Drawing.Size(55, 27)
         Me.TxtAvailableUnits.TabIndex = 18
         '
         'TxtReorderPoint
         '
-        Me.TxtReorderPoint.Location = New System.Drawing.Point(122, 242)
-        Me.TxtReorderPoint.Margin = New System.Windows.Forms.Padding(2)
+        Me.TxtReorderPoint.Location = New System.Drawing.Point(162, 298)
+        Me.TxtReorderPoint.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.TxtReorderPoint.Name = "TxtReorderPoint"
-        Me.TxtReorderPoint.Size = New System.Drawing.Size(41, 23)
+        Me.TxtReorderPoint.Size = New System.Drawing.Size(55, 27)
         Me.TxtReorderPoint.TabIndex = 17
         Me.TxtReorderPoint.Value = New Decimal(New Integer() {3, 0, 0, 0})
         '
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(2, 210)
-        Me.Label7.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.Label7.Location = New System.Drawing.Point(3, 259)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(64, 15)
+        Me.Label7.Size = New System.Drawing.Size(81, 21)
         Me.Label7.TabIndex = 6
         Me.Label7.Text = "Sale Price:"
         Me.Label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -406,11 +397,11 @@ Partial Class ControlStockInfo
         '
         Me.TxtSalePrice.DecimalPlaces = 2
         Me.TxtSalePrice.Increment = New Decimal(New Integer() {50, 0, 0, 0})
-        Me.TxtSalePrice.Location = New System.Drawing.Point(122, 212)
-        Me.TxtSalePrice.Margin = New System.Windows.Forms.Padding(2)
+        Me.TxtSalePrice.Location = New System.Drawing.Point(162, 261)
+        Me.TxtSalePrice.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.TxtSalePrice.Maximum = New Decimal(New Integer() {1000000, 0, 0, 0})
         Me.TxtSalePrice.Name = "TxtSalePrice"
-        Me.TxtSalePrice.Size = New System.Drawing.Size(72, 23)
+        Me.TxtSalePrice.Size = New System.Drawing.Size(96, 27)
         Me.TxtSalePrice.TabIndex = 16
         Me.TxtSalePrice.ThousandsSeparator = True
         '
@@ -418,21 +409,20 @@ Partial Class ControlStockInfo
         '
         Me.TxtLowestPrice.DecimalPlaces = 2
         Me.TxtLowestPrice.Increment = New Decimal(New Integer() {50, 0, 0, 0})
-        Me.TxtLowestPrice.Location = New System.Drawing.Point(122, 182)
-        Me.TxtLowestPrice.Margin = New System.Windows.Forms.Padding(2)
+        Me.TxtLowestPrice.Location = New System.Drawing.Point(162, 224)
+        Me.TxtLowestPrice.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.TxtLowestPrice.Maximum = New Decimal(New Integer() {1000000, 0, 0, 0})
         Me.TxtLowestPrice.Name = "TxtLowestPrice"
-        Me.TxtLowestPrice.Size = New System.Drawing.Size(72, 23)
+        Me.TxtLowestPrice.Size = New System.Drawing.Size(96, 27)
         Me.TxtLowestPrice.TabIndex = 15
         Me.TxtLowestPrice.ThousandsSeparator = True
         '
         'Label6
         '
         Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(2, 180)
-        Me.Label6.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.Label6.Location = New System.Drawing.Point(3, 222)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(78, 15)
+        Me.Label6.Size = New System.Drawing.Size(102, 21)
         Me.Label6.TabIndex = 5
         Me.Label6.Text = "Lowest Price:"
         Me.Label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -440,11 +430,11 @@ Partial Class ControlStockInfo
         'GroupBox1
         '
         Me.GroupBox1.Controls.Add(Me.TlpSImages)
-        Me.GroupBox1.Location = New System.Drawing.Point(410, 20)
-        Me.GroupBox1.Margin = New System.Windows.Forms.Padding(2)
+        Me.GroupBox1.Location = New System.Drawing.Point(547, 25)
+        Me.GroupBox1.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Padding = New System.Windows.Forms.Padding(2)
-        Me.GroupBox1.Size = New System.Drawing.Size(345, 452)
+        Me.GroupBox1.Padding = New System.Windows.Forms.Padding(3, 2, 3, 2)
+        Me.GroupBox1.Size = New System.Drawing.Size(460, 567)
         Me.GroupBox1.TabIndex = 35
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Pictures Area"
@@ -458,14 +448,14 @@ Partial Class ControlStockInfo
         Me.TlpSImages.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25.0!))
         Me.TlpSImages.Controls.Add(Me.PicMain, 0, 0)
         Me.TlpSImages.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TlpSImages.Location = New System.Drawing.Point(2, 18)
-        Me.TlpSImages.Margin = New System.Windows.Forms.Padding(2)
+        Me.TlpSImages.Location = New System.Drawing.Point(3, 22)
+        Me.TlpSImages.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.TlpSImages.Name = "TlpSImages"
         Me.TlpSImages.RowCount = 3
         Me.TlpSImages.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 75.0!))
         Me.TlpSImages.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5!))
         Me.TlpSImages.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5!))
-        Me.TlpSImages.Size = New System.Drawing.Size(341, 432)
+        Me.TlpSImages.Size = New System.Drawing.Size(454, 543)
         Me.TlpSImages.TabIndex = 33
         '
         'PicMain
@@ -475,23 +465,23 @@ Partial Class ControlStockInfo
         Me.PicMain.ErrorImage = Global.LASER_System.My.Resources.Resources.empty
         Me.PicMain.Image = Global.LASER_System.My.Resources.Resources.empty
         Me.PicMain.InitialImage = Global.LASER_System.My.Resources.Resources.empty
-        Me.PicMain.Location = New System.Drawing.Point(2, 2)
-        Me.PicMain.Margin = New System.Windows.Forms.Padding(2)
+        Me.PicMain.Location = New System.Drawing.Point(3, 2)
+        Me.PicMain.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.PicMain.Name = "PicMain"
-        Me.PicMain.Size = New System.Drawing.Size(337, 320)
+        Me.PicMain.Size = New System.Drawing.Size(448, 403)
         Me.PicMain.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
         Me.PicMain.TabIndex = 0
         Me.PicMain.TabStop = False
         '
         'ControlStockInfo
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.Control
         Me.Controls.Add(Me.GrpInfo)
-        Me.Margin = New System.Windows.Forms.Padding(2)
+        Me.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.Name = "ControlStockInfo"
-        Me.Size = New System.Drawing.Size(777, 523)
+        Me.Size = New System.Drawing.Size(1036, 611)
         Me.GrpInfo.ResumeLayout(False)
         Me.TlpStockForm.ResumeLayout(False)
         Me.TlpStockForm.PerformLayout()
