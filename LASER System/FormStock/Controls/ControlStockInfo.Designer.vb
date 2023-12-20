@@ -116,7 +116,7 @@ Partial Class ControlStockInfo
         Me.TlpStockForm.Controls.Add(Me.TxtLowestPrice, 1, 6)
         Me.TlpStockForm.Controls.Add(Me.Label6, 0, 6)
         Me.TlpStockForm.Location = New System.Drawing.Point(7, 26)
-        Me.TlpStockForm.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.TlpStockForm.Margin = New System.Windows.Forms.Padding(4)
         Me.TlpStockForm.Name = "TlpStockForm"
         Me.TlpStockForm.RowCount = 13
         Me.TlpStockForm.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 37.0!))
@@ -251,7 +251,7 @@ Partial Class ControlStockInfo
         Me.Panel1.Controls.Add(Me.CmdClose)
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Panel1.Location = New System.Drawing.Point(4, 509)
-        Me.Panel1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(525, 53)
         Me.Panel1.TabIndex = 35

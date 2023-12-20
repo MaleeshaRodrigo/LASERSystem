@@ -126,7 +126,7 @@ Partial Class frmCustomer
         Me.grdCustomer.RowHeadersVisible = False
         Me.grdCustomer.RowHeadersWidth = 51
         Me.grdCustomer.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.grdCustomer.Size = New System.Drawing.Size(393, 371)
+        Me.grdCustomer.Size = New System.Drawing.Size(393, 523)
         Me.grdCustomer.TabIndex = 13
         '
         'txtSearch
@@ -151,7 +151,7 @@ Partial Class frmCustomer
         Me.grpSearch.Location = New System.Drawing.Point(328, 3)
         Me.grpSearch.MinimumSize = New System.Drawing.Size(406, 290)
         Me.grpSearch.Name = "grpSearch"
-        Me.grpSearch.Size = New System.Drawing.Size(406, 427)
+        Me.grpSearch.Size = New System.Drawing.Size(406, 579)
         Me.grpSearch.TabIndex = 27
         Me.grpSearch.TabStop = False
         Me.grpSearch.Text = "Search "
@@ -375,7 +375,7 @@ Partial Class frmCustomer
         Me.MenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OPTIONToolStripMenuItem})
         Me.MenuStrip.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip.Name = "MenuStrip"
-        Me.MenuStrip.Size = New System.Drawing.Size(784, 28)
+        Me.MenuStrip.Size = New System.Drawing.Size(1150, 28)
         Me.MenuStrip.TabIndex = 28
         Me.MenuStrip.Text = "MenuStrip1"
         '
@@ -393,7 +393,7 @@ Partial Class frmCustomer
         Me.tlpanelMain.Name = "tlpanelMain"
         Me.tlpanelMain.RowCount = 1
         Me.tlpanelMain.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
-        Me.tlpanelMain.Size = New System.Drawing.Size(784, 433)
+        Me.tlpanelMain.Size = New System.Drawing.Size(1150, 585)
         Me.tlpanelMain.TabIndex = 30
         '
         'tlpanelDetails
@@ -404,22 +404,22 @@ Partial Class frmCustomer
         Me.tlpanelDetails.Controls.Add(Me.GroupBox4, 0, 1)
         Me.tlpanelDetails.Controls.Add(Me.GroupBox3, 0, 0)
         Me.tlpanelDetails.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.tlpanelDetails.Location = New System.Drawing.Point(557, 3)
+        Me.tlpanelDetails.Location = New System.Drawing.Point(740, 3)
         Me.tlpanelDetails.Name = "tlpanelDetails"
         Me.tlpanelDetails.RowCount = 3
         Me.tlpanelDetails.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40.0!))
         Me.tlpanelDetails.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40.0!))
         Me.tlpanelDetails.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20.0!))
-        Me.tlpanelDetails.Size = New System.Drawing.Size(224, 427)
+        Me.tlpanelDetails.Size = New System.Drawing.Size(407, 579)
         Me.tlpanelDetails.TabIndex = 28
         '
         'GroupBox5
         '
         Me.GroupBox5.Controls.Add(Me.grdCuLoan)
         Me.GroupBox5.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.GroupBox5.Location = New System.Drawing.Point(3, 343)
+        Me.GroupBox5.Location = New System.Drawing.Point(3, 465)
         Me.GroupBox5.Name = "GroupBox5"
-        Me.GroupBox5.Size = New System.Drawing.Size(218, 81)
+        Me.GroupBox5.Size = New System.Drawing.Size(401, 111)
         Me.GroupBox5.TabIndex = 2
         Me.GroupBox5.TabStop = False
         Me.GroupBox5.Text = "Customer Loan Info"
@@ -435,16 +435,16 @@ Partial Class frmCustomer
         Me.grdCuLoan.Location = New System.Drawing.Point(3, 22)
         Me.grdCuLoan.Name = "grdCuLoan"
         Me.grdCuLoan.RowHeadersWidth = 51
-        Me.grdCuLoan.Size = New System.Drawing.Size(212, 56)
+        Me.grdCuLoan.Size = New System.Drawing.Size(395, 86)
         Me.grdCuLoan.TabIndex = 0
         '
         'GroupBox4
         '
         Me.GroupBox4.Controls.Add(Me.grdSale)
         Me.GroupBox4.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.GroupBox4.Location = New System.Drawing.Point(3, 173)
+        Me.GroupBox4.Location = New System.Drawing.Point(3, 234)
         Me.GroupBox4.Name = "GroupBox4"
-        Me.GroupBox4.Size = New System.Drawing.Size(218, 164)
+        Me.GroupBox4.Size = New System.Drawing.Size(401, 225)
         Me.GroupBox4.TabIndex = 1
         Me.GroupBox4.TabStop = False
         Me.GroupBox4.Text = "Sale Info"
@@ -460,7 +460,7 @@ Partial Class frmCustomer
         Me.grdSale.Location = New System.Drawing.Point(3, 22)
         Me.grdSale.Name = "grdSale"
         Me.grdSale.RowHeadersWidth = 51
-        Me.grdSale.Size = New System.Drawing.Size(212, 139)
+        Me.grdSale.Size = New System.Drawing.Size(395, 200)
         Me.grdSale.TabIndex = 0
         '
         'GroupBox3
@@ -469,7 +469,7 @@ Partial Class frmCustomer
         Me.GroupBox3.Dock = System.Windows.Forms.DockStyle.Fill
         Me.GroupBox3.Location = New System.Drawing.Point(3, 3)
         Me.GroupBox3.Name = "GroupBox3"
-        Me.GroupBox3.Size = New System.Drawing.Size(218, 164)
+        Me.GroupBox3.Size = New System.Drawing.Size(401, 225)
         Me.GroupBox3.TabIndex = 0
         Me.GroupBox3.TabStop = False
         Me.GroupBox3.Text = "Repair Info"
@@ -485,14 +485,14 @@ Partial Class frmCustomer
         Me.grdRepair.Location = New System.Drawing.Point(3, 22)
         Me.grdRepair.Name = "grdRepair"
         Me.grdRepair.RowHeadersWidth = 51
-        Me.grdRepair.Size = New System.Drawing.Size(212, 139)
+        Me.grdRepair.Size = New System.Drawing.Size(395, 200)
         Me.grdRepair.TabIndex = 0
         '
         'frmCustomer
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 18.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(784, 461)
+        Me.ClientSize = New System.Drawing.Size(1150, 613)
         Me.Controls.Add(Me.tlpanelMain)
         Me.Controls.Add(Me.MenuStrip)
         Me.Cursor = System.Windows.Forms.Cursors.Default

@@ -67,10 +67,10 @@ Public Class frmTechnicianLoan
             If txtSNo.Text <> "" Then
                 Db.Execute("Insert Into TechnicianLoan(TLNo,TNo,TLDate,SNo,SCategory,SName,TLReason,Rate,Qty,Total,UNo) Values(" & txtTLNo.Text & "," & TNo & ",#" & txtTLDate.Value & "#," & txtSNo.Text & ",'" &
                         cmbSCategory.Text & "','" & cmbSName.Text & "','" & txtTLReason.Text &
-                        "'," & txtSUnitPrice.Text & "," & txtSQty.Text & "," & txtTLAmount.Text & ",'" & MdifrmMain.Tag & "')", {}, AdminPer)
+                        "'," & txtSUnitPrice.Text & "," & txtSQty.Text & "," & txtTLAmount.Text & ",'" & User.Instance.UserNo & "')", {}, AdminPer)
             Else
                 Db.Execute("Insert Into TechnicianLoan(TLNo,TNo,TLDate,TLReason,Total,UNo) Values(" & txtTLNo.Text & "," & TNo & ",#" & txtTLDate.Value & "#,'" & txtTLReason.Text & "'," &
-                        txtTLAmount.Text & ",'" & MdifrmMain.Tag & "')", {}, AdminPer)
+                        txtTLAmount.Text & ",'" & User.Instance.UserNo & "')", {}, AdminPer)
             End If
             MsgBox("Save Successfull!", vbExclamation + vbOKOnly)
         ElseIf cmdTLSave.Text = "Edit" Then
@@ -83,7 +83,7 @@ Public Class frmTechnicianLoan
                       "',Rate=" & txtSUnitPrice.Text &
                       ",Qty=" & txtSQty.Text &
                       ",Total=" & txtTLAmount.Text &
-                      ",UNo=" & MdifrmMain.Tag, {}, AdminPer)
+                      ",UNo=" & User.Instance.UserNo, {}, AdminPer)
         End If
         Call SetNextKey(Db, txtTLNo, "SELECT top 1 TLNo from TechnicianLoan ORDER BY TLNo Desc;", "TLNo")
         cmbSCategory.Text = ""

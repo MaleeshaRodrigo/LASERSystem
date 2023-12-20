@@ -74,10 +74,12 @@ Public Class ControlStockInfo
                 Exit Sub
             End If
         End With
-        ' Set default values for cashier user type
+        Dim MessageBox = MsgBox("ඔබට මෙම Record එක Update කිරිමට අවශ්‍යද?", vbInformation + vbYesNo)
+        Dim DataExistResult = Db.CheckDataIsExist(Tables.Stock, Stock.Code, TxtSNo.Text)
         ' Execute Queries
-        If Db.CheckDataIsExist(Tables.Stock, Stock.Code, TxtSNo.Text) = True AndAlso
-            MsgBox("ඔබට මෙම Record එක Update කිරිමට අවශ්‍යද?", vbInformation + vbYesNo) = vbYes Then
+        If DataExistResult = True AndAlso MessageBox = vbNo Then
+            Exit Sub
+        ElseIf DataExistResult = True AndAlso MessageBox = vbYes Then
             ExecuteUpdateQuery()
         Else
             ExecuteInsertQuery()
@@ -101,18 +103,18 @@ Public Class ControlStockInfo
                 {Stock.DamagedUnits} = @DAMAGEDUNITS,
                 {Stock.ReorderPoint} = @REORDERPOINT
                 WHERE {Stock.Code} = @CODE;", {
-                New OleDbParameter("@CODE", TxtSNo.Text),
                 New OleDbParameter("@CATEGORY", CmbCategory.Text),
                 New OleDbParameter("@NAME", CmbName.Text),
                 New OleDbParameter("@MODELNO", TxtModelNo.Text),
                 New OleDbParameter("@LOCATION", CmbLocation.Text),
                 New OleDbParameter("@DETAILS", TxtDetails.Text),
-                New OleDbParameter("@COSTPRICE", TxtLowestPrice.Text),
+                New OleDbParameter("@COSTPRICE", TxtCostPrice.Text),
                 New OleDbParameter("@LOWESTPRICE", TxtLowestPrice.Text),
                 New OleDbParameter("@SALEPRICE", TxtSalePrice.Text),
                 New OleDbParameter("@AVAILABLEUNITS", TxtAvailableUnits.Text),
                 New OleDbParameter("@DAMAGEDUNITS", TxtDamagedUnits.Text),
-                New OleDbParameter("@REORDERPOINT", TxtReorderPoint.Text)
+                New OleDbParameter("@REORDERPOINT", TxtReorderPoint.Text),
+                New OleDbParameter("@CODE", TxtSNo.Text)
             })
             Case User.Type.Cashier
                 Db.Execute($"UPDATE {Tables.Stock} SET 
@@ -144,7 +146,7 @@ Public Class ControlStockInfo
                 {Stock.AvailableUnits},
                 {Stock.DamagedUnits},
                 {Stock.ReorderPoint}
-            ) VALUES(@CODE,@CATEGORY,@NAME,@MODELNO,@LOCATION,@DETAILS,@SALEPRICE,@LOWESTPRICE,@COSTPRICE,@REORDERPOINT);", {
+            ) VALUES(@CODE,@CATEGORY,@NAME,@MODELNO,@LOCATION,@DETAILS,@SALEPRICE,@LOWESTPRICE,@COSTPRICE,@AVAILABLEUNITS,@DAMAGEDUNITS,@REORDERPOINT);", {
                         New OleDbParameter("@CODE", TxtSNo.Text),
                         New OleDbParameter("@CATEGORY", CmbCategory.Text),
                         New OleDbParameter("@NAME", CmbName.Text),

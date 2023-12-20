@@ -22,9 +22,13 @@ Partial Class frmSupply
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmSupply))
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmSupply))
+        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.Label5 = New System.Windows.Forms.Label()
         Me.txtSupDate = New System.Windows.Forms.DateTimePicker()
@@ -36,18 +40,6 @@ Partial Class frmSupply
         Me.cmbSuName = New System.Windows.Forms.ComboBox()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.grdSupply = New System.Windows.Forms.DataGridView()
-        Me.SNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.SCategory = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.SName = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.SModelNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.SLocation = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.SSalePrice = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.SMinStocks = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.SupType = New System.Windows.Forms.DataGridViewComboBoxColumn()
-        Me.CostPrice = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.SupQty = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.SupTotal = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.SDetails = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.cmdNew = New System.Windows.Forms.Button()
         Me.cmdSave = New System.Windows.Forms.Button()
         Me.cmdDelete = New System.Windows.Forms.Button()
@@ -70,6 +62,19 @@ Partial Class frmSupply
         Me.txtSupPaidDate = New System.Windows.Forms.DateTimePicker()
         Me.lblSupPaidDate = New System.Windows.Forms.Label()
         Me.Label8 = New System.Windows.Forms.Label()
+        Me.SNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.SCategory = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.SName = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.SModelNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.SLocation = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.SSalePrice = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.SLowestPrice = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.SMinStocks = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.SupType = New System.Windows.Forms.DataGridViewComboBoxColumn()
+        Me.CostPrice = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.SupQty = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.SupTotal = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.SDetails = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         CType(Me.grdSupply, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -99,7 +104,7 @@ Partial Class frmSupply
         Me.Label5.Font = New System.Drawing.Font("Calibri", 10.0!)
         Me.Label5.Location = New System.Drawing.Point(80, 25)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(34, 17)
+        Me.Label5.Size = New System.Drawing.Size(42, 21)
         Me.Label5.TabIndex = 2
         Me.Label5.Text = "SUP-"
         '
@@ -108,7 +113,7 @@ Partial Class frmSupply
         Me.txtSupDate.Font = New System.Drawing.Font("Calibri", 10.0!)
         Me.txtSupDate.Location = New System.Drawing.Point(103, 53)
         Me.txtSupDate.Name = "txtSupDate"
-        Me.txtSupDate.Size = New System.Drawing.Size(216, 24)
+        Me.txtSupDate.Size = New System.Drawing.Size(216, 28)
         Me.txtSupDate.TabIndex = 1
         '
         'txtSupNo
@@ -117,7 +122,7 @@ Partial Class frmSupply
         Me.txtSupNo.Font = New System.Drawing.Font("Calibri", 10.0!)
         Me.txtSupNo.Location = New System.Drawing.Point(120, 22)
         Me.txtSupNo.Name = "txtSupNo"
-        Me.txtSupNo.Size = New System.Drawing.Size(62, 24)
+        Me.txtSupNo.Size = New System.Drawing.Size(62, 28)
         Me.txtSupNo.TabIndex = 0
         '
         'Label2
@@ -126,7 +131,7 @@ Partial Class frmSupply
         Me.Label2.Font = New System.Drawing.Font("Calibri", 10.0!)
         Me.Label2.Location = New System.Drawing.Point(7, 54)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(90, 17)
+        Me.Label2.Size = New System.Drawing.Size(111, 21)
         Me.Label2.TabIndex = 1
         Me.Label2.Text = "Supplied Date:"
         '
@@ -136,7 +141,7 @@ Partial Class frmSupply
         Me.Label1.Font = New System.Drawing.Font("Calibri", 10.0!)
         Me.Label1.Location = New System.Drawing.Point(7, 25)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(67, 17)
+        Me.Label1.Size = New System.Drawing.Size(86, 21)
         Me.Label1.TabIndex = 0
         Me.Label1.Text = "Supply No:"
         '
@@ -170,7 +175,7 @@ Partial Class frmSupply
         Me.cmbSuName.FormattingEnabled = True
         Me.cmbSuName.Location = New System.Drawing.Point(6, 42)
         Me.cmbSuName.Name = "cmbSuName"
-        Me.cmbSuName.Size = New System.Drawing.Size(255, 23)
+        Me.cmbSuName.Size = New System.Drawing.Size(255, 29)
         Me.cmbSuName.TabIndex = 3
         '
         'Label4
@@ -179,7 +184,7 @@ Partial Class frmSupply
         Me.Label4.Font = New System.Drawing.Font("Calibri", 10.0!)
         Me.Label4.Location = New System.Drawing.Point(6, 22)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(46, 17)
+        Me.Label4.Size = New System.Drawing.Size(56, 21)
         Me.Label4.TabIndex = 0
         Me.Label4.Text = "Name:"
         '
@@ -187,105 +192,12 @@ Partial Class frmSupply
         '
         Me.grdSupply.AllowUserToOrderColumns = True
         Me.grdSupply.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.grdSupply.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.SNo, Me.SCategory, Me.SName, Me.SModelNo, Me.SLocation, Me.SSalePrice, Me.SMinStocks, Me.SupType, Me.CostPrice, Me.SupQty, Me.SupTotal, Me.SDetails})
+        Me.grdSupply.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.SNo, Me.SCategory, Me.SName, Me.SModelNo, Me.SLocation, Me.SSalePrice, Me.SLowestPrice, Me.SMinStocks, Me.SupType, Me.CostPrice, Me.SupQty, Me.SupTotal, Me.SDetails})
         Me.grdSupply.Location = New System.Drawing.Point(12, 116)
         Me.grdSupply.Name = "grdSupply"
         Me.grdSupply.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders
         Me.grdSupply.Size = New System.Drawing.Size(1249, 407)
         Me.grdSupply.TabIndex = 21
-        '
-        'SNo
-        '
-        Me.SNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        Me.SNo.HeaderText = "Stock Code"
-        Me.SNo.Name = "SNo"
-        Me.SNo.Width = 83
-        '
-        'SCategory
-        '
-        Me.SCategory.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        Me.SCategory.HeaderText = "Stock Category"
-        Me.SCategory.Name = "SCategory"
-        Me.SCategory.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
-        '
-        'SName
-        '
-        Me.SName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        Me.SName.HeaderText = "Stock Name"
-        Me.SName.Name = "SName"
-        Me.SName.Width = 87
-        '
-        'SModelNo
-        '
-        Me.SModelNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        Me.SModelNo.HeaderText = "Model No"
-        Me.SModelNo.Name = "SModelNo"
-        Me.SModelNo.Width = 78
-        '
-        'SLocation
-        '
-        Me.SLocation.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        Me.SLocation.HeaderText = "Location"
-        Me.SLocation.Name = "SLocation"
-        Me.SLocation.Width = 77
-        '
-        'SSalePrice
-        '
-        Me.SSalePrice.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        Me.SSalePrice.HeaderText = "Sale Price"
-        Me.SSalePrice.Name = "SSalePrice"
-        Me.SSalePrice.Width = 78
-        '
-        'SMinStocks
-        '
-        Me.SMinStocks.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        Me.SMinStocks.HeaderText = "Reorder Units"
-        Me.SMinStocks.Name = "SMinStocks"
-        Me.SMinStocks.Width = 98
-        '
-        'SupType
-        '
-        Me.SupType.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        Me.SupType.HeaderText = "Type"
-        Me.SupType.Items.AddRange(New Object() {"Supply", "Return"})
-        Me.SupType.Name = "SupType"
-        Me.SupType.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.SupType.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic
-        Me.SupType.Width = 56
-        '
-        'CostPrice
-        '
-        Me.CostPrice.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        DataGridViewCellStyle1.Format = "N2"
-        DataGridViewCellStyle1.NullValue = "0"
-        Me.CostPrice.DefaultCellStyle = DataGridViewCellStyle1
-        Me.CostPrice.HeaderText = "Rate"
-        Me.CostPrice.Name = "CostPrice"
-        Me.CostPrice.Width = 57
-        '
-        'SupQty
-        '
-        Me.SupQty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        Me.SupQty.HeaderText = "Qty"
-        Me.SupQty.Name = "SupQty"
-        Me.SupQty.Width = 49
-        '
-        'SupTotal
-        '
-        Me.SupTotal.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        DataGridViewCellStyle2.Format = "N2"
-        DataGridViewCellStyle2.NullValue = "0"
-        Me.SupTotal.DefaultCellStyle = DataGridViewCellStyle2
-        Me.SupTotal.HeaderText = "Total"
-        Me.SupTotal.Name = "SupTotal"
-        Me.SupTotal.ReadOnly = True
-        Me.SupTotal.Width = 59
-        '
-        'SDetails
-        '
-        Me.SDetails.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.SDetails.HeaderText = "Details"
-        Me.SDetails.Name = "SDetails"
         '
         'cmdNew
         '
@@ -353,7 +265,7 @@ Partial Class frmSupply
         Me.Label3.Font = New System.Drawing.Font("Calibri", 10.0!)
         Me.Label3.Location = New System.Drawing.Point(961, 24)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(61, 17)
+        Me.Label3.Size = New System.Drawing.Size(75, 21)
         Me.Label3.TabIndex = 36
         Me.Label3.Text = "Remarks:"
         '
@@ -369,10 +281,11 @@ Partial Class frmSupply
         '
         'MenuStrip
         '
+        Me.MenuStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.MenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OPTIONToolStripMenuItem, Me.VIEWToolStripMenuItem})
         Me.MenuStrip.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip.Name = "MenuStrip"
-        Me.MenuStrip.Size = New System.Drawing.Size(1364, 24)
+        Me.MenuStrip.Size = New System.Drawing.Size(1364, 28)
         Me.MenuStrip.TabIndex = 38
         Me.MenuStrip.Text = "MenuStrip"
         '
@@ -380,49 +293,49 @@ Partial Class frmSupply
         '
         Me.OPTIONToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem1, Me.SaveToolStripMenuItem, Me.DeleteToolStripMenuItem1, Me.GetDataToolStripMenuItem, Me.CloseToolStripMenuItem})
         Me.OPTIONToolStripMenuItem.Name = "OPTIONToolStripMenuItem"
-        Me.OPTIONToolStripMenuItem.Size = New System.Drawing.Size(62, 20)
+        Me.OPTIONToolStripMenuItem.Size = New System.Drawing.Size(76, 24)
         Me.OPTIONToolStripMenuItem.Text = "OPTION"
         '
         'NewToolStripMenuItem1
         '
         Me.NewToolStripMenuItem1.Name = "NewToolStripMenuItem1"
         Me.NewToolStripMenuItem1.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.N), System.Windows.Forms.Keys)
-        Me.NewToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
+        Me.NewToolStripMenuItem1.Size = New System.Drawing.Size(203, 26)
         Me.NewToolStripMenuItem1.Text = "New"
         '
         'SaveToolStripMenuItem
         '
         Me.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem"
         Me.SaveToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
-        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(203, 26)
         Me.SaveToolStripMenuItem.Text = "Save"
         '
         'DeleteToolStripMenuItem1
         '
         Me.DeleteToolStripMenuItem1.Name = "DeleteToolStripMenuItem1"
         Me.DeleteToolStripMenuItem1.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.D), System.Windows.Forms.Keys)
-        Me.DeleteToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
+        Me.DeleteToolStripMenuItem1.Size = New System.Drawing.Size(203, 26)
         Me.DeleteToolStripMenuItem1.Text = "Delete"
         '
         'GetDataToolStripMenuItem
         '
         Me.GetDataToolStripMenuItem.Name = "GetDataToolStripMenuItem"
         Me.GetDataToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.G), System.Windows.Forms.Keys)
-        Me.GetDataToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.GetDataToolStripMenuItem.Size = New System.Drawing.Size(203, 26)
         Me.GetDataToolStripMenuItem.Text = "Get Data"
         '
         'CloseToolStripMenuItem
         '
         Me.CloseToolStripMenuItem.Name = "CloseToolStripMenuItem"
         Me.CloseToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.F4), System.Windows.Forms.Keys)
-        Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(203, 26)
         Me.CloseToolStripMenuItem.Text = "Close"
         '
         'VIEWToolStripMenuItem
         '
         Me.VIEWToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SupplierInfoToolStripMenuItem, Me.StockInfoToolStripMenuItem})
         Me.VIEWToolStripMenuItem.Name = "VIEWToolStripMenuItem"
-        Me.VIEWToolStripMenuItem.Size = New System.Drawing.Size(46, 20)
+        Me.VIEWToolStripMenuItem.Size = New System.Drawing.Size(58, 24)
         Me.VIEWToolStripMenuItem.Text = "VIEW"
         '
         'SupplierInfoToolStripMenuItem
@@ -430,7 +343,7 @@ Partial Class frmSupply
         Me.SupplierInfoToolStripMenuItem.Name = "SupplierInfoToolStripMenuItem"
         Me.SupplierInfoToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
             Or System.Windows.Forms.Keys.U), System.Windows.Forms.Keys)
-        Me.SupplierInfoToolStripMenuItem.Size = New System.Drawing.Size(215, 22)
+        Me.SupplierInfoToolStripMenuItem.Size = New System.Drawing.Size(269, 26)
         Me.SupplierInfoToolStripMenuItem.Text = "Supplier Info"
         '
         'StockInfoToolStripMenuItem
@@ -438,7 +351,7 @@ Partial Class frmSupply
         Me.StockInfoToolStripMenuItem.Name = "StockInfoToolStripMenuItem"
         Me.StockInfoToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
             Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
-        Me.StockInfoToolStripMenuItem.Size = New System.Drawing.Size(215, 22)
+        Me.StockInfoToolStripMenuItem.Size = New System.Drawing.Size(269, 26)
         Me.StockInfoToolStripMenuItem.Text = "Stock Info"
         '
         'GroupBox3
@@ -465,7 +378,7 @@ Partial Class frmSupply
         Me.cmbSupStatus.Items.AddRange(New Object() {"Not Paid", "Paid"})
         Me.cmbSupStatus.Location = New System.Drawing.Point(60, 25)
         Me.cmbSupStatus.Name = "cmbSupStatus"
-        Me.cmbSupStatus.Size = New System.Drawing.Size(115, 23)
+        Me.cmbSupStatus.Size = New System.Drawing.Size(115, 29)
         Me.cmbSupStatus.TabIndex = 4
         '
         'txtSupPaidDate
@@ -473,7 +386,7 @@ Partial Class frmSupply
         Me.txtSupPaidDate.Font = New System.Drawing.Font("Calibri", 10.0!)
         Me.txtSupPaidDate.Location = New System.Drawing.Point(80, 53)
         Me.txtSupPaidDate.Name = "txtSupPaidDate"
-        Me.txtSupPaidDate.Size = New System.Drawing.Size(216, 24)
+        Me.txtSupPaidDate.Size = New System.Drawing.Size(216, 28)
         Me.txtSupPaidDate.TabIndex = 1
         '
         'lblSupPaidDate
@@ -482,7 +395,7 @@ Partial Class frmSupply
         Me.lblSupPaidDate.Font = New System.Drawing.Font("Calibri", 10.0!)
         Me.lblSupPaidDate.Location = New System.Drawing.Point(7, 56)
         Me.lblSupPaidDate.Name = "lblSupPaidDate"
-        Me.lblSupPaidDate.Size = New System.Drawing.Size(67, 17)
+        Me.lblSupPaidDate.Size = New System.Drawing.Size(81, 21)
         Me.lblSupPaidDate.TabIndex = 1
         Me.lblSupPaidDate.Text = "Paid Date:"
         '
@@ -492,13 +405,139 @@ Partial Class frmSupply
         Me.Label8.Font = New System.Drawing.Font("Calibri", 10.0!)
         Me.Label8.Location = New System.Drawing.Point(7, 28)
         Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(47, 17)
+        Me.Label8.Size = New System.Drawing.Size(59, 21)
         Me.Label8.TabIndex = 0
         Me.Label8.Text = "Status:"
         '
+        'SNo
+        '
+        Me.SNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
+        DataGridViewCellStyle1.Format = "N0"
+        DataGridViewCellStyle1.NullValue = "0"
+        Me.SNo.DefaultCellStyle = DataGridViewCellStyle1
+        Me.SNo.HeaderText = "Stock Code"
+        Me.SNo.MinimumWidth = 6
+        Me.SNo.Name = "SNo"
+        Me.SNo.Width = 105
+        '
+        'SCategory
+        '
+        Me.SCategory.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
+        Me.SCategory.HeaderText = "Stock Category"
+        Me.SCategory.MinimumWidth = 6
+        Me.SCategory.Name = "SCategory"
+        Me.SCategory.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.SCategory.Width = 128
+        '
+        'SName
+        '
+        Me.SName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
+        Me.SName.HeaderText = "Stock Name"
+        Me.SName.MinimumWidth = 6
+        Me.SName.Name = "SName"
+        Me.SName.Width = 110
+        '
+        'SModelNo
+        '
+        Me.SModelNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
+        Me.SModelNo.HeaderText = "Model No"
+        Me.SModelNo.MinimumWidth = 6
+        Me.SModelNo.Name = "SModelNo"
+        Me.SModelNo.Width = 98
+        '
+        'SLocation
+        '
+        Me.SLocation.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
+        Me.SLocation.HeaderText = "Location"
+        Me.SLocation.MinimumWidth = 6
+        Me.SLocation.Name = "SLocation"
+        Me.SLocation.Width = 88
+        '
+        'SSalePrice
+        '
+        Me.SSalePrice.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
+        DataGridViewCellStyle2.Format = "N2"
+        DataGridViewCellStyle2.NullValue = "0"
+        Me.SSalePrice.DefaultCellStyle = DataGridViewCellStyle2
+        Me.SSalePrice.HeaderText = "Sale Price"
+        Me.SSalePrice.MinimumWidth = 6
+        Me.SSalePrice.Name = "SSalePrice"
+        Me.SSalePrice.Width = 97
+        '
+        'SLowestPrice
+        '
+        Me.SLowestPrice.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
+        DataGridViewCellStyle3.Format = "N2"
+        DataGridViewCellStyle3.NullValue = "0"
+        Me.SLowestPrice.DefaultCellStyle = DataGridViewCellStyle3
+        Me.SLowestPrice.HeaderText = "Lowest Price"
+        Me.SLowestPrice.MinimumWidth = 6
+        Me.SLowestPrice.Name = "SLowestPrice"
+        Me.SLowestPrice.Width = 115
+        '
+        'SMinStocks
+        '
+        Me.SMinStocks.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
+        Me.SMinStocks.HeaderText = "Reorder Units"
+        Me.SMinStocks.MinimumWidth = 6
+        Me.SMinStocks.Name = "SMinStocks"
+        Me.SMinStocks.Width = 122
+        '
+        'SupType
+        '
+        Me.SupType.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
+        Me.SupType.HeaderText = "Type"
+        Me.SupType.Items.AddRange(New Object() {"Supply", "Return"})
+        Me.SupType.MinimumWidth = 6
+        Me.SupType.Name = "SupType"
+        Me.SupType.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.SupType.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic
+        Me.SupType.Width = 66
+        '
+        'CostPrice
+        '
+        Me.CostPrice.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
+        DataGridViewCellStyle4.Format = "N2"
+        DataGridViewCellStyle4.NullValue = "0"
+        Me.CostPrice.DefaultCellStyle = DataGridViewCellStyle4
+        Me.CostPrice.HeaderText = "Rate"
+        Me.CostPrice.MinimumWidth = 6
+        Me.CostPrice.Name = "CostPrice"
+        Me.CostPrice.Width = 65
+        '
+        'SupQty
+        '
+        Me.SupQty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
+        DataGridViewCellStyle5.Format = "N0"
+        DataGridViewCellStyle5.NullValue = "0"
+        Me.SupQty.DefaultCellStyle = DataGridViewCellStyle5
+        Me.SupQty.HeaderText = "Qty"
+        Me.SupQty.MinimumWidth = 6
+        Me.SupQty.Name = "SupQty"
+        Me.SupQty.Width = 59
+        '
+        'SupTotal
+        '
+        Me.SupTotal.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
+        DataGridViewCellStyle6.Format = "N2"
+        DataGridViewCellStyle6.NullValue = "0"
+        Me.SupTotal.DefaultCellStyle = DataGridViewCellStyle6
+        Me.SupTotal.HeaderText = "Total"
+        Me.SupTotal.MinimumWidth = 6
+        Me.SupTotal.Name = "SupTotal"
+        Me.SupTotal.ReadOnly = True
+        Me.SupTotal.Width = 67
+        '
+        'SDetails
+        '
+        Me.SDetails.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.SDetails.HeaderText = "Details"
+        Me.SDetails.MinimumWidth = 6
+        Me.SDetails.Name = "SDetails"
+        '
         'frmSupply
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 14.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 18.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1364, 749)
         Me.Controls.Add(Me.GroupBox3)
@@ -571,6 +610,7 @@ Partial Class frmSupply
     Friend WithEvents SModelNo As DataGridViewTextBoxColumn
     Friend WithEvents SLocation As DataGridViewTextBoxColumn
     Friend WithEvents SSalePrice As DataGridViewTextBoxColumn
+    Friend WithEvents SLowestPrice As DataGridViewTextBoxColumn
     Friend WithEvents SMinStocks As DataGridViewTextBoxColumn
     Friend WithEvents SupType As DataGridViewComboBoxColumn
     Friend WithEvents CostPrice As DataGridViewTextBoxColumn

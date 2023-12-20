@@ -1,5 +1,4 @@
 ﻿Imports System.Data.OleDb
-Imports System.Threading
 
 Public Class FormDeliver
     Private Db As New Database

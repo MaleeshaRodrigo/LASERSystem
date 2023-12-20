@@ -1,7 +1,6 @@
 ﻿Imports ZXing
 Imports System.Data.OleDb
-Imports System.Drawing
-Imports System.IO
+Imports LASER_System.StructureDatabase
 
 Public Class frmSupply
     Private Db As New Database
@@ -42,49 +41,57 @@ Public Class frmSupply
             grdSupply.Focus()
             Exit Sub
         End If
-        If txtSupNo.Text = "" Then
-            SetNextKey(Db, txtSupNo, "SELECT top 1 SupNo from Supply ORDER BY SupNo Desc;", "SupNo")
-        End If
-        Dim DR As OleDbDataReader = Db.GetDataReader("Select SupNo from Supply where SupNo =" & txtSupNo.Text)
-        If DR.HasRows = True Then
-            SetNextKey(Db, txtSupNo, "SELECT top 1 SupNo from Supply ORDER BY SupNo Desc;", "SupNo")
-        End If
-        Dim SuNo As Integer
-        DR = Db.GetDataReader("Select SuName, SuNo from Supplier where SuName='" & cmbSuName.Text & "';")
-        If DR.HasRows = True Then
-            DR.Read()
-            SuNo = DR("SuNo").ToString
-        Else
+        SetNextKey(Db, txtSupNo, "SELECT top 1 SupNo from Supply ORDER BY SupNo Desc;", "SupNo")
+        Dim SuNo As Integer = Db.GetData("Select SuNo from Supplier where SuName=@SUNAME;", {
+                                New OleDbParameter("SUNAME", cmbSuName.Text)
+        })
+        If SuNo = 0 Then
             MsgBox("ඔබ ඇතුලත් කල Supplier Name එක Database තුල සොයා ගැනීමට නොහැකිය. කරුණාකර නැවත පරිකෂා කරන්න." + vbCrLf + "ඔබට මෙම ගැටලුව විසදීමට නොහැකි නම්, අපගෙ Programe Developer ව අමතන්න.")
+            Exit Sub
         End If
         Select Case cmdSave.Text
             Case "Save"
-                For Each row As DataGridViewRow In grdSupply.Rows
-                    If grdSupply.Rows.Count - 1 = row.Index Then Continue For
-                    If row.Cells(0).Value = Nothing Then
-                        row.Cells(0).Value = SetStockCode()
+                For Each Row As DataGridViewRow In grdSupply.Rows
+                    If grdSupply.Rows.Count - 1 = Row.Index Then Continue For
+                    If Row.Cells(0).Value = Nothing Then
+                        Row.Cells(0).Value = SetStockCode()
                     End If
-                    If row.Cells(1).Value Is Nothing Or row.Cells(2).Value Is Nothing Then
-                        MsgBox("ඔබ Stock Code: " + row.Cells(0).Value + " යන Stock එකෙහි Stock Category හෝ Stock Name යන අයිතම දෙකම හෝ ඉන් එකක් හෝ හිස්ව පවතියි. කරුණාකර එ සඳහා සුදුසු නමක් ඇතුලත් කරන්න.", vbExclamation + vbOKOnly)
+                    If Row.Cells(1).Value Is Nothing Or Row.Cells(2).Value Is Nothing Then
+                        MsgBox("ඔබ Stock Code: " + Row.Cells(0).Value + " යන Stock එකෙහි Stock Category හෝ Stock Name යන අයිතම දෙකම හෝ ඉන් එකක් හෝ හිස්ව පවතියි. කරුණාකර එ සඳහා සුදුසු නමක් ඇතුලත් කරන්න.", vbExclamation + vbOKOnly)
                         Exit Sub
                     End If
-                    DR = Db.GetDataReader("Select * from Stock Where SNo =" & row.Cells(0).Value)
-                    Dim CMD1 As New OleDb.OleDbCommand
-                    If DR.HasRows = False Then
-                        Db.Execute("Insert into Stock(SNo,SCategory,SName,SModelNo,SLocation,SDetails,SSalePrice,SCostPrice,SAvailableStocks,SOutofStocks,SMinStocks) Values(" & row.Cells(0).Value & ",'" & row.Cells(1).Value & "','" & row.Cells(2).Value & "','" & row.Cells(3).Value & "','" & row.Cells(4).Value &
-                                  "','" & row.Cells(11).Value & "'," & row.Cells(5).Value & "," & row.Cells(8).Value & ",0,0," & row.Cells(6).Value & ");")
+                    If Db.CheckDataIsExist("Stock", "SNo", Row.Cells(0).Value) = False Then
+                        Db.Execute($"INSERT INTO {Tables.Stock}({Stock.Code}, {Stock.Category}, {Stock.Name}, {Stock.ModelNo}, {Stock.Location}, {Stock.Details}, {Stock.CostPrice}, {Stock.LowestPrice}, {Stock.SalePrice}, {Stock.AvailableUnits}, {Stock.DamagedUnits}, {Stock.ReorderPoint}) Values(@SNO, @SCATEGORY, @SNAME, @SMODELNO, @SLOCATION, @SDETAILS, @SCOSTPRICE, @SLOWESTPRICE, @SALEPRICE, @SAVAILABLESTOCKS, @SOUTOFSTOCKS, @SMINSTOCKS)", {
+                              New OleDbParameter("@SNO", Row.Cells(Stock.Code).Value),
+                              New OleDbParameter("@SCATEGORY", Row.Cells(Stock.Category).Value),
+                              New OleDbParameter("@SNAME", Row.Cells(Stock.Name).Value),
+                              New OleDbParameter("@SMODELNO", Row.Cells(Stock.ModelNo).Value),
+                              New OleDbParameter("@SLOCATION", Row.Cells(Stock.Location).Value),
+                              New OleDbParameter("@SDETAILS", Row.Cells(Stock.Details).Value),
+                              New OleDbParameter("@SCOSTPRICE", Row.Cells(Stock.CostPrice).Value),
+                              New OleDbParameter("@SLOWESTPRICE", Row.Cells(Stock.LowestPrice).Value),
+                              New OleDbParameter("@SALEPRICE", Row.Cells(Stock.SalePrice).Value),
+                              New OleDbParameter("@SAVAILABLESTOCKS", Row.Cells(Stock.AvailableUnits).Value),
+                              New OleDbParameter("@SOUTOFSTOCKS", Row.Cells(Stock.DamagedUnits).Value),
+                              New OleDbParameter("@SMINSTOCKS", Row.Cells(Stock.ReorderPoint).Value)
+                        })
                     Else
-                        Db.Execute("Update Stock Set SCostPrice =" & row.Cells(8).Value &
-                                                           ",SSalePrice= " & row.Cells(5).Value & ", SMinSTocks = " & row.Cells(6).Value &
-                                                           ",SLocation = '" & row.Cells(4).Value & "', SModelNo = '" & row.Cells(3).Value &
-                                                           "',SDetails='" & row.Cells(11).Value & "' Where SNo = " & row.Cells(0).Value)
+                        Db.Execute($"UPDATE {Tables.Stock} SET {Stock.CostPrice}=@COSTPRICE,{Stock.SalePrice}=@SALEPRICE, {Stock.ReorderPoint}=@REORDERPOINT,{Stock.Location}=@LOCATION, {Stock.ModelNo}=@MODELNO,{Stock.Details}=@DETAILS WHERE {Stock.Code}=@CODE", {
+                            New OleDbParameter("COSTPRICE", Row.Cells(Stock.CostPrice).Value),
+                            New OleDbParameter("SALEPRICE", Row.Cells(Stock.SalePrice).Value),
+                            New OleDbParameter("REORDERPOINT", Row.Cells(Stock.ReorderPoint).Value),
+                            New OleDbParameter("LOCATION", Row.Cells(Stock.Location).Value),
+                            New OleDbParameter("MODELNO", Row.Cells(Stock.ModelNo).Value),
+                            New OleDbParameter("DETAILS", Row.Cells(Stock.Details).Value),
+                            New OleDbParameter("CODE", Row.Cells(Stock.Code).Value)
+                        })
                     End If
                 Next
                 If cmbSupStatus.Text = "Paid" Then
                     Db.Execute("Insert into Supply(SupNo, SupDate, SuNo, SupRemarks, SupStatus, SupPaidDate,UNo) Values(" & txtSupNo.Text & ",#" & txtSupDate.Value & "#," & SuNo & ",'" & txtSupRemarks.Text & "','" & cmbSupStatus.Text & "',#" &
-                              txtSupPaidDate.Value & "#," & MdifrmMain.Tag & ");")
+                              txtSupPaidDate.Value & "#," & User.Instance.UserNo & ");")
                 Else
-                    Db.Execute("Insert into Supply(SupNo,SupDate,SuNo,SupRemarks,SupStatus,UName) Values(" & txtSupNo.Text & ",#" & txtSupDate.Value & "#," & SuNo & ",'" & txtSupRemarks.Text & "','" & cmbSupStatus.Text & "','" & MdifrmMain.Tag & "');")
+                    Db.Execute("Insert into Supply(SupNo,SupDate,SuNo,SupRemarks,SupStatus,UName) Values(" & txtSupNo.Text & ",#" & txtSupDate.Value & "#," & SuNo & ",'" & txtSupRemarks.Text & "','" & cmbSupStatus.Text & "','" & User.Instance.UserNo & "');")
                 End If
                 For Each row As DataGridViewRow In grdSupply.Rows
                     If grdSupply.Rows.Count - 1 = row.Index Then Continue For
@@ -243,23 +250,16 @@ Public Class frmSupply
     End Sub
 
     Private Function SetStockCode() As Integer
-        Dim max As Integer
-        Dim DR As OleDbDataReader = Db.GetDataReader("Select top 1 SNo from Stock order by sno desc;")
-        If DR.HasRows = True Then
-            DR.Read()
-            max = Int(DR("SNo").ToString) + 1
-        Else
-            max = 1
-        End If
-        For Each row As DataGridViewRow In grdSupply.Rows
-            If grdSupply.CurrentCell.RowIndex = row.Index Or row.Index = grdSupply.Rows.Count - 1 Then Continue For
-            DR = Db.GetDataReader("Select Sno from Stock Where SNo=" & row.Cells(0).Value)
-            If DR.HasRows = False Then
-                row.Cells(0).Value = max
-                max += 1
+        Dim StockId As Integer = Db.GetNextKey("Stock", "SNo")
+        For Each Row As DataGridViewRow In grdSupply.Rows
+            If grdSupply.CurrentCell.RowIndex = Row.Index Or Row.Index = grdSupply.Rows.Count - 1 Then Continue For
+
+            If Db.CheckDataIsExist("Stock", "SNo", Row.Cells(0).Value) = False Then
+                Row.Cells(0).Value = StockId
+                StockId += 1
             End If
         Next
-        Return max
+        Return StockId
     End Function
 
     Private Sub SupplierInfoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SupplierInfoToolStripMenuItem.Click

@@ -64,6 +64,7 @@ Public Class frmLogin
                 Db.DirectExecute("Update [User] set LastLogin=#" & DateAndTime.Now & "# Where UNo = " & DR("UNo").ToString)
 
                 'Set the User object
+                User.Instance.UserNo = Int(DR("UNo"))
                 User.Instance.UserName = DR("UserName").ToString
                 User.Instance.UserType = DR("Type").ToString
                 User.Instance.Email = DR("Email").ToString

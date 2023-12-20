@@ -297,7 +297,7 @@ Public Class frmSettlement
         Dim DA4 As OleDbDataAdapter = Db.GetDataAdapter("SELECT * from Settlement Where SetDate=#" & Format(txtFrom.Value, "yyyy-MM-dd") & "#;")
         Dim unused6 = DA4.Fill(DS4, "Settlement")
         RPT.SetDataSource(DS4)
-        RPT.SetParameterValue("Cashier Name", MdifrmMain.Tag)
+        RPT.SetParameterValue("Cashier Name", User.Instance.UserNo)
         RPT.SetParameterValue("SetDate", txtFrom.Value.Date)
         RPT.SetParameterValue("SaTotal", txtTotalofSales.Text)
         RPT.SetParameterValue("RepTotal", txtTotalofRepairs.Text)

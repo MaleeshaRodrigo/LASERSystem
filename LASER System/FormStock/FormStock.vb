@@ -87,22 +87,22 @@ Public Class FormStock
     End Sub
 
     Private Sub ViewStockTransactionDetailsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ViewStockTransactionDetailsToolStripMenuItem.Click
-        If grdStock.CurrentCell.ColumnIndex > 0 And grdStock.CurrentCell.RowIndex > 0 Then
-            Dim txtsno As New TextBox
-            txtsno.Text = grdStock.Item(0, grdStock.CurrentRow.Index).Value
-            If CheckExistData(txtsno, "Select SNo from Stock where SNo = " & txtsno.Text, "ඔබ Stock එකක් තෝරා ගෙන නොමැත. කරුණාකර Stock එකක් තෝරා ගන්න.", False) = False Then
-                frmStockTransaction.Show()
-                Exit Sub
-            End If
-            With frmStockTransaction
-                .txtSNo.Text = txtsno.Text
-                .txtSNo_TextChanged(sender, e)
-                .cmdDone_Click(sender, e)
-                .Show()
-            End With
-        Else
+        If Not (grdStock.CurrentCell.ColumnIndex > 0 And grdStock.CurrentCell.RowIndex > 0) Then
             frmStockTransaction.Show()
+            Exit Sub
         End If
+        Dim SNo As Integer = grdStock.Item(0, grdStock.CurrentRow.Index).Value
+        If Not DB.CheckDataIsExist(Tables.Stock, Stock.Code, SNo) Then
+            MsgBox("ඔබ Stock එකක් තෝරා ගෙන නොමැත. කරුණාකර Stock එකක් තෝරා ගන්න.", vbCritical)
+            frmStockTransaction.Show()
+            Exit Sub
+        End If
+        With frmStockTransaction
+            .txtSNo.Text = SNo
+            .txtSNo_TextChanged(sender, e)
+            .cmdDone_Click(sender, e)
+            .Show()
+        End With
     End Sub
     Private Sub bgwStock_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs)
         grdStock.ScrollBars = ScrollBars.Both

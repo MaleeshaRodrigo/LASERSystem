@@ -1195,7 +1195,7 @@ end_for_loop:
         Dim currentvalue As String = "", previousvalue As String = ""
         If grdSearch.Item(e.ColumnIndex, e.RowIndex).Value IsNot Nothing Then currentvalue = grdSearch.Item(e.ColumnIndex, e.RowIndex).Value
         If grdSearch.Item(e.ColumnIndex, e.RowIndex).Tag IsNot Nothing Then previousvalue = grdSearch.Item(e.ColumnIndex, e.RowIndex).Tag
-        Dim UNo As Integer = MdifrmMain.Tag
+        Dim UNo As Integer = User.Instance.UserNo
         If Me.Tag = "Repair" Then
             If e.ColumnIndex = 11 Then frmSearchDropDown.frm_Close()
             If e.ColumnIndex = 13 Or e.ColumnIndex = 16 Then frmDatagridviewTool.frm_Close()

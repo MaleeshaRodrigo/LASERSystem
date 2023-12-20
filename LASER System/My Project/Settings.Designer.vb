@@ -293,7 +293,7 @@ Namespace My
         
         <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("|DataDirector|\System Files\Activity\Activity.json")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute(".\System Files\Activity\Activity.json")>  _
         Public ReadOnly Property ActivityFilePath() As String
             Get
                 Return CType(Me("ActivityFilePath"),String)

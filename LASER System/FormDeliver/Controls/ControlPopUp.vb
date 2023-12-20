@@ -86,36 +86,17 @@ Public Class ControlPopUp
 
     Private Function SaveDeliverRecord() As Boolean
         If txtGrandTotal.Text <> Val(txtCAmount.Text) + Val(txtCPAmount.Text) + Val(txtCuLAmount.Text) Then
-            MsgBox("Grand Total Field එක Cash Amount, Card Payment Amount සහ Customer Loan Amount එකට සමාන නැත. කරුණාකර එය නැවත පරිකෂා කරන්න.", vbExclamation + vbOKOnly)
+            MsgBox("Grand Total Field එක Cash Amount, Card Payment Amount සහ Customer Loan Amount එකේ එකතුවට සමාන නැත. කරුණාකර එය නැවත පරිකෂා කරන්න.", vbExclamation + vbOKOnly)
             Return False
             Exit Function
         End If
         Cursor = Cursors.WaitCursor
         'Send Admin to Verify the delivery data
         Dim AdminPer As AdminPermission = GetAdminPermission()
-        If FormParent.txtDDate.Value.Date = Today.Date Then
-            FormParent.txtDDate.Value = DateAndTime.Now
-        End If
+        PreSetPropertyBeforeSaving()
         If (Val(txtCAmount.Text) > 0 Or Val(txtCPAmount.Text) > 0) And chkCashDrawer.Checked = True Then
             CashDrawer.Open()
         End If
-        SetNextKey(Db, txtCuLNo, "Select Top 1 CulNo from CustomerLoan order by CuLNo Desc;", "CuLNo")
-        If txtCAmount.Text.Trim = "" Or txtCAmount.Text = "0" Then
-            txtCAmount.Text = "0"
-            txtCReceived.Text = "0"
-            txtCBalance.Text = "0"
-        End If
-        If txtCPAmount.Text.Trim = "" Or txtCPAmount.Text = "0" Then
-            txtCPAmount.Text = "0"
-            txtCPInvoiceNo.Text = "0"
-        End If
-        If txtCuLAmount.Text.Trim = "" Or txtCuLAmount.Text = "0" Then
-            txtCuLAmount.Text = "0"
-            txtCuLNo.Text = "0"
-        End If
-        FormParent.grdRepair.EndEdit()
-        FormParent.grdRERepair.EndEdit()
-        FormParent.cmdSave.Focus()
         Dim DR As OleDbDataReader = Db.GetDataReader("Select * from Customer where CuName='" & FormParent.cmbCuName.Text & "' and CuTelNo1='" & FormParent.txtCuTelNo1.Text & "' and CuTelNo2 ='" & FormParent.txtCuTelNo2.Text & "' and CuTelNo3='" & FormParent.txtCuTelNo3.Text & "'")
         'Customer Management
         Dim CuNo As String
@@ -199,6 +180,26 @@ Public Class ControlPopUp
             Next
         End If
     End Function
+
+    Private Sub PreSetPropertyBeforeSaving()
+        If FormParent.txtDDate.Value.Date = Today.Date Then
+            FormParent.txtDDate.Value = DateAndTime.Now
+        End If
+        SetNextKey(Db, txtCuLNo, "Select Top 1 CulNo from CustomerLoan order by CuLNo Desc;", "CuLNo")
+        If txtCAmount.Text.Trim = "" Or txtCAmount.Text = "0" Then
+            txtCAmount.Text = "0"
+            txtCReceived.Text = "0"
+            txtCBalance.Text = "0"
+        End If
+        If txtCPAmount.Text.Trim = "" Or txtCPAmount.Text = "0" Then
+            txtCPAmount.Text = "0"
+            txtCPInvoiceNo.Text = "0"
+        End If
+        If txtCuLAmount.Text.Trim = "" Or txtCuLAmount.Text = "0" Then
+            txtCuLAmount.Text = "0"
+            txtCuLNo.Text = "0"
+        End If
+    End Sub
 
     Private Function GetAdminPermission() As AdminPermission
         Dim AdminPer As New AdminPermission(Db)

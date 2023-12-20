@@ -16,7 +16,7 @@ Public Class frmSale
 
         Call cmdNew_Click(Nothing, Nothing)
         txtSaDate.Value = DateAndTime.Now
-        If MdifrmMain.Tag <> "Admin" Then
+        If User.Instance.UserNo <> "Admin" Then
             GetDataToolStripMenuItem.Enabled = False
             txtSaDate.Enabled = False
         End If
@@ -249,7 +249,7 @@ Public Class frmSale
                 Db.Execute("Insert into Sale(SaNo,SaDate,CuNo,SaSubTotal,SaLess,SaDue,CAmount,CReceived,CBalance,CPInvoiceNo,CPAmount,CuLNo,CuLAmount,SaRemarks,UNo)Values(?NewKey?Sale?SaNo?,'" & txtSaDate.Value & "'," & CuNo & "," & txtSubTotal.Text & "," & txtLess.Text &
                        "," & txtDue.Text & "," & txtCAmount.Text & "," & txtCReceived.Text & "," & txtCBalance.Text & "," &
                        txtCPInvoiceNo.Text & "," & txtCPAmount.Text & "," & txtCuLNo.Text & "," & txtCuLAmount.Text & ",'" &
-                       txtSaRemarks.Text & "'," & MdifrmMain.Tag & ");")
+                       txtSaRemarks.Text & "'," & User.Instance.UserNo & ");")
                 If txtCuLAmount.Text <> "0" Then
                     SetNextKey(Db, txtCuLNo, "Select Top 1 CuLNo from CustomerLoan Order by CuLNo Desc", "CuLNo")
                     Db.Execute("Insert into CustomerLoan(CuLNo,CuLDate,CuNo,CuLAmount,SaNo,Status) Values(" & txtCuLNo.Text & ",#" & txtSaDate.Value &
@@ -679,7 +679,7 @@ Public Class frmSale
     End Sub
 
     Private Sub GetDataToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles GetDataToolStripMenuItem.Click
-        If MdifrmMain.Tag = "Admin" Then
+        If User.Instance.UserNo = "Admin" Then
             Dim frmNewSearch As New frmSearch
             With frmNewSearch
                 .Name = "frmSearch" + NextfrmNo(frmSearch).ToString
