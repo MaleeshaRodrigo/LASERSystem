@@ -260,7 +260,7 @@ Namespace My
         
         <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
         Public ReadOnly Property DeveloperMode() As Boolean
             Get
                 Return CType(Me("DeveloperMode"),Boolean)
@@ -289,15 +289,6 @@ Namespace My
             Set
                 Me("CashDrawer") = value
             End Set
-        End Property
-        
-        <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute(".\System Files\Activity\Activity.json")>  _
-        Public ReadOnly Property ActivityFilePath() As String
-            Get
-                Return CType(Me("ActivityFilePath"),String)
-            End Get
         End Property
     End Class
 End Namespace

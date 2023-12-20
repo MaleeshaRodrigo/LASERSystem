@@ -1,9 +1,9 @@
 ﻿Imports System.IO
-Imports Microsoft.Office.Interop.Access.Dao
 Imports Newtonsoft.Json
 
 Public NotInheritable Class Activity
     Private Shared _Instance As Activity
+    Public Shared ReadOnly FilePath As String = Path.Combine(Application.StartupPath, "System Files\Activity\Activity.json")
 
     Private Sub New()
     End Sub
@@ -21,11 +21,11 @@ Public NotInheritable Class Activity
         Dim DataSet As DataSet
         Dim DataTable As DataTable
         Dim LastIndex As Integer = 0
-        If Not File.Exists(My.Settings.ActivityFilePath) Then
-            Throw New FileNotFoundException($"{My.Settings.ActivityFilePath} cannot be found.")
+        If Not File.Exists(FilePath) Then
+            Throw New FileNotFoundException($"{FilePath} cannot be found.")
             Exit Sub
         End If
-        Dim ReadJson As String = File.ReadAllText(My.Settings.ActivityFilePath)
+        Dim ReadJson As String = File.ReadAllText(FilePath)
         If String.IsNullOrEmpty(ReadJson) Then
             DataSet = New DataSet
             DataTable = New DataTable
@@ -43,7 +43,7 @@ Public NotInheritable Class Activity
         DataTable.Rows.Add(LastIndex + 1, Now, Text)
 
         Dim WriteJson As String = JsonConvert.SerializeObject(DataSet, Formatting.Indented)
-        File.WriteAllText(My.Settings.ActivityFilePath, WriteJson)
+        File.WriteAllText(FilePath, WriteJson)
     End Sub
 
 
