@@ -45,4 +45,5 @@
         Const DamagedUnits = "SOutofStocks"
         Const ReorderPoint = "SMinStocks"
     End Structure
+
 End Structure

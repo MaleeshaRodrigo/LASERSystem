@@ -92,7 +92,7 @@ Public Class FormStock
             Exit Sub
         End If
         Dim SNo As Integer = grdStock.Item(0, grdStock.CurrentRow.Index).Value
-        If Not DB.CheckDataIsExist(Tables.Stock, Stock.Code, SNo) Then
+        If Not DB.CheckDataExists(Tables.Stock, Stock.Code, SNo) Then
             MsgBox("ඔබ Stock එකක් තෝරා ගෙන නොමැත. කරුණාකර Stock එකක් තෝරා ගන්න.", vbCritical)
             frmStockTransaction.Show()
             Exit Sub

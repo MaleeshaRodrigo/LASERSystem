@@ -75,7 +75,7 @@ Public Class ControlStockInfo
             End If
         End With
         Dim MessageBox = MsgBox("ඔබට මෙම Record එක Update කිරිමට අවශ්‍යද?", vbInformation + vbYesNo)
-        Dim DataExistResult = Db.CheckDataIsExist(Tables.Stock, Stock.Code, TxtSNo.Text)
+        Dim DataExistResult = Db.CheckDataExists(Tables.Stock, Stock.Code, TxtSNo.Text)
         ' Execute Queries
         If DataExistResult = True AndAlso MessageBox = vbNo Then
             Exit Sub
@@ -205,7 +205,7 @@ Public Class ControlStockInfo
         If User.Instance.UserType = User.Type.Cashier Then
             Exit Sub
         End If
-        If Db.CheckDataIsExist(Tables.Stock, Stock.Code, TxtSNo.Text) AndAlso
+        If Db.CheckDataExists(Tables.Stock, Stock.Code, TxtSNo.Text) AndAlso
             MsgBox("ඔබට මෙම Record එක Delete කිරිමට අවශ්‍යද?", vbInformation + vbYesNo) = vbYes Then
             Db.Execute($"DELETE FROM {Tables.Stock} WHERE {Stock.Code}=@SNO", {
                     New OleDbParameter("@SNO", TxtSNo.Text)

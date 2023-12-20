@@ -36,7 +36,7 @@ Public Class frmLogin
         cmbUserName.Focus()
         '--------Developer Mode-------------
         If My.Settings.DeveloperMode = True Then
-            txtPassword.Text = "cashier"
+            txtPassword.Text = "admin"
             CmdLogin_Click(sender, e)
         End If
         '-----------------------------------

@@ -934,7 +934,7 @@ Public Class frmRepair
         End If
         If e.RowIndex <> (grdRepRemarks1.Rows.Count - 1) And
             grdRepRemarks1.Item(e.ColumnIndex, e.RowIndex).Tag <> grdRepRemarks1.Item(e.ColumnIndex, e.RowIndex).Value Then
-            If Db.CheckDataIsExist("RepairRemarks1", "Rem1No", grdRepRemarks1.Item(0, e.RowIndex).Value) = True Then
+            If Db.CheckDataExists("RepairRemarks1", "Rem1No", grdRepRemarks1.Item(0, e.RowIndex).Value) = True Then
                 Db.Execute("Update RepairRemarks1 set " &
                           If(tabRepair.SelectedTab.TabIndex = 0, "RepNo=" & cmbRepNo.Text, "RetNo=" & cmbRetNo.Text) &
                           ",Rem1Date=#" & grdRepRemarks1.Item(1, e.RowIndex).Value &
@@ -1052,7 +1052,7 @@ Public Class frmRepair
             End If
         End If
         If e.RowIndex <> (grdRepRemarks2.Rows.Count - 1) Then
-            If Db.CheckDataIsExist("RepairRemarks2", "Rem2No", grdRepRemarks2.Item(0, e.RowIndex).Value) = True Then
+            If Db.CheckDataExists("RepairRemarks2", "Rem2No", grdRepRemarks2.Item(0, e.RowIndex).Value) = True Then
                 Db.Execute("Update RepairRemarks2 set " & If(tabRepair.SelectedTab.TabIndex = 0, "RepNo=" & cmbRepNo.Text, "RetNo=" & cmbRetNo.Text) &
                           ", Rem2Date =#" & grdRepRemarks2.Item(1, e.RowIndex).Value &
                           "#, Remarks ='" & grdRepRemarks2.Item(2, e.RowIndex).Value &

@@ -56,7 +56,7 @@ Public Class Database
         _Connection.Close()
     End Sub
 
-    Public Function CheckDataIsExist(Table As String, FieldName As String, Value As String) As Boolean
+    Public Function CheckDataExists(Table As String, FieldName As String, Value As String) As Boolean
         Dim DR As OleDbDataReader = Nothing
         Try
             Dim Command = New OleDbCommand($"SELECT {FieldName} FROM {Table} WHERE {FieldName} = @VALUE", _Connection)
