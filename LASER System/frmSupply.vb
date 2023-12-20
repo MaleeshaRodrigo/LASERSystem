@@ -69,11 +69,11 @@ Public Class frmSupply
     Private Sub SaveSupplyInformation(SuNo As Integer)
         Db.Execute("Insert into Supply(SupNo,SupDate,SuNo,SupRemarks,SupStatus,SupPaidDate,UNo) Values(@SUPNO,@SUPDATE,@SUNO, @SUPREMARKS, @SUPSTATUS, @SUPPAIDDATE, @UNO)", {
                 New OleDbParameter("SUPNO", txtSupNo.Text),
-                New OleDbParameter("SUPDATE", txtSupDate.Value),
+                New OleDbParameter("SUPDATE", txtSupDate.Value.ToString),
                 New OleDbParameter("SUNO", SuNo),
                 New OleDbParameter("SUPREMARKS", txtSupRemarks.Text),
                 New OleDbParameter("SUPSTATUS", cmbSupStatus.Text),
-                New OleDbParameter("SUPPAIDDATE", If(cmbSupStatus.Text = "Paid", txtSupPaidDate.Value, DBNull.Value)),
+                New OleDbParameter("SUPPAIDDATE", If(cmbSupStatus.Text = "Paid", txtSupPaidDate.Value.ToString, DBNull.Value)),
                 New OleDbParameter("UNO", User.Instance.UserNo)
             })
         For Each Row As DataGridViewRow In grdSupply.Rows
@@ -116,7 +116,7 @@ Public Class frmSupply
                 New OleDbParameter("SUPTOTAL", Row.Cells("SupTotal").Value)
             })
             If Row.Cells("SupType").Value.ToString = "Supply" Then
-                Db.Execute($"Update {Tables.Stock} set ${Stock.AvailableUnits}=(${Stock.AvailableUnits} + {Row.Cells("SupQty").Value}) where SNo=@CODE", {
+                Db.Execute($"Update {Tables.Stock} set {Stock.AvailableUnits}=({Stock.AvailableUnits} + {Row.Cells("SupQty").Value}) where SNo=@CODE", {
                     New OleDbParameter("CODE", Row.Cells(Stock.Code).Value)
                 })
             Else
@@ -125,7 +125,14 @@ Public Class frmSupply
                 })
             End If
         Next
-        MsgBox("Supply was added Successful!", vbOKOnly + vbExclamation)
+        If MsgBox("සාර්ථකව Supply එක Update කෙරුණි. ඔබට මෙම Stocks සඳහා  Barcodes Print කිරීමට අවශ්‍යද?", vbYesNo + vbExclamation) = vbYes Then
+            BarcodeViewerShow()
+        End If
+
+        cmdNew_Click(cmdSave, Nothing)
+    End Sub
+
+    Private Sub BarcodeViewerShow()
         With frmStockSticker
             For Each row As DataGridViewRow In grdSupply.Rows
                 If grdSupply.Rows.Count - 1 = row.Index Then Continue For
@@ -145,7 +152,6 @@ Public Class frmSupply
             .Show()
             .btnShow_Click(cmdSave, Nothing)
         End With
-        cmdNew_Click(cmdSave, Nothing)
     End Sub
 
     Private Sub cmdGetData_Click(sender As Object, e As EventArgs) Handles cmdGetData.Click
