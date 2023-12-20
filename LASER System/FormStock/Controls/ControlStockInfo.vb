@@ -74,44 +74,15 @@ Public Class ControlStockInfo
                 Exit Sub
             End If
         End With
-        ' Set default values for cashier user type
-        If User.Instance.UserType = User.Type.Cashier Then
-            TxtCostPrice.Text = TxtLowestPrice.Text
-            TxtAvailableUnits.Value = 0
-            TxtDamagedUnits.Value = 0
-        End If
+        Dim MessageBox = MsgBox("ඔබට මෙම Record එක Update කිරිමට අවශ්‍යද?", vbInformation + vbYesNo)
+        Dim DataExistResult = Db.CheckDataExists(Tables.Stock, Stock.Code, TxtSNo.Text)
         ' Execute Queries
-        If Db.CheckDataIsExist(Tables.Stock, Stock.Code, TxtSNo.Text) AndAlso
-            MsgBox("ඔබට මෙම Record එක Update කිරිමට අවශ්‍යද?", vbInformation + vbYesNo) = vbYes Then
+        If DataExistResult = True AndAlso MessageBox = vbNo Then
+            Exit Sub
+        ElseIf DataExistResult = True AndAlso MessageBox = vbYes Then
             ExecuteUpdateQuery()
         Else
-            Db.Execute($"INSERT INTO {Tables.Stock}(
-                {Stock.Code},
-                {Stock.Category},
-                {Stock.Name},
-                {Stock.ModelNo},
-                {Stock.Location},
-                {Stock.Details},
-                {Stock.SalePrice},
-                {Stock.LowestPrice},
-                {Stock.CostPrice},
-                {Stock.AvailableUnits},
-                {Stock.DamagedUnits},
-                {Stock.ReorderPoint}
-            ) VALUES(@CODE,@CATEGORY,@NAME,@MODELNO,@LOCATION,@DETAILS,@SALEPRICE,@LOWESTPRICE,@COSTPRICE,@REORDERPOINT);", {
-                New OleDbParameter("@CODE", TxtSNo.Text),
-                New OleDbParameter("@CATEGORY", CmbCategory.Text),
-                New OleDbParameter("@NAME", CmbName.Text),
-                New OleDbParameter("@MODELNO", TxtModelNo.Text),
-                New OleDbParameter("@LOCATION", CmbLocation.Text),
-                New OleDbParameter("@DETAILS", TxtDetails.Text),
-                New OleDbParameter("@SALEPRICE", TxtSalePrice.Text),
-                New OleDbParameter("@LOWESTPRICE", TxtLowestPrice.Text),
-                New OleDbParameter("@COSTPRICE", TxtLowestPrice.Text),
-                New OleDbParameter("@AVAILABLEUNITS", TxtAvailableUnits.Text),
-                New OleDbParameter("@DAMAGEDUNITS", TxtDamagedUnits.Text),
-                New OleDbParameter("@REORDERPOINT", TxtReorderPoint.Text)
-            })
+            ExecuteInsertQuery()
         End If
         Me.Dispose()
     End Sub
@@ -132,20 +103,20 @@ Public Class ControlStockInfo
                 {Stock.DamagedUnits} = @DAMAGEDUNITS,
                 {Stock.ReorderPoint} = @REORDERPOINT
                 WHERE {Stock.Code} = @CODE;", {
-                New OleDbParameter("@CODE", TxtSNo.Text),
                 New OleDbParameter("@CATEGORY", CmbCategory.Text),
                 New OleDbParameter("@NAME", CmbName.Text),
                 New OleDbParameter("@MODELNO", TxtModelNo.Text),
                 New OleDbParameter("@LOCATION", CmbLocation.Text),
                 New OleDbParameter("@DETAILS", TxtDetails.Text),
-                New OleDbParameter("@COSTPRICE", TxtLowestPrice.Text),
+                New OleDbParameter("@COSTPRICE", TxtCostPrice.Text),
                 New OleDbParameter("@LOWESTPRICE", TxtLowestPrice.Text),
                 New OleDbParameter("@SALEPRICE", TxtSalePrice.Text),
                 New OleDbParameter("@AVAILABLEUNITS", TxtAvailableUnits.Text),
                 New OleDbParameter("@DAMAGEDUNITS", TxtDamagedUnits.Text),
-                New OleDbParameter("@REORDERPOINT", TxtReorderPoint.Text)
+                New OleDbParameter("@REORDERPOINT", TxtReorderPoint.Text),
+                New OleDbParameter("@CODE", TxtSNo.Text)
             })
-            Case Else
+            Case User.Type.Cashier
                 Db.Execute($"UPDATE {Tables.Stock} SET 
                     {Stock.ModelNo} = @MODELNO,
                     {Stock.Location} = @LOCATION,
@@ -156,7 +127,67 @@ Public Class ControlStockInfo
                     New OleDbParameter("@DETAILS", TxtDetails.Text),
                     New OleDbParameter("@CODE", TxtSNo.Text)
                 })
+        End Select
+    End Sub
 
+    Private Sub ExecuteInsertQuery()
+        Select Case User.Instance.UserType
+            Case User.Type.Admin
+                Db.Execute($"INSERT INTO {Tables.Stock}(
+                {Stock.Code},
+                {Stock.Category},
+                {Stock.Name},
+                {Stock.ModelNo},
+                {Stock.Location},
+                {Stock.Details},
+                {Stock.SalePrice},
+                {Stock.LowestPrice},
+                {Stock.CostPrice},
+                {Stock.AvailableUnits},
+                {Stock.DamagedUnits},
+                {Stock.ReorderPoint}
+            ) VALUES(@CODE,@CATEGORY,@NAME,@MODELNO,@LOCATION,@DETAILS,@SALEPRICE,@LOWESTPRICE,@COSTPRICE,@AVAILABLEUNITS,@DAMAGEDUNITS,@REORDERPOINT);", {
+                        New OleDbParameter("@CODE", TxtSNo.Text),
+                        New OleDbParameter("@CATEGORY", CmbCategory.Text),
+                        New OleDbParameter("@NAME", CmbName.Text),
+                        New OleDbParameter("@MODELNO", TxtModelNo.Text),
+                        New OleDbParameter("@LOCATION", CmbLocation.Text),
+                        New OleDbParameter("@DETAILS", TxtDetails.Text),
+                        New OleDbParameter("@SALEPRICE", TxtSalePrice.Text),
+                        New OleDbParameter("@LOWESTPRICE", TxtLowestPrice.Text),
+                        New OleDbParameter("@COSTPRICE", TxtCostPrice.Text),
+                        New OleDbParameter("@AVAILABLEUNITS", TxtAvailableUnits.Text),
+                        New OleDbParameter("@DAMAGEDUNITS", TxtDamagedUnits.Text),
+                        New OleDbParameter("@REORDERPOINT", TxtReorderPoint.Text)
+                    })
+            Case User.Type.Cashier
+                Db.Execute($"INSERT INTO {Tables.Stock}(
+                {Stock.Code},
+                {Stock.Category},
+                {Stock.Name},
+                {Stock.ModelNo},
+                {Stock.Location},
+                {Stock.Details},
+                {Stock.SalePrice},
+                {Stock.LowestPrice},
+                {Stock.CostPrice},
+                {Stock.AvailableUnits},
+                {Stock.DamagedUnits},
+                {Stock.ReorderPoint}
+            ) VALUES(@CODE,@CATEGORY,@NAME,@MODELNO,@LOCATION,@DETAILS,@SALEPRICE,@LOWESTPRICE,@COSTPRICE,@REORDERPOINT);", {
+                        New OleDbParameter("@CODE", TxtSNo.Text),
+                        New OleDbParameter("@CATEGORY", CmbCategory.Text),
+                        New OleDbParameter("@NAME", CmbName.Text),
+                        New OleDbParameter("@MODELNO", TxtModelNo.Text),
+                        New OleDbParameter("@LOCATION", CmbLocation.Text),
+                        New OleDbParameter("@DETAILS", TxtDetails.Text),
+                        New OleDbParameter("@SALEPRICE", TxtSalePrice.Text),
+                        New OleDbParameter("@LOWESTPRICE", TxtLowestPrice.Text),
+                        New OleDbParameter("@COSTPRICE", TxtLowestPrice.Text),
+                        New OleDbParameter("@AVAILABLEUNITS", 0),
+                        New OleDbParameter("@DAMAGEDUNITS", 0),
+                        New OleDbParameter("@REORDERPOINT", TxtReorderPoint.Text)
+                    })
         End Select
     End Sub
 
@@ -171,7 +202,11 @@ Public Class ControlStockInfo
     End Sub
 
     Private Sub CmdDelete_Click(sender As Object, e As EventArgs) Handles CmdDelete.Click
-        If Db.CheckDataIsExist(Tables.Stock, Stock.Code, TxtSNo.Text) AndAlso MsgBox("ඔබට මෙම Record එක Delete කිරිමට අවශ්‍යද?", vbInformation + vbYesNo) = vbYes Then
+        If User.Instance.UserType = User.Type.Cashier Then
+            Exit Sub
+        End If
+        If Db.CheckDataExists(Tables.Stock, Stock.Code, TxtSNo.Text) AndAlso
+            MsgBox("ඔබට මෙම Record එක Delete කිරිමට අවශ්‍යද?", vbInformation + vbYesNo) = vbYes Then
             Db.Execute($"DELETE FROM {Tables.Stock} WHERE {Stock.Code}=@SNO", {
                     New OleDbParameter("@SNO", TxtSNo.Text)
                 })
@@ -180,6 +215,8 @@ Public Class ControlStockInfo
     End Sub
 
     Private Sub CmbCategory_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbCategory.SelectedIndexChanged
-        ComboBoxDropDown(Db, CmbName, $"SELECT {Stock.Name} FROM {Tables.Stock} WHERE {Stock.Category} = '{CmbCategory.Text}' GROUP BY {Stock.Name};")
+        ComboBoxDropDown(Db,
+                         CmbName,
+                         $"SELECT {Stock.Name} FROM {Tables.Stock} WHERE {Stock.Category} = '{CmbCategory.Text}' GROUP BY {Stock.Name};")
     End Sub
 End Class

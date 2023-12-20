@@ -72,7 +72,7 @@ Public Class MdifrmMain
     End Sub
 
     Public Sub cmdDeliver_Click(sender As Object, e As EventArgs) Handles cmdDeliver.Click
-        With frmDeliver
+        With FormDeliver
             .Show()
             .BringToFront()
             If .WindowState = FormWindowState.Minimized Then .WindowState = FormWindowState.Maximized
@@ -304,10 +304,7 @@ Public Class MdifrmMain
         If txtIncomevsDateCustom.Text <> "" Then
             Select Case cmbIncomevsDateView.Text
                 Case "Months"
-                    DR0 = Db.GetDataReader("SELECT MonthName(Month(SETDATE)) AS [MonthName],SUM(SETGRANDTOTAL) as [GrandTotal] " &
-                                              ",SUM(REPTOTAL) as [REPTOTAL],SUM(SATOTAL) AS [SATOTAL] " &
-                                              "FROM SETTLEMENT where YEAR(SETDATE) = " & txtIncomevsDateCustom.Text & " Group by  " &
-                                              "Month(SETDATE);")
+                    DR0 = Db.GetDataReader("SELECT MonthName(Month(SETDATE)) AS [MonthName],SUM(SETGRANDTOTAL) as [GrandTotal] ,SUM(REPTOTAL) as [REPTOTAL],SUM(SATOTAL) AS [SATOTAL] FROM SETTLEMENT where YEAR(SETDATE) = " & txtIncomevsDateCustom.Text & " Group by  Month(SETDATE);")
                     If DR0.HasRows = True Then
                         chtIncomevsDate.Series("Total Income vs Date").Points.Clear()
                         chtIncomevsDate.Series("Total Income by Repairs vs Date").Points.Clear()
@@ -319,9 +316,7 @@ Public Class MdifrmMain
                         End While
                     End If
                 Case "Week Days"
-                    DR0 = Db.GetDataReader("SELECT WeekDayName(Datepart('w',SETDATE) ) as [WeekDayName], Sum(SETGRANDTotal) as [GrandTotal] " &
-                                              ",SUM(REPTOTAL) as [REPTOTAL],SUM(SATOTAL) AS [SATOTAL] " &
-                                              "FROM SETTLEMENT where MONTH(SETDATE) = " & txtIncomevsDateCustom.Text & " Group by Datepart('w',SETDATE);")
+                    DR0 = Db.GetDataReader("SELECT WeekDayName(Datepart('w',SETDATE) ) as [WeekDayName], Sum(SETGRANDTotal) as [GrandTotal] ,SUM(REPTOTAL) as [REPTOTAL],SUM(SATOTAL) AS [SATOTAL] FROM SETTLEMENT where MONTH(SETDATE) = " & txtIncomevsDateCustom.Text & " Group by Datepart('w',SETDATE);")
                     If DR0.HasRows = True Then
                         chtIncomevsDate.Series("Total Income vs Date").Points.Clear()
                         chtIncomevsDate.Series("Total Income by Repairs vs Date").Points.Clear()
@@ -350,8 +345,7 @@ Public Class MdifrmMain
         If txtReceivedRepvsDateCustom.Text <> "" Then
             Select Case cmbReceivedRepvsDateView.Text
                 Case "Months"
-                    DR0 = Db.GetDataReader("SELECT MonthName(Month(RDate)) AS [MonthName],SUM(Qty) as [Qty] " &
-                                              "FROM Repair REP,Receive R where R.RNo = REP.RNo AND YEAR(RDATE) = " &
+                    DR0 = Db.GetDataReader("SELECT MonthName(Month(RDate)) AS [MonthName],SUM(Qty) as [Qty] FROM Repair REP,Receive R where R.RNo = REP.RNo AND YEAR(RDATE) = " &
                                               txtReceivedRepvsDateCustom.Text & " Group by " & "Month(RDATE);")
                     If DR0.HasRows = True Then
                         chtReceivedRepvsDate.Series("Qty of Received Repairs vs Date").Points.Clear()
@@ -360,8 +354,7 @@ Public Class MdifrmMain
                         End While
                     End If
                 Case "Week Days"
-                    DR0 = Db.GetDataReader("SELECT WeekDayName(Datepart('w',RDATE) ) as [WeekDayName], Sum(Qty) as [Qty] " &
-                                              "FROM Repair REP,Receive R where R.RNo = REP.RNO and MONTH(RDATE) = " & txtReceivedRepvsDateCustom.Text & " Group by Datepart('w',RDATE);")
+                    DR0 = Db.GetDataReader("SELECT WeekDayName(Datepart('w',RDATE) ) as [WeekDayName], Sum(Qty) as [Qty] FROM Repair REP,Receive R where R.RNo = REP.RNO and MONTH(RDATE) = " & txtReceivedRepvsDateCustom.Text & " Group by Datepart('w',RDATE);")
                     If DR0.HasRows = True Then
                         chtReceivedRepvsDate.Series("Qty of Received Repairs vs Date").Points.Clear()
                         While DR0.Read()

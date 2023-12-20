@@ -95,8 +95,7 @@ Public Class frmSupplier
                 ElseIf CheckExistData(cmbSuName, "Select SuName from Supplier where SuName ='" & cmbSuName.Text & "';", "Supplier Name is exist", True) = True Then
                     Exit Sub
                 End If
-                Db.Execute("Insert into Supplier(SuNo,SuName,SuAddress, SuEmail, SuTelNo1, SuTelNo2, SuTelNo3,SuRemarks)" &
-                                             "Values(" & txtSuNo.Text & ",'" & cmbSuName.Text & "','" & txtSuAddress.Text & "','" & txtSuEmail.Text & "','" & txtSuTelNo1.Text & "','" & txtSuTelNo2.Text & "','" & txtSuTelNo3.Text & "','" & txtSuRemarks.Text & "');")
+                Db.Execute("Insert into Supplier(SuNo,SuName,SuAddress, SuEmail, SuTelNo1, SuTelNo2, SuTelNo3,SuRemarks)Values(" & txtSuNo.Text & ",'" & cmbSuName.Text & "','" & txtSuAddress.Text & "','" & txtSuEmail.Text & "','" & txtSuTelNo1.Text & "','" & txtSuTelNo2.Text & "','" & txtSuTelNo3.Text & "','" & txtSuRemarks.Text & "');")
                 Call txtSearch_TextChanged(sender, e)
                 cmdSave.Text = "Edit"
                 SaveToolStripMenuItem.Text = "Edit"
@@ -110,14 +109,7 @@ Public Class frmSupplier
                 End If
                 If MsgBox("Are you sure edit?", vbYesNo + vbInformation) = vbYes Then
                     Db.Execute("Update Supplier set SuNo=" & txtSuNo.Text &
-                                                 ",SuName = '" & cmbSuName.Text & "'" &
-                                                 ",SuAddress = '" & txtSuAddress.Text & "'" &
-                                                 ",SuEmail = '" & txtSuEmail.Text & "'" &
-                                                 ",SuTelNo1 =  '" & txtSuTelNo1.Text & "'" &
-                                                 ",SuTelNo2 =  '" & txtSuTelNo2.Text & "'" &
-                                                 ",SuTelNo3 =  '" & txtSuTelNo3.Text & "'" &
-                                                 ",SuRemarks =  '" & txtSuRemarks.Text & "'" &
-                                                 " where SuNo=" & txtSuNo.Text)
+                                                 ",SuName = '" & cmbSuName.Text & "',SuAddress = '" & txtSuAddress.Text & "',SuEmail = '" & txtSuEmail.Text & "',SuTelNo1 =  '" & txtSuTelNo1.Text & "',SuTelNo2 =  '" & txtSuTelNo2.Text & "',SuTelNo3 =  '" & txtSuTelNo3.Text & "',SuRemarks =  '" & txtSuRemarks.Text & "' where SuNo=" & txtSuNo.Text)
                     Call txtSearch_TextChanged(sender, e)
                 End If
         End Select

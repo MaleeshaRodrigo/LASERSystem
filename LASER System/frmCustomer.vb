@@ -60,8 +60,7 @@ Public Class frmCustomer
         Else
             x = "Order by CuNo"
         End If
-        Me.grdCustomer.DataSource = Db.GetDataTable("SELECT CuNo as [No],CuName as [Name],CuTelNo1 as [Telephone No 1],CuTelNo2 as [Telephone No 2]," &
-                                             "CuTelNo3 as [Telephone No 3] from Customer " & x & ";")
+        Me.grdCustomer.DataSource = Db.GetDataTable("SELECT CuNo as [No],CuName as [Name],CuTelNo1 as [Telephone No 1],CuTelNo2 as [Telephone No 2],CuTelNo3 as [Telephone No 3] from Customer " & x & ";")
         grdCustomer.Refresh()
     End Sub
 
@@ -183,11 +182,7 @@ Public Class frmCustomer
                 DeleteToolStripMenuItem.Enabled = True
                 MsgBox("Save Successful", vbExclamation + vbOKOnly)
             Case "Edit"
-                Db.Execute("Update Customer set CuName = '" & cmbCuName.Text & "'" &
-                        ",CuTelNo1 =  '" & txtCuTelNo1.Text & "'" &
-                        ",CuTelNo2 =  '" & txtCuTelNo2.Text & "'" &
-                        ",CuTelNo3 =  '" & txtCuTelNo3.Text & "'" &
-                        " where CuNo=" & txtCuNo.Text)
+                Db.Execute("Update Customer set CuName = '" & cmbCuName.Text & "',CuTelNo1 =  '" & txtCuTelNo1.Text & "',CuTelNo2 =  '" & txtCuTelNo2.Text & "',CuTelNo3 =  '" & txtCuTelNo3.Text & "' where CuNo=" & txtCuNo.Text)
                 Call txtSearch_TextChanged(sender, e)
         End Select
         For Each Row As DataGridViewRow In grdCustomer.Rows
@@ -290,34 +285,21 @@ Public Class frmCustomer
     Private Sub TxtCuNo_TextChanged(sender As Object, e As EventArgs) Handles txtCuNo.TextChanged
         If Me.WindowState = FormWindowState.Maximized AndAlso CheckExistData("Select CuNo from Customer Where CuNo=" & txtCuNo.Text) = True Then
             Dim task1 As Task = Task.Run(Sub()
-                                             grdRepair.DataSource = Db.GetDataTable("SELECT RepNo as [Repair No],RDate as [Received Date],PCategory as [Product Category]," &
-                                     "PName as [Product Name], PModelNo as [Product Model No], " &
-                                   "PSerialNo as [Product Serial No],Problem,Location,Qty,Status,TName as [Technician Name],RepDate as [Repaired Date]," &
-                                   "Charge, DDate as [Delivered Date], PaidPrice as [Paid Charge]" &
-                                   "from (((((Repair REP INNER JOIN RECEIVE R ON R.RNO = REP.RNO) INNER JOIN PRODUCT  P ON P.PNO = REP.PNO) " &
-                                   "INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = REP.TNO) LEFT JOIN DELIVER D " &
-                                   "ON D.DNO = REP.DNO) WHERE R.CuNo=" & txtCuNo.Text)
+                                             grdRepair.DataSource = Db.GetDataTable("SELECT RepNo as [Repair No],RDate as [Received Date],PCategory as [Product Category],PName as [Product Name], PModelNo as [Product Model No], PSerialNo as [Product Serial No],Problem,Location,Qty,Status,TName as [Technician Name],RepDate as [Repaired Date],Charge, DDate as [Delivered Date], PaidPrice as [Paid Charge]from (((((Repair REP INNER JOIN RECEIVE R ON R.RNO = REP.RNO) INNER JOIN PRODUCT  P ON P.PNO = REP.PNO) INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = REP.TNO) LEFT JOIN DELIVER D ON D.DNO = REP.DNO) WHERE R.CuNo=" & txtCuNo.Text)
                                              grdRepair.ScrollBars = ScrollBars.None
                                          End Sub)
             task1.GetAwaiter.OnCompleted(Sub()
                                              grdRepair.ScrollBars = ScrollBars.Both
                                          End Sub)
             Dim task2 As Task = Task.Run(Sub()
-                                             grdSale.DataSource = Db.GetDataTable("SELECT Sa.SaNo as [Sale No],SaDate as [Sold Date],SCategory as [Stock Category],SName as [Stock Name]," &
-                                      "SaRate as [Rate], SaUnits as [Qty],SaTotal as [Total]  from (StockSale SSa INNER JOIN Sale Sa ON " &
-                                      "Sa.SaNo = SSa.SaNo) INNER JOIN Customer Cu ON Cu.CuNo = Sa.CuNo where Cu.CuNo=" & txtCuNo.Text)
+                                             grdSale.DataSource = Db.GetDataTable("SELECT Sa.SaNo as [Sale No],SaDate as [Sold Date],SCategory as [Stock Category],SName as [Stock Name],SaRate as [Rate], SaUnits as [Qty],SaTotal as [Total]  from (StockSale SSa INNER JOIN Sale Sa ON Sa.SaNo = SSa.SaNo) INNER JOIN Customer Cu ON Cu.CuNo = Sa.CuNo where Cu.CuNo=" & txtCuNo.Text)
                                              grdSale.ScrollBars = ScrollBars.None
                                          End Sub)
             task2.GetAwaiter.OnCompleted(Sub()
                                              grdSale.ScrollBars = ScrollBars.Both
                                          End Sub)
             Dim task3 As Task = Task.Run(Sub()
-                                             grdCuLoan.DataSource = Db.GetDataTable("SELECT CuL.CuLNo as [Customer Loan No],CuLDate as [Customer Loan Date],CuL.CuNo as [No]," &
-                                    "CuName as [Name],CuTelNo1 as [Telephone No 1],CuTelNo2 as [Telephone No 2],CuTelNo3 as " &
-                                    "[Telephone No 3],CuL.SaNo as [Sale No],SaDate as [Sale Date], CuL.DNo as [Deliver No], " &
-                                    "DDate as [Deliver Date], Status,CuLRemarks as [Remarks] from (((CustomerLoan CUL INNER JOIN " &
-                                    "CUSTOMER CU ON CU.CUNO = CUL.CUNO) LEFT JOIN SALE SA ON SA.SANO = CUL.SANO) LEFT JOIN " &
-                                    "DELIVER D ON D.DNO = CUL.DNO) WHERE CuL.CuNo=" & txtCuNo.Text)
+                                             grdCuLoan.DataSource = Db.GetDataTable("SELECT CuL.CuLNo as [Customer Loan No],CuLDate as [Customer Loan Date],CuL.CuNo as [No],CuName as [Name],CuTelNo1 as [Telephone No 1],CuTelNo2 as [Telephone No 2],CuTelNo3 as [Telephone No 3],CuL.SaNo as [Sale No],SaDate as [Sale Date], CuL.DNo as [Deliver No], DDate as [Deliver Date], Status,CuLRemarks as [Remarks] from (((CustomerLoan CUL INNER JOIN CUSTOMER CU ON CU.CUNO = CUL.CUNO) LEFT JOIN SALE SA ON SA.SANO = CUL.SANO) LEFT JOIN DELIVER D ON D.DNO = CUL.DNO) WHERE CuL.CuNo=" & txtCuNo.Text)
                                              grdCuLoan.ScrollBars = ScrollBars.None
                                          End Sub)
             task3.GetAwaiter.OnCompleted(Sub()

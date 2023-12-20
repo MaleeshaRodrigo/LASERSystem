@@ -46,5 +46,4 @@
         Const ReorderPoint = "SMinStocks"
     End Structure
 
-
 End Structure
