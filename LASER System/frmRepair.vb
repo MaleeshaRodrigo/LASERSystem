@@ -153,8 +153,9 @@ Public Class frmRepair
                     grdRepRemarks1.Rows.Item(grdRepRemarks1.Rows.Count - 1).ReadOnly = True
                 End If
             End While
-            If File.Exists(Application.StartupPath & "\LASER System\Images\" + "REP-" + cmbRepNo.Text + ".ls") Then
-                imgRepair.Image = Image.FromFile(Application.StartupPath & "\LASER System\Images\" + "REP-" + cmbRepNo.Text + ".ls")
+            Dim FilePath As String = Path.Combine(SystemFolderPath, "\LASER System\Images\" + "REP-" + cmbRepNo.Text + ".png")
+            If File.Exists(FilePath) Then
+                imgRepair.Image = Image.FromFile(FilePath)
             Else
                 imgRepair.Image = Nothing
             End If
@@ -302,8 +303,9 @@ Public Class frmRepair
                 grdRepRemarks1.Rows.Add(DRRETNo1("Rem1No").ToString, DRRETNo1("Rem1Date").ToString, DRRETNo1("Remarks").ToString,
                                         Db.GetData("Select UserName from [User] Where UNo=" & DRRETNo1("UNo").ToString))
             End While
-            If File.Exists(Application.StartupPath & "\System Files\Images\" + "RET-" + cmbRetNo.Text + ".ls") Then
-                imgRepair.Image = Image.FromFile(Application.StartupPath & "\System Files\Images\" + "RET-" + cmbRetNo.Text + ".ls")
+            Dim FilePath As String = Path.Combine(SystemFolderPath, "System Files\Images\" + "RET-" + cmbRetNo.Text + ".png")
+            If File.Exists(FilePath) Then
+                imgRepair.Image = Image.FromFile(FilePath)
             Else
                 imgRepair.Image = Nothing
             End If

@@ -34,21 +34,21 @@ Public NotInheritable Class FrmSplash
         Select Case LoadingBar.Value
             Case 1
                 txtLoad.Text = "Checking System Files..."
-                If Not Directory.Exists(Application.StartupPath + "/Reports") Then
-                    My.Computer.FileSystem.CreateDirectory(Application.StartupPath + "/Reports")
-                End If
-                If Not Directory.Exists(Application.StartupPath + "/System Files") Then
-                    My.Computer.FileSystem.CreateDirectory(Application.StartupPath + "/System Files")
-                End If
-                If Not Directory.Exists(Application.StartupPath + "/System Files/Images") Then
-                    My.Computer.FileSystem.CreateDirectory(Application.StartupPath + "/System Files/Images")
-                End If
-                If Not Directory.Exists(Application.StartupPath + "/System Files/Activity") Then
-                    My.Computer.FileSystem.CreateDirectory(Application.StartupPath + "/System Files/Activity")
-                End If
-                If Not File.Exists(Application.StartupPath + "/System Files/Activity/Activity.ls") Then
+                For Each FolderPath As String In {
+                        SystemFolderPath,
+                        Path.Combine(SystemFolderPath, "Reports"),
+                        Path.Combine(SystemFolderPath, "System Files"),
+                        Path.Combine(SystemFolderPath, "System Files/Images"),
+                        Path.Combine(SystemFolderPath, "System Files/Activity")
+                    }
+                    If Not Directory.Exists(FolderPath) Then
+                        My.Computer.FileSystem.CreateDirectory(FolderPath)
+                    End If
+                Next
+                Dim ActivityFilePath As String = Path.Combine(SystemFolderPath, "System Files/Activity/Activity.json")
+                If Not File.Exists(ActivityFilePath) Then
                     Dim d As FileStream
-                    d = File.Create(Application.StartupPath & "/System Files/Activity/Activity.ls")
+                    d = File.Create(ActivityFilePath)
                     d.Close()
                 End If
             Case 20
@@ -96,8 +96,9 @@ Public NotInheritable Class FrmSplash
                         .lblUEmail.Text = "Email: " + DR("Email").ToString
                         .lblULastLogin.Text = "Last Login: " + DR("LastLogin").ToString
                         .lblULoginCount.Text = "Login Count: " + DR("LoginCount").ToString
-                        If File.Exists(Application.StartupPath + "\System Files\Images\U-" & DR("UNo").ToString & ".ls") Then
-                            .picUImage.Image = Image.FromFile(Application.StartupPath + "\System Files\Images\U-" & DR("UNo").ToString & ".ls")
+                        Dim ImageFilePath As String = Path.Combine(SystemFolderPath, "System Files\Images\U-" & DR("UNo").ToString & ".png")
+                        If File.Exists(ImageFilePath) Then
+                            .picUImage.Image = Image.FromFile(ImageFilePath)
                         End If
                     End If
                 End With

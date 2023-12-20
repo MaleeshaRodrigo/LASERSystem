@@ -1,10 +1,11 @@
 ﻿Imports System.Data.OleDb
 Imports System.IO
 Imports System.Net
-Imports System.Runtime.InteropServices
+Imports Microsoft.VisualBasic.FileIO
 Imports Newtonsoft.Json
 
 Module Utils
+    Public SystemFolderPath As String = Path.Combine(SpecialDirectories.MyDocuments, "LASER System Data")
     Public Sub ComboBoxDropDown(Db As Database, cmb As ComboBox, SQL As String)
         cmb.Items.Clear()
         Dim DT0 As DataTable = Db.GetDataTable(SQL)
@@ -106,10 +107,10 @@ Module Utils
         Dim DSActivity As DataSet
         Dim DTActivity As DataTable
         Dim LastIndex As Integer = 0
-        If Not File.Exists(Application.StartupPath & "\System Files\Activity\Activity.json") Then
+        If Not File.Exists(Path.Combine(SystemFolderPath, "System Files\Activity\Activity.json")) Then
             Exit Sub
         End If
-        Dim Rjson As String = File.ReadAllText(Application.StartupPath & "\System Files\Activity\Activity.json")
+        Dim Rjson As String = File.ReadAllText(Path.Combine(SystemFolderPath, "System Files\Activity\Activity.json"))
         If String.IsNullOrEmpty(Rjson) Then
             DSActivity = New DataSet
             DTActivity = New DataTable
@@ -129,7 +130,7 @@ Module Utils
         MdifrmMain.GrdActivity.DataSource = DTActivity
 
         Dim Wjson As String = JsonConvert.SerializeObject(DSActivity, Formatting.Indented)
-        File.WriteAllText(Application.StartupPath & "\System Files\Activity\Activity.json", Wjson)
+        File.WriteAllText(Path.Combine(SystemFolderPath, "System Files\Activity\Activity.json"), Wjson)
     End Sub
 
     Public Function CheckExistRelationsforDelete(SQl As String, FieldName As String, msg As String) As Boolean
