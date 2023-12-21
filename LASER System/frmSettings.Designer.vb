@@ -598,7 +598,7 @@ Partial Class FrmSettings
         '
         Me.cmbUAType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cmbUAType.FormattingEnabled = True
-        Me.cmbUAType.Items.AddRange(New Object() {"Cashier", "Admin"})
+        Me.cmbUAType.Items.AddRange(New Object() {User.Type.Cashier, User.Type.Admin})
         Me.cmbUAType.Location = New System.Drawing.Point(164, 20)
         Me.cmbUAType.Name = "cmbUAType"
         Me.cmbUAType.Size = New System.Drawing.Size(107, 25)

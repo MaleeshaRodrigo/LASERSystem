@@ -16,7 +16,7 @@ Public Class frmSale
 
         Call cmdNew_Click(Nothing, Nothing)
         txtSaDate.Value = DateAndTime.Now
-        If User.Instance.UserNo <> "Admin" Then
+        If User.Instance.UserType <> User.Type.Admin Then
             GetDataToolStripMenuItem.Enabled = False
             txtSaDate.Enabled = False
         End If
@@ -56,7 +56,7 @@ Public Class frmSale
         Call frmSale_Leave(sender, e)
     End Sub
 
-    Private Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click
+    Private Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click, NewToolStripMenuItem.Click
         Cursor = Cursors.WaitCursor
         SetNextKey(Db, txtSaNo, "SELECT top 1 SaNo from Sale ORDER BY SaNo Desc;", "SaNo")
         cmbCuName.Text = "No Name"             'clear customer fileds
@@ -100,7 +100,7 @@ Public Class frmSale
         txtCuTelNo1.Tag = ""
     End Sub
 
-    Private Sub cmdSave_Click(sender As Object, e As EventArgs) Handles cmdSave.Click
+    Private Sub cmdSave_Click(sender As Object, e As EventArgs) Handles cmdSave.Click, SaveToolStripMenuItem.Click
         grdSale.EndEdit()   'The Edit mode of datagridview which is grdSale is ended.
         cmdSave.Focus()
 
@@ -407,7 +407,10 @@ Public Class frmSale
         End With
     End Sub
 
-    Private Sub cmdDelete_Click(sender As Object, e As EventArgs) Handles cmdDelete.Click
+    Private Sub cmdDelete_Click(sender As Object, e As EventArgs) Handles cmdDelete.Click, DeleteToolStripMenuItem.Click
+        If User.Instance.UserType <> User.Type.Admin Then
+            Exit Sub
+        End If
         If MsgBox("Are you sure delete?", vbYesNo + vbInformation) = vbYes Then
             Db.Execute("DELETE from Sale where SaNo=" & txtSaNo.Text)
             WriteActivity("Sale No " & txtSaNo.Text & " was deleted in 'Sale' table on " + DateAndTime.Now)
@@ -666,20 +669,8 @@ Public Class frmSale
         End If
     End Sub
 
-    Private Sub NewToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NewToolStripMenuItem.Click
-        If cmdNew.Enabled = True Then cmdNew_Click(sender, e)
-    End Sub
-
-    Private Sub SaveToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveToolStripMenuItem.Click
-        If cmdSave.Enabled = True Then cmdSave_Click(sender, e)
-    End Sub
-
-    Private Sub DeleteToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DeleteToolStripMenuItem.Click
-        If cmdDelete.Enabled = True Then cmdDelete_Click(sender, e)
-    End Sub
-
     Private Sub GetDataToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles GetDataToolStripMenuItem.Click
-        If User.Instance.UserNo = "Admin" Then
+        If User.Instance.UserType = User.Type.Admin Then
             Dim frmNewSearch As New frmSearch
             With frmNewSearch
                 .Name = "frmSearch" + NextfrmNo(frmSearch).ToString
