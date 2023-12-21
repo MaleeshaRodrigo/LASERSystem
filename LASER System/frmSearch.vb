@@ -1,5 +1,6 @@
 ﻿Imports System.ComponentModel
 Imports System.Data.OleDb
+Imports LASER_System.StructureDatabase
 
 Public Class frmSearch
     Private Db As New Database
@@ -12,7 +13,7 @@ Public Class frmSearch
     Private Sub frmSearch_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Db.Connect()
         MenuStrip1.Items.Add(mnustrpMENU)
-        System.Windows.Forms.Control.CheckForIllegalCrossThreadCalls = False
+        CheckForIllegalCrossThreadCalls = False
         Me.AcceptButton = cmdTSSearch
         txtTSSearch.Text = ""
         x = ""
@@ -747,15 +748,6 @@ Public Class frmSearch
         DRSearch1.Close()
     End Sub
 
-    'Private Function CheckNull(str As Object) As String
-    '    If IsDBNull(str) OrElse String.IsNullOrEmpty(str) Then
-    '        Return ""
-    '    Else
-    '        Return str.ToString
-    '    End If
-    'End Function
-
-
     Private Sub BgwSearch_ProgressChanged(sender As Object, e As ProgressChangedEventArgs) Handles bgwSearch.ProgressChanged
         Me.Text = $"LASER System - Search Management [{e.UserState}]"
         ProgressBar.Value = e.ProgressPercentage
@@ -1050,8 +1042,7 @@ end_for_loop:
                                 DR = Db.GetDataReader("Select Stock.SNo,Stock.SCategory,Stock.SName,StockSale.SaType,StockSale.SaUnits,StockSale.SaRate,SaTotal from StockSale,Stock where StockSale.SNo = Stock.SNo And SaNo = " & .txtSaNo.Text & ";")
                                 If DR.HasRows = True Then
                                     While DR.Read
-                                        .grdSale.Rows.Add(DR("SNo").ToString(), DR("SCategory").ToString(), DR("SName").ToString(), DR("SaType").ToString(),
-                                                          DR("SaRate").ToString(), DR("SaUnits").ToString(), Int(DR("SaTotal")))
+                                        .grdSale.Rows.Add(DR("SNo").ToString(), DR("SCategory").ToString(), DR("SName").ToString(), DR("SaType").ToString(), DR("SaRate").ToString(), DR("SaUnits").ToString(), Int(DR("SaTotal")))
                                     End While
                                 End If
                             End If
@@ -1066,7 +1057,7 @@ end_for_loop:
                     Dim index As Integer
                     index = e.RowIndex
                     Dim selectedrow As DataGridViewRow
-                    .cmdNew.PerformClick()
+                    .cmdNew_Click(sender, e)
                     If index >= 0 Then
                         selectedrow = grdSearch.Rows(index)
                         .txtSupNo.Text = selectedrow.Cells("SupNo").Value.ToString
@@ -1076,17 +1067,17 @@ end_for_loop:
                         .cmbSupStatus.Text = selectedrow.Cells("SupStatus").Value.ToString
                         If selectedrow.Cells("SupPaidDate").Value <> "" And
                             selectedrow.Cells("SupStatus").Value = "Paid" Then .txtSupPaidDate.Value = selectedrow.Cells("SupPaidDate").Value
-                        DR = Db.GetDataReader("Select Stock.SNo,Stock.SCategory,Stock.SName,StockSupply.SupType,StockSupply.SupUnits,StockSupply.SupCostPrice from StockSupply,Stock where StockSupply.SNo = Stock.SNo And SupNo=" &
-                                                               .txtSupNo.Text & ";")
+                        DR = Db.GetDataReader($"Select Sup.SNo,S.SCategory,S.SName,SModelNo,SLocation,SSalePrice,SLowestPrice,SMinStocks,SupType,SupUnits,SupCostPrice,SDetails from StockSupply Sup,Stock S where Sup.SNo = S.SNo And SupNo={ .txtSupNo.Text};")
                         If DR.HasRows = True Then
                             While DR.Read
-                                .grdSupply.Rows.Add(DR("SNo").ToString(), DR("SCategory").ToString(), DR("SName").ToString(), DR("SupType").ToString(),
-                                                    DR("SupCostPrice").ToString(), DR("SupUnits").ToString(), Int(DR("SupUnits")) * Int(DR("SupCostPrice")))
+                                .grdSupply.Rows.Add(DR(Stock.Code), DR(Stock.Category), DR(Stock.Name), DR(Stock.ModelNo), DR(Stock.Location), DR(Stock.SalePrice), DR(Stock.LowestPrice), DR(Stock.ReorderPoint), DR("SupType"), DR("SupCostPrice"), DR("SupUnits"), Int(DR("SupUnits")) * Int(DR("SupCostPrice")), DR(Stock.Details))
                             End While
                         End If
                     End If
                     .cmdSave.Text = "Edit"
-                    .cmdDelete.Enabled = True
+                    If User.Instance.UserType = User.Type.Admin Then
+                        .cmdDelete.Enabled = True
+                    End If
                 End With
             Case "Receive"
                 'With frmReceive

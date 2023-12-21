@@ -4,6 +4,7 @@ Imports LASER_System.StructureDatabase
 
 Public Class ControlStockInfo
     Private Db As Database
+    Public FormParent As FormStock
     Public Sub New(Db As Database)
 
         ' This call is required by the designer.
@@ -84,7 +85,8 @@ Public Class ControlStockInfo
         Else
             ExecuteInsertQuery()
         End If
-        Me.Dispose()
+        FormParent.btnSearch.PerformClick()
+        Dispose()
     End Sub
 
     Private Sub ExecuteUpdateQuery()

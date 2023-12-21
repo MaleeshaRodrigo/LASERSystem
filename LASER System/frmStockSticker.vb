@@ -107,7 +107,7 @@ Public Class frmStockSticker
                 img.Save(imgStream, System.Drawing.Imaging.ImageFormat.Png)
                 imgStream.Close()
                 Dim byteArray As Byte() = imgStream.ToArray()
-                dt.Rows.Add(row.Cells.Item(0).Value, row.Cells.Item(1).Value, row.Cells.Item(2).Value, row.Cells.Item(4).Value, byteArray, "Rs." + row.Cells.Item(5).Value)
+                dt.Rows.Add(row.Cells.Item(0).Value, row.Cells.Item(1).Value, row.Cells.Item(2).Value, row.Cells.Item(4).Value, byteArray, $"Rs.{row.Cells.Item(5).Value.ToString}")
             Next
         Next
         Dim rpt As New rptStockSticker
