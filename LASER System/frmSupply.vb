@@ -15,7 +15,7 @@ Public Class frmSupply
         Call cmdNew_Click(sender, e)
     End Sub
 
-    Private Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click
+    Public Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click, NewToolStripMenuItem1.Click
         SetNextKey(Db, txtSupNo, "SELECT top 1 SupNo from Supply ORDER BY SupNo Desc;", "SupNo")
         cmbSuName_DropDown(sender, e)
         cmbSuName.Text = "No Name"             'clear customer fileds
@@ -23,6 +23,20 @@ Public Class frmSupply
         grdSupply.Rows.Clear()
         cmdDelete.Enabled = False
         cmdSave.Text = "Save"
+
+        SetFormForEachUserType()
+    End Sub
+
+    Private Sub SetFormForEachUserType()
+        If User.Instance.UserType = User.Type.Cashier Then
+            grdSupply.ReadOnly = True
+            GroupSupply.Enabled = False
+            GroupSupplier.Enabled = False
+            GroupFinancial.Enabled = False
+            cmdSave.Enabled = False
+            cmdNew.Enabled = False
+            txtSupRemarks.Enabled = False
+        End If
     End Sub
 
     Public Sub cmbSuName_DropDown(sender As Object, e As EventArgs) Handles cmbSuName.DropDown
@@ -33,7 +47,11 @@ Public Class frmSupply
         Call frmSupply_Leave(sender, e)
     End Sub
 
-    Private Sub cmdSave_Click(sender As Object, e As EventArgs) Handles cmdSave.Click
+    Private Sub cmdSave_Click(sender As Object, e As EventArgs) Handles cmdSave.Click, SaveToolStripMenuItem.Click
+        If User.Instance.UserType <> User.Type.Admin Then
+            MsgBox("ඔබට Permission නැහැ මෙම Operation එක සිදු කිරීමට")
+            Exit Sub
+        End If
         If CheckEmptyfield(cmbSuName, "Supplier Name යන field එක හිස්ව පවතියි. කරුණාකර අදාල Supplier තොරා ගෙන නැවත උත්සහ කරන්න.") = False Then
             Exit Sub
         ElseIf grdSupply.Rows.Count < 2 Then
@@ -51,6 +69,24 @@ Public Class frmSupply
                 MsgBox("ඔබ Stock Code: " + Row.Cells(0).Value.ToString + " යන Stock එකෙහි Stock Category හෝ Stock Name යන අයිතම දෙකම හෝ ඉන් එකක් හෝ හිස්ව පවතියි. කරුණාකර එ සඳහා සුදුසු නමක් ඇතුලත් කරන්න.", vbExclamation + vbOKOnly)
                 Exit Sub
             End If
+            Dim Validator = New ExecuteValidators()
+            With Validator
+                .AddValidator(New RequiredValidator(Row.Cells(Stock.Category).Value, $"Stock Code: {Row.Cells(Stock.Code).Value} හි Category තීරුව"))
+                .AddValidator(New RequiredValidator(Row.Cells(Stock.Name).Value, $"Stock Code: {Row.Cells(Stock.Code).Value} හි Name තීරුව"))
+                .AddValidator(New RequiredValidator(Row.Cells("CostPrice").Value, $"Stock Code: {Row.Cells(Stock.Code).Value} හි Rate තීරුව"))
+                .AddValidator(New RequiredValidator(Row.Cells("SupQty").Value, $"Stock Code: {Row.Cells(Stock.Code).Value} හි Qty තීරුව"))
+                .AddValidator(New RequiredValidator(Row.Cells(Stock.SalePrice).Value, $"Stock Code: {Row.Cells(Stock.Code).Value} හි Sale Price තීරුව"))
+                .AddValidator(New RequiredValidator(Row.Cells(Stock.LowestPrice).Value, $"Stock Code: {Row.Cells(Stock.Code).Value} හි Lowest Price තීරුව"))
+                .AddValidator(New RequiredValidator(Row.Cells(Stock.ReorderPoint).Value, $"Stock Code: {Row.Cells(Stock.Code).Value} හි Reorder Units තීරුව"))
+                .AddValidator(New NumberValidator(Row.Cells("CostPrice").Value.ToString, $"Stock Code: {Row.Cells(Stock.Code).Value} හි Rate තීරුව"))
+                .AddValidator(New NumberValidator(Row.Cells("SupQty").Value.ToString, $"Stock Code: {Row.Cells(Stock.Code).Value} හි Qty තීරුව"))
+                .AddValidator(New NumberValidator(Row.Cells(Stock.SalePrice).Value.ToString, $"Stock Code: {Row.Cells(Stock.Code).Value} හි Sale Price තීරුව"))
+                .AddValidator(New NumberValidator(Row.Cells(Stock.LowestPrice).Value.ToString, $"Stock Code: {Row.Cells(Stock.Code).Value} හි Lowest Price තීරුව"))
+                .AddValidator(New NumberValidator(Row.Cells(Stock.ReorderPoint).Value.ToString, $"Stock Code: {Row.Cells(Stock.Code).Value} හි Reorder Units තීරුව"))
+                If Not .Execute() Then
+                    Exit Sub
+                End If
+            End With
         Next
         SetNextKey(Db, txtSupNo, "SELECT top 1 SupNo from Supply ORDER BY SupNo Desc;", "SupNo")
         Dim SuNo As Integer = Db.GetData("Select SuNo from Supplier where SuName=@SUNAME;", {
@@ -58,6 +94,9 @@ Public Class frmSupply
         })
         If SuNo = 0 Then
             MsgBox("ඔබ ඇතුලත් කල Supplier Name එක Database තුල සොයා ගැනීමට නොහැකිය. කරුණාකර නැවත පරිකෂා කරන්න." + vbCrLf + "ඔබට මෙම ගැටලුව විසදීමට නොහැකි නම්, අපගෙ Programe Developer ව අමතන්න.")
+            Exit Sub
+        End If
+        If MsgBox("ඔබට මෙම Supply දත්ත Save කිරීමට අවශ්‍යද?", vbYesNo + vbInformation) = vbNo Then
             Exit Sub
         End If
         Select Case cmdSave.Text
@@ -107,9 +146,11 @@ Public Class frmSupply
                 })
             End If
 
-            Db.Execute("INSERT INTO StockSupply(SupNo,SNo,SupType,SupUnits,SupCostPrice,SupTotal) VALUES(@SUPNO,@SNO,@SUPTYPE,@SUPUNITS,@COSTPRICE,@SUPTOTAL)", {
+            Db.Execute("INSERT INTO StockSupply(SupNo,SNo,SCategory,SName,SupType,SupUnits,SupCostPrice,SupTotal) VALUES(@SUPNO,@SNO,@SCATEGORY,@SNAME,@SUPTYPE,@SUPUNITS,@COSTPRICE,@SUPTOTAL)", {
                 New OleDbParameter("SUPNO", txtSupNo.Text),
                 New OleDbParameter("SNO", Row.Cells(Stock.Code).Value),
+                New OleDbParameter("SCATEGORY", Row.Cells(Stock.Category).Value),
+                New OleDbParameter("SNAME", Row.Cells(Stock.Name).Value),
                 New OleDbParameter("SUPTYPE", Row.Cells("SupType").Value),
                 New OleDbParameter("SUPUNITS", Row.Cells("SupQty").Value),
                 New OleDbParameter("COSTPRICE", Row.Cells("CostPrice").Value),
@@ -125,7 +166,7 @@ Public Class frmSupply
                 })
             End If
         Next
-        If MsgBox("සාර්ථකව Supply එක Update කෙරුණි. ඔබට මෙම Stocks සඳහා  Barcodes Print කිරීමට අවශ්‍යද?", vbYesNo + vbExclamation) = vbYes Then
+        If MsgBox("සාර්ථකව Supply එක Update කෙරුණි. ඔබට මෙම Stocks සඳහා  Barcodes Print කිරීමට අවශ්‍යද?", vbYesNo + vbInformation) = vbYes Then
             BarcodeViewerShow()
         End If
 
@@ -147,14 +188,14 @@ Public Class frmSupply
                     .Format = BarcodeFormat.CODE_128
                 }
                 writer.Options.PureBarcode = True
-                .grdStock.Rows.Add(row.Cells(Stock.Code).Value, row.Cells(Stock.Category).Value, row.Cells(Stock.Name).Value, AvailableUnits, row.Cells("CostPrice").Value, row.Cells("SupQty").Value, writer.Write(row.Cells(Stock.Code).Value))
+                .grdStock.Rows.Add(row.Cells(Stock.Code).Value, row.Cells(Stock.Category).Value, row.Cells(Stock.Name).Value, AvailableUnits, row.Cells("SupQty").Value, row.Cells("CostPrice").Value, writer.Write(row.Cells(Stock.Code).Value))
             Next
             .Show()
             .btnShow_Click(cmdSave, Nothing)
         End With
     End Sub
 
-    Private Sub cmdGetData_Click(sender As Object, e As EventArgs) Handles cmdGetData.Click
+    Private Sub cmdGetData_Click(sender As Object, e As EventArgs) Handles cmdGetData.Click, GetDataToolStripMenuItem.Click
         Dim frmSearchSupply As New frmSearch With {
             .Tag = "Supply"
         }
@@ -165,34 +206,11 @@ Public Class frmSupply
         If cmdGetData.Enabled = True Then cmdGetData_Click(sender, e)
     End Sub
 
-    Private Sub frmSupply_Resize(sender As Object, e As EventArgs) Handles Me.Resize
-        cmdNew.Left = Me.Width - cmdNew.Width - 20
-        cmdSave.Left = cmdNew.Left
-        cmdGetData.Left = cmdNew.Left
-        cmdDelete.Left = cmdNew.Left
-        cmdClose.Left = cmdNew.Left
-        grdSupply.Width = cmdNew.Left - grdSupply.Left - 5
-        txtSupRemarks.Width = cmdNew.Left - txtSupRemarks.Left - 5
-        grdSupply.Height = Me.Height - grdSupply.Top - 50
-    End Sub
-
-    Private Sub NewToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles NewToolStripMenuItem1.Click
-        If cmdNew.Enabled = True Then cmdNew_Click(sender, e)
-    End Sub
-
-    Private Sub SaveToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveToolStripMenuItem.Click
-        If cmdSave.Enabled = True Then cmdSave_Click(sender, e)
-    End Sub
-
-    Private Sub DeleteToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles DeleteToolStripMenuItem1.Click
-        If cmdDelete.Enabled = True Then cmdDelete_Click(sender, e)
-    End Sub
-
-    Private Sub GetDataToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles GetDataToolStripMenuItem.Click
-        If cmdGetData.Enabled = True Then cmdGetData_Click(sender, e)
-    End Sub
-
-    Private Sub cmdDelete_Click(sender As Object, e As EventArgs) Handles cmdDelete.Click
+    Private Sub cmdDelete_Click(sender As Object, e As EventArgs) Handles cmdDelete.Click, DeleteToolStripMenuItem1.Click
+        If User.Instance.UserType <> User.Type.Admin Then
+            MsgBox("ඔබට Permission නැහැ මෙම Operation එක සිදු කිරීමට")
+            Exit Sub
+        End If
         If CheckEmptyfield(txtSupNo, "Supply No was empty. Please check again And Try agin.") = False Then
             Exit Sub
         ElseIf Db.CheckDataExists("Supply", "SupNo", txtSupNo.Text) = False Then
@@ -366,4 +384,7 @@ Public Class frmSupply
         OnlynumberQty(e)
     End Sub
 
+    Private Sub OpenBarcodeGeneratorToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenBarcodeGeneratorToolStripMenuItem.Click
+        BarcodeViewerShow()
+    End Sub
 End Class

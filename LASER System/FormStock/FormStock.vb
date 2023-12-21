@@ -76,6 +76,7 @@ Public Class FormStock
                     .TxtReorderPoint.Text = CurrentRow.Cells.Item(Stock.ReorderPoint).Value.ToString()
                     .TxtDetails.Text = CurrentRow.Cells.Item(Stock.Details).Value.ToString()
                     Me.Controls.Add(ControlStockInfo)
+                    .FormParent = Me
                     .Dock = DockStyle.Fill
                     .BringToFront()
                 End With
@@ -174,6 +175,7 @@ Public Class FormStock
         Dim ControlStockInfo As New ControlStockInfo(DB)
         Me.Controls.Add(ControlStockInfo)
         ControlStockInfo.ClearControls()
+        ControlStockInfo.FormParent = Me
         ControlStockInfo.Dock = DockStyle.Fill
         ControlStockInfo.BringToFront()
     End Sub

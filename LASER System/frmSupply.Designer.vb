@@ -22,46 +22,24 @@ Partial Class frmSupply
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmSupply))
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmSupply))
+        Me.GroupSupply = New System.Windows.Forms.GroupBox()
         Me.Label5 = New System.Windows.Forms.Label()
         Me.txtSupDate = New System.Windows.Forms.DateTimePicker()
         Me.txtSupNo = New System.Windows.Forms.TextBox()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
-        Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.GroupSupplier = New System.Windows.Forms.GroupBox()
         Me.cmdSuView = New System.Windows.Forms.Button()
         Me.cmbSuName = New System.Windows.Forms.ComboBox()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.grdSupply = New System.Windows.Forms.DataGridView()
-        Me.cmdNew = New System.Windows.Forms.Button()
-        Me.cmdSave = New System.Windows.Forms.Button()
-        Me.cmdDelete = New System.Windows.Forms.Button()
-        Me.cmdGetData = New System.Windows.Forms.Button()
-        Me.cmdClose = New System.Windows.Forms.Button()
-        Me.Label3 = New System.Windows.Forms.Label()
-        Me.txtSupRemarks = New System.Windows.Forms.TextBox()
-        Me.MenuStrip = New System.Windows.Forms.MenuStrip()
-        Me.OPTIONToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.NewToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.SaveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.DeleteToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.GetDataToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.CloseToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.VIEWToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.SupplierInfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.StockInfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.GroupBox3 = New System.Windows.Forms.GroupBox()
-        Me.cmbSupStatus = New System.Windows.Forms.ComboBox()
-        Me.txtSupPaidDate = New System.Windows.Forms.DateTimePicker()
-        Me.lblSupPaidDate = New System.Windows.Forms.Label()
-        Me.Label8 = New System.Windows.Forms.Label()
         Me.SNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.SCategory = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.SName = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -75,27 +53,50 @@ Partial Class frmSupply
         Me.SupQty = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.SupTotal = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.SDetails = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.GroupBox1.SuspendLayout()
-        Me.GroupBox2.SuspendLayout()
+        Me.cmdNew = New System.Windows.Forms.Button()
+        Me.cmdSave = New System.Windows.Forms.Button()
+        Me.cmdDelete = New System.Windows.Forms.Button()
+        Me.cmdGetData = New System.Windows.Forms.Button()
+        Me.cmdClose = New System.Windows.Forms.Button()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.txtSupRemarks = New System.Windows.Forms.TextBox()
+        Me.MenuStrip = New System.Windows.Forms.MenuStrip()
+        Me.OPTIONToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.NewToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SaveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DeleteToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.GetDataToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.OpenBarcodeGeneratorToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CloseToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.VIEWToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SupplierInfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.StockInfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.GroupFinancial = New System.Windows.Forms.GroupBox()
+        Me.cmbSupStatus = New System.Windows.Forms.ComboBox()
+        Me.txtSupPaidDate = New System.Windows.Forms.DateTimePicker()
+        Me.lblSupPaidDate = New System.Windows.Forms.Label()
+        Me.Label8 = New System.Windows.Forms.Label()
+        Me.GroupSupply.SuspendLayout()
+        Me.GroupSupplier.SuspendLayout()
         CType(Me.grdSupply, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.MenuStrip.SuspendLayout()
-        Me.GroupBox3.SuspendLayout()
+        Me.GroupFinancial.SuspendLayout()
         Me.SuspendLayout()
         '
-        'GroupBox1
+        'GroupSupply
         '
-        Me.GroupBox1.Controls.Add(Me.Label5)
-        Me.GroupBox1.Controls.Add(Me.txtSupDate)
-        Me.GroupBox1.Controls.Add(Me.txtSupNo)
-        Me.GroupBox1.Controls.Add(Me.Label2)
-        Me.GroupBox1.Controls.Add(Me.Label1)
-        Me.GroupBox1.Font = New System.Drawing.Font("Calibri", 10.0!, System.Drawing.FontStyle.Italic)
-        Me.GroupBox1.Location = New System.Drawing.Point(12, 27)
-        Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(327, 83)
-        Me.GroupBox1.TabIndex = 0
-        Me.GroupBox1.TabStop = False
-        Me.GroupBox1.Text = "Supply Info"
+        Me.GroupSupply.Controls.Add(Me.Label5)
+        Me.GroupSupply.Controls.Add(Me.txtSupDate)
+        Me.GroupSupply.Controls.Add(Me.txtSupNo)
+        Me.GroupSupply.Controls.Add(Me.Label2)
+        Me.GroupSupply.Controls.Add(Me.Label1)
+        Me.GroupSupply.Font = New System.Drawing.Font("Calibri", 10.0!, System.Drawing.FontStyle.Italic)
+        Me.GroupSupply.Location = New System.Drawing.Point(12, 27)
+        Me.GroupSupply.Name = "GroupSupply"
+        Me.GroupSupply.Size = New System.Drawing.Size(327, 83)
+        Me.GroupSupply.TabIndex = 0
+        Me.GroupSupply.TabStop = False
+        Me.GroupSupply.Text = "Supply Info"
         '
         'Label5
         '
@@ -145,18 +146,18 @@ Partial Class frmSupply
         Me.Label1.TabIndex = 0
         Me.Label1.Text = "Supply No:"
         '
-        'GroupBox2
+        'GroupSupplier
         '
-        Me.GroupBox2.Controls.Add(Me.cmdSuView)
-        Me.GroupBox2.Controls.Add(Me.cmbSuName)
-        Me.GroupBox2.Controls.Add(Me.Label4)
-        Me.GroupBox2.Font = New System.Drawing.Font("Calibri", 10.0!, System.Drawing.FontStyle.Italic)
-        Me.GroupBox2.Location = New System.Drawing.Point(345, 27)
-        Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(302, 83)
-        Me.GroupBox2.TabIndex = 1
-        Me.GroupBox2.TabStop = False
-        Me.GroupBox2.Text = "Supplier Info"
+        Me.GroupSupplier.Controls.Add(Me.cmdSuView)
+        Me.GroupSupplier.Controls.Add(Me.cmbSuName)
+        Me.GroupSupplier.Controls.Add(Me.Label4)
+        Me.GroupSupplier.Font = New System.Drawing.Font("Calibri", 10.0!, System.Drawing.FontStyle.Italic)
+        Me.GroupSupplier.Location = New System.Drawing.Point(345, 27)
+        Me.GroupSupplier.Name = "GroupSupplier"
+        Me.GroupSupplier.Size = New System.Drawing.Size(302, 83)
+        Me.GroupSupplier.TabIndex = 1
+        Me.GroupSupplier.TabStop = False
+        Me.GroupSupplier.Text = "Supplier Info"
         '
         'cmdSuView
         '
@@ -191,6 +192,9 @@ Partial Class frmSupply
         'grdSupply
         '
         Me.grdSupply.AllowUserToOrderColumns = True
+        Me.grdSupply.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.grdSupply.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.grdSupply.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.SNo, Me.SCategory, Me.SName, Me.SModelNo, Me.SLocation, Me.SSalePrice, Me.SLowestPrice, Me.SMinStocks, Me.SupType, Me.CostPrice, Me.SupQty, Me.SupTotal, Me.SDetails})
         Me.grdSupply.Location = New System.Drawing.Point(12, 116)
@@ -198,216 +202,6 @@ Partial Class frmSupply
         Me.grdSupply.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders
         Me.grdSupply.Size = New System.Drawing.Size(1249, 407)
         Me.grdSupply.TabIndex = 21
-        '
-        'cmdNew
-        '
-        Me.cmdNew.Font = New System.Drawing.Font("Calibri", 10.0!)
-        Me.cmdNew.Image = CType(resources.GetObject("cmdNew.Image"), System.Drawing.Image)
-        Me.cmdNew.Location = New System.Drawing.Point(1267, 27)
-        Me.cmdNew.Name = "cmdNew"
-        Me.cmdNew.Size = New System.Drawing.Size(85, 32)
-        Me.cmdNew.TabIndex = 22
-        Me.cmdNew.Text = "New"
-        Me.cmdNew.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
-        Me.cmdNew.UseVisualStyleBackColor = True
-        '
-        'cmdSave
-        '
-        Me.cmdSave.Font = New System.Drawing.Font("Calibri", 10.0!)
-        Me.cmdSave.Image = CType(resources.GetObject("cmdSave.Image"), System.Drawing.Image)
-        Me.cmdSave.Location = New System.Drawing.Point(1267, 65)
-        Me.cmdSave.Name = "cmdSave"
-        Me.cmdSave.Size = New System.Drawing.Size(85, 33)
-        Me.cmdSave.TabIndex = 23
-        Me.cmdSave.Text = "Save"
-        Me.cmdSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
-        Me.cmdSave.UseVisualStyleBackColor = True
-        '
-        'cmdDelete
-        '
-        Me.cmdDelete.Font = New System.Drawing.Font("Calibri", 10.0!)
-        Me.cmdDelete.Image = CType(resources.GetObject("cmdDelete.Image"), System.Drawing.Image)
-        Me.cmdDelete.Location = New System.Drawing.Point(1267, 104)
-        Me.cmdDelete.Name = "cmdDelete"
-        Me.cmdDelete.Size = New System.Drawing.Size(85, 33)
-        Me.cmdDelete.TabIndex = 24
-        Me.cmdDelete.Text = "Delete"
-        Me.cmdDelete.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
-        Me.cmdDelete.UseVisualStyleBackColor = True
-        '
-        'cmdGetData
-        '
-        Me.cmdGetData.Font = New System.Drawing.Font("Calibri", 10.0!)
-        Me.cmdGetData.Image = CType(resources.GetObject("cmdGetData.Image"), System.Drawing.Image)
-        Me.cmdGetData.Location = New System.Drawing.Point(1267, 143)
-        Me.cmdGetData.Name = "cmdGetData"
-        Me.cmdGetData.Size = New System.Drawing.Size(85, 33)
-        Me.cmdGetData.TabIndex = 25
-        Me.cmdGetData.Text = "Get Data"
-        Me.cmdGetData.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
-        Me.cmdGetData.UseVisualStyleBackColor = True
-        '
-        'cmdClose
-        '
-        Me.cmdClose.Font = New System.Drawing.Font("Calibri", 10.0!)
-        Me.cmdClose.Image = CType(resources.GetObject("cmdClose.Image"), System.Drawing.Image)
-        Me.cmdClose.Location = New System.Drawing.Point(1267, 182)
-        Me.cmdClose.Name = "cmdClose"
-        Me.cmdClose.Size = New System.Drawing.Size(85, 33)
-        Me.cmdClose.TabIndex = 26
-        Me.cmdClose.Text = "Close"
-        Me.cmdClose.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
-        Me.cmdClose.UseVisualStyleBackColor = True
-        '
-        'Label3
-        '
-        Me.Label3.AutoSize = True
-        Me.Label3.Font = New System.Drawing.Font("Calibri", 10.0!)
-        Me.Label3.Location = New System.Drawing.Point(961, 24)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(75, 21)
-        Me.Label3.TabIndex = 36
-        Me.Label3.Text = "Remarks:"
-        '
-        'txtSupRemarks
-        '
-        Me.txtSupRemarks.Font = New System.Drawing.Font("Calibri", 10.0!)
-        Me.txtSupRemarks.Location = New System.Drawing.Point(961, 44)
-        Me.txtSupRemarks.Multiline = True
-        Me.txtSupRemarks.Name = "txtSupRemarks"
-        Me.txtSupRemarks.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.txtSupRemarks.Size = New System.Drawing.Size(300, 66)
-        Me.txtSupRemarks.TabIndex = 4
-        '
-        'MenuStrip
-        '
-        Me.MenuStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
-        Me.MenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OPTIONToolStripMenuItem, Me.VIEWToolStripMenuItem})
-        Me.MenuStrip.Location = New System.Drawing.Point(0, 0)
-        Me.MenuStrip.Name = "MenuStrip"
-        Me.MenuStrip.Size = New System.Drawing.Size(1364, 28)
-        Me.MenuStrip.TabIndex = 38
-        Me.MenuStrip.Text = "MenuStrip"
-        '
-        'OPTIONToolStripMenuItem
-        '
-        Me.OPTIONToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem1, Me.SaveToolStripMenuItem, Me.DeleteToolStripMenuItem1, Me.GetDataToolStripMenuItem, Me.CloseToolStripMenuItem})
-        Me.OPTIONToolStripMenuItem.Name = "OPTIONToolStripMenuItem"
-        Me.OPTIONToolStripMenuItem.Size = New System.Drawing.Size(76, 24)
-        Me.OPTIONToolStripMenuItem.Text = "OPTION"
-        '
-        'NewToolStripMenuItem1
-        '
-        Me.NewToolStripMenuItem1.Name = "NewToolStripMenuItem1"
-        Me.NewToolStripMenuItem1.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.N), System.Windows.Forms.Keys)
-        Me.NewToolStripMenuItem1.Size = New System.Drawing.Size(203, 26)
-        Me.NewToolStripMenuItem1.Text = "New"
-        '
-        'SaveToolStripMenuItem
-        '
-        Me.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem"
-        Me.SaveToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
-        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(203, 26)
-        Me.SaveToolStripMenuItem.Text = "Save"
-        '
-        'DeleteToolStripMenuItem1
-        '
-        Me.DeleteToolStripMenuItem1.Name = "DeleteToolStripMenuItem1"
-        Me.DeleteToolStripMenuItem1.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.D), System.Windows.Forms.Keys)
-        Me.DeleteToolStripMenuItem1.Size = New System.Drawing.Size(203, 26)
-        Me.DeleteToolStripMenuItem1.Text = "Delete"
-        '
-        'GetDataToolStripMenuItem
-        '
-        Me.GetDataToolStripMenuItem.Name = "GetDataToolStripMenuItem"
-        Me.GetDataToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.G), System.Windows.Forms.Keys)
-        Me.GetDataToolStripMenuItem.Size = New System.Drawing.Size(203, 26)
-        Me.GetDataToolStripMenuItem.Text = "Get Data"
-        '
-        'CloseToolStripMenuItem
-        '
-        Me.CloseToolStripMenuItem.Name = "CloseToolStripMenuItem"
-        Me.CloseToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.F4), System.Windows.Forms.Keys)
-        Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(203, 26)
-        Me.CloseToolStripMenuItem.Text = "Close"
-        '
-        'VIEWToolStripMenuItem
-        '
-        Me.VIEWToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SupplierInfoToolStripMenuItem, Me.StockInfoToolStripMenuItem})
-        Me.VIEWToolStripMenuItem.Name = "VIEWToolStripMenuItem"
-        Me.VIEWToolStripMenuItem.Size = New System.Drawing.Size(58, 24)
-        Me.VIEWToolStripMenuItem.Text = "VIEW"
-        '
-        'SupplierInfoToolStripMenuItem
-        '
-        Me.SupplierInfoToolStripMenuItem.Name = "SupplierInfoToolStripMenuItem"
-        Me.SupplierInfoToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
-            Or System.Windows.Forms.Keys.U), System.Windows.Forms.Keys)
-        Me.SupplierInfoToolStripMenuItem.Size = New System.Drawing.Size(269, 26)
-        Me.SupplierInfoToolStripMenuItem.Text = "Supplier Info"
-        '
-        'StockInfoToolStripMenuItem
-        '
-        Me.StockInfoToolStripMenuItem.Name = "StockInfoToolStripMenuItem"
-        Me.StockInfoToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
-            Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
-        Me.StockInfoToolStripMenuItem.Size = New System.Drawing.Size(269, 26)
-        Me.StockInfoToolStripMenuItem.Text = "Stock Info"
-        '
-        'GroupBox3
-        '
-        Me.GroupBox3.Controls.Add(Me.cmbSupStatus)
-        Me.GroupBox3.Controls.Add(Me.txtSupPaidDate)
-        Me.GroupBox3.Controls.Add(Me.lblSupPaidDate)
-        Me.GroupBox3.Controls.Add(Me.Label8)
-        Me.GroupBox3.Font = New System.Drawing.Font("Calibri", 10.0!, System.Drawing.FontStyle.Italic)
-        Me.GroupBox3.Location = New System.Drawing.Point(653, 27)
-        Me.GroupBox3.Name = "GroupBox3"
-        Me.GroupBox3.Size = New System.Drawing.Size(302, 83)
-        Me.GroupBox3.TabIndex = 39
-        Me.GroupBox3.TabStop = False
-        Me.GroupBox3.Text = "Financial Info"
-        '
-        'cmbSupStatus
-        '
-        Me.cmbSupStatus.BackColor = System.Drawing.SystemColors.Window
-        Me.cmbSupStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cmbSupStatus.Font = New System.Drawing.Font("Calibri", 10.0!)
-        Me.cmbSupStatus.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.cmbSupStatus.FormattingEnabled = True
-        Me.cmbSupStatus.Items.AddRange(New Object() {"Not Paid", "Paid"})
-        Me.cmbSupStatus.Location = New System.Drawing.Point(60, 25)
-        Me.cmbSupStatus.Name = "cmbSupStatus"
-        Me.cmbSupStatus.Size = New System.Drawing.Size(115, 29)
-        Me.cmbSupStatus.TabIndex = 4
-        '
-        'txtSupPaidDate
-        '
-        Me.txtSupPaidDate.Font = New System.Drawing.Font("Calibri", 10.0!)
-        Me.txtSupPaidDate.Location = New System.Drawing.Point(80, 53)
-        Me.txtSupPaidDate.Name = "txtSupPaidDate"
-        Me.txtSupPaidDate.Size = New System.Drawing.Size(216, 28)
-        Me.txtSupPaidDate.TabIndex = 1
-        '
-        'lblSupPaidDate
-        '
-        Me.lblSupPaidDate.AutoSize = True
-        Me.lblSupPaidDate.Font = New System.Drawing.Font("Calibri", 10.0!)
-        Me.lblSupPaidDate.Location = New System.Drawing.Point(7, 56)
-        Me.lblSupPaidDate.Name = "lblSupPaidDate"
-        Me.lblSupPaidDate.Size = New System.Drawing.Size(81, 21)
-        Me.lblSupPaidDate.TabIndex = 1
-        Me.lblSupPaidDate.Text = "Paid Date:"
-        '
-        'Label8
-        '
-        Me.Label8.AutoSize = True
-        Me.Label8.Font = New System.Drawing.Font("Calibri", 10.0!)
-        Me.Label8.Location = New System.Drawing.Point(7, 28)
-        Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(59, 21)
-        Me.Label8.TabIndex = 0
-        Me.Label8.Text = "Status:"
         '
         'SNo
         '
@@ -535,12 +329,233 @@ Partial Class frmSupply
         Me.SDetails.MinimumWidth = 6
         Me.SDetails.Name = "SDetails"
         '
+        'cmdNew
+        '
+        Me.cmdNew.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.cmdNew.Font = New System.Drawing.Font("Calibri", 10.0!)
+        Me.cmdNew.Image = CType(resources.GetObject("cmdNew.Image"), System.Drawing.Image)
+        Me.cmdNew.Location = New System.Drawing.Point(1267, 27)
+        Me.cmdNew.Name = "cmdNew"
+        Me.cmdNew.Size = New System.Drawing.Size(85, 32)
+        Me.cmdNew.TabIndex = 22
+        Me.cmdNew.Text = "New"
+        Me.cmdNew.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
+        Me.cmdNew.UseVisualStyleBackColor = True
+        '
+        'cmdSave
+        '
+        Me.cmdSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.cmdSave.Font = New System.Drawing.Font("Calibri", 10.0!)
+        Me.cmdSave.Image = CType(resources.GetObject("cmdSave.Image"), System.Drawing.Image)
+        Me.cmdSave.Location = New System.Drawing.Point(1267, 65)
+        Me.cmdSave.Name = "cmdSave"
+        Me.cmdSave.Size = New System.Drawing.Size(85, 33)
+        Me.cmdSave.TabIndex = 23
+        Me.cmdSave.Text = "Save"
+        Me.cmdSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
+        Me.cmdSave.UseVisualStyleBackColor = True
+        '
+        'cmdDelete
+        '
+        Me.cmdDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.cmdDelete.Font = New System.Drawing.Font("Calibri", 10.0!)
+        Me.cmdDelete.Image = CType(resources.GetObject("cmdDelete.Image"), System.Drawing.Image)
+        Me.cmdDelete.Location = New System.Drawing.Point(1267, 104)
+        Me.cmdDelete.Name = "cmdDelete"
+        Me.cmdDelete.Size = New System.Drawing.Size(85, 33)
+        Me.cmdDelete.TabIndex = 24
+        Me.cmdDelete.Text = "Delete"
+        Me.cmdDelete.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
+        Me.cmdDelete.UseVisualStyleBackColor = True
+        '
+        'cmdGetData
+        '
+        Me.cmdGetData.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.cmdGetData.Font = New System.Drawing.Font("Calibri", 10.0!)
+        Me.cmdGetData.Image = CType(resources.GetObject("cmdGetData.Image"), System.Drawing.Image)
+        Me.cmdGetData.Location = New System.Drawing.Point(1267, 143)
+        Me.cmdGetData.Name = "cmdGetData"
+        Me.cmdGetData.Size = New System.Drawing.Size(85, 33)
+        Me.cmdGetData.TabIndex = 25
+        Me.cmdGetData.Text = "Get Data"
+        Me.cmdGetData.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
+        Me.cmdGetData.UseVisualStyleBackColor = True
+        '
+        'cmdClose
+        '
+        Me.cmdClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.cmdClose.Font = New System.Drawing.Font("Calibri", 10.0!)
+        Me.cmdClose.Image = CType(resources.GetObject("cmdClose.Image"), System.Drawing.Image)
+        Me.cmdClose.Location = New System.Drawing.Point(1267, 182)
+        Me.cmdClose.Name = "cmdClose"
+        Me.cmdClose.Size = New System.Drawing.Size(85, 33)
+        Me.cmdClose.TabIndex = 26
+        Me.cmdClose.Text = "Close"
+        Me.cmdClose.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
+        Me.cmdClose.UseVisualStyleBackColor = True
+        '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.Font = New System.Drawing.Font("Calibri", 10.0!)
+        Me.Label3.Location = New System.Drawing.Point(961, 24)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(75, 21)
+        Me.Label3.TabIndex = 36
+        Me.Label3.Text = "Remarks:"
+        '
+        'txtSupRemarks
+        '
+        Me.txtSupRemarks.Font = New System.Drawing.Font("Calibri", 10.0!)
+        Me.txtSupRemarks.Location = New System.Drawing.Point(961, 44)
+        Me.txtSupRemarks.Multiline = True
+        Me.txtSupRemarks.Name = "txtSupRemarks"
+        Me.txtSupRemarks.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
+        Me.txtSupRemarks.Size = New System.Drawing.Size(300, 66)
+        Me.txtSupRemarks.TabIndex = 4
+        '
+        'MenuStrip
+        '
+        Me.MenuStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
+        Me.MenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OPTIONToolStripMenuItem, Me.VIEWToolStripMenuItem})
+        Me.MenuStrip.Location = New System.Drawing.Point(0, 0)
+        Me.MenuStrip.Name = "MenuStrip"
+        Me.MenuStrip.Size = New System.Drawing.Size(1364, 30)
+        Me.MenuStrip.TabIndex = 38
+        Me.MenuStrip.Text = "MenuStrip"
+        '
+        'OPTIONToolStripMenuItem
+        '
+        Me.OPTIONToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem1, Me.SaveToolStripMenuItem, Me.DeleteToolStripMenuItem1, Me.GetDataToolStripMenuItem, Me.OpenBarcodeGeneratorToolStripMenuItem, Me.CloseToolStripMenuItem})
+        Me.OPTIONToolStripMenuItem.Name = "OPTIONToolStripMenuItem"
+        Me.OPTIONToolStripMenuItem.Size = New System.Drawing.Size(76, 26)
+        Me.OPTIONToolStripMenuItem.Text = "OPTION"
+        '
+        'NewToolStripMenuItem1
+        '
+        Me.NewToolStripMenuItem1.Name = "NewToolStripMenuItem1"
+        Me.NewToolStripMenuItem1.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.N), System.Windows.Forms.Keys)
+        Me.NewToolStripMenuItem1.Size = New System.Drawing.Size(257, 26)
+        Me.NewToolStripMenuItem1.Text = "New"
+        '
+        'SaveToolStripMenuItem
+        '
+        Me.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem"
+        Me.SaveToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
+        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(257, 26)
+        Me.SaveToolStripMenuItem.Text = "Save"
+        '
+        'DeleteToolStripMenuItem1
+        '
+        Me.DeleteToolStripMenuItem1.Name = "DeleteToolStripMenuItem1"
+        Me.DeleteToolStripMenuItem1.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.D), System.Windows.Forms.Keys)
+        Me.DeleteToolStripMenuItem1.Size = New System.Drawing.Size(257, 26)
+        Me.DeleteToolStripMenuItem1.Text = "Delete"
+        '
+        'GetDataToolStripMenuItem
+        '
+        Me.GetDataToolStripMenuItem.Name = "GetDataToolStripMenuItem"
+        Me.GetDataToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.G), System.Windows.Forms.Keys)
+        Me.GetDataToolStripMenuItem.Size = New System.Drawing.Size(257, 26)
+        Me.GetDataToolStripMenuItem.Text = "Get Data"
+        '
+        'OpenBarcodeGeneratorToolStripMenuItem
+        '
+        Me.OpenBarcodeGeneratorToolStripMenuItem.Name = "OpenBarcodeGeneratorToolStripMenuItem"
+        Me.OpenBarcodeGeneratorToolStripMenuItem.Size = New System.Drawing.Size(257, 26)
+        Me.OpenBarcodeGeneratorToolStripMenuItem.Text = "Open Barcode Generator"
+        '
+        'CloseToolStripMenuItem
+        '
+        Me.CloseToolStripMenuItem.Name = "CloseToolStripMenuItem"
+        Me.CloseToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.F4), System.Windows.Forms.Keys)
+        Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(257, 26)
+        Me.CloseToolStripMenuItem.Text = "Close"
+        '
+        'VIEWToolStripMenuItem
+        '
+        Me.VIEWToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SupplierInfoToolStripMenuItem, Me.StockInfoToolStripMenuItem})
+        Me.VIEWToolStripMenuItem.Name = "VIEWToolStripMenuItem"
+        Me.VIEWToolStripMenuItem.Size = New System.Drawing.Size(58, 26)
+        Me.VIEWToolStripMenuItem.Text = "VIEW"
+        '
+        'SupplierInfoToolStripMenuItem
+        '
+        Me.SupplierInfoToolStripMenuItem.Name = "SupplierInfoToolStripMenuItem"
+        Me.SupplierInfoToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
+            Or System.Windows.Forms.Keys.U), System.Windows.Forms.Keys)
+        Me.SupplierInfoToolStripMenuItem.Size = New System.Drawing.Size(269, 26)
+        Me.SupplierInfoToolStripMenuItem.Text = "Supplier Info"
+        '
+        'StockInfoToolStripMenuItem
+        '
+        Me.StockInfoToolStripMenuItem.Name = "StockInfoToolStripMenuItem"
+        Me.StockInfoToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
+            Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
+        Me.StockInfoToolStripMenuItem.Size = New System.Drawing.Size(269, 26)
+        Me.StockInfoToolStripMenuItem.Text = "Stock Info"
+        '
+        'GroupFinancial
+        '
+        Me.GroupFinancial.Controls.Add(Me.cmbSupStatus)
+        Me.GroupFinancial.Controls.Add(Me.txtSupPaidDate)
+        Me.GroupFinancial.Controls.Add(Me.lblSupPaidDate)
+        Me.GroupFinancial.Controls.Add(Me.Label8)
+        Me.GroupFinancial.Font = New System.Drawing.Font("Calibri", 10.0!, System.Drawing.FontStyle.Italic)
+        Me.GroupFinancial.Location = New System.Drawing.Point(653, 27)
+        Me.GroupFinancial.Name = "GroupFinancial"
+        Me.GroupFinancial.Size = New System.Drawing.Size(302, 83)
+        Me.GroupFinancial.TabIndex = 39
+        Me.GroupFinancial.TabStop = False
+        Me.GroupFinancial.Text = "Financial Info"
+        '
+        'cmbSupStatus
+        '
+        Me.cmbSupStatus.BackColor = System.Drawing.SystemColors.Window
+        Me.cmbSupStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cmbSupStatus.Font = New System.Drawing.Font("Calibri", 10.0!)
+        Me.cmbSupStatus.ForeColor = System.Drawing.SystemColors.WindowText
+        Me.cmbSupStatus.FormattingEnabled = True
+        Me.cmbSupStatus.Items.AddRange(New Object() {"Not Paid", "Paid"})
+        Me.cmbSupStatus.Location = New System.Drawing.Point(60, 25)
+        Me.cmbSupStatus.Name = "cmbSupStatus"
+        Me.cmbSupStatus.Size = New System.Drawing.Size(115, 29)
+        Me.cmbSupStatus.TabIndex = 4
+        '
+        'txtSupPaidDate
+        '
+        Me.txtSupPaidDate.Font = New System.Drawing.Font("Calibri", 10.0!)
+        Me.txtSupPaidDate.Location = New System.Drawing.Point(80, 53)
+        Me.txtSupPaidDate.Name = "txtSupPaidDate"
+        Me.txtSupPaidDate.Size = New System.Drawing.Size(216, 28)
+        Me.txtSupPaidDate.TabIndex = 1
+        '
+        'lblSupPaidDate
+        '
+        Me.lblSupPaidDate.AutoSize = True
+        Me.lblSupPaidDate.Font = New System.Drawing.Font("Calibri", 10.0!)
+        Me.lblSupPaidDate.Location = New System.Drawing.Point(7, 56)
+        Me.lblSupPaidDate.Name = "lblSupPaidDate"
+        Me.lblSupPaidDate.Size = New System.Drawing.Size(81, 21)
+        Me.lblSupPaidDate.TabIndex = 1
+        Me.lblSupPaidDate.Text = "Paid Date:"
+        '
+        'Label8
+        '
+        Me.Label8.AutoSize = True
+        Me.Label8.Font = New System.Drawing.Font("Calibri", 10.0!)
+        Me.Label8.Location = New System.Drawing.Point(7, 28)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(59, 21)
+        Me.Label8.TabIndex = 0
+        Me.Label8.Text = "Status:"
+        '
         'frmSupply
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 18.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1364, 749)
-        Me.Controls.Add(Me.GroupBox3)
+        Me.ClientSize = New System.Drawing.Size(1364, 537)
+        Me.Controls.Add(Me.GroupFinancial)
         Me.Controls.Add(Me.txtSupRemarks)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.cmdClose)
@@ -549,8 +564,8 @@ Partial Class frmSupply
         Me.Controls.Add(Me.cmdSave)
         Me.Controls.Add(Me.cmdNew)
         Me.Controls.Add(Me.grdSupply)
-        Me.Controls.Add(Me.GroupBox2)
-        Me.Controls.Add(Me.GroupBox1)
+        Me.Controls.Add(Me.GroupSupplier)
+        Me.Controls.Add(Me.GroupSupply)
         Me.Controls.Add(Me.MenuStrip)
         Me.Font = New System.Drawing.Font("Calibri", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
@@ -558,25 +573,25 @@ Partial Class frmSupply
         Me.Name = "frmSupply"
         Me.Text = "LASER System - Supply"
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
-        Me.GroupBox1.ResumeLayout(False)
-        Me.GroupBox1.PerformLayout()
-        Me.GroupBox2.ResumeLayout(False)
-        Me.GroupBox2.PerformLayout()
+        Me.GroupSupply.ResumeLayout(False)
+        Me.GroupSupply.PerformLayout()
+        Me.GroupSupplier.ResumeLayout(False)
+        Me.GroupSupplier.PerformLayout()
         CType(Me.grdSupply, System.ComponentModel.ISupportInitialize).EndInit()
         Me.MenuStrip.ResumeLayout(False)
         Me.MenuStrip.PerformLayout()
-        Me.GroupBox3.ResumeLayout(False)
-        Me.GroupBox3.PerformLayout()
+        Me.GroupFinancial.ResumeLayout(False)
+        Me.GroupFinancial.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
     End Sub
-    Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
+    Friend WithEvents GroupSupply As System.Windows.Forms.GroupBox
     Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents txtSupDate As System.Windows.Forms.DateTimePicker
     Friend WithEvents txtSupNo As System.Windows.Forms.TextBox
-    Friend WithEvents GroupBox2 As System.Windows.Forms.GroupBox
+    Friend WithEvents GroupSupplier As System.Windows.Forms.GroupBox
     Friend WithEvents Label4 As System.Windows.Forms.Label
     Friend WithEvents cmbSuName As System.Windows.Forms.ComboBox
     Friend WithEvents cmdSuView As System.Windows.Forms.Button
@@ -599,7 +614,7 @@ Partial Class frmSupply
     Friend WithEvents SupplierInfoToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents StockInfoToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents Label5 As Label
-    Friend WithEvents GroupBox3 As GroupBox
+    Friend WithEvents GroupFinancial As GroupBox
     Friend WithEvents txtSupPaidDate As DateTimePicker
     Friend WithEvents lblSupPaidDate As Label
     Friend WithEvents Label8 As Label
@@ -617,4 +632,5 @@ Partial Class frmSupply
     Friend WithEvents SupQty As DataGridViewTextBoxColumn
     Friend WithEvents SupTotal As DataGridViewTextBoxColumn
     Friend WithEvents SDetails As DataGridViewTextBoxColumn
+    Friend WithEvents OpenBarcodeGeneratorToolStripMenuItem As ToolStripMenuItem
 End Class

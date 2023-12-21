@@ -157,6 +157,7 @@
     <Compile Include="Classes\User.vb" />
     <Compile Include="Classes\Validators\CustomValidator.vb" />
     <Compile Include="Classes\Validators\ExecuteValidators.vb" />
+    <Compile Include="Classes\Validators\NumberValidator.vb" />
     <Compile Include="Classes\Validators\RequiredValidator.vb" />
     <Compile Include="FormDeliver\Controls\ControlPopUp.Designer.vb">
       <DependentUpon>ControlPopUp.vb</DependentUpon>
