@@ -188,7 +188,7 @@ Public Class frmSupply
                     .Format = BarcodeFormat.CODE_128
                 }
                 writer.Options.PureBarcode = True
-                .grdStock.Rows.Add(row.Cells(Stock.Code).Value, row.Cells(Stock.Category).Value, row.Cells(Stock.Name).Value, AvailableUnits, row.Cells("SupQty").Value, row.Cells("CostPrice").Value, writer.Write(row.Cells(Stock.Code).Value))
+                .grdStock.Rows.Add(row.Cells(Stock.Code).Value, row.Cells(Stock.Category).Value, row.Cells(Stock.Name).Value, AvailableUnits, row.Cells("SupQty").Value, row.Cells(Stock.SalePrice).Value(), writer.Write(row.Cells(Stock.Code).Value))
             Next
             .Show()
             .btnShow_Click(cmdSave, Nothing)
