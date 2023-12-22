@@ -7,7 +7,6 @@ Public Class FormDeliver
         InitializeComponent()
 
         MenuStrip.Items.Add(mnustrpMENU)
-        ControlPopUp = New ControlPopUp(Db, Me)
     End Sub
 
     Private Sub frmDeliver_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -41,10 +40,6 @@ Public Class FormDeliver
         Next
         grdRepair.Rows.Clear()
         grdRERepair.Rows.Clear()
-        For Each obj As Object In {ControlPopUp.txtGrandTotal, ControlPopUp.txtCAmount, ControlPopUp.txtCBalance, ControlPopUp.txtCReceived, ControlPopUp.txtCPInvoiceNo, ControlPopUp.txtCPAmount,
-            ControlPopUp.txtCuLAmount}
-            obj.text = "0"
-        Next
 
         Dim grdtxt1 As DataGridViewComboBoxColumn = grdRepair.Columns.Item(5)
         Dim DT0 As DataTable = Db.GetDataTable("Select TName from Technician Where TActive=Yes group by TName;")
@@ -55,13 +50,15 @@ Public Class FormDeliver
         grdtxt1.DataSource = items
 
         cmdSave.Enabled = True
-        Call SetNextKey(Db, ControlPopUp.txtCuLNo, "SELECT top 1 CuLNo from CustomerLoan ORDER BY CuLNo Desc;", "CuLNo")
         grdRepair.Focus()
         grdRepair.CurrentCell = grdRepair.Item(0, grdRepair.Rows.Count - 1)
         Cursor = Cursors.Default
     End Sub
 
     Private Sub CmdSave_Click(sender As Object, e As EventArgs) Handles cmdSave.Click, SaveToolStripMenuItem.Click
+        grdRepair.EndEdit()
+        grdRERepair.EndEdit()
+
         If grdRepair.Rows.Count < 2 And grdRERepair.Rows.Count < 2 Then
             MsgBox("ඔබ තවමත් කිසිදු Repair එකක් හෝ RERepair එකක් ඇතුලත් කර නොමැත. කරුණාකර Repair එකක් හෝ RERepair එකක් ඇතුලත් කර නැවත උත්සහ කරන්න.", vbExclamation + vbOKOnly)
             grdRepair.Focus()
@@ -106,6 +103,7 @@ Public Class FormDeliver
             End If
         Next
 
+        ControlPopUp = New ControlPopUp(Db, Me)
         CalculateGrandTotal()
 
         If txtDDate.Value.Date <> Today.Date And User.Instance.UserType <> User.Type.Admin Then
