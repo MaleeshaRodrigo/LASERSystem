@@ -91,16 +91,12 @@ Partial Class frmSearch
         '
         'cmbFilter
         '
-        Me.cmbFilter.BackColor = System.Drawing.Color.White
-        Me.cmbFilter.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
         Me.cmbFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cmbFilter.Font = New System.Drawing.Font("Segoe UI", 10.0!)
-        Me.cmbFilter.ForeColor = System.Drawing.Color.Black
         Me.cmbFilter.FormattingEnabled = True
-        Me.cmbFilter.ItemHeight = 16
+        Me.cmbFilter.ItemHeight = 18
         Me.cmbFilter.Location = New System.Drawing.Point(150, 6)
         Me.cmbFilter.Name = "cmbFilter"
-        Me.cmbFilter.Size = New System.Drawing.Size(233, 22)
+        Me.cmbFilter.Size = New System.Drawing.Size(233, 26)
         Me.cmbFilter.TabIndex = 9
         '
         'cmdRightBracket
@@ -209,7 +205,7 @@ Partial Class frmSearch
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OPTIONToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(757, 30)
+        Me.MenuStrip1.Size = New System.Drawing.Size(757, 28)
         Me.MenuStrip1.TabIndex = 2
         Me.MenuStrip1.Text = "MenuStrip"
         '
@@ -217,7 +213,7 @@ Partial Class frmSearch
         '
         Me.OPTIONToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ClearToolStripMenuItem})
         Me.OPTIONToolStripMenuItem.Name = "OPTIONToolStripMenuItem"
-        Me.OPTIONToolStripMenuItem.Size = New System.Drawing.Size(76, 26)
+        Me.OPTIONToolStripMenuItem.Size = New System.Drawing.Size(76, 24)
         Me.OPTIONToolStripMenuItem.Text = "OPTION"
         '
         'ClearToolStripMenuItem
@@ -231,7 +227,7 @@ Partial Class frmSearch
         'ProgressBar
         '
         Me.ProgressBar.Dock = System.Windows.Forms.DockStyle.Top
-        Me.ProgressBar.Location = New System.Drawing.Point(0, 30)
+        Me.ProgressBar.Location = New System.Drawing.Point(0, 28)
         Me.ProgressBar.Name = "ProgressBar"
         Me.ProgressBar.Size = New System.Drawing.Size(757, 10)
         Me.ProgressBar.TabIndex = 5

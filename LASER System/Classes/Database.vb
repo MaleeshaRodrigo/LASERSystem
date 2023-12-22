@@ -72,6 +72,9 @@ Public Class Database
 
     Public Sub Execute(Query As String, Optional Parameters As OleDbParameter() = Nothing, Optional AdminPer As AdminPermission = Nothing)
         Query = FormatQuery(Query, AdminPer)
+        If AdminPer IsNot Nothing AndAlso AdminPer.AdminSend = True Then
+            Exit Sub
+        End If
         Dim CommandUpdate As New OleDbCommand(Query, _Connection)
         If Parameters IsNot Nothing Then
             CommandUpdate.Parameters.AddRange(Parameters)

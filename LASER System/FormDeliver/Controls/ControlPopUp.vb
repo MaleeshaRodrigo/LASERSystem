@@ -52,6 +52,7 @@ Public Class ControlPopUp
         Dock = DockStyle.Fill
         BringToFront()
         chkCashDrawer.Checked = My.Settings.CashDrawer
+        SetNextKey(Db, txtCuLNo, "SELECT top 1 CuLNo from CustomerLoan ORDER BY CuLNo Desc;", "CuLNo")
         txtCReceived.Focus()
     End Sub
 
@@ -73,15 +74,19 @@ Public Class ControlPopUp
         End If
         Dim DNo As Integer = FormParent.txtDNo.Text
         Dim threadDeliver As New Thread(Sub()
-                                            If sender Is cmdReceipt Then FormParent.PrintDeliveryReceipt(DNo, True)
+                                            If sender Is cmdReceipt Then
+                                                FormParent.PrintDeliveryReceipt(DNo, True)
+                                            End If
                                             SendDeliverEmail(FormParent.txtDNo.Text)
-                                        End Sub)
-        threadDeliver.Name = "showDeliverReceiptReport"
-        threadDeliver.IsBackground = False
-        threadDeliver.Priority = ThreadPriority.Highest
+                                        End Sub) With {
+            .Name = "showDeliverReceiptReport",
+            .IsBackground = False,
+            .Priority = ThreadPriority.Highest
+                                        }
         threadDeliver.SetApartmentState(ApartmentState.STA)
         threadDeliver.Start()
         Call FormParent.cmdNew_Click(sender, e)
+        cmdCancel.PerformClick()
     End Sub
 
     Private Function SaveDeliverRecord() As Boolean
@@ -109,10 +114,10 @@ Public Class ControlPopUp
             Db.Execute("Insert into Customer(CuNo,CuName,CuTelNo1,CuTelNo2,CutelNo3) Values(" & CuNo & ",'" & FormParent.cmbCuName.Text & "','" & FormParent.txtCuTelNo1.Text &
                       "','" & FormParent.txtCuTelNo2.Text & "','" & FormParent.txtCuTelNo3.Text & "');", {}, AdminPer)
         End If
-        Dim DNo As Integer = Db.GetData("SELECT TOP 1 DNo FROM Deliver ORDER BY DNo DESC;")
-        Db.Execute("Insert into Deliver(DNo,DDate,Cuno,DGrandTotal,CAmount,CReceived,CBalance,CPINvoiceNo,CPAmount,CuLNO,CuLAmount,DRemarks) Values(@DNO, @DDATE, @CUNO, @DGRANDTOTAL, @CAMOUNT, @CRECEIVED, @CBALANCE, @CPINVOICENO, @CPAMOUNT, @CULNO, @CULAMOUNT, @DREMARKS);", {
+        Dim DNo As Integer = Db.GetNextKey("Deliver", "DNo")
+        Db.Execute("INSERT INTO Deliver(DNo,DDate,Cuno,DGrandTotal,CAmount,CReceived,CBalance,CPINvoiceNo,CPAmount,CuLNO,CuLAmount,DRemarks) VALUES(@DNO, @DDATE, @CUNO, @DGRANDTOTAL, @CAMOUNT, @CRECEIVED, @CBALANCE, @CPINVOICENO, @CPAMOUNT, @CULNO, @CULAMOUNT, @DREMARKS);", {
                    New OleDbParameter("DNO", DNo),
-                   New OleDbParameter("DDATE", FormParent.txtDDate.Value),
+                   New OleDbParameter("DDATE", FormParent.txtDDate.Value.ToString),
                    New OleDbParameter("CUNO", CuNo),
                    New OleDbParameter("DGRANDTOTAL", txtGrandTotal.Text),
                    New OleDbParameter("CAMOUNT", txtCAmount.Text),
@@ -126,7 +131,7 @@ Public Class ControlPopUp
                    }, AdminPer)
         If txtCuLAmount.Text <> "0" Then
             Db.Execute("Insert into CustomerLoan(CuLNo,CuLDate,CuNO,CuLAmount,DNo,Status) Values(?NewKey?CustomerLoan?CuLNo?,@CULDATE,@CUNO,@CULAMOUNT,@DNO,'Not Paid')", {
-                   New OleDbParameter("CULDATE", FormParent.txtDDate.Value),
+                   New OleDbParameter("CULDATE", FormParent.txtDDate.Value.ToString),
                    New OleDbParameter("CUNO", CuNo),
                    New OleDbParameter("CULAMOUNT", txtCuLAmount.Text),
                    New OleDbParameter("DNO", DNo)
@@ -141,18 +146,17 @@ Public Class ControlPopUp
                     If DrRepStatus("Status").ToString = "Received" Or DrRepStatus("Status").ToString = "Hand Over to Technician" Or
                         DrRepStatus("Status").ToString = "Repairing" Then
                         Db.Execute("Update Repair set RepDate = @REPDATE,Charge=@CHARGE where RepNo=@REPNO;", {
-                            New OleDbParameter("REPDATE", FormParent.txtDDate.Value),
+                            New OleDbParameter("REPDATE", FormParent.txtDDate.Value.ToString),
                             New OleDbParameter("CHARGE", Row1.Cells(4).Value),
                             New OleDbParameter("REPNO", Row1.Cells(0).Value)
                         }, AdminPer)
                     End If
                 End If
-                Db.Execute("UPDATE Repair SET PaidPrice = @PAIDPRICE,TNo = (Select TNo from Technician Where TName=@TNAME),Status=@STATUS,DNo = @DNO where RepNo=@REPNO;", {
-                           New OleDbParameter("PAIDPRICE", Row1.Cells(4).Value.ToString),
-                           New OleDbParameter("TNAME", Row1.Cells(5).Value.ToString),
+                Db.Execute($"UPDATE Repair SET PaidPrice = @PAIDPRICE,TNo = DLookup('TNo', 'Technician', 'TName=""{Row1.Cells(5).Value}""'),[Status]=@STATUS,DNo = @DNO WHERE RepNo=@REPNO;", {
+                           New OleDbParameter("PAIDPRICE", Row1.Cells(4).Value),
                            New OleDbParameter("STATUS", Row1.Cells(6).Value.ToString),
                            New OleDbParameter("DNO", DNo),
-                           New OleDbParameter("REPNO", Row1.Cells(0).Value.ToString)
+                           New OleDbParameter("REPNO", Row1.Cells(0).Value)
                            }, AdminPer)
             Next
         End If
@@ -164,7 +168,7 @@ Public Class ControlPopUp
                     DrRetStatus.Read()
                     If DrRetStatus("Status").ToString = "Received" Or DrRetStatus("Status").ToString = "Hand Over to Technician" Or DrRetStatus("Status").ToString = "Repairing" Then
                         Db.Execute("UPDATE `Return` SET RetRepDate = @RETREPDATE,Charge= @CHARGE where RepNo= @REPNO;", {
-                            New OleDbParameter("RETREPDATE", FormParent.txtDDate.Value),
+                            New OleDbParameter("RETREPDATE", FormParent.txtDDate.Value.ToString),
                             New OleDbParameter("CHARGE", Row.Cells(5).Value.ToString),
                             New OleDbParameter("REPNO", Row.Cells(0).Value.ToString)
                         }, AdminPer)
@@ -179,6 +183,7 @@ Public Class ControlPopUp
                            }, AdminPer)
             Next
         End If
+        Return True
     End Function
 
     Private Sub PreSetPropertyBeforeSaving()
@@ -204,13 +209,13 @@ Public Class ControlPopUp
     Private Function GetAdminPermission() As AdminPermission
         Dim AdminPer As New AdminPermission(Db)
         AdminPer.Keys.Add("DNo", "?NewKey?Deliver?DNo?")
-        If User.Instance.UserType <> User.Type.Admin Then
+        If FormParent.txtDDate.Value.Date <> Today.Date And User.Instance.UserType <> User.Type.Admin Then
             AdminPer.AdminSend = True
-            AdminPer.Remarks = $"Reason: Date එක අද දිනයට වෙනස් Delivery එකක් Cashier කෙනෙකු විසින් ඇතුලත් කෙරුණි. {vbCr}Data: "
+            AdminPer.Remarks = $"Date එක අද දිනයට වෙනස් Delivery No: {FormParent.txtDNo.Text} Deliver එක Cashier: {User.Instance.UserName} විසින් ඇතුලත් කෙරුණි."
         End If
         If FormParent.cmdSave.Text = "Edit" And User.Instance.UserType <> User.Type.Admin Then
             AdminPer.AdminSend = True
-            AdminPer.Remarks = $"Deliver එකක් Cashier කෙනෙකු විසින් වෙනස් කෙරුණි."
+            AdminPer.Remarks = $"Deliver No: {FormParent.txtDNo.Text} Deliver එක Cashier කෙනෙකු විසින් වෙනස් කෙරුණි."
         End If
         Return AdminPer
     End Function
