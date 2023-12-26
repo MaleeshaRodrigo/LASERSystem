@@ -1,4 +1,4 @@
-﻿Imports MySql.Data.MySqlClient
+﻿Imports System.Data.Odbc
 
 Public Class frmCustomerLoan
     Private Db As New Database
@@ -48,7 +48,7 @@ Public Class frmCustomerLoan
     End Sub
 
     Private Sub txtDNo_TextChanged(sender As Object, e As EventArgs) Handles txtDNo.TextChanged
-        Dim DR As MySqlDataReader = Db.GetDataReader("SELECT DDate from Deliver where DNo =" & txtDNo.Text & ";")
+        Dim DR As OdbcDataReader = Db.GetDataReader("SELECT DDate from Deliver where DNo =" & txtDNo.Text & ";")
         If DR.HasRows = True Then
             DR.Read()
             txtDDate.Value = DR("DDate").ToString
@@ -57,7 +57,7 @@ Public Class frmCustomerLoan
 
     Private Sub txtSaNo_TextChanged(sender As Object, e As EventArgs) Handles txtSaNo.TextChanged
         If txtSaNo.Text = "" Then Exit Sub
-        Dim DR As MySqlDataReader = Db.GetDataReader("SELECT SaDate from SAle where SaNo =" & txtSaNo.Text & ";")
+        Dim DR As OdbcDataReader = Db.GetDataReader("SELECT SaDate from SAle where SaNo =" & txtSaNo.Text & ";")
         If DR.HasRows = True Then
             DR.Read()
             txtSaDate.Value = DR("SaDate").ToString
@@ -99,7 +99,7 @@ Public Class frmCustomerLoan
                 If CheckExistData(txtCuLNo, "SELECT CULNO FROM CUSTOMERLOAN WHERE CULNO = " & txtCuLNo.Text & ";", "Something was wrong. This Customer Loan No is already exist in the database. Please Check it and try again. Otherwise you can contact a software developer.", True) = True Then
                     Exit Sub
                 End If
-                Db.Execute("Insert into CustomerLoan(CuLNo,CuLDate,CuNo,CuLAmount,Status,CuLRemarks) Values(" & txtCuLNo.Text & ",#" & txtCuLDate.Value.Date & "#," & CuNo.ToString & "," & txtCuLAmount.Text & ",'" & cmbCuLStatus.Text & "','" & txtCuLRemarks.Text & "');")
+                Db.Execute("Insert into CustomerLoan(CuLNo,CuLDate,CuNo,CuLAmount,Status,CuLRemarks) Values(" & txtCuLNo.Text & ",'" & txtCuLDate.Value.Date & "'," & CuNo.ToString & "," & txtCuLAmount.Text & ",'" & cmbCuLStatus.Text & "','" & txtCuLRemarks.Text & "');")
                 If txtDNo.Text <> "" Then
                     Db.Execute("Update CustomerLoan set DNo = " & txtDNo.Text & " where CuLNO = " & txtCuLNo.Text)
                     If MsgBox("Will the Deliver Section be updated ? ", vbInformation + vbYesNo) = vbYes Then
@@ -117,8 +117,8 @@ Public Class frmCustomerLoan
                     End If
                 End If
             Case "Edit"
-                Db.Execute("Update CustomerLoan set CuLDate = #" & txtCuLDate.Text &
-                                             "#,CuNo = " & CuNo &
+                Db.Execute("Update CustomerLoan set CuLDate = '" & txtCuLDate.Text &
+                                             "',CuNo = " & CuNo &
                                              If(txtSaNo.Text <> "", ",SaNo = " & txtSaNo.Text, "") &
                                              If(txtDNo.Text <> "", ",DNo = " & txtDNo.Text, "") &
                                              ",CuLAmount = " & txtCuLAmount.Text &
@@ -149,7 +149,7 @@ Public Class frmCustomerLoan
         If index >= 0 Then
             selectedrow = grdCustomerLoan.Rows(index)
             txtCuLNo.Text = selectedrow.Cells(0).Value.ToString
-            Dim Dr As MySqlDataReader = Db.GetDataReader("Select CUL.CuLNo,CuLDate,CuL.CuNo,CuName,CuTelNo1,CuTelNo2,CuTelNo3,Sa.SaNo,Sa.SaDate,D.DNo,D.DDate,CuL.CuLAmount,Status,CuLRemarks from (((CustomerLoan CUL INNER JOIN Customer CU ON CU.CUNO = CUL.CUNO) LEFT JOIN DELIVER D ON D.DNO = CUL.DNO) LEFT JOIN SALE SA ON SA.SANO = CUL.SANO) WHERE CuL.CuLNO =" & txtCuLNo.Text)
+            Dim Dr As OdbcDataReader = Db.GetDataReader("Select CUL.CuLNo,CuLDate,CuL.CuNo,CuName,CuTelNo1,CuTelNo2,CuTelNo3,Sa.SaNo,Sa.SaDate,D.DNo,D.DDate,CuL.CuLAmount,Status,CuLRemarks from (((CustomerLoan CUL INNER JOIN Customer CU ON CU.CUNO = CUL.CUNO) LEFT JOIN DELIVER D ON D.DNO = CUL.DNO) LEFT JOIN SALE SA ON SA.SANO = CUL.SANO) WHERE CuL.CuLNO =" & txtCuLNo.Text)
             If DR.HasRows = True Then
                 DR.Read()
                 txtCuLDate.Value = DR("CuLDate").ToString

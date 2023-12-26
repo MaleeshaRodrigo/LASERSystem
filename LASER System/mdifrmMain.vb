@@ -1,7 +1,7 @@
 ﻿Imports System.ComponentModel
 Imports System.IO
 Imports Microsoft.VisualBasic.FileIO
-Imports MySql.Data.MySqlClient
+Imports System.Data.Odbc
 
 Public Class MdifrmMain
     Private Db As New Database
@@ -296,8 +296,8 @@ Public Class MdifrmMain
     End Sub
 
     Public Sub txtIncomevsDateCustom_TextChanged(sender As Object, e As EventArgs)
-        Dim cmd0 As New MySqlCommand
-        Dim DR0 As MySqlDataReader
+        Dim cmd0 As New OdbcCommand
+        Dim DR0 As OdbcDataReader
         If Me.Tag = "Cashier" Then Exit Sub
         tsProBar.Visible = True
         tsProBar.Value = 0

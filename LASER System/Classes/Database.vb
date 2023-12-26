@@ -1,10 +1,8 @@
-﻿Imports System.IO
-Imports System.Threading
-Imports LASER_System.My
-Imports MySql.Data.MySqlClient
+﻿Imports LASER_System.My
+Imports System.Data.Odbc
 
 Public Class Database
-    Private _Connection As New MySqlConnection
+    Private _Connection As New OdbcConnection
 
     Public Sub Connect()
         If _Connection.State = ConnectionState.Open Then Exit Sub
@@ -12,7 +10,7 @@ Public Class Database
         Dim DbPassword As String = If(Settings.DBPassword <> "",
             Encoder.Decode(Settings.DBPassword),
             "")
-        _Connection = New MySqlConnection($"server={Settings.DBServer};port={Settings.DBPort};user={Settings.DBUserName};password={DbPassword};database={Settings.DBName}")
+        _Connection = New OdbcConnection($"DRIVER=MySQL ODBC 8.1 Unicode Driver;server={Settings.DBServer};port={Settings.DBPort};user={Settings.DBUserName};password={DbPassword};database={Settings.DBName};Option=3;")
         _Connection.Open()
     End Sub
 
@@ -41,9 +39,9 @@ Public Class Database
     End Sub
 
     Public Function CheckDataExists(Table As String, FieldName As String, Value As String) As Boolean
-        Dim DR As MySqlDataReader = Nothing
+        Dim DR As OdbcDataReader = Nothing
         Try
-            Dim Command = New MySqlCommand($"SELECT {FieldName} FROM {Table} WHERE {FieldName} = @VALUE", _Connection)
+            Dim Command = New OdbcCommand($"SELECT {FieldName} FROM {Table} WHERE {FieldName} = @VALUE", _Connection)
             Command.Parameters.AddWithValue("@VALUE", Value)
             DR = Command.ExecuteReader()
             Return DR.HasRows
@@ -54,12 +52,12 @@ Public Class Database
         End Try
     End Function
 
-    Public Sub Execute(Query As String, Optional Parameters As MySqlParameter() = Nothing, Optional AdminPer As AdminPermission = Nothing)
+    Public Sub Execute(Query As String, Optional Parameters As OdbcParameter() = Nothing, Optional AdminPer As AdminPermission = Nothing)
         Query = FormatQuery(Query, AdminPer)
         If AdminPer IsNot Nothing AndAlso AdminPer.AdminSend = True Then
             Exit Sub
         End If
-        Dim CommandUpdate As New MySqlCommand(Query, _Connection)
+        Dim CommandUpdate As New OdbcCommand(Query, _Connection)
         If Parameters IsNot Nothing Then
             CommandUpdate.Parameters.AddRange(Parameters)
         End If
@@ -70,7 +68,7 @@ Public Class Database
     End Sub
 
     Public Sub DirectExecute(Query As String)
-        Dim Command As New MySqlCommand(Query, _Connection)
+        Dim Command As New OdbcCommand(Query, _Connection)
         Command.ExecuteNonQuery()
         Command.Cancel()
     End Sub
@@ -98,9 +96,9 @@ Public Class Database
         Return Query
     End Function
 
-    Public Function GetDataTable(Sql As String, Optional Values As MySqlParameter() = Nothing) As DataTable
+    Public Function GetDataTable(Sql As String, Optional Values As OdbcParameter() = Nothing) As DataTable
         Dim DataTable As New DataTable
-        Dim DataAdapter As New MySqlDataAdapter(Sql, _Connection)
+        Dim DataAdapter As New OdbcDataAdapter(Sql, _Connection)
         If Values IsNot Nothing Then
             DataAdapter.SelectCommand.Parameters.AddRange(Values)
         End If
@@ -110,8 +108,8 @@ Public Class Database
     End Function
 
     Public Function GetArray(Query As String, ColumnName As String) As List(Of String)
-        Dim Command = New MySqlCommand(Query, _Connection)
-        Dim DataReader As MySqlDataReader = Command.ExecuteReader()
+        Dim Command = New OdbcCommand(Query, _Connection)
+        Dim DataReader As OdbcDataReader = Command.ExecuteReader()
         Dim Output As New List(Of String)
         While DataReader.Read
             Output.Add(DataReader(ColumnName).ToString)
@@ -123,8 +121,8 @@ Public Class Database
 
     Public Function GetNextKey(Table As String, Column As String) As Integer
         Dim Output As Integer
-        Dim Command As New MySqlCommand($"SELECT `{Column}` FROM `{Table}` ORDER BY `{Column}` DESC LIMIT 1 ", _Connection)
-        Dim DataReader As MySqlDataReader = Command.ExecuteReader
+        Dim Command As New OdbcCommand($"SELECT `{Column}` FROM `{Table}` ORDER BY `{Column}` DESC LIMIT 1 ", _Connection)
+        Dim DataReader As OdbcDataReader = Command.ExecuteReader
         If DataReader.HasRows = True Then
             DataReader.Read()
             Output = Int(DataReader.Item(Column)) + 1
@@ -136,31 +134,31 @@ Public Class Database
     End Function
 
     Public Function GetRowsCount(Sql As String) As Integer
-        Dim Command As New MySqlCommand(Sql, _Connection)
-        Dim DataReader As MySqlDataReader = Command.ExecuteReader
+        Dim Command As New OdbcCommand(Sql, _Connection)
+        Dim DataReader As OdbcDataReader = Command.ExecuteReader
         Dim DataTable As New DataTable
         DataTable.Load(DataReader)
         Dim Output As Integer = DataTable.Rows.Count
         DataReader.Close()
         DataTable.Clear()
-        Return (Output)
+        Return Output
     End Function
 
-    Public Function GetDataReader(Sql As String, Optional Values As MySqlParameter() = Nothing) As MySqlDataReader
-        Dim Command As New MySqlCommand(Sql, _Connection)
+    Public Function GetDataReader(Sql As String, Optional Values As OdbcParameter() = Nothing) As OdbcDataReader
+        Dim Command As New OdbcCommand(Sql, _Connection)
         If Values IsNot Nothing Then
             Command.Parameters.AddRange(Values)
         End If
-        Return (Command.ExecuteReader())
+        Return Command.ExecuteReader()
     End Function
 
-    Public Function GetDataAdapter(Query As String) As MySqlDataAdapter
-        Dim DA As New MySqlDataAdapter(Query, _Connection)
+    Public Function GetDataAdapter(Query As String) As OdbcDataAdapter
+        Dim DA As New OdbcDataAdapter(Query, _Connection)
         Return DA
     End Function
 
-    Public Function GetData(Query As String, Optional Values As MySqlParameter() = Nothing) As Object
-        Dim Command As New MySqlCommand(Query, _Connection)
+    Public Function GetData(Query As String, Optional Values As OdbcParameter() = Nothing) As Object
+        Dim Command As New OdbcCommand(Query, _Connection)
         If Values IsNot Nothing Then
             Command.Parameters.AddRange(Values)
         End If

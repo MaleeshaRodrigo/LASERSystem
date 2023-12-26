@@ -1,4 +1,4 @@
-﻿Imports MySql.Data.MySqlClient
+﻿Imports System.Data.Odbc
 Imports System.IO
 Imports Microsoft.VisualBasic.FileIO
 
@@ -110,7 +110,7 @@ Public Class FrmSettings
         If DR.HasRows = True Then
             grpUAUser.Enabled = True
             grdUAUser.Enabled = True
-            Dim DT As DataTable = Db.GetDataTable("Select UNo,UserName,Type,Email from [User]")
+            Dim DT As DataTable = Db.GetDataTable("Select UNo,UserName,Type,Email from `User`")
             grdUAUser.DataSource = DT
             cmdUANew_Click(sender, e)
         Else
@@ -148,7 +148,7 @@ Public Class FrmSettings
     End Sub
 
     Private Sub cmdUASave_Click(sender As Object, e As EventArgs) Handles cmdUASave.Click
-        Dim Dr As MySqlDataReader = Db.GetDataReader("Select * from `User` Where UserName ='" & txtUAAUserName.Text & "' and Password ='" & txtUAAPassword.Text & "'")
+        Dim Dr As OdbcDataReader = Db.GetDataReader("Select * from `User` Where UserName ='" & txtUAAUserName.Text & "' and Password ='" & txtUAAPassword.Text & "'")
         If DR.HasRows = False Then
             MsgBox("Admin සදහා ලබා දුන් User Name සහ Password එක වැරදිය.", vbExclamation + vbOKOnly)
             Exit Sub
@@ -196,7 +196,7 @@ Public Class FrmSettings
 
     Private Sub grdUAUser_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles grdUAUser.CellDoubleClick
         If e.RowIndex < 0 Or e.ColumnIndex < 0 Then Exit Sub
-        Dim DR As MySqlDataReader = Db.GetDataReader("Select * from `User` Where UserName ='" & txtUAAUserName.Text & "' and Password ='" & txtUAAPassword.Text & "'")
+        Dim DR As OdbcDataReader = Db.GetDataReader("Select * from `User` Where UserName ='" & txtUAAUserName.Text & "' and Password ='" & txtUAAPassword.Text & "'")
         If DR.HasRows = False Then
             MsgBox("Admin සදහා ලබා දුන් User Name සහ Password එක වැරදිය.", vbExclamation + vbOKOnly)
             Exit Sub
@@ -226,7 +226,7 @@ Public Class FrmSettings
     End Sub
 
     Private Sub cmdUADelete_Click(sender As Object, e As EventArgs) Handles cmdUADelete.Click
-        Dim DR As MySqlDataReader = Db.GetDataReader("Select * from `User` Where UserName ='" & txtUAAUserName.Text & "' and Password ='" & txtUAAPassword.Text & "'")
+        Dim DR As OdbcDataReader = Db.GetDataReader("Select * from `User` Where UserName ='" & txtUAAUserName.Text & "' and Password ='" & txtUAAPassword.Text & "'")
         If DR.HasRows = False Then
             MsgBox("Admin සදහා ලබා දුන් fUser Name සහ Password එක වැරදිය.", vbExclamation + vbOKOnly)
             Exit Sub

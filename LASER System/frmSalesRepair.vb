@@ -1,4 +1,4 @@
-﻿Imports MySql.Data.MySqlClient
+﻿Imports System.Data.Odbc
 
 Public Class frmSalesRepair
     Private Db As New Database
@@ -8,7 +8,7 @@ Public Class frmSalesRepair
     End Sub
 
     Private Sub cmbTName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbTName.SelectedIndexChanged
-        Dim DR As MySqlDataReader = Db.GetDataReader("Select TNo,TName from Technician where TName = '" & cmbTName.Text & "';")
+        Dim DR As OdbcDataReader = Db.GetDataReader("Select TNo,TName from Technician where TName = '" & cmbTName.Text & "';")
         If DR.HasRows = True Then
             DR.Read()
             txtTNo.Text = DR("TNo").ToString

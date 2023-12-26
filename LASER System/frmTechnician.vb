@@ -1,4 +1,4 @@
-﻿Imports MySql.Data.MySqlClient
+﻿Imports System.Data.Odbc
 
 Public Class frmTechnician
     Private Db As New Database
@@ -104,7 +104,7 @@ Public Class frmTechnician
     End Sub
 
     Private Sub cmbTName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbTName.SelectedIndexChanged
-        Dim DR As MySqlDataReader = Db.GetDataReader("Select * from Technician where TName ='" & cmbTName.Text & "';")
+        Dim DR As OdbcDataReader = Db.GetDataReader("Select * from Technician where TName ='" & cmbTName.Text & "';")
         If DR.HasRows = True Then
             DR.Read()
             txtTNo.Text = DR("TNo").ToString
@@ -152,7 +152,7 @@ Public Class frmTechnician
                                         "This Technician couldn't be deleted because this technician has relations with the field/s in 'Repair' table. They are given below.") = False Then
             Exit Sub
         End If
-        If CheckExistRelationsforDelete("Select TNo,RetNo from Return where TNo = " & txtTNo.Text, "RetNo",
+        If CheckExistRelationsforDelete("Select TNo,RetNo from Rerepair where TNo = " & txtTNo.Text, "RetNo",
                                         "This Technician couldn't be deleted because this technician has relations with the field/s in 'Return' table. They are given below.") = False Then
             Exit Sub
         End If

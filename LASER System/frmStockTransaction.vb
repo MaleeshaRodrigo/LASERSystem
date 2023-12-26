@@ -1,4 +1,4 @@
-﻿Imports MySql.Data.MySqlClient
+﻿Imports System.Data.Odbc
 
 Public Class frmStockTransaction
     Private Db As New Database
@@ -29,7 +29,7 @@ Public Class frmStockTransaction
     End Sub
 
     Private Sub cmbSName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbSName.SelectedIndexChanged
-        Dim DR As MySqlDataReader = Db.GetDataReader("SELECT * from Stock where Scategory='" & cmbSCategory.Text & "' and sname ='" & cmbSName.Text & "';")
+        Dim DR As OdbcDataReader = Db.GetDataReader("SELECT * from Stock where Scategory='" & cmbSCategory.Text & "' and sname ='" & cmbSName.Text & "';")
         If DR.HasRows = True Then
             DR.Read()
             txtSNo.Text = DR("SNO").ToString
@@ -45,7 +45,7 @@ Public Class frmStockTransaction
 
     Public Sub txtSNo_TextChanged(sender As Object, e As EventArgs) Handles txtSNo.TextChanged
         If txtSNo.Text = "" Then Exit Sub
-        Dim DR As MySqlDataReader = Db.GetDataReader("Select SNo,SCategory,SName from [Stock] where SNO = " & txtSNo.Text)
+        Dim DR As OdbcDataReader = Db.GetDataReader("Select SNo,SCategory,SName from [Stock] where SNO = " & txtSNo.Text)
         If DR.HasRows = True Then
             DR.Read()
             cmbSCategory.Text = DR("SCategory").ToString

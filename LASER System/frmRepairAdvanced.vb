@@ -1,4 +1,4 @@
-﻿Imports MySql.Data.MySqlClient
+﻿Imports System.Data.Odbc
 Public Class frmRepairAdvanced
     Private Db As New Database
 
@@ -43,12 +43,12 @@ Public Class frmRepairAdvanced
                     AdminPer.Remarks = "අද දිනට නොමැති Repair එකෙහි " & txtAdNo.Text & " වන Advanced Payment එකක් ඇතුලත් කෙරුණි. "
                 End If
                 If rbRep.Checked = True Then
-                    Db.Execute("Insert into RepairAdvanced(ADNo,ADDate,RepNo,RetNo,Amount,Remarks,UNo) Values(?NewKey?RepairAdvanced?AdNo?,#" &
-                          txtAdDate.Value & "#," & cmbRepNo.Text & ",0," & txtAmount.Text & ",'" & txtRemarks.Text & "'," & User.Instance.UserNo & ")",
+                    Db.Execute("Insert into RepairAdvanced(ADNo,ADDate,RepNo,RetNo,Amount,Remarks,UNo) Values(?NewKey?RepairAdvanced?AdNo?,'" &
+                          txtAdDate.Value & "'," & cmbRepNo.Text & ",0," & txtAmount.Text & ",'" & txtRemarks.Text & "'," & User.Instance.UserNo & ")",
                               {}, AdminPer)
                 Else
-                    Db.Execute("Insert into RepairAdvanced(ADNo,ADDate,RepNo,RetNo,Amount,Remarks,UNo) Values(?NewKey?RepairAdvanced?AdNo?,#" &
-                          txtAdDate.Value & "#,0," & cmbRepNo.Text & "," & txtAmount.Text & ",'" & txtRemarks.Text & "'," & User.Instance.UserNo & ")",
+                    Db.Execute("Insert into RepairAdvanced(ADNo,ADDate,RepNo,RetNo,Amount,Remarks,UNo) Values(?NewKey?RepairAdvanced?AdNo?,'" &
+                          txtAdDate.Value & "',0," & cmbRepNo.Text & "," & txtAmount.Text & ",'" & txtRemarks.Text & "'," & User.Instance.UserNo & ")",
                               {}, AdminPer)
                 End If
                 If MsgBox("Repair Advanced Invoice එක print කිරීමට අවශ්‍යද?", vbYesNo) = vbYes Then
@@ -60,15 +60,15 @@ Public Class frmRepairAdvanced
                     AdminPer.Remarks = "අද දිනට නොමැති Repair එකෙහි " & txtAdNo.Text & " වන Advanced Payment එකක් වෙනස් කෙරුණි. "
                 End If
                 If rbRep.Checked = True Then
-                    Db.Execute("Update RepairAdvanced set ADDate=#" & txtAdDate.Value &
-                              "#, RepNo=" & cmbRepNo.Text &
+                    Db.Execute("Update RepairAdvanced set ADDate='" & txtAdDate.Value &
+                              "', RepNo=" & cmbRepNo.Text &
                               ", RetNo=0, Amount=" & txtAmount.Text &
                               ", Remarks='" & txtRemarks.Text &
                               "', UNo=" & User.Instance.UserNo &
                               " Where AdNo=" & txtAdNo.Text, {}, AdminPer)
                 Else
-                    Db.Execute("Update RepairAdvanced set ADDate=#" & txtAdDate.Value &
-                              "#, RetNo=" & cmbRepNo.Text &
+                    Db.Execute("Update RepairAdvanced set ADDate='" & txtAdDate.Value &
+                              "', RetNo=" & cmbRepNo.Text &
                               ", RepNo=0, Amount=" & txtAmount.Text &
                               ", Remarks='" & txtRemarks.Text &
                               "', UNo=" & User.Instance.UserNo &
@@ -95,12 +95,12 @@ Public Class frmRepairAdvanced
                 Search += "ADDate like '%" & txtSearch.Text & "%' or RepNo like '%" & txtSearch.Text & "%' or RetNo like '%" & txtSearch.Text & "%' or Amount like '%" &
                     txtSearch.Text & "%' or Remarks like '%" & txtSearch.Text & "%'"
         End Select
-        Dim DRRepAdv As MySqlDataReader = Db.GetDataReader("Select * from RepairAdvanced " & Search)
+        Dim DRRepAdv As OdbcDataReader = Db.GetDataReader("Select * from RepairAdvanced " & Search)
         grdRepAdvanced.Rows.Clear()
         While DRRepAdv.Read
             grdRepAdvanced.Rows.Add(DRRepAdv("ADNo").ToString, DRRepAdv("ADDate").ToString, DRRepAdv("RepNo").ToString, DRRepAdv("RetNo").ToString,
                                     DRRepAdv("Amount").ToString,
-                                DRRepAdv("Remarks").ToString, Db.GetData("Select UserName from [User] Where UNo=" &
+                                DRRepAdv("Remarks").ToString, Db.GetData("Select UserName from `User` Where UNo=" &
                                 DRRepAdv("UNo").ToString))
         End While
         grdRepAdvanced.Refresh()
@@ -134,7 +134,7 @@ Public Class frmRepairAdvanced
     Private Sub grdRepAdvanced_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles grdRepAdvanced.CellDoubleClick
         If e.RowIndex < 0 Then Exit Sub
         If grdRepAdvanced.Item(0, e.RowIndex).Value Is Nothing Then Exit Sub
-        Dim DRRepAdv As MySqlDataReader = Db.GetDataReader("SELECT * from RepairAdvanced where AdNo=" & grdRepAdvanced.Item(0, e.RowIndex).Value & ";")
+        Dim DRRepAdv As OdbcDataReader = Db.GetDataReader("SELECT * from RepairAdvanced where AdNo=" & grdRepAdvanced.Item(0, e.RowIndex).Value & ";")
         If DRRepAdv.HasRows Then
             DRRepAdv.Read()
             txtAdNo.Text = grdRepAdvanced.Item(0, e.RowIndex).Value
@@ -160,7 +160,7 @@ Public Class frmRepairAdvanced
         If rbRep.Checked = True Then
             ComboBoxDropDown(Db, cmbRepNo, "Select RepNo from Repair order by RepNo desc")
         Else
-            ComboBoxDropDown(Db, cmbRepNo, "Select RetNo from Return order by RetNo desc")
+            ComboBoxDropDown(Db, cmbRepNo, "Select RetNo from Rerepair order by RetNo desc")
         End If
     End Sub
 
@@ -222,15 +222,15 @@ Public Class frmRepairAdvanced
         End If
         Dim RPT As New rptRepairAdvanced
         Dim DS1 As New DataSet
-        Dim DA1 As MySqlDataAdapter
+        Dim DA1 As OdbcDataAdapter
         If rbRep.Checked = True Then
-            DA1 = Db.GetDataAdapter("SELECT CuName,CuTelNo1,CuTelNo2,CuTelNo3,ADDate,Rep.RepNo,Ret.RetNo,PCategory,PName,Amount from (((((RepairAdvanced AD Left Join Repair Rep On Rep.RepNo=AD.RepNo) Left JOin Return Ret On Ret.RetNo=AD.RetNo) LEft Join Product P ON P.PNo = Rep.PNo) Left Join Receive R ON R.RNo = Rep.RNo) Left Join Customer Cu ON Cu.CuNo=R.CuNo) Where ADNo=" & txtAdNo.Text & ";")
+            DA1 = Db.GetDataAdapter("SELECT CuName,CuTelNo1,CuTelNo2,CuTelNo3,ADDate,Rep.RepNo,Ret.RetNo,PCategory,PName,Amount from (((((RepairAdvanced AD Left Join Repair Rep On Rep.RepNo=AD.RepNo) Left JOin Rerepair Ret On Ret.RetNo=AD.RetNo) LEft Join Product P ON P.PNo = Rep.PNo) Left Join Receive R ON R.RNo = Rep.RNo) Left Join Customer Cu ON Cu.CuNo=R.CuNo) Where ADNo=" & txtAdNo.Text & ";")
         Else
-            DA1 = Db.GetDataAdapter("SELECT CuName,CuTelNo1,CuTelNo2,CuTelNo3,ADDate,Rep.RepNo,Ret.RetNo,PCategory,PName,Amount from (((((RepairAdvanced AD Left Join Return Ret On Ret.RetNo=AD.RetNo) Left Join Repair Rep On Rep.RepNo=Ret.RepNo) LEft Join Product P ON P.PNo = Rep.PNo) Left Join Receive R ON R.RNo = Rep.RNo) Left Join Customer Cu ON Cu.CuNo=R.CuNo) Where ADNo=" & txtAdNo.Text & ";")
+            DA1 = Db.GetDataAdapter("SELECT CuName,CuTelNo1,CuTelNo2,CuTelNo3,ADDate,Rep.RepNo,Ret.RetNo,PCategory,PName,Amount from (((((RepairAdvanced AD Left Join Rerepair Ret On Ret.RetNo=AD.RetNo) Left Join Repair Rep On Rep.RepNo=Ret.RepNo) LEft Join Product P ON P.PNo = Rep.PNo) Left Join Receive R ON R.RNo = Rep.RNo) Left Join Customer Cu ON Cu.CuNo=R.CuNo) Where ADNo=" & txtAdNo.Text & ";")
         End If
         DA1.Fill(DS1, "Repair")
         DA1.Fill(DS1, "Product")
-        DA1.Fill(DS1, "Return")
+        DA1.Fill(DS1, "Rerepair")
         DA1.Fill(DS1, "Customer")
         DA1.Fill(DS1, "Receive")
         DA1.Fill(DS1, "RepairAdvanced")
