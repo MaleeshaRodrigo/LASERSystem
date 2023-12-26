@@ -65,7 +65,7 @@ Public Class frmCustomerLoan
     End Sub
 
     Private Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click
-        SetNextKey(Db, txtCuLNo, "SELECT top 1 CuLNo from CustomerLoan ORDER BY CuLNo Desc;", "CuLNO")
+        txtCuLNo.Text = Db.GetNextKey("CustomerLoan", "CuLNo")
         txtCuLAmount.Text = ""
         cmbCuName.Text = ""
         txtCuTelNo1.Text = ""

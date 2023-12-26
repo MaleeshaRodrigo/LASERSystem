@@ -12,7 +12,7 @@ Public Class frmTechnicianSalary
 
     Private Sub FrmTechnicianSalary_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Db.Connect()
-        SetNextKey(Db, txtTSNo, "Select Top 1 TSNo from TechnicianSalary order by TSNo desc;", "TSNo")
+        txtTSNo.Text = Db.GetNextKey("TechnicianSalary", "TSNo")
         MenuStrip.Items.Add(mnustrpMENU)
         txtTSFrom.Value = "" & Date.Today.Year & "-" & Date.Today.Month & "-01"
         txtTSTo.Value = Date.Today
@@ -165,7 +165,7 @@ Public Class frmTechnicianSalary
         End If
         Db.Execute("Insert Into TechnicianLoan(TLNo,TNo,TLDate,TLReason,TLAmount) Values(" & TLNo & "," & TSalaryTNo.ToString & ",#" & txtTSDate.Value & "#, 'This Loan was paid from Technician Salary No called " & txtTSNo.Text & "',-" & txt5.Text & ");")
         MsgBox("Salary Submit Successful!", vbExclamation + vbOKOnly)
-        SetNextKey(Db, txtTSNo, "Select Top 1 TSNo from TechnicianSalary order by TSNo desc;", "TSNo")
+        txtTSNo.Text = Db.GetNextKey("TechnicianSalary", "TSNo")
         Call CmdTSSearch_Click(sender, e)
     End Sub
 

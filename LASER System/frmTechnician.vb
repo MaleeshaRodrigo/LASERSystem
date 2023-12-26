@@ -8,7 +8,7 @@ Public Class frmTechnician
     End Sub
 
     Private Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click
-        Call SetNextKey(Db, txtTNo, "SELECT top 1 TNo from Technician ORDER BY TNo Desc;", "TNo")
+        txtTNo.Text = Db.GetNextKey("Technician", "TNo")
         cmbTName.Text = ""
         txtTFullName.Text = ""
         txtTNICNo.Text = ""

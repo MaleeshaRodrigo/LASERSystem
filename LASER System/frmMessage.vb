@@ -45,7 +45,7 @@ Public Class frmMessage
                         End If
                     End If
                 End With
-                SetNextKey(Db, txtMsgNo, "Select Top 1 MsgNo from Message order by MsgNo Desc;", "MsgNo")
+                txtMsgNo.Text = Db.GetNextKey("Message", "MsgNo")
             Case "MessagetoCu"
                 TabControl.TabPages.Add(tabMsgHistory)
                 grdMsgHistory.DataSource = Db.GetDataTable("Select * from Message Order by MsgDate;")

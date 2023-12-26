@@ -6,7 +6,7 @@ Public Class frmTechnicianLoan
     Private Sub frmTechnicianLoan_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Db.Connect()
         MenuStrip1.Items.Add(mnustrpMENU)
-        Call SetNextKey(Db, txtTLNo, "SELECT top 1 TLNo from TechnicianLoan ORDER BY TLNo Desc;", "TLNo")
+        txtTLNo.Text = Db.GetNextKey("TechnicianLoan", "TLNo")
         txtTLFrom.Value = "" & Date.Today.Year & "-" & Date.Today.Month & "-01"
         txtTLTo.Value = Date.Today
         Call cmdTLSearch_Click(sender, e)
@@ -85,7 +85,7 @@ Public Class frmTechnicianLoan
                       ",Total=" & txtTLAmount.Text &
                       ",UNo=" & User.Instance.UserNo, {}, AdminPer)
         End If
-        Call SetNextKey(Db, txtTLNo, "SELECT top 1 TLNo from TechnicianLoan ORDER BY TLNo Desc;", "TLNo")
+        txtTLNo.Text = Db.GetNextKey("TechnicianLoan", "TLNo")
         cmbSCategory.Text = ""
         cmbSName.Text = ""
         txtSNo.Text = ""
@@ -98,7 +98,7 @@ Public Class frmTechnicianLoan
 
     Private Sub cmdTLNew_Click(sender As Object, e As EventArgs) Handles cmdTLNew.Click
         'Prepare form for adding new values
-        Call SetNextKey(Db, txtTLNo, "SELECT top 1 TLNo from TechnicianLoan ORDER BY TLNo Desc;", "TLNo")
+        txtTLNo.Text = Db.GetNextKey("TechnicianLoan", "TLNo")
         txtTLDate.Value = Today
         cmbTName.Text = ""
         cmbSCategory.Text = ""

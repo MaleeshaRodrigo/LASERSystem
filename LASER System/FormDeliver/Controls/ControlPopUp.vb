@@ -52,7 +52,7 @@ Public Class ControlPopUp
         Dock = DockStyle.Fill
         BringToFront()
         chkCashDrawer.Checked = My.Settings.CashDrawer
-        SetNextKey(Db, txtCuLNo, "SELECT top 1 CuLNo from CustomerLoan ORDER BY CuLNo Desc;", "CuLNo")
+        txtCuLNo.Text = Db.GetNextKey("CustomerLoan", "CuLNo")
         txtCReceived.Focus()
     End Sub
 
@@ -190,7 +190,7 @@ Public Class ControlPopUp
         If FormParent.txtDDate.Value.Date = Today.Date Then
             FormParent.txtDDate.Value = DateAndTime.Now
         End If
-        SetNextKey(Db, txtCuLNo, "Select Top 1 CulNo from CustomerLoan order by CuLNo Desc;", "CuLNo")
+        txtCuLNo.Text = Db.GetNextKey("CustomerLoan", "CuLNo")
         If txtCAmount.Text.Trim = "" Or txtCAmount.Text = "0" Then
             txtCAmount.Text = "0"
             txtCReceived.Text = "0"

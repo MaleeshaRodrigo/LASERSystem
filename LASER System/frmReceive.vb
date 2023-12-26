@@ -80,7 +80,7 @@ Public Class frmReceive
 
     Private Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click
         Cursor = Cursors.WaitCursor
-        Call SetNextKey(Db, txtRNo, "SELECT top 1 RNo from Receive ORDER BY RNo Desc;", "RNo")
+        txtRNo.Text = Db.GetNextKey("Receive", "RNo")
         'clear customer fileds
         For Each obj As Object In {cmbCuMr, cmbCuName, txtCuTelNo1, txtCuTelNo2, txtCuTelNo3}
             obj.Text = ""

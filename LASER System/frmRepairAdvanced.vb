@@ -19,7 +19,7 @@ Public Class frmRepairAdvanced
     End Sub
 
     Private Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click
-        SetNextKey(Db, txtAdNo, "Select Top 1 AdNo from RepairAdvanced Order by AdNo Desc", "AdNo")
+        txtAdNo.Text = Db.GetNextKey("RepairAdvanced", "AdNo")
         txtAdDate.Value = DateAndTime.Now
         cmbRepNo.Text = "0"
         txtAmount.Text = ""

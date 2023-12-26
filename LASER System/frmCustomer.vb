@@ -196,7 +196,7 @@ Public Class frmCustomer
     End Sub
 
     Private Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click, NewToolStripMenuItem.Click
-        Call SetNextKey(Db, txtCuNo, "SELECT top 1 CuNo from Customer ORDER BY CuNo Desc;", "CuNo")
+        txtCuNo.Text = Db.GetNextKey("Customer", "CuNo")
         cmbCuName.Text = ""
         txtCuTelNo1.Text = ""
         txtCuTelNo2.Text = ""

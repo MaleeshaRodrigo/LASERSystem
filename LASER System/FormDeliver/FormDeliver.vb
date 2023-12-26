@@ -34,7 +34,7 @@ Public Class FormDeliver
 
     Public Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click, NewToolStripMenuItem.Click
         Cursor = Cursors.WaitCursor
-        Call SetNextKey(Db, txtDNo, "SELECT top 1 DNo from Deliver ORDER BY DNo Desc;", "DNo")
+        txtDNo.Text = Db.GetNextKey("Deliver", "DNo")
         For Each obj As Object In {cmbCuName, txtCuTelNo1, txtCuTelNo2, txtCuTelNo3, txtDRemarks}
             obj.text = ""
         Next

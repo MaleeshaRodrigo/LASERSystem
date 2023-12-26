@@ -14,17 +14,6 @@ Module Utils
         DT0.Dispose()
     End Sub
 
-    Public Sub SetNextKey(Db As Database, txt As TextBox, SQL As String, ColumnName As String)
-        Dim DR0 As MySqlDataReader = Db.GetDataReader(SQL)
-        If DR0.HasRows = True Then
-            DR0.Read()
-            txt.Text = Int(DR0.Item(ColumnName)) + 1
-        Else
-            txt.Text = "1"
-        End If
-        DR0.Close()
-    End Sub
-
     Public Sub OnlynumberQty(e As KeyPressEventArgs)
         If Asc(e.KeyChar) <> 8 And Asc(e.KeyChar) <> 46 Then
             If Asc(e.KeyChar) < 48 Or Asc(e.KeyChar) > 57 Then

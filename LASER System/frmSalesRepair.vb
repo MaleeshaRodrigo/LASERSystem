@@ -23,7 +23,7 @@ Public Class frmSalesRepair
     End Sub
 
     Private Sub cmdSaRepNew_Click(sender As Object, e As EventArgs) Handles cmdSaRepNew.Click
-        SetNextKey(Db, txtSaRepNo, "Select top 1 SaRepNo from SalesRepair Order by SaRepNo Desc;", "SaRepNo")
+        txtSaRepNo.Text = Db.GetNextKey("SalesRepair", "SaRepNo")
         cmbSCategory.Text = ""
         cmbSName.Text = ""
         txtSNo.Text = ""

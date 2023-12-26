@@ -337,7 +337,7 @@ Public Class frmSettlement
     End Sub
 
     Private Sub CmdTANew_Click(sender As Object, e As EventArgs) Handles cmdTANew.Click
-        SetNextKey(Db, txtTANo, "Select Top 1 TANo from [Transaction] order by TANo Desc;", "TANO")
+        txtTANo.Text = Db.GetNextKey("Transaction", "TANO")
         txtTADetails.Text = ""
         txtTAAmount.Text = "0"
         grdTransaction.Refresh()

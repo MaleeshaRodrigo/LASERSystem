@@ -16,7 +16,7 @@ Public Class frmSupply
     End Sub
 
     Public Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click, NewToolStripMenuItem1.Click
-        SetNextKey(Db, txtSupNo, "SELECT top 1 SupNo from Supply ORDER BY SupNo Desc;", "SupNo")
+        txtSupNo.Text = Db.GetNextKey("Supply", "SupNo")
         cmbSuName_DropDown(sender, e)
         cmbSuName.Text = "No Name"             'clear customer fileds
         cmbSupStatus.Text = "Not Paid"
@@ -88,7 +88,7 @@ Public Class frmSupply
                 End If
             End With
         Next
-        SetNextKey(Db, txtSupNo, "SELECT top 1 SupNo from Supply ORDER BY SupNo Desc;", "SupNo")
+        txtSupNo.Text = Db.GetNextKey("Supply", "SupNo")
         Dim SuNo As Integer = Db.GetData("Select SuNo from Supplier where SuName=@SUNAME;", {
                                 New MySqlParameter("SUNAME", cmbSuName.Text)
         })

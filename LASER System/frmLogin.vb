@@ -27,13 +27,12 @@ Public Class frmLogin
             FrmSettings.Show()
             Me.Close()
             Exit Sub
-            Exit Sub
         Else
             Db.Connect()
         End If
         Me.AcceptButton = cmdLogin
         cmbUserName_DropDown(sender, e)
-        cmbUserName.Text = Db.GetData("Select Top 1 UserName from `User` Order by LastLogin Desc;")
+        cmbUserName.Text = Db.GetData("Select UserName from `User` Order by LastLogin Desc LIMIT 1;")
         cmbUserName.Focus()
         '--------Developer Mode-------------
         If My.Settings.DeveloperMode = True Then
@@ -183,7 +182,7 @@ Public Class frmLogin
     End Sub
 
     Private Sub cmbUserName_DropDown(sender As Object, e As EventArgs) Handles cmbUserName.DropDown
-        ComboBoxDropDown(Db, cmbUserName, "Select UserName from `User` group by UserName")
+        ComboBoxDropDown(Db, cmbUserName, "Select name from `User` group by name")
     End Sub
 
     Private Sub cmdClose_Click(sender As Object, e As EventArgs) Handles cmdClose.Click

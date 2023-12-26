@@ -123,7 +123,7 @@ Public Class Database
 
     Public Function GetNextKey(Table As String, Column As String) As Integer
         Dim Output As Integer
-        Dim Command As New MySqlCommand($"Select Top 1 `{Column}` from `{Table}` Order by `{Column}` Desc", _Connection)
+        Dim Command As New MySqlCommand($"SELECT `{Column}` FROM `{Table}` ORDER BY `{Column}` DESC LIMIT 1 ", _Connection)
         Dim DataReader As MySqlDataReader = Command.ExecuteReader
         If DataReader.HasRows = True Then
             DataReader.Read()
