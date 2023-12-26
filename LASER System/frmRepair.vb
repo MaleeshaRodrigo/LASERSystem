@@ -426,22 +426,7 @@ Public Class frmRepair
             End If
             Select Case tabRepair.SelectedTab.TabIndex
                 Case 0              'check empty fields which have filled to user
-                    If cmbRepStatus.Text = "Hand Over to Technician" Or cmbRepStatus.Text = "Repairing" Or cmbRepStatus.Text = "Repaired Not Delivered" Or
-                        cmbRepStatus.Text = "Repaired Delivered" Then
-                        If CheckEmptyfield(cmbTName, "Technician කෙනෙකු තොරා නොමැත. කරුණාකර අදාළ Technician ව තෝරා දෙන්න.") = False Then
-                            Exit Sub
-                        End If
-                    End If
-                    If cmbRepStatus.Text = "Repaired Not Delivered" Or cmbRepStatus.Text = "Repaired Delivered" Or cmbRepStatus.Text = "Returned Not Delivered" Or
-                        cmbRepStatus.Text = "Returned Delivered" Then
-                        If CheckEmptyfield(txtRepPrice, "Repair Price එකක් ඇතුලත් කර නොමැත කරුණාකර Repair Price එක ඇතුලත් කරන්න.") = False Then
-                            Exit Sub
-                        End If
-                    End If
-                    If (Not (DRREPNO("Status").ToString = "Repaired Delivered" Or DRREPNO("Status").ToString = "Returned Delivered" Or
-                        DRREPNO("Status").ToString = "Canceled") And (cmbRepStatus.Text = "Repaired Delivered" Or
-                        cmbRepStatus.Text = "Returned Delivered" Or cmbRepStatus.Text = "Canceled")) Then
-                        MsgBox("මෙම Repair Form තුලින් මෙය සිදු කිරීමට නොහැකිය. Deliver Form එක භාවිතා කරන්න.", vbExclamation)
+                    If Not CheckRepairSaveValidation() Then
                         Exit Sub
                     End If
                     If DRREPNO("Status").ToString <> cmbRepStatus.Text Then
@@ -468,17 +453,17 @@ Public Class frmRepair
                                   cmbRepNo.Text & ",'" & DateAndTime.Now & "','Product -> Category= " & cmbPCategory.Text & ", Name= " & cmbPName.Text &
                                   ", Model No= " & txtPModelNo.Text & ", Qty= " & txtPQty.Text & "'," & User.Instance.UserNo & ")")
                     End If
-                    If DRREPNO("PSerialNo").ToString <> txtPSerialNo.Text Then
+                    If DRREPNO("PSerialNo") <> txtPSerialNo.Text Then
                         Db.Execute("update Repair set pserialno ='" & txtPSerialNo.Text & "' where repno = " & cmbRepNo.Text)
                         Db.Execute("Insert into RepairActivity(RepANo,RepNo,RepADate,Activity,UNo) Values(" & Db.GetNextKey("RepairActivity", "RepANo") & "," &
                                   cmbRepNo.Text & ",'" & DateAndTime.Now & "','Product Serial No -> " & txtPSerialNo.Text & "'," & User.Instance.UserNo & ")")
                     End If
-                    If DRREPNO("Problem").ToString <> txtPProblem.Text Then
+                    If DRREPNO("Problem") <> txtPProblem.Text Then
                         Db.Execute("update Repair set Problem ='" & txtPProblem.Text & "' where repno = " & cmbRepNo.Text)
                         Db.Execute("Insert into RepairActivity(RepANo,RepNo,RepADate,Activity,UNo) Values(" & Db.GetNextKey("RepairActivity", "RepANo") & "," &
                                   cmbRepNo.Text & ",'" & DateAndTime.Now & "','Problem -> " & txtPProblem.Text & "'," & User.Instance.UserNo & ")")
                     End If
-                    If DRREPNO("Location").ToString <> cmbLocation.Text Then
+                    If DRREPNO("Location") <> cmbLocation.Text Then
                         Db.Execute("update Repair set Location= '" & cmbLocation.Text & "' where repno = " & cmbRepNo.Text)
                         Db.Execute("Insert into RepairActivity(RepANo,RepNo,RepADate,Activity,UNo) Values(" & Db.GetNextKey("RepairActivity", "RepANo") & "," &
                                   cmbRepNo.Text & ",'" & DateAndTime.Now & "','Location -> " & cmbLocation.Text & "'," & User.Instance.UserNo & ")")
@@ -606,6 +591,44 @@ Public Class frmRepair
             End If
         End Try
     End Sub
+
+    Private Function CheckRepairSaveValidation() As Boolean
+        Dim ConditionForCheckingTechnicianIsEmpty = {
+                        SRepairStatus.HandOverToTechncian,
+                        SRepairStatus.Repairing,
+                        SRepairStatus.RepairedNotDelivered,
+                        SRepairStatus.RepairedDelivered
+                    }.Any(Function(Value)
+                              If Value = cmbRepStatus.Text Then
+                                  Return True
+                              End If
+                              Return False
+                          End Function)
+        If ConditionForCheckingTechnicianIsEmpty AndAlso CheckEmptyfield(cmbTName, "Technician කෙනෙකු තොරා නොමැත. කරුණාකර අදාළ Technician ව තෝරා දෙන්න.") = False Then
+            Return False
+        End If
+        Dim ConditionForCheckingRepairPriceIsEmpty = {
+                        SRepairStatus.RepairedNotDelivered,
+                        SRepairStatus.ReturnedNotDelivered,
+                        SRepairStatus.RepairedDelivered,
+                        SRepairStatus.ReturnedDelivered
+                    }.Any(Function(Value)
+                              If Value = cmbRepStatus.Text Then
+                                  Return True
+                              End If
+                              Return False
+                          End Function)
+        If ConditionForCheckingRepairPriceIsEmpty AndAlso CheckEmptyfield(txtRepPrice, "Repair Price එකක් ඇතුලත් කර නොමැත කරුණාකර Repair Price එක ඇතුලත් කරන්න.") = False Then
+            Return False
+        End If
+        If (Not (DRREPNO("Status").ToString = "Repaired Delivered" Or DRREPNO("Status").ToString = "Returned Delivered" Or
+                        DRREPNO("Status").ToString = "Canceled") And (cmbRepStatus.Text = "Repaired Delivered" Or
+                        cmbRepStatus.Text = "Returned Delivered" Or cmbRepStatus.Text = "Canceled")) Then
+            MsgBox("මෙම Repair Form තුලින් මෙය සිදු කිරීමට නොහැකිය. Deliver Form එක භාවිතා කරන්න.", vbExclamation)
+            Return False
+        End If
+        Return True
+    End Function
 
     Public Sub CmbRetStatus_SelectionChangeCommitted(sender As Object, e As EventArgs) Handles cmbRetStatus.SelectionChangeCommitted
         boxTechnician.Visible = False

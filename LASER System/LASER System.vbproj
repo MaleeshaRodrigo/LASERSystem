@@ -341,6 +341,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Structures\Database\StructureDatabase.vb" />
+    <Compile Include="Structures\SRepairStatus.vb" />
     <Compile Include="Utils.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
