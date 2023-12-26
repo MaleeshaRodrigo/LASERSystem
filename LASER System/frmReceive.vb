@@ -1,4 +1,4 @@
-﻿Imports System.Data.MySql
+﻿Imports MySql.Data.MySqlClient
 Imports System.IO
 Imports System.Threading
 Imports ZXing

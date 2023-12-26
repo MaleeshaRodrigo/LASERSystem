@@ -56,7 +56,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("localhost")>  _
         Public Property DBServer() As String
             Get
                 Return CType(Me("DBServer"),String)
@@ -236,7 +236,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("YJ9R8NnRqK5tUziPQb+lgQ==")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
         Public Property DBPassword() As String
             Get
                 Return CType(Me("DBPassword"),String)
@@ -248,7 +248,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Microsoft.ACE.MySql.12.0")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("root")>  _
         Public Property DBUserName() As String
             Get
                 Return CType(Me("DBUserName"),String)
@@ -293,13 +293,25 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("lasertec")>  _
         Public Property DBName() As String
             Get
                 Return CType(Me("DBName"),String)
             End Get
             Set
                 Me("DBName") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("3306")>  _
+        Public Property DBPort() As Integer
+            Get
+                Return CType(Me("DBPort"),Integer)
+            End Get
+            Set
+                Me("DBPort") = value
             End Set
         End Property
     End Class

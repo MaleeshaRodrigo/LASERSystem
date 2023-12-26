@@ -2,7 +2,7 @@
 Imports CrystalDecisions.Shared
 Imports System.Net.Mail
 Imports System.IO
-Imports System.Data.MySql
+Imports MySql.Data.MySqlClient
 
 Public Class frmTechnicianSalary
     Private Db As New Database
@@ -47,7 +47,7 @@ Public Class frmTechnicianSalary
                                               cmbTName.Text & "' and DDate BETWEEN #" & txtTSFrom.Value.Date & " 00:00:00# And #" & txtTSTo.Value.Date &
                                               " 23:59:59# " + x)
         For Each row As DataRow In DT1.Rows
-            Dim DR1 As MySql.MySqlDataReader = Db.GetDataReader("Select Remarks from RepairRemarks1 Where RepNo=" & row.Item("RepNo"))
+            Dim DR1 As MySqlDataReader = Db.GetDataReader("Select Remarks from RepairRemarks1 Where RepNo=" & row.Item("RepNo"))
             row.Item("RepRemarks1") = ""
             While DR1.Read
                 row.Item("RepRemarks1") += DR1("Remarks").ToString + vbCrLf
@@ -81,7 +81,7 @@ Public Class frmTechnicianSalary
         Next
         Dim DT4 As DataTable = Db.GetDataTable("Select  TLNo, TLDate, SCategory, SName, TLReason, Rate, Qty,Total from (TechnicianLoan TL Inner Join Technician T on T.TNo = TL.TNo) Where TName='" & cmbTName.Text & "' And TLDate BETWEEN #" &
                                               txtTSFrom.Value.Date & " 00:00:00# And #" & txtTSTo.Value.Date & " 23:59:59# ")
-        DR = Db.GetDataReader("Select * from [TechnicianLoan] as TL Where TL.TLDate BETWEEN #" & txtTSFrom.Value.Date & " 00:00:00# and #" &
+        DR = Db.GetDataReader("Select * from TechnicianLoan as TL Where TL.TLDate BETWEEN #" & txtTSFrom.Value.Date & " 00:00:00# and #" &
                                      txtTSTo.Value.Date & " 23:59:59#;")
         Dim ArrearsLoan As Integer = 0
         While DR.Read

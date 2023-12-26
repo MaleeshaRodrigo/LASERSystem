@@ -1,4 +1,4 @@
-﻿Imports System.Data.MySql
+﻿Imports MySql.Data.MySqlClient
 
 Public Class frmSupplier
     Private Db As New Database

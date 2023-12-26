@@ -1,5 +1,5 @@
 ﻿Imports System.Data.Common
-Imports System.Data.MySql
+Imports MySql.Data.MySqlClient
 Imports LASER_System.StructureDatabase
 
 Public Class ControlStockInfo

@@ -1,4 +1,4 @@
-﻿Imports System.Data.MySql
+﻿Imports MySql.Data.MySqlClient
 
 Public Class frmCustomer
     Private Db As New Database
@@ -60,7 +60,7 @@ Public Class frmCustomer
         Else
             x = "Order by CuNo"
         End If
-        Me.grdCustomer.DataSource = Db.GetDataTable("SELECT CuNo as [No],CuName as [Name],CuTelNo1 as [Telephone No 1],CuTelNo2 as [Telephone No 2],CuTelNo3 as [Telephone No 3] from Customer " & x & ";")
+        Me.grdCustomer.DataSource = Db.GetDataTable("SELECT CuNo as No,CuName as Name,CuTelNo1 as Telephone No 1,CuTelNo2 as Telephone No 2,CuTelNo3 as Telephone No 3 from Customer " & x & ";")
         grdCustomer.Refresh()
     End Sub
 
@@ -292,14 +292,14 @@ Public Class frmCustomer
                                              grdRepair.ScrollBars = ScrollBars.Both
                                          End Sub)
             Dim task2 As Task = Task.Run(Sub()
-                                             grdSale.DataSource = Db.GetDataTable("SELECT Sa.SaNo as [Sale No],SaDate as [Sold Date],SCategory as [Stock Category],SName as [Stock Name],SaRate as [Rate], SaUnits as [Qty],SaTotal as [Total]  from (StockSale SSa INNER JOIN Sale Sa ON Sa.SaNo = SSa.SaNo) INNER JOIN Customer Cu ON Cu.CuNo = Sa.CuNo where Cu.CuNo=" & txtCuNo.Text)
+                                             grdSale.DataSource = Db.GetDataTable("SELECT Sa.SaNo as 'Sale No',SaDate as 'Sold Date',SCategory as 'Stock Category',SName as 'Stock Name',SaRate as 'Rate', SaUnits as 'Qty',SaTotal as 'Total'  from (StockSale SSa INNER JOIN Sale Sa ON Sa.SaNo = SSa.SaNo) INNER JOIN Customer Cu ON Cu.CuNo = Sa.CuNo where Cu.CuNo=" & txtCuNo.Text)
                                              grdSale.ScrollBars = ScrollBars.None
                                          End Sub)
             task2.GetAwaiter.OnCompleted(Sub()
                                              grdSale.ScrollBars = ScrollBars.Both
                                          End Sub)
             Dim task3 As Task = Task.Run(Sub()
-                                             grdCuLoan.DataSource = Db.GetDataTable("SELECT CuL.CuLNo as [Customer Loan No],CuLDate as [Customer Loan Date],CuL.CuNo as [No],CuName as [Name],CuTelNo1 as [Telephone No 1],CuTelNo2 as [Telephone No 2],CuTelNo3 as [Telephone No 3],CuL.SaNo as [Sale No],SaDate as [Sale Date], CuL.DNo as [Deliver No], DDate as [Deliver Date], Status,CuLRemarks as [Remarks] from (((CustomerLoan CUL INNER JOIN CUSTOMER CU ON CU.CUNO = CUL.CUNO) LEFT JOIN SALE SA ON SA.SANO = CUL.SANO) LEFT JOIN DELIVER D ON D.DNO = CUL.DNO) WHERE CuL.CuNo=" & txtCuNo.Text)
+                                             grdCuLoan.DataSource = Db.GetDataTable("SELECT CuL.CuLNo as 'Customer Loan No',CuLDate as 'Customer Loan Date',CuL.CuNo as 'No',CuName as 'Name',CuTelNo1 as 'Telephone No 1',CuTelNo2 as 'Telephone No 2',CuTelNo3 as 'Telephone No 3',CuL.SaNo as 'Sale No',SaDate as 'Sale Date', CuL.DNo as 'Deliver No, DDate as 'Deliver Date', Status,CuLRemarks as 'Remarks' from (((CustomerLoan CUL INNER JOIN CUSTOMER CU ON CU.CUNO = CUL.CUNO) LEFT JOIN SALE SA ON SA.SANO = CUL.SANO) LEFT JOIN DELIVER D ON D.DNO = CUL.DNO) WHERE CuL.CuNo=" & txtCuNo.Text)
                                              grdCuLoan.ScrollBars = ScrollBars.None
                                          End Sub)
             task3.GetAwaiter.OnCompleted(Sub()

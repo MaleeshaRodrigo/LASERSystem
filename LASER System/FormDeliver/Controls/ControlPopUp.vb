@@ -1,4 +1,4 @@
-﻿Imports System.Data.MySql
+﻿Imports MySql.Data.MySqlClient
 Imports System.Threading
 
 Public Class ControlPopUp
@@ -152,7 +152,7 @@ Public Class ControlPopUp
                         }, AdminPer)
                     End If
                 End If
-                Db.Execute($"UPDATE Repair SET PaidPrice = @PAIDPRICE,TNo = DLookup('TNo', 'Technician', 'TName=""{Row1.Cells(5).Value}""'),[Status]=@STATUS,DNo = @DNO WHERE RepNo=@REPNO;", {
+                Db.Execute($"UPDATE Repair SET PaidPrice = @PAIDPRICE,TNo = DLookup('TNo', 'Technician', 'TName=""{Row1.Cells(5).Value}""'),`Status`=@STATUS,DNo = @DNO WHERE RepNo=@REPNO;", {
                            New MySqlParameter("PAIDPRICE", Row1.Cells(4).Value),
                            New MySqlParameter("STATUS", Row1.Cells(6).Value.ToString),
                            New MySqlParameter("DNO", DNo),

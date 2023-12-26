@@ -1,4 +1,4 @@
-﻿Imports System.Data.MySql
+﻿Imports MySql.Data.MySqlClient
 
 Public Class frmSearchDropDown
     Private Db As Database

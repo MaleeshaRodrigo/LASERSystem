@@ -1,4 +1,4 @@
-﻿Imports System.Data.MySql
+﻿Imports MySql.Data.MySqlClient
 Imports System.IO
 Imports CrystalDecisions.Shared
 Public Class frmSettlement

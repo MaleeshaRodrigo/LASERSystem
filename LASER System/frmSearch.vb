@@ -1,5 +1,5 @@
 ﻿Imports System.ComponentModel
-Imports System.Data.MySql
+Imports MySql.Data.MySqlClient
 Imports LASER_System.StructureDatabase
 
 Public Class frmSearch
@@ -483,7 +483,7 @@ Public Class frmSearch
                                     If y <> "" Then y += ","
                                     y += "IIF(REP.RepNo=" & Search & "," & Count
                                 Case "Remarks by Customer"
-                                    Dim CMDSearch2 As New MySql.MySqlCommand
+                                    Dim CMDSearch2 As New MySqlCommand
                                     Dim DRSearch2 As MySqlDataReader
                                     DRSearch2 = Db.GetDataReader("Select RepNo,Remarks from RepairRemarks1 Where Remarks like '%" & Search & "%' ")
                                     x += " RepNo IN ("
@@ -515,7 +515,7 @@ Public Class frmSearch
                                         If clm.Index <> 0 Then x += " OR "
                                         x += $"{clm.Name} {cmdLIKE.Text} '{Symbol}{Search}{Symbol}'"
                                     Next
-                                    Dim CMDSearch2 As New MySql.MySqlCommand
+                                    Dim CMDSearch2 As New MySqlCommand
                                     Dim DRSearch2 As MySqlDataReader = Db.GetDataReader($"Select RepNo,Remarks from RepairRemarks1 Where Remarks {cmdLIKE.Text} '{Symbol}{Search}{Symbol}' Union Select RepNo,Remarks from RepairRemarks2 Where Remarks like '{Symbol}{Search}{Symbol}'")
                                     If DRSearch2.HasRows Then
                                         x += " Or RepNo IN ("
@@ -578,7 +578,7 @@ Public Class frmSearch
                                 Case "Delivered Date"
                                     x += " D.DDate like '%" & Search & "%'"
                                 Case "Remarks by Customer"
-                                    Dim CMDSearch2 As New MySql.MySqlCommand
+                                    Dim CMDSearch2 As New MySqlCommand
                                     Dim DRSearch2 As MySqlDataReader
                                     DRSearch2 = Db.GetDataReader("Select RetNo,Remarks from RepairRemarks1 Where Remarks like '%" & Search & "%' ")
                                     x += " RetNo IN ("
@@ -592,7 +592,7 @@ Public Class frmSearch
                                         CMDSearch2.Cancel()
                                     End If
                                 Case "Remarks by Technician"
-                                    Dim CMDSearch2 As New MySql.MySqlCommand
+                                    Dim CMDSearch2 As New MySqlCommand
                                     Dim DRSearch2 As MySqlDataReader = Db.GetDataReader("Select RetNo,Remarks from RepairRemarks2 Where Remarks like '%" & Search &
                                                                         "%' ")
                                     x += " RetNo IN ( "
@@ -675,7 +675,7 @@ Public Class frmSearch
             Case "Sale"
                 Query = "SELECT Sale.SaNo,Sale.SaDate,Sale.CuNo,Customer.CuName,Customer.CuTelNo1,Customer.CuTelNo2,Customer.CuTelNo3,Sale.SaSubTotal,Sale.SaLess,Sale.SaDue,Sale.CReceived,Sale.CBalance,Sale.CAmount,Sale.CPInvoiceNo,Sale.CPAmount,Sale.CuLNo,Sale.CuLAmount,Sale.SaRemarks from Sale,Customer where Customer.CuNo=Sale.CuNo " & x & " Order by SaDate Desc;"
             Case "Supply"
-                Query = "SELECT Supply.SupNo,SupDate,Supply.SuNo,SuName,SupRemarks,SupStatus,SupPaidDate from ([Supply] Inner Join [Supplier] On Supplier.SuNo=Supply.SuNo) " & x & ";"
+                Query = "SELECT Supply.SupNo,SupDate,Supply.SuNo,SuName,SupRemarks,SupStatus,SupPaidDate from (Supply Inner Join Supplier On Supplier.SuNo=Supply.SuNo) " & x & ";"
             Case "Receive"
                 Query = "SELECT RepNo,REP.RNo,RDate, R.CuNo, CuName, CuTelNo1,CuTelNo2, CuTelNo3, REP.PNo,PCategory,PName, PModelNo, PSerialNo,Problem,Qty,RepRemarks1,Status,REP.TNo, TName,RepRemarks2,RepDate,Charge,REP.DNo, DDate, PaidPrice from (((((Repair REP INNER JOIN RECEIVE R ON R.RNO = REP.RNO) INNER JOIN PRODUCT  P ON P.PNO = REP.PNO) INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = REP.TNO) LEFT JOIN DELIVER D ON D.DNO = REP.DNO) Where (Status='Repaired Delivered' or Status='Returned Delivered') " & x & ";"
             Case "Deliver"
@@ -917,13 +917,13 @@ end_for_loop:
             Case "Repair"
                 frmDatagridviewTool.frm_Close()
                 If grdSearch.CurrentCell.ColumnIndex = 13 Then
-                    Dim DT As DataTable = Db.GetDataTable("Select Rem1Date as [Date],Remarks,UserName as [User] from ([RepairRemarks1] RepRem1 Left join [User] U on U.Uno= RepRem1.UNo) Where RepNo=" & grdSearch.Item(0, grdSearch.CurrentRow.Index).Value)
+                    Dim DT As DataTable = Db.GetDataTable("Select Rem1Date as Date,Remarks,UserName as User from (RepairRemarks1 RepRem1 Left join `User` U on U.Uno= RepRem1.UNo) Where RepNo=" & grdSearch.Item(0, grdSearch.CurrentRow.Index).Value)
                     If DT.Rows.Count > 0 Then
                         frmDatagridviewTool.Tag = "RepRem"
                         frmDatagridviewTool.frm_Open(grdSearch, Me, DT)
                     End If
                 ElseIf grdSearch.CurrentCell.ColumnIndex = 16 Then
-                    Dim DT As DataTable = Db.GetDataTable("Select Rem2Date as [Date],Remarks,UserName as [User] from ([RepairRemarks2] RepRem2 Left join [User] U on U.Uno= RepRem2.UNo) Where RepNo=" & grdSearch.Item(0, grdSearch.CurrentRow.Index).Value)
+                    Dim DT As DataTable = Db.GetDataTable("Select Rem2Date as Date,Remarks,UserName as User from (RepairRemarks2 RepRem2 Left join `User` U on U.Uno= RepRem2.UNo) Where RepNo=" & grdSearch.Item(0, grdSearch.CurrentRow.Index).Value)
                     If DT.Rows.Count > 0 Then
                         frmDatagridviewTool.Tag = "RepRem"
                         frmDatagridviewTool.frm_Open(grdSearch, Me, DT)

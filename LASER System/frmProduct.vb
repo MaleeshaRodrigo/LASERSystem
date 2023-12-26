@@ -1,4 +1,4 @@
-﻿Imports System.Data.MySql
+﻿Imports MySql.Data.MySqlClient
 
 Public Class frmProduct
     Private Db As New Database
@@ -55,7 +55,7 @@ Public Class frmProduct
         Else
             x = "Order by PNo"
         End If
-        Me.grdProduct.DataSource = Db.GetDataTable("SELECT PNO as [No],PCategory as [Category],PName as [Name],PModelNo as [Model No],PDetails as [Details] from Product " & x & ";")
+        Me.grdProduct.DataSource = Db.GetDataTable("SELECT PNO as No,PCategory as Category,PName as Name,PModelNo as Model No,PDetails as Details from Product " & x & ";")
         grdProduct.Refresh()
     End Sub
 

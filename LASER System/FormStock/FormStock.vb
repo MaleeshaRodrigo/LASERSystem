@@ -1,6 +1,6 @@
 ﻿Imports System.ComponentModel
 Imports System.IO
-Imports System.Data.MySql
+Imports MySql.Data.MySqlClient
 Imports Microsoft.VisualBasic.FileIO
 Imports LASER_System.StructureDatabase
 

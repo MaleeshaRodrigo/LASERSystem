@@ -8,22 +8,12 @@ Public Class Database
 
     Public Sub Connect()
         If _Connection.State = ConnectionState.Open Then Exit Sub
-        For i As Integer = 0 To 3
-            Try
-                Dim Encoder As Encoder = New Encoder()
-                _Connection = New MySqlConnection($"server={Settings.DBServer};user id={Encoder.Decode(Settings.DBUserName)};password={Encoder.Decode(Settings.DBPassword)};database={Settings.DBName}")
-                _Connection.Open()
-                Exit For
-            Catch ex As FileNotFoundException
-                If i = 2 Then
-                    Throw New Exception("Database Server එක සොයා ගැනීමට නොහැකි විය.")
-                End If
-                Thread.Sleep(1000)
-                Continue For
-            Catch ex As Exception
-                Throw ex
-            End Try
-        Next
+        Dim Encoder As New Encoder()
+        Dim DbPassword As String = If(Settings.DBPassword <> "",
+            Encoder.Decode(Settings.DBPassword),
+            "")
+        _Connection = New MySqlConnection($"server={Settings.DBServer};port={Settings.DBPort};user={Settings.DBUserName};password={DbPassword};database={Settings.DBName}")
+        _Connection.Open()
     End Sub
 
     Public Function CheckConnection() As (Valid As Boolean, Message As String)
@@ -32,9 +22,6 @@ Public Class Database
         End If
         If Settings.DBServer = "" Then
             Return (False, "Database Server එක ඇතුලත් කර නොමැත.")
-        End If
-        If Settings.DBPassword = "" Then
-            Return (False, "Database Password එක ඇතුලත් කර නොමැත.")
         End If
         If Settings.DBName = "" Then
             Return (False, "Database Name එක ඇතුලත් කර නොමැත.")

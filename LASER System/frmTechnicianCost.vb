@@ -1,4 +1,4 @@
-﻿Imports System.Data.MySql
+﻿Imports MySql.Data.MySqlClient
 Public Class frmTechnicianCost
     Private Db As New Database
     Private dtpDate As New DateTimePicker

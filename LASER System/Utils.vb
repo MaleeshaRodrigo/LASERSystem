@@ -1,4 +1,4 @@
-﻿Imports System.Data.MySql
+﻿Imports MySql.Data.MySqlClient
 Imports System.IO
 Imports System.Net
 Imports Microsoft.VisualBasic.FileIO
@@ -135,7 +135,7 @@ Module Utils
 
     Public Function CheckExistRelationsforDelete(SQl As String, FieldName As String, msg As String) As Boolean
         CheckExistRelationsforDelete = True
-        CMD = New MySql.MySqlCommand(SQl)
+        CMD = New MySqlCommand(SQl)
         DR = CMD.ExecuteReader
         Dim tmp As String = ""
         If DR.HasRows = True Then
