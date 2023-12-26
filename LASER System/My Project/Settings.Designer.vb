@@ -57,12 +57,12 @@ Namespace My
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("")>  _
-        Public Property DBPath() As String
+        Public Property DBServer() As String
             Get
-                Return CType(Me("DBPath"),String)
+                Return CType(Me("DBServer"),String)
             End Get
             Set
-                Me("DBPath") = value
+                Me("DBServer") = value
             End Set
         End Property
         
@@ -248,13 +248,13 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Microsoft.ACE.OLEDB.12.0")>  _
-        Public Property DBProvider() As String
+         Global.System.Configuration.DefaultSettingValueAttribute("Microsoft.ACE.MySql.12.0")>  _
+        Public Property DBUserName() As String
             Get
-                Return CType(Me("DBProvider"),String)
+                Return CType(Me("DBUserName"),String)
             End Get
             Set
-                Me("DBProvider") = value
+                Me("DBUserName") = value
             End Set
         End Property
         
@@ -288,6 +288,18 @@ Namespace My
             End Get
             Set
                 Me("CashDrawer") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property DBName() As String
+            Get
+                Return CType(Me("DBName"),String)
+            End Get
+            Set
+                Me("DBName") = value
             End Set
         End Property
     End Class

@@ -1,4 +1,4 @@
-﻿Imports System.Data.OleDb
+﻿Imports System.Data.MySql
 Public Class frmTechnicianCost
     Private Db As New Database
     Private dtpDate As New DateTimePicker
@@ -233,7 +233,7 @@ Public Class frmTechnicianCost
             Exit Sub
         End If
         If User.Instance.UserType = User.Type.Admin Then
-            Dim DR As OleDbDataReader = Db.GetDataReader("Select TCNo from TechnicianCost Where TCNo=" & grdTechnicianCost.Item("TCNo", e.Row.Index).Value)
+            Dim DR As MySqlDataReader = Db.GetDataReader("Select TCNo from TechnicianCost Where TCNo=" & grdTechnicianCost.Item("TCNo", e.Row.Index).Value)
             If DR.HasRows = True Then
                 DR.Read()
                 If DR("SNo").ToString <> "" Then
@@ -265,7 +265,7 @@ Public Class frmTechnicianCost
 
     Private Sub grdTechnicianCost_RowValidating(sender As Object, e As DataGridViewCellCancelEventArgs) Handles grdTechnicianCost.RowValidating
         If e.RowIndex < 0 Or e.RowIndex > (grdTechnicianCost.Rows.Count - 2) Then Exit Sub
-        Dim DRTC As OleDbDataReader = Db.GetDataReader("Select TC.*,UserName from TechnicianCost TC Left Join `User` U On U.Uno = TC.UNo Where TCNo=" & grdTechnicianCost.Item(0, e.RowIndex).Value)
+        Dim DRTC As MySqlDataReader = Db.GetDataReader("Select TC.*,UserName from TechnicianCost TC Left Join `User` U On U.Uno = TC.UNo Where TCNo=" & grdTechnicianCost.Item(0, e.RowIndex).Value)
         If DRTC.HasRows Then
             DRTC.Read()
             grdTechnicianCost.Item(1, e.RowIndex).Value = DRTC("TCDate").ToString

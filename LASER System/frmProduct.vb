@@ -1,4 +1,4 @@
-﻿Imports System.Data.OleDb
+﻿Imports System.Data.MySql
 
 Public Class frmProduct
     Private Db As New Database
@@ -8,7 +8,7 @@ Public Class frmProduct
     End Sub
 
     Private Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click
-        Dim DR As OleDbDataReader = Db.GetDataReader("SELECT top 1 PNO from PRODUCT ORDER BY PNO Desc;")
+        Dim DR As MySqlDataReader = Db.GetDataReader("SELECT top 1 PNO from PRODUCT ORDER BY PNO Desc;")
         If DR.HasRows = True Then
             DR.Read()
             txtPNo.Text = Int(DR.Item("PNo")) + 1
@@ -107,13 +107,13 @@ Public Class frmProduct
         End If
         Select Case cmdSave.Text
             Case "Save"
-                Dim DrProductNoExist As OleDbDataReader = Db.GetDataReader("Select PNo from Product where PNo =" & txtPNo.Text & ";")
+                Dim DrProductNoExist As MySqlDataReader = Db.GetDataReader("Select PNo from Product where PNo =" & txtPNo.Text & ";")
                 If DrProductNoExist.HasRows = True Then
                     MsgBox("Product No is exist", vbOKOnly + vbExclamation)
                     txtPNo.Focus()
                     Exit Sub
                 End If
-                Dim DrProductExist As OleDbDataReader = Db.GetDataReader("Select PCategory,PName from Product where PCategory = '" & cmbPCategory.Text & "' and PName ='" & cmbPName.Text & "';")
+                Dim DrProductExist As MySqlDataReader = Db.GetDataReader("Select PCategory,PName from Product where PCategory = '" & cmbPCategory.Text & "' and PName ='" & cmbPName.Text & "';")
                 If DrProductExist.HasRows = True Then
                     MsgBox("Product category and product name are exist", vbOKOnly + vbExclamation)
                     cmbPCategory.Focus()
@@ -143,7 +143,7 @@ Public Class frmProduct
             txtPNo.Focus()
             Exit Sub
         End If
-        Dim DR As OleDbDataReader = Db.GetDataReader("Select * from Product where Pno =" & txtPNo.Text & "")
+        Dim DR As MySqlDataReader = Db.GetDataReader("Select * from Product where Pno =" & txtPNo.Text & "")
         If DR.HasRows = False Then
             MsgBox("Product isn't in the database", vbExclamation + vbOKOnly)
             Exit Sub
@@ -176,7 +176,7 @@ Public Class frmProduct
     End Sub
 
     Public Sub cmbPName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbPName.SelectedIndexChanged
-        Dim DR As OleDbDataReader = Db.GetDataReader("SELECT * from Product where PCategory = '" & cmbPCategory.Text & "' and PName='" & cmbPName.Text & "';")
+        Dim DR As MySqlDataReader = Db.GetDataReader("SELECT * from Product where PCategory = '" & cmbPCategory.Text & "' and PName='" & cmbPName.Text & "';")
         If DR.HasRows = True Then
             DR.Read()
             txtPNo.Text = DR("PNo").ToString

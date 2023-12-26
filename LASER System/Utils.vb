@@ -1,4 +1,4 @@
-﻿Imports System.Data.OleDb
+﻿Imports System.Data.MySql
 Imports System.IO
 Imports System.Net
 Imports Microsoft.VisualBasic.FileIO
@@ -15,7 +15,7 @@ Module Utils
     End Sub
 
     Public Sub SetNextKey(Db As Database, txt As TextBox, SQL As String, ColumnName As String)
-        Dim DR0 As OleDbDataReader = Db.GetDataReader(SQL)
+        Dim DR0 As MySqlDataReader = Db.GetDataReader(SQL)
         If DR0.HasRows = True Then
             DR0.Read()
             txt.Text = Int(DR0.Item(ColumnName)) + 1
@@ -72,8 +72,8 @@ Module Utils
     ''' <param name="SQL">The SQL Query</param>
     ''' <returns>True, if there are rows in the SQL query, or false</returns>
     Public Function CheckExistData(SQL As String) As Boolean
-        Dim CMD0 = New OleDbCommand(SQL)
-        Dim DR0 As OleDbDataReader = CMD0.ExecuteReader()
+        Dim CMD0 = New MySqlCommand(SQL)
+        Dim DR0 As MySqlDataReader = CMD0.ExecuteReader()
         If DR0.HasRows = True Then
             Return True
         Else
@@ -84,8 +84,8 @@ Module Utils
     End Function
 
     Public Function CheckExistData(cmb As Control, SQL As String, msg As String, IsDataExist As Boolean) As Boolean
-        Dim CMD0 = New OleDbCommand(SQL)
-        Dim DR0 As OleDbDataReader = CMD0.ExecuteReader()
+        Dim CMD0 = New MySqlCommand(SQL)
+        Dim DR0 As MySqlDataReader = CMD0.ExecuteReader()
         If DR0.HasRows = True Then
             If IsDataExist = True Then
                 MsgBox(msg, vbCritical + vbOKOnly)
@@ -135,7 +135,7 @@ Module Utils
 
     Public Function CheckExistRelationsforDelete(SQl As String, FieldName As String, msg As String) As Boolean
         CheckExistRelationsforDelete = True
-        CMD = New OleDb.OleDbCommand(SQl)
+        CMD = New MySql.MySqlCommand(SQl)
         DR = CMD.ExecuteReader
         Dim tmp As String = ""
         If DR.HasRows = True Then

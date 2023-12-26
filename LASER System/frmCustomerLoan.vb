@@ -1,4 +1,4 @@
-﻿Imports System.Data.OleDb
+﻿Imports System.Data.MySql
 
 Public Class frmCustomerLoan
     Private Db As New Database
@@ -48,7 +48,7 @@ Public Class frmCustomerLoan
     End Sub
 
     Private Sub txtDNo_TextChanged(sender As Object, e As EventArgs) Handles txtDNo.TextChanged
-        Dim DR As OleDbDataReader = Db.GetDataReader("SELECT DDate from Deliver where DNo =" & txtDNo.Text & ";")
+        Dim DR As MySqlDataReader = Db.GetDataReader("SELECT DDate from Deliver where DNo =" & txtDNo.Text & ";")
         If DR.HasRows = True Then
             DR.Read()
             txtDDate.Value = DR("DDate").ToString
@@ -57,7 +57,7 @@ Public Class frmCustomerLoan
 
     Private Sub txtSaNo_TextChanged(sender As Object, e As EventArgs) Handles txtSaNo.TextChanged
         If txtSaNo.Text = "" Then Exit Sub
-        Dim DR As OleDbDataReader = Db.GetDataReader("SELECT SaDate from SAle where SaNo =" & txtSaNo.Text & ";")
+        Dim DR As MySqlDataReader = Db.GetDataReader("SELECT SaDate from SAle where SaNo =" & txtSaNo.Text & ";")
         If DR.HasRows = True Then
             DR.Read()
             txtSaDate.Value = DR("SaDate").ToString
@@ -149,7 +149,7 @@ Public Class frmCustomerLoan
         If index >= 0 Then
             selectedrow = grdCustomerLoan.Rows(index)
             txtCuLNo.Text = selectedrow.Cells(0).Value.ToString
-            Dim Dr As OleDbDataReader = Db.GetDataReader("Select CUL.CuLNo,CuLDate,CuL.CuNo,CuName,CuTelNo1,CuTelNo2,CuTelNo3,Sa.SaNo,Sa.SaDate,D.DNo,D.DDate,CuL.CuLAmount,Status,CuLRemarks from (((CustomerLoan CUL INNER JOIN Customer CU ON CU.CUNO = CUL.CUNO) LEFT JOIN DELIVER D ON D.DNO = CUL.DNO) LEFT JOIN SALE SA ON SA.SANO = CUL.SANO) WHERE CuL.CuLNO =" & txtCuLNo.Text)
+            Dim Dr As MySqlDataReader = Db.GetDataReader("Select CUL.CuLNo,CuLDate,CuL.CuNo,CuName,CuTelNo1,CuTelNo2,CuTelNo3,Sa.SaNo,Sa.SaDate,D.DNo,D.DDate,CuL.CuLAmount,Status,CuLRemarks from (((CustomerLoan CUL INNER JOIN Customer CU ON CU.CUNO = CUL.CUNO) LEFT JOIN DELIVER D ON D.DNO = CUL.DNO) LEFT JOIN SALE SA ON SA.SANO = CUL.SANO) WHERE CuL.CuLNO =" & txtCuLNo.Text)
             If DR.HasRows = True Then
                 DR.Read()
                 txtCuLDate.Value = DR("CuLDate").ToString

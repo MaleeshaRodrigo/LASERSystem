@@ -1,4 +1,4 @@
-﻿Imports System.Data.OleDb
+﻿Imports System.Data.MySql
 Public Class frmRepairAdvanced
     Private Db As New Database
 
@@ -95,7 +95,7 @@ Public Class frmRepairAdvanced
                 Search += "ADDate like '%" & txtSearch.Text & "%' or RepNo like '%" & txtSearch.Text & "%' or RetNo like '%" & txtSearch.Text & "%' or Amount like '%" &
                     txtSearch.Text & "%' or Remarks like '%" & txtSearch.Text & "%'"
         End Select
-        Dim DRRepAdv As OleDbDataReader = Db.GetDataReader("Select * from RepairAdvanced " & Search)
+        Dim DRRepAdv As MySqlDataReader = Db.GetDataReader("Select * from RepairAdvanced " & Search)
         grdRepAdvanced.Rows.Clear()
         While DRRepAdv.Read
             grdRepAdvanced.Rows.Add(DRRepAdv("ADNo").ToString, DRRepAdv("ADDate").ToString, DRRepAdv("RepNo").ToString, DRRepAdv("RetNo").ToString,
@@ -134,7 +134,7 @@ Public Class frmRepairAdvanced
     Private Sub grdRepAdvanced_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles grdRepAdvanced.CellDoubleClick
         If e.RowIndex < 0 Then Exit Sub
         If grdRepAdvanced.Item(0, e.RowIndex).Value Is Nothing Then Exit Sub
-        Dim DRRepAdv As OleDb.OleDbDataReader = Db.GetDataReader("SELECT * from RepairAdvanced where AdNo=" & grdRepAdvanced.Item(0, e.RowIndex).Value & ";")
+        Dim DRRepAdv As MySql.MySqlDataReader = Db.GetDataReader("SELECT * from RepairAdvanced where AdNo=" & grdRepAdvanced.Item(0, e.RowIndex).Value & ";")
         If DRRepAdv.HasRows Then
             DRRepAdv.Read()
             txtAdNo.Text = grdRepAdvanced.Item(0, e.RowIndex).Value
@@ -222,7 +222,7 @@ Public Class frmRepairAdvanced
         End If
         Dim RPT As New rptRepairAdvanced
         Dim DS1 As New DataSet
-        Dim DA1 As OleDbDataAdapter
+        Dim DA1 As MySqlDataAdapter
         If rbRep.Checked = True Then
             DA1 = Db.GetDataAdapter("SELECT CuName,CuTelNo1,CuTelNo2,CuTelNo3,ADDate,Rep.RepNo,Ret.RetNo,PCategory,PName,Amount from (((((RepairAdvanced AD Left Join Repair Rep On Rep.RepNo=AD.RepNo) Left JOin Return Ret On Ret.RetNo=AD.RetNo) LEft Join Product P ON P.PNo = Rep.PNo) Left Join Receive R ON R.RNo = Rep.RNo) Left Join Customer Cu ON Cu.CuNo=R.CuNo) Where ADNo=" & txtAdNo.Text & ";")
         Else

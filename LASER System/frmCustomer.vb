@@ -1,4 +1,4 @@
-﻿Imports System.Data.OleDb
+﻿Imports System.Data.MySql
 
 Public Class frmCustomer
     Private Db As New Database
@@ -65,7 +65,7 @@ Public Class frmCustomer
     End Sub
 
     Public Sub cmbCuName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbCuName.SelectedIndexChanged
-        Dim DR As OleDbDataReader = Db.GetDataReader("SELECT * from Customer where CuName='" & cmbCuName.Text & "';")
+        Dim DR As MySqlDataReader = Db.GetDataReader("SELECT * from Customer where CuName='" & cmbCuName.Text & "';")
         If DR.HasRows = True Then
             DR.Read()
             txtCuNo.Text = DR("CuNo").ToString
@@ -155,7 +155,7 @@ Public Class frmCustomer
         End If
         Select Case cmdSave.Text
             Case "Save"
-                Dim DR As OleDbDataReader = Db.GetDataReader("Select CuName from Customer where CuName ='" & cmbCuName.Text & "';")
+                Dim DR As MySqlDataReader = Db.GetDataReader("Select CuName from Customer where CuName ='" & cmbCuName.Text & "';")
                 If DR.HasRows = True Then
                     For i As Integer = 0 To 1000
                         DR = Db.GetDataReader("Select CuName from Customer Where CuName = '" & cmbCuName.Text & " " & i.ToString & "'")
@@ -169,11 +169,11 @@ Public Class frmCustomer
                     txtCuNo.Text = Db.GetNextKey("Customer", "CuNo")
                 End If
                 Db.Execute("Insert into Customer(CuNo,CuName,CuTelNo1,CuTelNo2,CuTelNo3) Values(@NO, @NAME, @TELNO1, @TELNO2, @TELNO3);", {
-                        New OleDbParameter("@NO", txtCuNo.Text),
-                        New OleDbParameter("@NAME", cmbCuName.Text),
-                        New OleDbParameter("@TELNO1", txtCuTelNo1.Text),
-                        New OleDbParameter("@TELNO2", txtCuTelNo2.Text),
-                        New OleDbParameter("@TELNO3", txtCuTelNo3.Text)
+                        New MySqlParameter("@NO", txtCuNo.Text),
+                        New MySqlParameter("@NAME", cmbCuName.Text),
+                        New MySqlParameter("@TELNO1", txtCuTelNo1.Text),
+                        New MySqlParameter("@TELNO2", txtCuTelNo2.Text),
+                        New MySqlParameter("@TELNO3", txtCuTelNo3.Text)
                 })
                 Call txtSearch_TextChanged(sender, e)
                 cmdSave.Text = "Edit"
@@ -235,7 +235,7 @@ Public Class frmCustomer
 
     Private Sub txtCuTelNo1_KeyUp(sender As Object, e As KeyEventArgs) Handles txtCuTelNo1.KeyUp
         If txtCuTelNo1.Text.Trim.Length < 10 Then Exit Sub
-        Dim DR As OleDbDataReader = Db.GetDataReader("Select * from Customer where CuTelNo1='" & txtCuTelNo1.Text & "' or CuTelNo2='" & txtCuTelNo1.Text & "' or CuTelNo3='" & txtCuTelNo1.Text & "';")
+        Dim DR As MySqlDataReader = Db.GetDataReader("Select * from Customer where CuTelNo1='" & txtCuTelNo1.Text & "' or CuTelNo2='" & txtCuTelNo1.Text & "' or CuTelNo3='" & txtCuTelNo1.Text & "';")
         If DR.HasRows = True Then
             If MsgBox("මෙම Telephone No එකට Customer කෙනෙකු ලියාපදිංචි වී ඇත. එය විවෘත කරන්නද?", vbYesNo + vbCritical) = vbYes Then
                 DR.Read()
@@ -247,7 +247,7 @@ Public Class frmCustomer
 
     Private Sub txtCuTelNo2_KeyUp(sender As Object, e As KeyEventArgs) Handles txtCuTelNo2.KeyUp
         If txtCuTelNo2.Text.Trim.Length < 10 Then Exit Sub
-        Dim DR As OleDbDataReader = Db.GetDataReader("Select * from Customer where CuTelNo1='" & txtCuTelNo2.Text & "' or CuTelNo2='" & txtCuTelNo2.Text & "' or CuTelNo3='" & txtCuTelNo2.Text & "';")
+        Dim DR As MySqlDataReader = Db.GetDataReader("Select * from Customer where CuTelNo1='" & txtCuTelNo2.Text & "' or CuTelNo2='" & txtCuTelNo2.Text & "' or CuTelNo3='" & txtCuTelNo2.Text & "';")
         If DR.HasRows = True Then
             If MsgBox("මෙම Telephone No එකට Customer කෙනෙකු ලියාපදිංචි වී ඇත. එය විවෘත කරන්නද?", vbYesNo + vbCritical) = vbYes Then
                 DR.Read()
@@ -259,7 +259,7 @@ Public Class frmCustomer
 
     Private Sub txtCuTelNo3_KeyUp(sender As Object, e As KeyEventArgs) Handles txtCuTelNo3.KeyUp
         If txtCuTelNo3.Text.Trim.Length < 10 Then Exit Sub
-        Dim DR As OleDbDataReader = Db.GetDataReader("Select * from Customer where CuTelNo1='" & txtCuTelNo3.Text & "' or CuTelNo2='" & txtCuTelNo3.Text & "' or CuTelNo3='" & txtCuTelNo3.Text & "';")
+        Dim DR As MySqlDataReader = Db.GetDataReader("Select * from Customer where CuTelNo1='" & txtCuTelNo3.Text & "' or CuTelNo2='" & txtCuTelNo3.Text & "' or CuTelNo3='" & txtCuTelNo3.Text & "';")
         If DR.HasRows = True Then
             If MsgBox("Another Customer was found assigned this Telephone No. Will it be opened?", vbYesNo + vbCritical) = vbYes Then
                 DR.Read()

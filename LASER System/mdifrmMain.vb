@@ -295,8 +295,8 @@ Public Class MdifrmMain
     End Sub
 
     Public Sub txtIncomevsDateCustom_TextChanged(sender As Object, e As EventArgs)
-        Dim cmd0 As New OleDb.OleDbCommand
-        Dim DR0 As OleDb.OleDbDataReader
+        Dim cmd0 As New MySql.MySqlCommand
+        Dim DR0 As MySql.MySqlDataReader
         If Me.Tag = "Cashier" Then Exit Sub
         tsProBar.Visible = True
         tsProBar.Value = 0

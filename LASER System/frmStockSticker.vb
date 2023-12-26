@@ -1,5 +1,5 @@
 ﻿Imports ZXing
-Imports System.Data.OleDb
+Imports System.Data.MySql
 Imports System.Drawing
 Imports System.IO
 
@@ -57,7 +57,7 @@ Public Class frmStockSticker
                     autoText.AutoCompleteMode = AutoCompleteMode.Suggest
                     autoText.AutoCompleteSource = AutoCompleteSource.CustomSource
                     DataCollection.Clear()
-                    Dim DR As OleDbDataReader = Db.GetDataReader("Select SCategory from Stock group by SCategory;")
+                    Dim DR As MySqlDataReader = Db.GetDataReader("Select SCategory from Stock group by SCategory;")
                     While DR.Read
                         DataCollection.Add(DR("SCategory").ToString)
                     End While
@@ -69,7 +69,7 @@ Public Class frmStockSticker
                     autoText.AutoCompleteMode = AutoCompleteMode.Suggest
                     autoText.AutoCompleteSource = AutoCompleteSource.CustomSource
                     DataCollection.Clear()
-                    Dim DR As OleDbDataReader = Db.GetDataReader("Select SCategory,SName from Stock where SCategory ='" & grdStock.Item(1, grdStock.CurrentCell.RowIndex).Value & "';")
+                    Dim DR As MySqlDataReader = Db.GetDataReader("Select SCategory,SName from Stock where SCategory ='" & grdStock.Item(1, grdStock.CurrentCell.RowIndex).Value & "';")
                     While DR.Read
                         DataCollection.Add(DR("SName").ToString)
                     End While

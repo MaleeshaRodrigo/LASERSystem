@@ -1,4 +1,4 @@
-﻿Imports System.Data.OleDb
+﻿Imports System.Data.MySql
 
 Public Class frmTechnician
     Private Db As New Database
@@ -104,7 +104,7 @@ Public Class frmTechnician
     End Sub
 
     Private Sub cmbTName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbTName.SelectedIndexChanged
-        Dim DR As OleDbDataReader = Db.GetDataReader("Select * from Technician where TName ='" & cmbTName.Text & "';")
+        Dim DR As MySqlDataReader = Db.GetDataReader("Select * from Technician where TName ='" & cmbTName.Text & "';")
         If DR.HasRows = True Then
             DR.Read()
             txtTNo.Text = DR("TNo").ToString

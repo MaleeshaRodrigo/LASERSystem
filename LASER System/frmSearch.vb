@@ -1,5 +1,5 @@
 ﻿Imports System.ComponentModel
-Imports System.Data.OleDb
+Imports System.Data.MySql
 Imports LASER_System.StructureDatabase
 
 Public Class frmSearch
@@ -151,7 +151,7 @@ Public Class frmSearch
                     .Name = "TName",
                     .HeaderText = "Technician Name"
                 }    '-----------TName Combo Box
-                Dim DrTName As OleDbDataReader = Db.GetDataReader("Select TName from Technician group by TName;")
+                Dim DrTName As MySqlDataReader = Db.GetDataReader("Select TName from Technician group by TName;")
                 grdSearchTName.Items.Clear()
                 grdSearchTName.Items.Add("")
                 While DrTName.Read
@@ -483,8 +483,8 @@ Public Class frmSearch
                                     If y <> "" Then y += ","
                                     y += "IIF(REP.RepNo=" & Search & "," & Count
                                 Case "Remarks by Customer"
-                                    Dim CMDSearch2 As New OleDb.OleDbCommand
-                                    Dim DRSearch2 As OleDbDataReader
+                                    Dim CMDSearch2 As New MySql.MySqlCommand
+                                    Dim DRSearch2 As MySqlDataReader
                                     DRSearch2 = Db.GetDataReader("Select RepNo,Remarks from RepairRemarks1 Where Remarks like '%" & Search & "%' ")
                                     x += " RepNo IN ("
                                     While DRSearch2.Read
@@ -497,7 +497,7 @@ Public Class frmSearch
                                         CMDSearch2.Cancel()
                                     End If
                                 Case "Remarks by Technician"
-                                    Dim DRSearch2 As OleDbDataReader = Db.GetDataReader("Select RepNo,Remarks from RepairRemarks2 Where Remarks like '%" & Search &
+                                    Dim DRSearch2 As MySqlDataReader = Db.GetDataReader("Select RepNo,Remarks from RepairRemarks2 Where Remarks like '%" & Search &
                                                                         "%' ")
                                     x += " RepNo IN ( "
                                     While DRSearch2.Read
@@ -515,8 +515,8 @@ Public Class frmSearch
                                         If clm.Index <> 0 Then x += " OR "
                                         x += $"{clm.Name} {cmdLIKE.Text} '{Symbol}{Search}{Symbol}'"
                                     Next
-                                    Dim CMDSearch2 As New OleDb.OleDbCommand
-                                    Dim DRSearch2 As OleDbDataReader = Db.GetDataReader($"Select RepNo,Remarks from RepairRemarks1 Where Remarks {cmdLIKE.Text} '{Symbol}{Search}{Symbol}' Union Select RepNo,Remarks from RepairRemarks2 Where Remarks like '{Symbol}{Search}{Symbol}'")
+                                    Dim CMDSearch2 As New MySql.MySqlCommand
+                                    Dim DRSearch2 As MySqlDataReader = Db.GetDataReader($"Select RepNo,Remarks from RepairRemarks1 Where Remarks {cmdLIKE.Text} '{Symbol}{Search}{Symbol}' Union Select RepNo,Remarks from RepairRemarks2 Where Remarks like '{Symbol}{Search}{Symbol}'")
                                     If DRSearch2.HasRows Then
                                         x += " Or RepNo IN ("
                                         While DRSearch2.Read
@@ -578,8 +578,8 @@ Public Class frmSearch
                                 Case "Delivered Date"
                                     x += " D.DDate like '%" & Search & "%'"
                                 Case "Remarks by Customer"
-                                    Dim CMDSearch2 As New OleDb.OleDbCommand
-                                    Dim DRSearch2 As OleDbDataReader
+                                    Dim CMDSearch2 As New MySql.MySqlCommand
+                                    Dim DRSearch2 As MySqlDataReader
                                     DRSearch2 = Db.GetDataReader("Select RetNo,Remarks from RepairRemarks1 Where Remarks like '%" & Search & "%' ")
                                     x += " RetNo IN ("
                                     While DRSearch2.Read
@@ -592,8 +592,8 @@ Public Class frmSearch
                                         CMDSearch2.Cancel()
                                     End If
                                 Case "Remarks by Technician"
-                                    Dim CMDSearch2 As New OleDb.OleDbCommand
-                                    Dim DRSearch2 As OleDbDataReader = Db.GetDataReader("Select RetNo,Remarks from RepairRemarks2 Where Remarks like '%" & Search &
+                                    Dim CMDSearch2 As New MySql.MySqlCommand
+                                    Dim DRSearch2 As MySqlDataReader = Db.GetDataReader("Select RetNo,Remarks from RepairRemarks2 Where Remarks like '%" & Search &
                                                                         "%' ")
                                     x += " RetNo IN ( "
                                     While DRSearch2.Read
@@ -690,7 +690,7 @@ Public Class frmSearch
                 Query = "SELECT RETNo,RET.RepNo,RET.RNo,RDate, R.CuNo, CuName, CuTelNo1,CuTelNo2, CuTelNo3, RET.PNo,PCategory,PName, PModelNo, PSerialNo,Problem,Qty,Charge, RET.TNo, TName, Status, RetRepDate from (((((RETURN RET INNER JOIN RECEIVE R ON R.RNO = RET.RNO) INNER JOIN PRODUCT  P ON P.PNO = RET.PNO) INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = RET.TNO) LEFT JOIN DELIVER D ON D.DNO = RET.DNO) Where Status <> 'Repaired Delivered' and Status <> 'Returned Delivered' " & x & ";"
         End Select
         Dim Rows_Count As Integer = Db.GetRowsCount(Query)
-        Dim DRSearch1 As OleDbDataReader = Db.GetDataReader(Query)
+        Dim DRSearch1 As MySqlDataReader = Db.GetDataReader(Query)
         If Rows_Count < 1 Then Exit Sub
         Dim i As Integer = 0
         While DRSearch1.Read
@@ -930,7 +930,7 @@ end_for_loop:
                     End If
                 End If
             Case "Deliver"
-                Dim DR As OleDbDataReader = Db.GetDataReader("Select RepNo,PCategory,PName,Qty,PaidPrice,TName,Status from (((Repair Rep Inner Join Deliver D On D.DNo=Rep.DNo) Inner Join Product P On p.pno = Rep.pno) Inner Join Technician T On T.TNo = Rep.TNo) Where D.DNo = " &
+                Dim DR As MySqlDataReader = Db.GetDataReader("Select RepNo,PCategory,PName,Qty,PaidPrice,TName,Status from (((Repair Rep Inner Join Deliver D On D.DNo=Rep.DNo) Inner Join Product P On p.pno = Rep.pno) Inner Join Technician T On T.TNo = Rep.TNo) Where D.DNo = " &
                                              grdSearch.Item(0, grdSearch.CurrentRow.Index).Value.ToString)
                 grdsubsearch1.Rows.Clear()
                 While DR.Read
@@ -1085,7 +1085,7 @@ end_for_loop:
                 '    If e.RowIndex >= 0 Then
                 '        selectedrow = grdSearch.Rows(e.RowIndex)
                 '        .cmbRetRepNo.Text = selectedrow.Cells(0).Value.ToString
-                '        CMD = New OleDb.OleDbCommand("Select * from Repair,Product where Repair.PNo = Product.PNo And RepNo = " & .cmbRetRepNo.Text & ";", CNN) 'This is the copy of cmbrepretno.selectedindexchange()
+                '        CMD = New MySql.MySqlCommand("Select * from Repair,Product where Repair.PNo = Product.PNo And RepNo = " & .cmbRetRepNo.Text & ";", CNN) 'This is the copy of cmbrepretno.selectedindexchange()
                 '        DR = CMD.ExecuteReader()
                 '        If DR.HasRows = True Then
                 '            DR.Read()
@@ -1127,7 +1127,7 @@ end_for_loop:
                             .ControlPopUp.txtCuLAmount.Text = DR("CuLAmount").ToString
                             .ControlPopUp.txtCuLNo.Text = DR("CuLNo").ToString
                         End If
-                        Dim DR1 As OleDbDataReader = Db.GetDataReader("Select RepNo,REP.PNo,PCategory,PName,Qty,Status,REP.TNo, TName,PaidPrice from (((Repair REP INNER JOIN PRODUCT  P On P.PNO = REP.PNO) LEFT JOIN Technician T On T.TNO = REP.TNO) LEFT JOIN DELIVER D On D.DNO = REP.DNO) Where D.DNo=" &
+                        Dim DR1 As MySqlDataReader = Db.GetDataReader("Select RepNo,REP.PNo,PCategory,PName,Qty,Status,REP.TNo, TName,PaidPrice from (((Repair REP INNER JOIN PRODUCT  P On P.PNO = REP.PNO) LEFT JOIN Technician T On T.TNO = REP.TNO) LEFT JOIN DELIVER D On D.DNO = REP.DNO) Where D.DNo=" &
                                                                                 .txtDNo.Text)
                         .grdRepair.Rows.Clear()
                         While DR1.Read

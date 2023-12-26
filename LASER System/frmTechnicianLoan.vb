@@ -1,4 +1,4 @@
-﻿Imports System.Data.OleDb
+﻿Imports System.Data.MySql
 
 Public Class frmTechnicianLoan
     Private Db As New Database
@@ -118,7 +118,7 @@ Public Class frmTechnicianLoan
     End Sub
 
     Private Sub cmbSName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbSName.SelectedIndexChanged
-        Dim DR As OleDbDataReader
+        Dim DR As MySqlDataReader
         If cmbSCategory.Text = "" Then
             DR = Db.GetDataReader("Select * from Stock Where SName='" & cmbSName.Text & "'")
         Else
@@ -174,7 +174,7 @@ Public Class frmTechnicianLoan
             txtTLAmount.Text = "0"
             Exit Sub
         End If
-        Dim DR1 As OleDbDataReader = Db.GetDataReader("Select SCategory,SName,SNo from [Stock] where SNo =" & txtSNo.Text & ";")
+        Dim DR1 As MySqlDataReader = Db.GetDataReader("Select SCategory,SName,SNo from [Stock] where SNo =" & txtSNo.Text & ";")
         If DR1.HasRows = True Then
             DR1.Read()
             cmbSCategory.Text = DR1("SCategory").ToString
@@ -203,7 +203,7 @@ Public Class frmTechnicianLoan
                 txtTLAmount.Text = "0"
                 Exit Sub
             End If
-            Dim DR As OleDbDataReader = Db.GetDataReader("SElect SNO from stock where Sno =" & txtSNo.Text)
+            Dim DR As MySqlDataReader = Db.GetDataReader("SElect SNO from stock where Sno =" & txtSNo.Text)
             If DR.HasRows = False Then
                 cmbSCategory.Text = ""
                 cmbSName.Text = ""
@@ -268,7 +268,7 @@ Public Class frmTechnicianLoan
             AdminPer.AdminSend = True
             AdminPer.Remarks = "අද දිනට නොමැති Technician Loan data එකක් ඉවත් කෙරුණි."
         End If
-        Dim DR As OleDbDataReader = Db.GetDataReader("Select * from TechnicianLoan Where TLNo=" & txtTLNo.Text)
+        Dim DR As MySqlDataReader = Db.GetDataReader("Select * from TechnicianLoan Where TLNo=" & txtTLNo.Text)
         If DR.HasRows = True Then
             DR.Read()
             If DR("SNo").ToString <> "" And DR("SNo").ToString <> "0" Then

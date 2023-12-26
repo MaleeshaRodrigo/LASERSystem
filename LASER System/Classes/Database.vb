@@ -1,25 +1,22 @@
-﻿Imports System.Data.Common
-Imports System.Data.OleDb
-Imports System.IO
-Imports System.Runtime.CompilerServices
+﻿Imports System.IO
 Imports System.Threading
 Imports LASER_System.My
-Imports Microsoft.Office.Interop.Access.Dao
-Imports Newtonsoft.Json
+Imports MySql.Data.MySqlClient
 
 Public Class Database
-    Private _Connection As New OleDbConnection
+    Private _Connection As New MySqlConnection
 
     Public Sub Connect()
         If _Connection.State = ConnectionState.Open Then Exit Sub
         For i As Integer = 0 To 3
             Try
-                _Connection = New OleDbConnection($"Provider={Settings.DBProvider};Data Source={Settings.DBPath};Jet OLEDB:Database Password={(New Encoder()).Decode(Settings.DBPassword)};")
+                Dim Encoder As Encoder = New Encoder()
+                _Connection = New MySqlConnection($"server={Settings.DBServer};user id={Encoder.Decode(Settings.DBUserName)};password={Encoder.Decode(Settings.DBPassword)};database={Settings.DBName}")
                 _Connection.Open()
                 Exit For
             Catch ex As FileNotFoundException
                 If i = 2 Then
-                    Throw New Exception("Database Path එක සොයා ගැනීමට නොහැකි විය.")
+                    Throw New Exception("Database Server එක සොයා ගැනීමට නොහැකි විය.")
                 End If
                 Thread.Sleep(1000)
                 Continue For
@@ -30,17 +27,17 @@ Public Class Database
     End Sub
 
     Public Function CheckConnection() As (Valid As Boolean, Message As String)
-        If Settings.DBProvider = "" Then
-            Return (False, "Database Provider ඇතුලත් කර නොමැත.")
+        If Settings.DBUserName = "" Then
+            Return (False, "Database User Name එක ඇතුලත් කර නොමැත.")
         End If
-        If Settings.DBPath = "" Then
-            Return (False, "Database Path එක ඇතුලත් කර නොමැත.")
+        If Settings.DBServer = "" Then
+            Return (False, "Database Server එක ඇතුලත් කර නොමැත.")
         End If
         If Settings.DBPassword = "" Then
             Return (False, "Database Password එක ඇතුලත් කර නොමැත.")
         End If
-        If File.Exists(Settings.DBPath) = False Then
-            Return (False, "Database Path එක සොයා ගැනීමට නොහැකි විය.")
+        If Settings.DBName = "" Then
+            Return (False, "Database Name එක ඇතුලත් කර නොමැත.")
         End If
         Try
             Connect()
@@ -57,9 +54,9 @@ Public Class Database
     End Sub
 
     Public Function CheckDataExists(Table As String, FieldName As String, Value As String) As Boolean
-        Dim DR As OleDbDataReader = Nothing
+        Dim DR As MySqlDataReader = Nothing
         Try
-            Dim Command = New OleDbCommand($"SELECT {FieldName} FROM {Table} WHERE {FieldName} = @VALUE", _Connection)
+            Dim Command = New MySqlCommand($"SELECT {FieldName} FROM {Table} WHERE {FieldName} = @VALUE", _Connection)
             Command.Parameters.AddWithValue("@VALUE", Value)
             DR = Command.ExecuteReader()
             Return DR.HasRows
@@ -70,12 +67,12 @@ Public Class Database
         End Try
     End Function
 
-    Public Sub Execute(Query As String, Optional Parameters As OleDbParameter() = Nothing, Optional AdminPer As AdminPermission = Nothing)
+    Public Sub Execute(Query As String, Optional Parameters As MySqlParameter() = Nothing, Optional AdminPer As AdminPermission = Nothing)
         Query = FormatQuery(Query, AdminPer)
         If AdminPer IsNot Nothing AndAlso AdminPer.AdminSend = True Then
             Exit Sub
         End If
-        Dim CommandUpdate As New OleDbCommand(Query, _Connection)
+        Dim CommandUpdate As New MySqlCommand(Query, _Connection)
         If Parameters IsNot Nothing Then
             CommandUpdate.Parameters.AddRange(Parameters)
         End If
@@ -86,7 +83,7 @@ Public Class Database
     End Sub
 
     Public Sub DirectExecute(Query As String)
-        Dim Command As New OleDbCommand(Query, _Connection)
+        Dim Command As New MySqlCommand(Query, _Connection)
         Command.ExecuteNonQuery()
         Command.Cancel()
     End Sub
@@ -114,9 +111,9 @@ Public Class Database
         Return Query
     End Function
 
-    Public Function GetDataTable(Sql As String, Optional Values As OleDbParameter() = Nothing) As DataTable
+    Public Function GetDataTable(Sql As String, Optional Values As MySqlParameter() = Nothing) As DataTable
         Dim DataTable As New DataTable
-        Dim DataAdapter As New OleDbDataAdapter(Sql, _Connection)
+        Dim DataAdapter As New MySqlDataAdapter(Sql, _Connection)
         If Values IsNot Nothing Then
             DataAdapter.SelectCommand.Parameters.AddRange(Values)
         End If
@@ -126,8 +123,8 @@ Public Class Database
     End Function
 
     Public Function GetArray(Query As String, ColumnName As String) As List(Of String)
-        Dim Command = New OleDbCommand(Query, _Connection)
-        Dim DataReader As OleDbDataReader = Command.ExecuteReader()
+        Dim Command = New MySqlCommand(Query, _Connection)
+        Dim DataReader As MySqlDataReader = Command.ExecuteReader()
         Dim Output As New List(Of String)
         While DataReader.Read
             Output.Add(DataReader(ColumnName).ToString)
@@ -139,8 +136,8 @@ Public Class Database
 
     Public Function GetNextKey(Table As String, Column As String) As Integer
         Dim Output As Integer
-        Dim Command As New OleDbCommand($"Select Top 1 `{Column}` from `{Table}` Order by `{Column}` Desc", _Connection)
-        Dim DataReader As OleDbDataReader = Command.ExecuteReader
+        Dim Command As New MySqlCommand($"Select Top 1 `{Column}` from `{Table}` Order by `{Column}` Desc", _Connection)
+        Dim DataReader As MySqlDataReader = Command.ExecuteReader
         If DataReader.HasRows = True Then
             DataReader.Read()
             Output = Int(DataReader.Item(Column)) + 1
@@ -152,8 +149,8 @@ Public Class Database
     End Function
 
     Public Function GetRowsCount(Sql As String) As Integer
-        Dim Command As New OleDbCommand(Sql, _Connection)
-        Dim DataReader As OleDbDataReader = Command.ExecuteReader
+        Dim Command As New MySqlCommand(Sql, _Connection)
+        Dim DataReader As MySqlDataReader = Command.ExecuteReader
         Dim DataTable As New DataTable
         DataTable.Load(DataReader)
         Dim Output As Integer = DataTable.Rows.Count
@@ -162,21 +159,21 @@ Public Class Database
         Return (Output)
     End Function
 
-    Public Function GetDataReader(Sql As String, Optional Values As OleDbParameter() = Nothing) As OleDbDataReader
-        Dim Command As New OleDbCommand(Sql, _Connection)
+    Public Function GetDataReader(Sql As String, Optional Values As MySqlParameter() = Nothing) As MySqlDataReader
+        Dim Command As New MySqlCommand(Sql, _Connection)
         If Values IsNot Nothing Then
             Command.Parameters.AddRange(Values)
         End If
         Return (Command.ExecuteReader())
     End Function
 
-    Public Function GetDataAdapter(Query As String) As OleDbDataAdapter
-        Dim DA As New OleDbDataAdapter(Query, _Connection)
+    Public Function GetDataAdapter(Query As String) As MySqlDataAdapter
+        Dim DA As New MySqlDataAdapter(Query, _Connection)
         Return DA
     End Function
 
-    Public Function GetData(Query As String, Optional Values As OleDbParameter() = Nothing) As Object
-        Dim Command As New OleDbCommand(Query, _Connection)
+    Public Function GetData(Query As String, Optional Values As MySqlParameter() = Nothing) As Object
+        Dim Command As New MySqlCommand(Query, _Connection)
         If Values IsNot Nothing Then
             Command.Parameters.AddRange(Values)
         End If

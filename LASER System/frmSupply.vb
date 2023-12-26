@@ -1,5 +1,5 @@
 ﻿Imports ZXing
-Imports System.Data.OleDb
+Imports System.Data.MySql
 Imports LASER_System.StructureDatabase
 
 Public Class frmSupply
@@ -90,7 +90,7 @@ Public Class frmSupply
         Next
         SetNextKey(Db, txtSupNo, "SELECT top 1 SupNo from Supply ORDER BY SupNo Desc;", "SupNo")
         Dim SuNo As Integer = Db.GetData("Select SuNo from Supplier where SuName=@SUNAME;", {
-                                New OleDbParameter("SUNAME", cmbSuName.Text)
+                                New MySqlParameter("SUNAME", cmbSuName.Text)
         })
         If SuNo = 0 Then
             MsgBox("ඔබ ඇතුලත් කල Supplier Name එක Database තුල සොයා ගැනීමට නොහැකිය. කරුණාකර නැවත පරිකෂා කරන්න." + vbCrLf + "ඔබට මෙම ගැටලුව විසදීමට නොහැකි නම්, අපගෙ Programe Developer ව අමතන්න.")
@@ -107,62 +107,62 @@ Public Class frmSupply
 
     Private Sub SaveSupplyInformation(SuNo As Integer)
         Db.Execute("Insert into Supply(SupNo,SupDate,SuNo,SupRemarks,SupStatus,SupPaidDate,UNo) Values(@SUPNO,@SUPDATE,@SUNO, @SUPREMARKS, @SUPSTATUS, @SUPPAIDDATE, @UNO)", {
-                New OleDbParameter("SUPNO", txtSupNo.Text),
-                New OleDbParameter("SUPDATE", txtSupDate.Value.ToString),
-                New OleDbParameter("SUNO", SuNo),
-                New OleDbParameter("SUPREMARKS", txtSupRemarks.Text),
-                New OleDbParameter("SUPSTATUS", cmbSupStatus.Text),
-                New OleDbParameter("SUPPAIDDATE", If(cmbSupStatus.Text = "Paid", txtSupPaidDate.Value.ToString, DBNull.Value)),
-                New OleDbParameter("UNO", User.Instance.UserNo)
+                New MySqlParameter("SUPNO", txtSupNo.Text),
+                New MySqlParameter("SUPDATE", txtSupDate.Value.ToString),
+                New MySqlParameter("SUNO", SuNo),
+                New MySqlParameter("SUPREMARKS", txtSupRemarks.Text),
+                New MySqlParameter("SUPSTATUS", cmbSupStatus.Text),
+                New MySqlParameter("SUPPAIDDATE", If(cmbSupStatus.Text = "Paid", txtSupPaidDate.Value.ToString, DBNull.Value)),
+                New MySqlParameter("UNO", User.Instance.UserNo)
             })
         For Each Row As DataGridViewRow In grdSupply.Rows
             If grdSupply.Rows.Count - 1 = Row.Index Then Continue For
 
             If Db.CheckDataExists(Tables.Stock, Stock.Code, Row.Cells(Stock.Code).Value) = False Then
                 Db.Execute($"INSERT INTO {Tables.Stock}({Stock.Code}, {Stock.Category}, {Stock.Name}, {Stock.ModelNo}, {Stock.Location}, {Stock.Details}, {Stock.CostPrice}, {Stock.LowestPrice}, {Stock.SalePrice}, {Stock.AvailableUnits}, {Stock.DamagedUnits}, {Stock.ReorderPoint}) Values(@NO, @CATEGORY, @NAME, @MODELNO, @LOCATION, @DETAILS, @COSTPRICE, @LOWESTPRICE, @SALEPRICE, @AVAILABLESTOCKS, @OUTOFSTOCKS, @REORDERPOINT);", {
-                  New OleDbParameter("@NO", Row.Cells(Stock.Code).Value),
-                  New OleDbParameter("@CATEGORY", Row.Cells(Stock.Category).Value),
-                  New OleDbParameter("@NAME", Row.Cells(Stock.Name).Value),
-                  New OleDbParameter("@MODELNO", Row.Cells(Stock.ModelNo).Value),
-                  New OleDbParameter("@LOCATION", Row.Cells(Stock.Location).Value),
-                  New OleDbParameter("@DETAILS", Row.Cells(Stock.Details).Value),
-                  New OleDbParameter("@COSTPRICE", Row.Cells("CostPrice").Value),
-                  New OleDbParameter("@LOWESTPRICE", Row.Cells(Stock.LowestPrice).Value),
-                  New OleDbParameter("@SALEPRICE", Row.Cells(Stock.SalePrice).Value),
-                  New OleDbParameter("@AVAILABLESTOCKS", 0),
-                  New OleDbParameter("@OUTOFSTOCKS", 0),
-                  New OleDbParameter("@REORDERPOINT", Row.Cells(Stock.ReorderPoint).Value)
+                  New MySqlParameter("@NO", Row.Cells(Stock.Code).Value),
+                  New MySqlParameter("@CATEGORY", Row.Cells(Stock.Category).Value),
+                  New MySqlParameter("@NAME", Row.Cells(Stock.Name).Value),
+                  New MySqlParameter("@MODELNO", Row.Cells(Stock.ModelNo).Value),
+                  New MySqlParameter("@LOCATION", Row.Cells(Stock.Location).Value),
+                  New MySqlParameter("@DETAILS", Row.Cells(Stock.Details).Value),
+                  New MySqlParameter("@COSTPRICE", Row.Cells("CostPrice").Value),
+                  New MySqlParameter("@LOWESTPRICE", Row.Cells(Stock.LowestPrice).Value),
+                  New MySqlParameter("@SALEPRICE", Row.Cells(Stock.SalePrice).Value),
+                  New MySqlParameter("@AVAILABLESTOCKS", 0),
+                  New MySqlParameter("@OUTOFSTOCKS", 0),
+                  New MySqlParameter("@REORDERPOINT", Row.Cells(Stock.ReorderPoint).Value)
             })
             Else
                 Db.Execute($"UPDATE {Tables.Stock} SET {Stock.Location}=@LOCATION,{Stock.ModelNo}=@MODELNO,{Stock.Details}=@DETAILS,{Stock.CostPrice}=@COSTPRICE,{Stock.LowestPrice}=@LOWESTPRICE, {Stock.SalePrice}=@SALEPRICE,{Stock.ReorderPoint}=@REORDERPOINT WHERE {Stock.Code}=@NO;", {
-                  New OleDbParameter("@MODELNO", Row.Cells(Stock.ModelNo).Value),
-                  New OleDbParameter("@LOCATION", Row.Cells(Stock.Location).Value),
-                  New OleDbParameter("@DETAILS", Row.Cells(Stock.Details).Value),
-                  New OleDbParameter("@COSTPRICE", Row.Cells("CostPrice").Value),
-                  New OleDbParameter("@LOWESTPRICE", Row.Cells(Stock.LowestPrice).Value),
-                  New OleDbParameter("@SALEPRICE", Row.Cells(Stock.SalePrice).Value),
-                  New OleDbParameter("@REORDERPOINT", Row.Cells(Stock.ReorderPoint).Value),
-                  New OleDbParameter("@NO", Row.Cells(Stock.Code).Value)
+                  New MySqlParameter("@MODELNO", Row.Cells(Stock.ModelNo).Value),
+                  New MySqlParameter("@LOCATION", Row.Cells(Stock.Location).Value),
+                  New MySqlParameter("@DETAILS", Row.Cells(Stock.Details).Value),
+                  New MySqlParameter("@COSTPRICE", Row.Cells("CostPrice").Value),
+                  New MySqlParameter("@LOWESTPRICE", Row.Cells(Stock.LowestPrice).Value),
+                  New MySqlParameter("@SALEPRICE", Row.Cells(Stock.SalePrice).Value),
+                  New MySqlParameter("@REORDERPOINT", Row.Cells(Stock.ReorderPoint).Value),
+                  New MySqlParameter("@NO", Row.Cells(Stock.Code).Value)
                 })
             End If
 
             Db.Execute("INSERT INTO StockSupply(SupNo,SNo,SCategory,SName,SupType,SupUnits,SupCostPrice,SupTotal) VALUES(@SUPNO,@SNO,@SCATEGORY,@SNAME,@SUPTYPE,@SUPUNITS,@COSTPRICE,@SUPTOTAL)", {
-                New OleDbParameter("SUPNO", txtSupNo.Text),
-                New OleDbParameter("SNO", Row.Cells(Stock.Code).Value),
-                New OleDbParameter("SCATEGORY", Row.Cells(Stock.Category).Value),
-                New OleDbParameter("SNAME", Row.Cells(Stock.Name).Value),
-                New OleDbParameter("SUPTYPE", Row.Cells("SupType").Value),
-                New OleDbParameter("SUPUNITS", Row.Cells("SupQty").Value),
-                New OleDbParameter("COSTPRICE", Row.Cells("CostPrice").Value),
-                New OleDbParameter("SUPTOTAL", Row.Cells("SupTotal").Value)
+                New MySqlParameter("SUPNO", txtSupNo.Text),
+                New MySqlParameter("SNO", Row.Cells(Stock.Code).Value),
+                New MySqlParameter("SCATEGORY", Row.Cells(Stock.Category).Value),
+                New MySqlParameter("SNAME", Row.Cells(Stock.Name).Value),
+                New MySqlParameter("SUPTYPE", Row.Cells("SupType").Value),
+                New MySqlParameter("SUPUNITS", Row.Cells("SupQty").Value),
+                New MySqlParameter("COSTPRICE", Row.Cells("CostPrice").Value),
+                New MySqlParameter("SUPTOTAL", Row.Cells("SupTotal").Value)
             })
             If Row.Cells("SupType").Value.ToString = "Supply" Then
                 Db.Execute($"Update {Tables.Stock} set {Stock.AvailableUnits}=({Stock.AvailableUnits} + {Row.Cells("SupQty").Value}) where SNo=@CODE", {
-                    New OleDbParameter("CODE", Row.Cells(Stock.Code).Value)
+                    New MySqlParameter("CODE", Row.Cells(Stock.Code).Value)
                 })
             Else
                 Db.Execute($"Update {Tables.Stock} Set {Stock.DamagedUnits}=({Stock.DamagedUnits} - {Row.Cells("SupQty").Value}) where SNo=@CODE", {
-                    New OleDbParameter("CODE", Row.Cells(Stock.Code).Value)
+                    New MySqlParameter("CODE", Row.Cells(Stock.Code).Value)
                 })
             End If
         Next
@@ -231,7 +231,7 @@ Public Class frmSupply
         Select Case e.ColumnIndex
             Case 0
                 If grdSupply.Item(0, e.RowIndex).Value = "" Then Exit Sub
-                Dim DR As OleDbDataReader = Db.GetDataReader("Select * from Stock where SNo=" & grdSupply.Item(0, e.RowIndex).Value)
+                Dim DR As MySqlDataReader = Db.GetDataReader("Select * from Stock where SNo=" & grdSupply.Item(0, e.RowIndex).Value)
                 If DR.HasRows = True Then
                     DR.Read()
                     grdSupply.Item(1, e.RowIndex).Value = DR("SCategory").ToString
@@ -259,7 +259,7 @@ Public Class frmSupply
                     grdSupply.Item(0, e.RowIndex).Value = GetLastStockCode()
                 End If
             Case 1, 2
-                Dim DR As OleDbDataReader = Db.GetDataReader("Select * from Stock where SCategory='" & grdSupply.Item(1, e.RowIndex).Value & "' and SName='" & grdSupply.Item(2, e.RowIndex).Value & "';")
+                Dim DR As MySqlDataReader = Db.GetDataReader("Select * from Stock where SCategory='" & grdSupply.Item(1, e.RowIndex).Value & "' and SName='" & grdSupply.Item(2, e.RowIndex).Value & "';")
                 If DR.HasRows = True Then
                     DR.Read()
                     grdSupply.Item(0, e.RowIndex).Value = DR("SNo").ToString
@@ -339,7 +339,7 @@ Public Class frmSupply
                     autoText.AutoCompleteMode = AutoCompleteMode.Suggest
                     autoText.AutoCompleteSource = AutoCompleteSource.CustomSource
                     DataCollection.Clear()
-                    Dim DR As OleDbDataReader = Db.GetDataReader("Select SCategory from Stock group by SCategory;")
+                    Dim DR As MySqlDataReader = Db.GetDataReader("Select SCategory from Stock group by SCategory;")
                     While DR.Read
                         DataCollection.Add(DR("SCategory").ToString)
                     End While
@@ -351,7 +351,7 @@ Public Class frmSupply
                     autoText.AutoCompleteMode = AutoCompleteMode.Suggest
                     autoText.AutoCompleteSource = AutoCompleteSource.CustomSource
                     DataCollection.Clear()
-                    Dim DR As OleDbDataReader = Db.GetDataReader("Select SCategory,SName from Stock where SCategory ='" & grdSupply.Item(1, grdSupply.CurrentCell.RowIndex).Value & "';")
+                    Dim DR As MySqlDataReader = Db.GetDataReader("Select SCategory,SName from Stock where SCategory ='" & grdSupply.Item(1, grdSupply.CurrentCell.RowIndex).Value & "';")
                     While DR.Read
                         DataCollection.Add(DR("SName").ToString)
                     End While
@@ -363,7 +363,7 @@ Public Class frmSupply
                     autoText.AutoCompleteMode = AutoCompleteMode.Suggest
                     autoText.AutoCompleteSource = AutoCompleteSource.CustomSource
                     DataCollection.Clear()
-                    Dim DR As OleDbDataReader = Db.GetDataReader("Select SLocation from Stock group by SLocation;")
+                    Dim DR As MySqlDataReader = Db.GetDataReader("Select SLocation from Stock group by SLocation;")
                     While DR.Read
                         DataCollection.Add(DR("SLocation").ToString)
                     End While

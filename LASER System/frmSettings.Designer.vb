@@ -314,7 +314,7 @@ Partial Class FrmSettings
         'cmbDBProvider
         '
         Me.cmbDBProvider.FormattingEnabled = True
-        Me.cmbDBProvider.Items.AddRange(New Object() {"Microsoft.ACE.OLEDB.12.0"})
+        Me.cmbDBProvider.Items.AddRange(New Object() {"Microsoft.ACE.MySql.12.0"})
         Me.cmbDBProvider.Location = New System.Drawing.Point(110, 60)
         Me.cmbDBProvider.Name = "cmbDBProvider"
         Me.cmbDBProvider.Size = New System.Drawing.Size(215, 25)

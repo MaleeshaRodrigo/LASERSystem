@@ -1,10 +1,10 @@
-﻿Imports System.Data.OleDb
+﻿Imports System.Data.MySql
 
 Public Class frmSupplier
     Private Db As New Database
 
     Private Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click
-        Dim DR As OleDbDataReader = Db.GetDataReader("SELECT top 1 SuNo from Supplier ORDER BY SuNo Desc;")
+        Dim DR As MySqlDataReader = Db.GetDataReader("SELECT top 1 SuNo from Supplier ORDER BY SuNo Desc;")
         If DR.HasRows = True Then
             DR.Read()
             txtSuNo.Text = Int(DR.Item("SuNo")) + 1
@@ -55,7 +55,7 @@ Public Class frmSupplier
     End Sub
 
     Private Sub cmbSuName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbSuName.SelectedIndexChanged
-        Dim DR As OleDbDataReader = Db.GetDataReader("SELECT * from Supplier where SuName='" & cmbSuName.Text & "';")
+        Dim DR As MySqlDataReader = Db.GetDataReader("SELECT * from Supplier where SuName='" & cmbSuName.Text & "';")
         If DR.HasRows = True Then
             DR.Read()
             txtSuNo.Text = DR("SuNo").ToString

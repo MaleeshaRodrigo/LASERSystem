@@ -1,12 +1,12 @@
-﻿Imports System.Data.OleDb
+﻿Imports System.Data.MySql
 Imports System.IO
 Imports Microsoft.VisualBasic.FileIO
 
 Public Class frmRepair
     Private Db As New Database
     Private ReadOnly DtpDate As New DateTimePicker
-    Private DRREPNO As OleDbDataReader
-    Private ReadOnly DRRETNO As OleDbDataReader
+    Private DRREPNO As MySqlDataReader
+    Private ReadOnly DRRETNO As MySqlDataReader
 
     Public Sub New()
         ' This call is required by the designer.
@@ -144,7 +144,7 @@ Public Class frmRepair
             txtPProblem.Text = DRREPNO("Problem").ToString
             cmbLocation.Text = DRREPNO("Location").ToString
             'Adding Data to grdRepRemarks1 
-            Dim DRREPNO1 As OleDbDataReader = Db.GetDataReader("Select * from RepairRemarks1 Where RepNo=" & cmbRepNo.Text)
+            Dim DRREPNO1 As MySqlDataReader = Db.GetDataReader("Select * from RepairRemarks1 Where RepNo=" & cmbRepNo.Text)
             grdRepRemarks1.Rows.Clear()
             While DRREPNO1.Read
                 grdRepRemarks1.Rows.Add(DRREPNO1("Rem1No").ToString, DRREPNO1("Rem1Date").ToString, DRREPNO1("Remarks").ToString,
@@ -297,7 +297,7 @@ Public Class frmRepair
             txtPQty.Text = DRREPNO("Qty").ToString
             txtPProblem.Text = DRREPNO("Problem").ToString
             cmbLocation.Text = DRREPNO("Location").ToString
-            Dim DRRETNo1 As OleDbDataReader = Db.GetDataReader("Select * from RepairRemarks1 Where RetNo=" & cmbRetNo.Text)
+            Dim DRRETNo1 As MySqlDataReader = Db.GetDataReader("Select * from RepairRemarks1 Where RetNo=" & cmbRetNo.Text)
             grdRepRemarks1.Rows.Clear()
             While DRRETNo1.Read
                 grdRepRemarks1.Rows.Add(DRRETNo1("Rem1No").ToString, DRRETNo1("Rem1Date").ToString, DRRETNo1("Remarks").ToString,
@@ -638,7 +638,7 @@ Public Class frmRepair
         lblRepRemarks2.Visible = True
         grdRepRemarks2.Visible = True
         If cmbRetRepNo.Text <> "" Then
-            Dim DR As OleDbDataReader = Db.GetDataReader("Select Technician.TNo,Technician.TName from Return,Technician where Return.TNo = Technician.TNo and Return.RepNo=" & cmbRetRepNo.Text)
+            Dim DR As MySqlDataReader = Db.GetDataReader("Select Technician.TNo,Technician.TName from Return,Technician where Return.TNo = Technician.TNo and Return.RepNo=" & cmbRetRepNo.Text)
             If DR.HasRows = True Then
                 DR.Read()
                 cmbTName.Text = DR("TName").ToString
@@ -777,7 +777,7 @@ Public Class frmRepair
     End Sub
 
     Public Sub CmbCuName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbCuName.SelectedIndexChanged
-        Dim DR As OleDbDataReader = Db.GetDataReader("Select * from Customer Where CuName = '" & cmbCuName.Text & "';")
+        Dim DR As MySqlDataReader = Db.GetDataReader("Select * from Customer Where CuName = '" & cmbCuName.Text & "';")
         If DR.HasRows = True Then
             DR.Read()
             txtCuNo.Text = DR("CuNo").ToString
@@ -805,7 +805,7 @@ Public Class frmRepair
     End Sub
 
     Public Sub CmbPName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbPName.SelectedIndexChanged
-        Dim DR As OleDbDataReader = Db.GetDataReader("Select * from Product where PCategory ='" & cmbPCategory.Text & "' and PName ='" & cmbPName.Text & "';")
+        Dim DR As MySqlDataReader = Db.GetDataReader("Select * from Product where PCategory ='" & cmbPCategory.Text & "' and PName ='" & cmbPName.Text & "';")
         If DR.HasRows = True Then
             DR.Read()
             txtPNo.Text = DR("PNo").ToString
@@ -973,7 +973,7 @@ Public Class frmRepair
     Private Sub grdRepRemarks1_RowValidating(sender As Object, e As DataGridViewCellCancelEventArgs) Handles grdRepRemarks1.RowValidating
         If e.RowIndex < 0 Then Exit Sub
         If grdRepRemarks1.Item(0, e.RowIndex).Value Is Nothing Then Exit Sub
-        Dim DR1 As OleDbDataReader = Db.GetDataReader("SELECT Rem1No,Rem1Date,Remarks,UNo from RepairRemarks1 where Rem1No=" & grdRepRemarks1.Item(0, e.RowIndex).Value & ";")
+        Dim DR1 As MySqlDataReader = Db.GetDataReader("SELECT Rem1No,Rem1Date,Remarks,UNo from RepairRemarks1 where Rem1No=" & grdRepRemarks1.Item(0, e.RowIndex).Value & ";")
         If DR1.HasRows Then
             DR1.Read()
             grdRepRemarks1.Item(1, e.RowIndex).Value = DR1("Rem1Date").ToString
@@ -1089,7 +1089,7 @@ Public Class frmRepair
     Private Sub grdRepRemarks2_RowValidating(sender As Object, e As DataGridViewCellCancelEventArgs) Handles grdRepRemarks2.RowValidating
         If e.RowIndex < 0 Then Exit Sub
         If grdRepRemarks2.Item(0, e.RowIndex).Value Is Nothing Then Exit Sub
-        Dim DR1 As OleDbDataReader = Db.GetDataReader("SELECT Rem2No,Rem2Date,Remarks,UNo from RepairRemarks2 where Rem2No=" & grdRepRemarks2.Item(0, e.RowIndex).Value & ";")
+        Dim DR1 As MySqlDataReader = Db.GetDataReader("SELECT Rem2No,Rem2Date,Remarks,UNo from RepairRemarks2 where Rem2No=" & grdRepRemarks2.Item(0, e.RowIndex).Value & ";")
         If DR1.HasRows Then
             DR1.Read()
             grdRepRemarks2.Item(1, e.RowIndex).Value = DR1("Rem2Date").ToString
@@ -1130,7 +1130,7 @@ Public Class frmRepair
                 End If
             Case 2
                 If grdTechnicianCost.Item(2, e.RowIndex).Value Is Nothing Then Exit Sub
-                Dim DrStock As OleDbDataReader = Db.GetDataReader("Select SNo,SCategory,SName,SCostPrice from Stock Where SNo=" & grdTechnicianCost.Item(2, e.RowIndex).Value.ToString)
+                Dim DrStock As MySqlDataReader = Db.GetDataReader("Select SNo,SCategory,SName,SCostPrice from Stock Where SNo=" & grdTechnicianCost.Item(2, e.RowIndex).Value.ToString)
                 If DrStock.HasRows Then
                     DrStock.Read()
                     grdTechnicianCost.Item(3, e.RowIndex).Value = DrStock("SCategory").ToString
@@ -1250,7 +1250,7 @@ Public Class frmRepair
     Private Sub grdTechnicianCost_RowValidating(sender As Object, e As DataGridViewCellCancelEventArgs) Handles grdTechnicianCost.RowValidating
         If e.RowIndex < 0 Then Exit Sub
         If grdTechnicianCost.Item(0, e.RowIndex).Value Is Nothing Then Exit Sub
-        Dim DR1 As OleDbDataReader = Db.GetDataReader("SELECT * from TechnicianCost where TCNo=" & grdTechnicianCost.Item(0, e.RowIndex).Value & ";")
+        Dim DR1 As MySqlDataReader = Db.GetDataReader("SELECT * from TechnicianCost where TCNo=" & grdTechnicianCost.Item(0, e.RowIndex).Value & ";")
         If DR1.HasRows Then
             DR1.Read()
             grdTechnicianCost.Item(1, e.RowIndex).Value = DR1("TCDate").ToString

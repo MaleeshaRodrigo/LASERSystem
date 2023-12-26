@@ -2,7 +2,7 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="My" GeneratedClassName="MySettings" UseMySettingsClassName="true">
   <Profiles />
   <Settings>
-    <Setting Name="DBPath" Type="System.String" Scope="User">
+    <Setting Name="DBServer" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="SendSettlementEmail" Type="System.Boolean" Scope="User">
@@ -50,8 +50,8 @@
     <Setting Name="DBPassword" Type="System.String" Scope="User">
       <Value Profile="(Default)">YJ9R8NnRqK5tUziPQb+lgQ==</Value>
     </Setting>
-    <Setting Name="DBProvider" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Microsoft.ACE.OLEDB.12.0</Value>
+    <Setting Name="DBUserName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Microsoft.ACE.MySql.12.0</Value>
     </Setting>
     <Setting Name="DeveloperMode" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">False</Value>
@@ -61,6 +61,9 @@
     </Setting>
     <Setting Name="CashDrawer" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="DBName" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>

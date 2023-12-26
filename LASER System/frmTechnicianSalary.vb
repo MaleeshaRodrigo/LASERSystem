@@ -2,7 +2,7 @@
 Imports CrystalDecisions.Shared
 Imports System.Net.Mail
 Imports System.IO
-Imports System.Data.OleDb
+Imports System.Data.MySql
 
 Public Class frmTechnicianSalary
     Private Db As New Database
@@ -47,7 +47,7 @@ Public Class frmTechnicianSalary
                                               cmbTName.Text & "' and DDate BETWEEN #" & txtTSFrom.Value.Date & " 00:00:00# And #" & txtTSTo.Value.Date &
                                               " 23:59:59# " + x)
         For Each row As DataRow In DT1.Rows
-            Dim DR1 As OleDb.OleDbDataReader = Db.GetDataReader("Select Remarks from RepairRemarks1 Where RepNo=" & row.Item("RepNo"))
+            Dim DR1 As MySql.MySqlDataReader = Db.GetDataReader("Select Remarks from RepairRemarks1 Where RepNo=" & row.Item("RepNo"))
             row.Item("RepRemarks1") = ""
             While DR1.Read
                 row.Item("RepRemarks1") += DR1("Remarks").ToString + vbCrLf
@@ -61,7 +61,7 @@ Public Class frmTechnicianSalary
         Dim DT2 As DataTable = Db.GetDataTable("Select Return.RetNo, RepNo, DDate, CuName, CuTelNo1, CuTelNo2, CuTelNo3, PCategory, PName, Qty, PaidPrice,Status, '' as RetRemarks1,'' as RetRemarks2, TSalNo from Receive,Customer, Deliver, Return, Product, Technician Where Receive.RNo=Return.RNo and Product.PNo = Return.PNo And Return.DNo = Deliver.DNo And Customer.CuNo = Receive.CuNo And Technician.TNo = Return.TNo And TName='" & cmbTName.Text &
                                               "' And DDate BETWEEN #" & txtTSFrom.Value.Date & " 00:00:00# And #" & txtTSTo.Value.Date & " 23:59:59# " + x)
         For Each row As DataRow In DT1.Rows
-            Dim DR1 As OleDbDataReader = Db.GetDataReader("Select Remarks from RepairRemarks1 Where RepNo=" & row.Item("RepNo"))
+            Dim DR1 As MySqlDataReader = Db.GetDataReader("Select Remarks from RepairRemarks1 Where RepNo=" & row.Item("RepNo"))
             row.Item("RepRemarks1") = ""
             While DR1.Read
                 row.Item("RepRemarks1") += DR1("Remarks").ToString + vbCrLf
@@ -137,7 +137,7 @@ Public Class frmTechnicianSalary
             Exit Sub
         End If
         Dim TSalaryTNo As Integer
-        Dim DR As OleDbDataReader = Db.GetDataReader("Select TNo, TName from Technician Where Tname='" & cmbTName.Text & "';")
+        Dim DR As MySqlDataReader = Db.GetDataReader("Select TNo, TName from Technician Where Tname='" & cmbTName.Text & "';")
         If DR.HasRows = True Then
             DR.Read()
             TSalaryTNo = DR("TNo").ToString
@@ -195,14 +195,14 @@ Public Class frmTechnicianSalary
                                                   If(chkReturn.Checked = False, " AND 0", "") & ";")
         RPT.Subreports("rptTechnicianSalaryReRepair.rpt").SetDataSource(DT2)
         Dim DS6 As New DataSet
-        Dim DA6 As OleDbDataAdapter = Db.GetDataAdapter("SELECT SAREPNO,SAREPDATE, SALESREPAIR.SNO, SCATEGORY, SNAME, RATE,QTY, TOTAL FROM ((SALESREPAIR INNER JOIN STOCK ON STOCK.SNO=SALESREPAIR.SNO) INNER JOIN TECHNICIAN ON TECHNICIAN.TNO = SALESREPAIR.TNO) WHERE TNAME='" &
+        Dim DA6 As MySqlDataAdapter = Db.GetDataAdapter("SELECT SAREPNO,SAREPDATE, SALESREPAIR.SNO, SCATEGORY, SNAME, RATE,QTY, TOTAL FROM ((SALESREPAIR INNER JOIN STOCK ON STOCK.SNO=SALESREPAIR.SNO) INNER JOIN TECHNICIAN ON TECHNICIAN.TNO = SALESREPAIR.TNO) WHERE TNAME='" &
                                               cmbTName.Text & "' And SaRepDate Between #" & txtTSFrom.Value.Date & " 00:00:00# And #" & txtTSTo.Value.Date &
                                               " 23:59:59#" & If(chkSalesRepair.Checked = False, " AND 0", "") & ";")
         DA6.Fill(DS6, "SALESREPAIR")
         DA6.Fill(DS6, "STOCK")
         RPT.Subreports("rptTechnicianSalarySalesRepair.rpt").SetDataSource(DS6)
         Dim DS3 As New DataSet
-        Dim DA3 As OleDbDataAdapter = Db.GetDataAdapter("SELECT TCNo,TCDATE,REPNO,RETNO,TechnicianCost.SNO,SCATEGORY,SNAME,RATE,QTY,TOTAL,TCREMARKS FROM (TECHNICIANCOST INNER JOIN TECHNICIAN ON TECHNICIAN.TNO = TECHNICIANCOST.TNO) WHERE TNAME='" &
+        Dim DA3 As MySqlDataAdapter = Db.GetDataAdapter("SELECT TCNo,TCDATE,REPNO,RETNO,TechnicianCost.SNO,SCATEGORY,SNAME,RATE,QTY,TOTAL,TCREMARKS FROM (TECHNICIANCOST INNER JOIN TECHNICIAN ON TECHNICIAN.TNO = TECHNICIANCOST.TNO) WHERE TNAME='" &
                                                   cmbTName.Text & "' And TCDate BETWEEN #" & txtTSFrom.Value.Date & " 00:00:00# And #" & txtTSTo.Value.Date &
                                                   " 23:59:59# And (TSalNo Is Null Or TSalNo = 0)" & If(chkCost.Checked = False, " AND 0", "") & ";")
         DA3.Fill(DS3, "TECHNICIANCOST")
@@ -227,7 +227,7 @@ Public Class frmTechnicianSalary
         End If
         RPT.Subreports.Item("rptTechnicianSalaryLoan.rpt").SetDataSource(DT4)
         Dim DS5 As New DataSet
-        Dim DA5 As OleDbDataAdapter = Db.GetDataAdapter("SELECT * FROM TECHNICIANSALARY")
+        Dim DA5 As MySqlDataAdapter = Db.GetDataAdapter("SELECT * FROM TECHNICIANSALARY")
         DA5.Fill(DS5, "TECHNICIANSALARY")
         RPT.SetDataSource(DS5)
         RPT.SetParameterValue("fromDate", txtTSFrom.Value.Date.ToString)
@@ -259,7 +259,7 @@ Public Class frmTechnicianSalary
         Dim frm As New frmReport
         Dim RPT As rptTechnicianSalary = TechnicianSalaryReport()
         frm.ReportViewer.ReportSource = RPT
-        Dim DR As OleDbDataReader = Db.GetDataReader("Select * from Technician Where TNAME ='" & cmbTName.Text & "';")
+        Dim DR As MySqlDataReader = Db.GetDataReader("Select * from Technician Where TNAME ='" & cmbTName.Text & "';")
         If DR.HasRows = True Then
             DR.Read()
             If DR("TEmail").ToString = "" Then

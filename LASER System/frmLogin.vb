@@ -1,4 +1,4 @@
-﻿Imports System.Data.OleDb
+﻿Imports System.Data.MySql
 Imports System.IO
 Imports Microsoft.VisualBasic.FileIO
 
@@ -13,7 +13,7 @@ Public Class frmLogin
 
     Private Sub FrmLogin_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.High
-        If My.Settings.DBPath = "" Then My.Settings.DBPath = Path.Combine(SystemFolderPath, "Database.accdb")
+        If My.Settings.DBServer = "" Then My.Settings.DBServer = Path.Combine(SystemFolderPath, "Database.accdb")
         Dim ConnectionResult = Db.CheckConnection()
         If ConnectionResult.Valid = False Then
             MsgBox(ConnectionResult.Message, vbCritical, "Database Connection Error")
@@ -55,7 +55,7 @@ Public Class frmLogin
             Me.Close()
             Exit Sub
         End If
-        Dim DR As OleDbDataReader = Db.GetDataReader("Select * from [User] where UserName ='" & cmbUserName.Text & "'")
+        Dim DR As MySqlDataReader = Db.GetDataReader("Select * from [User] where UserName ='" & cmbUserName.Text & "'")
         If DR.HasRows = True Then
             DR = Db.GetDataReader("Select * from [User] where  StrComp('" & cmbUserName.Text & "',UserName,0)=0 and StrComp(Password,'" & txtPassword.Text & "',0)=0")
             If DR.HasRows = True Then
@@ -119,7 +119,7 @@ Public Class frmLogin
         ElseIf CheckExistData(txtOTPUserName, "Select UserName from [User] Where UserName='" & txtOTPUserName.Text & "'", "ඔබ ඇතුලත් කල User Name එක වැරදි කරුණාකර නිවැරදි User Name එක ඇතුලත් කරන්න.", False) = False Then
             Exit Sub
         End If
-        Dim DR As OleDbDataReader = Db.GetDataReader("Select Email from [User] Where UserName='" & txtOTPUserName.Text & "'")
+        Dim DR As MySqlDataReader = Db.GetDataReader("Select Email from [User] Where UserName='" & txtOTPUserName.Text & "'")
         If DR.HasRows = True Then
             DR.Read()
             If DR("Email").ToString = "" Then
@@ -147,7 +147,7 @@ Public Class frmLogin
         End If
         If txtOTPCode.Text = txtOTPCode.Tag Then
             cmbUserName.Text = txtOTPUserName.Text
-            Dim DR As OleDbDataReader = Db.GetDataReader("Select Password from [User] Where UserName='" & cmbUserName.Text & "'")
+            Dim DR As MySqlDataReader = Db.GetDataReader("Select Password from [User] Where UserName='" & cmbUserName.Text & "'")
             If DR.HasRows = True Then
                 DR.Read()
                 txtPassword.Text = DR("Password").ToString
