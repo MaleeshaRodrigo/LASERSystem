@@ -1,4 +1,5 @@
-﻿Public Structure StructureDatabase
+﻿Imports LASER_System.Stock
+Public Structure StructureDatabase
     Public Structure Tables
         Const AdminPermission = "AdminPermission"
         Const APCCommand = "APCCommand"
@@ -31,6 +32,7 @@
         Const Transaction = "Transaction"
         Const User = "User"
     End Structure
+
     Public Structure Stock
         Const Code = "SNo"
         Const Category = "SCategory"
@@ -44,6 +46,5 @@
         Const AvailableUnits = "SAvailableStocks"
         Const DamagedUnits = "SOutofStocks"
         Const ReorderPoint = "SMinStocks"
-    End Structure
-
+    End Structure=
 End Structure

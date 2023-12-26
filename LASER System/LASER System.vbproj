@@ -385,7 +385,7 @@
     <Compile Include="mdifrmMain.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Structures\StructureDatabase.vb" />
+    <Compile Include="Structures\Database\StructureDatabase.vb" />
     <Compile Include="Utils.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
