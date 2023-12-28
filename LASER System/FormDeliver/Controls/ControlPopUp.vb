@@ -62,7 +62,6 @@ Public Class ControlPopUp
         FormParent.grdRepair.Focus()
         FormParent.grdRepair.CurrentCell = FormParent.grdRepair.Item(0, FormParent.grdRepair.Rows.Count - 1)
     End Sub
-
     Private Sub ControlPopUp_Resize(sender As Object, e As EventArgs) Handles Me.Resize
         grpPaymentInfo.Top = (Height / 2) - (grpPaymentInfo.Height / 2)
         grpPaymentInfo.Left = (Width / 2) - (grpPaymentInfo.Width / 2)
