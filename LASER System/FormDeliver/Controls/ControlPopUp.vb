@@ -62,29 +62,31 @@ Public Class ControlPopUp
         FormParent.grdRepair.Focus()
         FormParent.grdRepair.CurrentCell = FormParent.grdRepair.Item(0, FormParent.grdRepair.Rows.Count - 1)
     End Sub
-
     Private Sub ControlPopUp_Resize(sender As Object, e As EventArgs) Handles Me.Resize
         grpPaymentInfo.Top = (Height / 2) - (grpPaymentInfo.Height / 2)
         grpPaymentInfo.Left = (Width / 2) - (grpPaymentInfo.Width / 2)
     End Sub
 
-    Private Sub cmdReceipt_Click(sender As Object, e As EventArgs) Handles cmdReceipt.Click
+    Private Sub cmdReceipt_Click(sender As Object, e As EventArgs) Handles cmdReceipt.Click, cmdNotReceipt.Click
         If SaveDeliverRecord() = False Then
             Exit Sub
         End If
-        Dim DNo As Integer = FormParent.txtDNo.Text
-        Dim threadDeliver As New Thread(Sub()
-                                            If sender Is cmdReceipt Then
-                                                FormParent.PrintDeliveryReceipt(DNo, True)
-                                            End If
-                                            SendDeliverEmail(FormParent.txtDNo.Text)
-                                        End Sub) With {
+        If sender Is cmdReceipt Then
+            Dim DNo As Integer = FormParent.txtDNo.Text
+            Dim threadDeliver As New Thread(Sub()
+                                                If sender Is cmdReceipt Then
+                                                    FormParent.PrintDeliveryReceipt(DNo, True)
+                                                End If
+                                                SendDeliverEmail(FormParent.txtDNo.Text)
+                                            End Sub) With {
             .Name = "showDeliverReceiptReport",
             .IsBackground = False,
             .Priority = ThreadPriority.Highest
                                         }
-        threadDeliver.SetApartmentState(ApartmentState.STA)
-        threadDeliver.Start()
+            threadDeliver.SetApartmentState(ApartmentState.STA)
+            threadDeliver.Start()
+        End If
+
         Call FormParent.cmdNew_Click(sender, e)
         cmdCancel.PerformClick()
     End Sub
@@ -299,5 +301,4 @@ Public Class ControlPopUp
             MsgBox("Technician හට Gmail එක යැවීමට අපොහොසත් විය. කරුණාකර Internet Connection එක පරික්ෂා කරන්න." + vbCrLf + vbCrLf + "Error: " + ex.ToString, vbExclamation, "Technician හට Gmail එක යැවීමට නොහැක.")
         End Try
     End Sub
-
 End Class
