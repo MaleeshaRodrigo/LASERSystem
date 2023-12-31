@@ -235,7 +235,7 @@ Public Class frmRepairAdvanced
         DA1.Fill(DS1, "Receive")
         DA1.Fill(DS1, "RepairAdvanced")
         RPT.SetDataSource(DS1)
-        RPT.SetParameterValue("Cashier Name", MdifrmMain.tslblUserName.Text) 'Set Cashier Name to Parameter Value
+        RPT.SetParameterValue("Cashier Name", User.Instance.UserName) 'Set Cashier Name to Parameter Value
         Dim c As Integer
         Dim doctoprint As New System.Drawing.Printing.PrintDocument()
         doctoprint.PrinterSettings.PrinterName = "Zonerich AB-220K"

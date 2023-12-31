@@ -195,7 +195,7 @@ Public Class frmTechnicianCost
         End If
         If grdTechnicianCost.Item(11, e.RowIndex).Value Is Nothing Or
             grdTechnicianCost.Item(e.ColumnIndex, e.RowIndex).Value IsNot grdTechnicianCost.Item(e.ColumnIndex, e.RowIndex).Tag Then
-            grdTechnicianCost.Item(11, e.RowIndex).Value = MdifrmMain.tslblUserName.Text
+            grdTechnicianCost.Item(11, e.RowIndex).Value = User.Instance.UserName
             tmp += ",UNo=" & User.Instance.UserNo
         End If
         If grdTechnicianCost.Item("Total", e.RowIndex).Value Is Nothing OrElse

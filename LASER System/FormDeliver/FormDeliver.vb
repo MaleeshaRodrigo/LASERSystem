@@ -143,7 +143,7 @@ Public Class FormDeliver
             DA3.Fill(DS3, "Deliver")
             DA3.Fill(DS3, "Customer")
             RPT.SetDataSource(DS3)
-            RPT.SetParameterValue("Cashier Name", MdifrmMain.tslblUserName.Text.ToString) 'Set Cashier Name to Parameter Value
+            RPT.SetParameterValue("Cashier Name", User.Instance.UserName.ToString) 'Set Cashier Name to Parameter Value
             frm.ReportViewer.ReportSource = RPT
             If boolPrint Then
                 Dim c As Integer

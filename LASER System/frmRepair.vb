@@ -6,7 +6,6 @@ Public Class frmRepair
     Private Db As New Database
     Private ReadOnly DtpDate As New DateTimePicker
     Private DRREPNO As OleDbDataReader
-    Private ReadOnly DRRETNO As OleDbDataReader
 
     Public Sub New()
         ' This call is required by the designer.
@@ -332,8 +331,7 @@ Public Class frmRepair
             DRRETNo1 = Db.GetDataReader("Select * from RepairRemarks2 Where RetNo=" & cmbRetNo.Text)
             grdRepRemarks2.Rows.Clear()
             While DRRETNo1.Read
-                grdRepRemarks2.Rows.Add(DRRETNo1("Rem2No").ToString, DRRETNo1("Rem2Date").ToString, DRRETNo1("Remarks").ToString,
-                                        Db.GetData("Select UserName from [User] Where UNo=" & DRRETNo1("UNo").ToString))
+                grdRepRemarks2.Rows.Add(DRRETNo1("Rem2No").ToString, DRRETNo1("Rem2Date").ToString, DRRETNo1("Remarks").ToString, Db.GetData("Select UserName from [User] Where UNo=" & DRRETNo1("UNo").ToString))
             End While
             DRRETNo1.Close()
             If cmbRetStatus.Text = "Hand Over to Technician" Then
@@ -344,8 +342,7 @@ Public Class frmRepair
             grdTechnicianCost.Rows.Clear()
             If DRRETNo1.HasRows = True Then
                 While DRRETNo1.Read
-                    grdTechnicianCost.Rows.Add(DRRETNo1("TCNo").ToString, DRRETNo1("TCDate").ToString, DRRETNo1("SNo").ToString, DRRETNo1("SCategory").ToString,
-                                               DRRETNo1("SName").ToString, DRRETNo1("Rate").ToString, DRRETNo1("Qty").ToString, DRRETNo1("Total").ToString, DRRETNo1("TCRemarks").ToString)
+                    grdTechnicianCost.Rows.Add(DRRETNo1("TCNo").ToString, DRRETNo1("TCDate").ToString, DRRETNo1("SNo").ToString, DRRETNo1("SCategory").ToString, DRRETNo1("SName").ToString, DRRETNo1("Rate").ToString, DRRETNo1("Qty").ToString, DRRETNo1("Total").ToString, DRRETNo1("TCRemarks").ToString)
                 End While
             End If
             DRRETNo1.Close()
@@ -369,7 +366,7 @@ Public Class frmRepair
             DRRETNo1.Close()
             If cmbRetStatus.Text = "Repaired Delivered" Or cmbRetStatus.Text = "Returned Delivered" Then
 
-                If User.Instance.UserNo = "Cashier" And txtDDate.Value.Month <> Today.Month Then
+                If User.Instance.UserName = User.Type.Cashier And txtDDate.Value.Month <> Today.Month Then
                     For Each ctrl As Control In {boxTechnician, boxReceive, boxProduct, boxRepair, boxDeliver, boxCustomer, txtPProblem, lblLocation, cmbLocation,
                         grpAdvancePay, grpRepTask, grpActivity}
                         ctrl.Enabled = False
@@ -922,7 +919,7 @@ Public Class frmRepair
                 grdRepRemarks1.Item(2, e.RowIndex).Value <> grdRepRemarks1.Item(2, e.RowIndex).Tag Then grdRepRemarks1.Item(1, e.RowIndex).Value = DateTime.Now
             If grdRepRemarks1.Item(3, e.RowIndex).Value Is Nothing Or
                     grdRepRemarks1.Item(2, e.RowIndex).Value <> grdRepRemarks1.Item(2, e.RowIndex).Tag Then grdRepRemarks1.Item(3, e.RowIndex).Value =
-                    MdifrmMain.tslblUserName.Text
+                    User.Instance.UserName
             If grdRepRemarks1.Item(2, e.RowIndex).Value Is Nothing Then
                 grdRepRemarks1.Rows.RemoveAt(e.RowIndex)
                 Exit Sub
@@ -1034,7 +1031,7 @@ Public Class frmRepair
             If grdRepRemarks2.Item(1, e.RowIndex).Value Is Nothing Or
                 grdRepRemarks2.Item(2, e.RowIndex).Value <> grdRepRemarks2.Item(2, e.RowIndex).Tag Then grdRepRemarks2.Item(1, e.RowIndex).Value = DateTime.Now
             If grdRepRemarks2.Item(3, e.RowIndex).Value Is Nothing Or
-                grdRepRemarks2.Item(2, e.RowIndex).Value <> grdRepRemarks2.Item(2, e.RowIndex).Tag Then grdRepRemarks2.Item(3, e.RowIndex).Value = MdifrmMain.tslblUserName.Text
+                grdRepRemarks2.Item(2, e.RowIndex).Value <> grdRepRemarks2.Item(2, e.RowIndex).Tag Then grdRepRemarks2.Item(3, e.RowIndex).Value = User.Instance.UserName
             If grdRepRemarks2.Item(2, e.RowIndex).Value Is Nothing Then
                 grdRepRemarks2.Rows.RemoveAt(e.RowIndex)
                 Exit Sub
@@ -1169,7 +1166,7 @@ Public Class frmRepair
         If e.RowIndex = (grdTechnicianCost.Rows.Count - 1) Then Exit Sub
         If grdTechnicianCost.Item(1, e.RowIndex).Value Is Nothing Then grdTechnicianCost.Item(1, e.RowIndex).Value = DateAndTime.Now
         If grdTechnicianCost.Item(9, e.RowIndex).Value Is Nothing Or
-            grdTechnicianCost.Item(e.ColumnIndex, e.RowIndex).Value <> grdTechnicianCost.Item(e.ColumnIndex, e.RowIndex).Tag Then grdTechnicianCost.Item(9, e.RowIndex).Value = MdifrmMain.tslblUserName.Text
+            grdTechnicianCost.Item(e.ColumnIndex, e.RowIndex).Value <> grdTechnicianCost.Item(e.ColumnIndex, e.RowIndex).Tag Then grdTechnicianCost.Item(9, e.RowIndex).Value = User.Instance.UserName
         If grdTechnicianCost.Item(0, e.RowIndex).Value Is Nothing Then
             grdTechnicianCost.Item(0, e.RowIndex).Value = Db.GetNextKey("TechnicianCost", "TCNo")
             Db.Execute("Insert into TechnicianCost(TCNo) Values(" & grdTechnicianCost.Item(0, e.RowIndex).Value & ")",

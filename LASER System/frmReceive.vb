@@ -279,7 +279,7 @@ Public Class frmReceive
         If IsNumeric(RNo) = False Or RNo = "" Then
             Exit Sub
         End If
-        Dim UserName As String = MdifrmMain.tslblUserName.Text
+        Dim UserName As String = User.Instance.UserName
         Dim threadInvoice As New Thread(
             Sub()
                 Dim ThreadDb As New Database()
