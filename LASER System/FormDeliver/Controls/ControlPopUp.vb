@@ -176,9 +176,8 @@ Public Class ControlPopUp
                         }, AdminPer)
                     End If
                 End If
-                Db.Execute("Update `Return` set PaidPrice = @PAIDPRICE,TNo = (Select TNo from Technician Where TName=@TNAME),Status= @STATUS,DNo = @DNO where RetNo= @RETNO", {
+                Db.Execute("Update `Return` set PaidPrice = @PAIDPRICE,TNo = DLookup('TNo', 'Technician', 'TName=""{Row.Cells(6).Value}""'),Status= @STATUS,DNo = @DNO where RetNo= @RETNO", {
                             New OleDbParameter("PAIDPRICE", Row.Cells(5).Value.ToString),
-                            New OleDbParameter("TNAME", Row.Cells(6).Value & "'"),
                             New OleDbParameter("STATUS", Row.Cells(7).Value.ToString),
                             New OleDbParameter("DNO", DNo),
                             New OleDbParameter("RETNO", Row.Cells(0).Value.ToString)

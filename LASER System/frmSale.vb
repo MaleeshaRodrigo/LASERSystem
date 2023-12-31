@@ -168,7 +168,7 @@ Public Class frmSale
     End Sub
 
     Public Sub PrintSaleInvoice(SaNo As Integer)
-        Dim UserName As String = MdifrmMain.tslblUserName.Text
+        Dim UserName As String = User.Instance.UserName
         Cursor = Cursors.WaitCursor
         Dim threadSaleInvoice As New Thread(
             Sub()

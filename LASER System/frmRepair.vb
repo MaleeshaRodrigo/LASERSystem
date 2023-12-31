@@ -922,7 +922,7 @@ Public Class frmRepair
                 grdRepRemarks1.Item(2, e.RowIndex).Value <> grdRepRemarks1.Item(2, e.RowIndex).Tag Then grdRepRemarks1.Item(1, e.RowIndex).Value = DateTime.Now
             If grdRepRemarks1.Item(3, e.RowIndex).Value Is Nothing Or
                     grdRepRemarks1.Item(2, e.RowIndex).Value <> grdRepRemarks1.Item(2, e.RowIndex).Tag Then grdRepRemarks1.Item(3, e.RowIndex).Value =
-                    MdifrmMain.tslblUserName.Text
+                    User.Instance.UserName
             If grdRepRemarks1.Item(2, e.RowIndex).Value Is Nothing Then
                 grdRepRemarks1.Rows.RemoveAt(e.RowIndex)
                 Exit Sub
@@ -1034,7 +1034,7 @@ Public Class frmRepair
             If grdRepRemarks2.Item(1, e.RowIndex).Value Is Nothing Or
                 grdRepRemarks2.Item(2, e.RowIndex).Value <> grdRepRemarks2.Item(2, e.RowIndex).Tag Then grdRepRemarks2.Item(1, e.RowIndex).Value = DateTime.Now
             If grdRepRemarks2.Item(3, e.RowIndex).Value Is Nothing Or
-                grdRepRemarks2.Item(2, e.RowIndex).Value <> grdRepRemarks2.Item(2, e.RowIndex).Tag Then grdRepRemarks2.Item(3, e.RowIndex).Value = MdifrmMain.tslblUserName.Text
+                grdRepRemarks2.Item(2, e.RowIndex).Value <> grdRepRemarks2.Item(2, e.RowIndex).Tag Then grdRepRemarks2.Item(3, e.RowIndex).Value = User.Instance.UserName
             If grdRepRemarks2.Item(2, e.RowIndex).Value Is Nothing Then
                 grdRepRemarks2.Rows.RemoveAt(e.RowIndex)
                 Exit Sub
@@ -1169,7 +1169,7 @@ Public Class frmRepair
         If e.RowIndex = (grdTechnicianCost.Rows.Count - 1) Then Exit Sub
         If grdTechnicianCost.Item(1, e.RowIndex).Value Is Nothing Then grdTechnicianCost.Item(1, e.RowIndex).Value = DateAndTime.Now
         If grdTechnicianCost.Item(9, e.RowIndex).Value Is Nothing Or
-            grdTechnicianCost.Item(e.ColumnIndex, e.RowIndex).Value <> grdTechnicianCost.Item(e.ColumnIndex, e.RowIndex).Tag Then grdTechnicianCost.Item(9, e.RowIndex).Value = MdifrmMain.tslblUserName.Text
+            grdTechnicianCost.Item(e.ColumnIndex, e.RowIndex).Value <> grdTechnicianCost.Item(e.ColumnIndex, e.RowIndex).Tag Then grdTechnicianCost.Item(9, e.RowIndex).Value = User.Instance.UserName
         If grdTechnicianCost.Item(0, e.RowIndex).Value Is Nothing Then
             grdTechnicianCost.Item(0, e.RowIndex).Value = Db.GetNextKey("TechnicianCost", "TCNo")
             Db.Execute("Insert into TechnicianCost(TCNo) Values(" & grdTechnicianCost.Item(0, e.RowIndex).Value & ")",
