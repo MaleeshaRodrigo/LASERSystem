@@ -109,7 +109,7 @@ Public Class frmSettlement
             Dim DA4 As OleDbDataAdapter = Db.GetDataAdapter("SELECT * from Settlement;")
             Dim unused7 = DA4.Fill(DS4, "Settlement")
             RPT.SetDataSource(DS4)
-            RPT.SetParameterValue("Cashier Name", MdifrmMain.tslblUserName.Text)
+            RPT.SetParameterValue("Cashier Name", User.Instance.UserName)
             RPT.SetParameterValue("SetDate", Today.Date)
             RPT.SetParameterValue("SaTotal", SaTotal)
             RPT.SetParameterValue("RepTotal", RepTotal)
