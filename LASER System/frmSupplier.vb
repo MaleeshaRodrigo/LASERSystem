@@ -101,7 +101,7 @@ Public Class frmSupplier
                 SaveToolStripMenuItem.Text = "Edit"
                 cmdDelete.Enabled = True
                 DeleteToolStripMenuItem.Enabled = True
-                WriteActivity("Supplier No " + txtSuNo.Text + " was saved to 'Supplier' table on " + DateTime.Now)
+                Activity.Write($"Supplier No {txtSuNo.Text} was saved to 'Supplier' table on {DateTime.Now}")
                 MsgBox("Save Successful", vbExclamation + vbOKOnly)
             Case "Edit"
                 If CheckExistData(txtSuNo, "Select SuNo from Supplier where SuNo =" & txtSuNo.Text, "Supplier No was not exist in the database please check again", False) = False Then
@@ -131,7 +131,7 @@ Public Class frmSupplier
         End If
         If MsgBox("Are you sure delete?", vbYesNo + vbInformation) = vbYes Then
             Db.Execute("DELETE from Supplier where SuNo=" & txtSuNo.Text)
-            WriteActivity("Supplier No " + txtSuNo.Text + " was deleted in 'Supplier' table on " + DateTime.Now)
+            Activity.Write($"Supplier No {txtSuNo.Text} was deleted in 'Supplier' table on {DateTime.Now}")
             Call txtSearch_TextChanged(sender, e)
             Call cmdNew_Click(sender, e)
         End If

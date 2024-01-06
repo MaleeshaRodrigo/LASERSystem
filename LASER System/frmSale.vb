@@ -413,9 +413,9 @@ Public Class frmSale
         End If
         If MsgBox("Are you sure delete?", vbYesNo + vbInformation) = vbYes Then
             Db.Execute("DELETE from Sale where SaNo=" & txtSaNo.Text)
-            WriteActivity("Sale No " & txtSaNo.Text & " was deleted in 'Sale' table on " + DateAndTime.Now)
+            Activity.Write($"Sale No {txtSaNo.Text} was deleted in 'Sale' table on {DateAndTime.Now}")
             Db.Execute("DELETE from StockSale where SaNo=" & txtSaNo.Text)
-            WriteActivity("Sale No " & txtSaNo.Text & " was deleted in 'StockSale' table on " + DateAndTime.Now)
+            Activity.Write($"Sale No {txtSaNo.Text} was deleted in 'StockSale' table on {DateAndTime.Now}")
             cmdNew_Click(sender, e)
         End If
     End Sub

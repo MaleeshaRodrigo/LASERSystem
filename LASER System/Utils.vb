@@ -103,36 +103,6 @@ Module Utils
         DR0.Close()
     End Function
 
-    Public Sub WriteActivity(txt As String)
-        Dim DSActivity As DataSet
-        Dim DTActivity As DataTable
-        Dim LastIndex As Integer = 0
-        If Not File.Exists(Path.Combine(SystemFolderPath, "System Files\Activity\Activity.json")) Then
-            Exit Sub
-        End If
-        Dim Rjson As String = File.ReadAllText(Path.Combine(SystemFolderPath, "System Files\Activity\Activity.json"))
-        If String.IsNullOrEmpty(Rjson) Then
-            DSActivity = New DataSet
-            DTActivity = New DataTable
-
-            DTActivity.Columns.Add("ID")
-            DTActivity.Columns.Add("Date")
-            DTActivity.Columns.Add("Command")
-
-            DSActivity.Tables.Add(DTActivity)
-        Else
-            DSActivity = JsonConvert.DeserializeObject(Of DataSet)(Rjson)
-            DTActivity = DSActivity.Tables.Item("Table1")
-            LastIndex = DTActivity.Rows(DTActivity.Rows.Count - 1)(0)
-        End If
-        DTActivity.Rows.Add(LastIndex + 1, Now, txt)
-
-        MdifrmMain.GrdActivity.DataSource = DTActivity
-
-        Dim Wjson As String = JsonConvert.SerializeObject(DSActivity, Formatting.Indented)
-        File.WriteAllText(Path.Combine(SystemFolderPath, "System Files\Activity\Activity.json"), Wjson)
-    End Sub
-
     Public Function CheckExistRelationsforDelete(SQl As String, FieldName As String, msg As String) As Boolean
         CheckExistRelationsforDelete = True
         CMD = New OleDb.OleDbCommand(SQl)
