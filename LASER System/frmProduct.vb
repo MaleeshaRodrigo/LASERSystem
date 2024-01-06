@@ -156,7 +156,7 @@ Public Class frmProduct
         End If
         If MsgBox("Are you sure delete?", vbYesNo + vbInformation) = vbYes Then
             Db.Execute("DELETE from Product where PNo=" & txtPNo.Text)
-            WriteActivity("Product no " + txtPNo.Text + " was deleted successful in 'Product' table on " + DateAndTime.Now)
+            Activity.Write($"Product no {txtPNo.Text} was deleted successful in 'Product' table on {DateAndTime.Now}")
             Call txtSearch_TextChanged(sender, e)
             Call cmdNew_Click(sender, e)
         End If

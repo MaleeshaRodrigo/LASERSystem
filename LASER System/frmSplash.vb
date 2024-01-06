@@ -63,7 +63,7 @@ Public NotInheritable Class FrmSplash
             Case 60
                 txtLoad.Text = "Setting Main Menu..."
                 With MdifrmMain
-                    WriteActivity("Logged In Successfull by " + .tslblUserName.Text + " as a " + .tslblUserType.Text)
+                    Activity.Write($"Logged In Successfull by { .tslblUserName.Text} as a { .tslblUserType.Text}")
                     .WindowState = FormWindowState.Minimized
                     .Show()
                     .Hide()
