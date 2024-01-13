@@ -16,7 +16,7 @@ jobs:
       Solution_Name: "LASER System.sln"
       Folder_Name: LASER System                       
       Branch: development
-      version: 2.0.3.11
+      Version: 2.0.3.11
       
     steps:
       - name: Checkout
@@ -51,9 +51,11 @@ jobs:
         working-directory: "./LASER System"
         run: msbuild /t:publish /p:PublishDir="publish/" /property:UpdateEnabled=true /property:UpdateUrl="https://raw.githubusercontent.com/MaleeshaRodrigo/LASERSystem/${{env.Branch}}/LASER%20System/publish/"  /p:configuration="Release" /p:ApplicationVersion=${{env.Version}}
 
-      - uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: v${{env.Version}} published
+      - name: Commit the changes
+        run: git commit -m "v${{env.Version}} published"
+
+      - name: Push the changes
+        run: git push        
         
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.3
