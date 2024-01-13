@@ -46,6 +46,7 @@ jobs:
             git config --global user.email "${{env.EMAIL}}"
             git config --global user.name "${{env.USER_NAME}}"
             git checkout -b "deployment-v${{env.VERSION}}"
+            git push --set-upstream origin deployment-v${{env.VERSION}}
   
       - name: Build LASER System Project      
         working-directory: "./LASER System"
