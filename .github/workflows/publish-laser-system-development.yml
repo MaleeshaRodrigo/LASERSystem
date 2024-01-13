@@ -1,10 +1,10 @@
-name: Publish LASER System
+name: Publish LASER System- Development
 
 on:
   push:
-    branches: [ "32" ]
+    branches: [ "development" ]
   pull_request:
-    branches: [ "32" ]
+    branches: [ "development" ]
 
 jobs:
   build:  
