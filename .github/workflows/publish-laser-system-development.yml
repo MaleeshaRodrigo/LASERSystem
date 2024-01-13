@@ -49,8 +49,8 @@ jobs:
       - name: Commit the changes
         run: |
           git add . 
-          git config --global user.email "${{env.EMAIL}}"
-          git config --global user.name "${{env.USER_NAME}}"
+          git config --global user.email $EMAIL
+          git config --global user.name $USER_NAME
           git commit -m "v${{env.VERSION}} published"
 
       - name: Push the changes
