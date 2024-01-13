@@ -66,5 +66,5 @@ jobs:
         uses: peter-evans/create-pull-request@v5
         with:
           title: v${{env.VERSION}} published
-          branch: development
+          branch: deployment-v${{env.VERSION}}
           delete-branch: true
