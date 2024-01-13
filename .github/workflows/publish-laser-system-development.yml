@@ -40,6 +40,12 @@ jobs:
   
       - name: Restore NuGet Packages
         run: nuget restore
+
+      - name: Create a new branch
+        run: |
+            git config --global user.email "${{env.EMAIL}}"
+            git config --global user.name "${{env.USER_NAME}}"
+            git checkout -b "deployment-v${{env.VERSION}}"
   
       - name: Build LASER System Project      
         working-directory: "./LASER System"
@@ -49,10 +55,15 @@ jobs:
         working-directory: "./LASER System"
         run: msbuild /t:publish /p:PublishDir="publish/" /property:UpdateEnabled=true /property:UpdateUrl="https://raw.githubusercontent.com/MaleeshaRodrigo/LASERSystem/${{env.BRANCH}}/LASER%20System/publish/"  /p:configuration="Release" /p:ApplicationVersion=${{env.VERSION}}
 
-      - name: Push to development
-        uses: CasperWA/push-protected@v2
-        with:
-          token: ${{ secrets.KEY }}
-          branch: development
-          unprotect_reviews: true   
+      - name: Commit Code Changes
+        run: |
+            git add .
+            git commit -m "deployment- v${{env.VERSION}} published"
+            git push
 
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          title: v${{env.VERSION}} published
+          branch: development
+          delete-branch: true
