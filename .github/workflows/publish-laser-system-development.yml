@@ -20,4 +20,4 @@ jobs:
           fetch-depth: 0
   
       - name: Restore NuGet Packages
-        run: echo "${{development.EMAIL}}"
+        run: echo "${{env.EMAIL}}"
