@@ -380,12 +380,6 @@
       <DependentUpon>rptTechnicianSalary.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Stock\Controls\ControlStockInfo.Designer.vb">
-      <DependentUpon>ControlStockInfo.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Stock\Controls\ControlStockInfo.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="Stock\FormStock.Designer.vb">
       <DependentUpon>FormStock.vb</DependentUpon>
     </Compile>
@@ -533,9 +527,6 @@
     <EmbeddedResource Include="Reports\rptTechnicianSalary.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>rptTechnicianSalary.vb</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Stock\Controls\ControlStockInfo.resx">
-      <DependentUpon>ControlStockInfo.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Stock\FormStock.resx">
       <DependentUpon>FormStock.vb</DependentUpon>
