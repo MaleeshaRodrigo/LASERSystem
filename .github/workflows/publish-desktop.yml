@@ -52,7 +52,7 @@ jobs:
         run: msbuild /t:publish /p:PublishDir="publish/" /property:UpdateEnabled=true /property:UpdateUrl="https://raw.githubusercontent.com/MaleeshaRodrigo/LASERSystem/${{env.Branch}}/LASER%20System/publish/"  /p:configuration="Release" /p:ApplicationVersion=${{env.Version}}
 
       - name: Commit the changes
-        run: git commit -m "v${{env.Version}} published"
+        run: git add . & git commit -m "v${{env.Version}} published"
 
       - name: Push the changes
         run: git push        
