@@ -7,16 +7,11 @@ on:
     branches: [ "32" ]
 
 jobs:
-
-  build:
-  
+  build:  
     runs-on: windows-latest 
 
-    env:
-      Solution_Name: "LASER System.sln"
-      Folder_Name: LASER System                       
-      Branch: development
-      Version: 2.0.3.11
+    env:                    
+      VERSION: 2.0.3.10
       
     steps:
       - name: Checkout
@@ -49,14 +44,14 @@ jobs:
   
       - name: Publish LASER System Project
         working-directory: "./LASER System"
-        run: msbuild /t:publish /p:PublishDir="publish/" /property:UpdateEnabled=true /property:UpdateUrl="https://raw.githubusercontent.com/MaleeshaRodrigo/LASERSystem/${{env.Branch}}/LASER%20System/publish/"  /p:configuration="Release" /p:ApplicationVersion=${{env.Version}}
+        run: msbuild /t:publish /p:PublishDir="publish/" /property:UpdateEnabled=true /property:UpdateUrl="https://raw.githubusercontent.com/MaleeshaRodrigo/LASERSystem/${{env.BRANCH}}/LASER%20System/publish/"  /p:configuration="Release" /p:ApplicationVersion=${{env.VERSION}}
 
       - name: Commit the changes
         run: |
           git add . 
-          git config --global user.email "w1902272@my.westminster.ac.uk"
-          git config --global user.name "MaleeshaRodrigo"
-          git commit -m "v${{env.Version}} published"
+          git config --global user.email "${{env.EMAIL}}"
+          git config --global user.name "${{env.USER_NAME}}"
+          git commit -m "v${{env.VERSION}} published"
 
       - name: Push the changes
         run: git push        
