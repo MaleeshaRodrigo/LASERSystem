@@ -22,6 +22,37 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Check secrets
-        run: echo "${{ secrets.KEY }}"
+      - name: Setup Chocolatey 
+        uses: crazy-max/ghaction-chocolatey@v3
+        with:
+          args: -h
+        
+      - name: Install Crystal Report
+        run: choco install crystalreports-for-visualstudio
+        
+      - name: Setup MSBuild.exe
+        uses: microsoft/setup-msbuild@v1.0.2
+  
+      - name: Setup Nuget
+        uses: nuget/setup-nuget@v1
+        with: 
+          nuget-version: latest 
+  
+      - name: Restore NuGet Packages
+        run: nuget restore
+  
+      - name: Build LASER System Project      
+        working-directory: "./LASER System"
+        run: msbuild 
+  
+      - name: Publish LASER System Project
+        working-directory: "./LASER System"
+        run: msbuild /t:publish /p:PublishDir="publish/" /property:UpdateEnabled=true /property:UpdateUrl="https://raw.githubusercontent.com/MaleeshaRodrigo/LASERSystem/${{env.BRANCH}}/LASER%20System/publish/"  /p:configuration="Release" /p:ApplicationVersion=${{env.VERSION}}
+
+      - name: Push to development
+        uses: CasperWA/push-protected@v2
+        with:
+          token: ${{ secrets.KEY }}
+          branch: development
+          unprotect_reviews: true   
 
