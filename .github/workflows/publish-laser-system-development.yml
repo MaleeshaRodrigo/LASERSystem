@@ -9,7 +9,7 @@ on:
 jobs:
   build:  
     runs-on: windows-latest 
-
+    environment: development
     env:                    
       VERSION: 2.0.3.10
       
