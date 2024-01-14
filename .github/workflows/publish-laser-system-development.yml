@@ -79,4 +79,4 @@ jobs:
           PULL_REQUEST: ${{ steps.cpr.outputs.pull-request-number }}
           label: automerge
           delete-branch: true
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }} 
