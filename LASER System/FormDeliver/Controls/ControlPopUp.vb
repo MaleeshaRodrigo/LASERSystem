@@ -238,7 +238,7 @@ Public Class ControlPopUp
     End Function
 
     Private Sub PreSetPropertyBeforeSaving(Optional EditMode As Boolean = False)
-        If FormParent.txtDDate.Value.Date = Today.Date Then
+        If EditMode = False And FormParent.txtDDate.Value.Date = Today.Date Then
             FormParent.txtDDate.Value = DateAndTime.Now
         End If
         If (EditMode = False) Then
