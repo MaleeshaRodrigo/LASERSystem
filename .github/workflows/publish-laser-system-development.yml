@@ -50,7 +50,10 @@ jobs:
         run: msbuild /t:publish /p:PublishDir="publish/" /property:UpdateEnabled=true /property:UpdateUrl="https://raw.githubusercontent.com/MaleeshaRodrigo/LASERSystem/${{env.BRANCH}}/LASER%20System/publish/"  /p:configuration="Release" /p:ApplicationVersion=${{env.VERSION}}
 
       - name: Push the changes
-        uses: CasperWA/push-protected@v2
+        uses: Amraneze/push-to-protected-branch@latest
         with:
-          token: ${{ secrets.TOKEN }}
-          branch: ${{ github.ref }}
+          repository: ${{ github.repository }}
+          branch_name: ${{ github.ref_name }}
+          github_token: ${{ secrets.TOKEN }}
+          commit_message: 'ci: build version v${{ env.VERSION }}'
+          files_to_commit: 'publish/'
