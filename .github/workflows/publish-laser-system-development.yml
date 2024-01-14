@@ -57,6 +57,6 @@ jobs:
           git commit -m "v${{env.VERSION}} published"
 
       - name: Push the changes
-        run: git push https://${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
+        run: git push https://${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git development
         env:
           GH_TOKEN: ${{ secrets.TOKEN }}
