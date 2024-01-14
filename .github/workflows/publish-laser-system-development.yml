@@ -49,15 +49,8 @@ jobs:
         working-directory: "./LASER System"
         run: msbuild /t:publish /p:PublishDir="publish/" /property:UpdateEnabled=true /property:UpdateUrl="https://raw.githubusercontent.com/MaleeshaRodrigo/LASERSystem/${{env.BRANCH}}/LASER%20System/publish/"  /p:configuration="Release" /p:ApplicationVersion=${{env.VERSION}}
 
-      - name: Commit the changes
-        run: |
-          git add . 
-          git config --global user.email "${{env.EMAIL}}"
-          git config --global user.name "${{env.USER_NAME}}"
-          git commit -m "v${{env.VERSION}} published"
-
       - name: Push the changes
-        uses: ad-m/github-push-action@master
+        uses: CasperWA/push-protected@v2
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.TOKEN }}
           branch: ${{ github.ref }}
