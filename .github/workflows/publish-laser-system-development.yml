@@ -74,7 +74,7 @@ jobs:
           body: "Description of the changes."
 
       - name: Merge Pull Request
-        uses: pascalgn/automerge-action@latest
+        uses: pascalgn/automerge-action@v0.16.2
         with:
           PULL_REQUEST: ${{ steps.cpr.outputs.pull-request-number }}
           label: automerge
