@@ -63,24 +63,20 @@ jobs:
         run: git push
 
       - name: Create Pull Request
-        uses: actions/github-script@v7.0.1
+        id: cpr
+        uses: peter-evans/create-pull-request@v3
         with:
-          script: |
-            const newPR = await github.pulls.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              title: 'New Feature Pull Request',
-              head: 'feature-branch',
-              base: 'development', // Replace with your protected branch name
-              body: 'Description of the changes.',
-            });
-  
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "Add new feature"
+          branch: feature-branch
+          base: development
+          title: "New Feature Pull Request"
+          body: "Description of the changes."
+
       - name: Merge Pull Request
-        uses: actions/github-script@v7.0.1
+        uses: pascalgn/automerge-action@v0.11.1
         with:
-          script: |
-            await github.pulls.merge({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: newPR.data.number,
-            });
+          PULL_REQUEST: ${{ steps.cpr.outputs.pull-request-number }}
+          label: automerge
+          delete-branch: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
