@@ -9,7 +9,7 @@ on:
 jobs:
   build:  
     runs-on: windows-latest 
-    environment: development
+    environment: production
     env:                    
       VERSION: 2.0.3.10
       BRANCH: main
@@ -22,5 +22,41 @@ jobs:
         with:
           fetch-depth: 0
           
-      - name: Push to development        
-        run: echo "${{ secrets.KEY }}" 
+      - name: Setup Chocolatey 
+        uses: crazy-max/ghaction-chocolatey@v3
+        with:
+          args: -h
+        
+      - name: Install Crystal Report
+        run: choco install crystalreports-for-visualstudio
+        
+      - name: Setup MSBuild.exe
+        uses: microsoft/setup-msbuild@v1.0.2
+  
+      - name: Setup Nuget
+        uses: nuget/setup-nuget@v1
+        with: 
+          nuget-version: latest 
+  
+      - name: Restore NuGet Packages
+        run: nuget restore
+  
+      - name: Build LASER System Project      
+        working-directory: "./LASER System"
+        run: msbuild 
+  
+      - name: Publish LASER System Project
+        working-directory: "./LASER System"
+        run: msbuild /t:publish /p:PublishDir="publish/" /property:UpdateEnabled=true /property:UpdateUrl="https://raw.githubusercontent.com/MaleeshaRodrigo/LASERSystem/${{env.BRANCH}}/LASER%20System/publish/"  /p:configuration="Release" /p:ApplicationVersion=${{env.VERSION}}
+
+      - name: Commit the changes
+        run: |
+          git add . 
+          git config --global user.email "${{env.EMAIL}}"
+          git config --global user.name "${{env.USER_NAME}}"
+          git commit -m "v${{env.VERSION}} published"
+
+      - name: Push the changes
+        run: git push https://${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
+        env:
+          GH_TOKEN: ${{ secrets.TOKEN }}
