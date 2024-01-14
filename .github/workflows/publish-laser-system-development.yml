@@ -1,6 +1,8 @@
 name: Publish LASER System- Development
 
 on:
+  push: 
+    branches: [ "development" ]    
   pull_request:
     branches: [ "development" ]
 
@@ -47,12 +49,34 @@ jobs:
 
       - name: Commit the changes
         run: |
-          echo "${{ github.event.pull_request.base.ref }}"
-          git checkout ${{ github.event.pull_request.base.ref }}
-          git add . 
           git config --global user.email "${{env.EMAIL}}"
           git config --global user.name "${{env.USER_NAME}}"
+          git checkout -b feature-branch
+          git add . 
           git commit -m "v${{env.VERSION}} published"
 
       - name: Push the changes
         run: git push
+
+      - name: Create Pull Request
+        uses: actions/github-script@0.10.0
+        with:
+          script: |
+            const newPR = await github.pulls.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: 'New Feature Pull Request',
+              head: 'feature-branch',
+              base: 'development', // Replace with your protected branch name
+              body: 'Description of the changes.',
+            });
+  
+      - name: Merge Pull Request
+        uses: actions/github-script@0.10.0
+        with:
+          script: |
+            await github.pulls.merge({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: newPR.data.number,
+            });
