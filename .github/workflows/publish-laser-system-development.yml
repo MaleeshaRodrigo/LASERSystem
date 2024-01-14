@@ -38,6 +38,13 @@ jobs:
   
       - name: Restore NuGet Packages
         run: nuget restore
+
+      - name: Create a new Branch
+        run: |  
+          git config --global user.email "${{env.EMAIL}}"
+          git config --global user.name "${{env.USER_NAME}}"         
+          git checkout -b feature-branch
+          git push --set-upstream origin feature-branch
   
       - name: Build LASER System Project      
         working-directory: "./LASER System"
@@ -49,9 +56,6 @@ jobs:
 
       - name: Commit the changes
         run: |
-          git config --global user.email "${{env.EMAIL}}"
-          git config --global user.name "${{env.USER_NAME}}"
-          git checkout -b feature-branch
           git add . 
           git commit -m "v${{env.VERSION}} published"
 
