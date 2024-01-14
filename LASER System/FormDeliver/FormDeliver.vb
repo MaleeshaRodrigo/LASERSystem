@@ -13,7 +13,14 @@ Public Class FormDeliver
         Db.Connect()
         Call cmdNew_Click(Nothing, Nothing)
         txtDDate.Value = Date.Today
+        If User.Instance.UserType <> User.Type.Admin Then
+            SetFormForCashier()
+        End If
         grdRepair.Focus()
+    End Sub
+
+    Private Sub SetFormForCashier()
+        GetDataToolStripMenuItem.Enabled = False
     End Sub
 
     Private Sub cmbCuName_DropDown(sender As Object, e As EventArgs) Handles cmbCuName.DropDown
@@ -50,6 +57,7 @@ Public Class FormDeliver
         grdtxt1.DataSource = items
 
         cmdSave.Enabled = True
+        cmdSave.Text = "Save"
         grdRepair.Focus()
         grdRepair.CurrentCell = grdRepair.Item(0, grdRepair.Rows.Count - 1)
         Cursor = Cursors.Default

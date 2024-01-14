@@ -1114,34 +1114,15 @@ end_for_loop:
                         .txtCuTelNo2.Text = DR("CuTelNo2").ToString
                         .txtCuTelNo3.Text = DR("CuTelNo3").ToString
                         .txtDRemarks.Text = DR("DRemarks").ToString
-                        If DR("CAmount").ToString <> "" Then
-                            .ControlPopUp.txtCAmount.Text = DR("CAmount").ToString
-                            .ControlPopUp.txtCReceived.Text = DR("CReceived").ToString
-                            .ControlPopUp.txtCBalance.Text = DR("CBalance").ToString
-                        End If
-                        If DR("CPAmount").ToString <> "" Then
-                            .ControlPopUp.txtCPAmount.Text = DR("CPAmount").ToString
-                            .ControlPopUp.txtCPInvoiceNo.Text = DR("CPInvoiceNo").ToString
-                        End If
-                        If DR("CuLAmount").ToString <> "" Then
-                            .ControlPopUp.txtCuLAmount.Text = DR("CuLAmount").ToString
-                            .ControlPopUp.txtCuLNo.Text = DR("CuLNo").ToString
-                        End If
-                        Dim DR1 As OleDbDataReader = Db.GetDataReader("Select RepNo,REP.PNo,PCategory,PName,Qty,Status,REP.TNo, TName,PaidPrice from (((Repair REP INNER JOIN PRODUCT  P On P.PNO = REP.PNO) LEFT JOIN Technician T On T.TNO = REP.TNO) LEFT JOIN DELIVER D On D.DNO = REP.DNO) Where D.DNo=" &
-                                                                                .txtDNo.Text)
+                        Dim DR1 As OleDbDataReader = Db.GetDataReader("Select RepNo,REP.PNo,PCategory,PName,Qty,Status,REP.TNo, TName,PaidPrice from (((Repair REP INNER JOIN PRODUCT  P On P.PNO = REP.PNO) LEFT JOIN Technician T On T.TNO = REP.TNO) LEFT JOIN DELIVER D On D.DNO = REP.DNO) Where D.DNo=" & .txtDNo.Text)
                         .grdRepair.Rows.Clear()
                         While DR1.Read
-                            .grdRepair.Rows.Add(DR1("RepNo").ToString, DR1("PCategory").ToString, DR1("PName").ToString, DR1("Qty").ToString,
-                                                DR1("PaidPrice").ToString, DR1("TName").ToString, DR1("Status").ToString)
-
+                            .grdRepair.Rows.Add(DR1("RepNo").ToString, DR1("PCategory").ToString, DR1("PName").ToString, DR1("Qty").ToString, DR1("PaidPrice").ToString, DR1("TName").ToString, DR1("Status").ToString)
                         End While
-                        DR1 = Db.GetDataReader("Select RetNo,RepNo,RET.PNo,PCategory,PName,Qty,Status,RET.TNo, TName,PaidPrice from (((Return RET INNER JOIN PRODUCT  P On P.PNO = RET.PNO) LEFT JOIN Technician T On T.TNO = RET.TNO) LEFT JOIN DELIVER D On D.DNO = RET.DNO) Where D.DNo=" &
-                                                    .txtDNo.Text)
+                        DR1 = Db.GetDataReader("Select RetNo,RepNo,RET.PNo,PCategory,PName,Qty,Status,RET.TNo, TName,PaidPrice from (((Return RET INNER JOIN PRODUCT  P On P.PNO = RET.PNO) LEFT JOIN Technician T On T.TNO = RET.TNO) LEFT JOIN DELIVER D On D.DNO = RET.DNO) Where D.DNo=" & .txtDNo.Text)
                         .grdRERepair.Rows.Clear()
                         While DR1.Read
-                            .grdRERepair.Rows.Add(DR1("RetNo").ToString, DR1("RepNo").ToString, DR1("PCategory").ToString, DR1("PName").ToString,
-                                                  DR1("Qty").ToString, DR1("PaidPrice").ToString, DR1("TName").ToString, DR1("Status").ToString)
-
+                            .grdRERepair.Rows.Add(DR1("RetNo").ToString, DR1("RepNo").ToString, DR1("PCategory").ToString, DR1("PName").ToString, DR1("Qty").ToString, DR1("PaidPrice").ToString, DR1("TName").ToString, DR1("Status").ToString)
                         End While
                     End If
                 End With
