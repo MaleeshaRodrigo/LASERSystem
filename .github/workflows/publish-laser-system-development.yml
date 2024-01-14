@@ -1,18 +1,14 @@
 name: Publish LASER System- Development
 
 on:
-  push:
-    branches: [ "development" ]
   pull_request:
     branches: [ "development" ]
 
 jobs:
   build:  
     runs-on: windows-latest 
-    environment: development
     env:                    
       VERSION: 2.0.3.10
-      BRANCH: development
       USER_NAME: MaleeshaRodrigo
       EMAIL: w1902272@my.westminster.ac.uk
       
@@ -47,13 +43,16 @@ jobs:
   
       - name: Publish LASER System Project
         working-directory: "./LASER System"
-        run: msbuild /t:publish /p:PublishDir="publish/" /property:UpdateEnabled=true /property:UpdateUrl="https://raw.githubusercontent.com/MaleeshaRodrigo/LASERSystem/${{env.BRANCH}}/LASER%20System/publish/"  /p:configuration="Release" /p:ApplicationVersion=${{env.VERSION}}
+        run: msbuild /t:publish /p:PublishDir="publish/" /property:UpdateEnabled=true /property:UpdateUrl="https://raw.githubusercontent.com/MaleeshaRodrigo/LASERSystem/main/LASER%20System/publish/"  /p:configuration="Release" /p:ApplicationVersion=${{env.VERSION}}
+
+      - name: Commit the changes
+        run: |
+          echo "${{ github.event.pull_request.base.ref }}"
+          git checkout ${{ github.event.pull_request.base.ref }}
+          git add . 
+          git config --global user.email "${{env.EMAIL}}"
+          git config --global user.name "${{env.USER_NAME}}"
+          git commit -m "v${{env.VERSION}} published"
 
       - name: Push the changes
-        uses: Amraneze/push-to-protected-branch@latest
-        with:
-          repository: ${{ github.repository }}
-          branch_name: ${{ github.ref_name }}
-          github_token: ${{ secrets.TOKEN }}
-          commit_message: 'ci: build version v${{ env.VERSION }}'
-          files_to_commit: 'publish/'
+        run: git push
