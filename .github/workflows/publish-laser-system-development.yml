@@ -77,6 +77,5 @@ jobs:
         uses: pascalgn/automerge-action@v0.16.2
         with:
           PULL_REQUEST: ${{ steps.cpr.outputs.pull-request-number }}
-          label: automerge
-          delete-branch: true
-          github-token: ${{ secrets.GITHUB_TOKEN }} 
+          MERGE_DELETE_BRANCH: true
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
