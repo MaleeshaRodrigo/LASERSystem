@@ -9,16 +9,19 @@ on:
 jobs:
   build:  
     runs-on: windows-latest 
-
+    environment: production
     env:                    
       VERSION: 2.0.3.10
+      BRANCH: main
+      USER_NAME: MaleeshaRodrigo
+      EMAIL: w1902272@my.westminster.ac.uk
       
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
+          
       - name: Setup Chocolatey 
         uses: crazy-max/ghaction-chocolatey@v3
         with:
@@ -54,9 +57,6 @@ jobs:
           git commit -m "v${{env.VERSION}} published"
 
       - name: Push the changes
-        run: git push        
-        
-      - name: Upload a Build Artifact
-        uses: actions/upload-artifact@v3.1.3
-        with:
-          path: LASER System\publish\setup.exe
+        run: git push https://${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
+        env:
+          GH_TOKEN: ${{ secrets.TOKEN }}

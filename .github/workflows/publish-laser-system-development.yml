@@ -1,17 +1,18 @@
 name: Publish LASER System- Development
 
 on:
-  push:
-    branches: [ "development" ]
+  push: 
+    branches: [ "development" ]    
   pull_request:
     branches: [ "development" ]
 
 jobs:
   build:  
     runs-on: windows-latest 
-
     env:                    
       VERSION: 2.0.3.10
+      USER_NAME: MaleeshaRodrigo
+      EMAIL: w1902272@my.westminster.ac.uk
       
     steps:
       - name: Checkout
@@ -37,6 +38,13 @@ jobs:
   
       - name: Restore NuGet Packages
         run: nuget restore
+
+      - name: Create a new Branch
+        run: |  
+          git config --global user.email "${{env.EMAIL}}"
+          git config --global user.name "${{env.USER_NAME}}"         
+          git checkout -b feature-branch
+          git push --set-upstream origin feature-branch
   
       - name: Build LASER System Project      
         working-directory: "./LASER System"
@@ -44,19 +52,30 @@ jobs:
   
       - name: Publish LASER System Project
         working-directory: "./LASER System"
-        run: msbuild /t:publish /p:PublishDir="publish/" /property:UpdateEnabled=true /property:UpdateUrl="https://raw.githubusercontent.com/MaleeshaRodrigo/LASERSystem/${{env.BRANCH}}/LASER%20System/publish/"  /p:configuration="Release" /p:ApplicationVersion=${{env.VERSION}}
+        run: msbuild /t:publish /p:PublishDir="publish/" /property:UpdateEnabled=true /property:UpdateUrl="https://raw.githubusercontent.com/MaleeshaRodrigo/LASERSystem/main/LASER%20System/publish/"  /p:configuration="Release" /p:ApplicationVersion=${{env.VERSION}}
 
       - name: Commit the changes
         run: |
           git add . 
-          git config --global user.email "${{env.EMAIL}}"
-          git config --global user.name "${{env.USER_NAME}}"
           git commit -m "v${{env.VERSION}} published"
 
       - name: Push the changes
-        run: git push        
-        
-      - name: Upload a Build Artifact
-        uses: actions/upload-artifact@v3.1.3
+        run: git push
+
+      - name: Create Pull Request
+        id: cpr
+        uses: peter-evans/create-pull-request@v3
         with:
-          path: LASER System\publish\setup.exe
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "Add new feature"
+          branch: feature-branch
+          base: development
+          title: "New Feature Pull Request"
+          body: "Description of the changes."
+
+      - name: Merge Pull Request
+        uses: pascalgn/automerge-action@v0.16.2
+        env:
+          PULL_REQUEST: ${{ steps.cpr.outputs.pull-request-number }}
+          MERGE_DELETE_BRANCH: true
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
