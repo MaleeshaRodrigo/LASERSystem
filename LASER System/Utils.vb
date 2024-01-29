@@ -83,9 +83,8 @@ Module Utils
         DR0.Close()
     End Function
 
-    Public Function CheckExistData(cmb As Control, SQL As String, msg As String, IsDataExist As Boolean) As Boolean
-        Dim CMD0 = New OleDbCommand(SQL)
-        Dim DR0 As OleDbDataReader = CMD0.ExecuteReader()
+    Public Function CheckExistData(Db As Database, cmb As Control, SQL As String, msg As String, IsDataExist As Boolean) As Boolean
+        Dim DR0 As OleDbDataReader = Db.GetDataReader(SQL)
         If DR0.HasRows = True Then
             If IsDataExist = True Then
                 MsgBox(msg, vbCritical + vbOKOnly)
@@ -99,7 +98,6 @@ Module Utils
             End If
             Return False
         End If
-        CMD0.Cancel()
         DR0.Close()
     End Function
 
