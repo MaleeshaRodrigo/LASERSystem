@@ -31,9 +31,9 @@ Public Class frmTechnician
         End If
         Select Case cmdSave.Text
             Case "Save"
-                If CheckExistData(cmbTName, "Select TName from Technician where TName='" & cmbTName.Text & "';", "Saveing is not comfortable because Technician Name which you added has already located in the database. You have to change Technician No to save.", True) = True Then
+                If CheckExistData(Db, cmbTName, "Select TName from Technician where TName='" & cmbTName.Text & "';", "Saveing is not comfortable because Technician Name which you added has already located in the database. You have to change Technician No to save.", True) = True Then
                     Exit Sub
-                ElseIf CheckExistData(txtTNo, "Select TNo from Technician where TNo =" & txtTNo.Text & ";", "This data couldn't be saved to database because Technicino No which you added has already located in the database. You have to change that to save.", True) = True Then
+                ElseIf CheckExistData(Db, txtTNo, "Select TNo from Technician where TNo =" & txtTNo.Text & ";", "This data couldn't be saved to database because Technicino No which you added has already located in the database. You have to change that to save.", True) = True Then
                     Exit Sub
                 End If
                 Db.Execute("Insert into Technician(TNo,TName,TFullName,TAddress,TEmail,TNicNo,TTelNo1,TTelno2,TTelno3,TRemarks,TActive) Values(" & txtTNo.Text & ",'" & cmbTName.Text & "','" & txtTFullName.Text & "','" & txtTAddress.Text & "','" &

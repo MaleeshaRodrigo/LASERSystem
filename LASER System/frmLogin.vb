@@ -116,7 +116,7 @@ Public Class frmLogin
     Private Sub cmdGetOTP_Click(sender As Object, e As EventArgs) Handles cmdGetOTP.Click
         If CheckEmptyfield(txtOTPUserName, "කරුණාකර User Name එක ඇතුලත් කර නැවත උත්සහ කරන්න.") = False Then
             Exit Sub
-        ElseIf CheckExistData(txtOTPUserName, "Select UserName from [User] Where UserName='" & txtOTPUserName.Text & "'", "ඔබ ඇතුලත් කල User Name එක වැරදි කරුණාකර නිවැරදි User Name එක ඇතුලත් කරන්න.", False) = False Then
+        ElseIf CheckExistData(Db, txtOTPUserName, "Select UserName from [User] Where UserName='" & txtOTPUserName.Text & "'", "ඔබ ඇතුලත් කල User Name එක වැරදි කරුණාකර නිවැරදි User Name එක ඇතුලත් කරන්න.", False) = False Then
             Exit Sub
         End If
         Dim DR As OleDbDataReader = Db.GetDataReader("Select Email from [User] Where UserName='" & txtOTPUserName.Text & "'")
