@@ -404,11 +404,11 @@ Public Class FormRepair
             cmbRetRepNo_SelectedIndexChanged(sender, e)
         End If
     End Sub
-    Private Sub CmbTName_DropDown(sender As Object, e As EventArgs) Handles cmbTName.DropDown
+    Private Sub CmbTName_DropDown(sender As Object, e As EventArgs)
         Call ComboBoxDropDown(Db, cmbTName, "Select TName from Technician Where TActive = True group by TName;")
     End Sub
 
-    Private Sub cmbTName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbTName.SelectedIndexChanged
+    Private Sub cmbTName_SelectedIndexChanged(sender As Object, e As EventArgs)
         If cmbTName.Text = "" Then Exit Sub
         If tabRepair.SelectedTab.TabIndex = 0 Then
             If cmbRepStatus.Text = "Received" Then Exit Sub
@@ -992,7 +992,7 @@ Public Class FormRepair
 #End Region
 
 #Region "grdRepRemarks2Property"
-    Private Sub grdRepRemarks2_CellBeginEdit(sender As Object, e As DataGridViewCellCancelEventArgs) Handles grdRepRemarks2.CellBeginEdit
+    Private Sub grdRepRemarks2_CellBeginEdit(sender As Object, e As DataGridViewCellCancelEventArgs)
         If grdRepRemarks2.Focused And e.ColumnIndex = 1 And e.RowIndex > -1 Then
             grdRepRemarks2.Controls.Add(DtpDate)
             DtpDate.Location = grdRepRemarks2.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, False).Location
@@ -1009,7 +1009,7 @@ Public Class FormRepair
         grdRepRemarks2.Item(e.ColumnIndex, e.RowIndex).Tag = grdRepRemarks2.Item(e.ColumnIndex, e.RowIndex).Value
     End Sub
 
-    Private Sub grdRepRemarks2_EditingControlShowing(sender As Object, e As DataGridViewEditingControlShowingEventArgs) Handles grdRepRemarks2.EditingControlShowing
+    Private Sub grdRepRemarks2_EditingControlShowing(sender As Object, e As DataGridViewEditingControlShowingEventArgs)
         If grdRepRemarks2.CurrentCell.RowIndex < 0 Then Exit Sub
         If grdRepRemarks2.Focused And grdRepRemarks2.CurrentCell.ColumnIndex = 1 Then
             DtpDate.Location = grdRepRemarks2.GetCellDisplayRectangle(grdRepRemarks2.CurrentCell.ColumnIndex, grdRepRemarks2.CurrentCell.RowIndex, True).Location
@@ -1017,7 +1017,7 @@ Public Class FormRepair
         End If
     End Sub
 
-    Private Sub grdRepRemarks2_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs) Handles grdRepRemarks2.CellEndEdit
+    Private Sub grdRepRemarks2_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs)
         If e.RowIndex < 0 Then Exit Sub
 
         Dim AdminPer As New AdminPermission(Db)
@@ -1080,7 +1080,7 @@ Public Class FormRepair
             grdRepRemarks2_RowValidating(sender, E1)
         End If
     End Sub
-    Private Sub grdRepRemarks2_UserDeletingRow(sender As Object, e As DataGridViewRowCancelEventArgs) Handles grdRepRemarks2.UserDeletingRow
+    Private Sub grdRepRemarks2_UserDeletingRow(sender As Object, e As DataGridViewRowCancelEventArgs)
         If e.Row.Index < 0 Or e.Row.Index = (grdRepRemarks2.Rows.Count - 1) Then Exit Sub
         Dim AdminPer As New AdminPermission(Db)
         If Convert.ToDateTime(grdRepRemarks2.Item(1, e.Row.Index).Value).Date <> DateTime.Today.Date Then
@@ -1090,7 +1090,7 @@ Public Class FormRepair
         End If
         Db.Execute("Delete from RepairRemarks2 Where Rem2No=" & grdRepRemarks2.Item(0, e.Row.Index).Value, {}, AdminPer)
     End Sub
-    Private Sub grdRepRemarks2_RowValidating(sender As Object, e As DataGridViewCellCancelEventArgs) Handles grdRepRemarks2.RowValidating
+    Private Sub grdRepRemarks2_RowValidating(sender As Object, e As DataGridViewCellCancelEventArgs)
         If e.RowIndex < 0 Then Exit Sub
         If grdRepRemarks2.Item(0, e.RowIndex).Value Is Nothing Then Exit Sub
         Dim DR1 As OleDbDataReader = Db.GetDataReader("SELECT Rem2No,Rem2Date,Remarks,UNo from RepairRemarks2 where Rem2No=" & grdRepRemarks2.Item(0, e.RowIndex).Value & ";")
@@ -1109,7 +1109,7 @@ Public Class FormRepair
 
 #Region "grdTechnicianCost"
 
-    Private Sub grdTechnicianCost_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs) Handles grdTechnicianCost.CellEndEdit
+    Private Sub grdTechnicianCost_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs)
         If e.RowIndex < 0 Then Exit Sub
         If CheckEmptyfield(cmbTName, "Technician Name යන field එක හිස්ව පවතියි. කරුණාකර එය සම්පුර්ණ කරන්න.") = False Then
             If (grdTechnicianCost.Rows.Count - 1) <> e.RowIndex Then
@@ -1199,7 +1199,7 @@ Public Class FormRepair
         End If
     End Sub
 
-    Private Sub grdTechnicianCost_CellBeginEdit(sender As Object, e As DataGridViewCellCancelEventArgs) Handles grdTechnicianCost.CellBeginEdit
+    Private Sub grdTechnicianCost_CellBeginEdit(sender As Object, e As DataGridViewCellCancelEventArgs)
         If e.RowIndex < 0 Then Exit Sub
         Select Case e.ColumnIndex
             Case 1
@@ -1219,7 +1219,7 @@ Public Class FormRepair
         grdTechnicianCost.Item(e.ColumnIndex, e.RowIndex).Tag = grdTechnicianCost.Item(e.ColumnIndex, e.RowIndex).Value
     End Sub
 
-    Private Sub grdTechnicianCost_EditingControlShowing(sender As Object, e As DataGridViewEditingControlShowingEventArgs) Handles grdTechnicianCost.EditingControlShowing
+    Private Sub grdTechnicianCost_EditingControlShowing(sender As Object, e As DataGridViewEditingControlShowingEventArgs)
         If grdTechnicianCost.CurrentCell.RowIndex < 0 Then Exit Sub
         Select Case grdTechnicianCost.CurrentCell.ColumnIndex
             Case 1
@@ -1239,7 +1239,7 @@ Public Class FormRepair
         End Select
     End Sub
 
-    Private Sub grdTechnicianCost_UserDeletingRow(sender As Object, e As DataGridViewRowCancelEventArgs) Handles grdTechnicianCost.UserDeletingRow
+    Private Sub grdTechnicianCost_UserDeletingRow(sender As Object, e As DataGridViewRowCancelEventArgs)
         If e.Row.Index < 0 Or e.Row.Index = (grdTechnicianCost.Rows.Count - 1) Then Exit Sub
         Dim AdminPer As New AdminPermission(Db)
         If Convert.ToDateTime(grdTechnicianCost.Item(1, e.Row.Index).Value).Date <>
@@ -1251,7 +1251,7 @@ Public Class FormRepair
         Db.Execute("Delete from TechnicianCost Where TCNo=" & grdTechnicianCost.Item(0, e.Row.Index).Value, {}, AdminPer)
     End Sub
 
-    Private Sub grdTechnicianCost_RowValidating(sender As Object, e As DataGridViewCellCancelEventArgs) Handles grdTechnicianCost.RowValidating
+    Private Sub grdTechnicianCost_RowValidating(sender As Object, e As DataGridViewCellCancelEventArgs)
         If e.RowIndex < 0 Then Exit Sub
         If grdTechnicianCost.Item(0, e.RowIndex).Value Is Nothing Then Exit Sub
         Dim DR1 As OleDbDataReader = Db.GetDataReader("SELECT * from TechnicianCost where TCNo=" & grdTechnicianCost.Item(0, e.RowIndex).Value & ";")

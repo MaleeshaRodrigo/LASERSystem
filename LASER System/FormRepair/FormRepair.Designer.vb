@@ -22,8 +22,6 @@ Partial Class FormRepair
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormRepair))
         Me.boxReceive = New System.Windows.Forms.GroupBox()
         Me.txtRNo = New System.Windows.Forms.TextBox()
@@ -57,16 +55,6 @@ Partial Class FormRepair
         Me.Label18 = New System.Windows.Forms.Label()
         Me.txtPProblem = New System.Windows.Forms.TextBox()
         Me.lblPProblem = New System.Windows.Forms.Label()
-        Me.boxTechnician = New System.Windows.Forms.GroupBox()
-        Me.cmdTView = New System.Windows.Forms.Button()
-        Me.cmbTName = New System.Windows.Forms.ComboBox()
-        Me.Label19 = New System.Windows.Forms.Label()
-        Me.boxRepair = New System.Windows.Forms.GroupBox()
-        Me.Label35 = New System.Windows.Forms.Label()
-        Me.txtRepDate = New System.Windows.Forms.DateTimePicker()
-        Me.Label27 = New System.Windows.Forms.Label()
-        Me.txtRepPrice = New System.Windows.Forms.TextBox()
-        Me.Label3 = New System.Windows.Forms.Label()
         Me.lblRepRemarks1 = New System.Windows.Forms.Label()
         Me.cmdClose = New System.Windows.Forms.Button()
         Me.cmdSave = New System.Windows.Forms.Button()
@@ -85,14 +73,6 @@ Partial Class FormRepair
         Me.cmbRetStatus = New System.Windows.Forms.ComboBox()
         Me.Label29 = New System.Windows.Forms.Label()
         Me.Label30 = New System.Windows.Forms.Label()
-        Me.boxDeliver = New System.Windows.Forms.GroupBox()
-        Me.Label33 = New System.Windows.Forms.Label()
-        Me.txtDPaidPrice = New System.Windows.Forms.TextBox()
-        Me.Label21 = New System.Windows.Forms.Label()
-        Me.txtDDate = New System.Windows.Forms.DateTimePicker()
-        Me.txtDNo = New System.Windows.Forms.TextBox()
-        Me.Label31 = New System.Windows.Forms.Label()
-        Me.lblRepRemarks2 = New System.Windows.Forms.Label()
         Me.MenuStrip = New System.Windows.Forms.MenuStrip()
         Me.OPTIONToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DoneToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -111,72 +91,24 @@ Partial Class FormRepair
         Me.cmdDone = New System.Windows.Forms.Button()
         Me.imgRepair = New System.Windows.Forms.PictureBox()
         Me.PanelMain = New System.Windows.Forms.Panel()
-        Me.grpAdvancePay = New System.Windows.Forms.GroupBox()
-        Me.grdAdvance = New System.Windows.Forms.DataGridView()
-        Me.AdvancePayAVNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.AdvancePayDate = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.AdvancePayPrice = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.AdvancePayRemarks = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.grpActivity = New System.Windows.Forms.GroupBox()
-        Me.grdActivity = New System.Windows.Forms.DataGridView()
-        Me.ANo = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.ActivityDate = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.ActivityActivity = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.AUserName = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.grpRepTask = New System.Windows.Forms.GroupBox()
-        Me.grdRepTask = New System.Windows.Forms.DataGridView()
-        Me.TaskTNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.TaskDate = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.TaskAction = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.TaskRemarks = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.TStatus = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.cmbLocation = New System.Windows.Forms.ComboBox()
         Me.lblLocation = New System.Windows.Forms.Label()
-        Me.grdRepRemarks2 = New System.Windows.Forms.DataGridView()
-        Me.Rem2No = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.RepRemarks2Date = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.RepRemarks2Remarks = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Rem2User = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.grdRepRemarks1 = New System.Windows.Forms.DataGridView()
         Me.Rem1No = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Rem1Date = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Rem1Remarks = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Rem1UNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.boxItem = New System.Windows.Forms.GroupBox()
-        Me.grdTechnicianCost = New System.Windows.Forms.DataGridView()
-        Me.TCNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.TCDate = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Sno = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.SCategory = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.SName = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Rate = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Qty = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Total = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.TCRemarks = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.UName = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.bgPrintReport = New System.ComponentModel.BackgroundWorker()
         Me.boxReceive.SuspendLayout()
         Me.boxCustomer.SuspendLayout()
         Me.boxProduct.SuspendLayout()
-        Me.boxTechnician.SuspendLayout()
-        Me.boxRepair.SuspendLayout()
         Me.tabRepair.SuspendLayout()
         Me.RepInfo.SuspendLayout()
         Me.RetInfo.SuspendLayout()
-        Me.boxDeliver.SuspendLayout()
         Me.MenuStrip.SuspendLayout()
         CType(Me.imgRepair, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.PanelMain.SuspendLayout()
-        Me.grpAdvancePay.SuspendLayout()
-        CType(Me.grdAdvance, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.grpActivity.SuspendLayout()
-        CType(Me.grdActivity, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.grpRepTask.SuspendLayout()
-        CType(Me.grdRepTask, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.grdRepRemarks2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.grdRepRemarks1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.boxItem.SuspendLayout()
-        CType(Me.grdTechnicianCost, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'boxReceive
@@ -492,106 +424,6 @@ Partial Class FormRepair
         Me.lblPProblem.TabIndex = 62
         Me.lblPProblem.Text = "Problem:"
         '
-        'boxTechnician
-        '
-        Me.boxTechnician.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.boxTechnician.Controls.Add(Me.cmdTView)
-        Me.boxTechnician.Controls.Add(Me.cmbTName)
-        Me.boxTechnician.Controls.Add(Me.Label19)
-        Me.boxTechnician.Cursor = System.Windows.Forms.Cursors.Default
-        Me.boxTechnician.Location = New System.Drawing.Point(6, 187)
-        Me.boxTechnician.Name = "boxTechnician"
-        Me.boxTechnician.Size = New System.Drawing.Size(660, 50)
-        Me.boxTechnician.TabIndex = 32
-        Me.boxTechnician.TabStop = False
-        Me.boxTechnician.Text = "Technician Info"
-        '
-        'cmdTView
-        '
-        Me.cmdTView.Location = New System.Drawing.Point(284, 19)
-        Me.cmdTView.Name = "cmdTView"
-        Me.cmdTView.Size = New System.Drawing.Size(25, 22)
-        Me.cmdTView.TabIndex = 25
-        Me.cmdTView.Text = "..."
-        Me.cmdTView.UseVisualStyleBackColor = True
-        '
-        'cmbTName
-        '
-        Me.cmbTName.FormattingEnabled = True
-        Me.cmbTName.Location = New System.Drawing.Point(60, 19)
-        Me.cmbTName.Name = "cmbTName"
-        Me.cmbTName.Size = New System.Drawing.Size(218, 22)
-        Me.cmbTName.TabIndex = 24
-        '
-        'Label19
-        '
-        Me.Label19.AutoSize = True
-        Me.Label19.Location = New System.Drawing.Point(6, 21)
-        Me.Label19.Name = "Label19"
-        Me.Label19.Size = New System.Drawing.Size(48, 14)
-        Me.Label19.TabIndex = 0
-        Me.Label19.Text = "Name : "
-        '
-        'boxRepair
-        '
-        Me.boxRepair.Controls.Add(Me.Label35)
-        Me.boxRepair.Controls.Add(Me.txtRepDate)
-        Me.boxRepair.Controls.Add(Me.Label27)
-        Me.boxRepair.Controls.Add(Me.txtRepPrice)
-        Me.boxRepair.Controls.Add(Me.Label3)
-        Me.boxRepair.Location = New System.Drawing.Point(9, 575)
-        Me.boxRepair.Name = "boxRepair"
-        Me.boxRepair.Size = New System.Drawing.Size(323, 81)
-        Me.boxRepair.TabIndex = 35
-        Me.boxRepair.TabStop = False
-        Me.boxRepair.Text = "Repair Info"
-        '
-        'Label35
-        '
-        Me.Label35.BackColor = System.Drawing.SystemColors.AppWorkspace
-        Me.Label35.Font = New System.Drawing.Font("Calibri", 9.0!)
-        Me.Label35.Location = New System.Drawing.Point(59, 21)
-        Me.Label35.Name = "Label35"
-        Me.Label35.Size = New System.Drawing.Size(24, 22)
-        Me.Label35.TabIndex = 78
-        Me.Label35.Text = "Rs."
-        Me.Label35.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'txtRepDate
-        '
-        Me.txtRepDate.CustomFormat = "yyyy-MM-dd hh:mm:ss tt"
-        Me.txtRepDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtRepDate.Location = New System.Drawing.Point(100, 49)
-        Me.txtRepDate.Name = "txtRepDate"
-        Me.txtRepDate.Size = New System.Drawing.Size(162, 22)
-        Me.txtRepDate.TabIndex = 29
-        '
-        'Label27
-        '
-        Me.Label27.AutoSize = True
-        Me.Label27.Location = New System.Drawing.Point(5, 51)
-        Me.Label27.Name = "Label27"
-        Me.Label27.Size = New System.Drawing.Size(89, 14)
-        Me.Label27.TabIndex = 2
-        Me.Label27.Text = "Repaired Date:"
-        '
-        'txtRepPrice
-        '
-        Me.txtRepPrice.Location = New System.Drawing.Point(84, 21)
-        Me.txtRepPrice.Name = "txtRepPrice"
-        Me.txtRepPrice.Size = New System.Drawing.Size(73, 22)
-        Me.txtRepPrice.TabIndex = 28
-        '
-        'Label3
-        '
-        Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(6, 24)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(47, 14)
-        Me.Label3.TabIndex = 0
-        Me.Label3.Text = "Charge:"
-        '
         'lblRepRemarks1
         '
         Me.lblRepRemarks1.AutoSize = True
@@ -774,87 +606,6 @@ Partial Class FormRepair
         Me.Label30.TabIndex = 6
         Me.Label30.Text = "ReRepair No:"
         '
-        'boxDeliver
-        '
-        Me.boxDeliver.BackColor = System.Drawing.SystemColors.Control
-        Me.boxDeliver.Controls.Add(Me.Label33)
-        Me.boxDeliver.Controls.Add(Me.txtDPaidPrice)
-        Me.boxDeliver.Controls.Add(Me.Label21)
-        Me.boxDeliver.Controls.Add(Me.txtDDate)
-        Me.boxDeliver.Controls.Add(Me.txtDNo)
-        Me.boxDeliver.Controls.Add(Me.Label31)
-        Me.boxDeliver.Location = New System.Drawing.Point(338, 575)
-        Me.boxDeliver.Name = "boxDeliver"
-        Me.boxDeliver.Size = New System.Drawing.Size(328, 81)
-        Me.boxDeliver.TabIndex = 59
-        Me.boxDeliver.TabStop = False
-        Me.boxDeliver.Text = "Delivered Info"
-        '
-        'Label33
-        '
-        Me.Label33.BackColor = System.Drawing.SystemColors.AppWorkspace
-        Me.Label33.Font = New System.Drawing.Font("Calibri", 9.0!)
-        Me.Label33.Location = New System.Drawing.Point(79, 49)
-        Me.Label33.Name = "Label33"
-        Me.Label33.Size = New System.Drawing.Size(24, 22)
-        Me.Label33.TabIndex = 78
-        Me.Label33.Text = "Rs."
-        Me.Label33.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'txtDPaidPrice
-        '
-        Me.txtDPaidPrice.Enabled = False
-        Me.txtDPaidPrice.Location = New System.Drawing.Point(104, 49)
-        Me.txtDPaidPrice.Name = "txtDPaidPrice"
-        Me.txtDPaidPrice.Size = New System.Drawing.Size(89, 22)
-        Me.txtDPaidPrice.TabIndex = 31
-        '
-        'Label21
-        '
-        Me.Label21.AutoSize = True
-        Me.Label21.Location = New System.Drawing.Point(7, 52)
-        Me.Label21.Name = "Label21"
-        Me.Label21.Size = New System.Drawing.Size(63, 14)
-        Me.Label21.TabIndex = 74
-        Me.Label21.Text = "Paid Price:"
-        '
-        'txtDDate
-        '
-        Me.txtDDate.CustomFormat = "yyyy-MM-dd hh:mm:ss tt"
-        Me.txtDDate.Enabled = False
-        Me.txtDDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtDDate.Location = New System.Drawing.Point(104, 21)
-        Me.txtDDate.Name = "txtDDate"
-        Me.txtDDate.Size = New System.Drawing.Size(163, 22)
-        Me.txtDDate.TabIndex = 30
-        '
-        'txtDNo
-        '
-        Me.txtDNo.Enabled = False
-        Me.txtDNo.Location = New System.Drawing.Point(269, 49)
-        Me.txtDNo.Name = "txtDNo"
-        Me.txtDNo.Size = New System.Drawing.Size(53, 22)
-        Me.txtDNo.TabIndex = 7
-        Me.txtDNo.Visible = False
-        '
-        'Label31
-        '
-        Me.Label31.AutoSize = True
-        Me.Label31.Location = New System.Drawing.Point(6, 25)
-        Me.Label31.Name = "Label31"
-        Me.Label31.Size = New System.Drawing.Size(92, 14)
-        Me.Label31.TabIndex = 1
-        Me.Label31.Text = "Delivered Date:"
-        '
-        'lblRepRemarks2
-        '
-        Me.lblRepRemarks2.AutoSize = True
-        Me.lblRepRemarks2.Location = New System.Drawing.Point(6, 240)
-        Me.lblRepRemarks2.Name = "lblRepRemarks2"
-        Me.lblRepRemarks2.Size = New System.Drawing.Size(138, 14)
-        Me.lblRepRemarks2.TabIndex = 65
-        Me.lblRepRemarks2.Text = "Remarks(by Technician):"
-        '
         'MenuStrip
         '
         Me.MenuStrip.BackColor = System.Drawing.Color.Yellow
@@ -977,7 +728,7 @@ Partial Class FormRepair
         Me.imgRepair.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.imgRepair.BackColor = System.Drawing.Color.Black
         Me.imgRepair.Enabled = False
-        Me.imgRepair.Location = New System.Drawing.Point(493, 6)
+        Me.imgRepair.Location = New System.Drawing.Point(510, 6)
         Me.imgRepair.Name = "imgRepair"
         Me.imgRepair.Size = New System.Drawing.Size(175, 175)
         Me.imgRepair.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
@@ -990,216 +741,15 @@ Partial Class FormRepair
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.PanelMain.AutoScroll = True
-        Me.PanelMain.Controls.Add(Me.grpAdvancePay)
-        Me.PanelMain.Controls.Add(Me.grpActivity)
-        Me.PanelMain.Controls.Add(Me.grpRepTask)
         Me.PanelMain.Controls.Add(Me.cmbLocation)
         Me.PanelMain.Controls.Add(Me.lblLocation)
-        Me.PanelMain.Controls.Add(Me.grdRepRemarks2)
         Me.PanelMain.Controls.Add(Me.grdRepRemarks1)
         Me.PanelMain.Controls.Add(Me.imgRepair)
         Me.PanelMain.Controls.Add(Me.lblRepRemarks1)
-        Me.PanelMain.Controls.Add(Me.boxTechnician)
-        Me.PanelMain.Controls.Add(Me.boxDeliver)
-        Me.PanelMain.Controls.Add(Me.boxItem)
-        Me.PanelMain.Controls.Add(Me.lblRepRemarks2)
-        Me.PanelMain.Controls.Add(Me.boxRepair)
         Me.PanelMain.Location = New System.Drawing.Point(384, 27)
         Me.PanelMain.Name = "PanelMain"
         Me.PanelMain.Size = New System.Drawing.Size(691, 667)
         Me.PanelMain.TabIndex = 70
-        '
-        'grpAdvancePay
-        '
-        Me.grpAdvancePay.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.grpAdvancePay.Controls.Add(Me.grdAdvance)
-        Me.grpAdvancePay.Cursor = System.Windows.Forms.Cursors.Default
-        Me.grpAdvancePay.Location = New System.Drawing.Point(6, 662)
-        Me.grpAdvancePay.Name = "grpAdvancePay"
-        Me.grpAdvancePay.Size = New System.Drawing.Size(661, 99)
-        Me.grpAdvancePay.TabIndex = 83
-        Me.grpAdvancePay.TabStop = False
-        Me.grpAdvancePay.Text = "Advance Pay Info"
-        '
-        'grdAdvance
-        '
-        Me.grdAdvance.AllowUserToAddRows = False
-        Me.grdAdvance.AllowUserToDeleteRows = False
-        Me.grdAdvance.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
-        Me.grdAdvance.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.grdAdvance.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.grdAdvance.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.AdvancePayAVNo, Me.AdvancePayDate, Me.AdvancePayPrice, Me.AdvancePayRemarks})
-        Me.grdAdvance.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.grdAdvance.Location = New System.Drawing.Point(3, 18)
-        Me.grdAdvance.Name = "grdAdvance"
-        Me.grdAdvance.ReadOnly = True
-        Me.grdAdvance.Size = New System.Drawing.Size(655, 78)
-        Me.grdAdvance.TabIndex = 32
-        '
-        'AdvancePayAVNo
-        '
-        Me.AdvancePayAVNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader
-        Me.AdvancePayAVNo.HeaderText = "Advance Pay No"
-        Me.AdvancePayAVNo.Name = "AdvancePayAVNo"
-        Me.AdvancePayAVNo.ReadOnly = True
-        Me.AdvancePayAVNo.Width = 5
-        '
-        'AdvancePayDate
-        '
-        Me.AdvancePayDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        Me.AdvancePayDate.HeaderText = "Date"
-        Me.AdvancePayDate.Name = "AdvancePayDate"
-        Me.AdvancePayDate.ReadOnly = True
-        Me.AdvancePayDate.Width = 58
-        '
-        'AdvancePayPrice
-        '
-        Me.AdvancePayPrice.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        Me.AdvancePayPrice.HeaderText = "Price"
-        Me.AdvancePayPrice.Name = "AdvancePayPrice"
-        Me.AdvancePayPrice.ReadOnly = True
-        Me.AdvancePayPrice.Width = 58
-        '
-        'AdvancePayRemarks
-        '
-        Me.AdvancePayRemarks.HeaderText = "Remarks"
-        Me.AdvancePayRemarks.Name = "AdvancePayRemarks"
-        Me.AdvancePayRemarks.ReadOnly = True
-        '
-        'grpActivity
-        '
-        Me.grpActivity.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.grpActivity.Controls.Add(Me.grdActivity)
-        Me.grpActivity.Cursor = System.Windows.Forms.Cursors.Default
-        Me.grpActivity.Location = New System.Drawing.Point(6, 919)
-        Me.grpActivity.Name = "grpActivity"
-        Me.grpActivity.Size = New System.Drawing.Size(660, 157)
-        Me.grpActivity.TabIndex = 82
-        Me.grpActivity.TabStop = False
-        Me.grpActivity.Text = "Activity Info"
-        '
-        'grdActivity
-        '
-        Me.grdActivity.AllowUserToAddRows = False
-        Me.grdActivity.AllowUserToDeleteRows = False
-        Me.grdActivity.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
-        Me.grdActivity.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.grdActivity.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.grdActivity.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.ANo, Me.ActivityDate, Me.ActivityActivity, Me.AUserName})
-        Me.grdActivity.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.grdActivity.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically
-        Me.grdActivity.Location = New System.Drawing.Point(3, 18)
-        Me.grdActivity.Name = "grdActivity"
-        Me.grdActivity.ReadOnly = True
-        Me.grdActivity.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders
-        Me.grdActivity.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.grdActivity.Size = New System.Drawing.Size(654, 136)
-        Me.grdActivity.TabIndex = 34
-        '
-        'ANo
-        '
-        Me.ANo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader
-        Me.ANo.HeaderText = "No"
-        Me.ANo.Name = "ANo"
-        Me.ANo.ReadOnly = True
-        Me.ANo.Visible = False
-        '
-        'ActivityDate
-        '
-        Me.ActivityDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        Me.ActivityDate.HeaderText = "Date"
-        Me.ActivityDate.Name = "ActivityDate"
-        Me.ActivityDate.ReadOnly = True
-        Me.ActivityDate.Width = 58
-        '
-        'ActivityActivity
-        '
-        Me.ActivityActivity.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        DataGridViewCellStyle1.Font = New System.Drawing.Font("Nirmala UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.ActivityActivity.DefaultCellStyle = DataGridViewCellStyle1
-        Me.ActivityActivity.HeaderText = "Activity"
-        Me.ActivityActivity.Name = "ActivityActivity"
-        Me.ActivityActivity.ReadOnly = True
-        '
-        'AUserName
-        '
-        Me.AUserName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        Me.AUserName.HeaderText = "User"
-        Me.AUserName.Name = "AUserName"
-        Me.AUserName.ReadOnly = True
-        Me.AUserName.Width = 57
-        '
-        'grpRepTask
-        '
-        Me.grpRepTask.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.grpRepTask.Controls.Add(Me.grdRepTask)
-        Me.grpRepTask.Cursor = System.Windows.Forms.Cursors.Default
-        Me.grpRepTask.Location = New System.Drawing.Point(6, 767)
-        Me.grpRepTask.Name = "grpRepTask"
-        Me.grpRepTask.Size = New System.Drawing.Size(660, 146)
-        Me.grpRepTask.TabIndex = 81
-        Me.grpRepTask.TabStop = False
-        Me.grpRepTask.Text = "Task Info"
-        '
-        'grdRepTask
-        '
-        Me.grdRepTask.AllowUserToAddRows = False
-        Me.grdRepTask.AllowUserToDeleteRows = False
-        Me.grdRepTask.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
-        Me.grdRepTask.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.grdRepTask.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.grdRepTask.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.TaskTNo, Me.TaskDate, Me.TaskAction, Me.TaskRemarks, Me.TStatus})
-        Me.grdRepTask.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.grdRepTask.Location = New System.Drawing.Point(3, 18)
-        Me.grdRepTask.Name = "grdRepTask"
-        Me.grdRepTask.ReadOnly = True
-        Me.grdRepTask.Size = New System.Drawing.Size(654, 125)
-        Me.grdRepTask.TabIndex = 33
-        '
-        'TaskTNo
-        '
-        Me.TaskTNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader
-        Me.TaskTNo.DataPropertyName = "MsgNo"
-        Me.TaskTNo.HeaderText = "Task No"
-        Me.TaskTNo.Name = "TaskTNo"
-        Me.TaskTNo.ReadOnly = True
-        Me.TaskTNo.Visible = False
-        '
-        'TaskDate
-        '
-        Me.TaskDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        Me.TaskDate.DataPropertyName = "MsgDate"
-        Me.TaskDate.HeaderText = "Date"
-        Me.TaskDate.Name = "TaskDate"
-        Me.TaskDate.ReadOnly = True
-        Me.TaskDate.Width = 58
-        '
-        'TaskAction
-        '
-        Me.TaskAction.DataPropertyName = "ACTION"
-        Me.TaskAction.HeaderText = "Action"
-        Me.TaskAction.Name = "TaskAction"
-        Me.TaskAction.ReadOnly = True
-        Me.TaskAction.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
-        '
-        'TaskRemarks
-        '
-        Me.TaskRemarks.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.TaskRemarks.DataPropertyName = "MESSAGE"
-        Me.TaskRemarks.HeaderText = "Message"
-        Me.TaskRemarks.Name = "TaskRemarks"
-        Me.TaskRemarks.ReadOnly = True
-        '
-        'TStatus
-        '
-        Me.TStatus.DataPropertyName = "STATUS"
-        Me.TStatus.HeaderText = "Status"
-        Me.TStatus.Name = "TStatus"
-        Me.TStatus.ReadOnly = True
         '
         'cmbLocation
         '
@@ -1218,48 +768,6 @@ Partial Class FormRepair
         Me.lblLocation.TabIndex = 79
         Me.lblLocation.Text = "Location:"
         '
-        'grdRepRemarks2
-        '
-        Me.grdRepRemarks2.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.grdRepRemarks2.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
-        Me.grdRepRemarks2.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.grdRepRemarks2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.grdRepRemarks2.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Rem2No, Me.RepRemarks2Date, Me.RepRemarks2Remarks, Me.Rem2User})
-        Me.grdRepRemarks2.Location = New System.Drawing.Point(6, 257)
-        Me.grdRepRemarks2.Name = "grdRepRemarks2"
-        Me.grdRepRemarks2.Size = New System.Drawing.Size(660, 119)
-        Me.grdRepRemarks2.TabIndex = 26
-        '
-        'Rem2No
-        '
-        Me.Rem2No.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader
-        Me.Rem2No.HeaderText = "No"
-        Me.Rem2No.Name = "Rem2No"
-        Me.Rem2No.ReadOnly = True
-        Me.Rem2No.Visible = False
-        '
-        'RepRemarks2Date
-        '
-        Me.RepRemarks2Date.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        Me.RepRemarks2Date.HeaderText = "Date"
-        Me.RepRemarks2Date.Name = "RepRemarks2Date"
-        Me.RepRemarks2Date.Width = 58
-        '
-        'RepRemarks2Remarks
-        '
-        Me.RepRemarks2Remarks.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.RepRemarks2Remarks.HeaderText = "Remarks"
-        Me.RepRemarks2Remarks.Name = "RepRemarks2Remarks"
-        '
-        'Rem2User
-        '
-        Me.Rem2User.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        Me.Rem2User.HeaderText = "User"
-        Me.Rem2User.Name = "Rem2User"
-        Me.Rem2User.ReadOnly = True
-        Me.Rem2User.Width = 57
-        '
         'grdRepRemarks1
         '
         Me.grdRepRemarks1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
@@ -1270,7 +778,7 @@ Partial Class FormRepair
         Me.grdRepRemarks1.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Rem1No, Me.Rem1Date, Me.Rem1Remarks, Me.Rem1UNo})
         Me.grdRepRemarks1.Location = New System.Drawing.Point(8, 48)
         Me.grdRepRemarks1.Name = "grdRepRemarks1"
-        Me.grdRepRemarks1.Size = New System.Drawing.Size(480, 133)
+        Me.grdRepRemarks1.Size = New System.Drawing.Size(497, 133)
         Me.grdRepRemarks1.TabIndex = 23
         '
         'Rem1No
@@ -1302,100 +810,6 @@ Partial Class FormRepair
         Me.Rem1UNo.ReadOnly = True
         Me.Rem1UNo.Width = 57
         '
-        'boxItem
-        '
-        Me.boxItem.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.boxItem.Controls.Add(Me.grdTechnicianCost)
-        Me.boxItem.Location = New System.Drawing.Point(6, 382)
-        Me.boxItem.Name = "boxItem"
-        Me.boxItem.Size = New System.Drawing.Size(663, 187)
-        Me.boxItem.TabIndex = 60
-        Me.boxItem.TabStop = False
-        Me.boxItem.Text = "Item Info"
-        '
-        'grdTechnicianCost
-        '
-        Me.grdTechnicianCost.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.grdTechnicianCost.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.TCNo, Me.TCDate, Me.Sno, Me.SCategory, Me.SName, Me.Rate, Me.Qty, Me.Total, Me.TCRemarks, Me.UName})
-        Me.grdTechnicianCost.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.grdTechnicianCost.Location = New System.Drawing.Point(3, 18)
-        Me.grdTechnicianCost.Name = "grdTechnicianCost"
-        Me.grdTechnicianCost.Size = New System.Drawing.Size(657, 166)
-        Me.grdTechnicianCost.TabIndex = 27
-        '
-        'TCNo
-        '
-        Me.TCNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader
-        Me.TCNo.DataPropertyName = "TCNo"
-        Me.TCNo.HeaderText = "No"
-        Me.TCNo.Name = "TCNo"
-        Me.TCNo.ReadOnly = True
-        Me.TCNo.Width = 21
-        '
-        'TCDate
-        '
-        Me.TCDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        Me.TCDate.DataPropertyName = "TCDate"
-        DataGridViewCellStyle2.Format = "d"
-        DataGridViewCellStyle2.NullValue = Nothing
-        Me.TCDate.DefaultCellStyle = DataGridViewCellStyle2
-        Me.TCDate.HeaderText = "Date"
-        Me.TCDate.Name = "TCDate"
-        Me.TCDate.Width = 58
-        '
-        'Sno
-        '
-        Me.Sno.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
-        Me.Sno.DataPropertyName = "SNo"
-        Me.Sno.HeaderText = "Item Code"
-        Me.Sno.Name = "Sno"
-        Me.Sno.Width = 87
-        '
-        'SCategory
-        '
-        Me.SCategory.DataPropertyName = "SCategory"
-        Me.SCategory.HeaderText = "Item Category"
-        Me.SCategory.Name = "SCategory"
-        '
-        'SName
-        '
-        Me.SName.DataPropertyName = "SName"
-        Me.SName.HeaderText = "Item Name"
-        Me.SName.Name = "SName"
-        '
-        'Rate
-        '
-        Me.Rate.DataPropertyName = "Rate"
-        Me.Rate.HeaderText = "Unit Price"
-        Me.Rate.Name = "Rate"
-        '
-        'Qty
-        '
-        Me.Qty.DataPropertyName = "Qty"
-        Me.Qty.HeaderText = "Qty"
-        Me.Qty.Name = "Qty"
-        '
-        'Total
-        '
-        Me.Total.DataPropertyName = "Total"
-        Me.Total.HeaderText = "Total"
-        Me.Total.Name = "Total"
-        Me.Total.ReadOnly = True
-        '
-        'TCRemarks
-        '
-        Me.TCRemarks.DataPropertyName = "TCRemarks"
-        Me.TCRemarks.HeaderText = "Remarks"
-        Me.TCRemarks.Name = "TCRemarks"
-        '
-        'UName
-        '
-        Me.UName.DataPropertyName = "UserName"
-        Me.UName.HeaderText = "User"
-        Me.UName.Name = "UName"
-        Me.UName.ReadOnly = True
-        '
         'FormRepair
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 14.0!)
@@ -1424,32 +838,17 @@ Partial Class FormRepair
         Me.boxCustomer.PerformLayout()
         Me.boxProduct.ResumeLayout(False)
         Me.boxProduct.PerformLayout()
-        Me.boxTechnician.ResumeLayout(False)
-        Me.boxTechnician.PerformLayout()
-        Me.boxRepair.ResumeLayout(False)
-        Me.boxRepair.PerformLayout()
         Me.tabRepair.ResumeLayout(False)
         Me.RepInfo.ResumeLayout(False)
         Me.RepInfo.PerformLayout()
         Me.RetInfo.ResumeLayout(False)
         Me.RetInfo.PerformLayout()
-        Me.boxDeliver.ResumeLayout(False)
-        Me.boxDeliver.PerformLayout()
         Me.MenuStrip.ResumeLayout(False)
         Me.MenuStrip.PerformLayout()
         CType(Me.imgRepair, System.ComponentModel.ISupportInitialize).EndInit()
         Me.PanelMain.ResumeLayout(False)
         Me.PanelMain.PerformLayout()
-        Me.grpAdvancePay.ResumeLayout(False)
-        CType(Me.grdAdvance, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.grpActivity.ResumeLayout(False)
-        CType(Me.grdActivity, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.grpRepTask.ResumeLayout(False)
-        CType(Me.grdRepTask, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.grdRepRemarks2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.grdRepRemarks1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.boxItem.ResumeLayout(False)
-        CType(Me.grdTechnicianCost, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1482,15 +881,7 @@ Partial Class FormRepair
     Friend WithEvents Label10 As System.Windows.Forms.Label
     Friend WithEvents txtPProblem As System.Windows.Forms.TextBox
     Friend WithEvents lblPProblem As System.Windows.Forms.Label
-    Friend WithEvents boxTechnician As System.Windows.Forms.GroupBox
-    Friend WithEvents Label19 As System.Windows.Forms.Label
-    Friend WithEvents cmbTName As System.Windows.Forms.ComboBox
     Friend WithEvents txtRNo As System.Windows.Forms.TextBox
-    Friend WithEvents boxRepair As System.Windows.Forms.GroupBox
-    Friend WithEvents txtRepDate As System.Windows.Forms.DateTimePicker
-    Friend WithEvents Label27 As System.Windows.Forms.Label
-    Friend WithEvents txtRepPrice As System.Windows.Forms.TextBox
-    Friend WithEvents Label3 As System.Windows.Forms.Label
     Friend WithEvents lblRepRemarks1 As System.Windows.Forms.Label
     Friend WithEvents cmdClose As System.Windows.Forms.Button
     Friend WithEvents cmdSave As System.Windows.Forms.Button
@@ -1506,19 +897,9 @@ Partial Class FormRepair
     Friend WithEvents cmbRetStatus As System.Windows.Forms.ComboBox
     Friend WithEvents Label29 As System.Windows.Forms.Label
     Friend WithEvents Label30 As System.Windows.Forms.Label
-    Friend WithEvents boxDeliver As System.Windows.Forms.GroupBox
-    Friend WithEvents Label31 As System.Windows.Forms.Label
-    Friend WithEvents txtDDate As System.Windows.Forms.DateTimePicker
-    Friend WithEvents txtDNo As System.Windows.Forms.TextBox
-    Friend WithEvents lblRepRemarks2 As System.Windows.Forms.Label
-    Friend WithEvents cmdTView As System.Windows.Forms.Button
     Friend WithEvents cmdCuView As System.Windows.Forms.Button
     Friend WithEvents cmdPView As System.Windows.Forms.Button
-    Friend WithEvents txtDPaidPrice As System.Windows.Forms.TextBox
-    Friend WithEvents Label21 As System.Windows.Forms.Label
     Friend WithEvents Label34 As System.Windows.Forms.Label
-    Friend WithEvents Label35 As System.Windows.Forms.Label
-    Friend WithEvents Label33 As System.Windows.Forms.Label
     Friend WithEvents cmbRetNo As System.Windows.Forms.ComboBox
     Friend WithEvents MenuStrip As System.Windows.Forms.MenuStrip
     Friend WithEvents OPTIONToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
@@ -1539,49 +920,13 @@ Partial Class FormRepair
     Friend WithEvents imgRepair As PictureBox
     Friend WithEvents PrintDeliverReceiptToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents PanelMain As System.Windows.Forms.Panel
-    Friend WithEvents boxItem As GroupBox
-    Friend WithEvents grdTechnicianCost As DataGridView
     Friend WithEvents grdRepRemarks1 As DataGridView
     Friend WithEvents cmbLocation As ComboBox
     Friend WithEvents lblLocation As Label
-    Friend WithEvents grdRepRemarks2 As DataGridView
-    Friend WithEvents grpActivity As GroupBox
-    Friend WithEvents grdActivity As DataGridView
-    Friend WithEvents grpRepTask As GroupBox
-    Friend WithEvents grdRepTask As DataGridView
-    Friend WithEvents grpAdvancePay As GroupBox
-    Friend WithEvents grdAdvance As DataGridView
-    Friend WithEvents AdvancePayAVNo As DataGridViewTextBoxColumn
-    Friend WithEvents AdvancePayDate As DataGridViewTextBoxColumn
-    Friend WithEvents AdvancePayPrice As DataGridViewTextBoxColumn
-    Friend WithEvents AdvancePayRemarks As DataGridViewTextBoxColumn
-    Friend WithEvents TCNo As DataGridViewTextBoxColumn
-    Friend WithEvents TCDate As DataGridViewTextBoxColumn
-    Friend WithEvents Sno As DataGridViewTextBoxColumn
-    Friend WithEvents SCategory As DataGridViewTextBoxColumn
-    Friend WithEvents SName As DataGridViewTextBoxColumn
-    Friend WithEvents Rate As DataGridViewTextBoxColumn
-    Friend WithEvents Qty As DataGridViewTextBoxColumn
-    Friend WithEvents Total As DataGridViewTextBoxColumn
-    Friend WithEvents TCRemarks As DataGridViewTextBoxColumn
-    Friend WithEvents UName As DataGridViewTextBoxColumn
     Friend WithEvents bgPrintReport As System.ComponentModel.BackgroundWorker
-    Friend WithEvents TaskTNo As DataGridViewTextBoxColumn
-    Friend WithEvents TaskDate As DataGridViewTextBoxColumn
-    Friend WithEvents TaskAction As DataGridViewTextBoxColumn
-    Friend WithEvents TaskRemarks As DataGridViewTextBoxColumn
-    Friend WithEvents TStatus As DataGridViewTextBoxColumn
-    Friend WithEvents Rem2No As DataGridViewTextBoxColumn
-    Friend WithEvents RepRemarks2Date As DataGridViewTextBoxColumn
-    Friend WithEvents RepRemarks2Remarks As DataGridViewTextBoxColumn
-    Friend WithEvents Rem2User As DataGridViewTextBoxColumn
     Friend WithEvents Rem1No As DataGridViewTextBoxColumn
     Friend WithEvents Rem1Date As DataGridViewTextBoxColumn
     Friend WithEvents Rem1Remarks As DataGridViewTextBoxColumn
     Friend WithEvents Rem1UNo As DataGridViewTextBoxColumn
-    Friend WithEvents ANo As DataGridViewTextBoxColumn
-    Friend WithEvents ActivityDate As DataGridViewTextBoxColumn
-    Friend WithEvents ActivityActivity As DataGridViewTextBoxColumn
-    Friend WithEvents AUserName As DataGridViewTextBoxColumn
     Friend WithEvents cmbRetRepNo As ComboBox
 End Class
