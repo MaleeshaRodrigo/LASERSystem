@@ -27,11 +27,11 @@ Public Class frmMessage
             Case "Message"
                 TabControl.TabPages.Add(tabMsg)
                 cmbField.Text = "Repair"
-                If frmRepair.txtCuTelNo1.Text <> "          " Then
-                    Dim str As String = frmRepair.txtCuTelNo1.Text.TrimStart("0"c)
+                If FormRepair.txtCuTelNo1.Text <> "          " Then
+                    Dim str As String = FormRepair.txtCuTelNo1.Text.TrimStart("0"c)
                     txtPhoneNo.Text = "94" + str.Replace(" ", [String].Empty)
                 End If
-                With frmRepair
+                With FormRepair
                     If .cmbRepStatus.Text = "Hand Over to Technician" Then
                         txtMessage.Text = .cmbCuName.Text + ", ඔබ LASER Electronics ආයතනයට ලබාදුන් " + .cmbPName.Text + " " + .cmbPCategory.Text + " අයිතමය Technician හට භාර දී ඇත."
                     ElseIf .cmbRepStatus.Text = "Repaired Not Delivered" Then

@@ -165,7 +165,7 @@ Public Class frmRepairAdvanced
     End Sub
 
     Private Sub cmdRepView_Click(sender As Object, e As EventArgs) Handles cmdRepView.Click
-        Dim frm As New frmRepair
+        Dim frm As New FormRepair
         If cmbRepNo.Text <> "0" Then
             With frm
                 .Name = "frmRepair" + NextfrmNo(frm).ToString
