@@ -15,4 +15,8 @@ Public Class ControlReRepairView
         GridReRepairView.DataSource = DataTable
     End Sub
 
+    Public Sub Clear()
+        GridReRepairView.Rows.Clear()
+    End Sub
+
 End Class

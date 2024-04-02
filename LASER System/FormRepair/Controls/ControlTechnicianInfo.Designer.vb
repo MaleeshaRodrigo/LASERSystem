@@ -23,14 +23,14 @@ Partial Class ControlTechnicianInfo
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.grdRepRemarks2 = New System.Windows.Forms.DataGridView()
-        Me.Rem2No = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.RepRemarks2Date = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.RepRemarks2Remarks = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Rem2User = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.boxTechnician = New System.Windows.Forms.GroupBox()
         Me.cmbTName = New System.Windows.Forms.ComboBox()
         Me.Label19 = New System.Windows.Forms.Label()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.Rem2No = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.RepRemarks2Date = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.RepRemarks2Remarks = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Rem2User = New System.Windows.Forms.DataGridViewTextBoxColumn()
         CType(Me.grdRepRemarks2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.boxTechnician.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -47,35 +47,6 @@ Partial Class ControlTechnicianInfo
         Me.grdRepRemarks2.Name = "grdRepRemarks2"
         Me.grdRepRemarks2.Size = New System.Drawing.Size(503, 115)
         Me.grdRepRemarks2.TabIndex = 66
-        '
-        'Rem2No
-        '
-        Me.Rem2No.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader
-        Me.Rem2No.HeaderText = "No"
-        Me.Rem2No.Name = "Rem2No"
-        Me.Rem2No.ReadOnly = True
-        Me.Rem2No.Visible = False
-        '
-        'RepRemarks2Date
-        '
-        Me.RepRemarks2Date.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        Me.RepRemarks2Date.HeaderText = "Date"
-        Me.RepRemarks2Date.Name = "RepRemarks2Date"
-        Me.RepRemarks2Date.Width = 58
-        '
-        'RepRemarks2Remarks
-        '
-        Me.RepRemarks2Remarks.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.RepRemarks2Remarks.HeaderText = "Remarks"
-        Me.RepRemarks2Remarks.Name = "RepRemarks2Remarks"
-        '
-        'Rem2User
-        '
-        Me.Rem2User.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        Me.Rem2User.HeaderText = "User"
-        Me.Rem2User.Name = "Rem2User"
-        Me.Rem2User.ReadOnly = True
-        Me.Rem2User.Width = 57
         '
         'boxTechnician
         '
@@ -121,6 +92,40 @@ Partial Class ControlTechnicianInfo
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Remarks(by Technician):"
         '
+        'Rem2No
+        '
+        Me.Rem2No.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader
+        Me.Rem2No.DataPropertyName = "Rem2No"
+        Me.Rem2No.HeaderText = "No"
+        Me.Rem2No.Name = "Rem2No"
+        Me.Rem2No.ReadOnly = True
+        Me.Rem2No.Visible = False
+        Me.Rem2No.Width = 5
+        '
+        'RepRemarks2Date
+        '
+        Me.RepRemarks2Date.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
+        Me.RepRemarks2Date.DataPropertyName = "Rem2Date"
+        Me.RepRemarks2Date.HeaderText = "Date"
+        Me.RepRemarks2Date.Name = "RepRemarks2Date"
+        Me.RepRemarks2Date.Width = 58
+        '
+        'RepRemarks2Remarks
+        '
+        Me.RepRemarks2Remarks.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.RepRemarks2Remarks.DataPropertyName = "Remarks"
+        Me.RepRemarks2Remarks.HeaderText = "Remarks"
+        Me.RepRemarks2Remarks.Name = "RepRemarks2Remarks"
+        '
+        'Rem2User
+        '
+        Me.Rem2User.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
+        Me.Rem2User.DataPropertyName = "UserName"
+        Me.Rem2User.HeaderText = "User"
+        Me.Rem2User.Name = "Rem2User"
+        Me.Rem2User.ReadOnly = True
+        Me.Rem2User.Width = 57
+        '
         'ControlTechnicianInfo
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 14.0!)
@@ -139,12 +144,12 @@ Partial Class ControlTechnicianInfo
     End Sub
 
     Friend WithEvents grdRepRemarks2 As DataGridView
-    Friend WithEvents Rem2No As DataGridViewTextBoxColumn
-    Friend WithEvents RepRemarks2Date As DataGridViewTextBoxColumn
-    Friend WithEvents RepRemarks2Remarks As DataGridViewTextBoxColumn
-    Friend WithEvents Rem2User As DataGridViewTextBoxColumn
     Friend WithEvents boxTechnician As GroupBox
     Friend WithEvents cmbTName As ComboBox
     Friend WithEvents Label19 As Label
     Friend WithEvents GroupBox1 As GroupBox
+    Friend WithEvents Rem2No As DataGridViewTextBoxColumn
+    Friend WithEvents RepRemarks2Date As DataGridViewTextBoxColumn
+    Friend WithEvents RepRemarks2Remarks As DataGridViewTextBoxColumn
+    Friend WithEvents Rem2User As DataGridViewTextBoxColumn
 End Class

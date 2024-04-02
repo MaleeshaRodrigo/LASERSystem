@@ -66,14 +66,17 @@ Partial Class ControlActivityInfo
         'ANo
         '
         Me.ANo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader
+        Me.ANo.DataPropertyName = "RepANo"
         Me.ANo.HeaderText = "No"
         Me.ANo.Name = "ANo"
         Me.ANo.ReadOnly = True
         Me.ANo.Visible = False
+        Me.ANo.Width = 5
         '
         'ActivityDate
         '
         Me.ActivityDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
+        Me.ActivityDate.DataPropertyName = "RepADate"
         Me.ActivityDate.HeaderText = "Date"
         Me.ActivityDate.Name = "ActivityDate"
         Me.ActivityDate.ReadOnly = True
@@ -82,6 +85,7 @@ Partial Class ControlActivityInfo
         'ActivityActivity
         '
         Me.ActivityActivity.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.ActivityActivity.DataPropertyName = "Activity"
         DataGridViewCellStyle1.Font = New System.Drawing.Font("Nirmala UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
         Me.ActivityActivity.DefaultCellStyle = DataGridViewCellStyle1
@@ -92,6 +96,7 @@ Partial Class ControlActivityInfo
         'AUserName
         '
         Me.AUserName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
+        Me.AUserName.DataPropertyName = "UserName"
         Me.AUserName.HeaderText = "User"
         Me.AUserName.Name = "AUserName"
         Me.AUserName.ReadOnly = True
