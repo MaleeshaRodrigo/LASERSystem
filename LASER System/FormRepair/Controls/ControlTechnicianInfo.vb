@@ -9,18 +9,17 @@ Public Class ControlTechnicianInfo
         InitializeComponent()
 
         Me.DB = DB
-        Me.FormParent = ParentForm
+        FormParent = ParentForm
     End Sub
 
-    Public Sub Init(RepNo As Integer, TechnicianName As String, DeliveredDate As String)
-        cmbTName.Text = TechnicianName 'fill fields Technician details
+    Public Sub Init()
+        cmbTName.Text = FormParent.DataReaderRepair("TName").ToString()
         Dim DataTable = DB.GetDataTable("Select Rem2No, Rem2Date, Remarks, UserName from RepairRemarks2 RepRem2 LEFT JOIN [User] U ON U.UNo=RepRem2.UNo Where RepNo=@REPNO;", {
-                                        New OleDbParameter("REPNO", RepNo)
+                                        New OleDbParameter("REPNO", FormParent.DataReaderRepair("RepNo").ToString())
                                     })
         grdRepRemarks2.DataSource = DataTable
-        If User.Instance.UserType <> User.Type.Admin AndAlso
-            DeliveredDate <> "" AndAlso
-            DateValue(DeliveredDate).Month <> Today.Month Then
+        Dim DeliveredDate As String = FormParent.DataReaderRepair("DDate").ToString()
+        If User.Instance.UserType <> User.Type.Admin AndAlso DeliveredDate <> "" AndAlso DateValue(DeliveredDate).Month <> Today.Month Then
             grdRepRemarks2.ReadOnly = True
         End If
 

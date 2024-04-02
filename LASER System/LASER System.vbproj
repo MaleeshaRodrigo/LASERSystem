@@ -159,6 +159,7 @@
     <Compile Include="Classes\Validators\ExecuteValidators.vb" />
     <Compile Include="Classes\Validators\NumberValidator.vb" />
     <Compile Include="Classes\Validators\RequiredValidator.vb" />
+    <Compile Include="Enums\RepairMode.vb" />
     <Compile Include="FormDeliver\Controls\ControlPopUp.Designer.vb">
       <DependentUpon>ControlPopUp.vb</DependentUpon>
     </Compile>
@@ -177,16 +178,16 @@
     <Compile Include="FormRepair\Controls\ControlAdvancePayInfo.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="FormRepair\Controls\ControlDeliverInfo.Designer.vb">
-      <DependentUpon>ControlDeliverInfo.vb</DependentUpon>
+    <Compile Include="FormRepair\Controls\ControlRemarks.Designer.vb">
+      <DependentUpon>ControlRemarks.vb</DependentUpon>
     </Compile>
-    <Compile Include="FormRepair\Controls\ControlDeliverInfo.vb">
+    <Compile Include="FormRepair\Controls\ControlRemarks.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="FormRepair\Controls\ControlRepairPrice&amp;DateInfo.Designer.vb">
-      <DependentUpon>ControlRepairPrice&amp;DateInfo.vb</DependentUpon>
+    <Compile Include="FormRepair\Controls\ControlRepairDeliverInfo.Designer.vb">
+      <DependentUpon>ControlRepairDeliverInfo.vb</DependentUpon>
     </Compile>
-    <Compile Include="FormRepair\Controls\ControlRepairPrice&amp;DateInfo.vb">
+    <Compile Include="FormRepair\Controls\ControlRepairDeliverInfo.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="FormRepair\Controls\ControlReRepairView.Designer.vb">
@@ -483,11 +484,11 @@
     <EmbeddedResource Include="FormRepair\Controls\ControlAdvancePayInfo.resx">
       <DependentUpon>ControlAdvancePayInfo.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormRepair\Controls\ControlDeliverInfo.resx">
-      <DependentUpon>ControlDeliverInfo.vb</DependentUpon>
+    <EmbeddedResource Include="FormRepair\Controls\ControlRemarks.resx">
+      <DependentUpon>ControlRemarks.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormRepair\Controls\ControlRepairPrice&amp;DateInfo.resx">
-      <DependentUpon>ControlRepairPrice&amp;DateInfo.vb</DependentUpon>
+    <EmbeddedResource Include="FormRepair\Controls\ControlRepairDeliverInfo.resx">
+      <DependentUpon>ControlRepairDeliverInfo.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormRepair\Controls\ControlReRepairView.resx">
       <DependentUpon>ControlReRepairView.vb</DependentUpon>

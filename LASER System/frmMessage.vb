@@ -33,14 +33,14 @@ Public Class frmMessage
                 End If
                 With FormRepair
                     If .cmbRepStatus.Text = "Hand Over to Technician" Then
-                        txtMessage.Text = .cmbCuName.Text + ", ඔබ LASER Electronics ආයතනයට ලබාදුන් " + .cmbPName.Text + " " + .cmbPCategory.Text + " අයිතමය Technician හට භාර දී ඇත."
+                        txtMessage.Text = .TextCuName.Text + ", ඔබ LASER Electronics ආයතනයට ලබාදුන් " + .cmbPName.Text + " " + .cmbPCategory.Text + " අයිතමය Technician හට භාර දී ඇත."
                     ElseIf .cmbRepStatus.Text = "Repaired Not Delivered" Then
-                        txtMessage.Text = .cmbCuName.Text + ", ඔබ LASER Electronics ආයතනයට ලබාදුන් " + .cmbPName.Text + " " + .cmbPCategory.Text + " අයිතමය සාදා අවසන් බැවින් එය ගෙවා රැගෙනයන මෙන් ඉල්ලා සිටින අතර එහි ගාස්තුව Rs." + .txtRepPrice.Text + " වේ."
+                        txtMessage.Text = .TextCuName.Text + ", ඔබ LASER Electronics ආයතනයට ලබාදුන් " + .cmbPName.Text + " " + .cmbPCategory.Text + " අයිතමය සාදා අවසන් බැවින් එය ගෙවා රැගෙනයන මෙන් ඉල්ලා සිටින අතර එහි ගාස්තුව Rs." + .ControlRepairDeliverInfo.txtRepPrice.Text + " වේ."
                     ElseIf .cmbRepStatus.Text = "Returned Not Delivered" Then
-                        If .txtRepPrice.Text = "0" Then
-                            txtMessage.Text = .cmbCuName.Text + ", ඔබ LASER Electronics ආයතනයට ලබාදුන් " + .cmbPName.Text + " " + .cmbPCategory.Text + " අයිතමය සෑදීමට අවශ්‍ය අමතර කොටස් නොමැති බැවින් එය රැගෙන යන මෙන් ඉල්ලා සිටිමු."
+                        If .ControlRepairDeliverInfo.txtRepPrice.Text = "0" Then
+                            txtMessage.Text = .TextCuName.Text + ", ඔබ LASER Electronics ආයතනයට ලබාදුන් " + .cmbPName.Text + " " + .cmbPCategory.Text + " අයිතමය සෑදීමට අවශ්‍ය අමතර කොටස් නොමැති බැවින් එය රැගෙන යන මෙන් ඉල්ලා සිටිමු."
                         Else
-                            txtMessage.Text = .cmbCuName.Text + ", ඔබ LASER Electronics ආයතනයට ලබාදුන් " + .cmbPName.Text + " " + .cmbPCategory.Text + " අයිතමය සෑදීමට අවශ්‍ය අමතර කොටස් නොමැති බැවින් එය රැගෙන යන මෙන් ඉල්ලා සිටින අතර ඒ සඳහා Rs." + .txtRepPrice.Text + " අය කෙරෙයි."
+                            txtMessage.Text = .TextCuName.Text + ", ඔබ LASER Electronics ආයතනයට ලබාදුන් " + .cmbPName.Text + " " + .cmbPCategory.Text + " අයිතමය සෑදීමට අවශ්‍ය අමතර කොටස් නොමැති බැවින් එය රැගෙන යන මෙන් ඉල්ලා සිටින අතර ඒ සඳහා Rs." + .ControlRepairDeliverInfo.txtRepPrice.Text + " අය කෙරෙයි."
                         End If
                     End If
                 End With
