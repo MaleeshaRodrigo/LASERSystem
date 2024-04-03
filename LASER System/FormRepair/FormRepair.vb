@@ -116,6 +116,7 @@ Public Class FormRepair
             ControlTechnicianInfo = New ControlTechnicianInfo(Db, Me)
             ControlTechnicianInfo.Init()
             PanelMain.Controls.Add(ControlTechnicianInfo)
+            PanelMain.Controls.SetChildIndex(ControlTechnicianInfo, 2)
             If cmbRepStatus.Text = "Hand Over to Technician" Then
                 Exit Try
             End If
@@ -123,20 +124,32 @@ Public Class FormRepair
             ControlTechnicianCostInfo = New ControlTechnicianCostInfo(Db, Me)
             ControlTechnicianCostInfo.Init(cmbRepNo.Text)
             PanelMain.Controls.Add(ControlTechnicianCostInfo)
+            PanelMain.Controls.SetChildIndex(ControlTechnicianCostInfo, 3)
             If cmbRepStatus.Text = "Repairing" Then
                 Exit Try
             End If
 
             ControlRepairDeliverInfo = New ControlRepairDeliverInfo(Db)
-            ControlRepairDeliverInfo.SetRepDetails(DataReaderRepair("Charge").ToString, DataReaderRepair("RepDate").ToString).InvisibleDeliverInfo()
+            ControlRepairDeliverInfo.SetRepDetails(
+                DataReaderRepair("Charge").ToString,
+                DataReaderRepair("RepDate").ToString
+                ).InvisibleDeliverInfo()
+            PanelMain.Controls.Add(ControlRepairDeliverInfo)
+            PanelMain.Controls.SetChildIndex(ControlTechnicianInfo, 4)
             If cmbRepStatus.Text = "Repaired Not Delivered" Or cmbRepStatus.Text = "Returned Not Delivered" Then
                 Exit Try
             End If
 
-            ControlRepairDeliverInfo.SetDeliverDetails(DataReaderRepair("DNo").ToString, DataReaderRepair("PaidPrice").ToString, DataReaderRepair("DDate").ToString).VisibleDeliverInfo()
+            ControlRepairDeliverInfo.SetDeliverDetails(
+                DataReaderRepair("DNo").ToString,
+                DataReaderRepair("PaidPrice").ToString,
+                DataReaderRepair("DDate").ToString
+                ).VisibleDeliverInfo()
             If (cmbRepStatus.Text = "Repaired Delivered" Or cmbRepStatus.Text = "Returned Delivered") And User.Instance.UserType <> User.Type.Admin And DateValue(DataReaderRepair("DDate").ToString).Month <> Today.Month Then
-                PanelMain.Enabled = False
-                For Each Item As Control In {boxReceive, boxProduct, boxCustomer, txtPProblem}
+                For Each Item As Control In {boxReceive, boxProduct, boxCustomer, txtPProblem, ControlActivityInfo, ControlAdvancePayInfo, ControlRemarks, ControlRepairDeliverInfo, ControlReRepairView, ControlTaskInfo, ControlTechnicianCostInfo, ControlTechnicianInfo}
+                    If Item Is Nothing Then
+                        Continue For
+                    End If
                     Item.Enabled = False
                 Next
             End If

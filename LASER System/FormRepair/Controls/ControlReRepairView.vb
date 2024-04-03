@@ -16,6 +16,7 @@ Public Class ControlReRepairView
     End Sub
 
     Public Sub Clear()
+        GridReRepairView.DataSource = Nothing
         GridReRepairView.Rows.Clear()
     End Sub
 
