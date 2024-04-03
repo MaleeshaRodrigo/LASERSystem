@@ -35,7 +35,7 @@ Public Class frmCustomer
         End If
         Select Case Me.Tag
             Case "Repair"
-                cmbCuName.Text = frmRepair.cmbCuName.Text
+                cmbCuName.Text = FormRepair.TextCuName.Text
                 Call cmbCuName_SelectedIndexChanged(Nothing, Nothing)
         End Select
     End Sub
@@ -140,9 +140,12 @@ Public Class frmCustomer
                     End If
                 Next
             Case "Repair"
-                With frmRepair
-                    .cmbCuName.Text = Me.cmbCuName.Text
-                    Call .CmbCuName_SelectedIndexChanged(sender, e)
+                With FormRepair
+                    .TextCuName.Text = cmbCuName.Text
+                    .txtCuNo.Text = txtCuNo.Text
+                    .txtCuTelNo1.Text = txtCuTelNo1.Text
+                    .txtCuTelNo2.Text = txtCuTelNo2.Text
+                    .txtCuTelNo3.Text = txtCuTelNo3.Text
                 End With
         End Select
         Me.Close()
