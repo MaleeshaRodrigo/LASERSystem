@@ -159,10 +159,59 @@
     <Compile Include="Classes\Validators\ExecuteValidators.vb" />
     <Compile Include="Classes\Validators\NumberValidator.vb" />
     <Compile Include="Classes\Validators\RequiredValidator.vb" />
+    <Compile Include="Enums\RepairMode.vb" />
     <Compile Include="FormDeliver\Controls\ControlPopUp.Designer.vb">
       <DependentUpon>ControlPopUp.vb</DependentUpon>
     </Compile>
     <Compile Include="FormDeliver\Controls\ControlPopUp.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FormRepair\Controls\ControlActivityInfo.Designer.vb">
+      <DependentUpon>ControlActivityInfo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormRepair\Controls\ControlActivityInfo.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FormRepair\Controls\ControlAdvancePayInfo.Designer.vb">
+      <DependentUpon>ControlAdvancePayInfo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormRepair\Controls\ControlAdvancePayInfo.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FormRepair\Controls\ControlRemarks.Designer.vb">
+      <DependentUpon>ControlRemarks.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormRepair\Controls\ControlRemarks.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FormRepair\Controls\ControlRepairDeliverInfo.Designer.vb">
+      <DependentUpon>ControlRepairDeliverInfo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormRepair\Controls\ControlRepairDeliverInfo.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FormRepair\Controls\ControlReRepairView.Designer.vb">
+      <DependentUpon>ControlReRepairView.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormRepair\Controls\ControlReRepairView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FormRepair\Controls\ControlTaskInfo.Designer.vb">
+      <DependentUpon>ControlTaskInfo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormRepair\Controls\ControlTaskInfo.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FormRepair\Controls\ControlTechnicianCostInfo.Designer.vb">
+      <DependentUpon>ControlTechnicianCostInfo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormRepair\Controls\ControlTechnicianCostInfo.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FormRepair\Controls\ControlTechnicianInfo.Designer.vb">
+      <DependentUpon>ControlTechnicianInfo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormRepair\Controls\ControlTechnicianInfo.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Interfaces\Validator.vb" />
@@ -226,10 +275,10 @@
     <Compile Include="frmReceive.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmRepair.Designer.vb">
-      <DependentUpon>frmRepair.vb</DependentUpon>
+    <Compile Include="FormRepair\FormRepair.Designer.vb">
+      <DependentUpon>FormRepair.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmRepair.vb">
+    <Compile Include="FormRepair\FormRepair.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmRepairAdvanced.Designer.vb">
@@ -429,6 +478,30 @@
     <EmbeddedResource Include="FormDeliver\Controls\ControlPopUp.resx">
       <DependentUpon>ControlPopUp.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormRepair\Controls\ControlActivityInfo.resx">
+      <DependentUpon>ControlActivityInfo.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormRepair\Controls\ControlAdvancePayInfo.resx">
+      <DependentUpon>ControlAdvancePayInfo.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormRepair\Controls\ControlRemarks.resx">
+      <DependentUpon>ControlRemarks.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormRepair\Controls\ControlRepairDeliverInfo.resx">
+      <DependentUpon>ControlRepairDeliverInfo.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormRepair\Controls\ControlReRepairView.resx">
+      <DependentUpon>ControlReRepairView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormRepair\Controls\ControlTaskInfo.resx">
+      <DependentUpon>ControlTaskInfo.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormRepair\Controls\ControlTechnicianCostInfo.resx">
+      <DependentUpon>ControlTechnicianCostInfo.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormRepair\Controls\ControlTechnicianInfo.resx">
+      <DependentUpon>ControlTechnicianInfo.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmCustomer.resx">
       <DependentUpon>frmCustomer.vb</DependentUpon>
     </EmbeddedResource>
@@ -450,8 +523,8 @@
     <EmbeddedResource Include="frmReceive.resx">
       <DependentUpon>frmReceive.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmRepair.resx">
-      <DependentUpon>frmRepair.vb</DependentUpon>
+    <EmbeddedResource Include="FormRepair\FormRepair.resx">
+      <DependentUpon>FormRepair.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmRepairAdvanced.resx">
       <DependentUpon>frmRepairAdvanced.vb</DependentUpon>

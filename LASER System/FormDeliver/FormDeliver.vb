@@ -182,7 +182,7 @@ Public Class FormDeliver
                     If DRD("Status").ToString = "Repaired Delivered" Or DRD("Status").ToString = "Returned Delivered" Then
                         If MsgBox("මෙම Repair එක දැනටමත් Customer විසින් රැගෙන ගොස් ඇත." + vbCrLf + "ඔබට එම Repair එක විවෘත කිරිමට අවශ්‍යද?",
                                   vbInformation + vbYesNo) = vbYes Then
-                            Dim frm As New frmRepair
+                            Dim frm As New FormRepair
                             With frm
                                 .tabRepair.SelectTab(0)
                                 .Show(Me)
@@ -193,7 +193,7 @@ Public Class FormDeliver
                         grdRepair.Rows.RemoveAt(grdRepair.CurrentCell.RowIndex)
                     ElseIf DRD("Status").ToString = "Canceled" Then
                         If MsgBox("මෙම Repair එක Canceled කර ඇත." + vbCrLf + "ඔබට එම Repair එක විවෘත කිරිමට අවශ්‍යද?", vbInformation + vbYesNo) = vbYes Then
-                            Dim frm As New frmRepair
+                            Dim frm As New FormRepair
                             With frm
                                 .tabRepair.SelectTab(0)
                                 .Show(Me)
@@ -351,7 +351,7 @@ Public Class FormDeliver
                     DR.Read()
                     If DR("Status").ToString = "Repaired Delivered" Or DR("Status").ToString = "Returned Delivered" Then
                         If MsgBox("මෙම RERepair එක දැනටමත් Customer විසින් රැගෙන ගොස් ඇත." + vbCrLf + "ඔබට එම RERepair එක විවෘත කිරිමට අවශ්‍යද?", vbInformation + vbYesNo) = vbYes Then
-                            Dim frm As New frmRepair
+                            Dim frm As New FormRepair
                             With frm
                                 .tabRepair.SelectTab(1)
                                 .Show(Me)
@@ -362,7 +362,7 @@ Public Class FormDeliver
                         grdRERepair.Rows.RemoveAt(grdRERepair.CurrentCell.RowIndex)
                     ElseIf DR("Status").ToString = "Canceled" Then
                         If MsgBox("මෙම RERepair එක Canceled කර ඇත." + vbCrLf + "ඔබට එම RERepair එක විවෘත කිරිමට අවශ්‍යද?", vbInformation + vbYesNo) = vbYes Then
-                            Dim frm As New frmRepair
+                            Dim frm As New FormRepair
                             With frm
                                 .tabRepair.SelectTab(1)
                                 .Show(Me)
@@ -421,7 +421,7 @@ Public Class FormDeliver
     End Sub
 
     Private Sub SearchRepairsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SearchRepairsToolStripMenuItem.Click
-        Dim frm As New frmRepair
+        Dim frm As New FormRepair
         If Me.ActiveControl Is grdRepair Then
             frm.Tag = "DeliverRepair"
             frm.tabRepair.SelectTab(0)
