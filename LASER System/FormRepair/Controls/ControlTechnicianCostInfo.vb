@@ -11,9 +11,16 @@ Public Class ControlTechnicianCostInfo
         Me.ParentRepairForm = ParentForm
     End Sub
 
-    Public Sub Init(RepNo As Integer)
+    Public Sub InitForRepair(RepNo As Integer)
         Dim DataTable = Db.GetDataTable("SELECT TCNo,TCDate,TC.SNo,S.SCategory,S.SName,Rate,Qty,Total,TCRemarks,UserName FROM (Stock S INNER JOIN TechnicianCost TC ON TC.SNo = S.SNo) LEFT JOIN [User] U ON U.UNo = TC.UNo WHERE RepNo=@REPNO;", {
             New OleDbParameter("REPNO", RepNo)
+                                        })
+        grdTechnicianCost.DataSource = DataTable
+    End Sub
+
+    Public Sub InitForReRepair(ReRepNo As Integer)
+        Dim DataTable = Db.GetDataTable("SELECT TCNo,TCDate,TC.SNo,S.SCategory,S.SName,Rate,Qty,Total,TCRemarks,UserName FROM (Stock S INNER JOIN TechnicianCost TC ON TC.SNo = S.SNo) LEFT JOIN [User] U ON U.UNo = TC.UNo WHERE RetNo=@REREPNO;", {
+            New OleDbParameter("REREPNO", ReRepNo)
                                         })
         grdTechnicianCost.DataSource = DataTable
     End Sub

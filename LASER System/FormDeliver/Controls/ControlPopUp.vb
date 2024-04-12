@@ -139,51 +139,47 @@ Public Class ControlPopUp
                    New OleDbParameter("DNO", DNo)
             }, AdminPer)
         End If
-        If FormParent.grdRepair.Rows.Count > 1 Then
-            For Each Row1 As DataGridViewRow In FormParent.grdRepair.Rows
-                If Row1.Index = FormParent.grdRepair.Rows.Count - 1 Then Continue For
-                Dim DrRepStatus As OleDbDataReader = Db.GetDataReader("Select Status,RepNo from Repair where RepNo=" & Row1.Cells(0).Value)
-                If DrRepStatus.HasRows = True Then
-                    DrRepStatus.Read()
-                    If DrRepStatus("Status").ToString = "Received" Or DrRepStatus("Status").ToString = "Hand Over to Technician" Or
+        For Each Row1 As DataGridViewRow In FormParent.grdRepair.Rows
+            If Row1.Index = FormParent.grdRepair.Rows.Count - 1 Then Continue For
+            Dim DrRepStatus As OleDbDataReader = Db.GetDataReader("Select Status,RepNo from Repair where RepNo=" & Row1.Cells(0).Value)
+            If DrRepStatus.HasRows = True Then
+                DrRepStatus.Read()
+                If DrRepStatus("Status").ToString = "Received" Or DrRepStatus("Status").ToString = "Hand Over to Technician" Or
                         DrRepStatus("Status").ToString = "Repairing" Then
-                        Db.Execute("Update Repair set RepDate = @REPDATE,Charge=@CHARGE where RepNo=@REPNO;", {
+                    Db.Execute("Update Repair set RepDate = @REPDATE,Charge=@CHARGE where RepNo=@REPNO;", {
                             New OleDbParameter("REPDATE", FormParent.txtDDate.Value.ToString),
                             New OleDbParameter("CHARGE", Row1.Cells(4).Value),
                             New OleDbParameter("REPNO", Row1.Cells(0).Value)
                         }, AdminPer)
-                    End If
                 End If
-                Db.Execute($"UPDATE Repair SET PaidPrice = @PAIDPRICE,TNo = DLookup('TNo', 'Technician', 'TName=""{Row1.Cells(5).Value}""'),[Status]=@STATUS,DNo = @DNO WHERE RepNo=@REPNO;", {
+            End If
+            Db.Execute($"UPDATE Repair SET PaidPrice = @PAIDPRICE,TNo = DLookup('TNo', 'Technician', 'TName=""{Row1.Cells(5).Value}""'),[Status]=@STATUS,DNo = @DNO WHERE RepNo=@REPNO;", {
                            New OleDbParameter("PAIDPRICE", Row1.Cells(4).Value),
                            New OleDbParameter("STATUS", Row1.Cells(6).Value.ToString),
                            New OleDbParameter("DNO", DNo),
                            New OleDbParameter("REPNO", Row1.Cells(0).Value)
                            }, AdminPer)
-            Next
-        End If
-        If FormParent.grdRERepair.Rows.Count > 1 Then
-            For Each Row As DataGridViewRow In FormParent.grdRERepair.Rows
-                If Row.Index = FormParent.grdRERepair.Rows.Count - 1 Then Continue For
-                Dim DrRetStatus As OleDbDataReader = Db.GetDataReader("Select Status,RetNo from Return where RetNo=" & Row.Cells(0).Value)
-                If DrRetStatus.HasRows = True Then
-                    DrRetStatus.Read()
-                    If DrRetStatus("Status").ToString = "Received" Or DrRetStatus("Status").ToString = "Hand Over to Technician" Or DrRetStatus("Status").ToString = "Repairing" Then
-                        Db.Execute("UPDATE `Return` SET RetRepDate = @RETREPDATE,Charge= @CHARGE where RepNo= @REPNO;", {
+        Next
+        For Each Row As DataGridViewRow In FormParent.grdRERepair.Rows
+            If Row.Index = FormParent.grdRERepair.Rows.Count - 1 Then Continue For
+            Dim DrRetStatus As OleDbDataReader = Db.GetDataReader("Select Status,RetNo from Return where RetNo=" & Row.Cells(0).Value)
+            If DrRetStatus.HasRows = True Then
+                DrRetStatus.Read()
+                If DrRetStatus("Status").ToString = "Received" Or DrRetStatus("Status").ToString = "Hand Over to Technician" Or DrRetStatus("Status").ToString = "Repairing" Then
+                    Db.Execute("UPDATE `Return` SET RetRepDate = @RETREPDATE,Charge= @CHARGE where RetNo= @RETNO;", {
                             New OleDbParameter("RETREPDATE", FormParent.txtDDate.Value.ToString),
                             New OleDbParameter("CHARGE", Row.Cells(5).Value.ToString),
-                            New OleDbParameter("REPNO", Row.Cells(0).Value.ToString)
+                            New OleDbParameter("RETNO", Row.Cells(0).Value.ToString)
                         }, AdminPer)
-                    End If
                 End If
-                Db.Execute("Update `Return` set PaidPrice = @PAIDPRICE,TNo = DLookup('TNo', 'Technician', 'TName=""{Row.Cells(6).Value}""'),Status= @STATUS,DNo = @DNO where RetNo= @RETNO", {
+            End If
+            Db.Execute($"Update `Return` set PaidPrice = @PAIDPRICE,TNo = DLookup('TNo', 'Technician', 'TName=""{Row.Cells(6).Value}""'),[Status]= @STATUS,DNo = @DNO where RetNo= @RETNO", {
                             New OleDbParameter("PAIDPRICE", Row.Cells(5).Value.ToString),
                             New OleDbParameter("STATUS", Row.Cells(7).Value.ToString),
                             New OleDbParameter("DNO", DNo),
                             New OleDbParameter("RETNO", Row.Cells(0).Value.ToString)
                            }, AdminPer)
-            Next
-        End If
+        Next
         Return True
     End Function
 
