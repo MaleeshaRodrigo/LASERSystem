@@ -20,13 +20,8 @@
         Return Me
     End Function
 
-    Public Function InvisibleDeliverInfo() As ControlRepairDeliverInfo
-        boxDeliver.Visible = False
-        Return Me
-    End Function
-
-    Public Function VisibleDeliverInfo() As ControlRepairDeliverInfo
-        boxDeliver.Visible = True
+    Public Function SetDeliverInfoVisibility(Visible As Boolean) As ControlRepairDeliverInfo
+        boxDeliver.Visible = Visible
         Return Me
     End Function
 

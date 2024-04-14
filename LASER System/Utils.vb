@@ -49,21 +49,23 @@ Module Utils
         OnlynumberQty(e)
     End Sub
 
-    Public Function CheckEmptyStr(str As String, msg As String) As Boolean
-        CheckEmptyStr = True
-        If str = "" Then
-            MsgBox(msg, vbCritical + vbOKOnly)
+    Public Function CheckEmptyStr(Value As String, Message As String) As Boolean
+        If Value = "" Then
+            MessageBox.Error(Message)
             Return False
         End If
+
+        Return True
     End Function
 
-    Public Function CheckEmptyfield(txt As Control, msg As String) As Boolean
-        CheckEmptyfield = True
-        If String.IsNullOrEmpty(txt.Text.Trim) Then
-            MsgBox(msg, vbCritical + vbOKOnly)
-            txt.Focus()
+    Public Function CheckEmptyControl(TextControl As Control, Message As String) As Boolean
+        If String.IsNullOrEmpty(TextControl.Text.Trim) Then
+            MessageBox.Error(Message)
+            TextControl.Focus()
             Return False
         End If
+
+        Return True
     End Function
 
     ''' <summary>

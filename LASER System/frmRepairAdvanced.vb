@@ -33,7 +33,7 @@ Public Class frmRepairAdvanced
         Dim AdminPer As New AdminPermission(Db)
         If cmbRepNo.Text = "" Then
             MsgBox("Repair No හෝ RE-Repair No එක ඇතුලත් කරන්න.", vbExclamation + vbOKOnly)
-        ElseIf CheckEmptyfield(txtAmount, "Advanced එකෙහි Amount එක ඇතුලත් කරන්න.") = False Then
+        ElseIf CheckEmptyControl(txtAmount, "Advanced එකෙහි Amount එක ඇතුලත් කරන්න.") = False Then
             Exit Sub
         End If
         Select Case cmdSave.Text
@@ -214,7 +214,7 @@ Public Class frmRepairAdvanced
     End Sub
 
     Private Sub PrintRepairAdvancedToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PrintRepairAdvancedToolStripMenuItem.Click
-        If CheckEmptyfield(txtAdNo, "Repair Advanced No එක හිස්ව පවතියි.") = False Then
+        If CheckEmptyControl(txtAdNo, "Repair Advanced No එක හිස්ව පවතියි.") = False Then
             Exit Sub
         ElseIf CheckExistData(Db, txtAdNo, "Select ADNo from RepairAdvanced Where ADNo=" & txtAdNo.Text,
                              "Repair Advanced No එක Database එක තුලින් සොයා ගැනීමට නොහැකි වුණි.", False) = False Then

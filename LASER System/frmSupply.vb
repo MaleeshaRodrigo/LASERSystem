@@ -52,7 +52,7 @@ Public Class frmSupply
             MsgBox("ඔබට Permission නැහැ මෙම Operation එක සිදු කිරීමට")
             Exit Sub
         End If
-        If CheckEmptyfield(cmbSuName, "Supplier Name යන field එක හිස්ව පවතියි. කරුණාකර අදාල Supplier තොරා ගෙන නැවත උත්සහ කරන්න.") = False Then
+        If CheckEmptyControl(cmbSuName, "Supplier Name යන field එක හිස්ව පවතියි. කරුණාකර අදාල Supplier තොරා ගෙන නැවත උත්සහ කරන්න.") = False Then
             Exit Sub
         ElseIf grdSupply.Rows.Count < 2 Then
             MsgBox("ඔබ තවමත් Stock එකක් හො ඇතුලත් කල නැත. කරුණාකර Stock එකක් හෝ ඇතුලත් කර නැවත උත්සහ කරන්න.", vbOKOnly + vbExclamation)
@@ -211,7 +211,7 @@ Public Class frmSupply
             MsgBox("ඔබට Permission නැහැ මෙම Operation එක සිදු කිරීමට")
             Exit Sub
         End If
-        If CheckEmptyfield(txtSupNo, "Supply No was empty. Please check again And Try agin.") = False Then
+        If CheckEmptyControl(txtSupNo, "Supply No was empty. Please check again And Try agin.") = False Then
             Exit Sub
         ElseIf Db.CheckDataExists("Supply", "SupNo", txtSupNo.Text) = False Then
             MsgBox("Supply No was Not exist In the database. Please check it And Try again.", vbCritical + vbOKOnly)

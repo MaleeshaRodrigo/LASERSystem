@@ -4,30 +4,48 @@ Imports System.IO
 Public Class ControlRemarks
     Private DB As Database
     Private ReadOnly DtpDate As New DateTimePicker
-    Private ParentForm As FormRepair
+    Private FormParent As FormRepair
 
     Public Sub New(DB As Database, ParentForm As FormRepair)
         InitializeComponent()
         Me.DB = DB
-        Me.ParentForm = ParentForm
+        Me.FormParent = ParentForm
     End Sub
 
-    Public Sub Init(RepNo As Integer)
-        cmbLocation.Text = ParentForm.DataReaderRepair("Location").ToString
+    Public Sub InitForRepair(RepNo As Integer)
+        cmbLocation.Text = FormParent.DataReaderRepair("Location").ToString
 
         'Adding Data to grdRepRemarks1 
-        Dim DRREPNO1 As OleDbDataReader = DB.GetDataReader("Select * from RepairRemarks1 Where RepNo=@REPNO;", {
+        Dim DRREPNO1 As OleDbDataReader = DB.GetDataReader("Select RepRem.*, UserName from RepairRemarks1 RepRem LEFT JOIN [User] U ON U.UNo=RepRem.UNo Where RepNo=@REPNO;", {
                 New OleDbParameter("REPNO", RepNo)
             })
         grdRepRemarks1.Rows.Clear()
         While DRREPNO1.Read
             grdRepRemarks1.Rows.Add(DRREPNO1("Rem1No").ToString, DRREPNO1("Rem1Date").ToString, DRREPNO1("Remarks").ToString, DB.GetData("Select UserName from [User] Where UNo=" & DRREPNO1("UNo").ToString))
-            If IsDate(ParentForm.DataReaderRepair("DDate")) AndAlso DateValue(ParentForm.DataReaderRepair("DDate")).Month <> Today.Month Then
+            If IsDate(FormParent.DataReaderRepair("DDate")) AndAlso DateValue(FormParent.DataReaderRepair("DDate")).Month <> Today.Month Then
                 grdRepRemarks1.Rows.Item(grdRepRemarks1.Rows.Count - 1).ReadOnly = True
             End If
         End While
 
         Dim FilePath As String = Path.Combine(SystemFolderPath, $"\LASER System\Images\REP-{RepNo}.png")
+        imgRepair.Image = If(File.Exists(FilePath), Image.FromFile(FilePath), Nothing)
+    End Sub
+
+    Public Sub InitForReRepair(ReRepNo As Integer)
+        cmbLocation.Text = FormParent.DataReaderRepair("Location").ToString
+
+        Dim DRREPNO1 As OleDbDataReader = DB.GetDataReader("SELECT RepRem.*, UserName FROM RepairRemarks1 RepRem LEFT JOIN [User] U ON U.UNo=RepRem.UNo WHERE RetNo=@REREPPNO;", {
+                New OleDbParameter("REREPPNO", ReRepNo)
+            })
+        grdRepRemarks1.Rows.Clear()
+        While DRREPNO1.Read
+            grdRepRemarks1.Rows.Add(DRREPNO1("Rem1No").ToString, DRREPNO1("Rem1Date").ToString, DRREPNO1("Remarks").ToString, DRREPNO1("UserName").ToString)
+            If IsDate(FormParent.DataReaderRepair("DDate")) AndAlso DateValue(FormParent.DataReaderRepair("DDate")).Month <> Today.Month Then
+                grdRepRemarks1.Rows.Item(grdRepRemarks1.Rows.Count - 1).ReadOnly = True
+            End If
+        End While
+
+        Dim FilePath As String = Path.Combine(SystemFolderPath, $"\LASER System\Images\RET-{ReRepNo}.png")
         imgRepair.Image = If(File.Exists(FilePath), Image.FromFile(FilePath), Nothing)
     End Sub
 
@@ -108,16 +126,16 @@ Public Class ControlRemarks
             grdRepRemarks1.Item(e.ColumnIndex, e.RowIndex).Tag <> grdRepRemarks1.Item(e.ColumnIndex, e.RowIndex).Value Then
             If DB.CheckDataExists("RepairRemarks1", "Rem1No", grdRepRemarks1.Item(0, e.RowIndex).Value) = True Then
                 DB.Execute("Update RepairRemarks1 set " &
-                          If(ParentForm.tabRepair.SelectedTab.TabIndex = 0, "RepNo=" & ParentForm.cmbRepNo.Text, "RetNo=" & ParentForm.cmbRetNo.Text) &
+                          If(FormParent.Mode = RepairMode.Repair, "RepNo=" & FormParent.cmbRepNo.Text, "RetNo=" & FormParent.cmbRetNo.Text) &
                           ",Rem1Date=#" & grdRepRemarks1.Item(1, e.RowIndex).Value &
                           "#,Remarks='" & grdRepRemarks1.Item(2, e.RowIndex).Value &
                           "',UNo=" & DB.GetData("Select UNo from [User] Where UserName='" &
                           grdRepRemarks1.Item(3, e.RowIndex).Value & "'") &
                           " Where Rem1No=" & grdRepRemarks1.Item(0, e.RowIndex).Value, {}, AdminPer)
             Else
-                DB.Execute("Insert into RepairRemarks1(Rem1No," & If(ParentForm.tabRepair.SelectedTab.TabIndex = 0, "RepNo", "RetNo") &
+                DB.Execute("Insert into RepairRemarks1(Rem1No," & If(FormParent.Mode = RepairMode.Repair, "RepNo", "RetNo") &
                           ", Rem1Date, Remarks, UNo) Values(" & grdRepRemarks1.Item(0, e.RowIndex).Value & "," &
-                          If(ParentForm.tabRepair.SelectedTab.TabIndex = 0, ParentForm.cmbRepNo.Text, ParentForm.cmbRetNo.Text) & ",#" & grdRepRemarks1.Item(1, e.RowIndex).Value &
+                          If(FormParent.Mode = RepairMode.Repair, FormParent.cmbRepNo.Text, FormParent.cmbRetNo.Text) & ",#" & grdRepRemarks1.Item(1, e.RowIndex).Value &
                           "#,'" & grdRepRemarks1.Item(2, e.RowIndex).Value & "'," &
                           DB.GetData("Select UNo from [User] Where UserName='" & grdRepRemarks1.Item(3, e.RowIndex).Value & "'") &
                           ")", {}, AdminPer)
@@ -137,19 +155,24 @@ Public Class ControlRemarks
             AdminPer.Remarks = "Repair Remarks 1 හි Field එකක් Delete කෙරුණි."
             e.Cancel = True
         End If
-        DB.Execute("Delete from RepairRemarks1 Where Rem1No=" & grdRepRemarks1.Item(0, e.Row.Index).Value, {}, AdminPer)
+        DB.Execute("Delete from RepairRemarks1 Where Rem1No=@REM1NO", {
+                   New OleDbParameter("REM1NO", grdRepRemarks1.Item(0, e.Row.Index).Value)
+        }, AdminPer)
     End Sub
 
     Private Sub grdRepRemarks1_RowValidating(sender As Object, e As DataGridViewCellCancelEventArgs) Handles grdRepRemarks1.RowValidating
-        If e.RowIndex < 0 Then Exit Sub
-        If grdRepRemarks1.Item(0, e.RowIndex).Value Is Nothing Then Exit Sub
-        Dim DR1 As OleDbDataReader = DB.GetDataReader("SELECT Rem1No,Rem1Date,Remarks,UNo from RepairRemarks1 where Rem1No=" & grdRepRemarks1.Item(0, e.RowIndex).Value & ";")
+        If e.RowIndex < 0 Then
+            Exit Sub
+        End If
+        If grdRepRemarks1.Item(0, e.RowIndex).Value Is Nothing Then
+            Exit Sub
+        End If
+        Dim DR1 As OleDbDataReader = DB.GetDataReader($"SELECT Rem1No,Rem1Date,Remarks,UserName from RepairRemarks1 RepRem1 LEFT JOIN [User] U ON U.UNo=RepRem1.UNo where Rem1No={grdRepRemarks1.Item(0, e.RowIndex).Value};")
         If DR1.HasRows Then
             DR1.Read()
             grdRepRemarks1.Item(1, e.RowIndex).Value = DR1("Rem1Date").ToString
             grdRepRemarks1.Item(2, e.RowIndex).Value = DR1("Remarks").ToString
-            grdRepRemarks1.Item(3, e.RowIndex).Value = If(DR1("UNo").ToString <> "",
-                DB.GetData("Select UserName from [User] where Uno=" & DR1("UNo").ToString), "")
+            grdRepRemarks1.Item(3, e.RowIndex).Value = DR1("UserName").ToString
         Else
             grdRepRemarks1.Rows.RemoveAt(e.RowIndex)
         End If

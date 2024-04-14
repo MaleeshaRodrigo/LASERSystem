@@ -37,7 +37,7 @@ Public Class frmTechnicianSalary
         txtTotalSalesRepair.Text = "0"
         txtTotalRepair.Text = "0"
         txtTotalReRepair.Text = "0"
-        If CheckEmptyfield(cmbTName, "ඔබ තවමත් Technician කෙනෙකු තෝරා නැත. කරුණාකර Technician කෙනෙක් තෝරා ගන්න.") = False Then
+        If CheckEmptyControl(cmbTName, "ඔබ තවමත් Technician කෙනෙකු තෝරා නැත. කරුණාකර Technician කෙනෙක් තෝරා ගන්න.") = False Then
             Exit Sub
         End If
         Cursor = Cursors.WaitCursor
@@ -122,7 +122,7 @@ Public Class frmTechnicianSalary
     End Sub
 
     Private Sub cmdTCDone_Click(sender As Object, e As EventArgs) Handles cmdTSDone.Click
-        If CheckEmptyfield(cmbTName, "This operation couldn't be done because Technician was already empty. You should select any Technician and try again.") = False Then
+        If CheckEmptyControl(cmbTName, "This operation couldn't be done because Technician was already empty. You should select any Technician and try again.") = False Then
             cmbTName.Focus()
             Exit Sub
         ElseIf DB.CheckDataExists("Technician", "TName", cmbTName.Text) = False Then

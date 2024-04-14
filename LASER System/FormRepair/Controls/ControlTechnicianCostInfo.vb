@@ -11,9 +11,16 @@ Public Class ControlTechnicianCostInfo
         Me.ParentRepairForm = ParentForm
     End Sub
 
-    Public Sub Init(RepNo As Integer)
+    Public Sub InitForRepair(RepNo As Integer)
         Dim DataTable = Db.GetDataTable("SELECT TCNo,TCDate,TC.SNo,S.SCategory,S.SName,Rate,Qty,Total,TCRemarks,UserName FROM (Stock S INNER JOIN TechnicianCost TC ON TC.SNo = S.SNo) LEFT JOIN [User] U ON U.UNo = TC.UNo WHERE RepNo=@REPNO;", {
             New OleDbParameter("REPNO", RepNo)
+                                        })
+        grdTechnicianCost.DataSource = DataTable
+    End Sub
+
+    Public Sub InitForReRepair(ReRepNo As Integer)
+        Dim DataTable = Db.GetDataTable("SELECT TCNo,TCDate,TC.SNo,S.SCategory,S.SName,Rate,Qty,Total,TCRemarks,UserName FROM (Stock S INNER JOIN TechnicianCost TC ON TC.SNo = S.SNo) LEFT JOIN [User] U ON U.UNo = TC.UNo WHERE RetNo=@REREPNO;", {
+            New OleDbParameter("REREPNO", ReRepNo)
                                         })
         grdTechnicianCost.DataSource = DataTable
     End Sub
@@ -25,12 +32,12 @@ Public Class ControlTechnicianCostInfo
 
     Private Sub grdTechnicianCost_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs)
         If e.RowIndex < 0 Then Exit Sub
-        If CheckEmptyfield(ParentRepairForm.ControlTechnicianInfo.cmbTName, "Technician Name යන field එක හිස්ව පවතියි. කරුණාකර එය සම්පුර්ණ කරන්න.") = False Then
+        If CheckEmptyControl(ParentRepairForm.ControlTechnicianInfo.cmbTName, "Technician Name යන field එක හිස්ව පවතියි. කරුණාකර එය සම්පුර්ණ කරන්න.") = False Then
             If (grdTechnicianCost.Rows.Count - 1) <> e.RowIndex Then
                 grdTechnicianCost.Rows.RemoveAt(e.RowIndex)
             End If
             Exit Sub
-        ElseIf CheckEmptyfield(ParentRepairForm.cmbRepNo, "Repair No යන field එක හිස්ව පවතියි. කරුණාකර එය සම්පුර්ණ කරන්න.") = False Then
+        ElseIf CheckEmptyControl(ParentRepairForm.cmbRepNo, "Repair No යන field එක හිස්ව පවතියි. කරුණාකර එය සම්පුර්ණ කරන්න.") = False Then
             If (grdTechnicianCost.Rows.Count - 1) <> e.RowIndex Then
                 grdTechnicianCost.Rows.RemoveAt(e.RowIndex)
             End If
