@@ -153,6 +153,7 @@
     <Compile Include="Classes\CashDrawer.vb" />
     <Compile Include="Classes\Database.vb" />
     <Compile Include="Classes\Encoder.vb" />
+    <Compile Include="Classes\MessageBox.vb" />
     <Compile Include="Classes\MessagePanel.vb" />
     <Compile Include="Classes\User.vb" />
     <Compile Include="Classes\Validators\CustomValidator.vb" />

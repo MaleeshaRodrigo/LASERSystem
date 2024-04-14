@@ -24,9 +24,9 @@ Public Class frmTechnician
     End Sub
 
     Private Sub cmdSave_Click(sender As Object, e As EventArgs) Handles cmdSave.Click
-        If CheckEmptyfield(txtTNo, "This data couldn't be saved to database. It's because Technician No is empty. If you want to save this, you should fill it.") = False Then
+        If CheckEmptyControl(txtTNo, "This data couldn't be saved to database. It's because Technician No is empty. If you want to save this, you should fill it.") = False Then
             Exit Sub
-        ElseIf CheckEmptyfield(cmbTName, "This data couldn't be saved to database. It's because Technician Name is empty. If you want to save this, you should fil it.") = False Then
+        ElseIf CheckEmptyControl(cmbTName, "This data couldn't be saved to database. It's because Technician Name is empty. If you want to save this, you should fil it.") = False Then
             Exit Sub
         End If
         Select Case cmdSave.Text
@@ -160,7 +160,7 @@ Public Class frmTechnician
                                         "This Technician couldn't be deleted because this technician has relations with the field/s in 'SalesRepair' table. They are given below.") = False Then
             Exit Sub
         End If
-        If CheckEmptyfield(txtTNo, "This Technician couldn't be deleted because Technician No was empty. Please fill it and try again.") = False Then
+        If CheckEmptyControl(txtTNo, "This Technician couldn't be deleted because Technician No was empty. Please fill it and try again.") = False Then
             Exit Sub
         End If
         If MsgBox("Are you sure delete this Technician?", vbInformation + vbYesNo) = vbYes Then

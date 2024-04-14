@@ -50,7 +50,7 @@ Public Class FrmSettings
 
     Private Sub CmdApply_Click(sender As Object, e As EventArgs) Handles cmdApply.Click
         BoolApplyError = False
-        If CheckEmptyfield(txtDBLoc, "Database Location එක ඇතුලත් කර නොමැත.") = False Then
+        If CheckEmptyControl(txtDBLoc, "Database Location එක ඇතුලත් කර නොමැත.") = False Then
             tpDatabase.Select()
             BoolApplyError = True
             Exit Sub
@@ -170,13 +170,13 @@ Public Class FrmSettings
         If DR.HasRows = False Then
             MsgBox("Admin සදහා ලබා දුන් User Name සහ Password එක වැරදිය.", vbExclamation + vbOKOnly)
             Exit Sub
-        ElseIf CheckEmptyfield(txtUAUserName, "User Name යන Field එක හිස්ව පවතියි. කරුණාකර එය සම්පූර්ණ කරන්න.") = False Then
+        ElseIf CheckEmptyControl(txtUAUserName, "User Name යන Field එක හිස්ව පවතියි. කරුණාකර එය සම්පූර්ණ කරන්න.") = False Then
             Exit Sub
-        ElseIf CheckEmptyfield(txtUANewPW, "New Password යන Field එක හිස්ව පවතියි. කරුණාකර එය සම්පූර්ණ කරන්න.") = False Then
+        ElseIf CheckEmptyControl(txtUANewPW, "New Password යන Field එක හිස්ව පවතියි. කරුණාකර එය සම්පූර්ණ කරන්න.") = False Then
             Exit Sub
-        ElseIf CheckEmptyfield(txtUAReenterPW, "Reenter Password යන Field එක හිස්ව පවතියි. කරුණාකර එය සම්පූර්ණ කරන්න.") = False Then
+        ElseIf CheckEmptyControl(txtUAReenterPW, "Reenter Password යන Field එක හිස්ව පවතියි. කරුණාකර එය සම්පූර්ණ කරන්න.") = False Then
             Exit Sub
-        ElseIf CheckEmptyfield(cmbUAType, "User Type යන Field එක හිස්ව පවතියි. කරුණාකර එය සම්පූර්ණ කරන්න.") = False Then
+        ElseIf CheckEmptyControl(cmbUAType, "User Type යන Field එක හිස්ව පවතියි. කරුණාකර එය සම්පූර්ණ කරන්න.") = False Then
             Exit Sub
         ElseIf txtUANewPW.Text <> txtUAReenterPW.Text Then
             MsgBox("New Password හා Reenter Password යන Field එක එකිනෙකට නොගැලපෙයි. එය නැවත පරිකෂා කරන්න.", vbExclamation + vbOKOnly)
@@ -196,7 +196,7 @@ Public Class FrmSettings
                 Db.Execute("Insert Into [User]([UNo],[UserName],[Password],[Type],[Email]) Values(" & txtUAUNo.Text & ",'" & txtUAUserName.Text & "','" &
                           txtUANewPW.Text & "','" & cmbUAType.Text & "','" & txtUAEmail.Text & "');")
             Case "Edit"
-                If CheckEmptyfield(txtUACurrentPW, "Current Password යන Field එක හිස්ව පවතියි. කරුණාකර එය සම්පූර්ණ කරන්න.") = False Then
+                If CheckEmptyControl(txtUACurrentPW, "Current Password යන Field එක හිස්ව පවතියි. කරුණාකර එය සම්පූර්ණ කරන්න.") = False Then
                     Exit Sub
                 End If
                 Dr = Db.GetDataReader("Select * from [User] Where UNO=" & txtUAUNo.Text & " and Password='" & txtUACurrentPW.Text & "';")

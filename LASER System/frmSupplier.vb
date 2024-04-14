@@ -123,7 +123,7 @@ Public Class frmSupplier
     End Sub
 
     Private Sub cmdDelete_Click(sender As Object, e As EventArgs) Handles cmdDelete.Click
-        If CheckEmptyfield(txtSuNo, "Supplier No was empty. So, this operation couldn't be successful. Please check it and try again.") = False Then
+        If CheckEmptyControl(txtSuNo, "Supplier No was empty. So, this operation couldn't be successful. Please check it and try again.") = False Then
             Exit Sub
         End If
         If CheckExistRelationsforDelete("Select SupNo,SuNo from Supply SuNo = " & txtSuNo.Text, "SupNo", "This Supplier couldn't be deleted because this supplier has relations with the field/s in 'Supply' table. They are given below.") = False Then

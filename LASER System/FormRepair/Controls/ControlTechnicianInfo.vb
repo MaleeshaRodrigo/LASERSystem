@@ -16,9 +16,7 @@ Public Class ControlTechnicianInfo
         cmbTName.Text = FormParent.DataReaderRepair("TName").ToString()
         Dim DataTable As DataTable
         If FormParent.Mode = RepairMode.Repair Then
-            DataTable = DB.GetDataTable("Select Rem2No, Rem2Date, Remarks, UserName from RepairRemarks2 RepRem2 LEFT JOIN [User] U ON U.UNo=RepRem2.UNo Where RepNo=@REPNO;", {
-                                        New OleDbParameter("REPNO", FormParent.DataReaderRepair("RepNo").ToString())
-                                    })
+            DataTable = DB.GetDataTable("Select Rem2No, Rem2Date, Remarks, UserName from RepairRemarks2 RepRem2 LEFT JOIN [User] U ON U.UNo=RepRem2.UNo Where RepNo=@REPNO;", {New OleDbParameter("REPNO", FormParent.DataReaderRepair("RepNo").ToString())})
         Else
             DataTable = DB.GetDataTable("Select Rem2No, Rem2Date, Remarks, UserName from RepairRemarks2 RepRem2 LEFT JOIN [User] U ON U.UNo=RepRem2.UNo Where RetNo=@REREPNO;", {
                                         New OleDbParameter("REREPNO", FormParent.DataReaderRepair("RetNo").ToString())
@@ -42,7 +40,7 @@ Public Class ControlTechnicianInfo
         Call ComboBoxDropDown(DB, cmbTName, "Select TName from Technician Where TActive = True group by TName;")
     End Sub
 
-    Private Sub grdRepRemarks2_CellBeginEdit(sender As Object, e As DataGridViewCellCancelEventArgs)
+    Private Sub grdRepRemarks2_CellBeginEdit(sender As Object, e As DataGridViewCellCancelEventArgs) Handles grdRepRemarks2.CellBeginEdit
         If grdRepRemarks2.Focused And e.ColumnIndex = 1 And e.RowIndex > -1 Then
             grdRepRemarks2.Controls.Add(DtpDate)
             DtpDate.Location = grdRepRemarks2.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, False).Location
@@ -59,7 +57,7 @@ Public Class ControlTechnicianInfo
         grdRepRemarks2.Item(e.ColumnIndex, e.RowIndex).Tag = grdRepRemarks2.Item(e.ColumnIndex, e.RowIndex).Value
     End Sub
 
-    Private Sub grdRepRemarks2_EditingControlShowing(sender As Object, e As DataGridViewEditingControlShowingEventArgs)
+    Private Sub grdRepRemarks2_EditingControlShowing(sender As Object, e As DataGridViewEditingControlShowingEventArgs) Handles grdRepRemarks2.EditingControlShowing
         If grdRepRemarks2.CurrentCell.RowIndex < 0 Then Exit Sub
         If grdRepRemarks2.Focused And grdRepRemarks2.CurrentCell.ColumnIndex = 1 Then
             DtpDate.Location = grdRepRemarks2.GetCellDisplayRectangle(grdRepRemarks2.CurrentCell.ColumnIndex, grdRepRemarks2.CurrentCell.RowIndex, True).Location
@@ -67,7 +65,7 @@ Public Class ControlTechnicianInfo
         End If
     End Sub
 
-    Private Sub grdRepRemarks2_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs)
+    Private Sub grdRepRemarks2_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs) Handles grdRepRemarks2.CellEndEdit
         If e.RowIndex < 0 Then Exit Sub
 
         Dim AdminPer As New AdminPermission(DB)
@@ -80,7 +78,7 @@ Public Class ControlTechnicianInfo
                 AdminPer.Remarks = "Repair Remarks 2 හිදි අද දිනට නොමැති Remarks එකක දිනයක් වෙනස් කෙරුණි."
             End If
         ElseIf e.ColumnIndex = 2 And e.RowIndex <> (grdRepRemarks2.Rows.Count - 1) Then
-            If (grdRepRemarks2.Item(1, e.RowIndex).Value IsNot Nothing AndAlso
+            If (String.IsNullOrEmpty(grdRepRemarks2.Item(1, e.RowIndex).Value) AndAlso
            Convert.ToDateTime(grdRepRemarks2.Item(1, e.RowIndex).Value).Date <> DateTime.Today.Date) Then
                 AdminPer.AdminSend = True
                 AdminPer.Remarks = "Repair Remarks 2 හිදි අද දිනට නොමැති Remarks එකක් වෙනස් කෙරුණි."
@@ -124,7 +122,7 @@ Public Class ControlTechnicianInfo
             grdRepRemarks2_RowValidating(sender, E1)
         End If
     End Sub
-    Private Sub grdRepRemarks2_UserDeletingRow(sender As Object, e As DataGridViewRowCancelEventArgs)
+    Private Sub grdRepRemarks2_UserDeletingRow(sender As Object, e As DataGridViewRowCancelEventArgs) Handles grdRepRemarks2.UserDeletingRow
         If e.Row.Index < 0 Or e.Row.Index = (grdRepRemarks2.Rows.Count - 1) Then Exit Sub
         Dim AdminPer As New AdminPermission(DB)
         If Convert.ToDateTime(grdRepRemarks2.Item(1, e.Row.Index).Value).Date <> DateTime.Today.Date Then
@@ -134,7 +132,7 @@ Public Class ControlTechnicianInfo
         End If
         DB.Execute("Delete from RepairRemarks2 Where Rem2No=" & grdRepRemarks2.Item(0, e.Row.Index).Value, {}, AdminPer)
     End Sub
-    Private Sub grdRepRemarks2_RowValidating(sender As Object, e As DataGridViewCellCancelEventArgs)
+    Private Sub grdRepRemarks2_RowValidating(sender As Object, e As DataGridViewCellCancelEventArgs) Handles grdRepRemarks2.RowValidating
         If e.RowIndex < 0 Then Exit Sub
         If grdRepRemarks2.Item(0, e.RowIndex).Value Is Nothing Then Exit Sub
         Dim DR1 As OleDbDataReader = DB.GetDataReader("SELECT Rem2No,Rem2Date,Remarks,UNo from RepairRemarks2 where Rem2No=" & grdRepRemarks2.Item(0, e.RowIndex).Value & ";")

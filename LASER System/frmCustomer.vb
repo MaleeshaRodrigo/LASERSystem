@@ -153,7 +153,7 @@ Public Class frmCustomer
 
     Private Sub cmdSave_Click(sender As Object, e As EventArgs) Handles cmdSave.Click, SaveToolStripMenuItem.Click
         cmdDone.Tag = ""
-        If CheckEmptyfield(cmbCuName, "Customer Name එක ඇතුලත් කරන්න.") = False Then
+        If CheckEmptyControl(cmbCuName, "Customer Name එක ඇතුලත් කරන්න.") = False Then
             Exit Sub
         End If
         Select Case cmdSave.Text

@@ -65,7 +65,7 @@ Public Class frmStockTransaction
     End Sub
 
     Public Sub cmdDone_Click(sender As Object, e As EventArgs) Handles cmdDone.Click
-        If CheckEmptyfield(txtSNo, "ඔබ තවම Stock එකක් Select කර නොමැත. කරුණාකර Stock එකක් තෝරා ගෙන නැවත උත්සහ කරන්න.") = False Then
+        If CheckEmptyControl(txtSNo, "ඔබ තවම Stock එකක් Select කර නොමැත. කරුණාකර Stock එකක් තෝරා ගෙන නැවත උත්සහ කරන්න.") = False Then
             Exit Sub
         End If
         grdSupply.DataSource = Db.GetDataTable("Select SupDate,SuName,SupType,SupUnits,SupCostPrice,SupTotal from StockSupply SSup,Supplier Su,Supply Sup Where Sup.SupNo = SSup.SupNo and Sup.SuNo = Su.SuNo and SNo = " & txtSNo.Text)
