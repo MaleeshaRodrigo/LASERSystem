@@ -44,7 +44,7 @@ Public Class frmLogin
     End Sub
 
     Private Sub CmdLogin_Click(sender As Object, e As EventArgs) Handles cmdLogin.Click
-        If CheckEmptyfield(cmbUserName, "User Name is empty, fill it") = False Then
+        If CheckEmptyControl(cmbUserName, "User Name is empty, fill it") = False Then
             Exit Sub
         ElseIf CheckEmptyStr(txtPassword.Text, "Password is empty, fill it") = False Then
             Exit Sub
@@ -114,9 +114,9 @@ Public Class frmLogin
     End Sub
 
     Private Sub cmdGetOTP_Click(sender As Object, e As EventArgs) Handles cmdGetOTP.Click
-        If CheckEmptyfield(txtOTPUserName, "කරුණාකර User Name එක ඇතුලත් කර නැවත උත්සහ කරන්න.") = False Then
+        If CheckEmptyControl(txtOTPUserName, "කරුණාකර User Name එක ඇතුලත් කර නැවත උත්සහ කරන්න.") = False Then
             Exit Sub
-        ElseIf CheckExistData(txtOTPUserName, "Select UserName from [User] Where UserName='" & txtOTPUserName.Text & "'", "ඔබ ඇතුලත් කල User Name එක වැරදි කරුණාකර නිවැරදි User Name එක ඇතුලත් කරන්න.", False) = False Then
+        ElseIf CheckExistData(Db, txtOTPUserName, "Select UserName from [User] Where UserName='" & txtOTPUserName.Text & "'", "ඔබ ඇතුලත් කල User Name එක වැරදි කරුණාකර නිවැරදි User Name එක ඇතුලත් කරන්න.", False) = False Then
             Exit Sub
         End If
         Dim DR As OleDbDataReader = Db.GetDataReader("Select Email from [User] Where UserName='" & txtOTPUserName.Text & "'")
@@ -140,9 +140,9 @@ Public Class frmLogin
     End Sub
 
     Private Sub cmdOTPLogin_Click(sender As Object, e As EventArgs) Handles cmdOTPLogin.Click
-        If CheckEmptyfield(txtOTPUserName, "කරුණාකර User Name එක ඇතුලත් කර නැවත උත්සහ කරන්න.") = False Then
+        If CheckEmptyControl(txtOTPUserName, "කරුණාකර User Name එක ඇතුලත් කර නැවත උත්සහ කරන්න.") = False Then
             Exit Sub
-        ElseIf CheckEmptyfield(txtOTPCode, "කරුණාකර OTP Code එක ඇතුලත් කර නැවත උත්සහ කරන්න.") = False Then
+        ElseIf CheckEmptyControl(txtOTPCode, "කරුණාකර OTP Code එක ඇතුලත් කර නැවත උත්සහ කරන්න.") = False Then
             Exit Sub
         End If
         If txtOTPCode.Text = txtOTPCode.Tag Then

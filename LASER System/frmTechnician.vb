@@ -24,16 +24,16 @@ Public Class frmTechnician
     End Sub
 
     Private Sub cmdSave_Click(sender As Object, e As EventArgs) Handles cmdSave.Click
-        If CheckEmptyfield(txtTNo, "This data couldn't be saved to database. It's because Technician No is empty. If you want to save this, you should fill it.") = False Then
+        If CheckEmptyControl(txtTNo, "This data couldn't be saved to database. It's because Technician No is empty. If you want to save this, you should fill it.") = False Then
             Exit Sub
-        ElseIf CheckEmptyfield(cmbTName, "This data couldn't be saved to database. It's because Technician Name is empty. If you want to save this, you should fil it.") = False Then
+        ElseIf CheckEmptyControl(cmbTName, "This data couldn't be saved to database. It's because Technician Name is empty. If you want to save this, you should fil it.") = False Then
             Exit Sub
         End If
         Select Case cmdSave.Text
             Case "Save"
-                If CheckExistData(cmbTName, "Select TName from Technician where TName='" & cmbTName.Text & "';", "Saveing is not comfortable because Technician Name which you added has already located in the database. You have to change Technician No to save.", True) = True Then
+                If CheckExistData(Db, cmbTName, "Select TName from Technician where TName='" & cmbTName.Text & "';", "Saveing is not comfortable because Technician Name which you added has already located in the database. You have to change Technician No to save.", True) = True Then
                     Exit Sub
-                ElseIf CheckExistData(txtTNo, "Select TNo from Technician where TNo =" & txtTNo.Text & ";", "This data couldn't be saved to database because Technicino No which you added has already located in the database. You have to change that to save.", True) = True Then
+                ElseIf CheckExistData(Db, txtTNo, "Select TNo from Technician where TNo =" & txtTNo.Text & ";", "This data couldn't be saved to database because Technicino No which you added has already located in the database. You have to change that to save.", True) = True Then
                     Exit Sub
                 End If
                 Db.Execute("Insert into Technician(TNo,TName,TFullName,TAddress,TEmail,TNicNo,TTelNo1,TTelno2,TTelno3,TRemarks,TActive) Values(" & txtTNo.Text & ",'" & cmbTName.Text & "','" & txtTFullName.Text & "','" & txtTAddress.Text & "','" &
@@ -160,7 +160,7 @@ Public Class frmTechnician
                                         "This Technician couldn't be deleted because this technician has relations with the field/s in 'SalesRepair' table. They are given below.") = False Then
             Exit Sub
         End If
-        If CheckEmptyfield(txtTNo, "This Technician couldn't be deleted because Technician No was empty. Please fill it and try again.") = False Then
+        If CheckEmptyControl(txtTNo, "This Technician couldn't be deleted because Technician No was empty. Please fill it and try again.") = False Then
             Exit Sub
         End If
         If MsgBox("Are you sure delete this Technician?", vbInformation + vbYesNo) = vbYes Then

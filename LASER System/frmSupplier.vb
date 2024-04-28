@@ -90,9 +90,9 @@ Public Class frmSupplier
         End If
         Select Case cmdSave.Text
             Case "Save"
-                If CheckExistData(txtSuNo, "Select SuNo from Supplier where SuNo =" & txtSuNo.Text & ";", "Supplier No is exist", True) = True Then
+                If CheckExistData(Db, txtSuNo, "Select SuNo from Supplier where SuNo =" & txtSuNo.Text & ";", "Supplier No is exist", True) = True Then
                     Exit Sub
-                ElseIf CheckExistData(cmbSuName, "Select SuName from Supplier where SuName ='" & cmbSuName.Text & "';", "Supplier Name is exist", True) = True Then
+                ElseIf CheckExistData(Db, cmbSuName, "Select SuName from Supplier where SuName ='" & cmbSuName.Text & "';", "Supplier Name is exist", True) = True Then
                     Exit Sub
                 End If
                 Db.Execute("Insert into Supplier(SuNo,SuName,SuAddress, SuEmail, SuTelNo1, SuTelNo2, SuTelNo3,SuRemarks)Values(" & txtSuNo.Text & ",'" & cmbSuName.Text & "','" & txtSuAddress.Text & "','" & txtSuEmail.Text & "','" & txtSuTelNo1.Text & "','" & txtSuTelNo2.Text & "','" & txtSuTelNo3.Text & "','" & txtSuRemarks.Text & "');")
@@ -104,7 +104,7 @@ Public Class frmSupplier
                 Activity.Write($"Supplier No {txtSuNo.Text} was saved to 'Supplier' table on {DateTime.Now}")
                 MsgBox("Save Successful", vbExclamation + vbOKOnly)
             Case "Edit"
-                If CheckExistData(txtSuNo, "Select SuNo from Supplier where SuNo =" & txtSuNo.Text, "Supplier No was not exist in the database please check again", False) = False Then
+                If CheckExistData(Db, txtSuNo, "Select SuNo from Supplier where SuNo =" & txtSuNo.Text, "Supplier No was not exist in the database please check again", False) = False Then
                     Exit Sub
                 End If
                 If MsgBox("Are you sure edit?", vbYesNo + vbInformation) = vbYes Then
@@ -123,7 +123,7 @@ Public Class frmSupplier
     End Sub
 
     Private Sub cmdDelete_Click(sender As Object, e As EventArgs) Handles cmdDelete.Click
-        If CheckEmptyfield(txtSuNo, "Supplier No was empty. So, this operation couldn't be successful. Please check it and try again.") = False Then
+        If CheckEmptyControl(txtSuNo, "Supplier No was empty. So, this operation couldn't be successful. Please check it and try again.") = False Then
             Exit Sub
         End If
         If CheckExistRelationsforDelete("Select SupNo,SuNo from Supply SuNo = " & txtSuNo.Text, "SupNo", "This Supplier couldn't be deleted because this supplier has relations with the field/s in 'Supply' table. They are given below.") = False Then

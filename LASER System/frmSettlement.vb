@@ -346,9 +346,9 @@ Public Class frmSettlement
     End Sub
 
     Private Sub CmdTASave_Click(sender As Object, e As EventArgs) Handles cmdTASave.Click
-        If CheckEmptyfield(txtTADetails, "Transactions Details is empty. Please fill it and try again") = False Then
+        If CheckEmptyControl(txtTADetails, "Transactions Details is empty. Please fill it and try again") = False Then
             Exit Sub
-        ElseIf CheckEmptyfield(txtTAAmount, "Transactions Amount is empty. Please fill it and try again") = False Then
+        ElseIf CheckEmptyControl(txtTAAmount, "Transactions Amount is empty. Please fill it and try again") = False Then
             Exit Sub
         End If
 
@@ -379,7 +379,7 @@ Public Class frmSettlement
         If dtpTADate.Value.Date <> Today.Date Then
             AdminPer.AdminSend = True
         End If
-        If CheckEmptyfield(txtTANo, "Transactions No is empty. Please fill it and try again") = False Then
+        If CheckEmptyControl(txtTANo, "Transactions No is empty. Please fill it and try again") = False Then
             Exit Sub
         End If
         If MsgBox("Are you sure delete this transaction?", vbInformation + vbYesNo) = vbYes Then

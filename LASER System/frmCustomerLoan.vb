@@ -84,19 +84,19 @@ Public Class frmCustomerLoan
     End Sub
 
     Private Sub cmdSave_Click(sender As Object, e As EventArgs) Handles cmdSave.Click
-        If CheckEmptyfield(txtCuLNo, "This Data couldn't be saved because Customer Loan No was empty. Please Check it and try again.") = False Then
+        If CheckEmptyControl(txtCuLNo, "This Data couldn't be saved because Customer Loan No was empty. Please Check it and try again.") = False Then
             Exit Sub
-        ElseIf CheckEmptyfield(txtCuLAmount, "This Data couldn't be saved because Customer Loan Amount was empty. Please check it and try again.") = False Then
+        ElseIf CheckEmptyControl(txtCuLAmount, "This Data couldn't be saved because Customer Loan Amount was empty. Please check it and try again.") = False Then
             Exit Sub
-        ElseIf CheckEmptyfield(cmbCuName, "Customer Name යන field එක හිස්ව පවතියි. කරුණාකර එය සම්පුර්ණ කරන්න. ") = False Then
+        ElseIf CheckEmptyControl(cmbCuName, "Customer Name යන field එක හිස්ව පවතියි. කරුණාකර එය සම්පුර්ණ කරන්න. ") = False Then
             Exit Sub
-        ElseIf CheckExistData(cmbCuName, "Select CuName from Customer Where CuName='" & cmbCuName.Text & "'", "Customer ව Database එක තුල සොයා ගැනීමට නොහැකි විය. කරුණාකර නැවත පරික්ෂා කරන්න.", False) = False Then
+        ElseIf CheckExistData(Db, cmbCuName, "Select CuName from Customer Where CuName='" & cmbCuName.Text & "'", "Customer ව Database එක තුල සොයා ගැනීමට නොහැකි විය. කරුණාකර නැවත පරික්ෂා කරන්න.", False) = False Then
             Exit Sub
         End If
         Dim CuNo As Integer = Int(Db.GetData("Select CuNo from Customer Where CuName='" & cmbCuName.Text & "'"))
         Select Case cmdSave.Text
             Case "Save"
-                If CheckExistData(txtCuLNo, "SELECT CULNO FROM CUSTOMERLOAN WHERE CULNO = " & txtCuLNo.Text & ";", "Something was wrong. This Customer Loan No is already exist in the database. Please Check it and try again. Otherwise you can contact a software developer.", True) = True Then
+                If CheckExistData(Db, txtCuLNo, "SELECT CULNO FROM CUSTOMERLOAN WHERE CULNO = " & txtCuLNo.Text & ";", "Something was wrong. This Customer Loan No is already exist in the database. Please Check it and try again. Otherwise you can contact a software developer.", True) = True Then
                     Exit Sub
                 End If
                 Db.Execute("Insert into CustomerLoan(CuLNo,CuLDate,CuNo,CuLAmount,Status,CuLRemarks) Values(" & txtCuLNo.Text & ",#" & txtCuLDate.Value.Date & "#," & CuNo.ToString & "," & txtCuLAmount.Text & ",'" & cmbCuLStatus.Text & "','" & txtCuLRemarks.Text & "');")
