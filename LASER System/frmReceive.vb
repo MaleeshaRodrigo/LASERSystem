@@ -569,7 +569,6 @@ Public Class frmReceive
     Private Sub cmdCuView_Click(sender As Object, e As EventArgs) Handles cmdCuView.Click
         frmCustomer.Tag = "Receive"
         frmCustomer.Show()
-        frmCustomer.cmbCuName.Focus()
     End Sub
 
     Private Sub CustomerInfoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CustomerInfoToolStripMenuItem.Click
@@ -609,10 +608,9 @@ Public Class frmReceive
         OnlynumberQty(e)
     End Sub
 
-    Private Sub txtCuTelNo1_KeyUp(sender As Object, e As KeyEventArgs) Handles txtCuTelNo1.KeyUp
-        If txtCuTelNo1.Text.Replace(" ", "").Length < 10 Then Exit Sub
-        Dim SaDR As OleDbDataReader = Db.GetDataReader("Select * from Customer where CuTelNo1='" & txtCuTelNo1.Text & "' or CuTelNo2='" & txtCuTelNo1.Text &
-                                            "' or CuTelNo3='" & txtCuTelNo1.Text & "';")
+    Private Sub TextCuTelNo_KeyUp(sender As Object, e As KeyEventArgs) Handles txtCuTelNo1.KeyUp, txtCuTelNo2.KeyUp, txtCuTelNo3.KeyUp
+        If sender.Text.Replace(" ", "").Length < 10 Then Exit Sub
+        Dim SaDR As OleDbDataReader = Db.GetDataReader($"Select * from Customer where CuTelNo1='{sender.Text}' or CuTelNo2='{sender.Text}' or CuTelNo3='{sender.Text}';")
         If SaDR.HasRows = True Then
             SaDR.Read()
             If cmbCuMr.Text + cmbCuName.Text = SaDR("CuName").ToString Then Exit Sub
@@ -622,69 +620,13 @@ Public Class frmReceive
                 frm.Caller = Me.Name
                 frm.Tag = "Receive"
                 frm.Show(Me)
-                frm.cmbCuName.Text = SaDR("CuName").ToString
-                Call frm.cmbCuName_SelectedIndexChanged(sender, e)
+                frm.SelectCustomer(SaDR("CuNo"), SaDR("CuName"), SaDR("CuTelNo1"), SaDR("CuTelNo2"), SaDR("CuTelNo3"))
             End With
         Else
             cmbCuName_SelectedIndexChanged(sender, e)
         End If
         SaDR.Close()
     End Sub
-
-    Private Sub txtCuTelNo2_KeyUp(sender As Object, e As EventArgs) Handles txtCuTelNo2.KeyUp
-        If txtCuTelNo2.Text.Replace(" ", "").Length < 10 Then Exit Sub
-        If txtCuTelNo1.Text.Replace(" ", "") = "" Then
-            txtCuTelNo1.Text = txtCuTelNo2.Text
-            txtCuTelNo2.Text = ""
-            Exit Sub
-        End If
-        Dim SaDR As OleDbDataReader = Db.GetDataReader("Select * from Customer where CuTelNo1='" & txtCuTelNo2.Text & "' or CuTelNo2='" & txtCuTelNo2.Text & "' or CuTelNo3='" & txtCuTelNo2.Text & "';")
-        If SaDR.HasRows = True Then
-            SaDR.Read()
-            If cmbCuMr.Text + cmbCuName.Text = SaDR("CuName").ToString Then Exit Sub
-            Dim frm As New frmCustomer
-            With frm
-                frm.Name = "frmCustomer" + NextfrmNo(frmCustomer).ToString
-                frm.Caller = Me.Name
-                frm.Tag = "Receive"
-                frm.Show(Me)
-                frm.cmbCuName.Text = SaDR("CuName").ToString
-                Call frm.cmbCuName_SelectedIndexChanged(sender, e)
-            End With
-        End If
-        SaDR.Close()
-    End Sub
-
-    Private Sub txtCuTelNo3_KeyUp(sender As Object, e As EventArgs) Handles txtCuTelNo3.KeyUp
-        If txtCuTelNo3.Text.Replace(" ", "").Length < 10 Then Exit Sub
-        If txtCuTelNo1.Text.Replace(" ", "") = "" And txtCuTelNo2.Text.Replace(" ", "") = "" Then
-            txtCuTelNo1.Text = txtCuTelNo3.Text
-            txtCuTelNo3.Text = ""
-            txtCuTelNo2.Text = ""
-            Exit Sub
-        ElseIf txtCuTelNo1.Text.Replace(" ", "") = "" Then
-            txtCuTelNo1.Text = txtCuTelNo2.Text
-            txtCuTelNo2.Text = txtCuTelNo3.Text
-            txtCuTelNo3.Text = ""
-            Exit Sub
-        End If
-        Dim SaDR As OleDbDataReader = Db.GetDataReader("Select * from Customer where CuTelNo1='" & txtCuTelNo3.Text & "' or CuTelNo2='" & txtCuTelNo3.Text & "' or CuTelNo3='" & txtCuTelNo3.Text & "';")
-        If SaDR.HasRows = True Then
-            SaDR.Read()
-            If cmbCuMr.Text + cmbCuName.Text = SaDR("CuName").ToString Then Exit Sub
-            Dim frm As New frmCustomer
-            With frm
-                frm.Name = "frmCustomer" + NextfrmNo(frmCustomer).ToString
-                frm.Caller = Me.Name
-                frm.Tag = "Receive"
-                frm.Show(Me)
-                frm.cmbCuName.Text = SaDR("CuName").ToString
-                Call frm.cmbCuName_SelectedIndexChanged(sender, e)
-            End With
-        End If
-        SaDR.Close()
-    End Sub
-
     Public Sub cmbCuName_Text(CuName As String)
         cmbCuName.Text = CuName
         CuName = CuName.TrimStart(" ")
