@@ -36,8 +36,8 @@
     <MinimumRequiredVersion>1.0.0.0</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>13</ApplicationRevision>
-    <ApplicationVersion>2.0.3.%2a</ApplicationVersion>
+    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationVersion>2.0.4.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -161,58 +161,58 @@
     <Compile Include="Classes\Validators\NumberValidator.vb" />
     <Compile Include="Classes\Validators\RequiredValidator.vb" />
     <Compile Include="Enums\RepairMode.vb" />
-    <Compile Include="FormDeliver\Controls\ControlPopUp.Designer.vb">
+    <Compile Include="Deliver\Controls\ControlPopUp.Designer.vb">
       <DependentUpon>ControlPopUp.vb</DependentUpon>
     </Compile>
-    <Compile Include="FormDeliver\Controls\ControlPopUp.vb">
+    <Compile Include="Deliver\Controls\ControlPopUp.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="FormRepair\Controls\ControlActivityInfo.Designer.vb">
+    <Compile Include="Repair\Controls\ControlActivityInfo.Designer.vb">
       <DependentUpon>ControlActivityInfo.vb</DependentUpon>
     </Compile>
-    <Compile Include="FormRepair\Controls\ControlActivityInfo.vb">
+    <Compile Include="Repair\Controls\ControlActivityInfo.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="FormRepair\Controls\ControlAdvancePayInfo.Designer.vb">
+    <Compile Include="Repair\Controls\ControlAdvancePayInfo.Designer.vb">
       <DependentUpon>ControlAdvancePayInfo.vb</DependentUpon>
     </Compile>
-    <Compile Include="FormRepair\Controls\ControlAdvancePayInfo.vb">
+    <Compile Include="Repair\Controls\ControlAdvancePayInfo.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="FormRepair\Controls\ControlRemarks.Designer.vb">
+    <Compile Include="Repair\Controls\ControlRemarks.Designer.vb">
       <DependentUpon>ControlRemarks.vb</DependentUpon>
     </Compile>
-    <Compile Include="FormRepair\Controls\ControlRemarks.vb">
+    <Compile Include="Repair\Controls\ControlRemarks.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="FormRepair\Controls\ControlRepairDeliverInfo.Designer.vb">
+    <Compile Include="Repair\Controls\ControlRepairDeliverInfo.Designer.vb">
       <DependentUpon>ControlRepairDeliverInfo.vb</DependentUpon>
     </Compile>
-    <Compile Include="FormRepair\Controls\ControlRepairDeliverInfo.vb">
+    <Compile Include="Repair\Controls\ControlRepairDeliverInfo.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="FormRepair\Controls\ControlReRepairView.Designer.vb">
+    <Compile Include="Repair\Controls\ControlReRepairView.Designer.vb">
       <DependentUpon>ControlReRepairView.vb</DependentUpon>
     </Compile>
-    <Compile Include="FormRepair\Controls\ControlReRepairView.vb">
+    <Compile Include="Repair\Controls\ControlReRepairView.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="FormRepair\Controls\ControlTaskInfo.Designer.vb">
+    <Compile Include="Repair\Controls\ControlTaskInfo.Designer.vb">
       <DependentUpon>ControlTaskInfo.vb</DependentUpon>
     </Compile>
-    <Compile Include="FormRepair\Controls\ControlTaskInfo.vb">
+    <Compile Include="Repair\Controls\ControlTaskInfo.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="FormRepair\Controls\ControlTechnicianCostInfo.Designer.vb">
+    <Compile Include="Repair\Controls\ControlTechnicianCostInfo.Designer.vb">
       <DependentUpon>ControlTechnicianCostInfo.vb</DependentUpon>
     </Compile>
-    <Compile Include="FormRepair\Controls\ControlTechnicianCostInfo.vb">
+    <Compile Include="Repair\Controls\ControlTechnicianCostInfo.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="FormRepair\Controls\ControlTechnicianInfo.Designer.vb">
+    <Compile Include="Repair\Controls\ControlTechnicianInfo.Designer.vb">
       <DependentUpon>ControlTechnicianInfo.vb</DependentUpon>
     </Compile>
-    <Compile Include="FormRepair\Controls\ControlTechnicianInfo.vb">
+    <Compile Include="Repair\Controls\ControlTechnicianInfo.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Interfaces\Validator.vb" />
@@ -222,16 +222,16 @@
       <DependentUpon>rptReceive.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="FormStock\Controls\ControlStockInfo.Designer.vb">
+    <Compile Include="Stock\Controls\ControlStockInfo.Designer.vb">
       <DependentUpon>ControlStockInfo.vb</DependentUpon>
     </Compile>
-    <Compile Include="FormStock\Controls\ControlStockInfo.vb">
+    <Compile Include="Stock\Controls\ControlStockInfo.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="FormStock\FormStock.Designer.vb">
+    <Compile Include="Stock\FormStock.Designer.vb">
       <DependentUpon>FormStock.vb</DependentUpon>
     </Compile>
-    <Compile Include="FormStock\FormStock.vb">
+    <Compile Include="Stock\FormStock.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmCustomer.Designer.vb">
@@ -246,10 +246,10 @@
     <Compile Include="frmCustomerLoan.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormDeliver\FormDeliver.Designer.vb">
+    <Compile Include="Deliver\FormDeliver.Designer.vb">
       <DependentUpon>FormDeliver.vb</DependentUpon>
     </Compile>
-    <Compile Include="FormDeliver\FormDeliver.vb">
+    <Compile Include="Deliver\FormDeliver.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmLogin.Designer.vb">
@@ -276,10 +276,10 @@
     <Compile Include="frmReceive.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormRepair\FormRepair.Designer.vb">
+    <Compile Include="Repair\FormRepair.Designer.vb">
       <DependentUpon>FormRepair.vb</DependentUpon>
     </Compile>
-    <Compile Include="FormRepair\FormRepair.vb">
+    <Compile Include="Repair\FormRepair.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmRepairAdvanced.Designer.vb">
@@ -476,31 +476,31 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="FormDeliver\Controls\ControlPopUp.resx">
+    <EmbeddedResource Include="Deliver\Controls\ControlPopUp.resx">
       <DependentUpon>ControlPopUp.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormRepair\Controls\ControlActivityInfo.resx">
+    <EmbeddedResource Include="Repair\Controls\ControlActivityInfo.resx">
       <DependentUpon>ControlActivityInfo.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormRepair\Controls\ControlAdvancePayInfo.resx">
+    <EmbeddedResource Include="Repair\Controls\ControlAdvancePayInfo.resx">
       <DependentUpon>ControlAdvancePayInfo.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormRepair\Controls\ControlRemarks.resx">
+    <EmbeddedResource Include="Repair\Controls\ControlRemarks.resx">
       <DependentUpon>ControlRemarks.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormRepair\Controls\ControlRepairDeliverInfo.resx">
+    <EmbeddedResource Include="Repair\Controls\ControlRepairDeliverInfo.resx">
       <DependentUpon>ControlRepairDeliverInfo.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormRepair\Controls\ControlReRepairView.resx">
+    <EmbeddedResource Include="Repair\Controls\ControlReRepairView.resx">
       <DependentUpon>ControlReRepairView.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormRepair\Controls\ControlTaskInfo.resx">
+    <EmbeddedResource Include="Repair\Controls\ControlTaskInfo.resx">
       <DependentUpon>ControlTaskInfo.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormRepair\Controls\ControlTechnicianCostInfo.resx">
+    <EmbeddedResource Include="Repair\Controls\ControlTechnicianCostInfo.resx">
       <DependentUpon>ControlTechnicianCostInfo.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormRepair\Controls\ControlTechnicianInfo.resx">
+    <EmbeddedResource Include="Repair\Controls\ControlTechnicianInfo.resx">
       <DependentUpon>ControlTechnicianInfo.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmCustomer.resx">
@@ -509,7 +509,7 @@
     <EmbeddedResource Include="frmCustomerLoan.resx">
       <DependentUpon>frmCustomerLoan.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormDeliver\FormDeliver.resx">
+    <EmbeddedResource Include="Deliver\FormDeliver.resx">
       <DependentUpon>FormDeliver.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmLogin.resx">
@@ -524,7 +524,7 @@
     <EmbeddedResource Include="frmReceive.resx">
       <DependentUpon>frmReceive.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormRepair\FormRepair.resx">
+    <EmbeddedResource Include="Repair\FormRepair.resx">
       <DependentUpon>FormRepair.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmRepairAdvanced.resx">
@@ -624,13 +624,13 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>rptTechnicianSalary.vb</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormStock\Controls\ControlStockInfo.resx">
+    <EmbeddedResource Include="Stock\Controls\ControlStockInfo.resx">
       <DependentUpon>ControlStockInfo.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormStock\FormStock.resx">
+    <EmbeddedResource Include="Stock\FormStock.resx">
       <DependentUpon>FormStock.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormStock\FormStock.si.resx">
+    <EmbeddedResource Include="Stock\FormStock.si.resx">
       <DependentUpon>FormStock.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Shared Controls\compMessageBox.resx">

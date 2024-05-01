@@ -9,8 +9,47 @@ Public Class frmCustomer
         MenuStrip.Items.Add(mnustrpMENU)
     End Sub
 
-    Private Sub cmbCuName_DropDown(sender As Object, e As EventArgs) Handles cmbCuName.DropDown
-        ComboBoxDropDown(Db, cmbCuName, "Select CuName from Customer group by  CuName;")
+    Public Sub SelectCustomer(CuNo As Integer)
+        txtCuNo.Text = CuNo
+        Dim DR As OleDbDataReader = Db.GetDataReader("SELECT * FROM Customer WHERE CuNo = @CUNO", {
+            New OleDbParameter("CUNO", CuNo)
+        })
+        If DR.HasRows = False Then
+            Exit Sub
+        End If
+        DR.Read()
+        TextCuName.Text = DR("CuName").ToString
+        txtCuTelNo1.Text = DR("CuTelNo1").ToString
+        txtCuTelNo2.Text = DR("CuTelNo2").ToString
+        txtCuTelNo3.Text = DR("CuTelNo3").ToString
+        For Each Row As DataGridViewRow In grdCustomer.Rows
+            If Row.Cells(0).Value.ToString = txtCuNo.Text Then
+                Row.Selected = True
+                grdCustomer.Select()
+                Exit For
+            End If
+        Next Row
+        cmdSave.Text = "Edit"
+        SaveToolStripMenuItem.Text = cmdSave.Text
+        cmdDone.Text = "Done"
+        DoneSaveToolStripMenuItem.Text = "Done"
+        cmdDelete.Enabled = True
+        DeleteToolStripMenuItem.Enabled = True
+    End Sub
+
+    Public Sub SelectCustomer(CuNo As Integer, CuName As String, CuTelNo1 As String, CuTelNo2 As String, CuTelNo3 As String)
+        txtCuNo.Text = CuNo
+        TextCuName.Text = CuName
+        txtCuTelNo1.Text = CuTelNo1
+        txtCuTelNo2.Text = CuTelNo2
+        txtCuTelNo3.Text = CuTelNo3
+
+        cmdSave.Text = "Edit"
+        SaveToolStripMenuItem.Text = cmdSave.Text
+        cmdDone.Text = "Done"
+        DoneSaveToolStripMenuItem.Text = "Done"
+        cmdDelete.Enabled = True
+        DeleteToolStripMenuItem.Enabled = True
     End Sub
 
     Private Sub frmCustomer_Load(sender As Object, e As EventArgs) Handles Me.Load
@@ -26,18 +65,12 @@ Public Class frmCustomer
         txtSearch.Text = ""
         Call txtSearch_TextChanged(Nothing, Nothing)   'refresh grdstock
         Call cmdNew_Click(Nothing, Nothing)
-        Call cmbCuName_DropDown(Nothing, Nothing)
 
         If Me.Tag = "" Then
             cmdDone.Enabled = False
         Else
             cmdDone.Enabled = True
         End If
-        Select Case Me.Tag
-            Case "Repair"
-                cmbCuName.Text = FormRepair.TextCuName.Text
-                Call cmbCuName_SelectedIndexChanged(Nothing, Nothing)
-        End Select
     End Sub
 
     Private Sub txtSearch_TextChanged(sender As Object, e As EventArgs) Handles txtSearch.TextChanged
@@ -64,39 +97,17 @@ Public Class frmCustomer
         grdCustomer.Refresh()
     End Sub
 
-    Public Sub cmbCuName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbCuName.SelectedIndexChanged
-        Dim DR As OleDbDataReader = Db.GetDataReader("SELECT * from Customer where CuName='" & cmbCuName.Text & "';")
-        If DR.HasRows = True Then
-            DR.Read()
-            txtCuNo.Text = DR("CuNo").ToString
-            cmbCuName.Text = DR("CuName").ToString
-            txtCuTelNo1.Text = DR("CuTelNo1").ToString
-            txtCuTelNo2.Text = DR("CuTelNo2").ToString
-            txtCuTelNo3.Text = DR("CuTelNo3").ToString
-            For Each Row As DataGridViewRow In grdCustomer.Rows
-                If Row.Cells(0).Value.ToString = txtCuNo.Text Then
-                    Row.Selected = True
-                    grdCustomer.Select()
-                    Exit For
-                End If
-            Next Row
-            cmdSave.Text = "Edit"
-            SaveToolStripMenuItem.Text = cmdSave.Text
-            cmdDone.Text = "Done"
-            DoneSaveToolStripMenuItem.Text = "Done"
-            cmdDelete.Enabled = True
-            DeleteToolStripMenuItem.Enabled = True
-        End If
-    End Sub
-
     Private Sub grdCustomer_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles grdCustomer.CellDoubleClick
-        Dim index As Integer
-        index = e.RowIndex
-        Dim selectedrow As DataGridViewRow
-        If index >= 0 Then
-            selectedrow = grdCustomer.Rows(index)
-            cmbCuName.Text = selectedrow.Cells(1).Value.ToString
-            Call cmbCuName_SelectedIndexChanged(sender, e)
+        Dim Index As Integer
+        Index = e.RowIndex
+        Dim SelectedRow As DataGridViewRow
+        If Index >= 0 Then
+            SelectedRow = grdCustomer.Rows(Index)
+            txtCuNo.Text = SelectedRow.Cells(0).Value.ToString
+            TextCuName.Text = SelectedRow.Cells(1).Value.ToString
+            txtCuTelNo1.Text = SelectedRow.Cells(2).Value.ToString
+            txtCuTelNo2.Text = SelectedRow.Cells(3).Value.ToString
+            txtCuTelNo3.Text = SelectedRow.Cells(4).Value.ToString
         End If
         cmdSave.Text = "Edit"
         SaveToolStripMenuItem.Text = cmdSave.Text
@@ -116,7 +127,7 @@ Public Class frmCustomer
                 For Each oForm As frmSale In Application.OpenForms().OfType(Of frmSale)()
                     If oForm.Name = Me.Caller Then
                         With oForm
-                            .cmbCuName.Text = Me.cmbCuName.Text
+                            .cmbCuName.Text = Me.TextCuName.Text
                             .txtCuTelNo1.Text = Me.txtCuTelNo1.Text
                             .txtCuTelNo2.Text = Me.txtCuTelNo2.Text
                             .txtCuTelNo3.Text = Me.txtCuTelNo3.Text
@@ -132,7 +143,7 @@ Public Class frmCustomer
                             .txtCuTelNo1.Text = Me.txtCuTelNo1.Text
                             .txtCuTelNo2.Text = Me.txtCuTelNo2.Text
                             .txtCuTelNo3.Text = Me.txtCuTelNo3.Text
-                            .cmbCuName_Text(Me.cmbCuName.Text)
+                            .cmbCuName_Text(Me.TextCuName.Text)
                             .grdRepair.CurrentCell = .grdRepair.Item(1, .grdRepair.Rows.Count - 1)
                             .grdRepair.Focus()
                         End With
@@ -141,7 +152,7 @@ Public Class frmCustomer
                 Next
             Case "Repair"
                 With FormRepair
-                    .TextCuName.Text = cmbCuName.Text
+                    .TextCuName.Text = TextCuName.Text
                     .txtCuNo.Text = txtCuNo.Text
                     .txtCuTelNo1.Text = txtCuTelNo1.Text
                     .txtCuTelNo2.Text = txtCuTelNo2.Text
@@ -153,17 +164,17 @@ Public Class frmCustomer
 
     Private Sub cmdSave_Click(sender As Object, e As EventArgs) Handles cmdSave.Click, SaveToolStripMenuItem.Click
         cmdDone.Tag = ""
-        If CheckEmptyControl(cmbCuName, "Customer Name එක ඇතුලත් කරන්න.") = False Then
+        If CheckEmptyControl(TextCuName, "Customer Name එක ඇතුලත් කරන්න.") = False Then
             Exit Sub
         End If
         Select Case cmdSave.Text
             Case "Save"
-                Dim DR As OleDbDataReader = Db.GetDataReader("Select CuName from Customer where CuName ='" & cmbCuName.Text & "';")
+                Dim DR As OleDbDataReader = Db.GetDataReader("Select CuName from Customer where CuName ='" & TextCuName.Text & "';")
                 If DR.HasRows = True Then
                     For i As Integer = 0 To 1000
-                        DR = Db.GetDataReader("Select CuName from Customer Where CuName = '" & cmbCuName.Text & " " & i.ToString & "'")
+                        DR = Db.GetDataReader("Select CuName from Customer Where CuName = '" & TextCuName.Text & " " & i.ToString & "'")
                         If DR.HasRows = False Then
-                            cmbCuName.Text = cmbCuName.Text + " " + i.ToString
+                            TextCuName.Text = TextCuName.Text + " " + i.ToString
                             Exit For
                         End If
                     Next
@@ -173,7 +184,7 @@ Public Class frmCustomer
                 End If
                 Db.Execute("Insert into Customer(CuNo,CuName,CuTelNo1,CuTelNo2,CuTelNo3) Values(@NO, @NAME, @TELNO1, @TELNO2, @TELNO3);", {
                         New OleDbParameter("@NO", txtCuNo.Text),
-                        New OleDbParameter("@NAME", cmbCuName.Text),
+                        New OleDbParameter("@NAME", TextCuName.Text),
                         New OleDbParameter("@TELNO1", txtCuTelNo1.Text),
                         New OleDbParameter("@TELNO2", txtCuTelNo2.Text),
                         New OleDbParameter("@TELNO3", txtCuTelNo3.Text)
@@ -185,7 +196,7 @@ Public Class frmCustomer
                 DeleteToolStripMenuItem.Enabled = True
                 MsgBox("Save Successful", vbExclamation + vbOKOnly)
             Case "Edit"
-                Db.Execute("Update Customer set CuName = '" & cmbCuName.Text & "',CuTelNo1 =  '" & txtCuTelNo1.Text & "',CuTelNo2 =  '" & txtCuTelNo2.Text & "',CuTelNo3 =  '" & txtCuTelNo3.Text & "' where CuNo=" & txtCuNo.Text)
+                Db.Execute("Update Customer set CuName = '" & TextCuName.Text & "',CuTelNo1 =  '" & txtCuTelNo1.Text & "',CuTelNo2 =  '" & txtCuTelNo2.Text & "',CuTelNo3 =  '" & txtCuTelNo3.Text & "' where CuNo=" & txtCuNo.Text)
                 Call txtSearch_TextChanged(sender, e)
         End Select
         For Each Row As DataGridViewRow In grdCustomer.Rows
@@ -200,7 +211,7 @@ Public Class frmCustomer
 
     Private Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click, NewToolStripMenuItem.Click
         Call SetNextKey(Db, txtCuNo, "SELECT top 1 CuNo from Customer ORDER BY CuNo Desc;", "CuNo")
-        cmbCuName.Text = ""
+        TextCuName.Text = ""
         txtCuTelNo1.Text = ""
         txtCuTelNo2.Text = ""
         txtCuTelNo3.Text = ""
@@ -236,38 +247,17 @@ Public Class frmCustomer
         End If
     End Sub
 
-    Private Sub txtCuTelNo1_KeyUp(sender As Object, e As KeyEventArgs) Handles txtCuTelNo1.KeyUp
-        If txtCuTelNo1.Text.Trim.Length < 10 Then Exit Sub
-        Dim DR As OleDbDataReader = Db.GetDataReader("Select * from Customer where CuTelNo1='" & txtCuTelNo1.Text & "' or CuTelNo2='" & txtCuTelNo1.Text & "' or CuTelNo3='" & txtCuTelNo1.Text & "';")
+    Private Sub txtCuTelNo1_KeyUp(sender As Object, e As KeyEventArgs) Handles txtCuTelNo1.KeyUp, txtCuTelNo2.KeyUp, txtCuTelNo3.KeyUp
+        If sender.Text.Trim.Length < 10 Then Exit Sub
+        Dim DR As OleDbDataReader = Db.GetDataReader("Select * from Customer where CuTelNo1='" & sender.Text & "' or CuTelNo2='" & sender.Text & "' or CuTelNo3='" & sender.Text & "';")
         If DR.HasRows = True Then
             If MsgBox("මෙම Telephone No එකට Customer කෙනෙකු ලියාපදිංචි වී ඇත. එය විවෘත කරන්නද?", vbYesNo + vbCritical) = vbYes Then
                 DR.Read()
-                cmbCuName.Text = DR("CuName").ToString
-                Call cmbCuName_SelectedIndexChanged(sender, e)
-            End If
-        End If
-    End Sub
-
-    Private Sub txtCuTelNo2_KeyUp(sender As Object, e As KeyEventArgs) Handles txtCuTelNo2.KeyUp
-        If txtCuTelNo2.Text.Trim.Length < 10 Then Exit Sub
-        Dim DR As OleDbDataReader = Db.GetDataReader("Select * from Customer where CuTelNo1='" & txtCuTelNo2.Text & "' or CuTelNo2='" & txtCuTelNo2.Text & "' or CuTelNo3='" & txtCuTelNo2.Text & "';")
-        If DR.HasRows = True Then
-            If MsgBox("මෙම Telephone No එකට Customer කෙනෙකු ලියාපදිංචි වී ඇත. එය විවෘත කරන්නද?", vbYesNo + vbCritical) = vbYes Then
-                DR.Read()
-                cmbCuName.Text = DR("CuName").ToString
-                Call cmbCuName_SelectedIndexChanged(sender, e)
-            End If
-        End If
-    End Sub
-
-    Private Sub txtCuTelNo3_KeyUp(sender As Object, e As KeyEventArgs) Handles txtCuTelNo3.KeyUp
-        If txtCuTelNo3.Text.Trim.Length < 10 Then Exit Sub
-        Dim DR As OleDbDataReader = Db.GetDataReader("Select * from Customer where CuTelNo1='" & txtCuTelNo3.Text & "' or CuTelNo2='" & txtCuTelNo3.Text & "' or CuTelNo3='" & txtCuTelNo3.Text & "';")
-        If DR.HasRows = True Then
-            If MsgBox("Another Customer was found assigned this Telephone No. Will it be opened?", vbYesNo + vbCritical) = vbYes Then
-                DR.Read()
-                cmbCuName.Text = DR("CuName").ToString
-                Call cmbCuName_SelectedIndexChanged(sender, e)
+                TextCuName.Text = DR("CuName").ToString
+                txtCuNo.Text = DR("CuNo").ToString
+                txtCuTelNo1.Text = DR("CuTelNo1").ToString
+                txtCuTelNo2.Text = DR("CuTelNo2").ToString
+                txtCuTelNo3.Text = DR("CuTelNo3").ToString
             End If
         End If
     End Sub
