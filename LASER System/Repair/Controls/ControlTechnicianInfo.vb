@@ -14,19 +14,18 @@ Public Class ControlTechnicianInfo
 
     Public Sub Init()
         cmbTName.Text = FormParent.DataReaderRepair("TName").ToString()
-        Dim DataTable As DataTable
+        Dim DataReader As OleDbDataReader
         If FormParent.Mode = RepairMode.Repair Then
-            DataTable = DB.GetDataTable("Select Rem2No, Rem2Date, Remarks, UserName from RepairRemarks2 RepRem2 LEFT JOIN [User] U ON U.UNo=RepRem2.UNo Where RepNo=@REPNO;", {New OleDbParameter("REPNO", FormParent.DataReaderRepair("RepNo").ToString())})
+            DataReader = DB.GetDataReader("Select Rem2No, Rem2Date, Remarks, UserName from RepairRemarks2 RepRem2 LEFT JOIN [User] U ON U.UNo=RepRem2.UNo Where RepNo=@REPNO;", {New OleDbParameter("REPNO", FormParent.DataReaderRepair("RepNo").ToString())})
         Else
-            DataTable = DB.GetDataTable("Select Rem2No, Rem2Date, Remarks, UserName from RepairRemarks2 RepRem2 LEFT JOIN [User] U ON U.UNo=RepRem2.UNo Where RetNo=@REREPNO;", {
+            DataReader = DB.GetDataReader("Select Rem2No, Rem2Date, Remarks, UserName from RepairRemarks2 RepRem2 LEFT JOIN [User] U ON U.UNo=RepRem2.UNo Where RetNo=@REREPNO;", {
                                         New OleDbParameter("REREPNO", FormParent.DataReaderRepair("RetNo").ToString())
                                     })
         End If
-        grdRepRemarks2.DataSource = DataTable
-        Dim DeliveredDate As String = FormParent.DataReaderRepair("DDate").ToString()
-        If User.Instance.UserType <> User.Type.Admin AndAlso DeliveredDate <> "" AndAlso DateValue(DeliveredDate).Month <> Today.Month Then
-            grdRepRemarks2.ReadOnly = True
-        End If
+        grdRepRemarks2.Rows.Clear()
+        While DataReader.Read
+            grdRepRemarks2.Rows.Add(DataReader("Rem1No").ToString, DataReader("Rem1Date").ToString, DataReader("Remarks").ToString, DataReader("UserName").ToString)
+        End While
 
         Call CmbTName_DropDown(Nothing, Nothing)
     End Sub
@@ -78,8 +77,8 @@ Public Class ControlTechnicianInfo
                 AdminPer.Remarks = "Repair Remarks 2 හිදි අද දිනට නොමැති Remarks එකක දිනයක් වෙනස් කෙරුණි."
             End If
         ElseIf e.ColumnIndex = 2 And e.RowIndex <> (grdRepRemarks2.Rows.Count - 1) Then
-            If (String.IsNullOrEmpty(grdRepRemarks2.Item(1, e.RowIndex).Value) AndAlso
-           Convert.ToDateTime(grdRepRemarks2.Item(1, e.RowIndex).Value).Date <> DateTime.Today.Date) Then
+            If (Not IsDBNull(grdRepRemarks2.Item(1, e.RowIndex).Value)) AndAlso
+           Convert.ToDateTime(grdRepRemarks2.Item(1, e.RowIndex).Value).Date <> DateTime.Today.Date Then
                 AdminPer.AdminSend = True
                 AdminPer.Remarks = "Repair Remarks 2 හිදි අද දිනට නොමැති Remarks එකක් වෙනස් කෙරුණි."
             End If

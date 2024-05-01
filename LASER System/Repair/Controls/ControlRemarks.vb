@@ -22,9 +22,6 @@ Public Class ControlRemarks
         grdRepRemarks1.Rows.Clear()
         While DRREPNO1.Read
             grdRepRemarks1.Rows.Add(DRREPNO1("Rem1No").ToString, DRREPNO1("Rem1Date").ToString, DRREPNO1("Remarks").ToString, DB.GetData("Select UserName from [User] Where UNo=" & DRREPNO1("UNo").ToString))
-            If IsDate(FormParent.DataReaderRepair("DDate")) AndAlso DateValue(FormParent.DataReaderRepair("DDate")).Month <> Today.Month Then
-                grdRepRemarks1.Rows.Item(grdRepRemarks1.Rows.Count - 1).ReadOnly = True
-            End If
         End While
 
         Dim FilePath As String = Path.Combine(SystemFolderPath, $"\LASER System\Images\REP-{RepNo}.png")

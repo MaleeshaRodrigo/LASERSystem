@@ -139,7 +139,7 @@ Public Class FormRepair
                 DataReaderRepair("RepDate").ToString
                 ).SetDeliverInfoVisibility(False)
             PanelMain.Controls.Add(ControlRepairDeliverInfo)
-            PanelMain.Controls.SetChildIndex(ControlTechnicianInfo, 4)
+            PanelMain.Controls.SetChildIndex(ControlRepairDeliverInfo, 4)
             If cmbRepStatus.Text = "Repaired Not Delivered" Or cmbRepStatus.Text = "Returned Not Delivered" Then
                 Exit Try
             End If
