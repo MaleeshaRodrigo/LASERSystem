@@ -1,6 +1,4 @@
 ﻿Imports System.Data.OleDb
-Imports System.IO
-Imports Microsoft.VisualBasic.FileIO
 
 Public Class FormRepair
     Private Db As New Database

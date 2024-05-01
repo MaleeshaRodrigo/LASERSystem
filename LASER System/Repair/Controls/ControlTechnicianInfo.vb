@@ -24,7 +24,7 @@ Public Class ControlTechnicianInfo
         End If
         grdRepRemarks2.Rows.Clear()
         While DataReader.Read
-            grdRepRemarks2.Rows.Add(DataReader("Rem1No").ToString, DataReader("Rem1Date").ToString, DataReader("Remarks").ToString, DataReader("UserName").ToString)
+            grdRepRemarks2.Rows.Add(DataReader("Rem2No").ToString, DataReader("Rem2Date").ToString, DataReader("Remarks").ToString, DataReader("UserName").ToString)
         End While
 
         Call CmbTName_DropDown(Nothing, Nothing)
@@ -77,7 +77,7 @@ Public Class ControlTechnicianInfo
                 AdminPer.Remarks = "Repair Remarks 2 හිදි අද දිනට නොමැති Remarks එකක දිනයක් වෙනස් කෙරුණි."
             End If
         ElseIf e.ColumnIndex = 2 And e.RowIndex <> (grdRepRemarks2.Rows.Count - 1) Then
-            If (Not IsDBNull(grdRepRemarks2.Item(1, e.RowIndex).Value)) AndAlso
+            If (Not String.IsNullOrEmpty(grdRepRemarks2.Item(1, e.RowIndex).Value)) AndAlso
            Convert.ToDateTime(grdRepRemarks2.Item(1, e.RowIndex).Value).Date <> DateTime.Today.Date Then
                 AdminPer.AdminSend = True
                 AdminPer.Remarks = "Repair Remarks 2 හිදි අද දිනට නොමැති Remarks එකක් වෙනස් කෙරුණි."
