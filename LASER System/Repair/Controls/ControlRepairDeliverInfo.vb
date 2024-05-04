@@ -5,6 +5,9 @@
         InitializeComponent()
 
         Me.Db = Db
+        If User.Instance.UserType = User.Type.Admin Then
+            txtDNo.Visible = True
+        End If
     End Sub
 
     Public Function SetRepDetails(RepairCharge As Decimal, RepairedDate As String) As ControlRepairDeliverInfo
