@@ -181,7 +181,7 @@ Public Class ControlPopUp
                            }, AdminPer)
         Next
         If FormParent.cmdSave.Text = "Edit" Then
-            Db.Execute("DELETE FROM Deliver WHERE DNo=@DNO AND Exists( Select 1 From Repair Rep Where Rep.DNo = D.DNo ) = False AND Exists( Select 1 From Return Ret Where Ret.DNo = D.DNo ) = False;", {
+            Db.Execute("DELETE FROM Deliver D WHERE DNo = @DNO AND Exists( Select 1 From Repair Rep Where Rep.DNo = D.DNo ) = False AND Exists( Select 1 From Return Ret Where Ret.DNo = D.DNo ) = False", {
                             New OleDbParameter("DNO", FormParent.txtDNo.Text)
                        })
         End If
