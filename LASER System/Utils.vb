@@ -6,6 +6,7 @@ Imports Newtonsoft.Json
 
 Module Utils
     Public SystemFolderPath As String = Path.Combine(SpecialDirectories.MyDocuments, "LASER System Data")
+
     Public Sub ComboBoxDropDown(Db As Database, cmb As ComboBox, SQL As String)
         cmb.Items.Clear()
         Dim DT0 As DataTable = Db.GetDataTable(SQL)

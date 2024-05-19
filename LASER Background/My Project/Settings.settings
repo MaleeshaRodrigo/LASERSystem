@@ -2,10 +2,10 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="My" GeneratedClassName="MySettings" UseMySettingsClassName="true">
   <Profiles />
   <Settings>
-    <Setting Name="AdminEmail" Type="System.String" Scope="User">
-      <Value Profile="(Default)">laserelectdigi@gmail.com</Value>
+    <Setting Name="SystemEmail" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="AdminEmailPass" Type="System.String" Scope="User">
+    <Setting Name="SystemEmailPassword" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="APIKey" Type="System.String" Scope="User">
@@ -26,22 +26,22 @@
     <Setting Name="BGSendSMS" Type="System.String" Scope="User">
       <Value Profile="(Default)">OFF</Value>
     </Setting>
-    <Setting Name="DatabaseCNN" Type="System.String" Scope="User">
+    <Setting Name="DatabasePath" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="DBPassword" Type="System.String" Scope="User">
+    <Setting Name="DatabasePassword" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="DBProvider" Type="System.String" Scope="User">
+    <Setting Name="DatabaseProvider" Type="System.String" Scope="User">
       <Value Profile="(Default)">Microsoft.ACE.OLEDB.12.0</Value>
     </Setting>
-    <Setting Name="ODBPath" Type="System.String" Scope="User">
+    <Setting Name="OnlineDatabasePath" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="ODBPassword" Type="System.String" Scope="User">
+    <Setting Name="OnlineDatabasePassword" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="ODBUser" Type="System.String" Scope="User">
+    <Setting Name="OnlineDatabaseUser" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="SendEmail" Type="System.Boolean" Scope="User">
@@ -52,6 +52,12 @@
     </Setting>
     <Setting Name="ODBToken" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="MailServer" Type="System.String" Scope="User">
+      <Value Profile="(Default)">mail.lasertec.lk</Value>
+    </Setting>
+    <Setting Name="MailServerPort" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">587</Value>
     </Setting>
   </Settings>
 </SettingsFile>

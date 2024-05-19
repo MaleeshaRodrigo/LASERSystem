@@ -154,6 +154,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationEvents.vb" />
+    <Compile Include="Classes\Activity.vb" />
+    <Compile Include="Classes\Database.vb" />
+    <Compile Include="Classes\EmailController.vb" />
+    <Compile Include="Classes\Encoder.vb" />
+    <Compile Include="Classes\Processes\AdminPermissionProcess.vb" />
+    <Compile Include="Classes\Processes\BackUpDatabaseProcess.vb" />
+    <Compile Include="Classes\Processes\SendSMSProcess.vb" />
+    <Compile Include="Structures\ErrorClass.vb" />
+    <Compile Include="Modules\Utils.vb" />
     <Compile Include="FrmAdvDB.Designer.vb">
       <DependentUpon>FrmAdvDB.vb</DependentUpon>
     </Compile>
@@ -166,6 +175,7 @@
     <Compile Include="frmBGTasks.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Interfaces\Process.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -182,10 +192,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Tools\MessageBox.Designer.vb">
+    <Compile Include="Classes\Processes\SendEmailProcess.vb" />
+    <Compile Include="Controls\MessageBox.Designer.vb">
       <DependentUpon>MessageBox.vb</DependentUpon>
     </Compile>
-    <Compile Include="Tools\MessageBox.vb">
+    <Compile Include="Controls\MessageBox.vb">
       <SubType>UserControl</SubType>
     </Compile>
   </ItemGroup>
@@ -202,7 +213,7 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Tools\MessageBox.resx">
+    <EmbeddedResource Include="Controls\MessageBox.resx">
       <DependentUpon>MessageBox.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
@@ -247,5 +258,6 @@
     <None Include="Resources\message.png" />
     <None Include="Resources\approve.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
