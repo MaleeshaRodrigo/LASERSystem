@@ -43,14 +43,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="LASER Background.exe" size="436224">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="LASER Background.exe" size="416768">
       <assemblyIdentity name="LASER Background" version="1.0.0.0" language="neutral" processorArchitecture="amd64" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>bWstquFz9+bpx2UJLofC59Mmf6y7oUekkYjY+9Mezdw=</dsig:DigestValue>
+        <dsig:DigestValue>WMUQ/79E2VaX6VOnK19NEEm+d33eRHXzh3+9k6J1COU=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -78,13 +78,13 @@
       </hash>
     </dependentAssembly>
   </dependency>
-  <file name="LASER Background.exe.config" size="3158">
+  <file name="LASER Background.exe.config" size="3453">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>0Yc8YZ/wuA96DzPo5xcCRFkree0NPgANpNwgImBfiHc=</dsig:DigestValue>
+      <dsig:DigestValue>SLv44RJ2AB0eTt4u2PTxmxT5ZjMsowaWFPc1ITUvvoU=</dsig:DigestValue>
     </hash>
   </file>
   <file name="refresh.ico" size="101433">
