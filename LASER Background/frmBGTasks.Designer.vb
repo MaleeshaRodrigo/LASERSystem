@@ -35,6 +35,8 @@ Partial Class frmBGTasks
         Me.txtOUser = New MaterialSkin.Controls.MaterialTextBox2()
         Me.txtOPassword = New MaterialSkin.Controls.MaterialTextBox2()
         Me.Guna2GroupBox1 = New MaterialSkin.Controls.MaterialCard()
+        Me.TextPort = New MaterialSkin.Controls.MaterialTextBox2()
+        Me.TextHost = New MaterialSkin.Controls.MaterialTextBox2()
         Me.txtMAdminEmailVerify = New MaterialSkin.Controls.MaterialTextBox2()
         Me.btnAdminEmailVerify = New MaterialSkin.Controls.MaterialButton()
         Me.txtMAdminPass = New MaterialSkin.Controls.MaterialTextBox2()
@@ -237,6 +239,8 @@ Partial Class frmBGTasks
         'Guna2GroupBox1
         '
         Me.Guna2GroupBox1.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.Guna2GroupBox1.Controls.Add(Me.TextPort)
+        Me.Guna2GroupBox1.Controls.Add(Me.TextHost)
         Me.Guna2GroupBox1.Controls.Add(Me.txtMAdminEmailVerify)
         Me.Guna2GroupBox1.Controls.Add(Me.btnAdminEmailVerify)
         Me.Guna2GroupBox1.Controls.Add(Me.txtMAdminPass)
@@ -255,6 +259,64 @@ Partial Class frmBGTasks
         Me.Guna2GroupBox1.TabIndex = 35
         Me.Guna2GroupBox1.Text = "Emails"
         '
+        'TextPort
+        '
+        Me.TextPort.AnimateReadOnly = False
+        Me.TextPort.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
+        Me.TextPort.CharacterCasing = System.Windows.Forms.CharacterCasing.Normal
+        Me.TextPort.Depth = 0
+        Me.TextPort.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel)
+        Me.TextPort.HideSelection = True
+        Me.TextPort.Hint = "Port"
+        Me.TextPort.LeadingIcon = Nothing
+        Me.TextPort.Location = New System.Drawing.Point(445, 55)
+        Me.TextPort.MaxLength = 32767
+        Me.TextPort.MouseState = MaterialSkin.MouseState.OUT
+        Me.TextPort.Name = "TextPort"
+        Me.TextPort.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
+        Me.TextPort.PrefixSuffixText = Nothing
+        Me.TextPort.ReadOnly = False
+        Me.TextPort.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.TextPort.SelectedText = ""
+        Me.TextPort.SelectionLength = 0
+        Me.TextPort.SelectionStart = 0
+        Me.TextPort.ShortcutsEnabled = True
+        Me.TextPort.Size = New System.Drawing.Size(121, 48)
+        Me.TextPort.TabIndex = 45
+        Me.TextPort.TabStop = False
+        Me.TextPort.TextAlign = System.Windows.Forms.HorizontalAlignment.Left
+        Me.TextPort.TrailingIcon = Nothing
+        Me.TextPort.UseSystemPasswordChar = False
+        '
+        'TextHost
+        '
+        Me.TextHost.AnimateReadOnly = False
+        Me.TextHost.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
+        Me.TextHost.CharacterCasing = System.Windows.Forms.CharacterCasing.Normal
+        Me.TextHost.Depth = 0
+        Me.TextHost.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel)
+        Me.TextHost.HideSelection = True
+        Me.TextHost.Hint = "Host"
+        Me.TextHost.LeadingIcon = Nothing
+        Me.TextHost.Location = New System.Drawing.Point(10, 55)
+        Me.TextHost.MaxLength = 32767
+        Me.TextHost.MouseState = MaterialSkin.MouseState.OUT
+        Me.TextHost.Name = "TextHost"
+        Me.TextHost.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
+        Me.TextHost.PrefixSuffixText = Nothing
+        Me.TextHost.ReadOnly = False
+        Me.TextHost.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.TextHost.SelectedText = ""
+        Me.TextHost.SelectionLength = 0
+        Me.TextHost.SelectionStart = 0
+        Me.TextHost.ShortcutsEnabled = True
+        Me.TextHost.Size = New System.Drawing.Size(429, 48)
+        Me.TextHost.TabIndex = 44
+        Me.TextHost.TabStop = False
+        Me.TextHost.TextAlign = System.Windows.Forms.HorizontalAlignment.Left
+        Me.TextHost.TrailingIcon = Nothing
+        Me.TextHost.UseSystemPasswordChar = False
+        '
         'txtMAdminEmailVerify
         '
         Me.txtMAdminEmailVerify.AnimateReadOnly = False
@@ -266,7 +328,7 @@ Partial Class frmBGTasks
         Me.txtMAdminEmailVerify.HideSelection = True
         Me.txtMAdminEmailVerify.Hint = "Verification Code"
         Me.txtMAdminEmailVerify.LeadingIcon = Nothing
-        Me.txtMAdminEmailVerify.Location = New System.Drawing.Point(17, 109)
+        Me.txtMAdminEmailVerify.Location = New System.Drawing.Point(11, 159)
         Me.txtMAdminEmailVerify.MaxLength = 32767
         Me.txtMAdminEmailVerify.MouseState = MaterialSkin.MouseState.OUT
         Me.txtMAdminEmailVerify.Name = "txtMAdminEmailVerify"
@@ -295,7 +357,7 @@ Partial Class frmBGTasks
         Me.btnAdminEmailVerify.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnAdminEmailVerify.HighEmphasis = True
         Me.btnAdminEmailVerify.Icon = Nothing
-        Me.btnAdminEmailVerify.Location = New System.Drawing.Point(248, 109)
+        Me.btnAdminEmailVerify.Location = New System.Drawing.Point(242, 159)
         Me.btnAdminEmailVerify.Margin = New System.Windows.Forms.Padding(4, 6, 4, 6)
         Me.btnAdminEmailVerify.MouseState = MaterialSkin.MouseState.HOVER
         Me.btnAdminEmailVerify.Name = "btnAdminEmailVerify"
@@ -317,7 +379,7 @@ Partial Class frmBGTasks
         Me.txtMAdminPass.HideSelection = True
         Me.txtMAdminPass.Hint = "Password"
         Me.txtMAdminPass.LeadingIcon = Nothing
-        Me.txtMAdminPass.Location = New System.Drawing.Point(308, 55)
+        Me.txtMAdminPass.Location = New System.Drawing.Point(302, 105)
         Me.txtMAdminPass.MaxLength = 32767
         Me.txtMAdminPass.MouseState = MaterialSkin.MouseState.OUT
         Me.txtMAdminPass.Name = "txtMAdminPass"
@@ -346,7 +408,7 @@ Partial Class frmBGTasks
         Me.txtMAdminEmail.HideSelection = True
         Me.txtMAdminEmail.Hint = "Admin Email"
         Me.txtMAdminEmail.LeadingIcon = Nothing
-        Me.txtMAdminEmail.Location = New System.Drawing.Point(17, 55)
+        Me.txtMAdminEmail.Location = New System.Drawing.Point(11, 105)
         Me.txtMAdminEmail.MaxLength = 32767
         Me.txtMAdminEmail.MouseState = MaterialSkin.MouseState.OUT
         Me.txtMAdminEmail.Name = "txtMAdminEmail"
@@ -1349,4 +1411,6 @@ Partial Class frmBGTasks
     Friend WithEvents BtnOpenAdvDB As MaterialSkin.Controls.MaterialButton
     Friend WithEvents GridActivity As DataGridView
     Friend WithEvents TxtOToken As MaterialSkin.Controls.MaterialTextBox2
+    Friend WithEvents TextPort As MaterialSkin.Controls.MaterialTextBox2
+    Friend WithEvents TextHost As MaterialSkin.Controls.MaterialTextBox2
 End Class

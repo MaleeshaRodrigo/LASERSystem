@@ -15,7 +15,7 @@ Option Explicit On
 Namespace My
     
     <Global.System.Runtime.CompilerServices.CompilerGeneratedAttribute(),  _
-     Global.System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.5.0.0"),  _
+     Global.System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.9.0.0"),  _
      Global.System.ComponentModel.EditorBrowsableAttribute(Global.System.ComponentModel.EditorBrowsableState.Advanced)>  _
     Partial Friend NotInheritable Class MySettings
         Inherits Global.System.Configuration.ApplicationSettingsBase
@@ -56,25 +56,25 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("laserelectdigi@gmail.com")>  _
-        Public Property AdminEmail() As String
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property SystemEmail() As String
             Get
-                Return CType(Me("AdminEmail"),String)
+                Return CType(Me("SystemEmail"),String)
             End Get
             Set
-                Me("AdminEmail") = value
+                Me("SystemEmail") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("")>  _
-        Public Property AdminEmailPass() As String
+        Public Property SystemEmailPassword() As String
             Get
-                Return CType(Me("AdminEmailPass"),String)
+                Return CType(Me("SystemEmailPassword"),String)
             End Get
             Set
-                Me("AdminEmailPass") = value
+                Me("SystemEmailPassword") = value
             End Set
         End Property
         
@@ -153,72 +153,72 @@ Namespace My
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("")>  _
-        Public Property DatabaseCNN() As String
+        Public Property DatabasePath() As String
             Get
-                Return CType(Me("DatabaseCNN"),String)
+                Return CType(Me("DatabasePath"),String)
             End Get
             Set
-                Me("DatabaseCNN") = value
+                Me("DatabasePath") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("")>  _
-        Public Property DBPassword() As String
+        Public Property DatabasePassword() As String
             Get
-                Return CType(Me("DBPassword"),String)
+                Return CType(Me("DatabasePassword"),String)
             End Get
             Set
-                Me("DBPassword") = value
+                Me("DatabasePassword") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("Microsoft.ACE.OLEDB.12.0")>  _
-        Public Property DBProvider() As String
+        Public Property DatabaseProvider() As String
             Get
-                Return CType(Me("DBProvider"),String)
+                Return CType(Me("DatabaseProvider"),String)
             End Get
             Set
-                Me("DBProvider") = value
+                Me("DatabaseProvider") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("")>  _
-        Public Property ODBPath() As String
+        Public Property OnlineDatabasePath() As String
             Get
-                Return CType(Me("ODBPath"),String)
+                Return CType(Me("OnlineDatabasePath"),String)
             End Get
             Set
-                Me("ODBPath") = value
+                Me("OnlineDatabasePath") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("")>  _
-        Public Property ODBPassword() As String
+        Public Property OnlineDatabasePassword() As String
             Get
-                Return CType(Me("ODBPassword"),String)
+                Return CType(Me("OnlineDatabasePassword"),String)
             End Get
             Set
-                Me("ODBPassword") = value
+                Me("OnlineDatabasePassword") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("")>  _
-        Public Property ODBUser() As String
+        Public Property OnlineDatabaseUser() As String
             Get
-                Return CType(Me("ODBUser"),String)
+                Return CType(Me("OnlineDatabaseUser"),String)
             End Get
             Set
-                Me("ODBUser") = value
+                Me("OnlineDatabaseUser") = value
             End Set
         End Property
         
@@ -255,6 +255,30 @@ Namespace My
             End Get
             Set
                 Me("ODBToken") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("mail.lasertec.lk")>  _
+        Public Property MailServer() As String
+            Get
+                Return CType(Me("MailServer"),String)
+            End Get
+            Set
+                Me("MailServer") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("587")>  _
+        Public Property MailServerPort() As Integer
+            Get
+                Return CType(Me("MailServerPort"),Integer)
+            End Get
+            Set
+                Me("MailServerPort") = value
             End Set
         End Property
     End Class
