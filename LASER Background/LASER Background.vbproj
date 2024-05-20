@@ -14,28 +14,31 @@
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <TargetFrameworkProfile />
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
+    <InstallFrom>Web</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
     <UpdateMode>Foreground</UpdateMode>
     <UpdateInterval>7</UpdateInterval>
     <UpdateIntervalUnits>Days</UpdateIntervalUnits>
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
+    <MapFileExtensions>false</MapFileExtensions>
+    <InstallUrl>https://raw.githubusercontent.com/MaleeshaRodrigo/LASERSystem/main/LASER%2520Background/publish/</InstallUrl>
+    <UpdateUrl>https://raw.githubusercontent.com/MaleeshaRodrigo/LASERSystem/main/LASER%2520Background/publish/</UpdateUrl>
     <SupportUrl>https://lasertec.lk</SupportUrl>
     <ErrorReportUrl>https://lasertec.lk</ErrorReportUrl>
     <ProductName>LASER Background</ProductName>
     <PublisherName>LASER System</PublisherName>
     <SuiteName>LASER Background</SuiteName>
-    <ApplicationRevision>9</ApplicationRevision>
+    <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
+    <ApplicationRevision>10</ApplicationRevision>
     <ApplicationVersion>2.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>x64</PlatformTarget>
@@ -154,6 +157,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationEvents.vb" />
+    <Compile Include="Classes\Activity.vb" />
+    <Compile Include="Classes\Database.vb" />
+    <Compile Include="Classes\EmailController.vb" />
+    <Compile Include="Classes\Encoder.vb" />
+    <Compile Include="Classes\Processes\AdminPermissionProcess.vb" />
+    <Compile Include="Classes\Processes\BackUpDatabaseProcess.vb" />
+    <Compile Include="Classes\Processes\SendSMSProcess.vb" />
+    <Compile Include="Structures\ErrorClass.vb" />
+    <Compile Include="Modules\Utils.vb" />
     <Compile Include="FrmAdvDB.Designer.vb">
       <DependentUpon>FrmAdvDB.vb</DependentUpon>
     </Compile>
@@ -166,6 +178,7 @@
     <Compile Include="frmBGTasks.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Interfaces\Process.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -182,10 +195,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Tools\MessageBox.Designer.vb">
+    <Compile Include="Classes\Processes\SendEmailProcess.vb" />
+    <Compile Include="Controls\MessageBox.Designer.vb">
       <DependentUpon>MessageBox.vb</DependentUpon>
     </Compile>
-    <Compile Include="Tools\MessageBox.vb">
+    <Compile Include="Controls\MessageBox.vb">
       <SubType>UserControl</SubType>
     </Compile>
   </ItemGroup>
@@ -202,7 +216,7 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Tools\MessageBox.resx">
+    <EmbeddedResource Include="Controls\MessageBox.resx">
       <DependentUpon>MessageBox.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
@@ -222,9 +236,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+    <BootstrapperPackage Include=".NETFramework,Version=v4.8">
       <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 and x64%29</ProductName>
+      <ProductName>Microsoft .NET Framework 4.8 %28x86 and x64%29</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
@@ -247,5 +261,6 @@
     <None Include="Resources\message.png" />
     <None Include="Resources\approve.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
