@@ -146,3 +146,27 @@ C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\obj\Debug\LASER Backgr
 C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\obj\Debug\LASER Background.xml
 C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\obj\Debug\LASER Background.pdb
 C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\obj\Debug\LASER Ba.7A1FD214.Up2Date
+D:\LASERSystem\LASER Background\bin\Debug\LASER Background.exe.config
+D:\LASERSystem\LASER Background\bin\Debug\LASER Background.exe.manifest
+D:\LASERSystem\LASER Background\bin\Debug\LASER Background.application
+D:\LASERSystem\LASER Background\bin\Debug\LASER Background.exe
+D:\LASERSystem\LASER Background\bin\Debug\LASER Background.pdb
+D:\LASERSystem\LASER Background\bin\Debug\LASER Background.xml
+D:\LASERSystem\LASER Background\bin\Debug\MaterialSkin.dll
+D:\LASERSystem\LASER Background\bin\Debug\Newtonsoft.Json.dll
+D:\LASERSystem\LASER Background\bin\Debug\Newtonsoft.Json.xml
+D:\LASERSystem\LASER Background\obj\Debug\LASER Background.vbproj.AssemblyReference.cache
+D:\LASERSystem\LASER Background\obj\Debug\LASER Background.vbproj.SuggestedBindingRedirects.cache
+D:\LASERSystem\LASER Background\obj\Debug\LASER_Background.FrmAdvDB.resources
+D:\LASERSystem\LASER Background\obj\Debug\LASER_Background.frmBGTasks.resources
+D:\LASERSystem\LASER Background\obj\Debug\LASER_Background.Resources.resources
+D:\LASERSystem\LASER Background\obj\Debug\LASER_Background.MessageBox.resources
+D:\LASERSystem\LASER Background\obj\Debug\LASER Background.vbproj.GenerateResource.cache
+D:\LASERSystem\LASER Background\obj\Debug\LASER Background.vbproj.CoreCompileInputs.cache
+D:\LASERSystem\LASER Background\obj\Debug\LASER Background.TrustInfo.xml
+D:\LASERSystem\LASER Background\obj\Debug\LASER Background.exe.manifest
+D:\LASERSystem\LASER Background\obj\Debug\LASER Background.application
+D:\LASERSystem\LASER Background\obj\Debug\LASER Background.vbproj.CopyComplete
+D:\LASERSystem\LASER Background\obj\Debug\LASER Background.exe
+D:\LASERSystem\LASER Background\obj\Debug\LASER Background.xml
+D:\LASERSystem\LASER Background\obj\Debug\LASER Background.pdb
