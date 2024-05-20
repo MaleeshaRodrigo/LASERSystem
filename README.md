@@ -74,8 +74,10 @@
 <p>Barcode Reader: NETUM Barcode Scanner</p>
 <p>Internet Adapter: Wifi Adapter</p>
 
-<h4>Download Setup: </h4>
+<h4>Download LASER System Setup: </h4>
 <a target="_blank" href="https://htmlpreview.github.io/?https://github.com/MaleeshaRodrigo/LASERSystem/blob/4582e1bcb7da0d929dd3dcddac3e9ab5184b3df5/LASER%20System/publish/publish.htm">Click here to download</a>
     
+<h4>Download LASER Background Setup: </h4>
+<a target="_blank" href="https://htmlpreview.github.io/?https://github.com/MaleeshaRodrigo/LASERSystem/blob/4582e1bcb7da0d929dd3dcddac3e9ab5184b3df5/LASER%20Background/publish/publish.htm">Click here to download</a>
     
     
