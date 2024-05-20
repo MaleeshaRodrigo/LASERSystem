@@ -9,14 +9,14 @@
     <framework targetVersion="4.8" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="Application Files\LASER Background_2_0_0_9\LASER Background.exe.manifest" size="6427">
+    <dependentAssembly dependencyType="install" codebase="Application Files\LASER Background_2_0_0_10\LASER Background.exe.manifest" size="6427">
       <assemblyIdentity name="LASER Background.exe" version="2.0.0.9" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="amd64" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>3iLxFFsHx6r2bjVZCOGhGYpg3BmIFrXxvnxojsoWWKo=</dsig:DigestValue>
+        <dsig:DigestValue>InwGOKHhmym5M6qba10fVGTfI6DgU0WGvH/2Xh4VMfE=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
