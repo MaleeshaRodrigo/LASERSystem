@@ -103,7 +103,6 @@ Partial Class MdifrmMain
         Me.lblUEmail = New System.Windows.Forms.Label()
         Me.lblUName = New System.Windows.Forms.Label()
         Me.picUImage = New System.Windows.Forms.PictureBox()
-        Me.Button1 = New System.Windows.Forms.Button()
         Me.StatusStrip.SuspendLayout()
         Me.ToolStrip.SuspendLayout()
         Me.MenuStrip.SuspendLayout()
@@ -729,7 +728,6 @@ Partial Class MdifrmMain
         '
         'pageCashier
         '
-        Me.pageCashier.Controls.Add(Me.Button1)
         Me.pageCashier.Controls.Add(Me.lblULastLogin)
         Me.pageCashier.Controls.Add(Me.lblULoginCount)
         Me.pageCashier.Controls.Add(Me.lblUEmail)
@@ -795,15 +793,6 @@ Partial Class MdifrmMain
         Me.picUImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
         Me.picUImage.TabIndex = 0
         Me.picUImage.TabStop = False
-        '
-        'Button1
-        '
-        Me.Button1.Location = New System.Drawing.Point(107, 263)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(95, 33)
-        Me.Button1.TabIndex = 5
-        Me.Button1.Text = "Button1"
-        Me.Button1.UseVisualStyleBackColor = True
         '
         'MdifrmMain
         '
@@ -914,5 +903,4 @@ Partial Class MdifrmMain
     Friend WithEvents AID As DataGridViewTextBoxColumn
     Friend WithEvents ADate As DataGridViewTextBoxColumn
     Friend WithEvents ACommand As DataGridViewTextBoxColumn
-    Friend WithEvents Button1 As Button
 End Class
