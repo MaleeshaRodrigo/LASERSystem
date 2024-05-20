@@ -51,6 +51,17 @@ Partial Class frmTechnician
         Me.txtTNo = New System.Windows.Forms.TextBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.grdTechnician = New System.Windows.Forms.DataGridView()
+        Me.TActive = New System.Windows.Forms.DataGridViewCheckBoxColumn()
+        Me.TNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.TName = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.TFullName = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.TNICNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.TEmail = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.TAddress = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.TTelNo1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.TTelNo2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.TTelNo3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.TRemarks = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.grpSearch = New System.Windows.Forms.GroupBox()
         Me.cmbFilter = New System.Windows.Forms.ComboBox()
         Me.Label11 = New System.Windows.Forms.Label()
@@ -63,17 +74,7 @@ Partial Class frmTechnician
         Me.SaveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DeleteToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.CloseToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.TActive = New System.Windows.Forms.DataGridViewCheckBoxColumn()
-        Me.TNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.TName = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.TFullName = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.TNICNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.TEmail = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.TAddress = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.TTelNo1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.TTelNo2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.TTelNo3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.TRemarks = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.CheckBlockEmails = New System.Windows.Forms.CheckBox()
         Me.grpTInfo.SuspendLayout()
         CType(Me.grdTechnician, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpSearch.SuspendLayout()
@@ -82,6 +83,9 @@ Partial Class frmTechnician
         '
         'grpTInfo
         '
+        Me.grpTInfo.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.grpTInfo.Controls.Add(Me.CheckBlockEmails)
         Me.grpTInfo.Controls.Add(Me.chkActive)
         Me.grpTInfo.Controls.Add(Me.txtTEmail)
         Me.grpTInfo.Controls.Add(Me.Label12)
@@ -111,7 +115,7 @@ Partial Class frmTechnician
         Me.grpTInfo.Font = New System.Drawing.Font("Calibri", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.grpTInfo.Location = New System.Drawing.Point(7, 27)
         Me.grpTInfo.Name = "grpTInfo"
-        Me.grpTInfo.Size = New System.Drawing.Size(290, 475)
+        Me.grpTInfo.Size = New System.Drawing.Size(290, 497)
         Me.grpTInfo.TabIndex = 0
         Me.grpTInfo.TabStop = False
         Me.grpTInfo.Text = "Technician Info"
@@ -119,16 +123,16 @@ Partial Class frmTechnician
         'chkActive
         '
         Me.chkActive.AutoSize = True
-        Me.chkActive.Location = New System.Drawing.Point(227, 17)
+        Me.chkActive.Location = New System.Drawing.Point(166, 17)
         Me.chkActive.Name = "chkActive"
-        Me.chkActive.Size = New System.Drawing.Size(57, 18)
+        Me.chkActive.Size = New System.Drawing.Size(118, 18)
         Me.chkActive.TabIndex = 31
-        Me.chkActive.Text = "Active"
+        Me.chkActive.Text = "Active Technician"
         Me.chkActive.UseVisualStyleBackColor = True
         '
         'txtTEmail
         '
-        Me.txtTEmail.Location = New System.Drawing.Point(53, 216)
+        Me.txtTEmail.Location = New System.Drawing.Point(53, 243)
         Me.txtTEmail.Name = "txtTEmail"
         Me.txtTEmail.Size = New System.Drawing.Size(231, 22)
         Me.txtTEmail.TabIndex = 30
@@ -136,7 +140,7 @@ Partial Class frmTechnician
         'Label12
         '
         Me.Label12.AutoSize = True
-        Me.Label12.Location = New System.Drawing.Point(6, 219)
+        Me.Label12.Location = New System.Drawing.Point(6, 246)
         Me.Label12.Name = "Label12"
         Me.Label12.Size = New System.Drawing.Size(41, 14)
         Me.Label12.TabIndex = 29
@@ -144,7 +148,7 @@ Partial Class frmTechnician
         '
         'txtTTelNo3
         '
-        Me.txtTTelNo3.Location = New System.Drawing.Point(108, 300)
+        Me.txtTTelNo3.Location = New System.Drawing.Point(108, 327)
         Me.txtTTelNo3.Mask = "999 0 000 000"
         Me.txtTTelNo3.Name = "txtTTelNo3"
         Me.txtTTelNo3.Size = New System.Drawing.Size(104, 22)
@@ -152,7 +156,7 @@ Partial Class frmTechnician
         '
         'txtTTelNo2
         '
-        Me.txtTTelNo2.Location = New System.Drawing.Point(108, 272)
+        Me.txtTTelNo2.Location = New System.Drawing.Point(108, 299)
         Me.txtTTelNo2.Mask = "999 0 000 000"
         Me.txtTTelNo2.Name = "txtTTelNo2"
         Me.txtTTelNo2.Size = New System.Drawing.Size(104, 22)
@@ -160,7 +164,7 @@ Partial Class frmTechnician
         '
         'txtTTelNo1
         '
-        Me.txtTTelNo1.Location = New System.Drawing.Point(108, 244)
+        Me.txtTTelNo1.Location = New System.Drawing.Point(108, 271)
         Me.txtTTelNo1.Mask = "999 0 000 000"
         Me.txtTTelNo1.Name = "txtTTelNo1"
         Me.txtTTelNo1.Size = New System.Drawing.Size(104, 22)
@@ -168,8 +172,9 @@ Partial Class frmTechnician
         '
         'cmdDone
         '
+        Me.cmdDone.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.cmdDone.Image = CType(resources.GetObject("cmdDone.Image"), System.Drawing.Image)
-        Me.cmdDone.Location = New System.Drawing.Point(6, 424)
+        Me.cmdDone.Location = New System.Drawing.Point(6, 446)
         Me.cmdDone.Name = "cmdDone"
         Me.cmdDone.Size = New System.Drawing.Size(81, 42)
         Me.cmdDone.TabIndex = 24
@@ -179,8 +184,9 @@ Partial Class frmTechnician
         '
         'cmdDelete
         '
+        Me.cmdDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.cmdDelete.Image = CType(resources.GetObject("cmdDelete.Image"), System.Drawing.Image)
-        Me.cmdDelete.Location = New System.Drawing.Point(184, 424)
+        Me.cmdDelete.Location = New System.Drawing.Point(184, 446)
         Me.cmdDelete.Name = "cmdDelete"
         Me.cmdDelete.Size = New System.Drawing.Size(52, 43)
         Me.cmdDelete.TabIndex = 25
@@ -190,17 +196,19 @@ Partial Class frmTechnician
         '
         'txtTRemarks
         '
-        Me.txtTRemarks.Location = New System.Drawing.Point(9, 344)
+        Me.txtTRemarks.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.txtTRemarks.Location = New System.Drawing.Point(9, 368)
         Me.txtTRemarks.Multiline = True
         Me.txtTRemarks.Name = "txtTRemarks"
         Me.txtTRemarks.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.txtTRemarks.Size = New System.Drawing.Size(275, 74)
+        Me.txtTRemarks.Size = New System.Drawing.Size(275, 72)
         Me.txtTRemarks.TabIndex = 23
         '
         'Label9
         '
         Me.Label9.AutoSize = True
-        Me.Label9.Location = New System.Drawing.Point(6, 327)
+        Me.Label9.Location = New System.Drawing.Point(6, 351)
         Me.Label9.Name = "Label9"
         Me.Label9.Size = New System.Drawing.Size(57, 14)
         Me.Label9.TabIndex = 22
@@ -216,8 +224,9 @@ Partial Class frmTechnician
         '
         'cmdNew
         '
+        Me.cmdNew.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.cmdNew.Image = CType(resources.GetObject("cmdNew.Image"), System.Drawing.Image)
-        Me.cmdNew.Location = New System.Drawing.Point(93, 424)
+        Me.cmdNew.Location = New System.Drawing.Point(93, 446)
         Me.cmdNew.Name = "cmdNew"
         Me.cmdNew.Size = New System.Drawing.Size(39, 43)
         Me.cmdNew.TabIndex = 20
@@ -227,8 +236,9 @@ Partial Class frmTechnician
         '
         'cmdClose
         '
+        Me.cmdClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.cmdClose.Image = CType(resources.GetObject("cmdClose.Image"), System.Drawing.Image)
-        Me.cmdClose.Location = New System.Drawing.Point(242, 424)
+        Me.cmdClose.Location = New System.Drawing.Point(242, 446)
         Me.cmdClose.Name = "cmdClose"
         Me.cmdClose.Size = New System.Drawing.Size(45, 43)
         Me.cmdClose.TabIndex = 19
@@ -238,8 +248,9 @@ Partial Class frmTechnician
         '
         'cmdSave
         '
+        Me.cmdSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.cmdSave.Image = CType(resources.GetObject("cmdSave.Image"), System.Drawing.Image)
-        Me.cmdSave.Location = New System.Drawing.Point(138, 424)
+        Me.cmdSave.Location = New System.Drawing.Point(138, 446)
         Me.cmdSave.Name = "cmdSave"
         Me.cmdSave.Size = New System.Drawing.Size(40, 44)
         Me.cmdSave.TabIndex = 17
@@ -250,7 +261,7 @@ Partial Class frmTechnician
         'Label8
         '
         Me.Label8.AutoSize = True
-        Me.Label8.Location = New System.Drawing.Point(7, 303)
+        Me.Label8.Location = New System.Drawing.Point(7, 330)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(95, 14)
         Me.Label8.TabIndex = 15
@@ -259,7 +270,7 @@ Partial Class frmTechnician
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(7, 275)
+        Me.Label7.Location = New System.Drawing.Point(7, 302)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(95, 14)
         Me.Label7.TabIndex = 13
@@ -268,7 +279,7 @@ Partial Class frmTechnician
         'Label6
         '
         Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(7, 247)
+        Me.Label6.Location = New System.Drawing.Point(7, 274)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(95, 14)
         Me.Label6.TabIndex = 11
@@ -355,18 +366,121 @@ Partial Class frmTechnician
         '
         Me.grdTechnician.AllowUserToAddRows = False
         Me.grdTechnician.AllowUserToDeleteRows = False
+        Me.grdTechnician.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.grdTechnician.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.grdTechnician.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.TActive, Me.TNo, Me.TName, Me.TFullName, Me.TNICNo, Me.TEmail, Me.TAddress, Me.TTelNo1, Me.TTelNo2, Me.TTelNo3, Me.TRemarks})
         Me.grdTechnician.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically
         Me.grdTechnician.Location = New System.Drawing.Point(6, 50)
         Me.grdTechnician.MultiSelect = False
         Me.grdTechnician.Name = "grdTechnician"
+        Me.grdTechnician.RowHeadersWidth = 51
         Me.grdTechnician.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.grdTechnician.Size = New System.Drawing.Size(887, 417)
+        Me.grdTechnician.Size = New System.Drawing.Size(723, 439)
         Me.grdTechnician.TabIndex = 1
+        '
+        'TActive
+        '
+        Me.TActive.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
+        Me.TActive.DataPropertyName = "TActive"
+        Me.TActive.HeaderText = "Active"
+        Me.TActive.MinimumWidth = 6
+        Me.TActive.Name = "TActive"
+        Me.TActive.Width = 44
+        '
+        'TNo
+        '
+        Me.TNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
+        Me.TNo.DataPropertyName = "TNo"
+        Me.TNo.HeaderText = "No"
+        Me.TNo.MinimumWidth = 6
+        Me.TNo.Name = "TNo"
+        Me.TNo.Width = 47
+        '
+        'TName
+        '
+        Me.TName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
+        Me.TName.DataPropertyName = "TName"
+        Me.TName.HeaderText = "Name"
+        Me.TName.MinimumWidth = 6
+        Me.TName.Name = "TName"
+        Me.TName.Width = 64
+        '
+        'TFullName
+        '
+        Me.TFullName.DataPropertyName = "TFullName"
+        Me.TFullName.HeaderText = "Full Name"
+        Me.TFullName.MinimumWidth = 6
+        Me.TFullName.Name = "TFullName"
+        Me.TFullName.Width = 125
+        '
+        'TNICNo
+        '
+        Me.TNICNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
+        Me.TNICNo.DataPropertyName = "TNICNo"
+        Me.TNICNo.HeaderText = "NIC No"
+        Me.TNICNo.MinimumWidth = 6
+        Me.TNICNo.Name = "TNICNo"
+        Me.TNICNo.Width = 50
+        '
+        'TEmail
+        '
+        Me.TEmail.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
+        Me.TEmail.DataPropertyName = "TEmail"
+        Me.TEmail.HeaderText = "Email"
+        Me.TEmail.MinimumWidth = 6
+        Me.TEmail.Name = "TEmail"
+        Me.TEmail.Width = 63
+        '
+        'TAddress
+        '
+        Me.TAddress.DataPropertyName = "TAddress"
+        Me.TAddress.HeaderText = "Address"
+        Me.TAddress.MinimumWidth = 6
+        Me.TAddress.Name = "TAddress"
+        Me.TAddress.Width = 125
+        '
+        'TTelNo1
+        '
+        Me.TTelNo1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
+        Me.TTelNo1.DataPropertyName = "TTelNo1"
+        Me.TTelNo1.HeaderText = "Telephone No1"
+        Me.TTelNo1.MinimumWidth = 6
+        Me.TTelNo1.Name = "TTelNo1"
+        Me.TTelNo1.Width = 105
+        '
+        'TTelNo2
+        '
+        Me.TTelNo2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
+        Me.TTelNo2.DataPropertyName = "TTelNo2"
+        Me.TTelNo2.HeaderText = "Telephone No2"
+        Me.TTelNo2.MinimumWidth = 6
+        Me.TTelNo2.Name = "TTelNo2"
+        Me.TTelNo2.Width = 105
+        '
+        'TTelNo3
+        '
+        Me.TTelNo3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
+        Me.TTelNo3.DataPropertyName = "TTelNo3"
+        Me.TTelNo3.HeaderText = "Telephone No3"
+        Me.TTelNo3.MinimumWidth = 6
+        Me.TTelNo3.Name = "TTelNo3"
+        Me.TTelNo3.Width = 105
+        '
+        'TRemarks
+        '
+        Me.TRemarks.DataPropertyName = "TRemarks"
+        Me.TRemarks.HeaderText = "Remarks"
+        Me.TRemarks.MinimumWidth = 6
+        Me.TRemarks.Name = "TRemarks"
+        Me.TRemarks.Width = 125
         '
         'grpSearch
         '
+        Me.grpSearch.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.grpSearch.Controls.Add(Me.cmbFilter)
         Me.grpSearch.Controls.Add(Me.Label11)
         Me.grpSearch.Controls.Add(Me.txtSearch)
@@ -374,7 +488,7 @@ Partial Class frmTechnician
         Me.grpSearch.Controls.Add(Me.grdTechnician)
         Me.grpSearch.Location = New System.Drawing.Point(303, 27)
         Me.grpSearch.Name = "grpSearch"
-        Me.grpSearch.Size = New System.Drawing.Size(899, 475)
+        Me.grpSearch.Size = New System.Drawing.Size(735, 497)
         Me.grpSearch.TabIndex = 2
         Me.grpSearch.TabStop = False
         Me.grpSearch.Text = "Search and Data View"
@@ -416,10 +530,11 @@ Partial Class frmTechnician
         '
         'MenuStrip
         '
+        Me.MenuStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.MenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OPTIONToolStripMenuItem})
         Me.MenuStrip.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip.Name = "MenuStrip"
-        Me.MenuStrip.Size = New System.Drawing.Size(1214, 24)
+        Me.MenuStrip.Size = New System.Drawing.Size(1050, 24)
         Me.MenuStrip.TabIndex = 39
         Me.MenuStrip.Text = "MenuStrip"
         '
@@ -465,93 +580,21 @@ Partial Class frmTechnician
         Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(149, 22)
         Me.CloseToolStripMenuItem.Text = "Close"
         '
-        'TActive
+        'CheckBlockEmails
         '
-        Me.TActive.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
-        Me.TActive.DataPropertyName = "TActive"
-        Me.TActive.HeaderText = "Active"
-        Me.TActive.Name = "TActive"
-        Me.TActive.Width = 44
-        '
-        'TNo
-        '
-        Me.TNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
-        Me.TNo.DataPropertyName = "TNo"
-        Me.TNo.HeaderText = "No"
-        Me.TNo.Name = "TNo"
-        Me.TNo.Width = 47
-        '
-        'TName
-        '
-        Me.TName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
-        Me.TName.DataPropertyName = "TName"
-        Me.TName.HeaderText = "Name"
-        Me.TName.Name = "TName"
-        Me.TName.Width = 64
-        '
-        'TFullName
-        '
-        Me.TFullName.DataPropertyName = "TFullName"
-        Me.TFullName.HeaderText = "Full Name"
-        Me.TFullName.Name = "TFullName"
-        '
-        'TNICNo
-        '
-        Me.TNICNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
-        Me.TNICNo.DataPropertyName = "TNICNo"
-        Me.TNICNo.HeaderText = "NIC No"
-        Me.TNICNo.Name = "TNICNo"
-        Me.TNICNo.Width = 68
-        '
-        'TEmail
-        '
-        Me.TEmail.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
-        Me.TEmail.DataPropertyName = "TEmail"
-        Me.TEmail.HeaderText = "Email"
-        Me.TEmail.Name = "TEmail"
-        Me.TEmail.Width = 63
-        '
-        'TAddress
-        '
-        Me.TAddress.DataPropertyName = "TAddress"
-        Me.TAddress.HeaderText = "Address"
-        Me.TAddress.Name = "TAddress"
-        '
-        'TTelNo1
-        '
-        Me.TTelNo1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
-        Me.TTelNo1.DataPropertyName = "TTelNo1"
-        Me.TTelNo1.HeaderText = "Telephone No1"
-        Me.TTelNo1.Name = "TTelNo1"
-        Me.TTelNo1.Width = 105
-        '
-        'TTelNo2
-        '
-        Me.TTelNo2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
-        Me.TTelNo2.DataPropertyName = "TTelNo2"
-        Me.TTelNo2.HeaderText = "Telephone No2"
-        Me.TTelNo2.Name = "TTelNo2"
-        Me.TTelNo2.Width = 105
-        '
-        'TTelNo3
-        '
-        Me.TTelNo3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
-        Me.TTelNo3.DataPropertyName = "TTelNo3"
-        Me.TTelNo3.HeaderText = "Telephone No3"
-        Me.TTelNo3.Name = "TTelNo3"
-        Me.TTelNo3.Width = 105
-        '
-        'TRemarks
-        '
-        Me.TRemarks.DataPropertyName = "TRemarks"
-        Me.TRemarks.HeaderText = "Remarks"
-        Me.TRemarks.Name = "TRemarks"
+        Me.CheckBlockEmails.AutoSize = True
+        Me.CheckBlockEmails.Location = New System.Drawing.Point(10, 219)
+        Me.CheckBlockEmails.Name = "CheckBlockEmails"
+        Me.CheckBlockEmails.Size = New System.Drawing.Size(173, 18)
+        Me.CheckBlockEmails.TabIndex = 32
+        Me.CheckBlockEmails.Text = "Unsubsribe Email Receipts"
+        Me.CheckBlockEmails.UseVisualStyleBackColor = True
         '
         'frmTechnician
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 14.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1214, 499)
+        Me.ClientSize = New System.Drawing.Size(1050, 521)
         Me.Controls.Add(Me.MenuStrip)
         Me.Controls.Add(Me.grpSearch)
         Me.Controls.Add(Me.grpTInfo)
@@ -622,4 +665,5 @@ Partial Class frmTechnician
     Friend WithEvents TTelNo2 As DataGridViewTextBoxColumn
     Friend WithEvents TTelNo3 As DataGridViewTextBoxColumn
     Friend WithEvents TRemarks As DataGridViewTextBoxColumn
+    Friend WithEvents CheckBlockEmails As CheckBox
 End Class
