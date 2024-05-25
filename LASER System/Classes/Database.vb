@@ -1,4 +1,5 @@
 ﻿Imports System.Data.Common
+Imports System.Data.Odbc
 Imports System.Data.OleDb
 Imports System.IO
 Imports System.Runtime.CompilerServices
@@ -56,11 +57,10 @@ Public Class Database
         _Connection.Close()
     End Sub
 
-    Public Function CheckDataExists(Table As String, FieldName As String, Value As String) As Boolean
+    Public Function CheckDataExists(Table As String, FieldName As String, Value As Object) As Boolean
         Dim DR As OleDbDataReader = Nothing
         Try
-            Dim Command = New OleDbCommand($"SELECT {FieldName} FROM {Table} WHERE {FieldName} = @VALUE", _Connection)
-            Command.Parameters.AddWithValue("@VALUE", Value)
+            Dim Command As New OleDbCommand($"SELECT {FieldName} FROM {Table} WHERE {FieldName}='{Value}';", _Connection)
             DR = Command.ExecuteReader()
             Return DR.HasRows
         Catch ex As Exception
