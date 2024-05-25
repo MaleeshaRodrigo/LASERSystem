@@ -1,4 +1,5 @@
 ﻿Imports System.Data.Common
+Imports System.Data.Odbc
 Imports System.Data.OleDb
 Imports LASER_System.StructureDatabase
 
@@ -120,13 +121,23 @@ Public Class ControlStockInfo
             })
             Case User.Type.Cashier
                 Db.Execute($"UPDATE {Tables.Stock} SET 
+                    {Stock.Category} = @CATEGORY,
+                    {Stock.Name} = @NAME,
                     {Stock.ModelNo} = @MODELNO,
                     {Stock.Location} = @LOCATION,
-                    {Stock.Details} = @DETAILS
+                    {Stock.Details} = @DETAILS,
+                    {Stock.LowestPrice} = @LOWESTPRICE,
+                    {Stock.SalePrice} = @SALEPRICE,
+                    {Stock.ReorderPoint} = @REORDERPOINT
                     WHERE {Stock.Code} = @CODE;", {
+                    New OleDbParameter("@CATEGORY", CmbCategory.Text),
+                    New OleDbParameter("@NAME", CmbName.Text),
                     New OleDbParameter("@MODELNO", TxtModelNo.Text),
                     New OleDbParameter("@LOCATION", CmbLocation.Text),
                     New OleDbParameter("@DETAILS", TxtDetails.Text),
+                    New OleDbParameter("@LOWESTPRICE", TxtLowestPrice.Text),
+                    New OleDbParameter("@SALEPRICE", TxtSalePrice.Text),
+                    New OleDbParameter("@REORDERPOINT", TxtReorderPoint.Text),
                     New OleDbParameter("@CODE", TxtSNo.Text)
                 })
         End Select
