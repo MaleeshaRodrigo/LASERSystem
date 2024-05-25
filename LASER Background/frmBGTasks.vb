@@ -59,15 +59,20 @@ Public Class frmBGTasks
             End If
             chkOnlineDB_CheckedChanged(Nothing, Nothing)
         End With
-        If Not Directory.Exists(SpecialDirectories.MyDocuments + "\LASER System") Then My.Computer.FileSystem.CreateDirectory(SpecialDirectories.MyDocuments + "\LASER System Data")
-        If Not Directory.Exists(SpecialDirectories.MyDocuments + "\LASER System Data\LASER Background") Then My.Computer.FileSystem.CreateDirectory(SpecialDirectories.MyDocuments + "\LASER System Data\LASER Background")
-        If Not File.Exists(SpecialDirectories.MyDocuments + "\LASER System Data\LASER Background\Activity.json") Then
+        Dim FilePath As String = Path.Combine(SpecialDirectories.MyDocuments, "LASER System Data")
+        If Not Directory.Exists(FilePath) Then
+            My.Computer.FileSystem.CreateDirectory(FilePath)
+        End If
+        FilePath = Path.Combine(FilePath, "LASER Background")
+        If Not Directory.Exists(FilePath) Then My.Computer.FileSystem.CreateDirectory(FilePath)
+        Dim ActivityFilePath As String = Path.Combine(FilePath, "Activity.json")
+        If Not File.Exists(ActivityFilePath) Then
             Dim d As FileStream
-            d = File.Create(SpecialDirectories.MyDocuments & "\LASER System Data\LASER Background\Activity.json")
+            d = File.Create(ActivityFilePath)
             d.Close()
         End If
         'Load the activity file
-        Dim JSONStr As String = File.ReadAllText(SpecialDirectories.MyDocuments & "\LASER System Data\LASER Background\Activity.json")
+        Dim JSONStr As String = File.ReadAllText(ActivityFilePath)
         If String.IsNullOrEmpty(JSONStr) Then
             GridActivity.Columns.Add("Date", "Date")
             GridActivity.Columns.Item("Date").DataPropertyName = "Date"
@@ -78,8 +83,9 @@ Public Class frmBGTasks
             GridActivity.DataSource = DT
         End If
 
-        If File.Exists(SpecialDirectories.MyDocuments + "LASER System Data\LASER Background\ShutDown.txt") Then
-            File.Delete(SpecialDirectories.MyDocuments + "\LASER System Data\LASER Background\ShutDown.txt")
+        Dim ShutDownFilePath As String = Path.Combine(FilePath, "ShutDown.txt")
+        If File.Exists(ShutDownFilePath) Then
+            File.Delete(ShutDownFilePath)
         End If
     End Sub
     Private Sub FrmBGTasks_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -634,6 +640,11 @@ Public Class frmBGTasks
                 Return True
             End If
         Next
+
+        Select Case ErrorName
+            Case ErrorClass.SendEmail
+                Return Not My.Settings.SendEmail
+        End Select
 
         Return False
     End Function
