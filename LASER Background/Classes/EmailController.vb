@@ -20,6 +20,7 @@ Public Class EmailController
         Mail.[To].Add(EmailTo)
         Mail.Subject = Subject
         Mail.Body = Body
+        Mail.IsBodyHtml = True
         'If DataReader("Attachment1").ToString <> "" AndAlso File.Exists(DataReader("Attachment1").ToString) Then
         '    Dim Attachment1 As Attachment
         '    Attachment1 = New Attachment(DataReader("Attachment1").ToString)
