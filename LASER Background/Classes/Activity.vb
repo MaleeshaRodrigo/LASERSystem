@@ -11,6 +11,18 @@ Public NotInheritable Class Activity
     Private Shared LastSavedTime As New DateTime
 
     Private Sub New()
+    End Sub
+
+    Public ReadOnly Property Instance As Activity
+        Get
+            If _Instance Is Nothing Then
+                _Instance = New Activity()
+            End If
+            Return _Instance
+        End Get
+    End Property
+
+    Public Shared Sub Init()
         If Not File.Exists(FilePath) Then
             Throw New FileNotFoundException($"{FilePath} cannot be found.")
             Exit Sub
@@ -34,15 +46,6 @@ Public NotInheritable Class Activity
         End If
     End Sub
 
-    Public Shared ReadOnly Property Instance As Activity
-        Get
-            If _Instance Is Nothing Then
-                _Instance = New Activity()
-            End If
-            Return _Instance
-        End Get
-    End Property
-
     Public Shared Function GetDataTable() As DataTable
         Return DataTable
     End Function
@@ -52,6 +55,7 @@ Public NotInheritable Class Activity
 
         If Now() > LastSavedTime.AddMinutes(1) Then
             Dim TaskSave As New Task(Sub() Save())
+            TaskSave.Start()
             LastSavedTime = Now()
         End If
     End Sub

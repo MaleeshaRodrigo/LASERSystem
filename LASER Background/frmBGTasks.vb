@@ -71,6 +71,7 @@ Public Class frmBGTasks
             d = File.Create(Activity.FilePath)
             d.Close()
         End If
+        Activity.Init()
         GridActivity.DataSource = Activity.GetDataTable()
 
         Dim ShutDownFilePath As String = Path.Combine(FilePath, "ShutDown.txt")
@@ -100,6 +101,7 @@ Public Class frmBGTasks
         tmrRefresh.Stop()
         Me.Hide()
         Me.Tag = "Close"
+        Activity.Save()
 
         If bgworker.IsBusy = True Or bgworkerOnline.IsBusy = True Then
             e.Cancel = True
