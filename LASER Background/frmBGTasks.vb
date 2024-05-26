@@ -101,6 +101,7 @@ Public Class frmBGTasks
         tmrRefresh.Stop()
         Me.Hide()
         Me.Tag = "Close"
+        Activity.Save()
 
         If bgworker.IsBusy = True Or bgworkerOnline.IsBusy = True Then
             e.Cancel = True

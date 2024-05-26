@@ -55,6 +55,7 @@ Public NotInheritable Class Activity
 
         If Now() > LastSavedTime.AddMinutes(1) Then
             Dim TaskSave As New Task(Sub() Save())
+            TaskSave.Start()
             LastSavedTime = Now()
         End If
     End Sub
