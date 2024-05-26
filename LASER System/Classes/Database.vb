@@ -58,16 +58,11 @@ Public Class Database
     End Sub
 
     Public Function CheckDataExists(Table As String, FieldName As String, Value As Object) As Boolean
-        Dim DR As OleDbDataReader = Nothing
-        Try
-            Dim Command As New OleDbCommand($"SELECT {FieldName} FROM {Table} WHERE {FieldName}='{Value}';", _Connection)
-            DR = Command.ExecuteReader()
-            Return DR.HasRows
-        Catch ex As Exception
-            Throw ex
-        Finally
-            If DR IsNot Nothing Then DR.Close()
-        End Try
+        Dim Command As New OleDbCommand($"SELECT {FieldName} FROM {Table} WHERE {FieldName}=@VALUE;", _Connection)
+        Command.Parameters.Add(New OleDbParameter("@VALUE", Value))
+        Using DataReader As OleDbDataReader = Command.ExecuteReader()
+            Return DataReader.HasRows
+        End Using
     End Function
 
     Public Sub Execute(Query As String, Optional Parameters As OleDbParameter() = Nothing, Optional AdminPer As AdminPermission = Nothing)

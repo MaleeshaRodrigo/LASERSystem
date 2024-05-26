@@ -121,6 +121,7 @@ Public Class ControlTechnicianInfo
             grdRepRemarks2_RowValidating(sender, E1)
         End If
     End Sub
+
     Private Sub grdRepRemarks2_UserDeletingRow(sender As Object, e As DataGridViewRowCancelEventArgs) Handles grdRepRemarks2.UserDeletingRow
         If e.Row.Index < 0 Or e.Row.Index = (grdRepRemarks2.Rows.Count - 1) Then Exit Sub
         Dim AdminPer As New AdminPermission(DB)
@@ -131,6 +132,7 @@ Public Class ControlTechnicianInfo
         End If
         DB.Execute("Delete from RepairRemarks2 Where Rem2No=" & grdRepRemarks2.Item(0, e.Row.Index).Value, {}, AdminPer)
     End Sub
+
     Private Sub grdRepRemarks2_RowValidating(sender As Object, e As DataGridViewCellCancelEventArgs) Handles grdRepRemarks2.RowValidating
         If e.RowIndex < 0 Then Exit Sub
         If grdRepRemarks2.Item(0, e.RowIndex).Value Is Nothing Then Exit Sub
