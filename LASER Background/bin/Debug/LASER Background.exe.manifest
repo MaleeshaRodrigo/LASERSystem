@@ -43,14 +43,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="LASER Background.exe" size="416256">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="LASER Background.exe" size="416768">
       <assemblyIdentity name="LASER Background" version="1.0.0.0" language="neutral" processorArchitecture="amd64" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>eEWxZStqN3lupVm8X0cqGQBj/bFCT8JAmne+YgpSkoQ=</dsig:DigestValue>
+        <dsig:DigestValue>uddiGkGt3W0saGPtL+MKrweLjjSo2VDYtGu9k0Yu0Rg=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

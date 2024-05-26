@@ -1,7 +1,10 @@
 ﻿Imports System.IO
 Imports System.Net
+Imports Microsoft.VisualBasic.FileIO
 
 Module Utils
+    Public ApplicationDataFilePath As String = Path.Combine(SpecialDirectories.MyDocuments, "LASER System Data", "LASER Background")
+
     Public Function CheckForInternetConnection() As Boolean
         Try
             Return My.Computer.Network.Ping("lasertec.lk")
