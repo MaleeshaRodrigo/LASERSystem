@@ -59,29 +59,26 @@ Public Class frmBGTasks
             End If
             chkOnlineDB_CheckedChanged(Nothing, Nothing)
         End With
-        If Not Directory.Exists(SpecialDirectories.MyDocuments + "\LASER System") Then My.Computer.FileSystem.CreateDirectory(SpecialDirectories.MyDocuments + "\LASER System Data")
-        If Not Directory.Exists(SpecialDirectories.MyDocuments + "\LASER System Data\LASER Background") Then My.Computer.FileSystem.CreateDirectory(SpecialDirectories.MyDocuments + "\LASER System Data\LASER Background")
-        If Not File.Exists(SpecialDirectories.MyDocuments + "\LASER System Data\LASER Background\Activity.json") Then
+        Dim FilePath As String = Path.Combine(SpecialDirectories.MyDocuments, "LASER System Data")
+        If Not Directory.Exists(FilePath) Then
+            My.Computer.FileSystem.CreateDirectory(FilePath)
+        End If
+        FilePath = Path.Combine(FilePath, "LASER Background")
+        If Not Directory.Exists(FilePath) Then My.Computer.FileSystem.CreateDirectory(FilePath)
+
+        If Not File.Exists(Activity.FilePath) Then
             Dim d As FileStream
-            d = File.Create(SpecialDirectories.MyDocuments & "\LASER System Data\LASER Background\Activity.json")
+            d = File.Create(Activity.FilePath)
             d.Close()
         End If
-        'Load the activity file
-        Dim JSONStr As String = File.ReadAllText(SpecialDirectories.MyDocuments & "\LASER System Data\LASER Background\Activity.json")
-        If String.IsNullOrEmpty(JSONStr) Then
-            GridActivity.Columns.Add("Date", "Date")
-            GridActivity.Columns.Item("Date").DataPropertyName = "Date"
-            GridActivity.Columns.Add("Command", "Command")
-            GridActivity.Columns.Item("Command").DataPropertyName = "Command"
-        Else
-            Dim DT As DataTable = JsonConvert.DeserializeObject(Of DataTable)(JSONStr)
-            GridActivity.DataSource = DT
-        End If
+        GridActivity.DataSource = Activity.GetDataTable()
 
-        If File.Exists(SpecialDirectories.MyDocuments + "LASER System Data\LASER Background\ShutDown.txt") Then
-            File.Delete(SpecialDirectories.MyDocuments + "\LASER System Data\LASER Background\ShutDown.txt")
+        Dim ShutDownFilePath As String = Path.Combine(FilePath, "ShutDown.txt")
+        If File.Exists(ShutDownFilePath) Then
+            File.Delete(ShutDownFilePath)
         End If
     End Sub
+
     Private Sub FrmBGTasks_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.BelowNormal
         CheckForIllegalCrossThreadCalls = False
@@ -110,20 +107,23 @@ Public Class frmBGTasks
     End Sub
 
     Private Sub TmrRefresh_Tick(sender As Object, e As EventArgs) Handles tmrRefresh.Tick
-        If File.Exists(SpecialDirectories.MyDocuments + "\LASER System\LASER Background\ShutDown.txt") Then
-            File.Delete(SpecialDirectories.MyDocuments + "\LASER System\LASER Background\ShutDown.txt")
+        Dim ShutDownFilePath As String = Path.Combine(ApplicationDataFilePath, "ShutDown.txt")
+        If File.Exists(ShutDownFilePath) Then
+            File.Delete(ShutDownFilePath)
             Me.Close()
         End If
 
-        For Each controlObject As Control In flpMessage.Controls
-            If controlObject.Tag = "DBError" Then
-                tmrRefresh.Stop()
-                Exit Sub
-            End If
-        Next
-        If bgworker.IsBusy = False And PicBGStop.Tag = "Stop" Then bgworker.RunWorkerAsync()
-        If My.Settings.ODBActive And bgworkerOnline.IsBusy = False And
-            PicBGOStop.Tag = "Stop" Then bgworkerOnline.RunWorkerAsync()
+        If ErrorExist(ErrorClass.Database) Then
+            tmrRefresh.Stop()
+            Exit Sub
+        End If
+
+        If bgworker.IsBusy = False And PicBGStop.Tag = "Stop" Then
+            bgworker.RunWorkerAsync()
+        End If
+        'If My.Settings.ODBActive And bgworkerOnline.IsBusy = False And PicBGOStop.Tag = "Stop" Then
+        '    bgworkerOnline.RunWorkerAsync()
+        'End If
     End Sub
 
     Private Sub BgWorker_DoWork(sender As Object, e As DoWorkEventArgs) Handles bgworker.DoWork
@@ -143,8 +143,7 @@ Public Class frmBGTasks
                 End If
 
                 bgworker.ReportProgress((Processes.IndexOf(Process) / Processes.Count) * 100, $"Initialized {Process}")
-                Dim SendEmailProcess As New SendEmailProcess(Database, bgworker)
-                SendEmailProcess.Perform()
+                Process.Perform()
                 bgworker.ReportProgress((Processes.IndexOf(Process) + 1 / Processes.Count) * 100, $"Completed {Process}")
             Next
         Catch Ex As Exception
@@ -635,6 +634,11 @@ Public Class frmBGTasks
             End If
         Next
 
-        Return False
+        Select Case ErrorName
+            Case ErrorClass.SendEmail
+                Return Not My.Settings.SendEmail
+            Case Else
+                Return False
+        End Select
     End Function
 End Class
