@@ -42,7 +42,6 @@ Public Class SendEmailProcess
             Database.Execute($"Update Mail Set Status='Sent' Where MailNo={MailNo}")
         Catch ex As Exception
             Database.Execute($"Update Mail Set Status='Failed' Where MailNo={MailNo}")
-            Throw ex
         End Try
     End Sub
 End Class
