@@ -71,6 +71,7 @@ Public Class frmBGTasks
             d = File.Create(Activity.FilePath)
             d.Close()
         End If
+        Activity.Init()
         GridActivity.DataSource = Activity.GetDataTable()
 
         Dim ShutDownFilePath As String = Path.Combine(FilePath, "ShutDown.txt")

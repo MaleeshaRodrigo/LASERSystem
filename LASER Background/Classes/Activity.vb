@@ -11,6 +11,18 @@ Public NotInheritable Class Activity
     Private Shared LastSavedTime As New DateTime
 
     Private Sub New()
+    End Sub
+
+    Public ReadOnly Property Instance As Activity
+        Get
+            If _Instance Is Nothing Then
+                _Instance = New Activity()
+            End If
+            Return _Instance
+        End Get
+    End Property
+
+    Public Shared Sub Init()
         If Not File.Exists(FilePath) Then
             Throw New FileNotFoundException($"{FilePath} cannot be found.")
             Exit Sub
@@ -33,15 +45,6 @@ Public NotInheritable Class Activity
             LastIndex = DataTable.Rows(DataTable.Rows.Count - 1)(0)
         End If
     End Sub
-
-    Public Shared ReadOnly Property Instance As Activity
-        Get
-            If _Instance Is Nothing Then
-                _Instance = New Activity()
-            End If
-            Return _Instance
-        End Get
-    End Property
 
     Public Shared Function GetDataTable() As DataTable
         Return DataTable
