@@ -1,4 +1,4 @@
-﻿Imports System.Data.Odbc
+﻿Imports System.Data.OleDb
 Imports System.IO
 Imports System.Threading
 Imports ZXing
@@ -41,7 +41,7 @@ Public Class frmReceive
 
     Private Sub cmbCuName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbCuName.SelectedIndexChanged
         If txtCuTelNo1.Text.Trim = "" Then
-            Dim DrCheckCustomerExist As OdbcDataReader = Db.GetDataReader("SELECT * from Customer where CuName='" & cmbCuName.Text & "' and CuTelNo1='" & txtCuTelNo1.Text &
+            Dim DrCheckCustomerExist As OleDbDataReader = Db.GetDataReader("SELECT * from Customer where CuName='" & cmbCuName.Text & "' and CuTelNo1='" & txtCuTelNo1.Text &
                                          "' and CuTelNo2='" & txtCuTelNo2.Text & "' and CuTelNo3='" & txtCuTelNo3.Text & "';")
             If DrCheckCustomerExist.HasRows = True Then
                 DrCheckCustomerExist.Read()
@@ -51,7 +51,7 @@ Public Class frmReceive
                 txtCuTelNo3.Text = DrCheckCustomerExist("CuTelNo3").ToString
             Else
                 For i As Integer = 0 To 1000
-                    Dim DrCuNameSuggest As OdbcDataReader = Db.GetDataReader("Select CuName from Customer Where CuName = '" & cmbCuName.Text & " " & i.ToString & "'")
+                    Dim DrCuNameSuggest As OleDbDataReader = Db.GetDataReader("Select CuName from Customer Where CuName = '" & cmbCuName.Text & " " & i.ToString & "'")
                     If DrCuNameSuggest.HasRows = False Then
                         cmbCuName_Text(cmbCuName.Text + " " + i.ToString)
                         Exit For
@@ -59,15 +59,15 @@ Public Class frmReceive
                 Next
             End If
         Else
-            Dim DrCheckCustomerExist As OdbcDataReader = Db.GetDataReader("SELECT * from Customer where CuName='" & cmbCuName.Text & "' and CuTelNo1='" & txtCuTelNo1.Text &
+            Dim DrCheckCustomerExist As OleDbDataReader = Db.GetDataReader("SELECT * from Customer where CuName='" & cmbCuName.Text & "' and CuTelNo1='" & txtCuTelNo1.Text &
                                          "' and CuTelNo2='" & txtCuTelNo2.Text & "' and CuTelNo3='" & txtCuTelNo3.Text & "';")
             If DrCheckCustomerExist.HasRows = True Then Exit Sub
             If cmbCuName.Text = "" Then Exit Sub
-            Dim DrCuName As OdbcDataReader = Db.GetDataReader("Select CuName from Customer where CuName ='" & cmbCuName.Text & "';")
+            Dim DrCuName As OleDbDataReader = Db.GetDataReader("Select CuName from Customer where CuName ='" & cmbCuName.Text & "';")
 
             If DrCuName.HasRows = True Then
                 For i As Integer = 0 To 1000
-                    Dim DrCuNameSuggest As OdbcDataReader = Db.GetDataReader("Select CuName from Customer Where CuName = '" & cmbCuName.Text & " " & i.ToString & "'")
+                    Dim DrCuNameSuggest As OleDbDataReader = Db.GetDataReader("Select CuName from Customer Where CuName = '" & cmbCuName.Text & " " & i.ToString & "'")
                     If DrCuNameSuggest.HasRows = False Then
                         cmbCuName_Text(cmbCuName.Text + " " + i.ToString)
                         Exit For
@@ -80,7 +80,7 @@ Public Class frmReceive
 
     Private Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click
         Cursor = Cursors.WaitCursor
-        txtRNo.Text = Db.GetNextKey("Receive", "RNo")
+        Call SetNextKey(Db, txtRNo, "SELECT top 1 RNo from Receive ORDER BY RNo Desc;", "RNo")
         'clear customer fileds
         For Each obj As Object In {cmbCuMr, cmbCuName, txtCuTelNo1, txtCuTelNo2, txtCuTelNo3}
             obj.Text = ""
@@ -99,7 +99,7 @@ Public Class frmReceive
     End Sub
 
     Private Sub cmdSave_Click(sender As Object, e As EventArgs) Handles cmdSave.Click
-        If CheckEmptyfield(cmbCuName, "Customer Name යන field එක හිස්ව පවතියි. කරුණාකර Customer කෙනෙකු තෝරා නැවත උත්සහ කරන්න.") = False Then
+        If CheckEmptyControl(cmbCuName, "Customer Name යන field එක හිස්ව පවතියි. කරුණාකර Customer කෙනෙකු තෝරා නැවත උත්සහ කරන්න.") = False Then
             Exit Sub
         ElseIf grdRepair.Rows.Count < 2 And grdReRepair.Rows.Count < 2 Then
             MsgBox("ඔබ තවමත් කිසිම Repair එකක් හෝ RERepair එකක් ඇතුලත් කර නොමැත. කරුණාකර Repair එකක් හෝ RERepair එකක් ඇතුලත් කර නැවත උත්සහ කරන්න.", vbOKOnly + vbExclamation)
@@ -177,7 +177,7 @@ Public Class frmReceive
         Cursor = Cursors.WaitCursor
         'Customer Management 
         Dim CuNo, PNo As Integer
-        Dim DR As OdbcDataReader = Db.GetDataReader("Select * from Customer where CuName='" & cmbCuMr.Text & cmbCuName.Text & "' and CuTelNo1='" & txtCuTelNo1.Text & "' and CuTelNo2 ='" & txtCuTelNo2.Text & "' and CuTelNo3='" & txtCuTelNo3.Text & "'")
+        Dim DR As OleDbDataReader = Db.GetDataReader("Select * from Customer where CuName='" & cmbCuMr.Text & cmbCuName.Text & "' and CuTelNo1='" & txtCuTelNo1.Text & "' and CuTelNo2 ='" & txtCuTelNo2.Text & "' and CuTelNo3='" & txtCuTelNo3.Text & "'")
         If DR.HasRows = True Then
             DR.Read()
             CuNo = DR("CuNo")
@@ -187,11 +187,11 @@ Public Class frmReceive
         End If
         If txtRDate.Value.Date = Today.Date Then txtRDate.Value = DateAndTime.Now
         txtRNo.Text = Db.GetNextKey("Receive", "RNo")
-        Db.Execute("Insert into Receive(RNo,RDate,CuNo,UNo) values(" & txtRNo.Text & ",'" & txtRDate.Value & "'," & CuNo & ",'" & User.Instance.UserNo & "');")
+        Db.Execute("Insert into Receive(RNo,RDate,CuNo,UNo) values(" & txtRNo.Text & ",#" & txtRDate.Value & "#," & CuNo & ",'" & User.Instance.UserNo & "');")
         For Each row As DataGridViewRow In grdRepair.Rows
             If row.Index = grdRepair.Rows.Count - 1 Then Continue For
             'Product Management
-            Dim DrProduct As OdbcDataReader = Db.GetDataReader("Select * from Product where PCategory='" & row.Cells(1).Value & "' and PName='" & row.Cells(2).Value & "'")
+            Dim DrProduct As OleDbDataReader = Db.GetDataReader("Select * from Product where PCategory='" & row.Cells(1).Value & "' and PName='" & row.Cells(2).Value & "'")
             If DrProduct.HasRows = True Then
                 DrProduct.Read()
                 PNo = DrProduct("PNo")
@@ -202,8 +202,8 @@ Public Class frmReceive
             Db.Execute("Insert into Repair(RepNo,RNo,PNo,PSerialNo,Qty,Problem,Status)Values(" & row.Cells(0).Value & "," & txtRNo.Text & "," & PNo & ",'" & row.Cells(4).Value & "'," &
                                         row.Cells(6).Value & ",'" & row.Cells(7).Value & "','Received');")
             Db.Execute("Insert into RepairActivity(RepANo,RepNo,RepADate,Activity,UNo) Values(?NewKey?RepairActivity?RepANo?," &
-                      row.Cells(0).Value & ",'" & DateAndTime.Now &
-                      "','Received Date -> " & txtRDate.Value & vbCrLf &
+                      row.Cells(0).Value & ",#" & DateAndTime.Now &
+                      "#,'Received Date -> " & txtRDate.Value & vbCrLf &
                       ", Name -> " & cmbCuMr.Text & cmbCuName.Text &
                       ", Telephone No1 -> " & txtCuTelNo1.Text &
                       ", Telephone No2 -> " & txtCuTelNo2.Text &
@@ -214,7 +214,7 @@ Public Class frmReceive
                       ", Serial No -> " & row.Cells(4).Value &
                       ", Problem -> " & row.Cells(5).Value & ".'," & User.Instance.UserNo & ")")
             If row.Cells(8).Value IsNot Nothing Then
-                Db.Execute("Insert into RepairRemarks1(Rem1No,Rem1Date,RepNo,Remarks,UNo) Values(?NewKey?RepairRemarks1?Rem1No?,'" & DateAndTime.Now & "'," &
+                Db.Execute("Insert into RepairRemarks1(Rem1No,Rem1Date,RepNo,Remarks,UNo) Values(?NewKey?RepairRemarks1?Rem1No?,#" & DateAndTime.Now & "#," &
                       row.Cells(0).Value & ",'" & row.Cells(8).Value & "'," & User.Instance.UserNo & ")")
             End If
             If Me.Tag = "Deliver" Then
@@ -236,7 +236,7 @@ Public Class frmReceive
         For Each row As DataGridViewRow In grdReRepair.Rows
             If row.Index = grdReRepair.Rows.Count - 1 Then Continue For
             'Product Management
-            Dim DrProduct As OdbcDataReader = Db.GetDataReader("Select * from Product where PCategory='" & row.Cells(2).Value & "' and PName = '" & row.Cells(3).Value & "'")
+            Dim DrProduct As OleDbDataReader = Db.GetDataReader("Select * from Product where PCategory='" & row.Cells(2).Value & "' and PName = '" & row.Cells(3).Value & "'")
             If DrProduct.HasRows = True Then
                 DrProduct.Read()
                 PNo = DrProduct("PNo")
@@ -245,16 +245,16 @@ Public Class frmReceive
                 Db.Execute("Insert into Product(PNO,PCATEGORY,PNAME,PMODELNO,PDETAILS) Values(" & PNo & ",'" & row.Cells(2).Value & "','" & row.Cells(3).Value & "','" & row.Cells(4).Value &
                           "','" & row.Cells(6).Value & "');")
             End If
-            Db.Execute("Insert Into `Rerepair`(RetNo,RNo,RepNo,PNo,PSerialNo,Qty,Problem,Status,RetRemarks1) Values(" & row.Cells(0).Value & "," & txtRNo.Text & "," & row.Cells(1).Value & "," & PNo & ",'" & row.Cells(5).Value & "'," &
+            Db.Execute("Insert Into `Return`(RetNo,RNo,RepNo,PNo,PSerialNo,Qty,Problem,Status,RetRemarks1) Values(" & row.Cells(0).Value & "," & txtRNo.Text & "," & row.Cells(1).Value & "," & PNo & ",'" & row.Cells(5).Value & "'," &
             row.Cells(7).Value & ",'" & row.Cells(8).Value & "','Received','" & row.Cells(9).Value & "');")
             Db.Execute("Insert into RepairActivity(RepANo,RetNo,RepADate,Activity,UNo) Values(?NewKey?RepairActivity?RepANo?," &
-                      row.Cells(0).Value & ",'" & DateAndTime.Now & "','Received Date -> " & txtRDate.Value & vbCrLf & ", Name -> " & cmbCuMr.Text & cmbCuName.Text &
+                      row.Cells(0).Value & ",#" & DateAndTime.Now & "#,'Received Date -> " & txtRDate.Value & vbCrLf & ", Name -> " & cmbCuMr.Text & cmbCuName.Text &
                       ", Telephone No1 -> " & txtCuTelNo1.Text & ", Telephone No2 -> " & txtCuTelNo2.Text & ", Telephone No3 -> " & txtCuTelNo3.Text &
                       vbCrLf & ", Product Category -> " & row.Cells(2).Value &
                       ", Product Name -> " & row.Cells(3).Value & ", Model No -> " & row.Cells(4).Value & ", Serial No -> " & row.Cells(5).Value &
                       ", Problem -> " & row.Cells(6).Value & ".'," & User.Instance.UserNo & ")")
             If row.Cells(9).Value IsNot Nothing Then
-                Db.Execute("Insert into RepairRemarks1(Rem1No,Rem1Date,RetNo,Remarks,UNo) Values(?NewKey?RepairRemarks1?Rem1No?,'" & DateAndTime.Now & "'," &
+                Db.Execute("Insert into RepairRemarks1(Rem1No,Rem1Date,RetNo,Remarks,UNo) Values(?NewKey?RepairRemarks1?Rem1No?,#" & DateAndTime.Now & "#," &
                       row.Cells(0).Value & ",'" & row.Cells(9).Value & "'," & User.Instance.UserNo & ")")
             End If
             If Me.Tag = "Deliver" Then
@@ -279,7 +279,7 @@ Public Class frmReceive
         If IsNumeric(RNo) = False Or RNo = "" Then
             Exit Sub
         End If
-        Dim UserName As String = MdifrmMain.tslblUserName.Text
+        Dim UserName As String = User.Instance.UserName
         Dim threadInvoice As New Thread(
             Sub()
                 Dim ThreadDb As New Database()
@@ -287,9 +287,9 @@ Public Class frmReceive
                     ThreadDb.Connect()
                     Dim frm1 As New frmReport
                     Dim RPT As New rptReceive
-                    Dim DTRepair As DataTable = ThreadDb.GetDataTable($"SELECT RDate,CuName,CuTelNo1,CuTelNo2,CuTelNo3,'' as RetNo, RepNo, PCategory, PName, PModelNo, PSerialNo, Qty, Problem, '' as RepRemarks1 from (((Repair Inner Join Receive On Receive.RNo =Repair.RNo) Left Join Product On Product.PNo=Repair.PNo) Left Join Customer On Customer.CuNo=Receive.CuNo) Where Receive.RNo = {RNo} Union Select RDate,CuName,CuTelNo1,CuTelNo2,CuTelNo3, RetNo, RepNo, PCategory, PName, PModelNo, PSerialNo, Qty, Problem, '' as RepRemarks1 from (((Rerepair Inner Join Receive On Receive.RNo =Rerepair.RNo) Left Join Product On Product.PNo=Rerepair.PNo) Left Join Customer On Customer.CuNo=Receive.CuNo) Where Receive.RNo = {RNo}")
+                    Dim DTRepair As DataTable = ThreadDb.GetDataTable($"SELECT RDate,CuName,CuTelNo1,CuTelNo2,CuTelNo3,'' as RetNo, RepNo, PCategory, PName, PModelNo, PSerialNo, Qty, Problem, '' as RepRemarks1 from (((Repair Inner Join Receive On Receive.RNo =Repair.RNo) Left Join Product On Product.PNo=Repair.PNo) Left Join Customer On Customer.CuNo=Receive.CuNo) Where Receive.RNo = {RNo} Union Select RDate,CuName,CuTelNo1,CuTelNo2,CuTelNo3, RetNo, RepNo, PCategory, PName, PModelNo, PSerialNo, Qty, Problem, '' as RepRemarks1 from (((Return Inner Join Receive On Receive.RNo =Return.RNo) Left Join Product On Product.PNo=Return.PNo) Left Join Customer On Customer.CuNo=Receive.CuNo) Where Receive.RNo = {RNo}")
                     For Each row As DataRow In DTRepair.Rows
-                        Dim DrRemarks As OdbcDataReader = ThreadDb.GetDataReader($"Select Remarks from RepairRemarks1 Where {If(row.Item("RetNo") = "", $"RepNo={row.Item("RepNo")}", $"RetNo={row.Item("RetNo")}")};")
+                        Dim DrRemarks As OleDbDataReader = ThreadDb.GetDataReader($"Select Remarks from RepairRemarks1 Where {If(row.Item("RetNo") = "", $"RepNo={row.Item("RepNo")}", $"RetNo={row.Item("RetNo")}")};")
                         row.Item("RepRemarks1") = ""
                         While DrRemarks.Read
                             row.Item("RepRemarks1") += DrRemarks("Remarks").ToString + vbCrLf
@@ -445,7 +445,7 @@ Public Class frmReceive
                     autoText.AutoCompleteMode = AutoCompleteMode.Suggest
                     autoText.AutoCompleteSource = AutoCompleteSource.CustomSource
                     DataCollection.Clear()
-                    Dim DrProduct As OdbcDataReader = Db.GetDataReader("Select PCategory from Product group by PCategory;")
+                    Dim DrProduct As OleDbDataReader = Db.GetDataReader("Select PCategory from Product group by PCategory;")
                     While DrProduct.Read
                         DataCollection.Add(DrProduct("PCategory").ToString)
                     End While
@@ -457,7 +457,7 @@ Public Class frmReceive
                     autoText.AutoCompleteMode = AutoCompleteMode.Suggest
                     autoText.AutoCompleteSource = AutoCompleteSource.CustomSource
                     DataCollection.Clear()
-                    Dim DR As OdbcDataReader = Db.GetDataReader("Select PCategory,PName from Product where PCategory ='" & grdRepair.Item(1, grdRepair.CurrentCell.RowIndex).Value & "';")
+                    Dim DR As OleDbDataReader = Db.GetDataReader("Select PCategory,PName from Product where PCategory ='" & grdRepair.Item(1, grdRepair.CurrentCell.RowIndex).Value & "';")
                     While DR.Read
                         DataCollection.Add(DR("PName").ToString)
                     End While
@@ -485,7 +485,7 @@ Public Class frmReceive
                 If grdRepair.Item(1, e.RowIndex).Value Is Nothing And grdRepair.Item(2, e.RowIndex).Value Is Nothing Then
                     grdRepair.Rows.RemoveAt(e.RowIndex)
                 End If
-                Dim DR As OdbcDataReader = Db.GetDataReader("Select * from Product where PCategory='" & grdRepair.Item(1, e.RowIndex).Value & "' and PName='" & grdRepair.Item(2, e.RowIndex).Value & "';")
+                Dim DR As OleDbDataReader = Db.GetDataReader("Select * from Product where PCategory='" & grdRepair.Item(1, e.RowIndex).Value & "' and PName='" & grdRepair.Item(2, e.RowIndex).Value & "';")
                 If DR.HasRows = True Then
                     DR.Read()
                     grdRepair.Item(1, e.RowIndex).Value = DR("PCategory").ToString
@@ -503,7 +503,7 @@ Public Class frmReceive
 
     Private Sub grdRepair_UserAddedRow(sender As Object, e As DataGridViewRowEventArgs) Handles grdRepair.UserAddedRow
         Dim i As Integer
-        Dim DR As OdbcDataReader = Db.GetDataReader("Select REpNo from REpair Order by repno desc LIMIT 1;")
+        Dim DR As OleDbDataReader = Db.GetDataReader("Select Top 1 REpNo from REpair Order by repno desc;")
         If DR.HasRows = True Then
             DR.Read()
             i = Int(DR("RepNo").ToString) + 1
@@ -525,7 +525,7 @@ Public Class frmReceive
         Select Case e.ColumnIndex
             Case 1
                 If grdReRepair.Item(e.ColumnIndex, e.RowIndex).Value Is Nothing Then Exit Sub
-                Dim DrCustomer As OdbcDataReader = Db.GetDataReader("Select RepNo,Rep.RNo,Cu.CuNo,CuName,CuTelNo1,CuTElNo2,CuTelNo3 from Repair REP, Receive R, Customer Cu Where Rep.RNo = R.RNo and Cu.CuNo = R.CuNo and RepNo = " & grdReRepair.Item(1, e.RowIndex).Value)
+                Dim DrCustomer As OleDbDataReader = Db.GetDataReader("Select RepNo,Rep.RNo,Cu.CuNo,CuName,CuTelNo1,CuTElNo2,CuTelNo3 from Repair REP, Receive R, Customer Cu Where Rep.RNo = R.RNo and Cu.CuNo = R.CuNo and RepNo = " & grdReRepair.Item(1, e.RowIndex).Value)
                 If DrCustomer.HasRows = True Then
                     DrCustomer.Read()
                     txtCuTelNo1.Text = DrCustomer("CuTelNo1").ToString
@@ -533,7 +533,7 @@ Public Class frmReceive
                     txtCuTelNo3.Text = DrCustomer("CuTelNo3").ToString
                     cmbCuName.Text = DrCustomer("CuName").ToString
                 End If
-                Dim DrProduct As OdbcDataReader = Db.GetDataReader("Select RepNo,PCategory,PName,PModelNo,PSerialNo,PDetails,Qty from Repair Rep,Product P where Rep.Pno = P.PNo and RepNo=" & grdReRepair.Item(1, e.RowIndex).Value)
+                Dim DrProduct As OleDbDataReader = Db.GetDataReader("Select RepNo,PCategory,PName,PModelNo,PSerialNo,PDetails,Qty from Repair Rep,Product P where Rep.Pno = P.PNo and RepNo=" & grdReRepair.Item(1, e.RowIndex).Value)
                 If DrProduct.HasRows = True Then
                     DrProduct.Read()
                     grdReRepair.Item(2, e.RowIndex).Value = DrProduct("PCategory").ToString
@@ -548,7 +548,7 @@ Public Class frmReceive
 
     Public Sub grdReRepair_UserAddedRow(sender As Object, e As DataGridViewRowEventArgs) Handles grdReRepair.UserAddedRow
         Dim i As Integer
-        Dim DR As OdbcDataReader = Db.GetDataReader("Select RetNo from Rerepair Order by retno desc LIMIT 1;")
+        Dim DR As OleDbDataReader = Db.GetDataReader("Select Top 1 RetNo from Return Order by retno desc;")
         If DR.HasRows = True Then
             DR.Read()
             i = Int(DR("RetNo").ToString) + 1
@@ -569,7 +569,6 @@ Public Class frmReceive
     Private Sub cmdCuView_Click(sender As Object, e As EventArgs) Handles cmdCuView.Click
         frmCustomer.Tag = "Receive"
         frmCustomer.Show()
-        frmCustomer.cmbCuName.Focus()
     End Sub
 
     Private Sub CustomerInfoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CustomerInfoToolStripMenuItem.Click
@@ -609,10 +608,9 @@ Public Class frmReceive
         OnlynumberQty(e)
     End Sub
 
-    Private Sub txtCuTelNo1_KeyUp(sender As Object, e As KeyEventArgs) Handles txtCuTelNo1.KeyUp
-        If txtCuTelNo1.Text.Replace(" ", "").Length < 10 Then Exit Sub
-        Dim SaDR As OdbcDataReader = Db.GetDataReader("Select * from Customer where CuTelNo1='" & txtCuTelNo1.Text & "' or CuTelNo2='" & txtCuTelNo1.Text &
-                                            "' or CuTelNo3='" & txtCuTelNo1.Text & "';")
+    Private Sub TextCuTelNo_KeyUp(sender As Object, e As KeyEventArgs) Handles txtCuTelNo1.KeyUp, txtCuTelNo2.KeyUp, txtCuTelNo3.KeyUp
+        If sender.Text.Replace(" ", "").Length < 10 Then Exit Sub
+        Dim SaDR As OleDbDataReader = Db.GetDataReader($"Select * from Customer where CuTelNo1='{sender.Text}' or CuTelNo2='{sender.Text}' or CuTelNo3='{sender.Text}';")
         If SaDR.HasRows = True Then
             SaDR.Read()
             If cmbCuMr.Text + cmbCuName.Text = SaDR("CuName").ToString Then Exit Sub
@@ -622,69 +620,13 @@ Public Class frmReceive
                 frm.Caller = Me.Name
                 frm.Tag = "Receive"
                 frm.Show(Me)
-                frm.cmbCuName.Text = SaDR("CuName").ToString
-                Call frm.cmbCuName_SelectedIndexChanged(sender, e)
+                frm.SelectCustomer(SaDR("CuNo"), SaDR("CuName"), SaDR("CuTelNo1"), SaDR("CuTelNo2"), SaDR("CuTelNo3"))
             End With
         Else
             cmbCuName_SelectedIndexChanged(sender, e)
         End If
         SaDR.Close()
     End Sub
-
-    Private Sub txtCuTelNo2_KeyUp(sender As Object, e As EventArgs) Handles txtCuTelNo2.KeyUp
-        If txtCuTelNo2.Text.Replace(" ", "").Length < 10 Then Exit Sub
-        If txtCuTelNo1.Text.Replace(" ", "") = "" Then
-            txtCuTelNo1.Text = txtCuTelNo2.Text
-            txtCuTelNo2.Text = ""
-            Exit Sub
-        End If
-        Dim SaDR As OdbcDataReader = Db.GetDataReader("Select * from Customer where CuTelNo1='" & txtCuTelNo2.Text & "' or CuTelNo2='" & txtCuTelNo2.Text & "' or CuTelNo3='" & txtCuTelNo2.Text & "';")
-        If SaDR.HasRows = True Then
-            SaDR.Read()
-            If cmbCuMr.Text + cmbCuName.Text = SaDR("CuName").ToString Then Exit Sub
-            Dim frm As New frmCustomer
-            With frm
-                frm.Name = "frmCustomer" + NextfrmNo(frmCustomer).ToString
-                frm.Caller = Me.Name
-                frm.Tag = "Receive"
-                frm.Show(Me)
-                frm.cmbCuName.Text = SaDR("CuName").ToString
-                Call frm.cmbCuName_SelectedIndexChanged(sender, e)
-            End With
-        End If
-        SaDR.Close()
-    End Sub
-
-    Private Sub txtCuTelNo3_KeyUp(sender As Object, e As EventArgs) Handles txtCuTelNo3.KeyUp
-        If txtCuTelNo3.Text.Replace(" ", "").Length < 10 Then Exit Sub
-        If txtCuTelNo1.Text.Replace(" ", "") = "" And txtCuTelNo2.Text.Replace(" ", "") = "" Then
-            txtCuTelNo1.Text = txtCuTelNo3.Text
-            txtCuTelNo3.Text = ""
-            txtCuTelNo2.Text = ""
-            Exit Sub
-        ElseIf txtCuTelNo1.Text.Replace(" ", "") = "" Then
-            txtCuTelNo1.Text = txtCuTelNo2.Text
-            txtCuTelNo2.Text = txtCuTelNo3.Text
-            txtCuTelNo3.Text = ""
-            Exit Sub
-        End If
-        Dim SaDR As OdbcDataReader = Db.GetDataReader("Select * from Customer where CuTelNo1='" & txtCuTelNo3.Text & "' or CuTelNo2='" & txtCuTelNo3.Text & "' or CuTelNo3='" & txtCuTelNo3.Text & "';")
-        If SaDR.HasRows = True Then
-            SaDR.Read()
-            If cmbCuMr.Text + cmbCuName.Text = SaDR("CuName").ToString Then Exit Sub
-            Dim frm As New frmCustomer
-            With frm
-                frm.Name = "frmCustomer" + NextfrmNo(frmCustomer).ToString
-                frm.Caller = Me.Name
-                frm.Tag = "Receive"
-                frm.Show(Me)
-                frm.cmbCuName.Text = SaDR("CuName").ToString
-                Call frm.cmbCuName_SelectedIndexChanged(sender, e)
-            End With
-        End If
-        SaDR.Close()
-    End Sub
-
     Public Sub cmbCuName_Text(CuName As String)
         cmbCuName.Text = CuName
         CuName = CuName.TrimStart(" ")

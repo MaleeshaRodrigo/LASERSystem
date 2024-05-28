@@ -1,4 +1,10 @@
-﻿Imports LASER_System.My
+﻿Imports System.Data.Common
+Imports System.Data.Odbc
+Imports System.Data.OleDb
+Imports System.IO
+Imports System.Runtime.CompilerServices
+Imports System.Threading
+Imports LASER_System.My
 Imports System.Data.Odbc
 
 Public Class Database
@@ -38,18 +44,12 @@ Public Class Database
         _Connection.Close()
     End Sub
 
-    Public Function CheckDataExists(Table As String, FieldName As String, Value As String) As Boolean
-        Dim DR As OdbcDataReader = Nothing
-        Try
-            Dim Command = New OdbcCommand($"SELECT {FieldName} FROM {Table} WHERE {FieldName} = @VALUE", _Connection)
-            Command.Parameters.AddWithValue("@VALUE", Value)
-            DR = Command.ExecuteReader()
-            Return DR.HasRows
-        Catch ex As Exception
-            Throw ex
-        Finally
-            If DR IsNot Nothing Then DR.Close()
-        End Try
+    Public Function CheckDataExists(Table As String, FieldName As String, Value As Object) As Boolean
+        Dim Command As New OdbcCommand($"SELECT {FieldName} FROM {Table} WHERE {FieldName}=@VALUE;", _Connection)
+        Command.Parameters.Add(New OleDbParameter("VALUE", Value))
+        Using DataReader As OdbcDataReader = Command.ExecuteReader()
+            Return DataReader.HasRows
+        End Using
     End Function
 
     Public Sub Execute(Query As String, Optional Parameters As OdbcParameter() = Nothing, Optional AdminPer As AdminPermission = Nothing)

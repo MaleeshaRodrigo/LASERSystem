@@ -47,9 +47,9 @@ Public Class frmTechnicianLoan
     End Sub
 
     Private Sub cmdTLSave_Click(sender As Object, e As EventArgs) Handles cmdTLSave.Click
-        If CheckEmptyfield(txtTLAmount, "Amount Field එක හිස්ව පවතියි. කරුණාකර එය සම්පූර්ණ කරන්න.") = False Then
+        If CheckEmptyControl(txtTLAmount, "Amount Field එක හිස්ව පවතියි. කරුණාකර එය සම්පූර්ණ කරන්න.") = False Then
             Exit Sub
-        ElseIf CheckEmptyfield(cmbTName, "Technician ව තෝරා නොමැත. කරුණාකර අදාල Technician ව තොරා ගන්න.") = False Then
+        ElseIf CheckEmptyControl(cmbTName, "Technician ව තෝරා නොමැත. කරුණාකර අදාල Technician ව තොරා ගන්න.") = False Then
             Exit Sub
         ElseIf txtTLReason.Text = "" And txtSNo.Text = "" Then
             MsgBox("ඔබ හේතුවක් හෝ Stock එකක් ඇතුලත් කර නොමැත. කරුණාකර නැවත පරික්ෂා කරන්න.")
@@ -258,7 +258,7 @@ Public Class frmTechnicianLoan
     End Sub
 
     Private Sub cmdTLDelete_Click(sender As Object, e As EventArgs) Handles cmdTLDelete.Click
-        If CheckEmptyfield(txtTLNo, "Technician Loan No එක හිස්ව පවතියි. ඔබට Technician Loan පොරමය Closed කර නැවත Open කල යුතුයි.") = False Then
+        If CheckEmptyControl(txtTLNo, "Technician Loan No එක හිස්ව පවතියි. ඔබට Technician Loan පොරමය Closed කර නැවත Open කල යුතුයි.") = False Then
             Me.Close()
             MdifrmMain.cmdTechnicianLoan.PerformClick()
             Exit Sub

@@ -33,7 +33,7 @@ Public Class frmRepairAdvanced
         Dim AdminPer As New AdminPermission(Db)
         If cmbRepNo.Text = "" Then
             MsgBox("Repair No හෝ RE-Repair No එක ඇතුලත් කරන්න.", vbExclamation + vbOKOnly)
-        ElseIf CheckEmptyfield(txtAmount, "Advanced එකෙහි Amount එක ඇතුලත් කරන්න.") = False Then
+        ElseIf CheckEmptyControl(txtAmount, "Advanced එකෙහි Amount එක ඇතුලත් කරන්න.") = False Then
             Exit Sub
         End If
         Select Case cmdSave.Text
@@ -109,7 +109,7 @@ Public Class frmRepairAdvanced
 
     Private Sub cmdDelete_Click(sender As Object, e As EventArgs) Handles cmdDelete.Click
         Dim AdminPer As New AdminPermission(Db)
-        If CheckExistData(txtAdNo, "Select AdNo from RepairAdvanced Where AdNo=" & txtAdNo.Text, "මෙම Advanced එක ඇතුලත් කර නොමැති එකකි. කරුණාකර පරික්ෂා කර නැවත උත්සහ කරන්න.", False) = False Then
+        If CheckExistData(Db, txtAdNo, "Select AdNo from RepairAdvanced Where AdNo=" & txtAdNo.Text, "මෙම Advanced එක ඇතුලත් කර නොමැති එකකි. කරුණාකර පරික්ෂා කර නැවත උත්සහ කරන්න.", False) = False Then
             Exit Sub
         End If
         If User.Instance.UserType <> User.Type.Admin And Convert.ToDateTime(txtAdDate.Value).Date <> DateTime.Today.Date Then
@@ -165,7 +165,7 @@ Public Class frmRepairAdvanced
     End Sub
 
     Private Sub cmdRepView_Click(sender As Object, e As EventArgs) Handles cmdRepView.Click
-        Dim frm As New frmRepair
+        Dim frm As New FormRepair
         If cmbRepNo.Text <> "0" Then
             With frm
                 .Name = "frmRepair" + NextfrmNo(frm).ToString
@@ -214,9 +214,9 @@ Public Class frmRepairAdvanced
     End Sub
 
     Private Sub PrintRepairAdvancedToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PrintRepairAdvancedToolStripMenuItem.Click
-        If CheckEmptyfield(txtAdNo, "Repair Advanced No එක හිස්ව පවතියි.") = False Then
+        If CheckEmptyControl(txtAdNo, "Repair Advanced No එක හිස්ව පවතියි.") = False Then
             Exit Sub
-        ElseIf CheckExistData(txtAdNo, "Select ADNo from RepairAdvanced Where ADNo=" & txtAdNo.Text,
+        ElseIf CheckExistData(Db, txtAdNo, "Select ADNo from RepairAdvanced Where ADNo=" & txtAdNo.Text,
                              "Repair Advanced No එක Database එක තුලින් සොයා ගැනීමට නොහැකි වුණි.", False) = False Then
             Exit Sub
         End If
@@ -235,7 +235,7 @@ Public Class frmRepairAdvanced
         DA1.Fill(DS1, "Receive")
         DA1.Fill(DS1, "RepairAdvanced")
         RPT.SetDataSource(DS1)
-        RPT.SetParameterValue("Cashier Name", MdifrmMain.tslblUserName.Text) 'Set Cashier Name to Parameter Value
+        RPT.SetParameterValue("Cashier Name", User.Instance.UserName) 'Set Cashier Name to Parameter Value
         Dim c As Integer
         Dim doctoprint As New System.Drawing.Printing.PrintDocument()
         doctoprint.PrinterSettings.PrinterName = "Zonerich AB-220K"

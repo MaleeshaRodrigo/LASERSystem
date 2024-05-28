@@ -1,4 +1,4 @@
-﻿Imports System.Data.Odbc
+﻿Imports System.Data.OleDb
 Imports System.IO
 Imports System.Net
 Imports Microsoft.VisualBasic.FileIO
@@ -6,12 +6,24 @@ Imports Newtonsoft.Json
 
 Module Utils
     Public SystemFolderPath As String = Path.Combine(SpecialDirectories.MyDocuments, "LASER System Data")
+
     Public Sub ComboBoxDropDown(Db As Database, cmb As ComboBox, SQL As String)
         cmb.Items.Clear()
         Dim DT0 As DataTable = Db.GetDataTable(SQL)
         Dim items = DT0.AsEnumerable().Select(Function(d) DirectCast(d(0).ToString(), Object)).ToArray()
         cmb.Items.AddRange(items)
         DT0.Dispose()
+    End Sub
+
+    Public Sub SetNextKey(Db As Database, txt As TextBox, SQL As String, ColumnName As String)
+        Dim DR0 As OleDbDataReader = Db.GetDataReader(SQL)
+        If DR0.HasRows = True Then
+            DR0.Read()
+            txt.Text = Int(DR0.Item(ColumnName)) + 1
+        Else
+            txt.Text = "1"
+        End If
+        DR0.Close()
     End Sub
 
     Public Sub OnlynumberQty(e As KeyPressEventArgs)
@@ -38,21 +50,23 @@ Module Utils
         OnlynumberQty(e)
     End Sub
 
-    Public Function CheckEmptyStr(str As String, msg As String) As Boolean
-        CheckEmptyStr = True
-        If str = "" Then
-            MsgBox(msg, vbCritical + vbOKOnly)
+    Public Function CheckEmptyStr(Value As String, Message As String) As Boolean
+        If Value = "" Then
+            MessageBox.Error(Message)
             Return False
         End If
+
+        Return True
     End Function
 
-    Public Function CheckEmptyfield(txt As Control, msg As String) As Boolean
-        CheckEmptyfield = True
-        If String.IsNullOrEmpty(txt.Text.Trim) Then
-            MsgBox(msg, vbCritical + vbOKOnly)
-            txt.Focus()
+    Public Function CheckEmptyControl(TextControl As Control, Message As String) As Boolean
+        If String.IsNullOrEmpty(TextControl.Text.Trim) Then
+            MessageBox.Error(Message)
+            TextControl.Focus()
             Return False
         End If
+
+        Return True
     End Function
 
     ''' <summary>
@@ -61,8 +75,8 @@ Module Utils
     ''' <param name="SQL">The SQL Query</param>
     ''' <returns>True, if there are rows in the SQL query, or false</returns>
     Public Function CheckExistData(SQL As String) As Boolean
-        Dim CMD0 = New OdbcCommand(SQL)
-        Dim DR0 As OdbcDataReader = CMD0.ExecuteReader()
+        Dim CMD0 = New OleDbCommand(SQL)
+        Dim DR0 As OleDbDataReader = CMD0.ExecuteReader()
         If DR0.HasRows = True Then
             Return True
         Else
@@ -72,9 +86,8 @@ Module Utils
         DR0.Close()
     End Function
 
-    Public Function CheckExistData(cmb As Control, SQL As String, msg As String, IsDataExist As Boolean) As Boolean
-        Dim CMD0 = New OdbcCommand(SQL)
-        Dim DR0 As OdbcDataReader = CMD0.ExecuteReader()
+    Public Function CheckExistData(Db As Database, cmb As Control, SQL As String, msg As String, IsDataExist As Boolean) As Boolean
+        Dim DR0 As OleDbDataReader = Db.GetDataReader(SQL)
         If DR0.HasRows = True Then
             If IsDataExist = True Then
                 MsgBox(msg, vbCritical + vbOKOnly)
@@ -88,43 +101,12 @@ Module Utils
             End If
             Return False
         End If
-        CMD0.Cancel()
         DR0.Close()
     End Function
 
-    Public Sub WriteActivity(txt As String)
-        Dim DSActivity As DataSet
-        Dim DTActivity As DataTable
-        Dim LastIndex As Integer = 0
-        If Not File.Exists(Path.Combine(SystemFolderPath, "System Files\Activity\Activity.json")) Then
-            Exit Sub
-        End If
-        Dim Rjson As String = File.ReadAllText(Path.Combine(SystemFolderPath, "System Files\Activity\Activity.json"))
-        If String.IsNullOrEmpty(Rjson) Then
-            DSActivity = New DataSet
-            DTActivity = New DataTable
-
-            DTActivity.Columns.Add("ID")
-            DTActivity.Columns.Add("Date")
-            DTActivity.Columns.Add("Command")
-
-            DSActivity.Tables.Add(DTActivity)
-        Else
-            DSActivity = JsonConvert.DeserializeObject(Of DataSet)(Rjson)
-            DTActivity = DSActivity.Tables.Item("Table1")
-            LastIndex = DTActivity.Rows(DTActivity.Rows.Count - 1)(0)
-        End If
-        DTActivity.Rows.Add(LastIndex + 1, Now, txt)
-
-        MdifrmMain.GrdActivity.DataSource = DTActivity
-
-        Dim Wjson As String = JsonConvert.SerializeObject(DSActivity, Formatting.Indented)
-        File.WriteAllText(Path.Combine(SystemFolderPath, "System Files\Activity\Activity.json"), Wjson)
-    End Sub
-
     Public Function CheckExistRelationsforDelete(SQl As String, FieldName As String, msg As String) As Boolean
         CheckExistRelationsforDelete = True
-        CMD = New OdbcCommand(SQl)
+        CMD = New OleDb.OleDbCommand(SQl)
         DR = CMD.ExecuteReader
         Dim tmp As String = ""
         If DR.HasRows = True Then

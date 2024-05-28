@@ -82,7 +82,7 @@ Public Class MdifrmMain
 
     Public Sub cmdRepair_Click(sender As Object, e As EventArgs) Handles cmdRepair.Click
         Try
-            With frmRepair
+            With FormRepair
                 .Show()
                 .BringToFront()
                 If .WindowState = FormWindowState.Minimized Then .WindowState = FormWindowState.Maximized

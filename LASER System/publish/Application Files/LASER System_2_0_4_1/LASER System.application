@@ -8,20 +8,20 @@
         <expiration maximumAge="0" unit="days" />
       </update>
     </subscription>
-    <deploymentProvider codebase="https://raw.githubusercontent.com/MaleeshaRodrigo/LASERSystem/67/LASER%20System/publish/LASER%20System.application" />
+    <deploymentProvider codebase="https://raw.githubusercontent.com/MaleeshaRodrigo/LASERSystem/main/LASER%20System/publish/LASER%20System.application" />
   </deployment>
   <compatibleFrameworks xmlns="urn:schemas-microsoft-com:clickonce.v2">
     <framework targetVersion="4.8" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="Application Files\LASER System_2_0_4_1\LASER System.exe.manifest" size="21456">
+    <dependentAssembly dependencyType="install" codebase="Application Files\LASER System_2_0_4_1\LASER System.exe.manifest" size="20772">
       <assemblyIdentity name="LASER System.exe" version="2.0.4.1" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>Ocdda2E3WDffyhFDhCOejxzqvK3/6Dz1RZFpt3Hx1CM=</dsig:DigestValue>
+        <dsig:DigestValue>NEwVyHcrX274eh8XdsUQdCXNH98AgxgMKreFqoBewPU=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

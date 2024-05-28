@@ -80,8 +80,8 @@ Public Class frmProduct
                 cmbPName.Text = frmReceive.grdRepair.Item(2, frmReceive.grdRepair.CurrentCell.RowIndex).Value
                 cmbPName_SelectedIndexChanged(sender, e)
             Case "Repair"
-                cmbPCategory.Text = frmRepair.cmbPCategory.Text
-                cmbPName.Text = frmRepair.cmbPName.Text
+                cmbPCategory.Text = FormRepair.cmbPCategory.Text
+                cmbPName.Text = FormRepair.cmbPName.Text
                 Call cmbPName_SelectedIndexChanged(sender, e)
         End Select
     End Sub
@@ -151,7 +151,7 @@ Public Class frmProduct
         End If
         If MsgBox("Are you sure delete?", vbYesNo + vbInformation) = vbYes Then
             Db.Execute("DELETE from Product where PNo=" & txtPNo.Text)
-            WriteActivity("Product no " + txtPNo.Text + " was deleted successful in 'Product' table on " + DateAndTime.Now)
+            Activity.Write($"Product no {txtPNo.Text} was deleted successful in 'Product' table on {DateAndTime.Now}")
             Call txtSearch_TextChanged(sender, e)
             Call cmdNew_Click(sender, e)
         End If
@@ -227,7 +227,7 @@ Public Class frmProduct
                     Call .grdRepair_CellEndEdit(sender, E1)
                 End With
             Case "Repair"
-                With frmRepair
+                With FormRepair
                     .cmbPCategory.Text = cmbPCategory.Text
                     .cmbPName.Text = cmbPName.Text
                     Call .CmbPName_SelectedIndexChanged(sender, e)

@@ -120,7 +120,7 @@ Public Class frmTechnicianCost
     Public Sub grdTechnicianCost_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs) Handles grdTechnicianCost.CellEndEdit
         If e.RowIndex < 0 Then Exit Sub
         If e.RowIndex <> grdTechnicianCost.Rows.Count - 1 AndAlso
-            CheckEmptyfield(cmbTName, "Technician Name යන field එක හිස්ව පවතියි. කරුණාකර එය සම්පුර්ණ කරන්න.") = False Then
+            CheckEmptyControl(cmbTName, "Technician Name යන field එක හිස්ව පවතියි. කරුණාකර එය සම්පුර්ණ කරන්න.") = False Then
             'If (grdTechnicianCost.Rows.Count - 1) <> e.RowIndex Then
             '    grdTechnicianCost.Rows.RemoveAt(e.RowIndex)
             'End If
@@ -195,7 +195,7 @@ Public Class frmTechnicianCost
         End If
         If grdTechnicianCost.Item(11, e.RowIndex).Value Is Nothing Or
             grdTechnicianCost.Item(e.ColumnIndex, e.RowIndex).Value IsNot grdTechnicianCost.Item(e.ColumnIndex, e.RowIndex).Tag Then
-            grdTechnicianCost.Item(11, e.RowIndex).Value = MdifrmMain.tslblUserName.Text
+            grdTechnicianCost.Item(11, e.RowIndex).Value = User.Instance.UserName
             tmp += ",UNo=" & User.Instance.UserNo
         End If
         If grdTechnicianCost.Item("Total", e.RowIndex).Value Is Nothing OrElse

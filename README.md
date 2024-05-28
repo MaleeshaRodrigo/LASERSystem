@@ -67,21 +67,17 @@
     <td>SAP Crystal Report Runtime Engine</td>
     </tr>
     </tbody>
-    </table>
-    <h4>Resources: </h4>
-    <p>Sticker Printer: Gasinscha GS-2406T</p>
-    <p>Invoice Printer: Zonerich AB-220K</p>
-    <p>Barcode Reader: NETUM Barcode Scanner</p>
-    <p>Internet Adapter: Wifi Adapter</p>
-    <h4>Images:</h4>
-    <table>
-    <tr>
-        <td><img src='https://github.com/MaleeshaRodrigo/LASERSystem/blob/main/Images/Image-1.jpeg?raw=true' width=500px></td>
-        <td><img src='https://github.com/MaleeshaRodrigo/LASERSystem/blob/main/Images/Image-2.jpeg?raw=true' width=500px></td>
-        <td><img src='https://github.com/MaleeshaRodrigo/LASERSystem/blob/main/Images/Image-3.jpeg?raw=true' width=500px></td>
-        <td><img src='https://github.com/MaleeshaRodrigo/LASERSystem/blob/main/Images/Image-4.jpeg?raw=true' width=500px></td>
-    </tr>
-    </table>
+</table>
+<h4>Resources: </h4>
+<p>Sticker Printer: Gasinscha GS-2406T</p>
+<p>Invoice Printer: Zonerich AB-220K</p>
+<p>Barcode Reader: NETUM Barcode Scanner</p>
+<p>Internet Adapter: Wifi Adapter</p>
+
+<h4>Download LASER System Setup: </h4>
+<a target="_blank" href="https://htmlpreview.github.io/?https://github.com/MaleeshaRodrigo/LASERSystem/blob/4582e1bcb7da0d929dd3dcddac3e9ab5184b3df5/LASER%20System/publish/publish.htm">Click here to download</a>
     
+<h4>Download LASER Background Setup: </h4>
+<a target="_blank" href="https://htmlpreview.github.io/?https://github.com/MaleeshaRodrigo/LASERSystem/blob/main/LASER%20Background/publish/publish.htm">Click here to download</a>
     
     

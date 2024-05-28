@@ -2,7 +2,7 @@
 Imports CrystalDecisions.Shared
 Imports System.Net.Mail
 Imports System.IO
-Imports System.Data.Odbc
+Imports System.Data.OleDb
 
 Public Class frmTechnicianSalary
     Private Db As New Database
@@ -12,7 +12,7 @@ Public Class frmTechnicianSalary
 
     Private Sub FrmTechnicianSalary_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Db.Connect()
-        txtTSNo.Text = Db.GetNextKey("TechnicianSalary", "TSNo")
+        SetNextKey(Db, txtTSNo, "Select Top 1 TSNo from TechnicianSalary order by TSNo desc;", "TSNo")
         MenuStrip.Items.Add(mnustrpMENU)
         txtTSFrom.Value = "" & Date.Today.Year & "-" & Date.Today.Month & "-01"
         txtTSTo.Value = Date.Today
@@ -37,7 +37,7 @@ Public Class frmTechnicianSalary
         txtTotalSalesRepair.Text = "0"
         txtTotalRepair.Text = "0"
         txtTotalReRepair.Text = "0"
-        If CheckEmptyfield(cmbTName, "ඔබ තවමත් Technician කෙනෙකු තෝරා නැත. කරුණාකර Technician කෙනෙක් තෝරා ගන්න.") = False Then
+        If CheckEmptyControl(cmbTName, "ඔබ තවමත් Technician කෙනෙකු තෝරා නැත. කරුණාකර Technician කෙනෙක් තෝරා ගන්න.") = False Then
             Exit Sub
         End If
         Cursor = Cursors.WaitCursor
@@ -47,7 +47,7 @@ Public Class frmTechnicianSalary
                                               cmbTName.Text & "' and DDate BETWEEN #" & txtTSFrom.Value.Date & " 00:00:00# And #" & txtTSTo.Value.Date &
                                               " 23:59:59# " + x)
         For Each row As DataRow In DT1.Rows
-            Dim DR1 As OdbcDataReader = Db.GetDataReader("Select Remarks from RepairRemarks1 Where RepNo=" & row.Item("RepNo"))
+            Dim DR1 As OleDb.OleDbDataReader = Db.GetDataReader("Select Remarks from RepairRemarks1 Where RepNo=" & row.Item("RepNo"))
             row.Item("RepRemarks1") = ""
             While DR1.Read
                 row.Item("RepRemarks1") += DR1("Remarks").ToString + vbCrLf
@@ -58,10 +58,10 @@ Public Class frmTechnicianSalary
         For Each Row As DataGridViewRow In grdRepair.Rows
             txtTotalRepair.Text = Val(txtTotalRepair.Text) + Val(Row.Cells("REPPaidPrice").Value)
         Next
-        Dim DT2 As DataTable = Db.GetDataTable("Select Rerepair.RetNo, RepNo, DDate, CuName, CuTelNo1, CuTelNo2, CuTelNo3, PCategory, PName, Qty, PaidPrice,Status, '' as RetRemarks1,'' as RetRemarks2, TSalNo from Receive,Customer, Deliver, Rerepair, Product, Technician Where Receive.RNo=Rerepair.RNo and Product.PNo = Rerepair.PNo And Rerepair.DNo = Deliver.DNo And Customer.CuNo = Receive.CuNo And Technician.TNo = Rerepair.TNo And TName='" & cmbTName.Text &
+        Dim DT2 As DataTable = Db.GetDataTable("Select Return.RetNo, RepNo, DDate, CuName, CuTelNo1, CuTelNo2, CuTelNo3, PCategory, PName, Qty, PaidPrice,Status, '' as RetRemarks1,'' as RetRemarks2, TSalNo from Receive,Customer, Deliver, Return, Product, Technician Where Receive.RNo=Return.RNo and Product.PNo = Return.PNo And Return.DNo = Deliver.DNo And Customer.CuNo = Receive.CuNo And Technician.TNo = Return.TNo And TName='" & cmbTName.Text &
                                               "' And DDate BETWEEN #" & txtTSFrom.Value.Date & " 00:00:00# And #" & txtTSTo.Value.Date & " 23:59:59# " + x)
         For Each row As DataRow In DT1.Rows
-            Dim DR1 As OdbcDataReader = Db.GetDataReader("Select Remarks from RepairRemarks1 Where RepNo=" & row.Item("RepNo"))
+            Dim DR1 As OleDbDataReader = Db.GetDataReader("Select Remarks from RepairRemarks1 Where RepNo=" & row.Item("RepNo"))
             row.Item("RepRemarks1") = ""
             While DR1.Read
                 row.Item("RepRemarks1") += DR1("Remarks").ToString + vbCrLf
@@ -81,7 +81,7 @@ Public Class frmTechnicianSalary
         Next
         Dim DT4 As DataTable = Db.GetDataTable("Select  TLNo, TLDate, SCategory, SName, TLReason, Rate, Qty,Total from (TechnicianLoan TL Inner Join Technician T on T.TNo = TL.TNo) Where TName='" & cmbTName.Text & "' And TLDate BETWEEN #" &
                                               txtTSFrom.Value.Date & " 00:00:00# And #" & txtTSTo.Value.Date & " 23:59:59# ")
-        DR = Db.GetDataReader("Select * from TechnicianLoan as TL Where TL.TLDate BETWEEN #" & txtTSFrom.Value.Date & " 00:00:00# and #" &
+        DR = Db.GetDataReader("Select * from [TechnicianLoan] as TL Where TL.TLDate BETWEEN #" & txtTSFrom.Value.Date & " 00:00:00# and #" &
                                      txtTSTo.Value.Date & " 23:59:59#;")
         Dim ArrearsLoan As Integer = 0
         While DR.Read
@@ -122,13 +122,11 @@ Public Class frmTechnicianSalary
     End Sub
 
     Private Sub cmdTCDone_Click(sender As Object, e As EventArgs) Handles cmdTSDone.Click
-        If CheckEmptyfield(cmbTName, "This operation couldn't be done because Technician was already empty. You should select any Technician and try again.") = False Then
+        If CheckEmptyControl(cmbTName, "This operation couldn't be done because Technician was already empty. You should select any Technician and try again.") = False Then
             cmbTName.Focus()
             Exit Sub
-        ElseIf CheckExistData(txtTSNo, "Select TSNo from TechnicianSalary where TSNo =" & txtTSNo.Text, "This operation couldn't be done because 'Technician Salary No' was exist in the database. Something was wrong. Please find why that was or call developer of this system.", True) = True Then
-            txtTSNo.Focus()
-            Exit Sub
-        ElseIf CheckExistData(cmbTName, "Select TName from Technician Where TName='" & cmbTName.Text & "'", "Technician Name එක සොයා ගැනීමට නොහැකි විය. කරුණාකර ඔබ ඇතුලත් කල Technician නිවැරදි දැයි පරික්ෂා කරන්න.", False) = False Then
+        ElseIf DB.CheckDataExists("Technician", "TName", cmbTName.Text) = False Then
+            MsgBox("Technician Name එක සොයා ගැනීමට නොහැකි විය. කරුණාකර ඔබ ඇතුලත් කල Technician නිවැරදි දැයි පරික්ෂා කරන්න.")
             cmbTName.Focus()
             Exit Sub
         End If
@@ -137,7 +135,7 @@ Public Class frmTechnicianSalary
             Exit Sub
         End If
         Dim TSalaryTNo As Integer
-        Dim DR As OdbcDataReader = Db.GetDataReader("Select TNo, TName from Technician Where Tname='" & cmbTName.Text & "';")
+        Dim DR As OleDbDataReader = Db.GetDataReader("Select TNo, TName from Technician Where Tname='" & cmbTName.Text & "';")
         If DR.HasRows = True Then
             DR.Read()
             TSalaryTNo = DR("TNo").ToString
@@ -147,7 +145,7 @@ Public Class frmTechnicianSalary
             Db.Execute("Update Repair set TSalNo =" & txtTSNo.Text & " where RepNo=" & Row.Cells(0).Value.ToString)
         Next
         For Each Row As DataGridViewRow In grdReRepair.Rows
-            Db.Execute("Update `Rerepair` set TSalNo =" & txtTSNo.Text & " where RetNO=" & Row.Cells(0).Value.ToString)
+            Db.Execute("Update `Return` set TSalNo =" & txtTSNo.Text & " where RetNO=" & Row.Cells(0).Value.ToString)
         Next
         For Each Row As DataGridViewRow In grdSalesRepair.Rows
             Db.Execute("Update SalesRepair set TSalNo =" & txtTSNo.Text & " where SaRepNo=" & Row.Cells(0).Value.ToString)
@@ -155,10 +153,17 @@ Public Class frmTechnicianSalary
         For Each Row As DataGridViewRow In grdCost.Rows
             Db.Execute("Update TechnicianCost set TSalNo = " & txtTSNo.Text & " where TCNo=" & Row.Cells(1).Value.ToString)
         Next
-        Dim TLNo As String = Db.GetNextKey("TechncianLoan", "TLNo")
-        Db.Execute("Insert Into TechnicianLoan(TLNo,TNo,TLDate,TLReason,TLAmount) Values(" & TLNo & "," & TSalaryTNo.ToString & ",#" & txtTSDate.Value & "#, 'This Loan was paid from Technician Salary No called " & txtTSNo.Text & "',-" & txt5.Text & ");")
+        Dim TLNo As String
+        DR = Db.GetDataReader("Select Top 1 TLNo from TechnicianLoan order by TLNo desc;")
+        If DR.HasRows = True Then
+            DR.Read()
+            TLNo = Int(DR.Item("TLNo")) + 1
+        Else
+            TLNo = "1"
+        End If
+        Db.Execute("Insert Into TechnicianLoan(TLNo,TNo,TLDate,TLReason,Total) Values(" & TLNo & "," & TSalaryTNo.ToString & ",#" & txtTSDate.Value & "#, 'This Loan was paid from Technician Salary No called " & txtTSNo.Text & "',-" & txt5.Text & ");")
         MsgBox("Salary Submit Successful!", vbExclamation + vbOKOnly)
-        txtTSNo.Text = Db.GetNextKey("TechnicianSalary", "TSNo")
+        SetNextKey(Db, txtTSNo, "Select Top 1 TSNo from TechnicianSalary order by TSNo desc;", "TSNo")
         Call CmdTSSearch_Click(sender, e)
     End Sub
 
@@ -177,25 +182,25 @@ Public Class frmTechnicianSalary
                                               WHERE TNAME = '" & cmbTName.Text & "' And DDate between #" & txtTSFrom.Value.Date & " 00:00:00#  And #" & txtTSTo.Value.Date & " 23:59:59# And Status='Repaired Delivered' and (TSalNo Is Null Or TSalNo = 0)" & If(chkRepair.Checked = False, " AND 0", "") & " order by DDAte")
         RPT.Subreports("rptTechnicianSalaryRepair.rpt").SetDataSource(DT1)
         Dim DT2 As DataTable = Db.GetDataTable("SELECT RETNO, REPNO,DDATE, CUNAME,CUTELNO1, PCATEGORY, PNAME, PAIDPRICE, QTY FROM 
-                                                (((((Rerepair INNER JOIN RECEIVE ON RECEIVE.RNO=Rerepair.RNO) 
+                                                (((((RETURN INNER JOIN RECEIVE ON RECEIVE.RNO=RETURN.RNO) 
                                                 LEFT JOIN CUSTOMER ON CUSTOMER.CUNO = RECEIVE.CUNO)
-                                                INNER JOIN DELIVER ON DELIVER.DNO =Rerepair.DNO)
-                                                LEFT JOIN PRODUCT ON PRODUCT.PNO=Rerepair.PNO)
-                                                INNER JOIN TECHNICIAN ON TECHNICIAN.TNO=Rerepair.TNO) 
+                                                INNER JOIN DELIVER ON DELIVER.DNO =RETURN.DNO)
+                                                LEFT JOIN PRODUCT ON PRODUCT.PNO=RETURN.PNO)
+                                                INNER JOIN TECHNICIAN ON TECHNICIAN.TNO=RETURN.TNO) 
                                                 WHERE TNAME = '" & cmbTName.Text & "' And DDate Between #" &
                                                   txtTSFrom.Value.Date & " 00:00:00# And #" & txtTSTo.Value.Date &
                                                   " 23:59:59# And Status='Repaired Delivered' and (TSalNo Is Null Or TSalNo = 0)" &
                                                   If(chkReturn.Checked = False, " AND 0", "") & ";")
         RPT.Subreports("rptTechnicianSalaryReRepair.rpt").SetDataSource(DT2)
         Dim DS6 As New DataSet
-        Dim DA6 As OdbcDataAdapter = Db.GetDataAdapter("SELECT SAREPNO,SAREPDATE, SALESREPAIR.SNO, SCATEGORY, SNAME, RATE,QTY, TOTAL FROM ((SALESREPAIR INNER JOIN STOCK ON STOCK.SNO=SALESREPAIR.SNO) INNER JOIN TECHNICIAN ON TECHNICIAN.TNO = SALESREPAIR.TNO) WHERE TNAME='" &
+        Dim DA6 As OleDbDataAdapter = Db.GetDataAdapter("SELECT SAREPNO,SAREPDATE, SALESREPAIR.SNO, SCATEGORY, SNAME, RATE,QTY, TOTAL FROM ((SALESREPAIR INNER JOIN STOCK ON STOCK.SNO=SALESREPAIR.SNO) INNER JOIN TECHNICIAN ON TECHNICIAN.TNO = SALESREPAIR.TNO) WHERE TNAME='" &
                                               cmbTName.Text & "' And SaRepDate Between #" & txtTSFrom.Value.Date & " 00:00:00# And #" & txtTSTo.Value.Date &
                                               " 23:59:59#" & If(chkSalesRepair.Checked = False, " AND 0", "") & ";")
         DA6.Fill(DS6, "SALESREPAIR")
         DA6.Fill(DS6, "STOCK")
         RPT.Subreports("rptTechnicianSalarySalesRepair.rpt").SetDataSource(DS6)
         Dim DS3 As New DataSet
-        Dim DA3 As OdbcDataAdapter = Db.GetDataAdapter("SELECT TCNo,TCDATE,REPNO,RETNO,TechnicianCost.SNO,SCATEGORY,SNAME,RATE,QTY,TOTAL,TCREMARKS FROM (TECHNICIANCOST INNER JOIN TECHNICIAN ON TECHNICIAN.TNO = TECHNICIANCOST.TNO) WHERE TNAME='" &
+        Dim DA3 As OleDbDataAdapter = Db.GetDataAdapter("SELECT TCNo,TCDATE,REPNO,RETNO,TechnicianCost.SNO,SCATEGORY,SNAME,RATE,QTY,TOTAL,TCREMARKS FROM (TECHNICIANCOST INNER JOIN TECHNICIAN ON TECHNICIAN.TNO = TECHNICIANCOST.TNO) WHERE TNAME='" &
                                                   cmbTName.Text & "' And TCDate BETWEEN #" & txtTSFrom.Value.Date & " 00:00:00# And #" & txtTSTo.Value.Date &
                                                   " 23:59:59# And (TSalNo Is Null Or TSalNo = 0)" & If(chkCost.Checked = False, " AND 0", "") & ";")
         DA3.Fill(DS3, "TECHNICIANCOST")
@@ -220,7 +225,7 @@ Public Class frmTechnicianSalary
         End If
         RPT.Subreports.Item("rptTechnicianSalaryLoan.rpt").SetDataSource(DT4)
         Dim DS5 As New DataSet
-        Dim DA5 As OdbcDataAdapter = Db.GetDataAdapter("SELECT * FROM TECHNICIANSALARY")
+        Dim DA5 As OleDbDataAdapter = Db.GetDataAdapter("SELECT * FROM TECHNICIANSALARY")
         DA5.Fill(DS5, "TECHNICIANSALARY")
         RPT.SetDataSource(DS5)
         RPT.SetParameterValue("fromDate", txtTSFrom.Value.Date.ToString)
@@ -252,7 +257,7 @@ Public Class frmTechnicianSalary
         Dim frm As New frmReport
         Dim RPT As rptTechnicianSalary = TechnicianSalaryReport()
         frm.ReportViewer.ReportSource = RPT
-        Dim DR As OdbcDataReader = Db.GetDataReader("Select * from Technician Where TNAME ='" & cmbTName.Text & "';")
+        Dim DR As OleDbDataReader = Db.GetDataReader("Select * from Technician Where TNAME ='" & cmbTName.Text & "';")
         If DR.HasRows = True Then
             DR.Read()
             If DR("TEmail").ToString = "" Then

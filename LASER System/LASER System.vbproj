@@ -26,8 +26,8 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>false</MapFileExtensions>
-    <InstallUrl>https://raw.githubusercontent.com/MaleeshaRodrigo/LASERSystem/67/LASER%2520System/publish/</InstallUrl>
-    <UpdateUrl>https://raw.githubusercontent.com/MaleeshaRodrigo/LASERSystem/67/LASER%2520System/publish/</UpdateUrl>
+    <InstallUrl>https://raw.githubusercontent.com/MaleeshaRodrigo/LASERSystem/main/LASER%2520System/publish/</InstallUrl>
+    <UpdateUrl>https://raw.githubusercontent.com/MaleeshaRodrigo/LASERSystem/main/LASER%2520System/publish/</UpdateUrl>
     <SupportUrl>https://github.com/MaleeshaRodrigo/LASERSystem</SupportUrl>
     <ErrorReportUrl>https://github.com/MaleeshaRodrigo/LASERSystem/issues</ErrorReportUrl>
     <ProductName>LASER System</ProductName>
@@ -36,9 +36,8 @@
     <MinimumRequiredVersion>1.0.0.0</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
     <ApplicationRevision>3</ApplicationRevision>
-    <ApplicationVersion>2.0.4.%2a</ApplicationVersion>
+    <ApplicationVersion>2.0.5.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -114,14 +113,8 @@
     </Reference>
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.Odbc, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Data.Odbc.8.0.0\lib\net462\System.Data.Odbc.dll</HintPath>
-    </Reference>
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Management" />
-    <Reference Include="System.Numerics" />
-    <Reference Include="System.Transactions" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Services" />
@@ -160,16 +153,66 @@
     <Compile Include="Classes\CashDrawer.vb" />
     <Compile Include="Classes\Database.vb" />
     <Compile Include="Classes\Encoder.vb" />
+    <Compile Include="Classes\MessageBox.vb" />
     <Compile Include="Classes\MessagePanel.vb" />
     <Compile Include="Classes\User.vb" />
     <Compile Include="Classes\Validators\CustomValidator.vb" />
     <Compile Include="Classes\Validators\ExecuteValidators.vb" />
     <Compile Include="Classes\Validators\NumberValidator.vb" />
     <Compile Include="Classes\Validators\RequiredValidator.vb" />
-    <Compile Include="FormDeliver\Controls\ControlPopUp.Designer.vb">
+    <Compile Include="Enums\RepairMode.vb" />
+    <Compile Include="Deliver\Controls\ControlPopUp.Designer.vb">
       <DependentUpon>ControlPopUp.vb</DependentUpon>
     </Compile>
-    <Compile Include="FormDeliver\Controls\ControlPopUp.vb">
+    <Compile Include="Deliver\Controls\ControlPopUp.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Repair\Controls\ControlActivityInfo.Designer.vb">
+      <DependentUpon>ControlActivityInfo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Repair\Controls\ControlActivityInfo.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Repair\Controls\ControlAdvancePayInfo.Designer.vb">
+      <DependentUpon>ControlAdvancePayInfo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Repair\Controls\ControlAdvancePayInfo.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Repair\Controls\ControlRemarks.Designer.vb">
+      <DependentUpon>ControlRemarks.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Repair\Controls\ControlRemarks.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Repair\Controls\ControlRepairDeliverInfo.Designer.vb">
+      <DependentUpon>ControlRepairDeliverInfo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Repair\Controls\ControlRepairDeliverInfo.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Repair\Controls\ControlReRepairView.Designer.vb">
+      <DependentUpon>ControlReRepairView.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Repair\Controls\ControlReRepairView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Repair\Controls\ControlTaskInfo.Designer.vb">
+      <DependentUpon>ControlTaskInfo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Repair\Controls\ControlTaskInfo.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Repair\Controls\ControlTechnicianCostInfo.Designer.vb">
+      <DependentUpon>ControlTechnicianCostInfo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Repair\Controls\ControlTechnicianCostInfo.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Repair\Controls\ControlTechnicianInfo.Designer.vb">
+      <DependentUpon>ControlTechnicianInfo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Repair\Controls\ControlTechnicianInfo.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Interfaces\Validator.vb" />
@@ -179,16 +222,16 @@
       <DependentUpon>rptReceive.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="FormStock\Controls\ControlStockInfo.Designer.vb">
+    <Compile Include="Stock\Controls\ControlStockInfo.Designer.vb">
       <DependentUpon>ControlStockInfo.vb</DependentUpon>
     </Compile>
-    <Compile Include="FormStock\Controls\ControlStockInfo.vb">
+    <Compile Include="Stock\Controls\ControlStockInfo.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="FormStock\FormStock.Designer.vb">
+    <Compile Include="Stock\FormStock.Designer.vb">
       <DependentUpon>FormStock.vb</DependentUpon>
     </Compile>
-    <Compile Include="FormStock\FormStock.vb">
+    <Compile Include="Stock\FormStock.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmCustomer.Designer.vb">
@@ -203,10 +246,10 @@
     <Compile Include="frmCustomerLoan.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormDeliver\FormDeliver.Designer.vb">
+    <Compile Include="Deliver\FormDeliver.Designer.vb">
       <DependentUpon>FormDeliver.vb</DependentUpon>
     </Compile>
-    <Compile Include="FormDeliver\FormDeliver.vb">
+    <Compile Include="Deliver\FormDeliver.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmLogin.Designer.vb">
@@ -233,10 +276,10 @@
     <Compile Include="frmReceive.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmRepair.Designer.vb">
-      <DependentUpon>frmRepair.vb</DependentUpon>
+    <Compile Include="Repair\FormRepair.Designer.vb">
+      <DependentUpon>FormRepair.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmRepair.vb">
+    <Compile Include="Repair\FormRepair.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmRepairAdvanced.Designer.vb">
@@ -341,8 +384,7 @@
     <Compile Include="mdifrmMain.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Structures\Database\StructureDatabase.vb" />
-    <Compile Include="Structures\SRepairStatus.vb" />
+    <Compile Include="Structures\StructureDatabase.vb" />
     <Compile Include="Utils.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -434,8 +476,32 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="FormDeliver\Controls\ControlPopUp.resx">
+    <EmbeddedResource Include="Deliver\Controls\ControlPopUp.resx">
       <DependentUpon>ControlPopUp.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Repair\Controls\ControlActivityInfo.resx">
+      <DependentUpon>ControlActivityInfo.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Repair\Controls\ControlAdvancePayInfo.resx">
+      <DependentUpon>ControlAdvancePayInfo.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Repair\Controls\ControlRemarks.resx">
+      <DependentUpon>ControlRemarks.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Repair\Controls\ControlRepairDeliverInfo.resx">
+      <DependentUpon>ControlRepairDeliverInfo.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Repair\Controls\ControlReRepairView.resx">
+      <DependentUpon>ControlReRepairView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Repair\Controls\ControlTaskInfo.resx">
+      <DependentUpon>ControlTaskInfo.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Repair\Controls\ControlTechnicianCostInfo.resx">
+      <DependentUpon>ControlTechnicianCostInfo.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Repair\Controls\ControlTechnicianInfo.resx">
+      <DependentUpon>ControlTechnicianInfo.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmCustomer.resx">
       <DependentUpon>frmCustomer.vb</DependentUpon>
@@ -443,7 +509,7 @@
     <EmbeddedResource Include="frmCustomerLoan.resx">
       <DependentUpon>frmCustomerLoan.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormDeliver\FormDeliver.resx">
+    <EmbeddedResource Include="Deliver\FormDeliver.resx">
       <DependentUpon>FormDeliver.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmLogin.resx">
@@ -458,8 +524,8 @@
     <EmbeddedResource Include="frmReceive.resx">
       <DependentUpon>frmReceive.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmRepair.resx">
-      <DependentUpon>frmRepair.vb</DependentUpon>
+    <EmbeddedResource Include="Repair\FormRepair.resx">
+      <DependentUpon>FormRepair.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmRepairAdvanced.resx">
       <DependentUpon>frmRepairAdvanced.vb</DependentUpon>
@@ -558,13 +624,13 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>rptTechnicianSalary.vb</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormStock\Controls\ControlStockInfo.resx">
+    <EmbeddedResource Include="Stock\Controls\ControlStockInfo.resx">
       <DependentUpon>ControlStockInfo.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormStock\FormStock.resx">
+    <EmbeddedResource Include="Stock\FormStock.resx">
       <DependentUpon>FormStock.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormStock\FormStock.si.resx">
+    <EmbeddedResource Include="Stock\FormStock.si.resx">
       <DependentUpon>FormStock.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Shared Controls\compMessageBox.resx">

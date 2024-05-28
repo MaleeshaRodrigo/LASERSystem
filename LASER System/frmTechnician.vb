@@ -24,30 +24,51 @@ Public Class frmTechnician
     End Sub
 
     Private Sub cmdSave_Click(sender As Object, e As EventArgs) Handles cmdSave.Click
-        If CheckEmptyfield(txtTNo, "This data couldn't be saved to database. It's because Technician No is empty. If you want to save this, you should fill it.") = False Then
+        If CheckEmptyControl(txtTNo, "This data couldn't be saved to database. It's because Technician No is empty. If you want to save this, you should fill it.") = False Then
             Exit Sub
-        ElseIf CheckEmptyfield(cmbTName, "This data couldn't be saved to database. It's because Technician Name is empty. If you want to save this, you should fil it.") = False Then
+        ElseIf CheckEmptyControl(cmbTName, "This data couldn't be saved to database. It's because Technician Name is empty. If you want to save this, you should fil it.") = False Then
             Exit Sub
         End If
         Select Case cmdSave.Text
             Case "Save"
-                If CheckExistData(cmbTName, "Select TName from Technician where TName='" & cmbTName.Text & "';", "Saveing is not comfortable because Technician Name which you added has already located in the database. You have to change Technician No to save.", True) = True Then
+                If CheckExistData(Db, cmbTName, "Select TName from Technician where TName='" & cmbTName.Text & "';", "Saveing is not comfortable because Technician Name which you added has already located in the database. You have to change Technician No to save.", True) = True Then
                     Exit Sub
-                ElseIf CheckExistData(txtTNo, "Select TNo from Technician where TNo =" & txtTNo.Text & ";", "This data couldn't be saved to database because Technicino No which you added has already located in the database. You have to change that to save.", True) = True Then
+                ElseIf CheckExistData(Db, txtTNo, "Select TNo from Technician where TNo =" & txtTNo.Text & ";", "This data couldn't be saved to database because Technicino No which you added has already located in the database. You have to change that to save.", True) = True Then
                     Exit Sub
                 End If
-                Db.Execute("Insert into Technician(TNo,TName,TFullName,TAddress,TEmail,TNicNo,TTelNo1,TTelno2,TTelno3,TRemarks,TActive) Values(" & txtTNo.Text & ",'" & cmbTName.Text & "','" & txtTFullName.Text & "','" & txtTAddress.Text & "','" &
-                                             txtTEmail.Text & "','" & txtTNICNo.Text & "','" & txtTTelNo1.Text & "','" & txtTTelNo2.Text & "','" &
-                                             txtTTelNo3.Text & "','" & txtTRemarks.Text & "'," & chkActive.Checked & ");")
-
+                Db.Execute("INSERT INTO Technician(TNo,TName,TFullName,TAddress,TEmail,TNicNo,TTelNo1,TTelno2,TTelno3,TRemarks,TActive,TBlockEmails) VALUES(@TNO, @TNAME, @TFULLNAME, TADDRESS, TEMAIL, TNICNO, TTELNO1, TTELNO2, TTELNO3, TREMARKS, TACTIVE, TBLOCKEMAILS)", {
+                      New OleDbParameter("TNO", txtTNo.Text),
+                      New OleDbParameter("TNAME", cmbTName.Text),
+                      New OleDbParameter("TFULLNAME", txtTFullName.Text),
+                      New OleDbParameter("TADDRESS", txtTAddress.Text),
+                      New OleDbParameter("TEMAIL", txtTEmail.Text),
+                      New OleDbParameter("TNICNO", txtTNICNo.Text),
+                      New OleDbParameter("TTELNO1", txtTTelNo1.Text),
+                      New OleDbParameter("TTELNO2", txtTTelNo2.Text),
+                      New OleDbParameter("TTELNO3", txtTTelNo3.Text),
+                      New OleDbParameter("TREMARKS", txtTRemarks.Text),
+                      New OleDbParameter("TACTIVE", chkActive.Checked),
+                      New OleDbParameter("TBLOCKEMAILS", CheckBlockEmails.Checked)
+                })
                 Call txtSearch_TextChanged(sender, e)
                 cmdSave.Text = "Edit"
                 cmdDelete.Enabled = True
             Case "Edit"
                 If MsgBox("Are you sure edit?", vbYesNo + vbInformation) = vbYes Then
-                    Db.Execute("Update Technician Set TNo=" & txtTNo.Text &
-                                                 ",TName = '" & cmbTName.Text & "',TFullName = '" & txtTFullName.Text & "',TNICNo = '" & txtTNICNo.Text & "', TEmail ='" & txtTEmail.Text & "',TAddress = '" & txtTAddress.Text & "',TTelNo1 =  '" & txtTTelNo1.Text & "',TTelNo2 =  '" & txtTTelNo2.Text & "',TTelNo3 =  '" & txtTTelNo3.Text & "',TRemarks =  '" & txtTRemarks.Text & "',TActive= " & chkActive.Checked &
-                                                 " where TNo=" & txtTNo.Text)
+                    Db.Execute("Update Technician Set TName=@TNAME, TFullName=@TFULLNAME, TAddress=@TADDRESS, TEmail=@TEMAIL, TNicNo=@TNICNO, TTelNo1=@TTELNO1, TTelno2=@TTELNO2, TTelno3=@TTELNO3, TRemarks=@TREMARKS, TActive=@TACTIVE, TBlockEmails=@TBLOCKEMAILS WHERE TNo=@TNO;", {
+                          New OleDbParameter("TNAME", cmbTName.Text),
+                          New OleDbParameter("TFULLNAME", txtTFullName.Text),
+                          New OleDbParameter("TADDRESS", txtTAddress.Text),
+                          New OleDbParameter("TEMAIL", txtTEmail.Text),
+                          New OleDbParameter("TNICNO", txtTNICNo.Text),
+                          New OleDbParameter("TTELNO1", txtTTelNo1.Text),
+                          New OleDbParameter("TTELNO2", txtTTelNo2.Text),
+                          New OleDbParameter("TTELNO3", txtTTelNo3.Text),
+                          New OleDbParameter("TREMARKS", txtTRemarks.Text),
+                          New OleDbParameter("TACTIVE", chkActive.Checked),
+                          New OleDbParameter("TBLOCKEMAILS", CheckBlockEmails.Checked),
+                          New OleDbParameter("TNO", txtTNo.Text)
+                    })
                     Call txtSearch_TextChanged(sender, e)
                 End If
         End Select
@@ -160,7 +181,7 @@ Public Class frmTechnician
                                         "This Technician couldn't be deleted because this technician has relations with the field/s in 'SalesRepair' table. They are given below.") = False Then
             Exit Sub
         End If
-        If CheckEmptyfield(txtTNo, "This Technician couldn't be deleted because Technician No was empty. Please fill it and try again.") = False Then
+        If CheckEmptyControl(txtTNo, "This Technician couldn't be deleted because Technician No was empty. Please fill it and try again.") = False Then
             Exit Sub
         End If
         If MsgBox("Are you sure delete this Technician?", vbInformation + vbYesNo) = vbYes Then
@@ -170,19 +191,19 @@ Public Class frmTechnician
         End If
     End Sub
 
-    Private Sub frmTechnician_Resize(sender As Object, e As EventArgs) Handles Me.Resize
-        grpSearch.Width = Me.Width - grpSearch.Left - 20
-        grdTechnician.Width = grpSearch.Width - grdTechnician.Left - 5
-        grpSearch.Height = Me.Height - grpSearch.Top - 40
-        grpTInfo.Height = Me.Height - grpTInfo.Top - 40
-        grdTechnician.Height = grpSearch.Height - grdTechnician.Top - 5
-        cmdDone.Top = grpTInfo.Height - cmdDone.Height - 5
-        cmdNew.Top = cmdDone.Top
-        cmdSave.Top = cmdDone.Top
-        cmdDelete.Top = cmdDone.Top
-        cmdClose.Top = cmdDone.Top
-        txtTRemarks.Height = cmdDone.Top - txtTRemarks.Top - 5
-    End Sub
+    'Private Sub frmTechnician_Resize(sender As Object, e As EventArgs) Handles Me.Resize
+    '    grpSearch.Width = Me.Width - grpSearch.Left - 20
+    '    grdTechnician.Width = grpSearch.Width - grdTechnician.Left - 5
+    '    grpSearch.Height = Me.Height - grpSearch.Top - 40
+    '    grpTInfo.Height = Me.Height - grpTInfo.Top - 40
+    '    grdTechnician.Height = grpSearch.Height - grdTechnician.Top - 5
+    '    cmdDone.Top = grpTInfo.Height - cmdDone.Height - 5
+    '    cmdNew.Top = cmdDone.Top
+    '    cmdSave.Top = cmdDone.Top
+    '    cmdDelete.Top = cmdDone.Top
+    '    cmdClose.Top = cmdDone.Top
+    '    txtTRemarks.Height = cmdDone.Top - txtTRemarks.Top - 5
+    'End Sub
 
     Private Sub DoneToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DoneToolStripMenuItem.Click
         If cmdDone.Enabled = True Then cmdDone_Click(sender, e)

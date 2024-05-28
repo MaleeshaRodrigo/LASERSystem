@@ -122,70 +122,71 @@ Partial Class MdifrmMain
         '
         Me.StatusStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.StatusStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripStatusLabel2, Me.tslblUserName, Me.ToolStripStatusLabel1, Me.ToolStripStatusLabel6, Me.tslblUserType, Me.ToolStripStatusLabel3, Me.ToolStripStatusDetailsTitle, Me.ToolStripStatusLabel4, Me.ToolStripStatusLabel5, Me.tslblLoad, Me.tsProBar})
-        Me.StatusStrip.Location = New System.Drawing.Point(0, 717)
+        Me.StatusStrip.Location = New System.Drawing.Point(0, 715)
         Me.StatusStrip.Name = "StatusStrip"
-        Me.StatusStrip.Size = New System.Drawing.Size(1364, 24)
+        Me.StatusStrip.Size = New System.Drawing.Size(1364, 26)
         Me.StatusStrip.TabIndex = 7
         Me.StatusStrip.Text = "StatusStrip"
         '
         'ToolStripStatusLabel2
         '
         Me.ToolStripStatusLabel2.Name = "ToolStripStatusLabel2"
-        Me.ToolStripStatusLabel2.Size = New System.Drawing.Size(68, 19)
+        Me.ToolStripStatusLabel2.Size = New System.Drawing.Size(85, 20)
         Me.ToolStripStatusLabel2.Text = "User Name:"
         '
         'tslblUserName
         '
         Me.tslblUserName.Name = "tslblUserName"
-        Me.tslblUserName.Size = New System.Drawing.Size(65, 19)
+        Me.tslblUserName.Size = New System.Drawing.Size(82, 20)
         Me.tslblUserName.Text = "User Name"
         '
         'ToolStripStatusLabel1
         '
         Me.ToolStripStatusLabel1.Name = "ToolStripStatusLabel1"
-        Me.ToolStripStatusLabel1.Size = New System.Drawing.Size(10, 19)
+        Me.ToolStripStatusLabel1.Size = New System.Drawing.Size(13, 20)
         Me.ToolStripStatusLabel1.Text = "|"
         '
         'ToolStripStatusLabel6
         '
         Me.ToolStripStatusLabel6.Name = "ToolStripStatusLabel6"
-        Me.ToolStripStatusLabel6.Size = New System.Drawing.Size(60, 19)
+        Me.ToolStripStatusLabel6.Size = New System.Drawing.Size(76, 20)
         Me.ToolStripStatusLabel6.Text = "User Type:"
         '
         'tslblUserType
         '
         Me.tslblUserType.Name = "tslblUserType"
-        Me.tslblUserType.Size = New System.Drawing.Size(57, 19)
+        Me.tslblUserType.Size = New System.Drawing.Size(73, 20)
         Me.tslblUserType.Text = "User Type"
         '
         'ToolStripStatusLabel3
         '
         Me.ToolStripStatusLabel3.Name = "ToolStripStatusLabel3"
-        Me.ToolStripStatusLabel3.Size = New System.Drawing.Size(10, 19)
+        Me.ToolStripStatusLabel3.Size = New System.Drawing.Size(13, 20)
         Me.ToolStripStatusLabel3.Text = "|"
         '
         'ToolStripStatusDetailsTitle
         '
         Me.ToolStripStatusDetailsTitle.Name = "ToolStripStatusDetailsTitle"
-        Me.ToolStripStatusDetailsTitle.Size = New System.Drawing.Size(476, 19)
-        Me.ToolStripStatusDetailsTitle.Text = "This Product is licensed to LASER Electronics.  Copyright © 2018 - 2020 All Right Reserved"
+        Me.ToolStripStatusDetailsTitle.Size = New System.Drawing.Size(601, 20)
+        Me.ToolStripStatusDetailsTitle.Text = "This Product is licensed to LASER Electronics.  Copyright © 2018 - 2020 All Right" &
+    " Reserved"
         '
         'ToolStripStatusLabel4
         '
         Me.ToolStripStatusLabel4.Name = "ToolStripStatusLabel4"
-        Me.ToolStripStatusLabel4.Size = New System.Drawing.Size(10, 19)
+        Me.ToolStripStatusLabel4.Size = New System.Drawing.Size(13, 20)
         Me.ToolStripStatusLabel4.Text = "|"
         '
         'ToolStripStatusLabel5
         '
         Me.ToolStripStatusLabel5.Name = "ToolStripStatusLabel5"
-        Me.ToolStripStatusLabel5.Size = New System.Drawing.Size(42, 19)
+        Me.ToolStripStatusLabel5.Size = New System.Drawing.Size(52, 20)
         Me.ToolStripStatusLabel5.Text = "Status:"
         '
         'tslblLoad
         '
         Me.tslblLoad.Name = "tslblLoad"
-        Me.tslblLoad.Size = New System.Drawing.Size(76, 19)
+        Me.tslblLoad.Size = New System.Drawing.Size(94, 20)
         Me.tslblLoad.Text = "Please Wait..."
         '
         'tsProBar
@@ -201,7 +202,7 @@ Partial Class MdifrmMain
         Me.ToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden
         Me.ToolStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.ToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.cmdStock, Me.ToolStripDropDownButton1, Me.ToolStripSeparator1, Me.cmdSale, Me.cmdSupply, Me.ToolStripSeparator2, Me.cmdReceive, Me.cmdRepair, Me.cmdDeliver, Me.ToolStripDropDownButton2, Me.ToolStripSeparator3, Me.cmdRepAdvanced, Me.cmdTechnicianCost, Me.cmdTechnicianLoan, Me.cmdCustomerLoan, Me.cmdSettlement, Me.ToolStripDropDownButton3})
-        Me.ToolStrip.Location = New System.Drawing.Point(0, 24)
+        Me.ToolStrip.Location = New System.Drawing.Point(0, 28)
         Me.ToolStrip.Name = "ToolStrip"
         Me.ToolStrip.Size = New System.Drawing.Size(1364, 89)
         Me.ToolStrip.Stretch = True
@@ -224,31 +225,31 @@ Partial Class MdifrmMain
         Me.ToolStripDropDownButton1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.cmdSupplier, Me.cmdCustomer, Me.cmdTechnician, Me.cmdProduct})
         Me.ToolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripDropDownButton1.Name = "ToolStripDropDownButton1"
-        Me.ToolStripDropDownButton1.Size = New System.Drawing.Size(13, 86)
+        Me.ToolStripDropDownButton1.Size = New System.Drawing.Size(14, 86)
         Me.ToolStripDropDownButton1.Text = "ToolStripDropDownButton1"
         '
         'cmdSupplier
         '
         Me.cmdSupplier.Name = "cmdSupplier"
-        Me.cmdSupplier.Size = New System.Drawing.Size(135, 22)
+        Me.cmdSupplier.Size = New System.Drawing.Size(165, 26)
         Me.cmdSupplier.Text = "Supplier"
         '
         'cmdCustomer
         '
         Me.cmdCustomer.Name = "cmdCustomer"
-        Me.cmdCustomer.Size = New System.Drawing.Size(135, 22)
+        Me.cmdCustomer.Size = New System.Drawing.Size(165, 26)
         Me.cmdCustomer.Text = "Customer"
         '
         'cmdTechnician
         '
         Me.cmdTechnician.Name = "cmdTechnician"
-        Me.cmdTechnician.Size = New System.Drawing.Size(135, 22)
+        Me.cmdTechnician.Size = New System.Drawing.Size(165, 26)
         Me.cmdTechnician.Text = "Technician"
         '
         'cmdProduct
         '
         Me.cmdProduct.Name = "cmdProduct"
-        Me.cmdProduct.Size = New System.Drawing.Size(135, 22)
+        Me.cmdProduct.Size = New System.Drawing.Size(165, 26)
         Me.cmdProduct.Text = "Product"
         '
         'ToolStripSeparator1
@@ -292,7 +293,7 @@ Partial Class MdifrmMain
         Me.cmdReceive.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.cmdReceive.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.cmdReceive.Name = "cmdReceive"
-        Me.cmdReceive.Size = New System.Drawing.Size(103, 86)
+        Me.cmdReceive.Size = New System.Drawing.Size(125, 86)
         Me.cmdReceive.Text = "Receive Product"
         Me.cmdReceive.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
@@ -302,7 +303,7 @@ Partial Class MdifrmMain
         Me.cmdRepair.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.cmdRepair.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.cmdRepair.Name = "cmdRepair"
-        Me.cmdRepair.Size = New System.Drawing.Size(96, 86)
+        Me.cmdRepair.Size = New System.Drawing.Size(117, 86)
         Me.cmdRepair.Text = "Repair Product"
         Me.cmdRepair.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
@@ -312,7 +313,7 @@ Partial Class MdifrmMain
         Me.cmdDeliver.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.cmdDeliver.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.cmdDeliver.Name = "cmdDeliver"
-        Me.cmdDeliver.Size = New System.Drawing.Size(99, 86)
+        Me.cmdDeliver.Size = New System.Drawing.Size(121, 86)
         Me.cmdDeliver.Text = "Deliver Product"
         Me.cmdDeliver.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
@@ -322,13 +323,13 @@ Partial Class MdifrmMain
         Me.ToolStripDropDownButton2.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.cmdSalesRepair})
         Me.ToolStripDropDownButton2.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripDropDownButton2.Name = "ToolStripDropDownButton2"
-        Me.ToolStripDropDownButton2.Size = New System.Drawing.Size(13, 86)
+        Me.ToolStripDropDownButton2.Size = New System.Drawing.Size(14, 86)
         Me.ToolStripDropDownButton2.Text = "ToolStripDropDownButton2"
         '
         'cmdSalesRepair
         '
         Me.cmdSalesRepair.Name = "cmdSalesRepair"
-        Me.cmdSalesRepair.Size = New System.Drawing.Size(144, 22)
+        Me.cmdSalesRepair.Size = New System.Drawing.Size(177, 26)
         Me.cmdSalesRepair.Text = "Sales Repair"
         '
         'ToolStripSeparator3
@@ -344,7 +345,7 @@ Partial Class MdifrmMain
         Me.cmdRepAdvanced.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.cmdRepAdvanced.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.cmdRepAdvanced.Name = "cmdRepAdvanced"
-        Me.cmdRepAdvanced.Size = New System.Drawing.Size(90, 86)
+        Me.cmdRepAdvanced.Size = New System.Drawing.Size(111, 86)
         Me.cmdRepAdvanced.Text = "Advanced Pay"
         Me.cmdRepAdvanced.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
@@ -354,7 +355,7 @@ Partial Class MdifrmMain
         Me.cmdTechnicianCost.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.cmdTechnicianCost.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.cmdTechnicianCost.Name = "cmdTechnicianCost"
-        Me.cmdTechnicianCost.Size = New System.Drawing.Size(98, 86)
+        Me.cmdTechnicianCost.Size = New System.Drawing.Size(120, 86)
         Me.cmdTechnicianCost.Text = "Technician Cost"
         Me.cmdTechnicianCost.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
@@ -364,7 +365,7 @@ Partial Class MdifrmMain
         Me.cmdTechnicianLoan.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.cmdTechnicianLoan.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.cmdTechnicianLoan.Name = "cmdTechnicianLoan"
-        Me.cmdTechnicianLoan.Size = New System.Drawing.Size(101, 86)
+        Me.cmdTechnicianLoan.Size = New System.Drawing.Size(122, 86)
         Me.cmdTechnicianLoan.Text = "Technician Loan"
         Me.cmdTechnicianLoan.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
@@ -374,7 +375,7 @@ Partial Class MdifrmMain
         Me.cmdCustomerLoan.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.cmdCustomerLoan.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.cmdCustomerLoan.Name = "cmdCustomerLoan"
-        Me.cmdCustomerLoan.Size = New System.Drawing.Size(96, 86)
+        Me.cmdCustomerLoan.Size = New System.Drawing.Size(119, 86)
         Me.cmdCustomerLoan.Text = "Customer Loan"
         Me.cmdCustomerLoan.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         Me.cmdCustomerLoan.ToolTipText = "Customer Loan"
@@ -385,7 +386,7 @@ Partial Class MdifrmMain
         Me.cmdSettlement.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.cmdSettlement.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.cmdSettlement.Name = "cmdSettlement"
-        Me.cmdSettlement.Size = New System.Drawing.Size(74, 86)
+        Me.cmdSettlement.Size = New System.Drawing.Size(90, 86)
         Me.cmdSettlement.Text = "Settlement"
         Me.cmdSettlement.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
@@ -395,14 +396,14 @@ Partial Class MdifrmMain
         Me.ToolStripDropDownButton3.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.cmdTechnicianSalary})
         Me.ToolStripDropDownButton3.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripDropDownButton3.Name = "ToolStripDropDownButton3"
-        Me.ToolStripDropDownButton3.Size = New System.Drawing.Size(13, 86)
+        Me.ToolStripDropDownButton3.Size = New System.Drawing.Size(14, 86)
         Me.ToolStripDropDownButton3.Text = "ToolStripDropDownButton3"
         '
         'cmdTechnicianSalary
         '
         Me.cmdTechnicianSalary.Image = CType(resources.GetObject("cmdTechnicianSalary.Image"), System.Drawing.Image)
         Me.cmdTechnicianSalary.Name = "cmdTechnicianSalary"
-        Me.cmdTechnicianSalary.Size = New System.Drawing.Size(176, 26)
+        Me.cmdTechnicianSalary.Size = New System.Drawing.Size(211, 26)
         Me.cmdTechnicianSalary.Text = "Technician Salary"
         '
         'MenuStrip
@@ -411,7 +412,7 @@ Partial Class MdifrmMain
         Me.MenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FILEToolStripMenuItem, Me.ToolsToolStripMenuItem})
         Me.MenuStrip.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip.Name = "MenuStrip"
-        Me.MenuStrip.Size = New System.Drawing.Size(1364, 24)
+        Me.MenuStrip.Size = New System.Drawing.Size(1364, 28)
         Me.MenuStrip.TabIndex = 18
         Me.MenuStrip.Text = "MenuStrip1"
         '
@@ -420,7 +421,7 @@ Partial Class MdifrmMain
         Me.FILEToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LogOutToolStripMenuItem, Me.ExitToolStripMenuItem})
         Me.FILEToolStripMenuItem.Name = "FILEToolStripMenuItem"
         Me.FILEToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.L), System.Windows.Forms.Keys)
-        Me.FILEToolStripMenuItem.Size = New System.Drawing.Size(40, 20)
+        Me.FILEToolStripMenuItem.Size = New System.Drawing.Size(49, 24)
         Me.FILEToolStripMenuItem.Text = "FILE"
         '
         'LogOutToolStripMenuItem
@@ -428,7 +429,7 @@ Partial Class MdifrmMain
         Me.LogOutToolStripMenuItem.Image = CType(resources.GetObject("LogOutToolStripMenuItem.Image"), System.Drawing.Image)
         Me.LogOutToolStripMenuItem.Name = "LogOutToolStripMenuItem"
         Me.LogOutToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.L), System.Windows.Forms.Keys)
-        Me.LogOutToolStripMenuItem.Size = New System.Drawing.Size(161, 26)
+        Me.LogOutToolStripMenuItem.Size = New System.Drawing.Size(194, 26)
         Me.LogOutToolStripMenuItem.Text = "Log Out"
         '
         'ExitToolStripMenuItem
@@ -436,21 +437,21 @@ Partial Class MdifrmMain
         Me.ExitToolStripMenuItem.Image = Global.LASER_System.My.Resources.Resources.close
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
         Me.ExitToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.F4), System.Windows.Forms.Keys)
-        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(161, 26)
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(194, 26)
         Me.ExitToolStripMenuItem.Text = "Exit"
         '
         'ToolsToolStripMenuItem
         '
         Me.ToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SettingsToolStripMenuItem})
         Me.ToolsToolStripMenuItem.Name = "ToolsToolStripMenuItem"
-        Me.ToolsToolStripMenuItem.Size = New System.Drawing.Size(54, 20)
+        Me.ToolsToolStripMenuItem.Size = New System.Drawing.Size(67, 24)
         Me.ToolsToolStripMenuItem.Text = "TOOLS"
         '
         'SettingsToolStripMenuItem
         '
         Me.SettingsToolStripMenuItem.Image = CType(resources.GetObject("SettingsToolStripMenuItem.Image"), System.Drawing.Image)
         Me.SettingsToolStripMenuItem.Name = "SettingsToolStripMenuItem"
-        Me.SettingsToolStripMenuItem.Size = New System.Drawing.Size(120, 26)
+        Me.SettingsToolStripMenuItem.Size = New System.Drawing.Size(145, 26)
         Me.SettingsToolStripMenuItem.Text = "Settings"
         '
         'BarCodePort
@@ -464,11 +465,11 @@ Partial Class MdifrmMain
         Me.TableLayoutPanel1.Controls.Add(Me.flpMessage, 0, 0)
         Me.TableLayoutPanel1.Controls.Add(Me.pnlLeft, 0, 0)
         Me.TableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TableLayoutPanel1.Location = New System.Drawing.Point(0, 113)
+        Me.TableLayoutPanel1.Location = New System.Drawing.Point(0, 117)
         Me.TableLayoutPanel1.Name = "TableLayoutPanel1"
         Me.TableLayoutPanel1.RowCount = 1
         Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
-        Me.TableLayoutPanel1.Size = New System.Drawing.Size(1364, 604)
+        Me.TableLayoutPanel1.Size = New System.Drawing.Size(1364, 598)
         Me.TableLayoutPanel1.TabIndex = 22
         '
         'flpMessage
@@ -482,7 +483,7 @@ Partial Class MdifrmMain
         Me.flpMessage.Location = New System.Drawing.Point(957, 3)
         Me.flpMessage.Name = "flpMessage"
         Me.flpMessage.Padding = New System.Windows.Forms.Padding(5, 5, 0, 0)
-        Me.flpMessage.Size = New System.Drawing.Size(404, 598)
+        Me.flpMessage.Size = New System.Drawing.Size(404, 592)
         Me.flpMessage.TabIndex = 24
         Me.flpMessage.WrapContents = False
         '
@@ -495,7 +496,7 @@ Partial Class MdifrmMain
         Me.pnlLeft.Dock = System.Windows.Forms.DockStyle.Fill
         Me.pnlLeft.Location = New System.Drawing.Point(3, 3)
         Me.pnlLeft.Name = "pnlLeft"
-        Me.pnlLeft.Size = New System.Drawing.Size(948, 598)
+        Me.pnlLeft.Size = New System.Drawing.Size(948, 592)
         Me.pnlLeft.TabIndex = 23
         '
         'GrdActivity
@@ -519,7 +520,7 @@ Partial Class MdifrmMain
         DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
         Me.GrdActivity.RowsDefaultCellStyle = DataGridViewCellStyle1
         Me.GrdActivity.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.GrdActivity.Size = New System.Drawing.Size(931, 220)
+        Me.GrdActivity.Size = New System.Drawing.Size(931, 214)
         Me.GrdActivity.TabIndex = 23
         '
         'AID
@@ -530,7 +531,7 @@ Partial Class MdifrmMain
         Me.AID.MinimumWidth = 6
         Me.AID.Name = "AID"
         Me.AID.ReadOnly = True
-        Me.AID.Width = 42
+        Me.AID.Width = 50
         '
         'ADate
         '
@@ -540,7 +541,7 @@ Partial Class MdifrmMain
         Me.ADate.MinimumWidth = 6
         Me.ADate.Name = "ADate"
         Me.ADate.ReadOnly = True
-        Me.ADate.Width = 55
+        Me.ADate.Width = 65
         '
         'ACommand
         '
@@ -571,10 +572,10 @@ Partial Class MdifrmMain
         Me.pageIncomevsDate.Controls.Add(Me.Label1)
         Me.pageIncomevsDate.Controls.Add(Me.cmbIncomevsDateView)
         Me.pageIncomevsDate.Controls.Add(Me.chtIncomevsDate)
-        Me.pageIncomevsDate.Location = New System.Drawing.Point(4, 22)
+        Me.pageIncomevsDate.Location = New System.Drawing.Point(4, 26)
         Me.pageIncomevsDate.Name = "pageIncomevsDate"
         Me.pageIncomevsDate.Padding = New System.Windows.Forms.Padding(3)
-        Me.pageIncomevsDate.Size = New System.Drawing.Size(927, 339)
+        Me.pageIncomevsDate.Size = New System.Drawing.Size(927, 335)
         Me.pageIncomevsDate.TabIndex = 0
         Me.pageIncomevsDate.Text = "Total Income vs Date"
         Me.pageIncomevsDate.UseVisualStyleBackColor = True
@@ -585,7 +586,7 @@ Partial Class MdifrmMain
         Me.lblIncomevsDateCustom.Font = New System.Drawing.Font("Calibri", 9.0!)
         Me.lblIncomevsDateCustom.Location = New System.Drawing.Point(251, 8)
         Me.lblIncomevsDateCustom.Name = "lblIncomevsDateCustom"
-        Me.lblIncomevsDateCustom.Size = New System.Drawing.Size(36, 14)
+        Me.lblIncomevsDateCustom.Size = New System.Drawing.Size(41, 18)
         Me.lblIncomevsDateCustom.TabIndex = 13
         Me.lblIncomevsDateCustom.Text = "Days:"
         '
@@ -593,7 +594,7 @@ Partial Class MdifrmMain
         '
         Me.txtIncomevsDateCustom.Location = New System.Drawing.Point(317, 6)
         Me.txtIncomevsDateCustom.Name = "txtIncomevsDateCustom"
-        Me.txtIncomevsDateCustom.Size = New System.Drawing.Size(43, 21)
+        Me.txtIncomevsDateCustom.Size = New System.Drawing.Size(43, 24)
         Me.txtIncomevsDateCustom.TabIndex = 12
         '
         'Label1
@@ -602,7 +603,7 @@ Partial Class MdifrmMain
         Me.Label1.Font = New System.Drawing.Font("Calibri", 9.0!)
         Me.Label1.Location = New System.Drawing.Point(6, 8)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(37, 14)
+        Me.Label1.Size = New System.Drawing.Size(44, 18)
         Me.Label1.TabIndex = 11
         Me.Label1.Text = "View:"
         '
@@ -613,7 +614,7 @@ Partial Class MdifrmMain
         Me.cmbIncomevsDateView.Items.AddRange(New Object() {"Days", "Months", "Week Days"})
         Me.cmbIncomevsDateView.Location = New System.Drawing.Point(49, 5)
         Me.cmbIncomevsDateView.Name = "cmbIncomevsDateView"
-        Me.cmbIncomevsDateView.Size = New System.Drawing.Size(196, 22)
+        Me.cmbIncomevsDateView.Size = New System.Drawing.Size(196, 26)
         Me.cmbIncomevsDateView.TabIndex = 10
         Me.cmbIncomevsDateView.Tag = ""
         '
@@ -657,9 +658,9 @@ Partial Class MdifrmMain
         Me.pageReceivedRepvsDate.Controls.Add(Me.Label8)
         Me.pageReceivedRepvsDate.Controls.Add(Me.cmbReceivedRepvsDateView)
         Me.pageReceivedRepvsDate.Controls.Add(Me.chtReceivedRepvsDate)
-        Me.pageReceivedRepvsDate.Location = New System.Drawing.Point(4, 22)
+        Me.pageReceivedRepvsDate.Location = New System.Drawing.Point(4, 26)
         Me.pageReceivedRepvsDate.Name = "pageReceivedRepvsDate"
-        Me.pageReceivedRepvsDate.Size = New System.Drawing.Size(927, 339)
+        Me.pageReceivedRepvsDate.Size = New System.Drawing.Size(927, 335)
         Me.pageReceivedRepvsDate.TabIndex = 1
         Me.pageReceivedRepvsDate.Text = "Qty of Received Repairs vs Date"
         Me.pageReceivedRepvsDate.UseVisualStyleBackColor = True
@@ -670,7 +671,7 @@ Partial Class MdifrmMain
         Me.lblReceivedRepvsDateCustom.Font = New System.Drawing.Font("Calibri", 9.0!)
         Me.lblReceivedRepvsDateCustom.Location = New System.Drawing.Point(251, 8)
         Me.lblReceivedRepvsDateCustom.Name = "lblReceivedRepvsDateCustom"
-        Me.lblReceivedRepvsDateCustom.Size = New System.Drawing.Size(79, 14)
+        Me.lblReceivedRepvsDateCustom.Size = New System.Drawing.Size(91, 18)
         Me.lblReceivedRepvsDateCustom.TabIndex = 23
         Me.lblReceivedRepvsDateCustom.Text = "Custom Days:"
         '
@@ -678,7 +679,7 @@ Partial Class MdifrmMain
         '
         Me.txtReceivedRepvsDateCustom.Location = New System.Drawing.Point(336, 5)
         Me.txtReceivedRepvsDateCustom.Name = "txtReceivedRepvsDateCustom"
-        Me.txtReceivedRepvsDateCustom.Size = New System.Drawing.Size(43, 21)
+        Me.txtReceivedRepvsDateCustom.Size = New System.Drawing.Size(43, 24)
         Me.txtReceivedRepvsDateCustom.TabIndex = 22
         '
         'Label8
@@ -687,7 +688,7 @@ Partial Class MdifrmMain
         Me.Label8.Font = New System.Drawing.Font("Calibri", 9.0!)
         Me.Label8.Location = New System.Drawing.Point(6, 8)
         Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(37, 14)
+        Me.Label8.Size = New System.Drawing.Size(44, 18)
         Me.Label8.TabIndex = 21
         Me.Label8.Text = "View:"
         '
@@ -698,7 +699,7 @@ Partial Class MdifrmMain
         Me.cmbReceivedRepvsDateView.Items.AddRange(New Object() {"Days", "Months", "Week Days"})
         Me.cmbReceivedRepvsDateView.Location = New System.Drawing.Point(49, 5)
         Me.cmbReceivedRepvsDateView.Name = "cmbReceivedRepvsDateView"
-        Me.cmbReceivedRepvsDateView.Size = New System.Drawing.Size(196, 22)
+        Me.cmbReceivedRepvsDateView.Size = New System.Drawing.Size(196, 26)
         Me.cmbReceivedRepvsDateView.TabIndex = 20
         Me.cmbReceivedRepvsDateView.Tag = ""
         '
@@ -732,9 +733,9 @@ Partial Class MdifrmMain
         Me.pageCashier.Controls.Add(Me.lblUEmail)
         Me.pageCashier.Controls.Add(Me.lblUName)
         Me.pageCashier.Controls.Add(Me.picUImage)
-        Me.pageCashier.Location = New System.Drawing.Point(4, 22)
+        Me.pageCashier.Location = New System.Drawing.Point(4, 26)
         Me.pageCashier.Name = "pageCashier"
-        Me.pageCashier.Size = New System.Drawing.Size(927, 339)
+        Me.pageCashier.Size = New System.Drawing.Size(927, 335)
         Me.pageCashier.TabIndex = 2
         Me.pageCashier.Text = "Cashier"
         Me.pageCashier.UseVisualStyleBackColor = True
@@ -745,7 +746,7 @@ Partial Class MdifrmMain
         Me.lblULastLogin.Font = New System.Drawing.Font("Calibri", 10.0!)
         Me.lblULastLogin.Location = New System.Drawing.Point(209, 105)
         Me.lblULastLogin.Name = "lblULastLogin"
-        Me.lblULastLogin.Size = New System.Drawing.Size(68, 17)
+        Me.lblULastLogin.Size = New System.Drawing.Size(84, 21)
         Me.lblULastLogin.TabIndex = 4
         Me.lblULastLogin.Text = "Last Login:"
         '
@@ -755,7 +756,7 @@ Partial Class MdifrmMain
         Me.lblULoginCount.Font = New System.Drawing.Font("Calibri", 10.0!)
         Me.lblULoginCount.Location = New System.Drawing.Point(210, 76)
         Me.lblULoginCount.Name = "lblULoginCount"
-        Me.lblULoginCount.Size = New System.Drawing.Size(82, 17)
+        Me.lblULoginCount.Size = New System.Drawing.Size(102, 21)
         Me.lblULoginCount.TabIndex = 3
         Me.lblULoginCount.Text = "Log In Count:"
         '
@@ -765,7 +766,7 @@ Partial Class MdifrmMain
         Me.lblUEmail.Font = New System.Drawing.Font("Calibri", 15.0!)
         Me.lblUEmail.Location = New System.Drawing.Point(209, 38)
         Me.lblUEmail.Name = "lblUEmail"
-        Me.lblUEmail.Size = New System.Drawing.Size(61, 24)
+        Me.lblUEmail.Size = New System.Drawing.Size(77, 31)
         Me.lblUEmail.TabIndex = 2
         Me.lblUEmail.Text = "Email:"
         '
@@ -775,7 +776,7 @@ Partial Class MdifrmMain
         Me.lblUName.Font = New System.Drawing.Font("Calibri", 15.0!)
         Me.lblUName.Location = New System.Drawing.Point(209, 3)
         Me.lblUName.Name = "lblUName"
-        Me.lblUName.Size = New System.Drawing.Size(64, 24)
+        Me.lblUName.Size = New System.Drawing.Size(81, 31)
         Me.lblUName.TabIndex = 1
         Me.lblUName.Text = "Name:"
         '
@@ -795,7 +796,7 @@ Partial Class MdifrmMain
         '
         'MdifrmMain
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 17.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
         Me.ClientSize = New System.Drawing.Size(1364, 741)
