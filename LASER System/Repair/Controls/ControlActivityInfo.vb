@@ -1,4 +1,4 @@
-﻿Imports System.Data.OleDb
+﻿Imports System.Data.Odbc
 
 Public Class ControlActivityInfo
     Private DB As Database
@@ -10,15 +10,15 @@ Public Class ControlActivityInfo
     End Sub
 
     Public Sub InitForRepair(RepNo As Integer)
-        Dim DataTable = DB.GetDataTable("Select RepANo, RepADate, Activity, UserName from RepairActivity RepA LEFT JOIN [User] U ON U.UNo=RepA.UNo Where RepNo=@REPNO", {
-                                            New OleDbParameter("REPNO", RepNo)
+        Dim DataTable = DB.GetDataTable("Select RepANo, RepADate, Activity, UserName from RepairActivity RepA LEFT JOIN `User` U ON U.UNo=RepA.UNo Where RepNo=@REPNO", {
+                                            New OdbcParameter("REPNO", RepNo)
                                         })
         grdActivity.DataSource = DataTable
     End Sub
 
     Public Sub InitForReRepair(ReRepNo As Integer)
-        Dim DataTable = DB.GetDataTable("Select RepANo, RepADate, Activity, UserName from RepairActivity RepA LEFT JOIN [User] U ON U.UNo=RepA.UNo Where RetNo=@REREPNO", {
-                                            New OleDbParameter("REREPNO", ReRepNo)
+        Dim DataTable = DB.GetDataTable("Select RepANo, RepADate, Activity, UserName from RepairActivity RepA LEFT JOIN `User` U ON U.UNo=RepA.UNo Where RetNo=@REREPNO", {
+                                            New OdbcParameter("REREPNO", ReRepNo)
                                         })
         grdActivity.DataSource = DataTable
     End Sub

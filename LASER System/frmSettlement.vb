@@ -65,7 +65,7 @@ Public Class frmSettlement
 
             Dim RPT As New rptSettlement
             Dim SaTotal, RepTotal, CTotal, CPTotal, CuLTotal, CPQty, TATotal, GrandTotal As Integer
-            Dim DT1 As DataTable = Db.GetDataTable("SELECT sale.SaNo, sale.SaDate, sale.CuNo, Customer.CuName, Customer.CuTelNo1, Customer.CuTelNo2, Customer.CuTelNo3, StockSale.SNo, SCategory, SName, StockSale.SaType, StockSale.SaUnits, StockSale.SaRate, StockSale.SaTotal, sale.SaSubTotal, sale.SaLess, sale.SaDue, sale.CReceived, sale.CBalance, sale.CAmount, sale.CPInvoiceNo, sale.CPAmount, sale.CuLNo, sale.CuLAmount FROM [Customer], [sale], [StockSale] where Customer.CuNo = Sale.CuNo And Sale.SaNo = StockSale.SaNo And SaDate Between #" & Today.Date & " 00:00:00# And #" & Today.Date & " 23:59:59#")
+            Dim DT1 As DataTable = Db.GetDataTable("SELECT sale.SaNo, sale.SaDate, sale.CuNo, Customer.CuName, Customer.CuTelNo1, Customer.CuTelNo2, Customer.CuTelNo3, StockSale.SNo, SCategory, SName, StockSale.SaType, StockSale.SaUnits, StockSale.SaRate, StockSale.SaTotal, sale.SaSubTotal, sale.SaLess, sale.SaDue, sale.CReceived, sale.CBalance, sale.CAmount, sale.CPInvoiceNo, sale.CPAmount, sale.CuLNo, sale.CuLAmount FROM Customer, sale, StockSale where Customer.CuNo = Sale.CuNo And Sale.SaNo = StockSale.SaNo And SaDate Between #" & Today.Date & " 00:00:00# And #" & Today.Date & " 23:59:59#")
             SaTotal = 0
             CTotal = 0
             CuLTotal = 0
@@ -404,7 +404,7 @@ Public Class frmSettlement
     Private Sub grdSale_SelectionChanged(sender As Object, e As EventArgs) Handles grdSale.SelectionChanged
         If grdSale.CurrentCell Is Nothing Then Exit Sub
         If grdSale.CurrentRow.Cells(0).Value <> vbNull Then
-            Dim DT As DataTable = Db.GetDataTable("SELECT SS.SNo as [Stock Code], SCategory as [Stock Category], SName as [Stock Name], SS.SaType as 'Type', SS.SaRate as [Rate],SS.SaUnits as [Qty], SS.SaTotal as [Total] from Sale Sa,StockSale SS Where Sa.SaNo = SS.SaNo and Sa.SaNo =" & grdSale.Item(0, grdSale.CurrentCell.RowIndex).Value)
+            Dim DT As DataTable = Db.GetDataTable("SELECT SS.SNo as `Stock Code`, SCategory as `Stock Category`, SName as `Stock Name`, SS.SaType as 'Type', SS.SaRate as `Rate`,SS.SaUnits as `Qty`, SS.SaTotal as `Total` from Sale Sa,StockSale SS Where Sa.SaNo = SS.SaNo and Sa.SaNo =" & grdSale.Item(0, grdSale.CurrentCell.RowIndex).Value)
             grdStockSale.DataSource = DT
             grdStockSale.Refresh()
         End If

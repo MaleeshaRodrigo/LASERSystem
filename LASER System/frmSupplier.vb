@@ -161,7 +161,7 @@ Public Class frmSupplier
         Else
             x = "Order by SuNo"
         End If
-        Me.grdSupplier.DataSource = Db.GetDataTable("SELECT SuNo as [No],SuName as [Name],SuAddress as [Address],SuEmail as [Email], SuTelNo1 as [Telephone No1],SuTelNo2 as [Telephone No2],SuTelNo3 as [Telephone No3], SuRemarks as [Remarks] from Supplier " & x & ";")
+        Me.grdSupplier.DataSource = Db.GetDataTable("SELECT SuNo as `No`,SuName as `Name`,SuAddress as `Address`,SuEmail as `Email`, SuTelNo1 as `Telephone No1`,SuTelNo2 as `Telephone No2`,SuTelNo3 as `Telephone No3`, SuRemarks as Remarks from Supplier " & x & ";")
         grdSupplier.Refresh()
     End Sub
 

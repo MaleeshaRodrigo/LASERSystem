@@ -138,48 +138,48 @@ Public Class ControlPopUp
         End If
         For Each Row1 As DataGridViewRow In FormParent.grdRepair.Rows
             If Row1.Index = FormParent.grdRepair.Rows.Count - 1 Then Continue For
-            Dim DrRepStatus As OleDbDataReader = Db.GetDataReader("Select Status,RepNo from Repair where RepNo=" & Row1.Cells(0).Value)
+            Dim DrRepStatus As OdbcDataReader = Db.GetDataReader("Select Status,RepNo from Repair where RepNo=" & Row1.Cells(0).Value)
             If DrRepStatus.HasRows = True Then
                 DrRepStatus.Read()
                 If DrRepStatus("Status").ToString = "Received" Or DrRepStatus("Status").ToString = "Hand Over to Technician" Or
                         DrRepStatus("Status").ToString = "Repairing" Then
                     Db.Execute("Update Repair set RepDate = @REPDATE,Charge=@CHARGE where RepNo=@REPNO;", {
-                            New OleDbParameter("REPDATE", FormParent.txtDDate.Value.ToString),
-                            New OleDbParameter("CHARGE", Row1.Cells(4).Value),
-                            New OleDbParameter("REPNO", Row1.Cells(0).Value)
+                            New OdbcParameter("REPDATE", FormParent.txtDDate.Value.ToString),
+                            New OdbcParameter("CHARGE", Row1.Cells(4).Value),
+                            New OdbcParameter("REPNO", Row1.Cells(0).Value)
                         }, AdminPer)
                 End If
             End If
-            Db.Execute($"UPDATE Repair SET PaidPrice = @PAIDPRICE,TNo = DLookup('TNo', 'Technician', 'TName=""{Row1.Cells(5).Value}""'),[Status]=@STATUS,DNo = @DNO WHERE RepNo=@REPNO;", {
-                           New OleDbParameter("PAIDPRICE", Row1.Cells(4).Value),
-                           New OleDbParameter("STATUS", Row1.Cells(6).Value.ToString),
-                           New OleDbParameter("DNO", DNo),
-                           New OleDbParameter("REPNO", Row1.Cells(0).Value)
+            Db.Execute($"UPDATE Repair SET PaidPrice = @PAIDPRICE,TNo = DLookup('TNo', 'Technician', 'TName=""{Row1.Cells(5).Value}""'),Status=@STATUS,DNo = @DNO WHERE RepNo=@REPNO;", {
+                           New OdbcParameter("PAIDPRICE", Row1.Cells(4).Value),
+                           New OdbcParameter("STATUS", Row1.Cells(6).Value.ToString),
+                           New OdbcParameter("DNO", DNo),
+                           New OdbcParameter("REPNO", Row1.Cells(0).Value)
                            }, AdminPer)
         Next
         For Each Row As DataGridViewRow In FormParent.grdRERepair.Rows
             If Row.Index = FormParent.grdRERepair.Rows.Count - 1 Then Continue For
-            Dim DrRetStatus As OleDbDataReader = Db.GetDataReader("Select Status,RetNo from Return where RetNo=" & Row.Cells(0).Value)
+            Dim DrRetStatus As OdbcDataReader = Db.GetDataReader("Select Status,RetNo from Return where RetNo=" & Row.Cells(0).Value)
             If DrRetStatus.HasRows = True Then
                 DrRetStatus.Read()
                 If DrRetStatus("Status").ToString = "Received" Or DrRetStatus("Status").ToString = "Hand Over to Technician" Or DrRetStatus("Status").ToString = "Repairing" Then
                     Db.Execute("UPDATE `Return` SET RetRepDate = @RETREPDATE,Charge= @CHARGE where RetNo= @RETNO;", {
-                            New OleDbParameter("RETREPDATE", FormParent.txtDDate.Value.ToString),
-                            New OleDbParameter("CHARGE", Row.Cells(5).Value.ToString),
-                            New OleDbParameter("RETNO", Row.Cells(0).Value.ToString)
+                            New OdbcParameter("RETREPDATE", FormParent.txtDDate.Value.ToString),
+                            New OdbcParameter("CHARGE", Row.Cells(5).Value.ToString),
+                            New OdbcParameter("RETNO", Row.Cells(0).Value.ToString)
                         }, AdminPer)
                 End If
             End If
-            Db.Execute($"Update `Return` set PaidPrice = @PAIDPRICE,TNo = DLookup('TNo', 'Technician', 'TName=""{Row.Cells(6).Value}""'),[Status]= @STATUS,DNo = @DNO where RetNo= @RETNO", {
-                            New OleDbParameter("PAIDPRICE", Row.Cells(5).Value.ToString),
-                            New OleDbParameter("STATUS", Row.Cells(7).Value.ToString),
-                            New OleDbParameter("DNO", DNo),
-                            New OleDbParameter("RETNO", Row.Cells(0).Value.ToString)
+            Db.Execute($"Update `Return` set PaidPrice = @PAIDPRICE,TNo = DLookup('TNo', 'Technician', 'TName=""{Row.Cells(6).Value}""'),Status= @STATUS,DNo = @DNO where RetNo= @RETNO", {
+                            New OdbcParameter("PAIDPRICE", Row.Cells(5).Value.ToString),
+                            New OdbcParameter("STATUS", Row.Cells(7).Value.ToString),
+                            New OdbcParameter("DNO", DNo),
+                            New OdbcParameter("RETNO", Row.Cells(0).Value.ToString)
                            }, AdminPer)
         Next
         If FormParent.cmdSave.Text = "Edit" Then
             Db.Execute("DELETE FROM Deliver D WHERE DNo = @DNO AND Exists( Select 1 From Repair Rep Where Rep.DNo = D.DNo ) = False AND Exists( Select 1 From Return Ret Where Ret.DNo = D.DNo ) = False", {
-                                New OleDbParameter("DNO", FormParent.txtDNo.Text)
+                                New OdbcParameter("DNO", FormParent.txtDNo.Text)
                            })
         End If
         Return True
@@ -259,7 +259,7 @@ Public Class ControlPopUp
         Try
             If My.Settings.DeliveredEmailtoT = False Then Exit Sub
 
-            Dim DRAutoD As OleDbDataReader = Db.GetDataReader($"SELECT RepNo,DDate, CuName, CuTelNo1, PCategory, PName, Qty, PaidPrice, TEmail, TName, Status from ((((Repair Rep Inner Join Deliver D On D.DNo=Rep.DNo) Inner Join Technician T On T.TNo = Rep.TNo) Left Join Product P On P.Pno = Rep.PNo) Left Join Customer Cu On Cu.CuNo = D.CuNo) Where TEmail <> NULL and Status <> 'Returned Delivered' and TActive = Yes AND TBlockEmails <> Yes and D.DNo = {DNo}")
+            Dim DRAutoD As OdbcDataReader = Db.GetDataReader($"SELECT RepNo,DDate, CuName, CuTelNo1, PCategory, PName, Qty, PaidPrice, TEmail, TName, Status from ((((Repair Rep Inner Join Deliver D On D.DNo=Rep.DNo) Inner Join Technician T On T.TNo = Rep.TNo) Left Join Product P On P.Pno = Rep.PNo) Left Join Customer Cu On Cu.CuNo = D.CuNo) Where TEmail <> NULL and Status <> 'Returned Delivered' and TActive = Yes AND TBlockEmails <> Yes and D.DNo = {DNo}")
             While DRAutoD.Read()
                 Db.Execute("Insert Into Mail(MailNo,MailDate,EmailTo,Subject,Body,Status) Values(?NewKey?Mail?MailNo?,#" & DateAndTime.Now &
                             "#,'" & DRAutoD("TEmail").ToString & "','Repair No:  " + DRAutoD("RepNo").ToString + " එක Customer විසින් රු." +

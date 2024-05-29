@@ -45,7 +45,7 @@ Public Class frmStockTransaction
 
     Public Sub txtSNo_TextChanged(sender As Object, e As EventArgs) Handles txtSNo.TextChanged
         If txtSNo.Text = "" Then Exit Sub
-        Dim DR As OdbcDataReader = Db.GetDataReader("Select SNo,SCategory,SName from [Stock] where SNO = " & txtSNo.Text)
+        Dim DR As OdbcDataReader = Db.GetDataReader("Select SNo,SCategory,SName from `Stock` where SNO = " & txtSNo.Text)
         If DR.HasRows = True Then
             DR.Read()
             cmbSCategory.Text = DR("SCategory").ToString

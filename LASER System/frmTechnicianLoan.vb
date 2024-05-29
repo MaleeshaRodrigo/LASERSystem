@@ -29,7 +29,7 @@ Public Class frmTechnicianLoan
             grdTLSearch.Rows.Clear()
             Exit Sub
         End If
-        Me.grdTLSearch.DataSource = Db.GetDataTable("Select TLNo as [Technician Loan No],TLDate as [Date],SCategory as [Stock Category],SName as [Stock Name],TLReason as [Reason],Rate,Qty,Total from (TechnicianLoan Inner Join Technician On Technician.TNO = TechnicianLoan.TNo) where TName='" & cmbTName.Text & "' and TLDate BETWEEN #" & txtTLFrom.Value.Date & " 00:00:00# AND #" &
+        Me.grdTLSearch.DataSource = Db.GetDataTable("Select TLNo as [Technician Loan No],TLDate as `Date`,SCategory as `Stock Category`,SName as `Stock Name`,TLReason as Reason,Rate,Qty,Total from (TechnicianLoan Inner Join Technician On Technician.TNO = TechnicianLoan.TNo) where TName='" & cmbTName.Text & "' and TLDate BETWEEN #" & txtTLFrom.Value.Date & " 00:00:00# AND #" &
                                              txtTLTo.Value.Date & " 23:59:59#")
         grdTLSearch.Refresh()
         txtTLSubTotal.Text = "0"
@@ -174,7 +174,7 @@ Public Class frmTechnicianLoan
             txtTLAmount.Text = "0"
             Exit Sub
         End If
-        Dim DR1 As OdbcDataReader = Db.GetDataReader("Select SCategory,SName,SNo from [Stock] where SNo =" & txtSNo.Text & ";")
+        Dim DR1 As OdbcDataReader = Db.GetDataReader("SELECT SCategory,SName,SNo FROM Stock WHERE SNo =" & txtSNo.Text & ";")
         If DR1.HasRows = True Then
             DR1.Read()
             cmbSCategory.Text = DR1("SCategory").ToString

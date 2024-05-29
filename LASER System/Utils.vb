@@ -1,4 +1,4 @@
-﻿Imports System.Data.OleDb
+﻿Imports System.Data.Odbc
 Imports System.IO
 Imports System.Net
 Imports Microsoft.VisualBasic.FileIO
@@ -16,7 +16,7 @@ Module Utils
     End Sub
 
     Public Sub SetNextKey(Db As Database, txt As TextBox, SQL As String, ColumnName As String)
-        Dim DR0 As OleDbDataReader = Db.GetDataReader(SQL)
+        Dim DR0 As OdbcDataReader = Db.GetDataReader(SQL)
         If DR0.HasRows = True Then
             DR0.Read()
             txt.Text = Int(DR0.Item(ColumnName)) + 1
@@ -69,25 +69,8 @@ Module Utils
         Return True
     End Function
 
-    ''' <summary>
-    ''' Checking whether the given SQL query has rows or not
-    ''' </summary>
-    ''' <param name="SQL">The SQL Query</param>
-    ''' <returns>True, if there are rows in the SQL query, or false</returns>
-    Public Function CheckExistData(SQL As String) As Boolean
-        Dim CMD0 = New OleDbCommand(SQL)
-        Dim DR0 As OleDbDataReader = CMD0.ExecuteReader()
-        If DR0.HasRows = True Then
-            Return True
-        Else
-            Return False
-        End If
-        CMD0.Cancel()
-        DR0.Close()
-    End Function
-
     Public Function CheckExistData(Db As Database, cmb As Control, SQL As String, msg As String, IsDataExist As Boolean) As Boolean
-        Dim DR0 As OleDbDataReader = Db.GetDataReader(SQL)
+        Dim DR0 As OdbcDataReader = Db.GetDataReader(SQL)
         If DR0.HasRows = True Then
             If IsDataExist = True Then
                 MsgBox(msg, vbCritical + vbOKOnly)

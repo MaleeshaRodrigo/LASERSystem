@@ -1,4 +1,4 @@
-﻿Imports System.Data.OleDb
+﻿Imports System.Data.Odbc
 Imports System.Threading
 
 Public Class frmSale
@@ -88,7 +88,7 @@ Public Class frmSale
     End Sub
 
     Private Sub cmbCuName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbCuName.SelectedIndexChanged
-        Dim DR As OleDbDataReader = Db.GetDataReader("SELECT * from Customer where CuName='" & cmbCuName.Text & "';")
+        Dim DR As OdbcDataReader = Db.GetDataReader("SELECT * from Customer where CuName='" & cmbCuName.Text & "';")
         If DR.HasRows Then
             txtCuTelNo1.Tag = "1"
             DR.Read()
@@ -233,7 +233,7 @@ Public Class frmSale
         If (Val(txtCAmount.Text) > 0 Or Val(txtCPAmount.Text) > 0) And chkCashDrawer.Checked = True Then CashDrawer.Open()
         'Customer Management
         Dim CuNo As Integer
-        Dim DR As OleDbDataReader = Db.GetDataReader("Select * from Customer where CuName='" & cmbCuName.Text & "' and CuTelNo1='" & txtCuTelNo1.Text & "' and CuTelNo2 ='" & txtCuTelNo2.Text & "' and CuTelNo3='" & txtCuTelNo3.Text & "'")
+        Dim DR As OdbcDataReader = Db.GetDataReader("Select * from Customer where CuName='" & cmbCuName.Text & "' and CuTelNo1='" & txtCuTelNo1.Text & "' and CuTelNo2 ='" & txtCuTelNo2.Text & "' and CuTelNo3='" & txtCuTelNo3.Text & "'")
         If DR.HasRows = True Then
             DR.Read()
             CuNo = DR("CuNo").ToString
@@ -308,7 +308,7 @@ Public Class frmSale
                 If DR.HasRows = True Then
                     DR.Read()
                     DR1 = Db.GetDataReader("Select CuNo from Sale Where CuNo = " & DR("CuNo").ToString)
-                    Dim DR2 As OleDbDataReader = Db.GetDataReader("Select CuNo from Receive where CuNo = " & DR("CuNo").ToString)
+                    Dim DR2 As OdbcDataReader = Db.GetDataReader("Select CuNo from Receive where CuNo = " & DR("CuNo").ToString)
                     If DR1.HasRows = False And DR2.HasRows = False Then
                         Db.Execute("Delete from Customer where CuNo=" & DR("CuNo").ToString)
                     End If
@@ -328,7 +328,7 @@ Public Class frmSale
                                         ",CuLAmount=" & txtCuLAmount.Text &
                                         ",SaRemarks='" & txtSaRemarks.Text & "' Where SaNo = " & txtSaNo.Text)
                 'Delete and update stocksale and stock old data
-                Dim DRStockSale As OleDbDataReader = Db.GetDataReader("Select * from StockSale where SaNo = " & txtSaNo.Text & "")
+                Dim DRStockSale As OdbcDataReader = Db.GetDataReader("Select * from StockSale where SaNo = " & txtSaNo.Text & "")
                 While DRStockSale.Read
                     If DRStockSale("SaType").ToString = "Sale" Then
                         Db.Execute("Update Stock set SAvailablestocks=(SAvailableStocks + " & DRStockSale("SaUnits").ToString &
@@ -431,7 +431,7 @@ Public Class frmSale
                 My.Computer.Audio.PlaySystemSound(Media.SystemSounds.Hand)
                 'If IsNumeric(grdSale.Item(0, e.RowIndex).Value) = False Then grdSale.Rows.RemoveAt(e.RowIndex)
                 If grdSale.Item(0, e.RowIndex).Value Is Nothing Then Exit Sub
-                Dim DR As OleDbDataReader = Db.GetDataReader("Select * from Stock where SNo =" & grdSale.Item(0, e.RowIndex).Value.ToString)
+                Dim DR As OdbcDataReader = Db.GetDataReader("Select * from Stock where SNo =" & grdSale.Item(0, e.RowIndex).Value.ToString)
                 If DR.HasRows = True Then
                     DR.Read()
                     grdSale.Item(1, e.RowIndex).Value = DR("SCategory").ToString
@@ -457,9 +457,9 @@ Public Class frmSale
                 End If
             Case 1, 2
                 frmSearchDropDown.frm_Close()
-                Dim DR As OleDbDataReader = Db.GetDataReader("Select * from Stock where SCategory=@CATEGORY and SName=@NAME", {
-                                                             New OleDbParameter("CATEGORY", If(grdSale.Item(1, e.RowIndex).Value, "")),
-                                                             New OleDbParameter("NAME", If(grdSale.Item(2, e.RowIndex).Value, ""))
+                Dim DR As OdbcDataReader = Db.GetDataReader("Select * from Stock where SCategory=@CATEGORY and SName=@NAME", {
+                                                             New OdbcParameter("CATEGORY", If(grdSale.Item(1, e.RowIndex).Value, "")),
+                                                             New OdbcParameter("NAME", If(grdSale.Item(2, e.RowIndex).Value, ""))
                                                                                 })
                 If DR.HasRows = True Then
                     DR.Read()
@@ -551,7 +551,7 @@ Public Class frmSale
 
     Private Sub TextCuTelNo_TextChanged(sender As Object, e As EventArgs) Handles txtCuTelNo1.TextChanged, txtCuTelNo2.TextChanged, txtCuTelNo3.TextChanged
         If sender.Text.Trim() = "" Or sender.Tag = "1" Then Exit Sub
-        Dim SaDR As OleDbDataReader = Db.GetDataReader("Select * from Customer where CuTelNo1='" & sender.Text & "' or CuTelNo2='" & sender.Text & "' or CuTelNo3='" & sender.Text & "';")
+        Dim SaDR As OdbcDataReader = Db.GetDataReader("Select * from Customer where CuTelNo1='" & sender.Text & "' or CuTelNo2='" & sender.Text & "' or CuTelNo3='" & sender.Text & "';")
         If SaDR.HasRows = True Then
             sender.Tag = "1"
             Dim FormCustomer As New frmCustomer With {

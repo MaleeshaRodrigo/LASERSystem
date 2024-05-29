@@ -1,8 +1,8 @@
-﻿Imports System.Data.OleDb
+﻿Imports System.Data.Odbc
 
 Public Class FormRepair
     Private Db As New Database
-    Public DataReaderRepair As OleDbDataReader
+    Public DataReaderRepair As OdbcDataReader
     Public Mode As RepairMode
 
     Public ControlReRepairView As ControlReRepairView
@@ -212,7 +212,7 @@ Public Class FormRepair
 
             If cmbRetNo.Text = "" Then Exit Try
             DataReaderRepair = Db.GetDataReader($"SELECT Ret.RetNo, RepNo, Ret.RNo, RDate,  R.CuNo, CuName, CuTelNo1, CuTelNo2, CuTelNo3, CuRemarks,  Ret.Pno, PCategory, PName, PModelNo, PDetails, PSerialNo, Problem, Location, Qty, Ret.TNo, TName, Status, Charge, PaidPrice, RetRepDate, Ret.DNo, DDate FROM ((((Return Ret inner join Receive R on Ret.RNo = R.RNo) INNER JOIN Customer Cu ON R.CuNo = Cu.CuNo) INNER JOIN Product P ON Ret.PNo = P.PNo) LEFT JOIN Technician T ON Ret.TNo = T.TNo) LEFT JOIN Deliver D ON D.DNo=Ret.DNo WHERE Ret.RetNo = @RETNO", {
-                                                New OleDbParameter("RETNO", cmbRetNo.Text)
+                                                New OdbcParameter("RETNO", cmbRetNo.Text)
                                                 })
             If DataReaderRepair.HasRows = False Then
                 MsgBox("මෙම RE-Repair No එක Database එක තුල නොපවතියි.", vbCritical + vbOKOnly)
@@ -563,7 +563,7 @@ Public Class FormRepair
     End Sub
 
     Public Sub CmbPName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbPName.SelectedIndexChanged
-        Dim DR As OleDbDataReader = Db.GetDataReader("Select * from Product where PCategory ='" & cmbPCategory.Text & "' and PName ='" & cmbPName.Text & "';")
+        Dim DR As OdbcDataReader = Db.GetDataReader("Select * from Product where PCategory ='" & cmbPCategory.Text & "' and PName ='" & cmbPName.Text & "';")
         If DR.HasRows = True Then
             DR.Read()
             txtPNo.Text = DR("PNo").ToString

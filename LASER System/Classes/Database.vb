@@ -1,11 +1,9 @@
 ﻿Imports System.Data.Common
 Imports System.Data.Odbc
-Imports System.Data.OleDb
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Threading
 Imports LASER_System.My
-Imports System.Data.Odbc
 
 Public Class Database
     Private _Connection As New OdbcConnection
@@ -46,7 +44,7 @@ Public Class Database
 
     Public Function CheckDataExists(Table As String, FieldName As String, Value As Object) As Boolean
         Dim Command As New OdbcCommand($"SELECT {FieldName} FROM {Table} WHERE {FieldName}=@VALUE;", _Connection)
-        Command.Parameters.Add(New OleDbParameter("VALUE", Value))
+        Command.Parameters.Add(New OdbcParameter("VALUE", Value))
         Using DataReader As OdbcDataReader = Command.ExecuteReader()
             Return DataReader.HasRows
         End Using

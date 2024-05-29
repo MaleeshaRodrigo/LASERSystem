@@ -1,4 +1,4 @@
-﻿Imports System.Data.OleDb
+﻿Imports System.Data.Odbc
 
 Public Class frmCustomer
     Private Db As New Database
@@ -11,8 +11,8 @@ Public Class frmCustomer
 
     Public Sub SelectCustomer(CuNo As Integer)
         txtCuNo.Text = CuNo
-        Dim DR As OleDbDataReader = Db.GetDataReader("SELECT * FROM Customer WHERE CuNo = @CUNO", {
-            New OleDbParameter("CUNO", CuNo)
+        Dim DR As OdbcDataReader = Db.GetDataReader("SELECT * FROM Customer WHERE CuNo = @CUNO", {
+            New OdbcParameter("CUNO", CuNo)
         })
         If DR.HasRows = False Then
             Exit Sub
@@ -93,7 +93,7 @@ Public Class frmCustomer
         Else
             x = "Order by CuNo"
         End If
-        Me.grdCustomer.DataSource = Db.GetDataTable("SELECT CuNo as [No],CuName as [Name],CuTelNo1 as [Telephone No 1],CuTelNo2 as [Telephone No 2],CuTelNo3 as [Telephone No 3] from Customer " & x & ";")
+        Me.grdCustomer.DataSource = Db.GetDataTable("SELECT CuNo as No,CuName as Name,CuTelNo1 as `Telephone No 1`,CuTelNo2 as `Telephone No 2`,CuTelNo3 as `Telephone No 3` from Customer " & x & ";")
         grdCustomer.Refresh()
     End Sub
 
@@ -169,7 +169,7 @@ Public Class frmCustomer
         End If
         Select Case cmdSave.Text
             Case "Save"
-                Dim DR As OleDbDataReader = Db.GetDataReader("Select CuName from Customer where CuName ='" & TextCuName.Text & "';")
+                Dim DR As OdbcDataReader = Db.GetDataReader("Select CuName from Customer where CuName ='" & TextCuName.Text & "';")
                 If DR.HasRows = True Then
                     For i As Integer = 0 To 1000
                         DR = Db.GetDataReader("Select CuName from Customer Where CuName = '" & TextCuName.Text & " " & i.ToString & "'")
@@ -179,15 +179,15 @@ Public Class frmCustomer
                         End If
                     Next
                 End If
-                If CheckExistData("Select CuNo from Customer where CuNo =" & txtCuNo.Text & ";") = True Then
+                If Db.CheckDataExists("Customer", "CuNo", txtCuNo.Text) Then
                     txtCuNo.Text = Db.GetNextKey("Customer", "CuNo")
                 End If
                 Db.Execute("Insert into Customer(CuNo,CuName,CuTelNo1,CuTelNo2,CuTelNo3) Values(@NO, @NAME, @TELNO1, @TELNO2, @TELNO3);", {
-                        New OleDbParameter("@NO", txtCuNo.Text),
-                        New OleDbParameter("@NAME", TextCuName.Text),
-                        New OleDbParameter("@TELNO1", txtCuTelNo1.Text),
-                        New OleDbParameter("@TELNO2", txtCuTelNo2.Text),
-                        New OleDbParameter("@TELNO3", txtCuTelNo3.Text)
+                        New OdbcParameter("@NO", txtCuNo.Text),
+                        New OdbcParameter("@NAME", TextCuName.Text),
+                        New OdbcParameter("@TELNO1", txtCuTelNo1.Text),
+                        New OdbcParameter("@TELNO2", txtCuTelNo2.Text),
+                        New OdbcParameter("@TELNO3", txtCuTelNo3.Text)
                 })
                 Call txtSearch_TextChanged(sender, e)
                 cmdSave.Text = "Edit"
@@ -249,7 +249,7 @@ Public Class frmCustomer
 
     Private Sub txtCuTelNo1_KeyUp(sender As Object, e As KeyEventArgs) Handles txtCuTelNo1.KeyUp, txtCuTelNo2.KeyUp, txtCuTelNo3.KeyUp
         If sender.Text.Trim.Length < 10 Then Exit Sub
-        Dim DR As OleDbDataReader = Db.GetDataReader("Select * from Customer where CuTelNo1='" & sender.Text & "' or CuTelNo2='" & sender.Text & "' or CuTelNo3='" & sender.Text & "';")
+        Dim DR As OdbcDataReader = Db.GetDataReader("Select * from Customer where CuTelNo1='" & sender.Text & "' or CuTelNo2='" & sender.Text & "' or CuTelNo3='" & sender.Text & "';")
         If DR.HasRows = True Then
             If MsgBox("මෙම Telephone No එකට Customer කෙනෙකු ලියාපදිංචි වී ඇත. එය විවෘත කරන්නද?", vbYesNo + vbCritical) = vbYes Then
                 DR.Read()
@@ -276,7 +276,7 @@ Public Class frmCustomer
     End Sub
 
     Private Sub TxtCuNo_TextChanged(sender As Object, e As EventArgs) Handles txtCuNo.TextChanged
-        If Me.WindowState = FormWindowState.Maximized AndAlso CheckExistData("Select CuNo from Customer Where CuNo=" & txtCuNo.Text) = True Then
+        If Me.WindowState = FormWindowState.Maximized AndAlso Db.CheckDataExists("Customer", "CuNo", txtCuNo.Text) = True Then
             Dim task1 As Task = Task.Run(Sub()
                                              grdRepair.DataSource = Db.GetDataTable("SELECT RepNo as [Repair No],RDate as [Received Date],PCategory as [Product Category],PName as [Product Name], PModelNo as [Product Model No], PSerialNo as [Product Serial No],Problem,Location,Qty,Status,TName as [Technician Name],RepDate as [Repaired Date],Charge, DDate as [Delivered Date], PaidPrice as [Paid Charge]from (((((Repair REP INNER JOIN RECEIVE R ON R.RNO = REP.RNO) INNER JOIN PRODUCT  P ON P.PNO = REP.PNO) INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = REP.TNO) LEFT JOIN DELIVER D ON D.DNO = REP.DNO) WHERE R.CuNo=" & txtCuNo.Text)
                                              grdRepair.ScrollBars = ScrollBars.None
@@ -285,14 +285,14 @@ Public Class frmCustomer
                                              grdRepair.ScrollBars = ScrollBars.Both
                                          End Sub)
             Dim task2 As Task = Task.Run(Sub()
-                                             grdSale.DataSource = Db.GetDataTable("SELECT Sa.SaNo as [Sale No],SaDate as [Sold Date],SCategory as [Stock Category],SName as [Stock Name],SaRate as [Rate], SaUnits as [Qty],SaTotal as [Total]  from (StockSale SSa INNER JOIN Sale Sa ON Sa.SaNo = SSa.SaNo) INNER JOIN Customer Cu ON Cu.CuNo = Sa.CuNo where Cu.CuNo=" & txtCuNo.Text)
+                                             grdSale.DataSource = Db.GetDataTable("SELECT Sa.SaNo as [Sale No],SaDate as [Sold Date],SCategory as [Stock Category],SName as [Stock Name],SaRate as [`$1`], SaUnits as [\`$1\`],SaTotal as [`\1`]  from (StockSale SSa INNER JOIN Sale Sa ON Sa.SaNo = SSa.SaNo) INNER JOIN Customer Cu ON Cu.CuNo = Sa.CuNo where Cu.CuNo=" & txtCuNo.Text)
                                              grdSale.ScrollBars = ScrollBars.None
                                          End Sub)
             task2.GetAwaiter.OnCompleted(Sub()
                                              grdSale.ScrollBars = ScrollBars.Both
                                          End Sub)
             Dim task3 As Task = Task.Run(Sub()
-                                             grdCuLoan.DataSource = Db.GetDataTable("SELECT CuL.CuLNo as [Customer Loan No],CuLDate as [Customer Loan Date],CuL.CuNo as [No],CuName as [Name],CuTelNo1 as [Telephone No 1],CuTelNo2 as [Telephone No 2],CuTelNo3 as [Telephone No 3],CuL.SaNo as [Sale No],SaDate as [Sale Date], CuL.DNo as [Deliver No], DDate as [Deliver Date], Status,CuLRemarks as [Remarks] from (((CustomerLoan CUL INNER JOIN CUSTOMER CU ON CU.CUNO = CUL.CUNO) LEFT JOIN SALE SA ON SA.SANO = CUL.SANO) LEFT JOIN DELIVER D ON D.DNO = CUL.DNO) WHERE CuL.CuNo=" & txtCuNo.Text)
+                                             grdCuLoan.DataSource = Db.GetDataTable("SELECT CuL.CuLNo as [Customer Loan No],CuLDate as [Customer Loan Date],CuL.CuNo as [`$1`],CuName as [`$1`],CuTelNo1 as [Telephone No 1],CuTelNo2 as [Telephone No 2],CuTelNo3 as [Telephone No 3],CuL.SaNo as [Sale No],SaDate as [Sale Date], CuL.DNo as [Deliver No], DDate as [Deliver Date], Status,CuLRemarks as [`$1`] from (((CustomerLoan CUL INNER JOIN CUSTOMER CU ON CU.CUNO = CUL.CUNO) LEFT JOIN SALE SA ON SA.SANO = CUL.SANO) LEFT JOIN DELIVER D ON D.DNO = CUL.DNO) WHERE CuL.CuNo=" & txtCuNo.Text)
                                              grdCuLoan.ScrollBars = ScrollBars.None
                                          End Sub)
             task3.GetAwaiter.OnCompleted(Sub()

@@ -1,4 +1,4 @@
-﻿Imports System.Data.OleDb
+﻿Imports System.Data.Odbc
 Imports System.IO
 
 Public Class ControlRemarks
@@ -16,12 +16,12 @@ Public Class ControlRemarks
         cmbLocation.Text = FormParent.DataReaderRepair("Location").ToString
 
         'Adding Data to grdRepRemarks1 
-        Dim DRREPNO1 As OleDbDataReader = DB.GetDataReader("Select RepRem.*, UserName from RepairRemarks1 RepRem LEFT JOIN [User] U ON U.UNo=RepRem.UNo Where RepNo=@REPNO;", {
-                New OleDbParameter("REPNO", RepNo)
+        Dim DRREPNO1 As OdbcDataReader = DB.GetDataReader("Select RepRem.*, UserName from RepairRemarks1 RepRem LEFT JOIN `User` U ON U.UNo=RepRem.UNo Where RepNo=@REPNO;", {
+                New OdbcParameter("REPNO", RepNo)
             })
         grdRepRemarks1.Rows.Clear()
         While DRREPNO1.Read
-            grdRepRemarks1.Rows.Add(DRREPNO1("Rem1No").ToString, DRREPNO1("Rem1Date").ToString, DRREPNO1("Remarks").ToString, DB.GetData("Select UserName from [User] Where UNo=" & DRREPNO1("UNo").ToString))
+            grdRepRemarks1.Rows.Add(DRREPNO1("Rem1No").ToString, DRREPNO1("Rem1Date").ToString, DRREPNO1("Remarks").ToString, DB.GetData("Select UserName from `User` Where UNo=" & DRREPNO1("UNo").ToString))
         End While
 
         Dim FilePath As String = Path.Combine(SystemFolderPath, $"\LASER System\Images\REP-{RepNo}.png")
@@ -31,8 +31,8 @@ Public Class ControlRemarks
     Public Sub InitForReRepair(ReRepNo As Integer)
         cmbLocation.Text = FormParent.DataReaderRepair("Location").ToString
 
-        Dim DRREPNO1 As OleDbDataReader = DB.GetDataReader("SELECT RepRem.*, UserName FROM RepairRemarks1 RepRem LEFT JOIN [User] U ON U.UNo=RepRem.UNo WHERE RetNo=@REREPPNO;", {
-                New OleDbParameter("REREPPNO", ReRepNo)
+        Dim DRREPNO1 As OdbcDataReader = DB.GetDataReader("SELECT RepRem.*, UserName FROM RepairRemarks1 RepRem LEFT JOIN `User` U ON U.UNo=RepRem.UNo WHERE RetNo=@REREPPNO;", {
+                New OdbcParameter("REREPPNO", ReRepNo)
             })
         grdRepRemarks1.Rows.Clear()
         While DRREPNO1.Read
@@ -126,7 +126,7 @@ Public Class ControlRemarks
                           If(FormParent.Mode = RepairMode.Repair, "RepNo=" & FormParent.cmbRepNo.Text, "RetNo=" & FormParent.cmbRetNo.Text) &
                           ",Rem1Date=#" & grdRepRemarks1.Item(1, e.RowIndex).Value &
                           "#,Remarks='" & grdRepRemarks1.Item(2, e.RowIndex).Value &
-                          "',UNo=" & DB.GetData("Select UNo from [User] Where UserName='" &
+                          "',UNo=" & DB.GetData("Select UNo from `User` Where UserName='" &
                           grdRepRemarks1.Item(3, e.RowIndex).Value & "'") &
                           " Where Rem1No=" & grdRepRemarks1.Item(0, e.RowIndex).Value, {}, AdminPer)
             Else
@@ -134,7 +134,7 @@ Public Class ControlRemarks
                           ", Rem1Date, Remarks, UNo) Values(" & grdRepRemarks1.Item(0, e.RowIndex).Value & "," &
                           If(FormParent.Mode = RepairMode.Repair, FormParent.cmbRepNo.Text, FormParent.cmbRetNo.Text) & ",#" & grdRepRemarks1.Item(1, e.RowIndex).Value &
                           "#,'" & grdRepRemarks1.Item(2, e.RowIndex).Value & "'," &
-                          DB.GetData("Select UNo from [User] Where UserName='" & grdRepRemarks1.Item(3, e.RowIndex).Value & "'") &
+                          DB.GetData("Select UNo from `User` Where UserName='" & grdRepRemarks1.Item(3, e.RowIndex).Value & "'") &
                           ")", {}, AdminPer)
             End If
         End If
@@ -153,7 +153,7 @@ Public Class ControlRemarks
             e.Cancel = True
         End If
         DB.Execute("Delete from RepairRemarks1 Where Rem1No=@REM1NO", {
-                   New OleDbParameter("REM1NO", grdRepRemarks1.Item(0, e.Row.Index).Value)
+                   New OdbcParameter("REM1NO", grdRepRemarks1.Item(0, e.Row.Index).Value)
         }, AdminPer)
     End Sub
 
@@ -164,7 +164,7 @@ Public Class ControlRemarks
         If grdRepRemarks1.Item(0, e.RowIndex).Value Is Nothing Then
             Exit Sub
         End If
-        Dim DR1 As OleDbDataReader = DB.GetDataReader($"SELECT Rem1No,Rem1Date,Remarks,UserName from RepairRemarks1 RepRem1 LEFT JOIN [User] U ON U.UNo=RepRem1.UNo where Rem1No={grdRepRemarks1.Item(0, e.RowIndex).Value};")
+        Dim DR1 As OdbcDataReader = DB.GetDataReader($"SELECT Rem1No,Rem1Date,Remarks,UserName from RepairRemarks1 RepRem1 LEFT JOIN `User` U ON U.UNo=RepRem1.UNo where Rem1No={grdRepRemarks1.Item(0, e.RowIndex).Value};")
         If DR1.HasRows Then
             DR1.Read()
             grdRepRemarks1.Item(1, e.RowIndex).Value = DR1("Rem1Date").ToString
