@@ -1,5 +1,5 @@
 ﻿Imports ZXing
-Imports System.Data.Odbc
+Imports MySqlConnector
 Imports System.Drawing
 Imports System.IO
 
@@ -13,8 +13,8 @@ Public Class frmStockSticker
             writer.Options.PureBarcode = True
             grdStock.Item(6, e.RowIndex).Value = writer.Write(grdStock.Item(0, e.RowIndex).Value)
             DR = Db.GetDataReader("Select * from Stock where SNo=" & grdStock.Item(0, e.RowIndex).Value)
-            If DR.HasRows = True Then
-                DR.Read()
+            If DR.Count Then
+                
                 grdStock.Item(1, e.RowIndex).Value = DR("Scategory").ToString
                 grdStock.Item(2, e.RowIndex).Value = DR("SName").ToString
                 grdStock.Item(3, e.RowIndex).Value = DR("SAvailableStocks").ToString
@@ -23,8 +23,8 @@ Public Class frmStockSticker
             End If
         ElseIf e.ColumnIndex = 1 Or e.ColumnIndex = 2 Then
             DR = Db.GetDataReader("Select * from Stock where SCategory='" & grdStock.Item(1, e.RowIndex).Value & "' and SName='" & grdStock.Item(2, e.RowIndex).Value & "';")
-            If DR.HasRows = True Then
-                DR.Read()
+            If DR.Count Then
+                
                 grdStock.Item(0, e.RowIndex).Value = DR("SNo").ToString
                 grdStock.Item(1, e.RowIndex).Value = DR("SCategory").ToString
                 grdStock.Item(2, e.RowIndex).Value = DR("SName").ToString
@@ -57,7 +57,7 @@ Public Class frmStockSticker
                     autoText.AutoCompleteMode = AutoCompleteMode.Suggest
                     autoText.AutoCompleteSource = AutoCompleteSource.CustomSource
                     DataCollection.Clear()
-                    Dim DR As OdbcDataReader = Db.GetDataReader("Select SCategory from Stock group by SCategory;")
+                    Dim DR = Db.GetDataReader("Select SCategory from Stock group by SCategory;")
                     While DR.Read
                         DataCollection.Add(DR("SCategory").ToString)
                     End While
@@ -69,7 +69,7 @@ Public Class frmStockSticker
                     autoText.AutoCompleteMode = AutoCompleteMode.Suggest
                     autoText.AutoCompleteSource = AutoCompleteSource.CustomSource
                     DataCollection.Clear()
-                    Dim DR As OdbcDataReader = Db.GetDataReader("Select SCategory,SName from Stock where SCategory ='" & grdStock.Item(1, grdStock.CurrentCell.RowIndex).Value & "';")
+                    Dim DR = Db.GetDataReader("Select SCategory,SName from Stock where SCategory ='" & grdStock.Item(1, grdStock.CurrentCell.RowIndex).Value & "';")
                     While DR.Read
                         DataCollection.Add(DR("SName").ToString)
                     End While

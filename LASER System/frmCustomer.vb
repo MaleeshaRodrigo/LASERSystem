@@ -1,4 +1,4 @@
-﻿Imports System.Data.Odbc
+﻿Imports MySqlConnector
 
 Public Class frmCustomer
     Private Db As New Database
@@ -11,13 +11,13 @@ Public Class frmCustomer
 
     Public Sub SelectCustomer(CuNo As Integer)
         txtCuNo.Text = CuNo
-        Dim DR As OdbcDataReader = Db.GetDataReader("SELECT * FROM Customer WHERE CuNo = @CUNO", {
-            New OdbcParameter("CUNO", CuNo)
+        Dim DR = Db.GetDataReader("SELECT * FROM Customer WHERE CuNo = @CUNO", {
+            New MySqlParameter("CUNO", CuNo)
         })
         If DR.HasRows = False Then
             Exit Sub
         End If
-        DR.Read()
+
         TextCuName.Text = DR("CuName").ToString
         txtCuTelNo1.Text = DR("CuTelNo1").ToString
         txtCuTelNo2.Text = DR("CuTelNo2").ToString
@@ -169,8 +169,8 @@ Public Class frmCustomer
         End If
         Select Case cmdSave.Text
             Case "Save"
-                Dim DR As OdbcDataReader = Db.GetDataReader("Select CuName from Customer where CuName ='" & TextCuName.Text & "';")
-                If DR.HasRows = True Then
+                Dim DR = Db.GetDataReader("Select CuName from Customer where CuName ='" & TextCuName.Text & "';")
+                If DR.Count Then
                     For i As Integer = 0 To 1000
                         DR = Db.GetDataReader("Select CuName from Customer Where CuName = '" & TextCuName.Text & " " & i.ToString & "'")
                         If DR.HasRows = False Then
@@ -183,11 +183,11 @@ Public Class frmCustomer
                     txtCuNo.Text = Db.GetNextKey("Customer", "CuNo")
                 End If
                 Db.Execute("Insert into Customer(CuNo,CuName,CuTelNo1,CuTelNo2,CuTelNo3) Values(@NO, @NAME, @TELNO1, @TELNO2, @TELNO3);", {
-                        New OdbcParameter("@NO", txtCuNo.Text),
-                        New OdbcParameter("@NAME", TextCuName.Text),
-                        New OdbcParameter("@TELNO1", txtCuTelNo1.Text),
-                        New OdbcParameter("@TELNO2", txtCuTelNo2.Text),
-                        New OdbcParameter("@TELNO3", txtCuTelNo3.Text)
+                        New MySqlParameter("@NO", txtCuNo.Text),
+                        New MySqlParameter("@NAME", TextCuName.Text),
+                        New MySqlParameter("@TELNO1", txtCuTelNo1.Text),
+                        New MySqlParameter("@TELNO2", txtCuTelNo2.Text),
+                        New MySqlParameter("@TELNO3", txtCuTelNo3.Text)
                 })
                 Call txtSearch_TextChanged(sender, e)
                 cmdSave.Text = "Edit"
@@ -249,10 +249,10 @@ Public Class frmCustomer
 
     Private Sub txtCuTelNo1_KeyUp(sender As Object, e As KeyEventArgs) Handles txtCuTelNo1.KeyUp, txtCuTelNo2.KeyUp, txtCuTelNo3.KeyUp
         If sender.Text.Trim.Length < 10 Then Exit Sub
-        Dim DR As OdbcDataReader = Db.GetDataReader("Select * from Customer where CuTelNo1='" & sender.Text & "' or CuTelNo2='" & sender.Text & "' or CuTelNo3='" & sender.Text & "';")
-        If DR.HasRows = True Then
+        Dim DR = Db.GetDataReader("Select * from Customer where CuTelNo1='" & sender.Text & "' or CuTelNo2='" & sender.Text & "' or CuTelNo3='" & sender.Text & "';")
+        If DR.Count Then
             If MsgBox("මෙම Telephone No එකට Customer කෙනෙකු ලියාපදිංචි වී ඇත. එය විවෘත කරන්නද?", vbYesNo + vbCritical) = vbYes Then
-                DR.Read()
+
                 TextCuName.Text = DR("CuName").ToString
                 txtCuNo.Text = DR("CuNo").ToString
                 txtCuTelNo1.Text = DR("CuTelNo1").ToString

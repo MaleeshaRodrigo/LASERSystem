@@ -1,4 +1,4 @@
-﻿Imports System.Data.Odbc
+﻿Imports MySqlConnector
 
 Public Class frmSupplier
     Private Db As New Database
@@ -51,9 +51,8 @@ Public Class frmSupplier
     End Sub
 
     Private Sub cmbSuName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbSuName.SelectedIndexChanged
-        Dim DR As OdbcDataReader = Db.GetDataReader("SELECT * from Supplier where SuName='" & cmbSuName.Text & "';")
-        If DR.HasRows = True Then
-            DR.Read()
+        Dim DR = Db.GetDataReader("SELECT * from Supplier where SuName='" & cmbSuName.Text & "';")
+        If DR.Count Then
             txtSuNo.Text = DR("SuNo").ToString
             cmbSuName.Text = DR("SuName").ToString
             txtSuAddress.Text = DR("SuAddress").ToString

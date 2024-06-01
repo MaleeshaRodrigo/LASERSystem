@@ -1,4 +1,4 @@
-﻿Imports System.Data.Odbc
+﻿Imports MySqlConnector
 
 Public Class frmTechnicianLoan
     Private Db As New Database
@@ -118,14 +118,14 @@ Public Class frmTechnicianLoan
     End Sub
 
     Private Sub cmbSName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbSName.SelectedIndexChanged
-        Dim DR As OdbcDataReader
+        Dim DR
         If cmbSCategory.Text = "" Then
             DR = Db.GetDataReader("Select * from Stock Where SName='" & cmbSName.Text & "'")
         Else
             DR = Db.GetDataReader("SElect * from Stock Where Scategory='" & cmbSCategory.Text & "' and SName ='" & cmbSName.Text & "'")
         End If
-        If DR.HasRows = True Then
-            DR.Read()
+        If DR.Count Then
+            
             txtSNo.Text = DR("SNo").ToString
             txtSUnitPrice.Text = Val(DR("SSAlePRice").ToString)
             txtSQty.Text = "1"
@@ -174,8 +174,8 @@ Public Class frmTechnicianLoan
             txtTLAmount.Text = "0"
             Exit Sub
         End If
-        Dim DR1 As OdbcDataReader = Db.GetDataReader("SELECT SCategory,SName,SNo FROM Stock WHERE SNo =" & txtSNo.Text & ";")
-        If DR1.HasRows = True Then
+        Dim DR1 = Db.GetDataReader("SELECT SCategory,SName,SNo FROM Stock WHERE SNo =" & txtSNo.Text & ";")
+        If DR1.Count Then
             DR1.Read()
             cmbSCategory.Text = DR1("SCategory").ToString
             cmbSName.Text = DR1("SName").ToString
@@ -203,7 +203,7 @@ Public Class frmTechnicianLoan
                 txtTLAmount.Text = "0"
                 Exit Sub
             End If
-            Dim DR As OdbcDataReader = Db.GetDataReader("SElect SNO from stock where Sno =" & txtSNo.Text)
+            Dim DR = Db.GetDataReader("SElect SNO from stock where Sno =" & txtSNo.Text)
             If DR.HasRows = False Then
                 cmbSCategory.Text = ""
                 cmbSName.Text = ""
@@ -268,9 +268,9 @@ Public Class frmTechnicianLoan
             AdminPer.AdminSend = True
             AdminPer.Remarks = "අද දිනට නොමැති Technician Loan data එකක් ඉවත් කෙරුණි."
         End If
-        Dim DR As OdbcDataReader = Db.GetDataReader("Select * from TechnicianLoan Where TLNo=" & txtTLNo.Text)
-        If DR.HasRows = True Then
-            DR.Read()
+        Dim DR = Db.GetDataReader("Select * from TechnicianLoan Where TLNo=" & txtTLNo.Text)
+        If DR.Count Then
+            
             If DR("SNo").ToString <> "" And DR("SNo").ToString <> "0" Then
                 Dim Response = MsgBox("ඔබට මෙම Item එක Technician Cost තුලින් ඉවත් කිරිමට අවශ්‍ය බැවින්, එම Item එක නැවත Available Units තුලට පිරවීමට අවශ්‍යද? " +
                                       vbCr + vbCr + "Yes - එසෙ නම් ඔබ 'Yes' යන Button එක Click කරන්න. " + vbCr + vbCr +

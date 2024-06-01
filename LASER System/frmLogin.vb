@@ -1,4 +1,4 @@
-﻿Imports System.Data.Odbc
+﻿Imports MySqlConnector
 Imports System.IO
 Imports Microsoft.VisualBasic.FileIO
 
@@ -54,11 +54,11 @@ Public Class frmLogin
             Me.Close()
             Exit Sub
         End If
-        Dim DR As OdbcDataReader = Db.GetDataReader("Select * from `User` where UserName ='" & cmbUserName.Text & "'")
-        If DR.HasRows = True Then
+        Dim DR = Db.GetDataReader("Select * from `User` where UserName ='" & cmbUserName.Text & "'")
+        If DR.Count Then
             DR = Db.GetDataReader("Select * from `User` where  STRCMP('" & cmbUserName.Text & "',UserName)=0 and STRCMP(Password,'" & txtPassword.Text & "')=0")
-            If DR.HasRows = True Then
-                DR.Read()
+            If DR.Count Then
+
                 Db.DirectExecute("Update `User` set LogInCount='0' Where LoginCount IS NULL")
                 Db.DirectExecute("Update `User` set LogInCount= (LogInCount + 1) Where UNo = " & DR("UNo").ToString)
                 Db.DirectExecute("Update `User` set LastLogin='" & DateAndTime.Now & "' Where UNo = " & DR("UNo").ToString)
@@ -118,9 +118,8 @@ Public Class frmLogin
         ElseIf CheckExistData(Db, txtOTPUserName, "Select UserName from `User` Where UserName='" & txtOTPUserName.Text & "'", "ඔබ ඇතුලත් කල User Name එක වැරදි කරුණාකර නිවැරදි User Name එක ඇතුලත් කරන්න.", False) = False Then
             Exit Sub
         End If
-        Dim DR As OdbcDataReader = Db.GetDataReader("Select Email from `User` Where UserName='" & txtOTPUserName.Text & "'")
-        If DR.HasRows = True Then
-            DR.Read()
+        Dim DR = Db.GetDataReader("Select Email from `User` Where UserName='" & txtOTPUserName.Text & "'")
+        If DR.Count Then
             If DR("Email").ToString = "" Then
                 MsgBox("මෙම User සඳහා Email ලිපිනයක් ඇතුලත් කර නොමැත. Email ලිපිනයක් සහිත User Name එකක් ඇතුලත් කරන්න.", vbExclamation + vbOKOnly)
                 txtOTPUserName.Focus()
@@ -146,9 +145,9 @@ Public Class frmLogin
         End If
         If txtOTPCode.Text = txtOTPCode.Tag Then
             cmbUserName.Text = txtOTPUserName.Text
-            Dim DR As OdbcDataReader = Db.GetDataReader("Select Password from `User` Where UserName='" & cmbUserName.Text & "'")
-            If DR.HasRows = True Then
-                DR.Read()
+            Dim DR = Db.GetDataReader("Select Password from `User` Where UserName='" & cmbUserName.Text & "'")
+            If DR.Count Then
+
                 txtPassword.Text = DR("Password").ToString
             End If
             CmdLogin_Click(sender, e)

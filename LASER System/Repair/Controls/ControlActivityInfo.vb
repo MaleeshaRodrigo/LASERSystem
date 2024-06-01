@@ -1,4 +1,4 @@
-﻿Imports System.Data.Odbc
+﻿Imports MySqlConnector
 
 Public Class ControlActivityInfo
     Private DB As Database
@@ -11,14 +11,14 @@ Public Class ControlActivityInfo
 
     Public Sub InitForRepair(RepNo As Integer)
         Dim DataTable = DB.GetDataTable("Select RepANo, RepADate, Activity, UserName from RepairActivity RepA LEFT JOIN `User` U ON U.UNo=RepA.UNo Where RepNo=@REPNO", {
-                                            New OdbcParameter("REPNO", RepNo)
+                                            New MySqlParameter("REPNO", RepNo)
                                         })
         grdActivity.DataSource = DataTable
     End Sub
 
     Public Sub InitForReRepair(ReRepNo As Integer)
         Dim DataTable = DB.GetDataTable("Select RepANo, RepADate, Activity, UserName from RepairActivity RepA LEFT JOIN `User` U ON U.UNo=RepA.UNo Where RetNo=@REREPNO", {
-                                            New OdbcParameter("REREPNO", ReRepNo)
+                                            New MySqlParameter("REREPNO", ReRepNo)
                                         })
         grdActivity.DataSource = DataTable
     End Sub

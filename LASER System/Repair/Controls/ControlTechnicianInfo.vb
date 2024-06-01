@@ -1,4 +1,4 @@
-﻿Imports System.Data.Odbc
+﻿Imports MySqlConnector
 
 Public Class ControlTechnicianInfo
     Private DB As Database
@@ -14,12 +14,12 @@ Public Class ControlTechnicianInfo
 
     Public Sub Init()
         cmbTName.Text = FormParent.DataReaderRepair("TName").ToString()
-        Dim DataReader As OdbcDataReader
+        Dim DataReader
         If FormParent.Mode = RepairMode.Repair Then
-            DataReader = DB.GetDataReader("Select Rem2No, Rem2Date, Remarks, UserName from RepairRemarks2 RepRem2 LEFT JOIN `User` U ON U.UNo=RepRem2.UNo Where RepNo=@REPNO;", {New OdbcParameter("REPNO", FormParent.DataReaderRepair("RepNo").ToString())})
+            DataReader = DB.GetDataReader("Select Rem2No, Rem2Date, Remarks, UserName from RepairRemarks2 RepRem2 LEFT JOIN `User` U ON U.UNo=RepRem2.UNo Where RepNo=@REPNO;", {New MySqlParameter("REPNO", FormParent.DataReaderRepair("RepNo").ToString())})
         Else
             DataReader = DB.GetDataReader("Select Rem2No, Rem2Date, Remarks, UserName from RepairRemarks2 RepRem2 LEFT JOIN `User` U ON U.UNo=RepRem2.UNo Where RetNo=@REREPNO;", {
-                                        New OdbcParameter("REREPNO", FormParent.DataReaderRepair("RetNo").ToString())
+                                        New MySqlParameter("REREPNO", FormParent.DataReaderRepair("RetNo").ToString())
                                     })
         End If
         grdRepRemarks2.Rows.Clear()
@@ -136,7 +136,7 @@ Public Class ControlTechnicianInfo
     Private Sub grdRepRemarks2_RowValidating(sender As Object, e As DataGridViewCellCancelEventArgs) Handles grdRepRemarks2.RowValidating
         If e.RowIndex < 0 Then Exit Sub
         If grdRepRemarks2.Item(0, e.RowIndex).Value Is Nothing Then Exit Sub
-        Dim DR1 As OdbcDataReader = DB.GetDataReader("SELECT Rem2No,Rem2Date,Remarks,UNo from RepairRemarks2 where Rem2No=" & grdRepRemarks2.Item(0, e.RowIndex).Value & ";")
+        Dim DR1 = DB.GetDataReader("SELECT Rem2No,Rem2Date,Remarks,UNo from RepairRemarks2 where Rem2No=" & grdRepRemarks2.Item(0, e.RowIndex).Value & ";")
         If DR1.HasRows Then
             DR1.Read()
             grdRepRemarks2.Item(1, e.RowIndex).Value = DR1("Rem2Date").ToString

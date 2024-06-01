@@ -1,4 +1,4 @@
-﻿Imports System.Data.Odbc
+﻿Imports MySqlConnector
 
 Public Class ControlTechnicianCostInfo
     Private Db As Database
@@ -13,14 +13,14 @@ Public Class ControlTechnicianCostInfo
 
     Public Sub InitForRepair(RepNo As Integer)
         Dim DataTable = Db.GetDataTable("SELECT TCNo,TCDate,TC.SNo,S.SCategory,S.SName,Rate,Qty,Total,TCRemarks,UserName FROM (Stock S INNER JOIN TechnicianCost TC ON TC.SNo = S.SNo) LEFT JOIN `User` U ON U.UNo = TC.UNo WHERE RepNo=@REPNO;", {
-            New OdbcParameter("REPNO", RepNo)
+            New MySqlParameter("REPNO", RepNo)
                                         })
         grdTechnicianCost.DataSource = DataTable
     End Sub
 
     Public Sub InitForReRepair(ReRepNo As Integer)
         Dim DataTable = Db.GetDataTable("SELECT TCNo,TCDate,TC.SNo,S.SCategory,S.SName,Rate,Qty,Total,TCRemarks,UserName FROM (Stock S INNER JOIN TechnicianCost TC ON TC.SNo = S.SNo) LEFT JOIN `User` U ON U.UNo = TC.UNo WHERE RetNo=@REREPNO;", {
-            New OdbcParameter("REREPNO", ReRepNo)
+            New MySqlParameter("REREPNO", ReRepNo)
                                         })
         grdTechnicianCost.DataSource = DataTable
     End Sub
@@ -55,7 +55,7 @@ Public Class ControlTechnicianCostInfo
                 End If
             Case 2
                 If grdTechnicianCost.Item(2, e.RowIndex).Value Is Nothing Then Exit Sub
-                Dim DrStock As OdbcDataReader = Db.GetDataReader("Select SNo,SCategory,SName,SCostPrice from Stock Where SNo=" & grdTechnicianCost.Item(2, e.RowIndex).Value.ToString)
+                Dim DrStock = Db.GetDataReader("Select SNo,SCategory,SName,SCostPrice from Stock Where SNo=" & grdTechnicianCost.Item(2, e.RowIndex).Value.ToString)
                 If DrStock.HasRows Then
                     DrStock.Read()
                     grdTechnicianCost.Item(3, e.RowIndex).Value = DrStock("SCategory").ToString
@@ -70,7 +70,7 @@ Public Class ControlTechnicianCostInfo
                 DR = Db.GetDataReader("Select SNo,SCategory,SName,SCostPrice from Stock Where SCategory='" & grdTechnicianCost.Item(3, e.RowIndex).Value &
                                        "' and SName='" & grdTechnicianCost.Item(4, e.RowIndex).Value & "';")
                 If DR.HasRows Then
-                    DR.Read()
+                    
                     grdTechnicianCost.Item(2, e.RowIndex).Value = DR("SNo").ToString
                     grdTechnicianCost.Item(3, e.RowIndex).Value = DR("SCategory").ToString
                     grdTechnicianCost.Item(4, e.RowIndex).Value = DR("SName").ToString
@@ -175,7 +175,7 @@ Public Class ControlTechnicianCostInfo
     Private Sub grdTechnicianCost_RowValidating(sender As Object, e As DataGridViewCellCancelEventArgs)
         If e.RowIndex < 0 Then Exit Sub
         If grdTechnicianCost.Item(0, e.RowIndex).Value Is Nothing Then Exit Sub
-        Dim DR1 As OdbcDataReader = Db.GetDataReader("SELECT * from TechnicianCost where TCNo=" & grdTechnicianCost.Item(0, e.RowIndex).Value & ";")
+        Dim DR1 = Db.GetDataReader("SELECT * from TechnicianCost where TCNo=" & grdTechnicianCost.Item(0, e.RowIndex).Value & ";")
         If DR1.HasRows Then
             DR1.Read()
             grdTechnicianCost.Item(1, e.RowIndex).Value = DR1("TCDate").ToString

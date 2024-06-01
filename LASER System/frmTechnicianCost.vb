@@ -1,4 +1,4 @@
-﻿Imports System.Data.Odbc
+﻿Imports MySqlConnector
 Public Class frmTechnicianCost
     Private Db As New Database
     Private dtpDate As New DateTimePicker
@@ -143,7 +143,7 @@ Public Class frmTechnicianCost
                 DR = Db.GetDataReader("Select SNo,SCategory,SName,SSalePrice from Stock Where SNo=" &
                                        grdTechnicianCost.Item(2, e.RowIndex).Value.ToString)
                 If DR.HasRows Then
-                    DR.Read()
+                    
                     grdTechnicianCost.Item(3, e.RowIndex).Value = DR("SCategory").ToString
                     grdTechnicianCost.Item(4, e.RowIndex).Value = DR("SName").ToString
                     grdTechnicianCost.Item(5, e.RowIndex).Value = DR("SSalePrice").ToString
@@ -158,7 +158,7 @@ Public Class frmTechnicianCost
                 DR = Db.GetDataReader("Select SNo,SCategory,SName,SSalePrice from Stock Where SCategory='" & grdTechnicianCost.Item(3, e.RowIndex).Value &
                                        "' and SName='" & grdTechnicianCost.Item(4, e.RowIndex).Value & "';")
                 If DR.HasRows Then
-                    DR.Read()
+                    
                     grdTechnicianCost.Item(2, e.RowIndex).Value = DR("SNo").ToString
                     grdTechnicianCost.Item(3, e.RowIndex).Value = DR("SCategory").ToString
                     grdTechnicianCost.Item(4, e.RowIndex).Value = DR("SName").ToString
@@ -233,9 +233,9 @@ Public Class frmTechnicianCost
             Exit Sub
         End If
         If User.Instance.UserType = User.Type.Admin Then
-            Dim DR As OdbcDataReader = Db.GetDataReader("Select TCNo from TechnicianCost Where TCNo=" & grdTechnicianCost.Item("TCNo", e.Row.Index).Value)
-            If DR.HasRows = True Then
-                DR.Read()
+            Dim DR = Db.GetDataReader("Select TCNo from TechnicianCost Where TCNo=" & grdTechnicianCost.Item("TCNo", e.Row.Index).Value)
+            If DR.Count Then
+                
                 If DR("SNo").ToString <> "" Then
                     Dim Response = MsgBox("ඔබට මෙම Item එක Technician Cost තුලින් ඉවත් කිරිමට අවශ්‍ය බැවින්, එම Item එක නැවත Available Units තුලට පිරවීමට අවශ්‍යද? " +
                                       vbCr + vbCr + "Yes - එසෙ නම් ඔබ 'Yes' යන Button එක Click කරන්න. " + vbCr + vbCr +
@@ -265,7 +265,7 @@ Public Class frmTechnicianCost
 
     Private Sub grdTechnicianCost_RowValidating(sender As Object, e As DataGridViewCellCancelEventArgs) Handles grdTechnicianCost.RowValidating
         If e.RowIndex < 0 Or e.RowIndex > (grdTechnicianCost.Rows.Count - 2) Then Exit Sub
-        Dim DRTC As OdbcDataReader = Db.GetDataReader("Select TC.*,UserName from TechnicianCost TC Left Join `User` U On U.Uno = TC.UNo Where TCNo=" & grdTechnicianCost.Item(0, e.RowIndex).Value)
+        Dim DRTC = Db.GetDataReader("Select TC.*,UserName from TechnicianCost TC Left Join `User` U On U.Uno = TC.UNo Where TCNo=" & grdTechnicianCost.Item(0, e.RowIndex).Value)
         If DRTC.HasRows Then
             DRTC.Read()
             grdTechnicianCost.Item(1, e.RowIndex).Value = DRTC("TCDate").ToString

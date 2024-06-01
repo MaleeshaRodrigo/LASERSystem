@@ -1,4 +1,4 @@
-﻿Imports System.Data.Odbc
+﻿Imports MySqlConnector
 
 Public Class frmTechnician
     Private Db As New Database
@@ -37,18 +37,18 @@ Public Class frmTechnician
                     Exit Sub
                 End If
                 Db.Execute("INSERT INTO Technician(TNo,TName,TFullName,TAddress,TEmail,TNicNo,TTelNo1,TTelno2,TTelno3,TRemarks,TActive,TBlockEmails) VALUES(@TNO, @TNAME, @TFULLNAME, TADDRESS, TEMAIL, TNICNO, TTELNO1, TTELNO2, TTELNO3, TREMARKS, TACTIVE, TBLOCKEMAILS)", {
-                      New OdbcParameter("TNO", txtTNo.Text),
-                      New OdbcParameter("TNAME", cmbTName.Text),
-                      New OdbcParameter("TFULLNAME", txtTFullName.Text),
-                      New OdbcParameter("TADDRESS", txtTAddress.Text),
-                      New OdbcParameter("TEMAIL", txtTEmail.Text),
-                      New OdbcParameter("TNICNO", txtTNICNo.Text),
-                      New OdbcParameter("TTELNO1", txtTTelNo1.Text),
-                      New OdbcParameter("TTELNO2", txtTTelNo2.Text),
-                      New OdbcParameter("TTELNO3", txtTTelNo3.Text),
-                      New OdbcParameter("TREMARKS", txtTRemarks.Text),
-                      New OdbcParameter("TACTIVE", chkActive.Checked),
-                      New OdbcParameter("TBLOCKEMAILS", CheckBlockEmails.Checked)
+                      New MySqlParameter("TNO", txtTNo.Text),
+                      New MySqlParameter("TNAME", cmbTName.Text),
+                      New MySqlParameter("TFULLNAME", txtTFullName.Text),
+                      New MySqlParameter("TADDRESS", txtTAddress.Text),
+                      New MySqlParameter("TEMAIL", txtTEmail.Text),
+                      New MySqlParameter("TNICNO", txtTNICNo.Text),
+                      New MySqlParameter("TTELNO1", txtTTelNo1.Text),
+                      New MySqlParameter("TTELNO2", txtTTelNo2.Text),
+                      New MySqlParameter("TTELNO3", txtTTelNo3.Text),
+                      New MySqlParameter("TREMARKS", txtTRemarks.Text),
+                      New MySqlParameter("TACTIVE", chkActive.Checked),
+                      New MySqlParameter("TBLOCKEMAILS", CheckBlockEmails.Checked)
                 })
                 Call txtSearch_TextChanged(sender, e)
                 cmdSave.Text = "Edit"
@@ -56,18 +56,18 @@ Public Class frmTechnician
             Case "Edit"
                 If MsgBox("Are you sure edit?", vbYesNo + vbInformation) = vbYes Then
                     Db.Execute("Update Technician Set TName=@TNAME, TFullName=@TFULLNAME, TAddress=@TADDRESS, TEmail=@TEMAIL, TNicNo=@TNICNO, TTelNo1=@TTELNO1, TTelno2=@TTELNO2, TTelno3=@TTELNO3, TRemarks=@TREMARKS, TActive=@TACTIVE, TBlockEmails=@TBLOCKEMAILS WHERE TNo=@TNO;", {
-                          New OdbcParameter("TNAME", cmbTName.Text),
-                          New OdbcParameter("TFULLNAME", txtTFullName.Text),
-                          New OdbcParameter("TADDRESS", txtTAddress.Text),
-                          New OdbcParameter("TEMAIL", txtTEmail.Text),
-                          New OdbcParameter("TNICNO", txtTNICNo.Text),
-                          New OdbcParameter("TTELNO1", txtTTelNo1.Text),
-                          New OdbcParameter("TTELNO2", txtTTelNo2.Text),
-                          New OdbcParameter("TTELNO3", txtTTelNo3.Text),
-                          New OdbcParameter("TREMARKS", txtTRemarks.Text),
-                          New OdbcParameter("TACTIVE", chkActive.Checked),
-                          New OdbcParameter("TBLOCKEMAILS", CheckBlockEmails.Checked),
-                          New OdbcParameter("TNO", txtTNo.Text)
+                          New MySqlParameter("TNAME", cmbTName.Text),
+                          New MySqlParameter("TFULLNAME", txtTFullName.Text),
+                          New MySqlParameter("TADDRESS", txtTAddress.Text),
+                          New MySqlParameter("TEMAIL", txtTEmail.Text),
+                          New MySqlParameter("TNICNO", txtTNICNo.Text),
+                          New MySqlParameter("TTELNO1", txtTTelNo1.Text),
+                          New MySqlParameter("TTELNO2", txtTTelNo2.Text),
+                          New MySqlParameter("TTELNO3", txtTTelNo3.Text),
+                          New MySqlParameter("TREMARKS", txtTRemarks.Text),
+                          New MySqlParameter("TACTIVE", chkActive.Checked),
+                          New MySqlParameter("TBLOCKEMAILS", CheckBlockEmails.Checked),
+                          New MySqlParameter("TNO", txtTNo.Text)
                     })
                     Call txtSearch_TextChanged(sender, e)
                 End If
@@ -125,9 +125,9 @@ Public Class frmTechnician
     End Sub
 
     Private Sub cmbTName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbTName.SelectedIndexChanged
-        Dim DR As OdbcDataReader = Db.GetDataReader("Select * from Technician where TName ='" & cmbTName.Text & "';")
-        If DR.HasRows = True Then
-            DR.Read()
+        Dim DR = Db.GetDataReader("Select * from Technician where TName ='" & cmbTName.Text & "';")
+        If DR.Count Then
+            
             txtTNo.Text = DR("TNo").ToString
             txtTAddress.Text = DR("TAddress").ToString
             txtTFullName.Text = DR("TFullName").ToString

@@ -1,4 +1,4 @@
-﻿Imports System.Data.Odbc
+﻿Imports MySqlConnector
 
 Public Class frmSearchDropDown
     Private Db As Database
@@ -52,7 +52,7 @@ Public Class frmSearchDropDown
     Private Sub frm_Load(sender As Object, e As EventArgs) Handles Me.Load
         Me.Font = grd.Font
         lst.Items.Clear()
-        Dim DR As OdbcDataReader = Db.Getdatareader(SQL)
+        Dim DR = Db.Getdatareader(SQL)
         While DR.Read
             If DR(ColumnName).ToString <> "" AndAlso DR(ColumnName).ToLower().Contains(txt.Text.ToLower) = True Then
                 lst.Items.Add(DR(ColumnName).ToString)
@@ -93,7 +93,7 @@ Public Class frmSearchDropDown
     Private Sub txtType_TextChanged(sender As Object, e As EventArgs) Handles txtType.TextChanged
         If Me.Visible = True Then
             lst.Items.Clear()
-            Dim DR As OdbcDataReader = Db.GetDataReader(SQL)
+            Dim DR = Db.GetDataReader(SQL)
             While DR.Read
                 If DR(ColumnName).ToString = "" Then Continue While
                 'For Each str As String In DR(ColumnName).ToString.Split(" ")

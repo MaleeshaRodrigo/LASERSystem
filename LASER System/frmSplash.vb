@@ -1,4 +1,4 @@
-﻿Imports System.Data.Odbc
+﻿Imports MySqlConnector
 Imports System.IO
 Imports Microsoft.VisualBasic.FileIO
 
@@ -80,7 +80,7 @@ Public NotInheritable Class FrmSplash
                 With MdifrmMain
                     LoadingBar.Value += 5
                     txtLoad.Text = "Getting Message to the Message Panel in Main Menu..."
-                    Dim DrCheckStockUnits As OdbcDataReader = Db.GetDataReader("Select COUNT(SNo) as SNoCount from `Stock` Where SAvailableStocks < SMinStocks")
+                    Dim DrCheckStockUnits = Db.GetDataReader("Select COUNT(SNo) as SNoCount from `Stock` Where SAvailableStocks < SMinStocks")
                     If DrCheckStockUnits.HasRows Then
                         DrCheckStockUnits.Read()
                         Dim MessagePanel As New MessagePanel(
@@ -89,9 +89,9 @@ Public NotInheritable Class FrmSplash
                     හරවා  නොයැවීමට නම් මෙම stocks නැවත පිරවීම සඳහා පියවර ගන්න.")
                         MessagePanel.Add()
                     End If
-                    Dim DR As OdbcDataReader = Db.GetDataReader("Select * from `User` Where UserName='" & .tslblUserName.Text & "'")
+                    Dim DR = Db.GetDataReader("Select * from `User` Where UserName='" & .tslblUserName.Text & "'")
                     If DR.HasRows Then
-                        DR.Read()
+                        
                         .lblUName.Text = "Name: " + DR("UserName").ToString
                         .lblUEmail.Text = "Email: " + DR("Email").ToString
                         .lblULastLogin.Text = "Last Login: " + DR("LastLogin").ToString

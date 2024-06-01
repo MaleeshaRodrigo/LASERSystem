@@ -1,4 +1,4 @@
-﻿Imports System.Data.Odbc
+﻿Imports MySqlConnector
 
 Public Class frmStockTransaction
     Private Db As New Database
@@ -29,9 +29,9 @@ Public Class frmStockTransaction
     End Sub
 
     Private Sub cmbSName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbSName.SelectedIndexChanged
-        Dim DR As OdbcDataReader = Db.GetDataReader("SELECT * from Stock where Scategory='" & cmbSCategory.Text & "' and sname ='" & cmbSName.Text & "';")
-        If DR.HasRows = True Then
-            DR.Read()
+        Dim DR = Db.GetDataReader("SELECT * from Stock where Scategory='" & cmbSCategory.Text & "' and sname ='" & cmbSName.Text & "';")
+        If DR.Count Then
+            
             txtSNo.Text = DR("SNO").ToString
             grdSupply.DataSource = Db.GetDataTable("Select SupDate,SuName,SupType,SupUnits,SupCostPrice,SupTotal from (((Supply Sup Left Join Supplier Su On Su.SuNo = Sup.SuNo) Inner Join StockSupply SSup On SSup.SupNo = Sup.SupNo) Inner Join Stock S On S.SNo =SSup.SNo) Where S.SNo = " & txtSNo.Text & " Order by SupDate;")
 
@@ -45,9 +45,9 @@ Public Class frmStockTransaction
 
     Public Sub txtSNo_TextChanged(sender As Object, e As EventArgs) Handles txtSNo.TextChanged
         If txtSNo.Text = "" Then Exit Sub
-        Dim DR As OdbcDataReader = Db.GetDataReader("Select SNo,SCategory,SName from `Stock` where SNO = " & txtSNo.Text)
-        If DR.HasRows = True Then
-            DR.Read()
+        Dim DR = Db.GetDataReader("Select SNo,SCategory,SName from `Stock` where SNO = " & txtSNo.Text)
+        If DR.Count Then
+            
             cmbSCategory.Text = DR("SCategory").ToString
             cmbSName.Text = DR("SName").ToString
             Call cmbSName_SelectedIndexChanged(sender, e)

@@ -1,4 +1,4 @@
-﻿Imports System.Data.Odbc
+﻿Imports MySqlConnector
 Imports System.IO
 Imports System.Net
 Imports Microsoft.VisualBasic.FileIO
@@ -16,8 +16,8 @@ Module Utils
     End Sub
 
     Public Sub SetNextKey(Db As Database, txt As TextBox, SQL As String, ColumnName As String)
-        Dim DR0 As OdbcDataReader = Db.GetDataReader(SQL)
-        If DR0.HasRows = True Then
+        Dim DR0 = Db.GetDataReader(SQL)
+        If DR0.Count Then
             DR0.Read()
             txt.Text = Int(DR0.Item(ColumnName)) + 1
         Else
@@ -70,8 +70,8 @@ Module Utils
     End Function
 
     Public Function CheckExistData(Db As Database, cmb As Control, SQL As String, msg As String, IsDataExist As Boolean) As Boolean
-        Dim DR0 As OdbcDataReader = Db.GetDataReader(SQL)
-        If DR0.HasRows = True Then
+        Dim DR0 = Db.GetDataReader(SQL)
+        If DR0.Count Then
             If IsDataExist = True Then
                 MsgBox(msg, vbCritical + vbOKOnly)
                 cmb.Focus()
@@ -92,7 +92,7 @@ Module Utils
         CMD = New OleDb.OleDbCommand(SQl)
         DR = CMD.ExecuteReader
         Dim tmp As String = ""
-        If DR.HasRows = True Then
+        If DR.Count Then
             While DR.Read
                 tmp = tmp + DR(FieldName).ToString + " "
             End While

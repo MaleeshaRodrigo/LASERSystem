@@ -1,4 +1,4 @@
-﻿Imports System.Data.Odbc
+﻿Imports MySqlConnector
 Imports System.Threading
 
 Public Class ControlPopUp
@@ -101,11 +101,10 @@ Public Class ControlPopUp
         If (Val(txtCAmount.Text) > 0 Or Val(txtCPAmount.Text) > 0) And chkCashDrawer.Checked = True Then
             CashDrawer.Open()
         End If
-        Dim DR As OdbcDataReader = Db.GetDataReader("Select * from Customer where CuName='" & FormParent.cmbCuName.Text & "' and CuTelNo1='" & FormParent.txtCuTelNo1.Text & "' and CuTelNo2 ='" & FormParent.txtCuTelNo2.Text & "' and CuTelNo3='" & FormParent.txtCuTelNo3.Text & "'")
+        Dim DR = Db.GetDataReader("Select * from Customer where CuName='" & FormParent.cmbCuName.Text & "' and CuTelNo1='" & FormParent.txtCuTelNo1.Text & "' and CuTelNo2 ='" & FormParent.txtCuTelNo2.Text & "' and CuTelNo3='" & FormParent.txtCuTelNo3.Text & "'")
         'Customer Management
         Dim CuNo As String
-        If DR.HasRows = True Then
-            DR.Read()
+        If DR.Count Then
             CuNo = DR("CuNo").ToString
         Else
             AdminPer.Keys.Add("CuNo", "?NewKey?Customer?CuNo?")
@@ -115,70 +114,68 @@ Public Class ControlPopUp
         End If
         Dim DNo As Integer = Db.GetNextKey("Deliver", "DNo")
         Db.Execute($"INSERT INTO Deliver(DNo,DDate,Cuno,DGrandTotal,CAmount,CReceived,CBalance,CPINvoiceNo,CPAmount,CuLNO,CuLAmount,DRemarks) VALUES(@DNO, '{FormParent.txtDDate.Value}', @CUNO, @DGRANDTOTAL, @CAMOUNT, @CRECEIVED, @CBALANCE, @CPINVOICENO, @CPAMOUNT, @CULNO, @CULAMOUNT, @DREMARKS);", {
-                   New OdbcParameter("DNO", DNo),
-                   New OdbcParameter("CUNO", CuNo),
-                   New OdbcParameter("DGRANDTOTAL", txtGrandTotal.Text),
-                   New OdbcParameter("CAMOUNT", txtCAmount.Text),
-                   New OdbcParameter("CRECEIVED", txtCReceived.Text),
-                   New OdbcParameter("CBALANCE", txtCBalance.Text),
-                   New OdbcParameter("PINVOICENO", txtCPInvoiceNo.Text),
-                   New OdbcParameter("CPAMOUNT", txtCPAmount.Text),
-                   New OdbcParameter("CULNO", txtCuLNo.Text),
-                   New OdbcParameter("CULAMOUNT", txtCuLAmount.Text),
-                   New OdbcParameter("DREMARKS", FormParent.txtDRemarks.Text)
+                   New MySqlParameter("DNO", DNo),
+                   New MySqlParameter("CUNO", CuNo),
+                   New MySqlParameter("DGRANDTOTAL", txtGrandTotal.Text),
+                   New MySqlParameter("CAMOUNT", txtCAmount.Text),
+                   New MySqlParameter("CRECEIVED", txtCReceived.Text),
+                   New MySqlParameter("CBALANCE", txtCBalance.Text),
+                   New MySqlParameter("PINVOICENO", txtCPInvoiceNo.Text),
+                   New MySqlParameter("CPAMOUNT", txtCPAmount.Text),
+                   New MySqlParameter("CULNO", txtCuLNo.Text),
+                   New MySqlParameter("CULAMOUNT", txtCuLAmount.Text),
+                   New MySqlParameter("DREMARKS", FormParent.txtDRemarks.Text)
         }, AdminPer)
         If txtCuLAmount.Text <> "0" Then
             Db.Execute("Insert into CustomerLoan(CuLNo,CuLDate,CuNO,CuLAmount,DNo,Status) Values(?NewKey?CustomerLoan?CuLNo?,@CULDATE,@CUNO,@CULAMOUNT,@DNO,'Not Paid')", {
-                   New OdbcParameter("CULDATE", FormParent.txtDDate.Value.ToString),
-                   New OdbcParameter("CUNO", CuNo),
-                   New OdbcParameter("CULAMOUNT", txtCuLAmount.Text),
-                   New OdbcParameter("DNO", DNo)
+                   New MySqlParameter("CULDATE", FormParent.txtDDate.Value.ToString),
+                   New MySqlParameter("CUNO", CuNo),
+                   New MySqlParameter("CULAMOUNT", txtCuLAmount.Text),
+                   New MySqlParameter("DNO", DNo)
             }, AdminPer)
         End If
         For Each Row1 As DataGridViewRow In FormParent.grdRepair.Rows
             If Row1.Index = FormParent.grdRepair.Rows.Count - 1 Then Continue For
-            Dim DrRepStatus As OdbcDataReader = Db.GetDataReader("Select Status,RepNo from Repair where RepNo=" & Row1.Cells(0).Value)
-            If DrRepStatus.HasRows = True Then
-                DrRepStatus.Read()
+            Dim DrRepStatus = Db.GetDataReader("Select Status,RepNo from Repair where RepNo=" & Row1.Cells(0).Value)
+            If DrRepStatus.Count Then
                 If DrRepStatus("Status").ToString = "Received" Or DrRepStatus("Status").ToString = "Hand Over to Technician" Or
                         DrRepStatus("Status").ToString = "Repairing" Then
                     Db.Execute("Update Repair set RepDate = @REPDATE,Charge=@CHARGE where RepNo=@REPNO;", {
-                            New OdbcParameter("REPDATE", FormParent.txtDDate.Value.ToString),
-                            New OdbcParameter("CHARGE", Row1.Cells(4).Value),
-                            New OdbcParameter("REPNO", Row1.Cells(0).Value)
+                            New MySqlParameter("REPDATE", FormParent.txtDDate.Value.ToString),
+                            New MySqlParameter("CHARGE", Row1.Cells(4).Value),
+                            New MySqlParameter("REPNO", Row1.Cells(0).Value)
                         }, AdminPer)
                 End If
             End If
             Db.Execute($"UPDATE Repair SET PaidPrice = @PAIDPRICE,TNo = DLookup('TNo', 'Technician', 'TName=""{Row1.Cells(5).Value}""'),Status=@STATUS,DNo = @DNO WHERE RepNo=@REPNO;", {
-                           New OdbcParameter("PAIDPRICE", Row1.Cells(4).Value),
-                           New OdbcParameter("STATUS", Row1.Cells(6).Value.ToString),
-                           New OdbcParameter("DNO", DNo),
-                           New OdbcParameter("REPNO", Row1.Cells(0).Value)
+                           New MySqlParameter("PAIDPRICE", Row1.Cells(4).Value),
+                           New MySqlParameter("STATUS", Row1.Cells(6).Value.ToString),
+                           New MySqlParameter("DNO", DNo),
+                           New MySqlParameter("REPNO", Row1.Cells(0).Value)
                            }, AdminPer)
         Next
         For Each Row As DataGridViewRow In FormParent.grdRERepair.Rows
             If Row.Index = FormParent.grdRERepair.Rows.Count - 1 Then Continue For
-            Dim DrRetStatus As OdbcDataReader = Db.GetDataReader("Select Status,RetNo from `Return` where RetNo=" & Row.Cells(0).Value)
-            If DrRetStatus.HasRows = True Then
-                DrRetStatus.Read()
+            Dim DrRetStatus = Db.GetDataReader("Select Status,RetNo from `Return` where RetNo=" & Row.Cells(0).Value)
+            If DrRetStatus.Count Then
                 If DrRetStatus("Status").ToString = "Received" Or DrRetStatus("Status").ToString = "Hand Over to Technician" Or DrRetStatus("Status").ToString = "Repairing" Then
                     Db.Execute("UPDATE `Return` SET RetRepDate = @RETREPDATE,Charge= @CHARGE where RetNo= @RETNO;", {
-                            New OdbcParameter("RETREPDATE", FormParent.txtDDate.Value.ToString),
-                            New OdbcParameter("CHARGE", Row.Cells(5).Value.ToString),
-                            New OdbcParameter("RETNO", Row.Cells(0).Value.ToString)
+                            New MySqlParameter("RETREPDATE", FormParent.txtDDate.Value.ToString),
+                            New MySqlParameter("CHARGE", Row.Cells(5).Value.ToString),
+                            New MySqlParameter("RETNO", Row.Cells(0).Value.ToString)
                         }, AdminPer)
                 End If
             End If
             Db.Execute($"Update `Return` set PaidPrice = @PAIDPRICE,TNo = DLookup('TNo', 'Technician', 'TName=""{Row.Cells(6).Value}""'),Status= @STATUS,DNo = @DNO where RetNo= @RETNO", {
-                            New OdbcParameter("PAIDPRICE", Row.Cells(5).Value.ToString),
-                            New OdbcParameter("STATUS", Row.Cells(7).Value.ToString),
-                            New OdbcParameter("DNO", DNo),
-                            New OdbcParameter("RETNO", Row.Cells(0).Value.ToString)
+                            New MySqlParameter("PAIDPRICE", Row.Cells(5).Value.ToString),
+                            New MySqlParameter("STATUS", Row.Cells(7).Value.ToString),
+                            New MySqlParameter("DNO", DNo),
+                            New MySqlParameter("RETNO", Row.Cells(0).Value.ToString)
                            }, AdminPer)
         Next
         If FormParent.cmdSave.Text = "Edit" Then
             Db.Execute("DELETE FROM Deliver D WHERE DNo = @DNO AND Exists( Select 1 From Repair Rep Where Rep.DNo = D.DNo ) = False AND Exists( Select 1 From `Return` Ret Where Ret.DNo = D.DNo ) = False", {
-                                New OdbcParameter("DNO", FormParent.txtDNo.Text)
+                                New MySqlParameter("DNO", FormParent.txtDNo.Text)
                            })
         End If
         Return True
@@ -221,8 +218,8 @@ Public Class ControlPopUp
     Private Sub EditDeliverRecord(AdminPer As AdminPermission)
         If FormParent.cmdSave.Text = "Edit" Then
             AdminPer.Keys.Item("DNo") = FormParent.txtDNo.Text
-            Dim DrDeliver As OdbcDataReader = Db.GetDataReader("SELECT * from Deliver where DNo=" & FormParent.txtDNo.Text & ";")
-            If DrDeliver.HasRows = True Then
+            Dim DrDeliver = Db.GetDataReader("SELECT * from Deliver where DNo=" & FormParent.txtDNo.Text & ";")
+            If DrDeliver.Count Then
                 DrDeliver.Read()
                 If DrDeliver("CuLNo").ToString <> "0" And txtCuLNo.Text = "0" Then
                     Db.Execute("DELETE from CustomerLoan where CuLNo=" & DrDeliver("CuLNO").ToString, {}, AdminPer)
@@ -238,12 +235,12 @@ Public Class ControlPopUp
                     Db.Execute("Insert into CustomerLoan(CuLNO,CuLAmount,CuNo,DNo,CulDate,Status) values(?NewKey?CustomerLoan?CuLNo?," &
                               txtCuLAmount.Text & "," & CuNo & "," & FormParent.txtDNo.Text & ",'" & FormParent.txtDDate.Value & "','Not Paid')", {}, AdminPer)
                 End If
-                Dim DR1 As OdbcDataReader = Db.GetDataReader("SELECT RepNo,REP.PNo,PCategory,PName,Qty,Status,REP.TNo, TName,PaidPrice from (((Repair REP INNER JOIN PRODUCT  P ON P.PNO = REP.PNO) LEFT JOIN Technician T ON T.TNO = REP.TNO) LEFT JOIN DELIVER D ON D.DNO = REP.DNO) Where D.DNo=" & FormParent.txtDNo.Text)
+                Dim DR1 = Db.GetDataReader("SELECT RepNo,REP.PNo,PCategory,PName,Qty,Status,REP.TNo, TName,PaidPrice from (((Repair REP INNER JOIN PRODUCT  P ON P.PNO = REP.PNO) LEFT JOIN Technician T ON T.TNO = REP.TNO) LEFT JOIN DELIVER D ON D.DNO = REP.DNO) Where D.DNo=" & FormParent.txtDNo.Text)
                 While DR1.Read
                     Db.Execute("Update Repair Set " & If(DR1("Status").ToString = "Repaired Delivered", "Status='Repaired Not Delivered'",
                               "Status='Returned Not Delivered'") & ",PaidPrice=0,DNo=0 Where DNo=?Key?DNo?", {}, AdminPer)
                 End While
-                Dim DRReturn As OdbcDataReader = Db.GetDataReader("SELECT RetNo,RepNo,RET.PNo,PCategory,PName,Qty,Status,RET.TNo, TName,PaidPrice from (( `RETURN` RET INNER JOIN PRODUCT  P ON P.PNO = RET.PNO) LEFT JOIN Technician T ON T.TNO = RET.TNO) LEFT JOIN DELIVER D ON D.DNO = RET.DNO) Where D.DNo=" & FormParent.txtDNo.Text)
+                Dim DRReturn = Db.GetDataReader("SELECT RetNo,RepNo,RET.PNo,PCategory,PName,Qty,Status,RET.TNo, TName,PaidPrice from (( `RETURN` RET INNER JOIN PRODUCT  P ON P.PNO = RET.PNO) LEFT JOIN Technician T ON T.TNO = RET.TNO) LEFT JOIN DELIVER D ON D.DNO = RET.DNO) Where D.DNo=" & FormParent.txtDNo.Text)
                 While DRReturn.Read
                     Db.Execute($"Update `Return` Set {If(DRReturn("Status").ToString = "Repaired Delivered", "Status='Repaired Not Delivered'",
                               "Status='Returned Not Delivered'")},PaidPrice=0,DNo=0 Where DNo={FormParent.txtDNo.Text}", {}, AdminPer)
@@ -258,7 +255,7 @@ Public Class ControlPopUp
         Try
             If My.Settings.DeliveredEmailtoT = False Then Exit Sub
 
-            Dim DRAutoD As OdbcDataReader = Db.GetDataReader($"SELECT RepNo,DDate, CuName, CuTelNo1, PCategory, PName, Qty, PaidPrice, TEmail, TName, Status from ((((Repair Rep Inner Join Deliver D On D.DNo=Rep.DNo) Inner Join Technician T On T.TNo = Rep.TNo) Left Join Product P On P.Pno = Rep.PNo) Left Join Customer Cu On Cu.CuNo = D.CuNo) Where TEmail <> NULL and Status <> 'Returned Delivered' and TActive = 1 AND TBlockEmails <> 1 and D.DNo = {DNo}")
+            Dim DRAutoD = Db.GetDataReader($"SELECT RepNo,DDate, CuName, CuTelNo1, PCategory, PName, Qty, PaidPrice, TEmail, TName, Status from ((((Repair Rep Inner Join Deliver D On D.DNo=Rep.DNo) Inner Join Technician T On T.TNo = Rep.TNo) Left Join Product P On P.Pno = Rep.PNo) Left Join Customer Cu On Cu.CuNo = D.CuNo) Where TEmail <> NULL and Status <> 'Returned Delivered' and TActive = 1 AND TBlockEmails <> 1 and D.DNo = {DNo}")
             While DRAutoD.Read()
                 Db.Execute("Insert Into Mail(MailNo,MailDate,EmailTo,Subject,Body,Status) Values(?NewKey?Mail?MailNo?,'" & DateAndTime.Now &
                             "','" & DRAutoD("TEmail").ToString & "','Repair No:  " + DRAutoD("RepNo").ToString + " එක Customer විසින් රු." +

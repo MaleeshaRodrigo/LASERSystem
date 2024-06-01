@@ -1,4 +1,4 @@
-﻿Imports System.Data.Odbc
+﻿Imports MySqlConnector
 Imports System.IO
 Imports CrystalDecisions.Shared
 Public Class frmSettlement
@@ -28,8 +28,8 @@ Public Class frmSettlement
             Exit Sub
         End If
         Cursor = Cursors.WaitCursor
-        Dim DR As OdbcDataReader = Db.GetDataReader("Select * from Settlement where SetDate='" & txtFrom.Value.Date & "'")
-        If DR.HasRows = True Then
+        Dim DR = Db.GetDataReader("Select * from Settlement where SetDate='" & txtFrom.Value.Date & "'")
+        If DR.Count Then
             Db.Execute("Update Settlement Set SaTotal =" & txtTotalofSales.Text & ", RepTotal = " & txtTotalofRepairs.Text & ",TATotal=" & txtTotalofTransactions.Text &
                                               ",SetGrandTotal=" & txtIncome.Text & ",CTotal=" & txtCTotal.Text & ",CPTotal =" & txtCPTotal.Text & ",CuLTotal =" & txtCuLTotal.Text &
                                               ",CPReceiptQty=" & txtCPQtyInvoice.Text & ",CashinLocker=" & txtLockerCash.Text & ",SetChange = " & txtChange.Text &
@@ -106,7 +106,7 @@ Public Class frmSettlement
             GrandTotal = SaTotal + RepTotal + TATotal
             RPT.Subreports("rptSettlementTransaction").SetDataSource(DT3)
             Dim DS4 As New DataSet
-            Dim DA4 As OdbcDataAdapter = Db.GetDataAdapter("SELECT * from Settlement;")
+            Dim DA4 As MySqlDataAdapter = Db.GetDataAdapter("SELECT * from Settlement;")
             Dim unused7 = DA4.Fill(DS4, "Settlement")
             RPT.SetDataSource(DS4)
             RPT.SetParameterValue("Cashier Name", User.Instance.UserName)
@@ -124,7 +124,7 @@ Public Class frmSettlement
             MdifrmMain.tslblLoad.Text = "Collecting Data for Technician Cost Report..."
             Dim RPT1 As New rptTechnicianCost
             Dim DS1 As New DataSet
-            Dim DA5 As OdbcDataAdapter = Db.GetDataAdapter("SELECT TCNO,TCDATE,TECHNICIANCOST.TNO,TNAME,REPNO,RETNO,SNO,SCATEGORY,SNAME,RATE,QTY,TOTAL,TCREMARKS FROM (TECHNICIANCOST INNER JOIN TECHNICIAN  ON TECHNICIAN.TNO = TECHNICIANCOST.TNO) WHERE TCDATE Between '" &
+            Dim DA5 As MySqlDataAdapter = Db.GetDataAdapter("SELECT TCNO,TCDATE,TECHNICIANCOST.TNO,TNAME,REPNO,RETNO,SNO,SCATEGORY,SNAME,RATE,QTY,TOTAL,TCREMARKS FROM (TECHNICIANCOST INNER JOIN TECHNICIAN  ON TECHNICIAN.TNO = TECHNICIANCOST.TNO) WHERE TCDATE Between '" &
                                                       Today.Date & " 00:00:00' and '" & Today.Date & " 23:59:59';")
             Dim unused6 = DA5.Fill(DS1, "TECHNICIANCOST")
             Dim unused5 = DA5.Fill(DS1, "STOCK")
@@ -135,7 +135,7 @@ Public Class frmSettlement
             Dim RPT2 As New rptTechnicianLoan
             Dim frm2 As New frmReport
             Dim DS2 As New DataSet
-            Dim DA6 As OdbcDataAdapter = Db.GetDataAdapter("SELECT TLNO,TL.TNO,TNAME,TLDATE,SNO,SCATEGORY,SNAME,TLREASON,QTY,RATE,TOTAL FROM (TECHNICIANLOAN TL INNER JOIN TECHNICIAN T ON T.TNO = TL.TNO) WHERE TLDATE Between '" & Today.Date & " 00:00:00' and '" & Today.Date & " 23:59:59';")
+            Dim DA6 As MySqlDataAdapter = Db.GetDataAdapter("SELECT TLNO,TL.TNO,TNAME,TLDATE,SNO,SCATEGORY,SNAME,TLREASON,QTY,RATE,TOTAL FROM (TECHNICIANLOAN TL INNER JOIN TECHNICIAN T ON T.TNO = TL.TNO) WHERE TLDATE Between '" & Today.Date & " 00:00:00' and '" & Today.Date & " 23:59:59';")
             Dim unused3 = DA6.Fill(DS2, "TECHNICIANLOAN")
             Dim unused2 = DA6.Fill(DS2, "STOCK")
             Dim unused1 = DA6.Fill(DS2, "TECHNICIAN")
@@ -239,9 +239,9 @@ Public Class frmSettlement
         txtCPQtyInvoice.Text = "0"
         txtLockerCash.Text = "0"
         txtChange.Text = "0"
-        Dim DR As OdbcDataReader = Db.GetDataReader("Select * from Settlement where SetDate ='" & txtFrom.Value.Date & "'")
-        If DR.HasRows = True Then
-            Dim unused = DR.Read()
+        Dim DR = Db.GetDataReader("Select * from Settlement where SetDate ='" & txtFrom.Value.Date & "'")
+        If DR.Count Then
+            Dim unused = 
             txtLockerCash.Text = DR("CashinLocker").ToString
             txtLKR5000.Text = DR("LKR5000").ToString
             txtLKR1000.Text = DR("LKR1000").ToString
@@ -288,7 +288,7 @@ Public Class frmSettlement
         Dim DT3 As DataTable = Db.GetDataTable("SELECT TANO,TADATE,TADETAILS,TAAMOUNT FROM `TRANSACTION` WHERE TADATE BETWEEN '" & Format(txtFrom.Value, "yyyy-MM-dd") & " 00:00:00' AND '" & Format(txtFrom.Value.Date, "yyyy-MM-dd") & " 23:59:59';")
         RPT.Subreports("rptSettlementTransaction").SetDataSource(DT3)
         Dim DS4 As New DataSet
-        Dim DA4 As OdbcDataAdapter = Db.GetDataAdapter("SELECT * from Settlement Where SetDate='" & Format(txtFrom.Value, "yyyy-MM-dd") & "';")
+        Dim DA4 As MySqlDataAdapter = Db.GetDataAdapter("SELECT * from Settlement Where SetDate='" & Format(txtFrom.Value, "yyyy-MM-dd") & "';")
         Dim unused6 = DA4.Fill(DS4, "Settlement")
         RPT.SetDataSource(DS4)
         RPT.SetParameterValue("Cashier Name", User.Instance.UserNo)
@@ -308,7 +308,7 @@ Public Class frmSettlement
         Dim frm1 As New frmReport
         Dim RPT1 As New rptTechnicianCost
         Dim DS1 As New DataSet
-        Dim DA5 As OdbcDataAdapter = Db.GetDataAdapter("SELECT TCNO,TCDATE,TECHNICIANCOST.TNO,TNAME,REPNO,RETNO,TECHNICIANCOST.SNO,SCATEGORY,SNAME, RATE,QTY,TOTAL,TCREMARKS FROM (TECHNICIANCOST INNER JOIN TECHNICIAN  ON TECHNICIAN.TNO = TECHNICIANCOST.TNO) WHERE TCDATE Between '" & Format(txtFrom.Value, "yyyy-MM-dd") & " 00:00:00' and '" &
+        Dim DA5 As MySqlDataAdapter = Db.GetDataAdapter("SELECT TCNO,TCDATE,TECHNICIANCOST.TNO,TNAME,REPNO,RETNO,TECHNICIANCOST.SNO,SCATEGORY,SNAME, RATE,QTY,TOTAL,TCREMARKS FROM (TECHNICIANCOST INNER JOIN TECHNICIAN  ON TECHNICIAN.TNO = TECHNICIANCOST.TNO) WHERE TCDATE Between '" & Format(txtFrom.Value, "yyyy-MM-dd") & " 00:00:00' and '" &
                                               Format(txtFrom.Value, "yyyy-MM-dd") & " 23:59:59';")
         DA5.Fill(DS1, "TECHNICIANCOST")
         DA5.Fill(DS1, "STOCK")
@@ -320,7 +320,7 @@ Public Class frmSettlement
         Dim RPT2 As New rptTechnicianLoan
         Dim frm2 As New frmReport
         Dim DS2 As New DataSet
-        Dim DA6 As OdbcDataAdapter = Db.GetDataAdapter("SELECT TLNO,TL.TNO,TNAME,TLDATE,TL.SNO,SCATEGORY,SNAME,TLREASON,QTY,RATE,TOTAL FROM ((TECHNICIANLOAN TL INNER JOIN TECHNICIAN T ON T.TNO = TL.TNO) LEFT JOIN STOCK S ON S.SNO = TL.SNO) WHERE TLDATE Between '" & Format(txtFrom.Value, "yyyy-MM-dd") & " 00:00:00' and '" & Format(txtFrom.Value, "yyyy-MM-dd") & " 23:59:59';")
+        Dim DA6 As MySqlDataAdapter = Db.GetDataAdapter("SELECT TLNO,TL.TNO,TNAME,TLDATE,TL.SNO,SCATEGORY,SNAME,TLREASON,QTY,RATE,TOTAL FROM ((TECHNICIANLOAN TL INNER JOIN TECHNICIAN T ON T.TNO = TL.TNO) LEFT JOIN STOCK S ON S.SNO = TL.SNO) WHERE TLDATE Between '" & Format(txtFrom.Value, "yyyy-MM-dd") & " 00:00:00' and '" & Format(txtFrom.Value, "yyyy-MM-dd") & " 23:59:59';")
         DA6.Fill(DS2, "TECHNICIANLOAN")
         DA6.Fill(DS2, "STOCK")
         DA6.Fill(DS2, "TECHNICIAN")

@@ -1,4 +1,4 @@
-﻿Imports System.Data.Odbc
+﻿Imports MySqlConnector
 
 Public Class frmCustomerLoan
     Private Db As New Database
@@ -8,8 +8,8 @@ Public Class frmCustomerLoan
 
     Private Sub cmbCuName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbCuName.SelectedIndexChanged
         DR = Db.GetDataReader("SELECT * from Customer where CuName='" & cmbCuName.Text & "';")
-        If DR.HasRows = True Then
-            DR.Read()
+        If DR.Count Then
+
             cmbCuName.Text = DR("CuName").ToString
             txtCuTelNo1.Text = DR("CuTelNo1").ToString
             txtCuTelNo2.Text = DR("CuTelNo2").ToString
@@ -48,18 +48,18 @@ Public Class frmCustomerLoan
     End Sub
 
     Private Sub txtDNo_TextChanged(sender As Object, e As EventArgs) Handles txtDNo.TextChanged
-        Dim DR As OdbcDataReader = Db.GetDataReader("SELECT DDate from Deliver where DNo =" & txtDNo.Text & ";")
-        If DR.HasRows = True Then
-            DR.Read()
+        Dim DR = Db.GetDataReader("SELECT DDate from Deliver where DNo =" & txtDNo.Text & ";")
+        If DR.Count Then
+
             txtDDate.Value = DR("DDate").ToString
         End If
     End Sub
 
     Private Sub txtSaNo_TextChanged(sender As Object, e As EventArgs) Handles txtSaNo.TextChanged
         If txtSaNo.Text = "" Then Exit Sub
-        Dim DR As OdbcDataReader = Db.GetDataReader("SELECT SaDate from SAle where SaNo =" & txtSaNo.Text & ";")
-        If DR.HasRows = True Then
-            DR.Read()
+        Dim DR = Db.GetDataReader("SELECT SaDate from SAle where SaNo =" & txtSaNo.Text & ";")
+        If DR.Count Then
+
             txtSaDate.Value = DR("SaDate").ToString
         End If
     End Sub
@@ -149,9 +149,9 @@ Public Class frmCustomerLoan
         If index >= 0 Then
             selectedrow = grdCustomerLoan.Rows(index)
             txtCuLNo.Text = selectedrow.Cells(0).Value.ToString
-            Dim Dr As OdbcDataReader = Db.GetDataReader("Select CUL.CuLNo,CuLDate,CuL.CuNo,CuName,CuTelNo1,CuTelNo2,CuTelNo3,Sa.SaNo,Sa.SaDate,D.DNo,D.DDate,CuL.CuLAmount,Status,CuLRemarks from (((CustomerLoan CUL INNER JOIN Customer CU ON CU.CUNO = CUL.CUNO) LEFT JOIN DELIVER D ON D.DNO = CUL.DNO) LEFT JOIN SALE SA ON SA.SANO = CUL.SANO) WHERE CuL.CuLNO =" & txtCuLNo.Text)
-            If DR.HasRows = True Then
-                DR.Read()
+            Dim Dr = Db.GetDataReader("Select CUL.CuLNo,CuLDate,CuL.CuNo,CuName,CuTelNo1,CuTelNo2,CuTelNo3,Sa.SaNo,Sa.SaDate,D.DNo,D.DDate,CuL.CuLAmount,Status,CuLRemarks from (((CustomerLoan CUL INNER JOIN Customer CU ON CU.CUNO = CUL.CUNO) LEFT JOIN DELIVER D ON D.DNO = CUL.DNO) LEFT JOIN SALE SA ON SA.SANO = CUL.SANO) WHERE CuL.CuLNO =" & txtCuLNo.Text)
+            If Dr.Count Then
+
                 txtCuLDate.Value = DR("CuLDate").ToString
                 cmbCuLStatus.Text = DR("Status").ToString
                 txtCuLAmount.Text = DR("CuLAmount").ToString

@@ -1,4 +1,4 @@
-﻿Imports System.Data.Odbc
+﻿Imports MySqlConnector
 
 Public Class FormDeliver
     Private Db As New Database
@@ -28,10 +28,10 @@ Public Class FormDeliver
     End Sub
 
     Private Sub cmbCuName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbCuName.SelectedIndexChanged
-        Dim DR As OdbcDataReader = Db.GetDataReader("SELECT * from Customer where CuName='" & cmbCuName.Text & "';")
-        If DR.HasRows = True Then
+        Dim DR = Db.GetDataReader("SELECT * from Customer where CuName='" & cmbCuName.Text & "';")
+        If DR.Count Then
             txtCuTelNo1.Tag = "1"
-            DR.Read()
+
             txtCuTelNo1.Text = DR("CuTelNo1").ToString
             txtCuTelNo2.Text = DR("CuTelNo2").ToString
             txtCuTelNo3.Text = DR("CuTelNo3").ToString
@@ -85,8 +85,8 @@ Public Class FormDeliver
                 MsgBox("කරුණාකර Repair No: " & Row.Cells(0).Value & " යන තීරුවේ Status එක තෝරා ගන්න.", vbExclamation + vbOKOnly)
                 Exit Sub
             End If
-            Dim DR As OdbcDataReader = Db.GetDataReader("Select TNo from Technician Where TName='" & Row.Cells(5).Value & "'")
-            If DR.HasRows = False Then
+            Dim DR = Db.GetDataReader("Select TNo from Technician Where TName='" & Row.Cells(5).Value & "'")
+            If DR.Count = 0 Then
                 MsgBox("Repair No: " & Row.Cells(0).Value & " යන තීරුවෙ Technician ව System එක තුල නොපවතියි. කරුණාකර නැවත පරික්ෂා කරන්න.", vbExclamation + vbOKOnly)
                 Exit Sub
             End If
@@ -104,7 +104,7 @@ Public Class FormDeliver
                 MsgBox("කරුණාකර Repair No: " & Row.Cells(0).Value & " යන තීරුවේ Status එක තෝරා ගන්න.", vbExclamation + vbOKOnly)
                 Exit Sub
             End If
-            Dim DR As OdbcDataReader = Db.GetDataReader("Select TNo from Technician Where TName='" & Row.Cells(6).Value & "'")
+            Dim DR = Db.GetDataReader("Select TNo from Technician Where TName='" & Row.Cells(6).Value & "'")
             If DR.HasRows = False Then
                 MsgBox("Repair No: " & Row.Cells(0).Value & " යන තීරුවෙ Technician ව System එක තුල නොපවතියි. කරුණාකර නැවත පරික්ෂා කරන්න.", vbExclamation + vbOKOnly)
                 Exit Sub
@@ -134,19 +134,19 @@ Public Class FormDeliver
             Dim frm As New frmReport
             Dim DT1 As New DataTable
             Dim DS1 As New DataSet
-            Dim DA1 As OdbcDataAdapter = Db.GetDataAdapter("SELECT Repair.RepNo,Repair.PNo,Product.PCategory,Product.PName,Repair.Qty,Repair.PaidPrice,Repair.TNo from Repair,Product,Deliver where Deliver.DNO = Repair.DNo And Repair.PNo = Product.PNo And Deliver.DNo = " & DNo & ";")
+            Dim DA1 As MySqlDataAdapter = Db.GetDataAdapter("SELECT Repair.RepNo,Repair.PNo,Product.PCategory,Product.PName,Repair.Qty,Repair.PaidPrice,Repair.TNo from Repair,Product,Deliver where Deliver.DNO = Repair.DNo And Repair.PNo = Product.PNo And Deliver.DNo = " & DNo & ";")
             DA1.Fill(DS1, "Repair")
             DA1.Fill(DS1, "Product")
             RPT.Subreports.Item("rptDeliverRepair.rpt").SetDataSource(DS1)
             Dim DT2 As New DataTable
             Dim DS2 As New DataSet
-            Dim DA2 As OdbcDataAdapter = Db.GetDataAdapter("Select Rerepair.RetNo,Rerepair.RepNo,Rerepair.PNo,Product.PCategory,Product.Pname,Rerepair.Qty,Rerepair.PaidPrice,Rerepair.TNo from Rerepair,Product,Deliver where Deliver.DNO = Rerepair.DNo And Rerepair.PNo = Product.PNo And Deliver.DNO  = " & DNo & ";")
+            Dim DA2 As MySqlDataAdapter = Db.GetDataAdapter("Select Rerepair.RetNo,Rerepair.RepNo,Rerepair.PNo,Product.PCategory,Product.Pname,Rerepair.Qty,Rerepair.PaidPrice,Rerepair.TNo from Rerepair,Product,Deliver where Deliver.DNO = Rerepair.DNo And Rerepair.PNo = Product.PNo And Deliver.DNO  = " & DNo & ";")
             DA2.Fill(DS2, "Rerepair")
             DA2.Fill(DS2, "Product")
             RPT.Subreports.Item("rptDeliverReturn.rpt").SetDataSource(DS2)
             Dim DT3 As New DataTable
             Dim DS3 As New DataSet
-            Dim DA3 As OdbcDataAdapter = Db.GetDataAdapter("SELECT Deliver.DNo, Deliver.DDate,Deliver.CuNo,Customer.CuName,Customer.CuTelNo1,Customer.CuTelNo2,Customer.CuTelNo3,Deliver.DGrandTotal,Deliver.CReceived,Deliver.CBalance,Deliver.CAmount,Deliver.CPInvoiceNO,Deliver.CPAmount,Deliver.CuLNo,Deliver.CuLAmount,Deliver.DRemarks from Deliver,Customer where Deliver.CuNo = Customer.CuNo And Deliver.DNo = " & DNo &
+            Dim DA3 As MySqlDataAdapter = Db.GetDataAdapter("SELECT Deliver.DNo, Deliver.DDate,Deliver.CuNo,Customer.CuName,Customer.CuTelNo1,Customer.CuTelNo2,Customer.CuTelNo3,Deliver.DGrandTotal,Deliver.CReceived,Deliver.CBalance,Deliver.CAmount,Deliver.CPInvoiceNO,Deliver.CPAmount,Deliver.CuLNo,Deliver.CuLAmount,Deliver.DRemarks from Deliver,Customer where Deliver.CuNo = Customer.CuNo And Deliver.DNo = " & DNo &
                                               ";")
             DA3.Fill(DS3, "Deliver")
             DA3.Fill(DS3, "Customer")
@@ -183,9 +183,9 @@ Public Class FormDeliver
                     grdRepair.Rows.RemoveAt(grdRepair.CurrentCell.RowIndex)
                     Exit Sub
                 End If
-                Dim DRD As OdbcDataReader = Db.GetDataReader("Select RepNo,PCategory,PName,PMOdelNO,PSerialNo,PDetails,Qty,Charge,TName,Status,CuName,CuTelNo1,CuTelNo2,CuTelNo3 from ((((Repair REP INNER JOIN RECEIVE R ON R.RNO = REP.RNO) INNER JOIN PRODUCT P ON P.PNO = REP.PNO) INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = REP.TNO) Where RepNo = " &
+                Dim DRD = Db.GetDataReader("Select RepNo,PCategory,PName,PMOdelNO,PSerialNo,PDetails,Qty,Charge,TName,Status,CuName,CuTelNo1,CuTelNo2,CuTelNo3 from ((((Repair REP INNER JOIN RECEIVE R ON R.RNO = REP.RNO) INNER JOIN PRODUCT P ON P.PNO = REP.PNO) INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = REP.TNO) Where RepNo = " &
                                              grdRepair.Item(0, grdRepair.CurrentCell.RowIndex).Value)
-                If DRD.HasRows = True Then
+                If DRD.Count Then
                     DRD.Read()
                     If DRD("Status").ToString = "Repaired Delivered" Or DRD("Status").ToString = "Returned Delivered" Then
                         If MsgBox("මෙම Repair එක දැනටමත් Customer විසින් රැගෙන ගොස් ඇත." + vbCrLf + "ඔබට එම Repair එක විවෘත කිරිමට අවශ්‍යද?",
@@ -220,10 +220,10 @@ Public Class FormDeliver
                         grdRepair.Item(3, grdRepair.CurrentCell.RowIndex).Value = DRD("Qty").ToString
                         grdRepair.Item(4, grdRepair.CurrentCell.RowIndex).Value = DRD("Charge").ToString
                         'If DR("TName").ToString = "" Then
-                        '    Dim CMD1 As New MySql.OdbcCommand("SELECT TOP 1 TNAME, COUNT(TName) from ((Repair Rep Inner Join Product P on P.PNo = Rep.PNo) 
+                        '    Dim CMD1 As New MySql.MySqlCommand("SELECT TOP 1 TNAME, COUNT(TName) from ((Repair Rep Inner Join Product P on P.PNo = Rep.PNo) 
                         '                                        Inner Join Technician T on T.TNo = Rep.TNo) WHERE PCATEGORY = '" & DR("PCategory").ToString & "' GROUP BY TNAME " &
                         '                                        "ORDER BY COUNT(TNAME) DESC;", CNN)
-                        '    Dim DR1 As MySql.OdbcDataReader = CMD1.ExecuteReader
+                        '    Dim DR1 As MySql.MySqlDataReader = CMD1.ExecuteReader
                         '    If DR1.HasRows Then
                         '        DR1.Read()
                         '        grdRepair.Item(5, grdRepair.CurrentCell.RowIndex).Value = DR1("TName").ToString
@@ -279,7 +279,7 @@ Public Class FormDeliver
                     autoText.AutoCompleteMode = AutoCompleteMode.Suggest
                     autoText.AutoCompleteSource = AutoCompleteSource.CustomSource
                     DataCollection.Clear()
-                    Dim DR As OdbcDataReader = Db.GetDataReader("Select RepNo from Repair where Status <> 'Repaired Delivered' and Status <> 'Returned Delivered' and Status <> 'Canceled' order by RepNo Desc;")
+                    Dim DR = Db.GetDataReader("Select RepNo from Repair where Status <> 'Repaired Delivered' and Status <> 'Returned Delivered' and Status <> 'Canceled' order by RepNo Desc;")
                     While DR.Read
                         DataCollection.Add(DR("REpNo").ToString)
                     End While
@@ -320,7 +320,7 @@ Public Class FormDeliver
                     autoText.AutoCompleteMode = AutoCompleteMode.Suggest
                     autoText.AutoCompleteSource = AutoCompleteSource.CustomSource
                     DataCollection.Clear()
-                    Dim DrRetNo As OdbcDataReader = Db.GetDataReader("Select RetNo from Rerepair order by RetNo Desc;")
+                    Dim DrRetNo = Db.GetDataReader("Select RetNo from Rerepair order by RetNo Desc;")
                     While DrRetNo.Read
                         DataCollection.Add(DrRetNo("RetNo").ToString)
                     End While
@@ -333,7 +333,7 @@ Public Class FormDeliver
                     autoText.AutoCompleteMode = AutoCompleteMode.Suggest
                     autoText.AutoCompleteSource = AutoCompleteSource.CustomSource
                     DataCollection.Clear()
-                    Dim DrRepNo As OdbcDataReader = Db.GetDataReader("Select REPNO from Rerepair order by REpNo Desc;")
+                    Dim DrRepNo = Db.GetDataReader("Select REPNO from Rerepair order by REpNo Desc;")
                     While DrRepNo.Read
                         DataCollection.Add(DrRepNo("RepNo").ToString)
                     End While
@@ -355,8 +355,8 @@ Public Class FormDeliver
                     Exit Sub
                 End If
                 DR = Db.GetDataReader("Select RetNo,RepNo,PCategory,PName,PMOdelNO,PSerialNo,PDetails,Qty,Charge,TName,Status,CuName,CuTelNo1,CuTelNo2,CuTelNo3 from ((((Rerepair RET INNER JOIN RECEIVE R ON R.RNO = RET.RNO) INNER JOIN PRODUCT  P ON P.PNO = RET.PNO) INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = RET.TNO) Where RetNo = " & grdRERepair.Item(0, grdRERepair.CurrentCell.RowIndex).Value)
-                If DR.HasRows = True Then
-                    DR.Read()
+                If DR.Count Then
+
                     If DR("Status").ToString = "Repaired Delivered" Or DR("Status").ToString = "Returned Delivered" Then
                         If MsgBox("මෙම RERepair එක දැනටමත් Customer විසින් රැගෙන ගොස් ඇත." + vbCrLf + "ඔබට එම RERepair එක විවෘත කිරිමට අවශ්‍යද?", vbInformation + vbYesNo) = vbYes Then
                             Dim frm As New FormRepair
@@ -406,8 +406,8 @@ Public Class FormDeliver
                 End If
                 grdRepair.CurrentCell = grdRepair.Item(0, grdRepair.Rows.Count - 1)
             Case 1
-                Dim DrReturn As OdbcDataReader = Db.GetDataReader("Select RepNo,RetNo,Status from Rerepair Where RepNo=" & grdRERepair.Item(1, e.RowIndex).Value)
-                If DrReturn.HasRows = True Then
+                Dim DrReturn = Db.GetDataReader("Select RepNo,RetNo,Status from Rerepair Where RepNo=" & grdRERepair.Item(1, e.RowIndex).Value)
+                If DrReturn.Count Then
                     DrReturn.Read()
                     grdRERepair.Item(0, e.RowIndex).Value = DrReturn("RetNo").ToString
                     Dim E1 As New DataGridViewCellEventArgs(0, e.RowIndex)

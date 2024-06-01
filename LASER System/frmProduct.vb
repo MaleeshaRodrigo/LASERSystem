@@ -1,4 +1,4 @@
-﻿Imports System.Data.Odbc
+﻿Imports MySqlConnector
 
 Public Class frmProduct
     Private Db As New Database
@@ -102,14 +102,14 @@ Public Class frmProduct
         End If
         Select Case cmdSave.Text
             Case "Save"
-                Dim DrProductNoExist As OdbcDataReader = Db.GetDataReader("Select PNo from Product where PNo =" & txtPNo.Text & ";")
-                If DrProductNoExist.HasRows = True Then
+                Dim DrProductNoExist = Db.GetDataReader("Select PNo from Product where PNo =" & txtPNo.Text & ";")
+                If DrProductNoExist.Count Then
                     MsgBox("Product No is exist", vbOKOnly + vbExclamation)
                     txtPNo.Focus()
                     Exit Sub
                 End If
-                Dim DrProductExist As OdbcDataReader = Db.GetDataReader("Select PCategory,PName from Product where PCategory = '" & cmbPCategory.Text & "' and PName ='" & cmbPName.Text & "';")
-                If DrProductExist.HasRows = True Then
+                Dim DrProductExist = Db.GetDataReader("Select PCategory,PName from Product where PCategory = '" & cmbPCategory.Text & "' and PName ='" & cmbPName.Text & "';")
+                If DrProductExist.Count Then
                     MsgBox("Product category and product name are exist", vbOKOnly + vbExclamation)
                     cmbPCategory.Focus()
                     Exit Sub
@@ -138,8 +138,8 @@ Public Class frmProduct
             txtPNo.Focus()
             Exit Sub
         End If
-        Dim DR As OdbcDataReader = Db.GetDataReader("Select * from Product where Pno =" & txtPNo.Text & "")
-        If DR.HasRows = False Then
+        Dim DR = Db.GetDataReader("Select * from Product where Pno =" & txtPNo.Text & "")
+        If DR.Count = 0 Then
             MsgBox("Product isn't in the database", vbExclamation + vbOKOnly)
             Exit Sub
         End If
@@ -171,9 +171,9 @@ Public Class frmProduct
     End Sub
 
     Public Sub cmbPName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbPName.SelectedIndexChanged
-        Dim DR As OdbcDataReader = Db.GetDataReader("SELECT * from Product where PCategory = '" & cmbPCategory.Text & "' and PName='" & cmbPName.Text & "';")
-        If DR.HasRows = True Then
-            DR.Read()
+        Dim DR = Db.GetDataReader("SELECT * from Product where PCategory = '" & cmbPCategory.Text & "' and PName='" & cmbPName.Text & "';")
+        If DR.Count Then
+
             txtPNo.Text = DR("PNo").ToString
             cmbPCategory.Text = DR("PCategory").ToString
             cmbPName.Text = DR("PName").ToString
