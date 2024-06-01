@@ -89,7 +89,7 @@ Public Class frmSupply
             End With
         Next
         txtSupNo.Text = Db.GetNextKey("Supply", "SupNo")
-        Dim SuNo As Integer = Db.GetData("Select SuNo from Supplier where SuName=@SUNAME;", {
+        Dim SuNo As Integer = Db.GetData("Select SuNo from Supplier where SuName=?;", {
                                 New OdbcParameter("SUNAME", cmbSuName.Text)
         })
         If SuNo = 0 Then
@@ -106,7 +106,7 @@ Public Class frmSupply
     End Sub
 
     Private Sub SaveSupplyInformation(SuNo As Integer)
-        Db.Execute("Insert into Supply(SupNo,SupDate,SuNo,SupRemarks,SupStatus,SupPaidDate,UNo) Values(@SUPNO,@SUPDATE,@SUNO, @SUPREMARKS, @SUPSTATUS, @SUPPAIDDATE, @UNO)", {
+        Db.Execute("Insert into Supply(SupNo,SupDate,SuNo,SupRemarks,SupStatus,SupPaidDate,UNo) Values(?,?,?, ?, ?, ?, ?)", {
                 New OdbcParameter("SUPNO", txtSupNo.Text),
                 New OdbcParameter("SUPDATE", txtSupDate.Value.ToString),
                 New OdbcParameter("SUNO", SuNo),
@@ -119,7 +119,7 @@ Public Class frmSupply
             If grdSupply.Rows.Count - 1 = Row.Index Then Continue For
 
             If Db.CheckDataExists(Tables.Stock, Stock.Code, Row.Cells(Stock.Code).Value) = False Then
-                Db.Execute($"INSERT INTO {Tables.Stock}({Stock.Code}, {Stock.Category}, {Stock.Name}, {Stock.ModelNo}, {Stock.Location}, {Stock.Details}, {Stock.CostPrice}, {Stock.LowestPrice}, {Stock.SalePrice}, {Stock.AvailableUnits}, {Stock.DamagedUnits}, {Stock.ReorderPoint}) Values(@NO, @CATEGORY, @NAME, @MODELNO, @LOCATION, @DETAILS, @COSTPRICE, @LOWESTPRICE, @SALEPRICE, @AVAILABLESTOCKS, @OUTOFSTOCKS, @REORDERPOINT);", {
+                Db.Execute($"INSERT INTO {Tables.Stock}({Stock.Code}, {Stock.Category}, {Stock.Name}, {Stock.ModelNo}, {Stock.Location}, {Stock.Details}, {Stock.CostPrice}, {Stock.LowestPrice}, {Stock.SalePrice}, {Stock.AvailableUnits}, {Stock.DamagedUnits}, {Stock.ReorderPoint}) Values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", {
                   New OdbcParameter("@NO", Row.Cells(Stock.Code).Value),
                   New OdbcParameter("@CATEGORY", Row.Cells(Stock.Category).Value),
                   New OdbcParameter("@NAME", Row.Cells(Stock.Name).Value),
@@ -134,7 +134,7 @@ Public Class frmSupply
                   New OdbcParameter("@REORDERPOINT", Row.Cells(Stock.ReorderPoint).Value)
             })
             Else
-                Db.Execute($"UPDATE {Tables.Stock} SET {Stock.Location}=@LOCATION,{Stock.ModelNo}=@MODELNO,{Stock.Details}=@DETAILS,{Stock.CostPrice}=@COSTPRICE,{Stock.LowestPrice}=@LOWESTPRICE, {Stock.SalePrice}=@SALEPRICE,{Stock.ReorderPoint}=@REORDERPOINT WHERE {Stock.Code}=@NO;", {
+                Db.Execute($"UPDATE {Tables.Stock} SET {Stock.Location}=?,{Stock.ModelNo}=?,{Stock.Details}=?,{Stock.CostPrice}=?,{Stock.LowestPrice}=?, {Stock.SalePrice}=?,{Stock.ReorderPoint}=? WHERE {Stock.Code}=?;", {
                   New OdbcParameter("@MODELNO", Row.Cells(Stock.ModelNo).Value),
                   New OdbcParameter("@LOCATION", Row.Cells(Stock.Location).Value),
                   New OdbcParameter("@DETAILS", Row.Cells(Stock.Details).Value),
@@ -146,7 +146,7 @@ Public Class frmSupply
                 })
             End If
 
-            Db.Execute("INSERT INTO StockSupply(SupNo,SNo,SCategory,SName,SupType,SupUnits,SupCostPrice,SupTotal) VALUES(@SUPNO,@SNO,@SCATEGORY,@SNAME,@SUPTYPE,@SUPUNITS,@COSTPRICE,@SUPTOTAL)", {
+            Db.Execute("INSERT INTO StockSupply(SupNo,SNo,SCategory,SName,SupType,SupUnits,SupCostPrice,SupTotal) VALUES(?,?,?,?,?,?,?,?)", {
                 New OdbcParameter("SUPNO", txtSupNo.Text),
                 New OdbcParameter("SNO", Row.Cells(Stock.Code).Value),
                 New OdbcParameter("SCATEGORY", Row.Cells(Stock.Category).Value),
@@ -157,11 +157,11 @@ Public Class frmSupply
                 New OdbcParameter("SUPTOTAL", Row.Cells("SupTotal").Value)
             })
             If Row.Cells("SupType").Value.ToString = "Supply" Then
-                Db.Execute($"Update {Tables.Stock} set {Stock.AvailableUnits}=({Stock.AvailableUnits} + {Row.Cells("SupQty").Value}) where SNo=@CODE", {
+                Db.Execute($"Update {Tables.Stock} set {Stock.AvailableUnits}=({Stock.AvailableUnits} + {Row.Cells("SupQty").Value}) where SNo=?E", {
                     New OdbcParameter("CODE", Row.Cells(Stock.Code).Value)
                 })
             Else
-                Db.Execute($"Update {Tables.Stock} Set {Stock.DamagedUnits}=({Stock.DamagedUnits} - {Row.Cells("SupQty").Value}) where SNo=@CODE", {
+                Db.Execute($"Update {Tables.Stock} Set {Stock.DamagedUnits}=({Stock.DamagedUnits} - {Row.Cells("SupQty").Value}) where SNo=?E", {
                     New OdbcParameter("CODE", Row.Cells(Stock.Code).Value)
                 })
             End If

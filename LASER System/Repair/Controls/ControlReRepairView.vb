@@ -9,7 +9,7 @@ Public Class ControlReRepairView
     End Sub
 
     Public Sub Init(RepNo As Integer)
-        Dim DataTable = DB.GetDataTable($"SELECT RetNo, Status FROM `Return` WHERE RepNo=@REPNO;", {
+        Dim DataTable = DB.GetDataTable($"SELECT RetNo, Status FROM `Return` WHERE RepNo=?;", {
                 New OdbcParameter("REPNO", RepNo)
             })
         GridReRepairView.DataSource = DataTable

@@ -136,23 +136,23 @@ Public Class FormStock
         If txtSearch.Text <> "" Then
             Select Case cmbFilter.Text
                 Case "by Code"
-                    FilterQuery += $"Where {Stock.Code} Like @VALUE"
+                    FilterQuery += $"Where {Stock.Code} Like ?E"
                 Case "by Category"
-                    FilterQuery += $"Where {Stock.Category} like @VALUE"
+                    FilterQuery += $"Where {Stock.Category} like ?E"
                 Case "by Name"
-                    FilterQuery += $"Where {Stock.Name} like @VALUE"
+                    FilterQuery += $"Where {Stock.Name} like ?E"
                 Case "by Model No"
-                    FilterQuery += $"Where {Stock.ModelNo} like @VALUE"
+                    FilterQuery += $"Where {Stock.ModelNo} like ?E"
                 Case "by Location"
-                    FilterQuery += $"Where {Stock.Location} like @VALUE"
+                    FilterQuery += $"Where {Stock.Location} like ?E"
                 Case "by Lowest Price"
-                    FilterQuery += $"Where {Stock.LowestPrice} like @VALUE"
+                    FilterQuery += $"Where {Stock.LowestPrice} like ?E"
                 Case "by Sale Price"
-                    FilterQuery += $"Where {Stock.SalePrice} like @VALUE"
+                    FilterQuery += $"Where {Stock.SalePrice} like ?E"
                 Case "by Reorder Point"
-                    FilterQuery += $"Where {Stock.ReorderPoint} like @VALUE"
+                    FilterQuery += $"Where {Stock.ReorderPoint} like ?E"
                 Case "by Details"
-                    FilterQuery += $"Where {Stock.Details} like @VALUE"
+                    FilterQuery += $"Where {Stock.Details} like ?E"
                 Case Else
                     FilterQuery += $"Where {Stock.Code} LIKE @VALUE OR 
                         {Stock.Category} LIKE @VALUE OR 

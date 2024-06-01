@@ -16,7 +16,7 @@ Public Class ControlRemarks
         cmbLocation.Text = FormParent.DataReaderRepair("Location").ToString
 
         'Adding Data to grdRepRemarks1 
-        Dim DRREPNO1 As OdbcDataReader = DB.GetDataReader("Select RepRem.*, UserName from RepairRemarks1 RepRem LEFT JOIN `User` U ON U.UNo=RepRem.UNo Where RepNo=@REPNO;", {
+        Dim DRREPNO1 As OdbcDataReader = DB.GetDataReader("Select RepRem.*, UserName from RepairRemarks1 RepRem LEFT JOIN `User` U ON U.UNo=RepRem.UNo Where RepNo=?;", {
                 New OdbcParameter("REPNO", RepNo)
             })
         grdRepRemarks1.Rows.Clear()
@@ -31,7 +31,7 @@ Public Class ControlRemarks
     Public Sub InitForReRepair(ReRepNo As Integer)
         cmbLocation.Text = FormParent.DataReaderRepair("Location").ToString
 
-        Dim DRREPNO1 As OdbcDataReader = DB.GetDataReader("SELECT RepRem.*, UserName FROM RepairRemarks1 RepRem LEFT JOIN `User` U ON U.UNo=RepRem.UNo WHERE RetNo=@REREPPNO;", {
+        Dim DRREPNO1 As OdbcDataReader = DB.GetDataReader("SELECT RepRem.*, UserName FROM RepairRemarks1 RepRem LEFT JOIN `User` U ON U.UNo=RepRem.UNo WHERE RetNo=?;", {
                 New OdbcParameter("REREPPNO", ReRepNo)
             })
         grdRepRemarks1.Rows.Clear()
@@ -152,7 +152,7 @@ Public Class ControlRemarks
             AdminPer.Remarks = "Repair Remarks 1 හි Field එකක් Delete කෙරුණි."
             e.Cancel = True
         End If
-        DB.Execute("Delete from RepairRemarks1 Where Rem1No=@REM1NO", {
+        DB.Execute("Delete from RepairRemarks1 Where Rem1No=?O", {
                    New OdbcParameter("REM1NO", grdRepRemarks1.Item(0, e.Row.Index).Value)
         }, AdminPer)
     End Sub

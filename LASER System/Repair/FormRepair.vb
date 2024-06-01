@@ -211,7 +211,7 @@ Public Class FormRepair
             ClearControls()
 
             If cmbRetNo.Text = "" Then Exit Try
-            DataReaderRepair = Db.GetDataReader($"Select Ret.RetNo, RepNo, Ret.RNo, RDate,  R.CuNo, CuName, CuTelNo1, CuTelNo2, CuTelNo3, CuRemarks,  Ret.Pno, PCategory, PName, PModelNo, PDetails, PSerialNo, Problem, Location, Qty, Ret.TNo, TName, Status, Charge, PaidPrice, RetRepDate, Ret.DNo, DDate FROM (((`Return` Ret inner join Receive R On Ret.RNo = R.RNo) INNER JOIN Customer Cu On R.CuNo = Cu.CuNo) INNER JOIN Product P On Ret.PNo = P.PNo) LEFT JOIN Technician T On Ret.TNo = T.TNo) LEFT JOIN Deliver D On D.DNo=Ret.DNo WHERE Ret.RetNo = @RETNO", {
+            DataReaderRepair = Db.GetDataReader($"Select Ret.RetNo, RepNo, Ret.RNo, RDate,  R.CuNo, CuName, CuTelNo1, CuTelNo2, CuTelNo3, CuRemarks,  Ret.Pno, PCategory, PName, PModelNo, PDetails, PSerialNo, Problem, Location, Qty, Ret.TNo, TName, Status, Charge, PaidPrice, RetRepDate, Ret.DNo, DDate FROM (((`Return` Ret inner join Receive R On Ret.RNo = R.RNo) INNER JOIN Customer Cu On R.CuNo = Cu.CuNo) INNER JOIN Product P On Ret.PNo = P.PNo) LEFT JOIN Technician T On Ret.TNo = T.TNo) LEFT JOIN Deliver D On D.DNo=Ret.DNo WHERE Ret.RetNo = ?O", {
                                                 New OdbcParameter("RETNO", cmbRetNo.Text)
                                                 })
             If DataReaderRepair.HasRows = False Then

@@ -16,9 +16,9 @@ Public Class ControlTechnicianInfo
         cmbTName.Text = FormParent.DataReaderRepair("TName").ToString()
         Dim DataReader As OdbcDataReader
         If FormParent.Mode = RepairMode.Repair Then
-            DataReader = DB.GetDataReader("Select Rem2No, Rem2Date, Remarks, UserName from RepairRemarks2 RepRem2 LEFT JOIN `User` U ON U.UNo=RepRem2.UNo Where RepNo=@REPNO;", {New OdbcParameter("REPNO", FormParent.DataReaderRepair("RepNo").ToString())})
+            DataReader = DB.GetDataReader("Select Rem2No, Rem2Date, Remarks, UserName from RepairRemarks2 RepRem2 LEFT JOIN `User` U ON U.UNo=RepRem2.UNo Where RepNo=?;", {New OdbcParameter("REPNO", FormParent.DataReaderRepair("RepNo").ToString())})
         Else
-            DataReader = DB.GetDataReader("Select Rem2No, Rem2Date, Remarks, UserName from RepairRemarks2 RepRem2 LEFT JOIN `User` U ON U.UNo=RepRem2.UNo Where RetNo=@REREPNO;", {
+            DataReader = DB.GetDataReader("Select Rem2No, Rem2Date, Remarks, UserName from RepairRemarks2 RepRem2 LEFT JOIN `User` U ON U.UNo=RepRem2.UNo Where RetNo=?;", {
                                         New OdbcParameter("REREPNO", FormParent.DataReaderRepair("RetNo").ToString())
                                     })
         End If

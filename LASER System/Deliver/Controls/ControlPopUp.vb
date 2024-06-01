@@ -114,7 +114,7 @@ Public Class ControlPopUp
                       "','" & FormParent.txtCuTelNo2.Text & "','" & FormParent.txtCuTelNo3.Text & "');", {}, AdminPer)
         End If
         Dim DNo As Integer = Db.GetNextKey("Deliver", "DNo")
-        Db.Execute($"INSERT INTO Deliver(DNo,DDate,Cuno,DGrandTotal,CAmount,CReceived,CBalance,CPINvoiceNo,CPAmount,CuLNO,CuLAmount,DRemarks) VALUES(@DNO, '{FormParent.txtDDate.Value}', @CUNO, @DGRANDTOTAL, @CAMOUNT, @CRECEIVED, @CBALANCE, @CPINVOICENO, @CPAMOUNT, @CULNO, @CULAMOUNT, @DREMARKS);", {
+        Db.Execute($"INSERT INTO Deliver(DNo,DDate,Cuno,DGrandTotal,CAmount,CReceived,CBalance,CPINvoiceNo,CPAmount,CuLNO,CuLAmount,DRemarks) VALUES(?, '{FormParent.txtDDate.Value}', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", {
                    New OdbcParameter("DNO", DNo),
                    New OdbcParameter("CUNO", CuNo),
                    New OdbcParameter("DGRANDTOTAL", txtGrandTotal.Text),
@@ -123,12 +123,12 @@ Public Class ControlPopUp
                    New OdbcParameter("CBALANCE", txtCBalance.Text),
                    New OdbcParameter("PINVOICENO", txtCPInvoiceNo.Text),
                    New OdbcParameter("CPAMOUNT", txtCPAmount.Text),
-                   New OdbcParameter("CULNO", txtCuLNo.Text),
+                   New OdbcParameter("CULNO", If(txtCuLNo.Text = "0", 0, txtCuLNo.Text)),
                    New OdbcParameter("CULAMOUNT", txtCuLAmount.Text),
                    New OdbcParameter("DREMARKS", FormParent.txtDRemarks.Text)
         }, AdminPer)
         If txtCuLAmount.Text <> "0" Then
-            Db.Execute("Insert into CustomerLoan(CuLNo,CuLDate,CuNO,CuLAmount,DNo,Status) Values(?NewKey?CustomerLoan?CuLNo?,@CULDATE,@CUNO,@CULAMOUNT,@DNO,'Not Paid')", {
+            Db.Execute("Insert into CustomerLoan(CuLNo,CuLDate,CuNO,CuLAmount,DNo,Status) Values(?NewKey?CustomerLoan?CuLNo?,?,?,?,?,'Not Paid')", {
                    New OdbcParameter("CULDATE", FormParent.txtDDate.Value.ToString),
                    New OdbcParameter("CUNO", CuNo),
                    New OdbcParameter("CULAMOUNT", txtCuLAmount.Text),
@@ -142,14 +142,14 @@ Public Class ControlPopUp
                 DrRepStatus.Read()
                 If DrRepStatus("Status").ToString = "Received" Or DrRepStatus("Status").ToString = "Hand Over to Technician" Or
                         DrRepStatus("Status").ToString = "Repairing" Then
-                    Db.Execute("Update Repair set RepDate = @REPDATE,Charge=@CHARGE where RepNo=@REPNO;", {
+                    Db.Execute("Update Repair set RepDate = ?,Charge=? where RepNo=?;", {
                             New OdbcParameter("REPDATE", FormParent.txtDDate.Value.ToString),
                             New OdbcParameter("CHARGE", Row1.Cells(4).Value),
                             New OdbcParameter("REPNO", Row1.Cells(0).Value)
                         }, AdminPer)
                 End If
             End If
-            Db.Execute($"UPDATE Repair SET PaidPrice = @PAIDPRICE,TNo = DLookup('TNo', 'Technician', 'TName=""{Row1.Cells(5).Value}""'),Status=@STATUS,DNo = @DNO WHERE RepNo=@REPNO;", {
+            Db.Execute($"UPDATE Repair SET PaidPrice = ?,TNo = (SELECT TNo FROM Technician WHERE TName = '{Row1.Cells(5).Value}'),Status=?,DNo = ? WHERE RepNo=?;", {
                            New OdbcParameter("PAIDPRICE", Row1.Cells(4).Value),
                            New OdbcParameter("STATUS", Row1.Cells(6).Value.ToString),
                            New OdbcParameter("DNO", DNo),
@@ -162,14 +162,14 @@ Public Class ControlPopUp
             If DrRetStatus.HasRows = True Then
                 DrRetStatus.Read()
                 If DrRetStatus("Status").ToString = "Received" Or DrRetStatus("Status").ToString = "Hand Over to Technician" Or DrRetStatus("Status").ToString = "Repairing" Then
-                    Db.Execute("UPDATE `Return` SET RetRepDate = @RETREPDATE,Charge= @CHARGE where RetNo= @RETNO;", {
+                    Db.Execute("UPDATE `Return` SET RetRepDate = ?,Charge= ? where RetNo= ?;", {
                             New OdbcParameter("RETREPDATE", FormParent.txtDDate.Value.ToString),
                             New OdbcParameter("CHARGE", Row.Cells(5).Value.ToString),
                             New OdbcParameter("RETNO", Row.Cells(0).Value.ToString)
                         }, AdminPer)
                 End If
             End If
-            Db.Execute($"Update `Return` set PaidPrice = @PAIDPRICE,TNo = DLookup('TNo', 'Technician', 'TName=""{Row.Cells(6).Value}""'),Status= @STATUS,DNo = @DNO where RetNo= @RETNO", {
+            Db.Execute($"Update `Return` set PaidPrice = ?,TNo = DLookup('TNo', 'Technician', 'TName=""{Row.Cells(6).Value}""'),Status= ?,DNo = ? where RetNo= ?O", {
                             New OdbcParameter("PAIDPRICE", Row.Cells(5).Value.ToString),
                             New OdbcParameter("STATUS", Row.Cells(7).Value.ToString),
                             New OdbcParameter("DNO", DNo),
@@ -177,7 +177,7 @@ Public Class ControlPopUp
                            }, AdminPer)
         Next
         If FormParent.cmdSave.Text = "Edit" Then
-            Db.Execute("DELETE FROM Deliver D WHERE DNo = @DNO AND Exists( Select 1 From Repair Rep Where Rep.DNo = D.DNo ) = False AND Exists( Select 1 From `Return` Ret Where Ret.DNo = D.DNo ) = False", {
+            Db.Execute("DELETE FROM Deliver D WHERE DNo = ? AND Exists( Select 1 From Repair Rep Where Rep.DNo = D.DNo ) = False AND Exists( Select 1 From `Return` Ret Where Ret.DNo = D.DNo ) = False", {
                                 New OdbcParameter("DNO", FormParent.txtDNo.Text)
                            })
         End If
@@ -275,7 +275,7 @@ Public Class ControlPopUp
                             "Status: " + DRAutoD("Status").ToString + vbCrLf + vbCrLf +
                             "මෙම Message එක ස්වයංක්‍රීයව LASER System එකෙන් පැමිණෙන්නක් බැවින් ඉහත දත්ත සඳහා යම් ගැටලුවක් පවතියි නම්, කරුණාකර දත්ත කළමනාකරු අමතන්න"",'Waiting');")
             End While
-            DRAutoD = Db.GetDataReader($"SELECT RetNo,RepNo,DDate, CuName, CuTelNo1, PCategory, PName, Qty, PaidPrice, TEmail, TName, Status from ((( `Return` Ret Inner Join Deliver D On D.DNo=Ret.DNo) Inner Join Technician T On T.TNo = Ret.TNo) Left Join Product P On P.Pno = Ret.PNo) Left Join Customer Cu On Cu.CuNo = D.CuNo) Where TEmail <> NULL and Status <>'Returned Delivered' and TActive = 1 AND TBlockEmails <> 1 and D.DNo = {DNo}")
+            DRAutoD = Db.GetDataReader($"SELECT RetNo,RepNo,DDate, CuName, CuTelNo1, PCategory, PName, Qty, PaidPrice, TEmail, TName, Status from ((( `Return` Ret Inner Join Deliver D On D.DNo=Ret.DNo) Inner Join Technician T On T.TNo = Ret.TNo) Left Join Product P On P.Pno = Ret.PNo) Left Join Customer Cu On Cu.CuNo = D.CuNo Where TEmail <> NULL and Status <>'Returned Delivered' and TActive = 1 AND TBlockEmails <> 1 and D.DNo = {DNo}")
             While DRAutoD.Read()
                 Db.Execute("Insert Into Mail(MailNo,MailDate,EmailTo,Subject,Body,Status) Values(?NewKey?Mail?MailNo?,'" & DateAndTime.Now &
                                   "','" & DRAutoD("TEmail").ToString & "','RERepair No:  " + DRAutoD("RetNo").ToString + " එක Customer විසින් රු." +

@@ -11,7 +11,7 @@ Public Class frmCustomer
 
     Public Sub SelectCustomer(CuNo As Integer)
         txtCuNo.Text = CuNo
-        Dim DR As OdbcDataReader = Db.GetDataReader("SELECT * FROM Customer WHERE CuNo = @CUNO", {
+        Dim DR As OdbcDataReader = Db.GetDataReader("SELECT * FROM Customer WHERE CuNo = ?O", {
             New OdbcParameter("CUNO", CuNo)
         })
         If DR.HasRows = False Then
@@ -182,7 +182,7 @@ Public Class frmCustomer
                 If Db.CheckDataExists("Customer", "CuNo", txtCuNo.Text) Then
                     txtCuNo.Text = Db.GetNextKey("Customer", "CuNo")
                 End If
-                Db.Execute("Insert into Customer(CuNo,CuName,CuTelNo1,CuTelNo2,CuTelNo3) Values(@NO, @NAME, @TELNO1, @TELNO2, @TELNO3);", {
+                Db.Execute("Insert into Customer(CuNo,CuName,CuTelNo1,CuTelNo2,CuTelNo3) Values(?, ?, ?, ?, ?);", {
                         New OdbcParameter("@NO", txtCuNo.Text),
                         New OdbcParameter("@NAME", TextCuName.Text),
                         New OdbcParameter("@TELNO1", txtCuTelNo1.Text),

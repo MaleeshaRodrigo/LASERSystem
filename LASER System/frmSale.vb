@@ -457,7 +457,7 @@ Public Class frmSale
                 End If
             Case 1, 2
                 frmSearchDropDown.frm_Close()
-                Dim DR As OdbcDataReader = Db.GetDataReader("Select * from Stock where SCategory=@CATEGORY and SName=@NAME", {
+                Dim DR As OdbcDataReader = Db.GetDataReader("Select * from Stock where SCategory=? and SName=?E", {
                                                              New OdbcParameter("CATEGORY", If(grdSale.Item(1, e.RowIndex).Value, "")),
                                                              New OdbcParameter("NAME", If(grdSale.Item(2, e.RowIndex).Value, ""))
                                                                                 })

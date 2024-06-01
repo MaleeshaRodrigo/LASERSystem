@@ -140,8 +140,8 @@ Public Class FormDeliver
             RPT.Subreports.Item("rptDeliverRepair.rpt").SetDataSource(DS1)
             Dim DT2 As New DataTable
             Dim DS2 As New DataSet
-            Dim DA2 As OdbcDataAdapter = Db.GetDataAdapter("Select Rerepair.RetNo,Rerepair.RepNo,Rerepair.PNo,Product.PCategory,Product.Pname,Rerepair.Qty,Rerepair.PaidPrice,Rerepair.TNo from Rerepair,Product,Deliver where Deliver.DNO = Rerepair.DNo And Rerepair.PNo = Product.PNo And Deliver.DNO  = " & DNo & ";")
-            DA2.Fill(DS2, "Rerepair")
+            Dim DA2 As OdbcDataAdapter = Db.GetDataAdapter("Select Return.RetNo,Return.RepNo,Return.PNo,Product.PCategory,Product.Pname,Return.Qty,Return.PaidPrice,Return.TNo from `Return`,Product,Deliver where Deliver.DNO = Return.DNo And Return.PNo = Product.PNo And Deliver.DNO  = " & DNo & ";")
+            DA2.Fill(DS2, "Return")
             DA2.Fill(DS2, "Product")
             RPT.Subreports.Item("rptDeliverReturn.rpt").SetDataSource(DS2)
             Dim DT3 As New DataTable

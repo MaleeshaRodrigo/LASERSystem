@@ -12,14 +12,14 @@ Public Class ControlTechnicianCostInfo
     End Sub
 
     Public Sub InitForRepair(RepNo As Integer)
-        Dim DataTable = Db.GetDataTable("SELECT TCNo,TCDate,TC.SNo,S.SCategory,S.SName,Rate,Qty,Total,TCRemarks,UserName FROM (Stock S INNER JOIN TechnicianCost TC ON TC.SNo = S.SNo) LEFT JOIN `User` U ON U.UNo = TC.UNo WHERE RepNo=@REPNO;", {
+        Dim DataTable = Db.GetDataTable("SELECT TCNo,TCDate,TC.SNo,S.SCategory,S.SName,Rate,Qty,Total,TCRemarks,UserName FROM (Stock S INNER JOIN TechnicianCost TC ON TC.SNo = S.SNo) LEFT JOIN `User` U ON U.UNo = TC.UNo WHERE RepNo=?;", {
             New OdbcParameter("REPNO", RepNo)
                                         })
         grdTechnicianCost.DataSource = DataTable
     End Sub
 
     Public Sub InitForReRepair(ReRepNo As Integer)
-        Dim DataTable = Db.GetDataTable("SELECT TCNo,TCDate,TC.SNo,S.SCategory,S.SName,Rate,Qty,Total,TCRemarks,UserName FROM (Stock S INNER JOIN TechnicianCost TC ON TC.SNo = S.SNo) LEFT JOIN `User` U ON U.UNo = TC.UNo WHERE RetNo=@REREPNO;", {
+        Dim DataTable = Db.GetDataTable("SELECT TCNo,TCDate,TC.SNo,S.SCategory,S.SName,Rate,Qty,Total,TCRemarks,UserName FROM (Stock S INNER JOIN TechnicianCost TC ON TC.SNo = S.SNo) LEFT JOIN `User` U ON U.UNo = TC.UNo WHERE RetNo=?;", {
             New OdbcParameter("REREPNO", ReRepNo)
                                         })
         grdTechnicianCost.DataSource = DataTable

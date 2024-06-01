@@ -43,7 +43,7 @@ Public Class Database
     End Sub
 
     Public Function CheckDataExists(Table As String, FieldName As String, Value As Object) As Boolean
-        Dim Command As New OdbcCommand($"SELECT {FieldName} FROM {Table} WHERE {FieldName}=@VALUE;", _Connection)
+        Dim Command As New OdbcCommand($"SELECT {FieldName} FROM {Table} WHERE {FieldName}=?;", _Connection)
         Command.Parameters.Add(New OdbcParameter("VALUE", Value))
         Using DataReader As OdbcDataReader = Command.ExecuteReader()
             Return DataReader.HasRows

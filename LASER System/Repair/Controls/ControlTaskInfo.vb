@@ -9,14 +9,14 @@ Public Class ControlTaskInfo
     End Sub
 
     Public Sub InitForRepair(RepNo As Integer)
-        Dim DataTable = DB.GetDataTable("SELECT MsgNo,MsgDate,Action,Message,Status FROM Message WHERE RepNo = @REPNO", {
+        Dim DataTable = DB.GetDataTable("SELECT MsgNo,MsgDate,Action,Message,Status FROM Message WHERE RepNo = ?O", {
                                             New OdbcParameter("REPNO", RepNo)
                                         })
         grdRepTask.DataSource = DataTable
     End Sub
 
     Public Sub InitForReRepair(ReRepNo As Integer)
-        Dim DataTable = DB.GetDataTable("SELECT MsgNo,MsgDate,Action,Message,Status FROM Message WHERE RetNo = @REREPNO", {
+        Dim DataTable = DB.GetDataTable("SELECT MsgNo,MsgDate,Action,Message,Status FROM Message WHERE RetNo = ?O", {
                                             New OdbcParameter("REREPNO", ReRepNo)
                                         })
         grdRepTask.DataSource = DataTable

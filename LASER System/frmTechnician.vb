@@ -36,7 +36,7 @@ Public Class frmTechnician
                 ElseIf CheckExistData(Db, txtTNo, "Select TNo from Technician where TNo =" & txtTNo.Text & ";", "This data couldn't be saved to database because Technicino No which you added has already located in the database. You have to change that to save.", True) = True Then
                     Exit Sub
                 End If
-                Db.Execute("INSERT INTO Technician(TNo,TName,TFullName,TAddress,TEmail,TNicNo,TTelNo1,TTelno2,TTelno3,TRemarks,TActive,TBlockEmails) VALUES(@TNO, @TNAME, @TFULLNAME, TADDRESS, TEMAIL, TNICNO, TTELNO1, TTELNO2, TTELNO3, TREMARKS, TACTIVE, TBLOCKEMAILS)", {
+                Db.Execute("INSERT INTO Technician(TNo,TName,TFullName,TAddress,TEmail,TNicNo,TTelNo1,TTelno2,TTelno3,TRemarks,TActive,TBlockEmails) VALUES(?, ?, ?, TADDRESS, TEMAIL, TNICNO, TTELNO1, TTELNO2, TTELNO3, TREMARKS, TACTIVE, TBLOCKEMAILS)", {
                       New OdbcParameter("TNO", txtTNo.Text),
                       New OdbcParameter("TNAME", cmbTName.Text),
                       New OdbcParameter("TFULLNAME", txtTFullName.Text),
@@ -55,7 +55,7 @@ Public Class frmTechnician
                 cmdDelete.Enabled = True
             Case "Edit"
                 If MsgBox("Are you sure edit?", vbYesNo + vbInformation) = vbYes Then
-                    Db.Execute("Update Technician Set TName=@TNAME, TFullName=@TFULLNAME, TAddress=@TADDRESS, TEmail=@TEMAIL, TNicNo=@TNICNO, TTelNo1=@TTELNO1, TTelno2=@TTELNO2, TTelno3=@TTELNO3, TRemarks=@TREMARKS, TActive=@TACTIVE, TBlockEmails=@TBLOCKEMAILS WHERE TNo=@TNO;", {
+                    Db.Execute("Update Technician Set TName=?, TFullName=?, TAddress=?, TEmail=?, TNicNo=?, TTelNo1=?, TTelno2=?, TTelno3=?, TRemarks=?, TActive=?, TBlockEmails=? WHERE TNo=?;", {
                           New OdbcParameter("TNAME", cmbTName.Text),
                           New OdbcParameter("TFULLNAME", txtTFullName.Text),
                           New OdbcParameter("TADDRESS", txtTAddress.Text),

@@ -219,7 +219,7 @@ Public Class ControlStockInfo
         End If
         If Db.CheckDataExists(Tables.Stock, Stock.Code, TxtSNo.Text) AndAlso
             MsgBox("ඔබට මෙම Record එක Delete කිරිමට අවශ්‍යද?", vbInformation + vbYesNo) = vbYes Then
-            Db.Execute($"DELETE FROM {Tables.Stock} WHERE {Stock.Code}=@SNO", {
+            Db.Execute($"DELETE FROM {Tables.Stock} WHERE {Stock.Code}=?O", {
                     New OdbcParameter("@SNO", TxtSNo.Text)
                 })
             Me.Dispose()
