@@ -319,9 +319,9 @@ Public Class FormRepair
                         Db.Execute("update Repair Set status ='" & cmbRepStatus.Text & "' where repno=" & cmbRepNo.Text & ";")
                         Db.Execute("Insert into RepairActivity(RepANo,RepNo,RepADate,Activity,UNo) Values(" & Db.GetNextKey("RepairActivity", "RepANo") & "," &
                                   cmbRepNo.Text & ",'" & DateAndTime.Now & "','Status -> " & cmbRepStatus.Text & "'," & User.Instance.UserNo & ")")
-            End If
+                    End If
 
-            If DataReaderRepair("CuNo").ToString <> txtCuNo.Text Then
+                    If DataReaderRepair("CuNo").ToString <> txtCuNo.Text Then
                         Db.Execute("update Receive set cuno =" & txtCuNo.Text & " where rno = " & txtRNo.Text)
                         Db.Execute("Insert into RepairActivity(RepANo,RepNo,RepADate,Activity,UNo) Values(" & Db.GetNextKey("RepairActivity", "RepANo") & "," &
                                   cmbRepNo.Text & ",'" & DateAndTime.Now & "','Customer -> Name= " & TextCuName.Text & ", Telephone No 1= " & txtCuTelNo1.Text &
@@ -359,7 +359,7 @@ Public Class FormRepair
                         Exit Sub
                     End If
                     Dim TNo As Integer = Db.GetData("SELECT TNo FROM Technician WHERE TName='" & ControlTechnicianInfo.cmbTName.Text & "'")
-                    If DataReaderRepair("TNo").ToString <> TNo Then
+                    If DataReaderRepair("TNo").ToString <> TNo.ToString Then
                         Db.Execute("update Repair set tno =" & TNo & " where repno=" & cmbRepNo.Text & ";")
                         Db.Execute("Insert into RepairActivity(RepANo,RepNo,RepADate,Activity,UNo) Values(" & Db.GetNextKey("RepairActivity", "RepANo") & "," &
                                   cmbRepNo.Text & ",'" & DateAndTime.Now & "','Technician -> " & ControlTechnicianInfo.cmbTName.Text & "'," & User.Instance.UserNo & ")")

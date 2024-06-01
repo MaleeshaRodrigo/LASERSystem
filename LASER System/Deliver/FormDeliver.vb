@@ -49,7 +49,7 @@ Public Class FormDeliver
         grdRERepair.Rows.Clear()
 
         Dim grdtxt1 As DataGridViewComboBoxColumn = grdRepair.Columns.Item(5)
-        Dim DT0 As DataTable = Db.GetDataTable("Select TName from Technician Where TActive=Yes group by TName;")
+        Dim DT0 As DataTable = Db.GetDataTable("Select TName from Technician Where TActive=1 group by TName;")
         Dim items = DT0.AsEnumerable().Select(Function(d) DirectCast(d(0).ToString(), Object)).ToArray()
         grdtxt1.DataSource = items
 
