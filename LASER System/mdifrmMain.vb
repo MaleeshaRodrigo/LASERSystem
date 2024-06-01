@@ -185,7 +185,7 @@ Public Class MdifrmMain
         End With
     End Sub
 
-#Region "MenuStrip Items"
+'Region "MenuStrip Items"
 
     Private Sub StockToolStripMenuItem_Click(sender As Object, e As EventArgs)
         CmdStock_Click(sender, e)
@@ -265,7 +265,7 @@ Public Class MdifrmMain
         Db.Disconnect()
         End
     End Sub
-#End Region
+'End Region
 
     Private Sub cmbIncomevsDateView_SelectedIndexChanged(sender As Object, e As EventArgs)
         Select Case cmbIncomevsDateView.Text

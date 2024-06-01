@@ -101,8 +101,8 @@ Public Class ControlTechnicianCostInfo
                       {}, AdminPer)
         End If
         If Db.CheckDataExists("TechnicianCost", "TCNo", grdTechnicianCost.Item(0, e.RowIndex).Value) = True Then
-            Db.Execute("Update TechnicianCost set TCDate=#" & grdTechnicianCost.Item("TCDate", e.RowIndex).Value &
-                      "#,TNo" = Db.GetData($"SELECT TNo from Technician WHERE TName='{ParentRepairForm.ControlTechnicianInfo.cmbTName.Text}'") &
+            Db.Execute("Update TechnicianCost set TCDate='" & grdTechnicianCost.Item("TCDate", e.RowIndex).Value &
+                      "',TNo" = Db.GetData($"SELECT TNo from Technician WHERE TName='{ParentRepairForm.ControlTechnicianInfo.cmbTName.Text}'") &
                       ",SNo=" & grdTechnicianCost.Item("SNo", e.RowIndex).Value &
                       ",SCategory='" & grdTechnicianCost.Item("SCategory", e.RowIndex).Value &
                       "',SName='" & grdTechnicianCost.Item("SName", e.RowIndex).Value &

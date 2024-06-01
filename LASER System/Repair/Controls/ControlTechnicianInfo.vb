@@ -106,12 +106,12 @@ Public Class ControlTechnicianInfo
         End If
         If e.RowIndex <> (grdRepRemarks2.Rows.Count - 1) Then
             If DB.CheckDataExists("RepairRemarks2", "Rem2No", grdRepRemarks2.Item(0, e.RowIndex).Value) = True Then
-                DB.Execute($"Update RepairRemarks2 set {If(FormParent.tabRepair.SelectedTab.TabIndex = 0, "RepNo=" & FormParent.cmbRepNo.Text, "RetNo=" & FormParent.cmbRetNo.Text) }, Rem2Date =#{grdRepRemarks2.Item(1, e.RowIndex).Value}#, Remarks ='{grdRepRemarks2.Item(2, e.RowIndex).Value}',UNo={DB.GetData($"Select UNo from `User` Where UserName='{grdRepRemarks2.Item(3, e.RowIndex).Value}'")} Where Rem2No={grdRepRemarks2.Item(0, e.RowIndex).Value}", {}, AdminPer)
+                DB.Execute($"Update RepairRemarks2 set {If(FormParent.tabRepair.SelectedTab.TabIndex = 0, "RepNo=" & FormParent.cmbRepNo.Text, "RetNo=" & FormParent.cmbRetNo.Text) }, Rem2Date ='{grdRepRemarks2.Item(1, e.RowIndex).Value}', Remarks ='{grdRepRemarks2.Item(2, e.RowIndex).Value}',UNo={DB.GetData($"Select UNo from `User` Where UserName='{grdRepRemarks2.Item(3, e.RowIndex).Value}'")} Where Rem2No={grdRepRemarks2.Item(0, e.RowIndex).Value}", {}, AdminPer)
             Else
                 DB.Execute("Insert into RepairRemarks2(Rem2No," & If(FormParent.tabRepair.SelectedTab.TabIndex = 0, "RepNo", "RetNo") &
                           ",Rem2Date,Remarks,UNo) Values(" & grdRepRemarks2.Item(0, e.RowIndex).Value & "," &
-                          If(FormParent.tabRepair.SelectedTab.TabIndex = 0, FormParent.cmbRepNo.Text, FormParent.cmbRetNo.Text) & ",#" & grdRepRemarks2.Item(1, e.RowIndex).Value &
-                          "#,'" & grdRepRemarks2.Item(2, e.RowIndex).Value & "'," &
+                          If(FormParent.tabRepair.SelectedTab.TabIndex = 0, FormParent.cmbRepNo.Text, FormParent.cmbRetNo.Text) & ",'" & grdRepRemarks2.Item(1, e.RowIndex).Value &
+                          "','" & grdRepRemarks2.Item(2, e.RowIndex).Value & "'," &
                           DB.GetData("Select UNo from `User` Where UserName='" & grdRepRemarks2.Item(3, e.RowIndex).Value & "'") &
                           ")", {}, AdminPer)
             End If

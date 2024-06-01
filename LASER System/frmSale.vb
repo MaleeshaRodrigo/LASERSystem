@@ -58,7 +58,7 @@ Public Class frmSale
 
     Private Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click, NewToolStripMenuItem.Click
         Cursor = Cursors.WaitCursor
-        SetNextKey(Db, txtSaNo, "SELECT top 1 SaNo from Sale ORDER BY SaNo Desc;", "SaNo")
+        SetNextKey(Db, txtSaNo, "SELECT  SaNo from Sale ORDER BY SaNo Desc LIMIT 1;", "SaNo")
         cmbCuName.Text = "No Name"             'clear customer fileds
         cmbCuName_SelectedIndexChanged(sender, e)
         txtSubTotal.Text = "0"
@@ -70,7 +70,7 @@ Public Class frmSale
         txtCPAmount.Text = "0"
         txtCPInvoiceNo.Text = "0"
         txtCuLAmount.Text = "0"
-        SetNextKey(Db, txtCuLNo, "Select top 1 CuLNo from CustomerLoan order by CuLNo Desc;", "CuLNo")
+        SetNextKey(Db, txtCuLNo, "Select  CuLNo from CustomerLoan order by CuLNo Desc LIMIT 1;", "CuLNo")
         grdSale.Rows.Clear()
         cmdSave.Text = "Save"
         SaveToolStripMenuItem.Text = "Save"
@@ -149,7 +149,7 @@ Public Class frmSale
         End If
         chkCashDrawer.Checked = My.Settings.CashDrawer
         txtLess_TextChanged(sender, e)
-        SetNextKey(Db, txtCuLNo, "Select Top 1 CuLNo from CustomerLoan Order by CuLNo Desc", "CuLNo")
+        SetNextKey(Db, txtCuLNo, "Select  CuLNo from CustomerLoan Order by CuLNo Desc LIMIT 1", "CuLNo")
         pnlSaSaveFinal.Dock = DockStyle.Fill
         pnlSaSaveFinal.BringToFront()
         pnlSaSaveFinal.Visible = True
@@ -244,16 +244,16 @@ Public Class frmSale
         End If
         Select Case cmdSave.Text
             Case "Save"
-                SetNextKey(Db, txtSaNo, "SELECT top 1 SaNo from Sale ORDER BY SaNo Desc;", "SaNo")
+                SetNextKey(Db, txtSaNo, "SELECT SaNo from Sale ORDER BY SaNo Desc LIMIT 1;", "SaNo")
                 'Add Values into Sale
                 Db.Execute("Insert into Sale(SaNo,SaDate,CuNo,SaSubTotal,SaLess,SaDue,CAmount,CReceived,CBalance,CPInvoiceNo,CPAmount,CuLNo,CuLAmount,SaRemarks,UNo)Values(?NewKey?Sale?SaNo?,'" & txtSaDate.Value & "'," & CuNo & "," & txtSubTotal.Text & "," & txtLess.Text &
                        "," & txtDue.Text & "," & txtCAmount.Text & "," & txtCReceived.Text & "," & txtCBalance.Text & "," &
                        txtCPInvoiceNo.Text & "," & txtCPAmount.Text & "," & txtCuLNo.Text & "," & txtCuLAmount.Text & ",'" &
                        txtSaRemarks.Text & "'," & User.Instance.UserNo & ");")
                 If txtCuLAmount.Text <> "0" Then
-                    SetNextKey(Db, txtCuLNo, "Select Top 1 CuLNo from CustomerLoan Order by CuLNo Desc", "CuLNo")
-                    Db.Execute("Insert into CustomerLoan(CuLNo,CuLDate,CuNo,CuLAmount,SaNo,Status) Values(" & txtCuLNo.Text & ",#" & txtSaDate.Value &
-                              "#," & CuNo & "," &
+                    SetNextKey(Db, txtCuLNo, "Select CuLNo from CustomerLoan Order by CuLNo Desc LIMIT 1", "CuLNo")
+                    Db.Execute("Insert into CustomerLoan(CuLNo,CuLDate,CuNo,CuLAmount,SaNo,Status) Values(" & txtCuLNo.Text & ",'" & txtSaDate.Value &
+                              "'," & CuNo & "," &
                               txtCuLAmount.Text & "," & txtSaNo.Text & ",'Not Paid')")
                 End If
                 'Add Values into StockSale

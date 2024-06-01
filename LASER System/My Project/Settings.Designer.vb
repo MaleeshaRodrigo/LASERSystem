@@ -22,8 +22,8 @@ Namespace My
         
         Private Shared defaultInstance As MySettings = CType(Global.System.Configuration.ApplicationSettingsBase.Synchronized(New MySettings()),MySettings)
         
-#Region "My.Settings Auto-Save Functionality"
-#If _MyType = "WindowsForms" Then
+'Region "My.Settings Auto-Save Functionality"
+'If _MyType = "WindowsForms" Then
     Private Shared addedHandler As Boolean
 
     Private Shared addedHandlerLockObject As New Object
@@ -34,13 +34,13 @@ Namespace My
             My.Settings.Save()
         End If
     End Sub
-#End If
-#End Region
+'End If
+'End Region
         
         Public Shared ReadOnly Property [Default]() As MySettings
             Get
                 
-#If _MyType = "WindowsForms" Then
+'If _MyType = "WindowsForms" Then
                If Not addedHandler Then
                     SyncLock addedHandlerLockObject
                         If Not addedHandler Then
@@ -49,7 +49,7 @@ Namespace My
                         End If
                     End SyncLock
                 End If
-#End If
+'End If
                 Return defaultInstance
             End Get
         End Property

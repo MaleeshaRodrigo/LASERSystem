@@ -1178,14 +1178,14 @@ end_for_loop:
                                      Db.Execute("UPDATE Repair SET " & grdSearch.Columns(e.ColumnIndex).Name & " ='" & currentvalue & "' where repno = " &
                   grdSearch.Item(0, e.RowIndex).Value)
                                      Db.Execute("Insert into RepairActivity(RepNo,RepADate,Activity,UNo) Values(" &
- grdSearch.Item(0, e.RowIndex).Value & ",#" & DateAndTime.Now & "#,'" & grdSearch.Columns(e.ColumnIndex).HeaderText & " -> " &
+ grdSearch.Item(0, e.RowIndex).Value & ",'" & DateAndTime.Now & "','" & grdSearch.Columns(e.ColumnIndex).HeaderText & " -> " &
  currentvalue & "'," & UNo & ")")
                                  End If
                              Case 13    'Remarks by Customer
                                  If currentvalue <> "" Then
                                      Db.Execute("Insert into RepairRemarks1(Rem1No,RepNo,Rem1Date,Remarks,UNo) Values(" &
                           Db.GetNextKey("RepairRemarks1", "Rem1No") & "," &
-                  grdSearch.Item(0, e.RowIndex).Value & ",#" & DateAndTime.Now & "#,'" & grdSearch.Item(13, e.RowIndex).Value & "'," &
+                  grdSearch.Item(0, e.RowIndex).Value & ",'" & DateAndTime.Now & "','" & grdSearch.Item(13, e.RowIndex).Value & "'," &
                   UNo & ")")
                                      grdSearch.Item(13, e.RowIndex).Value = ""
                                  End If
@@ -1200,7 +1200,7 @@ end_for_loop:
                                                                                 grdSearch.Item("TName", e.RowIndex).Value & "'")
                                      Db.Execute($"update Repair set tno ={TNo}{tmp} where repno=" & grdSearch.Item(0, e.RowIndex).Value & ";")
                                      Db.Execute($"Insert into RepairActivity(RepNo,RepADate,Activity,UNo)
-                                Values({grdSearch.Item(0, e.RowIndex).Value},#{ DateAndTime.Now }#,
+                                Values({grdSearch.Item(0, e.RowIndex).Value},'{ DateAndTime.Now }',
                                 'Technician -> {grdSearch.Item("TName", e.RowIndex).Value}{tmp.Replace("'", "")}',
                                 " & UNo & ")")
                                  End If
@@ -1208,7 +1208,7 @@ end_for_loop:
                                  If currentvalue <> "" Then
                                      Db.Execute("Insert into RepairRemarks2(Rem2No,RepNo,Rem2Date,Remarks,UNo) Values(" &
                           Db.GetNextKey("RepairRemarks2", "Rem2No") & "," &
-                  grdSearch.Item(0, e.RowIndex).Value & ",#" & DateAndTime.Now & "#,'" & grdSearch.Item(16, e.RowIndex).Value & "'," &
+                  grdSearch.Item(0, e.RowIndex).Value & ",'" & DateAndTime.Now & "','" & grdSearch.Item(16, e.RowIndex).Value & "'," &
                   UNo & ")")
                                      grdSearch.Item(16, e.RowIndex).Value = ""
                                  End If
@@ -1217,9 +1217,9 @@ end_for_loop:
                                  dtpDate.Visible = False
                                  If Db.GetData("Select RepDate from Repair Where RepNo=" & grdSearch.Item(0, e.RowIndex).Value) <>
                                  currentvalue Then
-                                     Db.Execute("update Repair set repdate=#" & currentvalue & "# where repno=" & grdSearch.Item(0, e.RowIndex).Value & ";")
+                                     Db.Execute("update Repair set repdate='" & currentvalue & "' where repno=" & grdSearch.Item(0, e.RowIndex).Value & ";")
                                      Db.Execute("Insert into RepairActivity(RepNo,RepADate,Activity,UNo) Values(" &
-                          grdSearch.Item(0, e.RowIndex).Value & ",#" & DateAndTime.Now & "#,'Repaired Date එක " & currentvalue &
+                          grdSearch.Item(0, e.RowIndex).Value & ",'" & DateAndTime.Now & "','Repaired Date එක " & currentvalue &
                           " වෙනස් කෙරුණි.'," & UNo & ")")
                                  End If
                              Case 18    'Repair Charge
@@ -1231,11 +1231,11 @@ end_for_loop:
                                          grdSearch.Item(14, e.RowIndex).Value = "Repaired Not Delivered"
                                      End If
                                      Db.Execute("UPDATE Repair set Status ='" & grdSearch.Item(14, e.RowIndex).Value &
-                              "',RepDate=#" & grdSearch.Item(17, e.RowIndex).Value &
-                              "#,Charge=" & currentvalue & " where repno=" &
+                              "',RepDate='" & grdSearch.Item(17, e.RowIndex).Value &
+                              "',Charge=" & currentvalue & " where repno=" &
                               grdSearch.Item(0, e.RowIndex).Value & ";")
                                      Db.Execute("Insert into RepairActivity(RepNo,RepADate,Activity,UNo) Values(" &
-             grdSearch.Item(0, e.RowIndex).Value & ",#" & DateAndTime.Now & "#,'Repaired Date -> " & grdSearch.Item(17, e.RowIndex).Value &
+             grdSearch.Item(0, e.RowIndex).Value & ",'" & DateAndTime.Now & "','Repaired Date -> " & grdSearch.Item(17, e.RowIndex).Value &
              ", Status -> " & grdSearch.Item(14, e.RowIndex).Value &
              ", Repair Charge -> " & currentvalue &
              "'," & UNo & ")")

@@ -48,7 +48,7 @@ Public Class ControlRemarks
 
     Public Sub SaveData(RepNo As Integer)
         DB.Execute($"UPDATE Repair SET Location= '{cmbLocation.Text}' WHERE repno ={RepNo}")
-        DB.Execute($"INSERT INTO RepairActivity(RepANo,RepNo,RepADate,Activity,UNo) VALUES({DB.GetNextKey("RepairActivity", "RepANo")},{RepNo},#{DateAndTime.Now}#,'Location -> {cmbLocation.Text}',{User.Instance.UserNo})")
+        DB.Execute($"INSERT INTO RepairActivity(RepANo,RepNo,RepADate,Activity,UNo) VALUES({DB.GetNextKey("RepairActivity", "RepANo")},{RepNo},'{DateAndTime.Now}','Location -> {cmbLocation.Text}',{User.Instance.UserNo})")
     End Sub
 
     Public Sub Clear()
@@ -124,16 +124,16 @@ Public Class ControlRemarks
             If DB.CheckDataExists("RepairRemarks1", "Rem1No", grdRepRemarks1.Item(0, e.RowIndex).Value) = True Then
                 DB.Execute("Update RepairRemarks1 set " &
                           If(FormParent.Mode = RepairMode.Repair, "RepNo=" & FormParent.cmbRepNo.Text, "RetNo=" & FormParent.cmbRetNo.Text) &
-                          ",Rem1Date=#" & grdRepRemarks1.Item(1, e.RowIndex).Value &
-                          "#,Remarks='" & grdRepRemarks1.Item(2, e.RowIndex).Value &
+                          ",Rem1Date='" & grdRepRemarks1.Item(1, e.RowIndex).Value &
+                          "',Remarks='" & grdRepRemarks1.Item(2, e.RowIndex).Value &
                           "',UNo=" & DB.GetData("Select UNo from `User` Where UserName='" &
                           grdRepRemarks1.Item(3, e.RowIndex).Value & "'") &
                           " Where Rem1No=" & grdRepRemarks1.Item(0, e.RowIndex).Value, {}, AdminPer)
             Else
                 DB.Execute("Insert into RepairRemarks1(Rem1No," & If(FormParent.Mode = RepairMode.Repair, "RepNo", "RetNo") &
                           ", Rem1Date, Remarks, UNo) Values(" & grdRepRemarks1.Item(0, e.RowIndex).Value & "," &
-                          If(FormParent.Mode = RepairMode.Repair, FormParent.cmbRepNo.Text, FormParent.cmbRetNo.Text) & ",#" & grdRepRemarks1.Item(1, e.RowIndex).Value &
-                          "#,'" & grdRepRemarks1.Item(2, e.RowIndex).Value & "'," &
+                          If(FormParent.Mode = RepairMode.Repair, FormParent.cmbRepNo.Text, FormParent.cmbRetNo.Text) & ",'" & grdRepRemarks1.Item(1, e.RowIndex).Value &
+                          "','" & grdRepRemarks1.Item(2, e.RowIndex).Value & "'," &
                           DB.GetData("Select UNo from `User` Where UserName='" & grdRepRemarks1.Item(3, e.RowIndex).Value & "'") &
                           ")", {}, AdminPer)
             End If

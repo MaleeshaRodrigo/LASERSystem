@@ -80,7 +80,7 @@ Public Class frmReceive
 
     Private Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click
         Cursor = Cursors.WaitCursor
-        Call SetNextKey(Db, txtRNo, "SELECT top 1 RNo from Receive ORDER BY RNo Desc;", "RNo")
+        Call SetNextKey(Db, txtRNo, "SELECT  RNo from Receive ORDER BY RNo Desc LIMIT 1;", "RNo")
         'clear customer fileds
         For Each obj As Object In {cmbCuMr, cmbCuName, txtCuTelNo1, txtCuTelNo2, txtCuTelNo3}
             obj.Text = ""
@@ -187,7 +187,7 @@ Public Class frmReceive
         End If
         If txtRDate.Value.Date = Today.Date Then txtRDate.Value = DateAndTime.Now
         txtRNo.Text = Db.GetNextKey("Receive", "RNo")
-        Db.Execute("Insert into Receive(RNo,RDate,CuNo,UNo) values(" & txtRNo.Text & ",#" & txtRDate.Value & "#," & CuNo & ",'" & User.Instance.UserNo & "');")
+        Db.Execute("Insert into Receive(RNo,RDate,CuNo,UNo) values(" & txtRNo.Text & ",'" & txtRDate.Value & "'," & CuNo & ",'" & User.Instance.UserNo & "');")
         For Each row As DataGridViewRow In grdRepair.Rows
             If row.Index = grdRepair.Rows.Count - 1 Then Continue For
             'Product Management
@@ -202,8 +202,8 @@ Public Class frmReceive
             Db.Execute("Insert into Repair(RepNo,RNo,PNo,PSerialNo,Qty,Problem,Status)Values(" & row.Cells(0).Value & "," & txtRNo.Text & "," & PNo & ",'" & row.Cells(4).Value & "'," &
                                         row.Cells(6).Value & ",'" & row.Cells(7).Value & "','Received');")
             Db.Execute("Insert into RepairActivity(RepANo,RepNo,RepADate,Activity,UNo) Values(?NewKey?RepairActivity?RepANo?," &
-                      row.Cells(0).Value & ",#" & DateAndTime.Now &
-                      "#,'Received Date -> " & txtRDate.Value & vbCrLf &
+                      row.Cells(0).Value & ",'" & DateAndTime.Now &
+                      "','Received Date -> " & txtRDate.Value & vbCrLf &
                       ", Name -> " & cmbCuMr.Text & cmbCuName.Text &
                       ", Telephone No1 -> " & txtCuTelNo1.Text &
                       ", Telephone No2 -> " & txtCuTelNo2.Text &
@@ -214,7 +214,7 @@ Public Class frmReceive
                       ", Serial No -> " & row.Cells(4).Value &
                       ", Problem -> " & row.Cells(5).Value & ".'," & User.Instance.UserNo & ")")
             If row.Cells(8).Value IsNot Nothing Then
-                Db.Execute("Insert into RepairRemarks1(Rem1No,Rem1Date,RepNo,Remarks,UNo) Values(?NewKey?RepairRemarks1?Rem1No?,#" & DateAndTime.Now & "#," &
+                Db.Execute("Insert into RepairRemarks1(Rem1No,Rem1Date,RepNo,Remarks,UNo) Values(?NewKey?RepairRemarks1?Rem1No?,'" & DateAndTime.Now & "'," &
                       row.Cells(0).Value & ",'" & row.Cells(8).Value & "'," & User.Instance.UserNo & ")")
             End If
             If Me.Tag = "Deliver" Then
@@ -248,13 +248,13 @@ Public Class frmReceive
             Db.Execute("Insert Into `Return`(RetNo,RNo,RepNo,PNo,PSerialNo,Qty,Problem,Status,RetRemarks1) Values(" & row.Cells(0).Value & "," & txtRNo.Text & "," & row.Cells(1).Value & "," & PNo & ",'" & row.Cells(5).Value & "'," &
             row.Cells(7).Value & ",'" & row.Cells(8).Value & "','Received','" & row.Cells(9).Value & "');")
             Db.Execute("Insert into RepairActivity(RepANo,RetNo,RepADate,Activity,UNo) Values(?NewKey?RepairActivity?RepANo?," &
-                      row.Cells(0).Value & ",#" & DateAndTime.Now & "#,'Received Date -> " & txtRDate.Value & vbCrLf & ", Name -> " & cmbCuMr.Text & cmbCuName.Text &
+                      row.Cells(0).Value & ",'" & DateAndTime.Now & "','Received Date -> " & txtRDate.Value & vbCrLf & ", Name -> " & cmbCuMr.Text & cmbCuName.Text &
                       ", Telephone No1 -> " & txtCuTelNo1.Text & ", Telephone No2 -> " & txtCuTelNo2.Text & ", Telephone No3 -> " & txtCuTelNo3.Text &
                       vbCrLf & ", Product Category -> " & row.Cells(2).Value &
                       ", Product Name -> " & row.Cells(3).Value & ", Model No -> " & row.Cells(4).Value & ", Serial No -> " & row.Cells(5).Value &
                       ", Problem -> " & row.Cells(6).Value & ".'," & User.Instance.UserNo & ")")
             If row.Cells(9).Value IsNot Nothing Then
-                Db.Execute("Insert into RepairRemarks1(Rem1No,Rem1Date,RetNo,Remarks,UNo) Values(?NewKey?RepairRemarks1?Rem1No?,#" & DateAndTime.Now & "#," &
+                Db.Execute("Insert into RepairRemarks1(Rem1No,Rem1Date,RetNo,Remarks,UNo) Values(?NewKey?RepairRemarks1?Rem1No?,'" & DateAndTime.Now & "'," &
                       row.Cells(0).Value & ",'" & row.Cells(9).Value & "'," & User.Instance.UserNo & ")")
             End If
             If Me.Tag = "Deliver" Then
@@ -287,7 +287,7 @@ Public Class frmReceive
                     ThreadDb.Connect()
                     Dim frm1 As New frmReport
                     Dim RPT As New rptReceive
-                    Dim DTRepair As DataTable = ThreadDb.GetDataTable($"SELECT RDate,CuName,CuTelNo1,CuTelNo2,CuTelNo3,'' as RetNo, RepNo, PCategory, PName, PModelNo, PSerialNo, Qty, Problem, '' as RepRemarks1 from (((Repair Inner Join Receive On Receive.RNo =Repair.RNo) Left Join Product On Product.PNo=Repair.PNo) Left Join Customer On Customer.CuNo=Receive.CuNo) Where Receive.RNo = {RNo} Union Select RDate,CuName,CuTelNo1,CuTelNo2,CuTelNo3, RetNo, RepNo, PCategory, PName, PModelNo, PSerialNo, Qty, Problem, '' as RepRemarks1 from (((Return Inner Join Receive On Receive.RNo =Return.RNo) Left Join Product On Product.PNo=Return.PNo) Left Join Customer On Customer.CuNo=Receive.CuNo) Where Receive.RNo = {RNo}")
+                    Dim DTRepair As DataTable = ThreadDb.GetDataTable($"SELECT RDate,CuName,CuTelNo1,CuTelNo2,CuTelNo3,'' as RetNo, RepNo, PCategory, PName, PModelNo, PSerialNo, Qty, Problem, '' as RepRemarks1 from (((Repair Inner Join Receive On Receive.RNo =Repair.RNo) Left Join Product On Product.PNo=Repair.PNo) Left Join Customer On Customer.CuNo=Receive.CuNo) Where Receive.RNo = {RNo} Union Select RDate,CuName,CuTelNo1,CuTelNo2,CuTelNo3, RetNo, RepNo, PCategory, PName, PModelNo, PSerialNo, Qty, Problem, '' as RepRemarks1 from (((`Return` Inner Join Receive On Receive.RNo =Return.RNo) Left Join Product On Product.PNo=Return.PNo) Left Join Customer On Customer.CuNo=Receive.CuNo) Where Receive.RNo = {RNo}")
                     For Each row As DataRow In DTRepair.Rows
                         Dim DrRemarks As OdbcDataReader = ThreadDb.GetDataReader($"Select Remarks from RepairRemarks1 Where {If(row.Item("RetNo") = "", $"RepNo={row.Item("RepNo")}", $"RetNo={row.Item("RetNo")}")};")
                         row.Item("RepRemarks1") = ""
@@ -503,7 +503,7 @@ Public Class frmReceive
 
     Private Sub grdRepair_UserAddedRow(sender As Object, e As DataGridViewRowEventArgs) Handles grdRepair.UserAddedRow
         Dim i As Integer
-        Dim DR As OdbcDataReader = Db.GetDataReader("Select Top 1 REpNo from REpair Order by repno desc;")
+        Dim DR As OdbcDataReader = Db.GetDataReader("Select  REpNo from REpair Order by repno desc LIMIT 1;")
         If DR.HasRows = True Then
             DR.Read()
             i = Int(DR("RepNo").ToString) + 1
@@ -548,7 +548,7 @@ Public Class frmReceive
 
     Public Sub grdReRepair_UserAddedRow(sender As Object, e As DataGridViewRowEventArgs) Handles grdReRepair.UserAddedRow
         Dim i As Integer
-        Dim DR As OdbcDataReader = Db.GetDataReader("Select Top 1 RetNo from Return Order by retno desc;")
+        Dim DR As OdbcDataReader = Db.GetDataReader("Select  RetNo from `Return` Order by retno desc LIMIT 1;")
         If DR.HasRows = True Then
             DR.Read()
             i = Int(DR("RetNo").ToString) + 1

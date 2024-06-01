@@ -159,7 +159,7 @@ Public Class ControlPopUp
         Next
         For Each Row As DataGridViewRow In FormParent.grdRERepair.Rows
             If Row.Index = FormParent.grdRERepair.Rows.Count - 1 Then Continue For
-            Dim DrRetStatus As OdbcDataReader = Db.GetDataReader("Select Status,RetNo from Return where RetNo=" & Row.Cells(0).Value)
+            Dim DrRetStatus As OdbcDataReader = Db.GetDataReader("Select Status,RetNo from `Return` where RetNo=" & Row.Cells(0).Value)
             If DrRetStatus.HasRows = True Then
                 DrRetStatus.Read()
                 If DrRetStatus("Status").ToString = "Received" Or DrRetStatus("Status").ToString = "Hand Over to Technician" Or DrRetStatus("Status").ToString = "Repairing" Then
@@ -178,7 +178,7 @@ Public Class ControlPopUp
                            }, AdminPer)
         Next
         If FormParent.cmdSave.Text = "Edit" Then
-            Db.Execute("DELETE FROM Deliver D WHERE DNo = @DNO AND Exists( Select 1 From Repair Rep Where Rep.DNo = D.DNo ) = False AND Exists( Select 1 From Return Ret Where Ret.DNo = D.DNo ) = False", {
+            Db.Execute("DELETE FROM Deliver D WHERE DNo = @DNO AND Exists( Select 1 From Repair Rep Where Rep.DNo = D.DNo ) = False AND Exists( Select 1 From `Return` Ret Where Ret.DNo = D.DNo ) = False", {
                                 New OdbcParameter("DNO", FormParent.txtDNo.Text)
                            })
         End If
@@ -244,7 +244,7 @@ Public Class ControlPopUp
                     Db.Execute("Update Repair Set " & If(DR1("Status").ToString = "Repaired Delivered", "Status='Repaired Not Delivered'",
                               "Status='Returned Not Delivered'") & ",PaidPrice=0,DNo=0 Where DNo=?Key?DNo?", {}, AdminPer)
                 End While
-                Dim DRReturn As OdbcDataReader = Db.GetDataReader("SELECT RetNo,RepNo,RET.PNo,PCategory,PName,Qty,Status,RET.TNo, TName,PaidPrice from (((RETURN RET INNER JOIN PRODUCT  P ON P.PNO = RET.PNO) LEFT JOIN Technician T ON T.TNO = RET.TNO) LEFT JOIN DELIVER D ON D.DNO = RET.DNO) Where D.DNo=" & FormParent.txtDNo.Text)
+                Dim DRReturn As OdbcDataReader = Db.GetDataReader("SELECT RetNo,RepNo,RET.PNo,PCategory,PName,Qty,Status,RET.TNo, TName,PaidPrice from (( `RETURN` RET INNER JOIN PRODUCT  P ON P.PNO = RET.PNO) LEFT JOIN Technician T ON T.TNO = RET.TNO) LEFT JOIN DELIVER D ON D.DNO = RET.DNO) Where D.DNo=" & FormParent.txtDNo.Text)
                 While DRReturn.Read
                     Db.Execute($"Update `Return` Set {If(DRReturn("Status").ToString = "Repaired Delivered", "Status='Repaired Not Delivered'",
                               "Status='Returned Not Delivered'")},PaidPrice=0,DNo=0 Where DNo={FormParent.txtDNo.Text}", {}, AdminPer)
@@ -261,8 +261,8 @@ Public Class ControlPopUp
 
             Dim DRAutoD As OdbcDataReader = Db.GetDataReader($"SELECT RepNo,DDate, CuName, CuTelNo1, PCategory, PName, Qty, PaidPrice, TEmail, TName, Status from ((((Repair Rep Inner Join Deliver D On D.DNo=Rep.DNo) Inner Join Technician T On T.TNo = Rep.TNo) Left Join Product P On P.Pno = Rep.PNo) Left Join Customer Cu On Cu.CuNo = D.CuNo) Where TEmail <> NULL and Status <> 'Returned Delivered' and TActive = Yes AND TBlockEmails <> Yes and D.DNo = {DNo}")
             While DRAutoD.Read()
-                Db.Execute("Insert Into Mail(MailNo,MailDate,EmailTo,Subject,Body,Status) Values(?NewKey?Mail?MailNo?,#" & DateAndTime.Now &
-                            "#,'" & DRAutoD("TEmail").ToString & "','Repair No:  " + DRAutoD("RepNo").ToString + " එක Customer විසින් රු." +
+                Db.Execute("Insert Into Mail(MailNo,MailDate,EmailTo,Subject,Body,Status) Values(?NewKey?Mail?MailNo?,'" & DateAndTime.Now &
+                            "','" & DRAutoD("TEmail").ToString & "','Repair No:  " + DRAutoD("RepNo").ToString + " එක Customer විසින් රු." +
                             DRAutoD("PaidPrice").ToString + " දී රුගෙන ගොස් ඇත.',""LASER System " + vbCrLf + vbCrLf +
                             "Repair No: " + DRAutoD("RepNo").ToString + vbCrLf +
                             "Delivered Date: " + DRAutoD("DDate").ToString + vbCrLf +
@@ -276,7 +276,7 @@ Public Class ControlPopUp
                             "Status: " + DRAutoD("Status").ToString + vbCrLf + vbCrLf +
                             "මෙම Message එක ස්වයංක්‍රීයව LASER System එකෙන් පැමිණෙන්නක් බැවින් ඉහත දත්ත සඳහා යම් ගැටලුවක් පවතියි නම්, කරුණාකර දත්ත කළමනාකරු අමතන්න"",'Waiting');")
             End While
-            DRAutoD = Db.GetDataReader($"SELECT RetNo,RepNo,DDate, CuName, CuTelNo1, PCategory, PName, Qty, PaidPrice, TEmail, TName, Status from ((((Return Ret Inner Join Deliver D On D.DNo=Ret.DNo) Inner Join Technician T On T.TNo = Ret.TNo) Left Join Product P On P.Pno = Ret.PNo) Left Join Customer Cu On Cu.CuNo = D.CuNo) Where TEmail <> NULL and Status <>'Returned Delivered' and TActive = Yes AND TBlockEmails <> Yes and D.DNo = {DNo}")
+            DRAutoD = Db.GetDataReader($"SELECT RetNo,RepNo,DDate, CuName, CuTelNo1, PCategory, PName, Qty, PaidPrice, TEmail, TName, Status from ((( `Return` Ret Inner Join Deliver D On D.DNo=Ret.DNo) Inner Join Technician T On T.TNo = Ret.TNo) Left Join Product P On P.Pno = Ret.PNo) Left Join Customer Cu On Cu.CuNo = D.CuNo) Where TEmail <> NULL and Status <>'Returned Delivered' and TActive = Yes AND TBlockEmails <> Yes and D.DNo = {DNo}")
             While DRAutoD.Read()
                 Db.Execute("Insert Into Mail(MailNo,MailDate,EmailTo,Subject,Body,Status) Values(?NewKey?Mail?MailNo?,'" & DateAndTime.Now &
                                   "','" & DRAutoD("TEmail").ToString & "','RERepair No:  " + DRAutoD("RetNo").ToString + " එක Customer විසින් රු." +

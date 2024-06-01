@@ -33,8 +33,8 @@ Public Class frmTechnicianCost
             Exit Sub
         End If
         DR = Db.GetDataReader("Select TCNo,TCDate,RepNo,RetNo,TCRemarks,SNo,SCategory,SName,Rate, Qty,Total,UserName from ((TechnicianCost TC Inner Join Technician T On T.Tno = TC.TNo) Left Join `User` U ON U.Uno = TC.UNo) where TName='" &
-                                cmbTName.Text & "' And TCDate BETWEEN #" & Format(txtTCFrom.Value, "yyyy-MM-dd") & " 00:00:00# And #" &
-                                Format(txtTCTo.Value, "yyyy-MM-dd") & " 23:59:59#" &
+                                cmbTName.Text & "' And TCDate BETWEEN '" & Format(txtTCFrom.Value, "yyyy-MM-dd") & " 00:00:00' And '" &
+                                Format(txtTCTo.Value, "yyyy-MM-dd") & " 23:59:59'" &
                                 If(txtSearch.Text <> "",
                                 " And (TCDate Like '%" & txtSearch.Text & "%' or TCRemarks Like '%" & txtSearch.Text & "%' or SNo Like '%" & txtSearch.Text & "%' or SCategory Like '%" & txtSearch.Text & "%' or SName Like '%" &
                                 txtSearch.Text & "%' or Rate Like '%" & txtSearch.Text & "%' or Qty Like '%" & txtSearch.Text & "%' or Total Like '%" & txtSearch.Text & "%' or UserName Like '%" & txtSearch.Text & "%')", "") & ";")
@@ -191,7 +191,7 @@ Public Class frmTechnicianCost
         If e.RowIndex = (grdTechnicianCost.Rows.Count - 1) Then Exit Sub
         If grdTechnicianCost.Item(1, e.RowIndex).Value Is Nothing Then
             grdTechnicianCost.Item(1, e.RowIndex).Value = DateAndTime.Now
-            tmp += ",TCDate=#" & grdTechnicianCost.Item(1, e.RowIndex).Value & "#"
+            tmp += ",TCDate='" & grdTechnicianCost.Item(1, e.RowIndex).Value & "'"
         End If
         If grdTechnicianCost.Item(11, e.RowIndex).Value Is Nothing Or
             grdTechnicianCost.Item(e.ColumnIndex, e.RowIndex).Value IsNot grdTechnicianCost.Item(e.ColumnIndex, e.RowIndex).Tag Then
@@ -210,8 +210,8 @@ Public Class frmTechnicianCost
         End If
         Select Case e.ColumnIndex
             Case 1
-                Db.Execute("Update TechnicianCost set " & grdTechnicianCost.Columns(e.ColumnIndex).DataPropertyName & "=#" &
-                          grdTechnicianCost.Item(e.ColumnIndex, e.RowIndex).Value & "# " & tmp & " Where TCNo=" &
+                Db.Execute("Update TechnicianCost set " & grdTechnicianCost.Columns(e.ColumnIndex).DataPropertyName & "='" &
+                          grdTechnicianCost.Item(e.ColumnIndex, e.RowIndex).Value & "' " & tmp & " Where TCNo=" &
                           grdTechnicianCost.Item(0, e.RowIndex).Value, {}, AdminPer)
             Case 2, 5, 6, 7, 9, 10
                 Db.Execute("Update TechnicianCost set " & grdTechnicianCost.Columns(e.ColumnIndex).DataPropertyName & "=" &
