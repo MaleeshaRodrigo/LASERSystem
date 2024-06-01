@@ -1,4 +1,4 @@
-﻿Imports System.Data.OleDb
+﻿Imports System.Data.Odbc
 
 Public Class frmProduct
     Private Db As New Database
@@ -8,12 +8,7 @@ Public Class frmProduct
     End Sub
 
     Private Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click
-        Dim DR As OleDbDataReader = Db.GetDataReader("SELECT top 1 PNO from PRODUCT ORDER BY PNO Desc;")
-        If DR.HasRows = True Then
-            DR.Read()
-            txtPNo.Text = Int(DR.Item("PNo")) + 1
-        Else : txtPNo.Text = "1"
-        End If
+        txtPNo.Text = Db.GetNextKey("Product", "Pno")
         cmbPCategory.Text = ""
         cmbPName.Text = ""
         txtPModelNo.Text = ""
@@ -55,7 +50,7 @@ Public Class frmProduct
         Else
             x = "Order by PNo"
         End If
-        Me.grdProduct.DataSource = Db.GetDataTable("SELECT PNO as [No],PCategory as [Category],PName as [Name],PModelNo as [Model No],PDetails as [Details] from Product " & x & ";")
+        Me.grdProduct.DataSource = Db.GetDataTable("SELECT PNO as No,PCategory as Category,PName as Name,PModelNo as Model No,PDetails as Details from Product " & x & ";")
         grdProduct.Refresh()
     End Sub
 
@@ -107,13 +102,13 @@ Public Class frmProduct
         End If
         Select Case cmdSave.Text
             Case "Save"
-                Dim DrProductNoExist As OleDbDataReader = Db.GetDataReader("Select PNo from Product where PNo =" & txtPNo.Text & ";")
+                Dim DrProductNoExist As OdbcDataReader = Db.GetDataReader("Select PNo from Product where PNo =" & txtPNo.Text & ";")
                 If DrProductNoExist.HasRows = True Then
                     MsgBox("Product No is exist", vbOKOnly + vbExclamation)
                     txtPNo.Focus()
                     Exit Sub
                 End If
-                Dim DrProductExist As OleDbDataReader = Db.GetDataReader("Select PCategory,PName from Product where PCategory = '" & cmbPCategory.Text & "' and PName ='" & cmbPName.Text & "';")
+                Dim DrProductExist As OdbcDataReader = Db.GetDataReader("Select PCategory,PName from Product where PCategory = '" & cmbPCategory.Text & "' and PName ='" & cmbPName.Text & "';")
                 If DrProductExist.HasRows = True Then
                     MsgBox("Product category and product name are exist", vbOKOnly + vbExclamation)
                     cmbPCategory.Focus()
@@ -143,7 +138,7 @@ Public Class frmProduct
             txtPNo.Focus()
             Exit Sub
         End If
-        Dim DR As OleDbDataReader = Db.GetDataReader("Select * from Product where Pno =" & txtPNo.Text & "")
+        Dim DR As OdbcDataReader = Db.GetDataReader("Select * from Product where Pno =" & txtPNo.Text & "")
         If DR.HasRows = False Then
             MsgBox("Product isn't in the database", vbExclamation + vbOKOnly)
             Exit Sub
@@ -151,7 +146,7 @@ Public Class frmProduct
         If CheckExistRelationsforDelete("Select PNo,RepNo from Repair where PNo= " & txtPNo.Text & ";", "RepNo", "This Product couldn't be deleted because this product has relations with the field/s in 'Repair' table. They are given below.") = False Then
             Exit Sub
         End If
-        If CheckExistRelationsforDelete("Select PNo,RetNo from Return where PNo= " & txtPNo.Text & ";", "RetNo", "This Product couldn't be deleted because this product has relations with the field/s in 'Return' table. They are given below.") = False Then
+        If CheckExistRelationsforDelete("Select PNo,RetNo from Rerepair where PNo= " & txtPNo.Text & ";", "RetNo", "This Product couldn't be deleted because this product has relations with the field/s in 'Rerepair' table. They are given below.") = False Then
             Exit Sub
         End If
         If MsgBox("Are you sure delete?", vbYesNo + vbInformation) = vbYes Then
@@ -176,7 +171,7 @@ Public Class frmProduct
     End Sub
 
     Public Sub cmbPName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbPName.SelectedIndexChanged
-        Dim DR As OleDbDataReader = Db.GetDataReader("SELECT * from Product where PCategory = '" & cmbPCategory.Text & "' and PName='" & cmbPName.Text & "';")
+        Dim DR As OdbcDataReader = Db.GetDataReader("SELECT * from Product where PCategory = '" & cmbPCategory.Text & "' and PName='" & cmbPName.Text & "';")
         If DR.HasRows = True Then
             DR.Read()
             txtPNo.Text = DR("PNo").ToString

@@ -1,4 +1,4 @@
-﻿Imports System.Data.OleDb
+﻿Imports System.Data.Odbc
 
 Public Class ControlTaskInfo
     Private DB As Database
@@ -10,14 +10,14 @@ Public Class ControlTaskInfo
 
     Public Sub InitForRepair(RepNo As Integer)
         Dim DataTable = DB.GetDataTable("SELECT MsgNo,MsgDate,Action,Message,Status FROM Message WHERE RepNo = @REPNO", {
-                                            New OleDbParameter("REPNO", RepNo)
+                                            New OdbcParameter("REPNO", RepNo)
                                         })
         grdRepTask.DataSource = DataTable
     End Sub
 
     Public Sub InitForReRepair(ReRepNo As Integer)
         Dim DataTable = DB.GetDataTable("SELECT MsgNo,MsgDate,Action,Message,Status FROM Message WHERE RetNo = @REREPNO", {
-                                            New OleDbParameter("REREPNO", ReRepNo)
+                                            New OdbcParameter("REREPNO", ReRepNo)
                                         })
         grdRepTask.DataSource = DataTable
     End Sub

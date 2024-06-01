@@ -1,47 +1,32 @@
 ﻿Imports System.Data.Common
 Imports System.Data.Odbc
-Imports System.Data.OleDb
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Threading
 Imports LASER_System.My
-Imports Microsoft.Office.Interop.Access.Dao
-Imports Newtonsoft.Json
 
 Public Class Database
-    Private _Connection As New OleDbConnection
+    Private _Connection As New OdbcConnection
 
     Public Sub Connect()
         If _Connection.State = ConnectionState.Open Then Exit Sub
-        For i As Integer = 0 To 3
-            Try
-                _Connection = New OleDbConnection($"Provider={Settings.DBProvider};Data Source={Settings.DBPath};Jet OLEDB:Database Password={(New Encoder()).Decode(Settings.DBPassword)};")
-                _Connection.Open()
-                Exit For
-            Catch ex As FileNotFoundException
-                If i = 2 Then
-                    Throw New Exception("Database Path එක සොයා ගැනීමට නොහැකි විය.")
-                End If
-                Thread.Sleep(1000)
-                Continue For
-            Catch ex As Exception
-                Throw ex
-            End Try
-        Next
+        Dim Encoder As New Encoder()
+        Dim DbPassword As String = If(Settings.DBPassword <> "",
+            Encoder.Decode(Settings.DBPassword),
+            "")
+        _Connection = New OdbcConnection($"DRIVER=MySQL ODBC 8.1 Unicode Driver;server={Settings.DBServer};port={Settings.DBPort};user={Settings.DBUserName};password={DbPassword};database={Settings.DBName};Option=3;")
+        _Connection.Open()
     End Sub
 
     Public Function CheckConnection() As (Valid As Boolean, Message As String)
-        If Settings.DBProvider = "" Then
-            Return (False, "Database Provider ඇතුලත් කර නොමැත.")
+        If Settings.DBUserName = "" Then
+            Return (False, "Database User Name එක ඇතුලත් කර නොමැත.")
         End If
-        If Settings.DBPath = "" Then
-            Return (False, "Database Path එක ඇතුලත් කර නොමැත.")
+        If Settings.DBServer = "" Then
+            Return (False, "Database Server එක ඇතුලත් කර නොමැත.")
         End If
-        If Settings.DBPassword = "" Then
-            Return (False, "Database Password එක ඇතුලත් කර නොමැත.")
-        End If
-        If File.Exists(Settings.DBPath) = False Then
-            Return (False, "Database Path එක සොයා ගැනීමට නොහැකි විය.")
+        If Settings.DBName = "" Then
+            Return (False, "Database Name එක ඇතුලත් කර නොමැත.")
         End If
         Try
             Connect()
@@ -58,19 +43,19 @@ Public Class Database
     End Sub
 
     Public Function CheckDataExists(Table As String, FieldName As String, Value As Object) As Boolean
-        Dim Command As New OleDbCommand($"SELECT {FieldName} FROM {Table} WHERE {FieldName}=@VALUE;", _Connection)
-        Command.Parameters.Add(New OleDbParameter("@VALUE", Value))
-        Using DataReader As OleDbDataReader = Command.ExecuteReader()
+        Dim Command As New OdbcCommand($"SELECT {FieldName} FROM {Table} WHERE {FieldName}=@VALUE;", _Connection)
+        Command.Parameters.Add(New OdbcParameter("VALUE", Value))
+        Using DataReader As OdbcDataReader = Command.ExecuteReader()
             Return DataReader.HasRows
         End Using
     End Function
 
-    Public Sub Execute(Query As String, Optional Parameters As OleDbParameter() = Nothing, Optional AdminPer As AdminPermission = Nothing)
+    Public Sub Execute(Query As String, Optional Parameters As OdbcParameter() = Nothing, Optional AdminPer As AdminPermission = Nothing)
         Query = FormatQuery(Query, AdminPer)
         If AdminPer IsNot Nothing AndAlso AdminPer.AdminSend = True Then
             Exit Sub
         End If
-        Dim CommandUpdate As New OleDbCommand(Query, _Connection)
+        Dim CommandUpdate As New OdbcCommand(Query, _Connection)
         If Parameters IsNot Nothing Then
             CommandUpdate.Parameters.AddRange(Parameters)
         End If
@@ -81,7 +66,7 @@ Public Class Database
     End Sub
 
     Public Sub DirectExecute(Query As String)
-        Dim Command As New OleDbCommand(Query, _Connection)
+        Dim Command As New OdbcCommand(Query, _Connection)
         Command.ExecuteNonQuery()
         Command.Cancel()
     End Sub
@@ -109,9 +94,9 @@ Public Class Database
         Return Query
     End Function
 
-    Public Function GetDataTable(Sql As String, Optional Values As OleDbParameter() = Nothing) As DataTable
+    Public Function GetDataTable(Sql As String, Optional Values As OdbcParameter() = Nothing) As DataTable
         Dim DataTable As New DataTable
-        Dim DataAdapter As New OleDbDataAdapter(Sql, _Connection)
+        Dim DataAdapter As New OdbcDataAdapter(Sql, _Connection)
         If Values IsNot Nothing Then
             DataAdapter.SelectCommand.Parameters.AddRange(Values)
         End If
@@ -121,8 +106,8 @@ Public Class Database
     End Function
 
     Public Function GetArray(Query As String, ColumnName As String) As List(Of String)
-        Dim Command = New OleDbCommand(Query, _Connection)
-        Dim DataReader As OleDbDataReader = Command.ExecuteReader()
+        Dim Command = New OdbcCommand(Query, _Connection)
+        Dim DataReader As OdbcDataReader = Command.ExecuteReader()
         Dim Output As New List(Of String)
         While DataReader.Read
             Output.Add(DataReader(ColumnName).ToString)
@@ -134,8 +119,8 @@ Public Class Database
 
     Public Function GetNextKey(Table As String, Column As String) As Integer
         Dim Output As Integer
-        Dim Command As New OleDbCommand($"Select Top 1 `{Column}` from `{Table}` Order by `{Column}` Desc", _Connection)
-        Dim DataReader As OleDbDataReader = Command.ExecuteReader
+        Dim Command As New OdbcCommand($"SELECT `{Column}` FROM `{Table}` ORDER BY `{Column}` DESC LIMIT 1 ", _Connection)
+        Dim DataReader As OdbcDataReader = Command.ExecuteReader
         If DataReader.HasRows = True Then
             DataReader.Read()
             Output = Int(DataReader.Item(Column)) + 1
@@ -147,31 +132,31 @@ Public Class Database
     End Function
 
     Public Function GetRowsCount(Sql As String) As Integer
-        Dim Command As New OleDbCommand(Sql, _Connection)
-        Dim DataReader As OleDbDataReader = Command.ExecuteReader
+        Dim Command As New OdbcCommand(Sql, _Connection)
+        Dim DataReader As OdbcDataReader = Command.ExecuteReader
         Dim DataTable As New DataTable
         DataTable.Load(DataReader)
         Dim Output As Integer = DataTable.Rows.Count
         DataReader.Close()
         DataTable.Clear()
-        Return (Output)
+        Return Output
     End Function
 
-    Public Function GetDataReader(Sql As String, Optional Values As OleDbParameter() = Nothing) As OleDbDataReader
-        Dim Command As New OleDbCommand(Sql, _Connection)
+    Public Function GetDataReader(Sql As String, Optional Values As OdbcParameter() = Nothing) As OdbcDataReader
+        Dim Command As New OdbcCommand(Sql, _Connection)
         If Values IsNot Nothing Then
             Command.Parameters.AddRange(Values)
         End If
-        Return (Command.ExecuteReader())
+        Return Command.ExecuteReader()
     End Function
 
-    Public Function GetDataAdapter(Query As String) As OleDbDataAdapter
-        Dim DA As New OleDbDataAdapter(Query, _Connection)
+    Public Function GetDataAdapter(Query As String) As OdbcDataAdapter
+        Dim DA As New OdbcDataAdapter(Query, _Connection)
         Return DA
     End Function
 
-    Public Function GetData(Query As String, Optional Values As OleDbParameter() = Nothing) As Object
-        Dim Command As New OleDbCommand(Query, _Connection)
+    Public Function GetData(Query As String, Optional Values As OdbcParameter() = Nothing) As Object
+        Dim Command As New OdbcCommand(Query, _Connection)
         If Values IsNot Nothing Then
             Command.Parameters.AddRange(Values)
         End If

@@ -1,4 +1,4 @@
-﻿Imports System.Data.OleDb
+﻿Imports System.Data.Odbc
 
 Public Class frmTechnicianLoan
     Private Db As New Database
@@ -6,7 +6,7 @@ Public Class frmTechnicianLoan
     Private Sub frmTechnicianLoan_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Db.Connect()
         MenuStrip1.Items.Add(mnustrpMENU)
-        Call SetNextKey(Db, txtTLNo, "SELECT top 1 TLNo from TechnicianLoan ORDER BY TLNo Desc;", "TLNo")
+        txtTLNo.Text = Db.GetNextKey("TechnicianLoan", "TLNo")
         txtTLFrom.Value = "" & Date.Today.Year & "-" & Date.Today.Month & "-01"
         txtTLTo.Value = Date.Today
         Call cmdTLSearch_Click(sender, e)
@@ -29,8 +29,8 @@ Public Class frmTechnicianLoan
             grdTLSearch.Rows.Clear()
             Exit Sub
         End If
-        Me.grdTLSearch.DataSource = Db.GetDataTable("Select TLNo as [Technician Loan No],TLDate as [Date],SCategory as [Stock Category],SName as [Stock Name],TLReason as [Reason],Rate,Qty,Total from (TechnicianLoan Inner Join Technician On Technician.TNO = TechnicianLoan.TNo) where TName='" & cmbTName.Text & "' and TLDate BETWEEN #" & txtTLFrom.Value.Date & " 00:00:00# AND #" &
-                                             txtTLTo.Value.Date & " 23:59:59#")
+        Me.grdTLSearch.DataSource = Db.GetDataTable("Select TLNo as [Technician Loan No],TLDate as `Date`,SCategory as `Stock Category`,SName as `Stock Name`,TLReason as Reason,Rate,Qty,Total from (TechnicianLoan Inner Join Technician On Technician.TNO = TechnicianLoan.TNo) where TName='" & cmbTName.Text & "' and TLDate BETWEEN '" & txtTLFrom.Value.Date & " 00:00:00' AND '" &
+                                             txtTLTo.Value.Date & " 23:59:59'")
         grdTLSearch.Refresh()
         txtTLSubTotal.Text = "0"
         For Each Row As DataGridViewRow In grdTLSearch.Rows
@@ -65,18 +65,18 @@ Public Class frmTechnicianLoan
                                                         cmbTName.Text & "'"))
         If cmdTLSave.Text = "Save" Then
             If txtSNo.Text <> "" Then
-                Db.Execute("Insert Into TechnicianLoan(TLNo,TNo,TLDate,SNo,SCategory,SName,TLReason,Rate,Qty,Total,UNo) Values(" & txtTLNo.Text & "," & TNo & ",#" & txtTLDate.Value & "#," & txtSNo.Text & ",'" &
+                Db.Execute("Insert Into TechnicianLoan(TLNo,TNo,TLDate,SNo,SCategory,SName,TLReason,Rate,Qty,Total,UNo) Values(" & txtTLNo.Text & "," & TNo & ",'" & txtTLDate.Value & "'," & txtSNo.Text & ",'" &
                         cmbSCategory.Text & "','" & cmbSName.Text & "','" & txtTLReason.Text &
                         "'," & txtSUnitPrice.Text & "," & txtSQty.Text & "," & txtTLAmount.Text & ",'" & User.Instance.UserNo & "')", {}, AdminPer)
             Else
-                Db.Execute("Insert Into TechnicianLoan(TLNo,TNo,TLDate,TLReason,Total,UNo) Values(" & txtTLNo.Text & "," & TNo & ",#" & txtTLDate.Value & "#,'" & txtTLReason.Text & "'," &
+                Db.Execute("Insert Into TechnicianLoan(TLNo,TNo,TLDate,TLReason,Total,UNo) Values(" & txtTLNo.Text & "," & TNo & ",'" & txtTLDate.Value & "','" & txtTLReason.Text & "'," &
                         txtTLAmount.Text & ",'" & User.Instance.UserNo & "')", {}, AdminPer)
             End If
             MsgBox("Save Successfull!", vbExclamation + vbOKOnly)
         ElseIf cmdTLSave.Text = "Edit" Then
             Db.Execute("Update TechnicianCost Set TNo=" & TNo &
-                      ",TLDate=#" & txtTLDate.Value &
-                      "#,SNo=" & txtSNo.Text &
+                      ",TLDate='" & txtTLDate.Value &
+                      "',SNo=" & txtSNo.Text &
                       ",SCategory='" & cmbSCategory.Text &
                       "',SName='" & cmbSName.Text &
                       "',TLReason='" & txtTLReason.Text &
@@ -85,7 +85,7 @@ Public Class frmTechnicianLoan
                       ",Total=" & txtTLAmount.Text &
                       ",UNo=" & User.Instance.UserNo, {}, AdminPer)
         End If
-        Call SetNextKey(Db, txtTLNo, "SELECT top 1 TLNo from TechnicianLoan ORDER BY TLNo Desc;", "TLNo")
+        txtTLNo.Text = Db.GetNextKey("TechnicianLoan", "TLNo")
         cmbSCategory.Text = ""
         cmbSName.Text = ""
         txtSNo.Text = ""
@@ -98,7 +98,7 @@ Public Class frmTechnicianLoan
 
     Private Sub cmdTLNew_Click(sender As Object, e As EventArgs) Handles cmdTLNew.Click
         'Prepare form for adding new values
-        Call SetNextKey(Db, txtTLNo, "SELECT top 1 TLNo from TechnicianLoan ORDER BY TLNo Desc;", "TLNo")
+        txtTLNo.Text = Db.GetNextKey("TechnicianLoan", "TLNo")
         txtTLDate.Value = Today
         cmbTName.Text = ""
         cmbSCategory.Text = ""
@@ -118,7 +118,7 @@ Public Class frmTechnicianLoan
     End Sub
 
     Private Sub cmbSName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbSName.SelectedIndexChanged
-        Dim DR As OleDbDataReader
+        Dim DR As OdbcDataReader
         If cmbSCategory.Text = "" Then
             DR = Db.GetDataReader("Select * from Stock Where SName='" & cmbSName.Text & "'")
         Else
@@ -174,7 +174,7 @@ Public Class frmTechnicianLoan
             txtTLAmount.Text = "0"
             Exit Sub
         End If
-        Dim DR1 As OleDbDataReader = Db.GetDataReader("Select SCategory,SName,SNo from [Stock] where SNo =" & txtSNo.Text & ";")
+        Dim DR1 As OdbcDataReader = Db.GetDataReader("SELECT SCategory,SName,SNo FROM Stock WHERE SNo =" & txtSNo.Text & ";")
         If DR1.HasRows = True Then
             DR1.Read()
             cmbSCategory.Text = DR1("SCategory").ToString
@@ -203,7 +203,7 @@ Public Class frmTechnicianLoan
                 txtTLAmount.Text = "0"
                 Exit Sub
             End If
-            Dim DR As OleDbDataReader = Db.GetDataReader("SElect SNO from stock where Sno =" & txtSNo.Text)
+            Dim DR As OdbcDataReader = Db.GetDataReader("SElect SNO from stock where Sno =" & txtSNo.Text)
             If DR.HasRows = False Then
                 cmbSCategory.Text = ""
                 cmbSName.Text = ""
@@ -268,7 +268,7 @@ Public Class frmTechnicianLoan
             AdminPer.AdminSend = True
             AdminPer.Remarks = "අද දිනට නොමැති Technician Loan data එකක් ඉවත් කෙරුණි."
         End If
-        Dim DR As OleDbDataReader = Db.GetDataReader("Select * from TechnicianLoan Where TLNo=" & txtTLNo.Text)
+        Dim DR As OdbcDataReader = Db.GetDataReader("Select * from TechnicianLoan Where TLNo=" & txtTLNo.Text)
         If DR.HasRows = True Then
             DR.Read()
             If DR("SNo").ToString <> "" And DR("SNo").ToString <> "0" Then

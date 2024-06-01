@@ -1,4 +1,4 @@
-﻿Imports System.Data.OleDb
+﻿Imports System.Data.Odbc
 
 Public Class frmSalesRepair
     Private Db As New Database
@@ -8,7 +8,7 @@ Public Class frmSalesRepair
     End Sub
 
     Private Sub cmbTName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbTName.SelectedIndexChanged
-        Dim DR As OleDbDataReader = Db.GetDataReader("Select TNo,TName from Technician where TName = '" & cmbTName.Text & "';")
+        Dim DR As OdbcDataReader = Db.GetDataReader("Select TNo,TName from Technician where TName = '" & cmbTName.Text & "';")
         If DR.HasRows = True Then
             DR.Read()
             txtTNo.Text = DR("TNo").ToString
@@ -23,7 +23,7 @@ Public Class frmSalesRepair
     End Sub
 
     Private Sub cmdSaRepNew_Click(sender As Object, e As EventArgs) Handles cmdSaRepNew.Click
-        SetNextKey(Db, txtSaRepNo, "Select top 1 SaRepNo from SalesRepair Order by SaRepNo Desc;", "SaRepNo")
+        txtSaRepNo.Text = Db.GetNextKey("SalesRepair", "SaRepNo")
         cmbSCategory.Text = ""
         cmbSName.Text = ""
         txtSNo.Text = ""
@@ -43,7 +43,7 @@ Public Class frmSalesRepair
 
     Private Sub cmdSaRepSearch_Click(sender As Object, e As EventArgs) Handles cmdSaRepSearch.Click
         If txtTNo.Text = "" Then Exit Sub
-        Dim DT As DataTable = Db.GetDataTable("Select SaRepNo,SaRepDate,SNo,Charge,Qty,Total from SalesREpair where TNo = " & txtTNo.Text & " and #" & txtSaRepFrom.Value.ToString & "# <= SaRepDate and SaRepDate <= #" & txtSaRepTo.Value.ToString & "#;")
+        Dim DT As DataTable = Db.GetDataTable("Select SaRepNo,SaRepDate,SNo,Charge,Qty,Total from SalesREpair where TNo = " & txtTNo.Text & " and '" & txtSaRepFrom.Value.ToString & "' <= SaRepDate and SaRepDate <= '" & txtSaRepTo.Value.ToString & "';")
         Me.grdSalesRepair.DataSource = DT
         grdSalesRepair.Refresh()
     End Sub

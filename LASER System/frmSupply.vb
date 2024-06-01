@@ -1,5 +1,5 @@
 ﻿Imports ZXing
-Imports System.Data.OleDb
+Imports System.Data.Odbc
 Imports LASER_System.StructureDatabase
 
 Public Class frmSupply
@@ -16,7 +16,7 @@ Public Class frmSupply
     End Sub
 
     Public Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click, NewToolStripMenuItem1.Click
-        SetNextKey(Db, txtSupNo, "SELECT top 1 SupNo from Supply ORDER BY SupNo Desc;", "SupNo")
+        txtSupNo.Text = Db.GetNextKey("Supply", "SupNo")
         cmbSuName_DropDown(sender, e)
         cmbSuName.Text = "No Name"             'clear customer fileds
         cmbSupStatus.Text = "Not Paid"
@@ -88,9 +88,9 @@ Public Class frmSupply
                 End If
             End With
         Next
-        SetNextKey(Db, txtSupNo, "SELECT top 1 SupNo from Supply ORDER BY SupNo Desc;", "SupNo")
+        txtSupNo.Text = Db.GetNextKey("Supply", "SupNo")
         Dim SuNo As Integer = Db.GetData("Select SuNo from Supplier where SuName=@SUNAME;", {
-                                New OleDbParameter("SUNAME", cmbSuName.Text)
+                                New OdbcParameter("SUNAME", cmbSuName.Text)
         })
         If SuNo = 0 Then
             MsgBox("ඔබ ඇතුලත් කල Supplier Name එක Database තුල සොයා ගැනීමට නොහැකිය. කරුණාකර නැවත පරිකෂා කරන්න." + vbCrLf + "ඔබට මෙම ගැටලුව විසදීමට නොහැකි නම්, අපගෙ Programe Developer ව අමතන්න.")
@@ -107,62 +107,62 @@ Public Class frmSupply
 
     Private Sub SaveSupplyInformation(SuNo As Integer)
         Db.Execute("Insert into Supply(SupNo,SupDate,SuNo,SupRemarks,SupStatus,SupPaidDate,UNo) Values(@SUPNO,@SUPDATE,@SUNO, @SUPREMARKS, @SUPSTATUS, @SUPPAIDDATE, @UNO)", {
-                New OleDbParameter("SUPNO", txtSupNo.Text),
-                New OleDbParameter("SUPDATE", txtSupDate.Value.ToString),
-                New OleDbParameter("SUNO", SuNo),
-                New OleDbParameter("SUPREMARKS", txtSupRemarks.Text),
-                New OleDbParameter("SUPSTATUS", cmbSupStatus.Text),
-                New OleDbParameter("SUPPAIDDATE", If(cmbSupStatus.Text = "Paid", txtSupPaidDate.Value.ToString, DBNull.Value)),
-                New OleDbParameter("UNO", User.Instance.UserNo)
+                New OdbcParameter("SUPNO", txtSupNo.Text),
+                New OdbcParameter("SUPDATE", txtSupDate.Value.ToString),
+                New OdbcParameter("SUNO", SuNo),
+                New OdbcParameter("SUPREMARKS", txtSupRemarks.Text),
+                New OdbcParameter("SUPSTATUS", cmbSupStatus.Text),
+                New OdbcParameter("SUPPAIDDATE", If(cmbSupStatus.Text = "Paid", txtSupPaidDate.Value.ToString, DBNull.Value)),
+                New OdbcParameter("UNO", User.Instance.UserNo)
             })
         For Each Row As DataGridViewRow In grdSupply.Rows
             If grdSupply.Rows.Count - 1 = Row.Index Then Continue For
 
             If Db.CheckDataExists(Tables.Stock, Stock.Code, Row.Cells(Stock.Code).Value) = False Then
                 Db.Execute($"INSERT INTO {Tables.Stock}({Stock.Code}, {Stock.Category}, {Stock.Name}, {Stock.ModelNo}, {Stock.Location}, {Stock.Details}, {Stock.CostPrice}, {Stock.LowestPrice}, {Stock.SalePrice}, {Stock.AvailableUnits}, {Stock.DamagedUnits}, {Stock.ReorderPoint}) Values(@NO, @CATEGORY, @NAME, @MODELNO, @LOCATION, @DETAILS, @COSTPRICE, @LOWESTPRICE, @SALEPRICE, @AVAILABLESTOCKS, @OUTOFSTOCKS, @REORDERPOINT);", {
-                  New OleDbParameter("@NO", Row.Cells(Stock.Code).Value),
-                  New OleDbParameter("@CATEGORY", Row.Cells(Stock.Category).Value),
-                  New OleDbParameter("@NAME", Row.Cells(Stock.Name).Value),
-                  New OleDbParameter("@MODELNO", Row.Cells(Stock.ModelNo).Value),
-                  New OleDbParameter("@LOCATION", Row.Cells(Stock.Location).Value),
-                  New OleDbParameter("@DETAILS", Row.Cells(Stock.Details).Value),
-                  New OleDbParameter("@COSTPRICE", Row.Cells("CostPrice").Value),
-                  New OleDbParameter("@LOWESTPRICE", Row.Cells(Stock.LowestPrice).Value),
-                  New OleDbParameter("@SALEPRICE", Row.Cells(Stock.SalePrice).Value),
-                  New OleDbParameter("@AVAILABLESTOCKS", 0),
-                  New OleDbParameter("@OUTOFSTOCKS", 0),
-                  New OleDbParameter("@REORDERPOINT", Row.Cells(Stock.ReorderPoint).Value)
+                  New OdbcParameter("@NO", Row.Cells(Stock.Code).Value),
+                  New OdbcParameter("@CATEGORY", Row.Cells(Stock.Category).Value),
+                  New OdbcParameter("@NAME", Row.Cells(Stock.Name).Value),
+                  New OdbcParameter("@MODELNO", Row.Cells(Stock.ModelNo).Value),
+                  New OdbcParameter("@LOCATION", Row.Cells(Stock.Location).Value),
+                  New OdbcParameter("@DETAILS", Row.Cells(Stock.Details).Value),
+                  New OdbcParameter("@COSTPRICE", Row.Cells("CostPrice").Value),
+                  New OdbcParameter("@LOWESTPRICE", Row.Cells(Stock.LowestPrice).Value),
+                  New OdbcParameter("@SALEPRICE", Row.Cells(Stock.SalePrice).Value),
+                  New OdbcParameter("@AVAILABLESTOCKS", 0),
+                  New OdbcParameter("@OUTOFSTOCKS", 0),
+                  New OdbcParameter("@REORDERPOINT", Row.Cells(Stock.ReorderPoint).Value)
             })
             Else
                 Db.Execute($"UPDATE {Tables.Stock} SET {Stock.Location}=@LOCATION,{Stock.ModelNo}=@MODELNO,{Stock.Details}=@DETAILS,{Stock.CostPrice}=@COSTPRICE,{Stock.LowestPrice}=@LOWESTPRICE, {Stock.SalePrice}=@SALEPRICE,{Stock.ReorderPoint}=@REORDERPOINT WHERE {Stock.Code}=@NO;", {
-                  New OleDbParameter("@MODELNO", Row.Cells(Stock.ModelNo).Value),
-                  New OleDbParameter("@LOCATION", Row.Cells(Stock.Location).Value),
-                  New OleDbParameter("@DETAILS", Row.Cells(Stock.Details).Value),
-                  New OleDbParameter("@COSTPRICE", Row.Cells("CostPrice").Value),
-                  New OleDbParameter("@LOWESTPRICE", Row.Cells(Stock.LowestPrice).Value),
-                  New OleDbParameter("@SALEPRICE", Row.Cells(Stock.SalePrice).Value),
-                  New OleDbParameter("@REORDERPOINT", Row.Cells(Stock.ReorderPoint).Value),
-                  New OleDbParameter("@NO", Row.Cells(Stock.Code).Value)
+                  New OdbcParameter("@MODELNO", Row.Cells(Stock.ModelNo).Value),
+                  New OdbcParameter("@LOCATION", Row.Cells(Stock.Location).Value),
+                  New OdbcParameter("@DETAILS", Row.Cells(Stock.Details).Value),
+                  New OdbcParameter("@COSTPRICE", Row.Cells("CostPrice").Value),
+                  New OdbcParameter("@LOWESTPRICE", Row.Cells(Stock.LowestPrice).Value),
+                  New OdbcParameter("@SALEPRICE", Row.Cells(Stock.SalePrice).Value),
+                  New OdbcParameter("@REORDERPOINT", Row.Cells(Stock.ReorderPoint).Value),
+                  New OdbcParameter("@NO", Row.Cells(Stock.Code).Value)
                 })
             End If
 
             Db.Execute("INSERT INTO StockSupply(SupNo,SNo,SCategory,SName,SupType,SupUnits,SupCostPrice,SupTotal) VALUES(@SUPNO,@SNO,@SCATEGORY,@SNAME,@SUPTYPE,@SUPUNITS,@COSTPRICE,@SUPTOTAL)", {
-                New OleDbParameter("SUPNO", txtSupNo.Text),
-                New OleDbParameter("SNO", Row.Cells(Stock.Code).Value),
-                New OleDbParameter("SCATEGORY", Row.Cells(Stock.Category).Value),
-                New OleDbParameter("SNAME", Row.Cells(Stock.Name).Value),
-                New OleDbParameter("SUPTYPE", Row.Cells("SupType").Value),
-                New OleDbParameter("SUPUNITS", Row.Cells("SupQty").Value),
-                New OleDbParameter("COSTPRICE", Row.Cells("CostPrice").Value),
-                New OleDbParameter("SUPTOTAL", Row.Cells("SupTotal").Value)
+                New OdbcParameter("SUPNO", txtSupNo.Text),
+                New OdbcParameter("SNO", Row.Cells(Stock.Code).Value),
+                New OdbcParameter("SCATEGORY", Row.Cells(Stock.Category).Value),
+                New OdbcParameter("SNAME", Row.Cells(Stock.Name).Value),
+                New OdbcParameter("SUPTYPE", Row.Cells("SupType").Value),
+                New OdbcParameter("SUPUNITS", Row.Cells("SupQty").Value),
+                New OdbcParameter("COSTPRICE", Row.Cells("CostPrice").Value),
+                New OdbcParameter("SUPTOTAL", Row.Cells("SupTotal").Value)
             })
             If Row.Cells("SupType").Value.ToString = "Supply" Then
                 Db.Execute($"Update {Tables.Stock} set {Stock.AvailableUnits}=({Stock.AvailableUnits} + {Row.Cells("SupQty").Value}) where SNo=@CODE", {
-                    New OleDbParameter("CODE", Row.Cells(Stock.Code).Value)
+                    New OdbcParameter("CODE", Row.Cells(Stock.Code).Value)
                 })
             Else
                 Db.Execute($"Update {Tables.Stock} Set {Stock.DamagedUnits}=({Stock.DamagedUnits} - {Row.Cells("SupQty").Value}) where SNo=@CODE", {
-                    New OleDbParameter("CODE", Row.Cells(Stock.Code).Value)
+                    New OdbcParameter("CODE", Row.Cells(Stock.Code).Value)
                 })
             End If
         Next
@@ -231,7 +231,7 @@ Public Class frmSupply
         Select Case e.ColumnIndex
             Case 0
                 If grdSupply.Item(0, e.RowIndex).Value = "" Then Exit Sub
-                Dim DR As OleDbDataReader = Db.GetDataReader("Select * from Stock where SNo=" & grdSupply.Item(0, e.RowIndex).Value)
+                Dim DR As OdbcDataReader = Db.GetDataReader("Select * from Stock where SNo=" & grdSupply.Item(0, e.RowIndex).Value)
                 If DR.HasRows = True Then
                     DR.Read()
                     grdSupply.Item(1, e.RowIndex).Value = DR("SCategory").ToString
@@ -259,7 +259,7 @@ Public Class frmSupply
                     grdSupply.Item(0, e.RowIndex).Value = GetLastStockCode()
                 End If
             Case 1, 2
-                Dim DR As OleDbDataReader = Db.GetDataReader("Select * from Stock where SCategory='" & grdSupply.Item(1, e.RowIndex).Value & "' and SName='" & grdSupply.Item(2, e.RowIndex).Value & "';")
+                Dim DR As OdbcDataReader = Db.GetDataReader("Select * from Stock where SCategory='" & grdSupply.Item(1, e.RowIndex).Value & "' and SName='" & grdSupply.Item(2, e.RowIndex).Value & "';")
                 If DR.HasRows = True Then
                     DR.Read()
                     grdSupply.Item(0, e.RowIndex).Value = DR("SNo").ToString
@@ -339,7 +339,7 @@ Public Class frmSupply
                     autoText.AutoCompleteMode = AutoCompleteMode.Suggest
                     autoText.AutoCompleteSource = AutoCompleteSource.CustomSource
                     DataCollection.Clear()
-                    Dim DR As OleDbDataReader = Db.GetDataReader("Select SCategory from Stock group by SCategory;")
+                    Dim DR As OdbcDataReader = Db.GetDataReader("Select SCategory from Stock group by SCategory;")
                     While DR.Read
                         DataCollection.Add(DR("SCategory").ToString)
                     End While
@@ -351,7 +351,7 @@ Public Class frmSupply
                     autoText.AutoCompleteMode = AutoCompleteMode.Suggest
                     autoText.AutoCompleteSource = AutoCompleteSource.CustomSource
                     DataCollection.Clear()
-                    Dim DR As OleDbDataReader = Db.GetDataReader("Select SCategory,SName from Stock where SCategory ='" & grdSupply.Item(1, grdSupply.CurrentCell.RowIndex).Value & "';")
+                    Dim DR As OdbcDataReader = Db.GetDataReader("Select SCategory,SName from Stock where SCategory ='" & grdSupply.Item(1, grdSupply.CurrentCell.RowIndex).Value & "';")
                     While DR.Read
                         DataCollection.Add(DR("SName").ToString)
                     End While
@@ -363,7 +363,7 @@ Public Class frmSupply
                     autoText.AutoCompleteMode = AutoCompleteMode.Suggest
                     autoText.AutoCompleteSource = AutoCompleteSource.CustomSource
                     DataCollection.Clear()
-                    Dim DR As OleDbDataReader = Db.GetDataReader("Select SLocation from Stock group by SLocation;")
+                    Dim DR As OdbcDataReader = Db.GetDataReader("Select SLocation from Stock group by SLocation;")
                     While DR.Read
                         DataCollection.Add(DR("SLocation").ToString)
                     End While

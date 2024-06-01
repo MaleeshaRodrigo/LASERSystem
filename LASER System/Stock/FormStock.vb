@@ -1,6 +1,6 @@
 ﻿Imports System.ComponentModel
 Imports System.IO
-Imports System.Data.OleDb
+Imports System.Data.Odbc
 Imports Microsoft.VisualBasic.FileIO
 Imports LASER_System.StructureDatabase
 
@@ -167,7 +167,7 @@ Public Class FormStock
         Else
             FilterQuery += $" Order by {Stock.Code}"
         End If
-        Dim DT As DataTable = DB.GetDataTable(FilterQuery, {New OleDbParameter("@VALUE", $"%{txtSearch.Text}%")})
+        Dim DT As DataTable = DB.GetDataTable(FilterQuery, {New OdbcParameter("@VALUE", $"%{txtSearch.Text}%")})
         grdStock.DataSource = DT
     End Sub
 

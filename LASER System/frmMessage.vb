@@ -4,6 +4,7 @@ Imports System.Net
 Imports System.Text
 Imports System.Web
 Imports Newtonsoft.Json.Linq
+Imports System.Data.Odbc
 
 Public Class frmMessage
     Private Db As New Database
@@ -44,7 +45,7 @@ Public Class frmMessage
                         End If
                     End If
                 End With
-                SetNextKey(Db, txtMsgNo, "Select Top 1 MsgNo from Message order by MsgNo Desc;", "MsgNo")
+                txtMsgNo.Text = Db.GetNextKey("Message", "MsgNo")
             Case "MessagetoCu"
                 TabControl.TabPages.Add(tabMsgHistory)
                 grdMsgHistory.DataSource = Db.GetDataTable("Select * from Message Order by MsgDate;")
@@ -73,7 +74,7 @@ Public Class frmMessage
         If cmbField.Text = "Repair" Then
             ComboBoxDropDown(Db, cmbRepNo, "Select REPNo from Repair Order by RePNO Desc;")
         ElseIf cmbField.Text = "RERepair" Then
-            ComboBoxDropDown(Db, cmbRepNo, "Select RetNo from Return Order by RetNO Desc;")
+            ComboBoxDropDown(Db, cmbRepNo, "Select RetNo from Rerepair Order by RetNO Desc;")
         End If
     End Sub
 
@@ -152,11 +153,11 @@ Public Class frmMessage
 
     Private Sub bgworker_DoWork(sender As Object, e As ComponentModel.DoWorkEventArgs) Handles bgworker.DoWork
         If Me.Tag = "RepTask" Then
-            Dim DR1 As OleDb.OleDbDataReader = Db.GetDataReader("Select RepNo,RDate,CuName, CuTelNo1, PCategory,PName,Charge,Qty,TName, Status from ((((Repair REP INNER JOIN Product P ON P.PNO = REP.PNO) INNER JOIN Receive R ON R.RNo = REP.RNo) INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNo=REP.TNo) where Status='Received' or Status='Hand Over to Technician' or Status='Repairing'")
+            Dim DR1 As OdbcDataReader = Db.GetDataReader("Select RepNo,RDate,CuName, CuTelNo1, PCategory,PName,Charge,Qty,TName, Status from ((((Repair REP INNER JOIN Product P ON P.PNO = REP.PNO) INNER JOIN Receive R ON R.RNo = REP.RNo) INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNo=REP.TNo) where Status='Received' or Status='Hand Over to Technician' or Status='Repairing'")
             While DR1.Read
                 If bgworker.CancellationPending = True Then Exit Sub
-                Dim DR2 As OleDb.OleDbDataReader = Db.GetDataReader("Select * from Message Where RepNo=" & DR1("RepNo").ToString &
-                                                                        " And MsgDate < #" & DateTime.Today.AddDays(-7).Date & "#;")
+                Dim DR2 As OdbcDataReader = Db.GetDataReader("Select * from Message Where RepNo=" & DR1("RepNo").ToString &
+                                                                        " And MsgDate < '" & DateTime.Today.AddDays(-7).Date & "';")
                 If DR2.HasRows = False Then
                     grdRepairTask.Rows.Add("", DR1("RepNo").ToString, DR1("CuName").ToString, DR1("CuTelNo1").ToString, DR1("PCategory").ToString,
                                            DR1("PName").ToString, DR1("Status").ToString, "", "")

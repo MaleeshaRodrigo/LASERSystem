@@ -1,4 +1,4 @@
-﻿Imports System.Data.OleDb
+﻿Imports System.Data.Odbc
 Public Class frmTechnicianCost
     Private Db As New Database
     Private dtpDate As New DateTimePicker
@@ -32,9 +32,9 @@ Public Class frmTechnicianCost
             grdTechnicianCost.Rows.Clear()
             Exit Sub
         End If
-        DR = Db.GetDataReader("Select TCNo,TCDate,RepNo,RetNo,TCRemarks,SNo,SCategory,SName,Rate, Qty,Total,UserName from ((TechnicianCost TC Inner Join Technician T On T.Tno = TC.TNo) Left Join [User] U ON U.Uno = TC.UNo) where TName='" &
-                                cmbTName.Text & "' And TCDate BETWEEN #" & Format(txtTCFrom.Value, "yyyy-MM-dd") & " 00:00:00# And #" &
-                                Format(txtTCTo.Value, "yyyy-MM-dd") & " 23:59:59#" &
+        DR = Db.GetDataReader("Select TCNo,TCDate,RepNo,RetNo,TCRemarks,SNo,SCategory,SName,Rate, Qty,Total,UserName from ((TechnicianCost TC Inner Join Technician T On T.Tno = TC.TNo) Left Join `User` U ON U.Uno = TC.UNo) where TName='" &
+                                cmbTName.Text & "' And TCDate BETWEEN '" & Format(txtTCFrom.Value, "yyyy-MM-dd") & " 00:00:00' And '" &
+                                Format(txtTCTo.Value, "yyyy-MM-dd") & " 23:59:59'" &
                                 If(txtSearch.Text <> "",
                                 " And (TCDate Like '%" & txtSearch.Text & "%' or TCRemarks Like '%" & txtSearch.Text & "%' or SNo Like '%" & txtSearch.Text & "%' or SCategory Like '%" & txtSearch.Text & "%' or SName Like '%" &
                                 txtSearch.Text & "%' or Rate Like '%" & txtSearch.Text & "%' or Qty Like '%" & txtSearch.Text & "%' or Total Like '%" & txtSearch.Text & "%' or UserName Like '%" & txtSearch.Text & "%')", "") & ";")
@@ -191,7 +191,7 @@ Public Class frmTechnicianCost
         If e.RowIndex = (grdTechnicianCost.Rows.Count - 1) Then Exit Sub
         If grdTechnicianCost.Item(1, e.RowIndex).Value Is Nothing Then
             grdTechnicianCost.Item(1, e.RowIndex).Value = DateAndTime.Now
-            tmp += ",TCDate=#" & grdTechnicianCost.Item(1, e.RowIndex).Value & "#"
+            tmp += ",TCDate='" & grdTechnicianCost.Item(1, e.RowIndex).Value & "'"
         End If
         If grdTechnicianCost.Item(11, e.RowIndex).Value Is Nothing Or
             grdTechnicianCost.Item(e.ColumnIndex, e.RowIndex).Value IsNot grdTechnicianCost.Item(e.ColumnIndex, e.RowIndex).Tag Then
@@ -203,15 +203,15 @@ Public Class frmTechnicianCost
         If grdTechnicianCost.Item(0, e.RowIndex).Value Is Nothing Then
             grdTechnicianCost.Item(0, e.RowIndex).Value = Db.GetNextKey("TechnicianCost", "TCNo")
         End If
-        If CheckExistData("Select * from TechnicianCost Where TCNo=" & grdTechnicianCost.Item(0, e.RowIndex).Value) = False Then Db.Execute("Insert into TechnicianCost(TCNo,TNo,Rate,Qty,Total,UNo) Values(" & grdTechnicianCost.Item(0, e.RowIndex).Value & "," &
+        If Db.CheckDataExists("TechnicianCost", "TCNo", grdTechnicianCost.Item(0, e.RowIndex).Value) = False Then Db.Execute("Insert into TechnicianCost(TCNo,TNo,Rate,Qty,Total,UNo) Values(" & grdTechnicianCost.Item(0, e.RowIndex).Value & "," &
                       Db.GetData("Select TNo from Technician Where TName='" & cmbTName.Text & "'") & ",0,0,0," & User.Instance.UserNo & ")")
         If Convert.ToDateTime(grdTechnicianCost.Item(1, e.RowIndex).Value).Date <> Today.Date Then
             AdminPer.AdminSend = True
         End If
         Select Case e.ColumnIndex
             Case 1
-                Db.Execute("Update TechnicianCost set " & grdTechnicianCost.Columns(e.ColumnIndex).DataPropertyName & "=#" &
-                          grdTechnicianCost.Item(e.ColumnIndex, e.RowIndex).Value & "# " & tmp & " Where TCNo=" &
+                Db.Execute("Update TechnicianCost set " & grdTechnicianCost.Columns(e.ColumnIndex).DataPropertyName & "='" &
+                          grdTechnicianCost.Item(e.ColumnIndex, e.RowIndex).Value & "' " & tmp & " Where TCNo=" &
                           grdTechnicianCost.Item(0, e.RowIndex).Value, {}, AdminPer)
             Case 2, 5, 6, 7, 9, 10
                 Db.Execute("Update TechnicianCost set " & grdTechnicianCost.Columns(e.ColumnIndex).DataPropertyName & "=" &
@@ -233,7 +233,7 @@ Public Class frmTechnicianCost
             Exit Sub
         End If
         If User.Instance.UserType = User.Type.Admin Then
-            Dim DR As OleDbDataReader = Db.GetDataReader("Select TCNo from TechnicianCost Where TCNo=" & grdTechnicianCost.Item("TCNo", e.Row.Index).Value)
+            Dim DR As OdbcDataReader = Db.GetDataReader("Select TCNo from TechnicianCost Where TCNo=" & grdTechnicianCost.Item("TCNo", e.Row.Index).Value)
             If DR.HasRows = True Then
                 DR.Read()
                 If DR("SNo").ToString <> "" Then
@@ -265,7 +265,7 @@ Public Class frmTechnicianCost
 
     Private Sub grdTechnicianCost_RowValidating(sender As Object, e As DataGridViewCellCancelEventArgs) Handles grdTechnicianCost.RowValidating
         If e.RowIndex < 0 Or e.RowIndex > (grdTechnicianCost.Rows.Count - 2) Then Exit Sub
-        Dim DRTC As OleDbDataReader = Db.GetDataReader("Select TC.*,UserName from TechnicianCost TC Left Join `User` U On U.Uno = TC.UNo Where TCNo=" & grdTechnicianCost.Item(0, e.RowIndex).Value)
+        Dim DRTC As OdbcDataReader = Db.GetDataReader("Select TC.*,UserName from TechnicianCost TC Left Join `User` U On U.Uno = TC.UNo Where TCNo=" & grdTechnicianCost.Item(0, e.RowIndex).Value)
         If DRTC.HasRows Then
             DRTC.Read()
             grdTechnicianCost.Item(1, e.RowIndex).Value = DRTC("TCDate").ToString

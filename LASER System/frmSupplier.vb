@@ -1,14 +1,10 @@
-﻿Imports System.Data.OleDb
+﻿Imports System.Data.Odbc
 
 Public Class frmSupplier
     Private Db As New Database
 
     Private Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click
-        Dim DR As OleDbDataReader = Db.GetDataReader("SELECT top 1 SuNo from Supplier ORDER BY SuNo Desc;")
-        If DR.HasRows = True Then
-            DR.Read()
-            txtSuNo.Text = Int(DR.Item("SuNo")) + 1
-        End If
+        txtSuNo.Text = Db.GetNextKey("Supplier", "SuNo")
         cmbSuName.Text = ""
         txtSuTelNo1.Text = ""
         cmdSave.Text = "Save"
@@ -55,7 +51,7 @@ Public Class frmSupplier
     End Sub
 
     Private Sub cmbSuName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbSuName.SelectedIndexChanged
-        Dim DR As OleDbDataReader = Db.GetDataReader("SELECT * from Supplier where SuName='" & cmbSuName.Text & "';")
+        Dim DR As OdbcDataReader = Db.GetDataReader("SELECT * from Supplier where SuName='" & cmbSuName.Text & "';")
         If DR.HasRows = True Then
             DR.Read()
             txtSuNo.Text = DR("SuNo").ToString
@@ -165,7 +161,7 @@ Public Class frmSupplier
         Else
             x = "Order by SuNo"
         End If
-        Me.grdSupplier.DataSource = Db.GetDataTable("SELECT SuNo as [No],SuName as [Name],SuAddress as [Address],SuEmail as [Email], SuTelNo1 as [Telephone No1],SuTelNo2 as [Telephone No2],SuTelNo3 as [Telephone No3], SuRemarks as [Remarks] from Supplier " & x & ";")
+        Me.grdSupplier.DataSource = Db.GetDataTable("SELECT SuNo as `No`,SuName as `Name`,SuAddress as `Address`,SuEmail as `Email`, SuTelNo1 as `Telephone No1`,SuTelNo2 as `Telephone No2`,SuTelNo3 as `Telephone No3`, SuRemarks as Remarks from Supplier " & x & ";")
         grdSupplier.Refresh()
     End Sub
 

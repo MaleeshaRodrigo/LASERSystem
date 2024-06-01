@@ -1,4 +1,4 @@
-﻿Imports System.Data.OleDb
+﻿Imports System.Data.Odbc
 
 Public Class frmTechnician
     Private Db As New Database
@@ -8,7 +8,7 @@ Public Class frmTechnician
     End Sub
 
     Private Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click
-        Call SetNextKey(Db, txtTNo, "SELECT top 1 TNo from Technician ORDER BY TNo Desc;", "TNo")
+        txtTNo.Text = Db.GetNextKey("Technician", "TNo")
         cmbTName.Text = ""
         txtTFullName.Text = ""
         txtTNICNo.Text = ""
@@ -37,18 +37,18 @@ Public Class frmTechnician
                     Exit Sub
                 End If
                 Db.Execute("INSERT INTO Technician(TNo,TName,TFullName,TAddress,TEmail,TNicNo,TTelNo1,TTelno2,TTelno3,TRemarks,TActive,TBlockEmails) VALUES(@TNO, @TNAME, @TFULLNAME, TADDRESS, TEMAIL, TNICNO, TTELNO1, TTELNO2, TTELNO3, TREMARKS, TACTIVE, TBLOCKEMAILS)", {
-                      New OleDbParameter("TNO", txtTNo.Text),
-                      New OleDbParameter("TNAME", cmbTName.Text),
-                      New OleDbParameter("TFULLNAME", txtTFullName.Text),
-                      New OleDbParameter("TADDRESS", txtTAddress.Text),
-                      New OleDbParameter("TEMAIL", txtTEmail.Text),
-                      New OleDbParameter("TNICNO", txtTNICNo.Text),
-                      New OleDbParameter("TTELNO1", txtTTelNo1.Text),
-                      New OleDbParameter("TTELNO2", txtTTelNo2.Text),
-                      New OleDbParameter("TTELNO3", txtTTelNo3.Text),
-                      New OleDbParameter("TREMARKS", txtTRemarks.Text),
-                      New OleDbParameter("TACTIVE", chkActive.Checked),
-                      New OleDbParameter("TBLOCKEMAILS", CheckBlockEmails.Checked)
+                      New OdbcParameter("TNO", txtTNo.Text),
+                      New OdbcParameter("TNAME", cmbTName.Text),
+                      New OdbcParameter("TFULLNAME", txtTFullName.Text),
+                      New OdbcParameter("TADDRESS", txtTAddress.Text),
+                      New OdbcParameter("TEMAIL", txtTEmail.Text),
+                      New OdbcParameter("TNICNO", txtTNICNo.Text),
+                      New OdbcParameter("TTELNO1", txtTTelNo1.Text),
+                      New OdbcParameter("TTELNO2", txtTTelNo2.Text),
+                      New OdbcParameter("TTELNO3", txtTTelNo3.Text),
+                      New OdbcParameter("TREMARKS", txtTRemarks.Text),
+                      New OdbcParameter("TACTIVE", chkActive.Checked),
+                      New OdbcParameter("TBLOCKEMAILS", CheckBlockEmails.Checked)
                 })
                 Call txtSearch_TextChanged(sender, e)
                 cmdSave.Text = "Edit"
@@ -56,18 +56,18 @@ Public Class frmTechnician
             Case "Edit"
                 If MsgBox("Are you sure edit?", vbYesNo + vbInformation) = vbYes Then
                     Db.Execute("Update Technician Set TName=@TNAME, TFullName=@TFULLNAME, TAddress=@TADDRESS, TEmail=@TEMAIL, TNicNo=@TNICNO, TTelNo1=@TTELNO1, TTelno2=@TTELNO2, TTelno3=@TTELNO3, TRemarks=@TREMARKS, TActive=@TACTIVE, TBlockEmails=@TBLOCKEMAILS WHERE TNo=@TNO;", {
-                          New OleDbParameter("TNAME", cmbTName.Text),
-                          New OleDbParameter("TFULLNAME", txtTFullName.Text),
-                          New OleDbParameter("TADDRESS", txtTAddress.Text),
-                          New OleDbParameter("TEMAIL", txtTEmail.Text),
-                          New OleDbParameter("TNICNO", txtTNICNo.Text),
-                          New OleDbParameter("TTELNO1", txtTTelNo1.Text),
-                          New OleDbParameter("TTELNO2", txtTTelNo2.Text),
-                          New OleDbParameter("TTELNO3", txtTTelNo3.Text),
-                          New OleDbParameter("TREMARKS", txtTRemarks.Text),
-                          New OleDbParameter("TACTIVE", chkActive.Checked),
-                          New OleDbParameter("TBLOCKEMAILS", CheckBlockEmails.Checked),
-                          New OleDbParameter("TNO", txtTNo.Text)
+                          New OdbcParameter("TNAME", cmbTName.Text),
+                          New OdbcParameter("TFULLNAME", txtTFullName.Text),
+                          New OdbcParameter("TADDRESS", txtTAddress.Text),
+                          New OdbcParameter("TEMAIL", txtTEmail.Text),
+                          New OdbcParameter("TNICNO", txtTNICNo.Text),
+                          New OdbcParameter("TTELNO1", txtTTelNo1.Text),
+                          New OdbcParameter("TTELNO2", txtTTelNo2.Text),
+                          New OdbcParameter("TTELNO3", txtTTelNo3.Text),
+                          New OdbcParameter("TREMARKS", txtTRemarks.Text),
+                          New OdbcParameter("TACTIVE", chkActive.Checked),
+                          New OdbcParameter("TBLOCKEMAILS", CheckBlockEmails.Checked),
+                          New OdbcParameter("TNO", txtTNo.Text)
                     })
                     Call txtSearch_TextChanged(sender, e)
                 End If
@@ -125,7 +125,7 @@ Public Class frmTechnician
     End Sub
 
     Private Sub cmbTName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbTName.SelectedIndexChanged
-        Dim DR As OleDbDataReader = Db.GetDataReader("Select * from Technician where TName ='" & cmbTName.Text & "';")
+        Dim DR As OdbcDataReader = Db.GetDataReader("Select * from Technician where TName ='" & cmbTName.Text & "';")
         If DR.HasRows = True Then
             DR.Read()
             txtTNo.Text = DR("TNo").ToString
@@ -173,7 +173,7 @@ Public Class frmTechnician
                                         "This Technician couldn't be deleted because this technician has relations with the field/s in 'Repair' table. They are given below.") = False Then
             Exit Sub
         End If
-        If CheckExistRelationsforDelete("Select TNo,RetNo from Return where TNo = " & txtTNo.Text, "RetNo",
+        If CheckExistRelationsforDelete("Select TNo,RetNo from Rerepair where TNo = " & txtTNo.Text, "RetNo",
                                         "This Technician couldn't be deleted because this technician has relations with the field/s in 'Return' table. They are given below.") = False Then
             Exit Sub
         End If

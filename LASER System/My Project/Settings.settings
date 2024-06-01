@@ -2,8 +2,8 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="My" GeneratedClassName="MySettings" UseMySettingsClassName="true">
   <Profiles />
   <Settings>
-    <Setting Name="DBPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+    <Setting Name="DBServer" Type="System.String" Scope="User">
+      <Value Profile="(Default)">localhost</Value>
     </Setting>
     <Setting Name="SendSettlementEmail" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
@@ -48,10 +48,10 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="DBPassword" Type="System.String" Scope="User">
-      <Value Profile="(Default)">YJ9R8NnRqK5tUziPQb+lgQ==</Value>
+      <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="DBProvider" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Microsoft.ACE.OLEDB.12.0</Value>
+    <Setting Name="DBUserName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">root</Value>
     </Setting>
     <Setting Name="DeveloperMode" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">False</Value>
@@ -61,6 +61,12 @@
     </Setting>
     <Setting Name="CashDrawer" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="DBName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">lasertec</Value>
+    </Setting>
+    <Setting Name="DBPort" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">3306</Value>
     </Setting>
   </Settings>
 </SettingsFile>
