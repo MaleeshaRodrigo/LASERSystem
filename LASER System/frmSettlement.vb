@@ -242,8 +242,8 @@ Public Class frmSettlement
         txtLockerCash.Text = "0"
         txtChange.Text = "0"
         Dim DR = Db.GetDataDictionary("Select * from Settlement where SetDate ='" & txtFrom.Value.Date & "'")
-        If DR.Count Then
-            Dim unused = 
+        If DR IsNot Nothing Then
+            Dim unused =
             txtLockerCash.Text = DR("CashinLocker").ToString
             txtLKR5000.Text = DR("LKR5000").ToString
             txtLKR1000.Text = DR("LKR1000").ToString
@@ -425,7 +425,7 @@ Public Class frmSettlement
         Dim DT1 As DataTable = Db.GetDataTable("SELECT rep.RepNo as `Repair No`,PCategory as `Product Category`,PName as `Product Name`,Qty, PaidPrice as `Paid Charge`,TName as `Technician Name`,Status from Repair Rep,Technician T, Product P Where P.Pno = Rep.Pno and Rep.TNo = T.TNo and DNo = " & grdDeliver.Item(0, grdDeliver.CurrentCell.RowIndex).Value)
         grdRepair.DataSource = DT1
         grdRepair.Refresh()
-        Dim DT2 As DataTable = Db.GetDataTable("SELECT Ret.RetNo as `RERepair No`,RepNo as `Repair No`,PCategory as `Product Category`,PName as `Product Name`,Qty, PaidPrice as `Paid Charge`,TName as `Technician Name`,Status from Return Ret,Technician T, Product P Where P.Pno = Ret.Pno and Ret.TNo = T.TNo and DNo = " & grdDeliver.Item(0, grdDeliver.CurrentCell.RowIndex).Value)
+        Dim DT2 As DataTable = Db.GetDataTable("SELECT Ret.RetNo as `RERepair No`,RepNo as `Repair No`,PCategory as `Product Category`,PName as `Product Name`,Qty, PaidPrice as `Paid Charge`,TName as `Technician Name`,Status from `Return` Ret,Technician T, Product P Where P.Pno = Ret.Pno and Ret.TNo = T.TNo and DNo = " & grdDeliver.Item(0, grdDeliver.CurrentCell.RowIndex).Value)
         grdRERepair.DataSource = DT2
         grdRERepair.Refresh()
     End Sub
