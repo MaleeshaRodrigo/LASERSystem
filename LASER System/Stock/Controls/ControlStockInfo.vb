@@ -1,6 +1,5 @@
 ﻿Imports System.Data.Common
-Imports System.Data.Odbc
-Imports System.Data.OleDb
+Imports MySqlConnector
 Imports LASER_System.StructureDatabase
 
 Public Class ControlStockInfo
@@ -106,18 +105,18 @@ Public Class ControlStockInfo
                 {Stock.DamagedUnits} = @DAMAGEDUNITS,
                 {Stock.ReorderPoint} = @REORDERPOINT
                 WHERE {Stock.Code} = @CODE;", {
-                New OleDbParameter("@CATEGORY", CmbCategory.Text),
-                New OleDbParameter("@NAME", CmbName.Text),
-                New OleDbParameter("@MODELNO", TxtModelNo.Text),
-                New OleDbParameter("@LOCATION", CmbLocation.Text),
-                New OleDbParameter("@DETAILS", TxtDetails.Text),
-                New OleDbParameter("@COSTPRICE", TxtCostPrice.Text),
-                New OleDbParameter("@LOWESTPRICE", TxtLowestPrice.Text),
-                New OleDbParameter("@SALEPRICE", TxtSalePrice.Text),
-                New OleDbParameter("@AVAILABLEUNITS", TxtAvailableUnits.Text),
-                New OleDbParameter("@DAMAGEDUNITS", TxtDamagedUnits.Text),
-                New OleDbParameter("@REORDERPOINT", TxtReorderPoint.Text),
-                New OleDbParameter("@CODE", TxtSNo.Text)
+                New MySqlParameter("@CATEGORY", CmbCategory.Text),
+                New MySqlParameter("@NAME", CmbName.Text),
+                New MySqlParameter("@MODELNO", TxtModelNo.Text),
+                New MySqlParameter("@LOCATION", CmbLocation.Text),
+                New MySqlParameter("@DETAILS", TxtDetails.Text),
+                New MySqlParameter("@COSTPRICE", TxtCostPrice.Text),
+                New MySqlParameter("@LOWESTPRICE", TxtLowestPrice.Text),
+                New MySqlParameter("@SALEPRICE", TxtSalePrice.Text),
+                New MySqlParameter("@AVAILABLEUNITS", TxtAvailableUnits.Text),
+                New MySqlParameter("@DAMAGEDUNITS", TxtDamagedUnits.Text),
+                New MySqlParameter("@REORDERPOINT", TxtReorderPoint.Text),
+                New MySqlParameter("@CODE", TxtSNo.Text)
             })
             Case User.Type.Cashier
                 Db.Execute($"UPDATE {Tables.Stock} SET 
@@ -130,15 +129,15 @@ Public Class ControlStockInfo
                     {Stock.SalePrice} = @SALEPRICE,
                     {Stock.ReorderPoint} = @REORDERPOINT
                     WHERE {Stock.Code} = @CODE;", {
-                    New OleDbParameter("@CATEGORY", CmbCategory.Text),
-                    New OleDbParameter("@NAME", CmbName.Text),
-                    New OleDbParameter("@MODELNO", TxtModelNo.Text),
-                    New OleDbParameter("@LOCATION", CmbLocation.Text),
-                    New OleDbParameter("@DETAILS", TxtDetails.Text),
-                    New OleDbParameter("@LOWESTPRICE", TxtLowestPrice.Text),
-                    New OleDbParameter("@SALEPRICE", TxtSalePrice.Text),
-                    New OleDbParameter("@REORDERPOINT", TxtReorderPoint.Text),
-                    New OleDbParameter("@CODE", TxtSNo.Text)
+                    New MySqlParameter("@CATEGORY", CmbCategory.Text),
+                    New MySqlParameter("@NAME", CmbName.Text),
+                    New MySqlParameter("@MODELNO", TxtModelNo.Text),
+                    New MySqlParameter("@LOCATION", CmbLocation.Text),
+                    New MySqlParameter("@DETAILS", TxtDetails.Text),
+                    New MySqlParameter("@LOWESTPRICE", TxtLowestPrice.Text),
+                    New MySqlParameter("@SALEPRICE", TxtSalePrice.Text),
+                    New MySqlParameter("@REORDERPOINT", TxtReorderPoint.Text),
+                    New MySqlParameter("@CODE", TxtSNo.Text)
                 })
         End Select
     End Sub
@@ -160,18 +159,18 @@ Public Class ControlStockInfo
                 {Stock.DamagedUnits},
                 {Stock.ReorderPoint}
             ) VALUES(@CODE,@CATEGORY,@NAME,@MODELNO,@LOCATION,@DETAILS,@SALEPRICE,@LOWESTPRICE,@COSTPRICE,@AVAILABLEUNITS,@DAMAGEDUNITS,@REORDERPOINT);", {
-                        New OleDbParameter("@CODE", TxtSNo.Text),
-                        New OleDbParameter("@CATEGORY", CmbCategory.Text),
-                        New OleDbParameter("@NAME", CmbName.Text),
-                        New OleDbParameter("@MODELNO", TxtModelNo.Text),
-                        New OleDbParameter("@LOCATION", CmbLocation.Text),
-                        New OleDbParameter("@DETAILS", TxtDetails.Text),
-                        New OleDbParameter("@SALEPRICE", TxtSalePrice.Text),
-                        New OleDbParameter("@LOWESTPRICE", TxtLowestPrice.Text),
-                        New OleDbParameter("@COSTPRICE", TxtCostPrice.Text),
-                        New OleDbParameter("@AVAILABLEUNITS", TxtAvailableUnits.Text),
-                        New OleDbParameter("@DAMAGEDUNITS", TxtDamagedUnits.Text),
-                        New OleDbParameter("@REORDERPOINT", TxtReorderPoint.Text)
+                        New MySqlParameter("@CODE", TxtSNo.Text),
+                        New MySqlParameter("@CATEGORY", CmbCategory.Text),
+                        New MySqlParameter("@NAME", CmbName.Text),
+                        New MySqlParameter("@MODELNO", TxtModelNo.Text),
+                        New MySqlParameter("@LOCATION", CmbLocation.Text),
+                        New MySqlParameter("@DETAILS", TxtDetails.Text),
+                        New MySqlParameter("@SALEPRICE", TxtSalePrice.Text),
+                        New MySqlParameter("@LOWESTPRICE", TxtLowestPrice.Text),
+                        New MySqlParameter("@COSTPRICE", TxtCostPrice.Text),
+                        New MySqlParameter("@AVAILABLEUNITS", TxtAvailableUnits.Text),
+                        New MySqlParameter("@DAMAGEDUNITS", TxtDamagedUnits.Text),
+                        New MySqlParameter("@REORDERPOINT", TxtReorderPoint.Text)
                     })
             Case User.Type.Cashier
                 Db.Execute($"INSERT INTO {Tables.Stock}(
@@ -188,18 +187,18 @@ Public Class ControlStockInfo
                 {Stock.DamagedUnits},
                 {Stock.ReorderPoint}
             ) VALUES(@CODE,@CATEGORY,@NAME,@MODELNO,@LOCATION,@DETAILS,@SALEPRICE,@LOWESTPRICE,@COSTPRICE,@REORDERPOINT);", {
-                        New OleDbParameter("@CODE", TxtSNo.Text),
-                        New OleDbParameter("@CATEGORY", CmbCategory.Text),
-                        New OleDbParameter("@NAME", CmbName.Text),
-                        New OleDbParameter("@MODELNO", TxtModelNo.Text),
-                        New OleDbParameter("@LOCATION", CmbLocation.Text),
-                        New OleDbParameter("@DETAILS", TxtDetails.Text),
-                        New OleDbParameter("@SALEPRICE", TxtSalePrice.Text),
-                        New OleDbParameter("@LOWESTPRICE", TxtLowestPrice.Text),
-                        New OleDbParameter("@COSTPRICE", TxtLowestPrice.Text),
-                        New OleDbParameter("@AVAILABLEUNITS", 0),
-                        New OleDbParameter("@DAMAGEDUNITS", 0),
-                        New OleDbParameter("@REORDERPOINT", TxtReorderPoint.Text)
+                        New MySqlParameter("@CODE", TxtSNo.Text),
+                        New MySqlParameter("@CATEGORY", CmbCategory.Text),
+                        New MySqlParameter("@NAME", CmbName.Text),
+                        New MySqlParameter("@MODELNO", TxtModelNo.Text),
+                        New MySqlParameter("@LOCATION", CmbLocation.Text),
+                        New MySqlParameter("@DETAILS", TxtDetails.Text),
+                        New MySqlParameter("@SALEPRICE", TxtSalePrice.Text),
+                        New MySqlParameter("@LOWESTPRICE", TxtLowestPrice.Text),
+                        New MySqlParameter("@COSTPRICE", TxtLowestPrice.Text),
+                        New MySqlParameter("@AVAILABLEUNITS", 0),
+                        New MySqlParameter("@DAMAGEDUNITS", 0),
+                        New MySqlParameter("@REORDERPOINT", TxtReorderPoint.Text)
                     })
         End Select
     End Sub
@@ -221,7 +220,7 @@ Public Class ControlStockInfo
         If Db.CheckDataExists(Tables.Stock, Stock.Code, TxtSNo.Text) AndAlso
             MsgBox("ඔබට මෙම Record එක Delete කිරිමට අවශ්‍යද?", vbInformation + vbYesNo) = vbYes Then
             Db.Execute($"DELETE FROM {Tables.Stock} WHERE {Stock.Code}=@SNO", {
-                    New OleDbParameter("@SNO", TxtSNo.Text)
+                    New MySqlParameter("@SNO", TxtSNo.Text)
                 })
             Me.Dispose()
         End If

@@ -1,11 +1,11 @@
-﻿Imports System.Data.OleDb
+﻿Imports MySqlConnector
 Public Class frmRepairAdvanced
     Private Db As New Database
 
     Private dtpDate As New DateTimePicker
     Private cmdView As New Button
     Private Sub frmRepairAdvanced_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Db.Connect()
+        
         cmbFilter.Text = "All"
         cmdSearch_Click(sender, e)
         cmdNew_Click(sender, e)
@@ -15,11 +15,11 @@ Public Class frmRepairAdvanced
     End Sub
 
     Private Sub frmRepairAdvanced_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-        Db.Disconnect()
+        
     End Sub
 
     Private Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click
-        SetNextKey(Db, txtAdNo, "Select Top 1 AdNo from RepairAdvanced Order by AdNo Desc", "AdNo")
+        txtAdNo.Text = Db.GetNextKey("RepairAdvanced", "AdNo")
         txtAdDate.Value = DateAndTime.Now
         cmbRepNo.Text = "0"
         txtAmount.Text = ""
@@ -43,12 +43,12 @@ Public Class frmRepairAdvanced
                     AdminPer.Remarks = "අද දිනට නොමැති Repair එකෙහි " & txtAdNo.Text & " වන Advanced Payment එකක් ඇතුලත් කෙරුණි. "
                 End If
                 If rbRep.Checked = True Then
-                    Db.Execute("Insert into RepairAdvanced(ADNo,ADDate,RepNo,RetNo,Amount,Remarks,UNo) Values(?NewKey?RepairAdvanced?AdNo?,#" &
-                          txtAdDate.Value & "#," & cmbRepNo.Text & ",0," & txtAmount.Text & ",'" & txtRemarks.Text & "'," & User.Instance.UserNo & ")",
+                    Db.Execute("Insert into RepairAdvanced(ADNo,ADDate,RepNo,RetNo,Amount,Remarks,UNo) Values(?NewKey?RepairAdvanced?AdNo?,'" &
+                          txtAdDate.Value & "'," & cmbRepNo.Text & ",0," & txtAmount.Text & ",'" & txtRemarks.Text & "'," & User.Instance.UserNo & ")",
                               {}, AdminPer)
                 Else
-                    Db.Execute("Insert into RepairAdvanced(ADNo,ADDate,RepNo,RetNo,Amount,Remarks,UNo) Values(?NewKey?RepairAdvanced?AdNo?,#" &
-                          txtAdDate.Value & "#,0," & cmbRepNo.Text & "," & txtAmount.Text & ",'" & txtRemarks.Text & "'," & User.Instance.UserNo & ")",
+                    Db.Execute("Insert into RepairAdvanced(ADNo,ADDate,RepNo,RetNo,Amount,Remarks,UNo) Values(?NewKey?RepairAdvanced?AdNo?,'" &
+                          txtAdDate.Value & "',0," & cmbRepNo.Text & "," & txtAmount.Text & ",'" & txtRemarks.Text & "'," & User.Instance.UserNo & ")",
                               {}, AdminPer)
                 End If
                 If MsgBox("Repair Advanced Invoice එක print කිරීමට අවශ්‍යද?", vbYesNo) = vbYes Then
@@ -60,15 +60,15 @@ Public Class frmRepairAdvanced
                     AdminPer.Remarks = "අද දිනට නොමැති Repair එකෙහි " & txtAdNo.Text & " වන Advanced Payment එකක් වෙනස් කෙරුණි. "
                 End If
                 If rbRep.Checked = True Then
-                    Db.Execute("Update RepairAdvanced set ADDate=#" & txtAdDate.Value &
-                              "#, RepNo=" & cmbRepNo.Text &
+                    Db.Execute("Update RepairAdvanced set ADDate='" & txtAdDate.Value &
+                              "', RepNo=" & cmbRepNo.Text &
                               ", RetNo=0, Amount=" & txtAmount.Text &
                               ", Remarks='" & txtRemarks.Text &
                               "', UNo=" & User.Instance.UserNo &
                               " Where AdNo=" & txtAdNo.Text, {}, AdminPer)
                 Else
-                    Db.Execute("Update RepairAdvanced set ADDate=#" & txtAdDate.Value &
-                              "#, RetNo=" & cmbRepNo.Text &
+                    Db.Execute("Update RepairAdvanced set ADDate='" & txtAdDate.Value &
+                              "', RetNo=" & cmbRepNo.Text &
                               ", RepNo=0, Amount=" & txtAmount.Text &
                               ", Remarks='" & txtRemarks.Text &
                               "', UNo=" & User.Instance.UserNo &
@@ -95,16 +95,16 @@ Public Class frmRepairAdvanced
                 Search += "ADDate like '%" & txtSearch.Text & "%' or RepNo like '%" & txtSearch.Text & "%' or RetNo like '%" & txtSearch.Text & "%' or Amount like '%" &
                     txtSearch.Text & "%' or Remarks like '%" & txtSearch.Text & "%'"
         End Select
-        Dim DRRepAdv As OleDbDataReader = Db.GetDataReader("Select * from RepairAdvanced " & Search)
+        Dim DRRepAdv = Db.GetDataDictionary("Select * from RepairAdvanced " & Search)
         grdRepAdvanced.Rows.Clear()
-        While DRRepAdv.Read
-            grdRepAdvanced.Rows.Add(DRRepAdv("ADNo").ToString, DRRepAdv("ADDate").ToString, DRRepAdv("RepNo").ToString, DRRepAdv("RetNo").ToString,
-                                    DRRepAdv("Amount").ToString,
-                                DRRepAdv("Remarks").ToString, Db.GetData("Select UserName from [User] Where UNo=" &
-                                DRRepAdv("UNo").ToString))
-        End While
-        grdRepAdvanced.Refresh()
-        DRRepAdv.Close()
+        'For Each Item In DRRepAdv
+        '    grdRepAdvanced.Rows.Add(DRRepAdv("ADNo").ToString, DRRepAdv("ADDate").ToString, DRRepAdv("RepNo").ToString, DRRepAdv("RetNo").ToString,
+        '                            DRRepAdv("Amount").ToString,
+        '                        DRRepAdv("Remarks").ToString, Db.GetData("Select UserName from `User` Where UNo=" &
+        '                        DRRepAdv("UNo").ToString))
+        'End While
+        'grdRepAdvanced.Refresh()
+        'DRRepAdv.Close()
     End Sub
 
     Private Sub cmdDelete_Click(sender As Object, e As EventArgs) Handles cmdDelete.Click
@@ -134,9 +134,8 @@ Public Class frmRepairAdvanced
     Private Sub grdRepAdvanced_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles grdRepAdvanced.CellDoubleClick
         If e.RowIndex < 0 Then Exit Sub
         If grdRepAdvanced.Item(0, e.RowIndex).Value Is Nothing Then Exit Sub
-        Dim DRRepAdv As OleDb.OleDbDataReader = Db.GetDataReader("SELECT * from RepairAdvanced where AdNo=" & grdRepAdvanced.Item(0, e.RowIndex).Value & ";")
-        If DRRepAdv.HasRows Then
-            DRRepAdv.Read()
+        Dim DRRepAdv = Db.GetDataDictionary("SELECT * from RepairAdvanced where AdNo=" & grdRepAdvanced.Item(0, e.RowIndex).Value & ";")
+        If DRRepAdv IsNot Nothing Then
             txtAdNo.Text = grdRepAdvanced.Item(0, e.RowIndex).Value
             txtAdDate.Value = DRRepAdv("ADDate").ToString
             If DRRepAdv("RepNo").ToString = "0" Then
@@ -151,7 +150,6 @@ Public Class frmRepairAdvanced
             txtAmount.Text = DRRepAdv("Amount").ToString
             txtRemarks.Text = DRRepAdv("Remarks").ToString
         End If
-        DRRepAdv.Close()
         cmdSave.Text = "Edit"
         cmdDelete.Enabled = True
     End Sub
@@ -220,39 +218,47 @@ Public Class frmRepairAdvanced
                              "Repair Advanced No එක Database එක තුලින් සොයා ගැනීමට නොහැකි වුණි.", False) = False Then
             Exit Sub
         End If
+        Dim Connection = Db.GetConenction()
         Dim RPT As New rptRepairAdvanced
         Dim DS1 As New DataSet
-        Dim DA1 As OleDbDataAdapter
-        If rbRep.Checked = True Then
-            DA1 = Db.GetDataAdapter("SELECT CuName,CuTelNo1,CuTelNo2,CuTelNo3,ADDate,Rep.RepNo,Ret.RetNo,PCategory,PName,Amount from (((((RepairAdvanced AD Left Join Repair Rep On Rep.RepNo=AD.RepNo) Left JOin Return Ret On Ret.RetNo=AD.RetNo) LEft Join Product P ON P.PNo = Rep.PNo) Left Join Receive R ON R.RNo = Rep.RNo) Left Join Customer Cu ON Cu.CuNo=R.CuNo) Where ADNo=" & txtAdNo.Text & ";")
-        Else
-            DA1 = Db.GetDataAdapter("SELECT CuName,CuTelNo1,CuTelNo2,CuTelNo3,ADDate,Rep.RepNo,Ret.RetNo,PCategory,PName,Amount from (((((RepairAdvanced AD Left Join Return Ret On Ret.RetNo=AD.RetNo) Left Join Repair Rep On Rep.RepNo=Ret.RepNo) LEft Join Product P ON P.PNo = Rep.PNo) Left Join Receive R ON R.RNo = Rep.RNo) Left Join Customer Cu ON Cu.CuNo=R.CuNo) Where ADNo=" & txtAdNo.Text & ";")
-        End If
-        DA1.Fill(DS1, "Repair")
-        DA1.Fill(DS1, "Product")
-        DA1.Fill(DS1, "Return")
-        DA1.Fill(DS1, "Customer")
-        DA1.Fill(DS1, "Receive")
-        DA1.Fill(DS1, "RepairAdvanced")
-        RPT.SetDataSource(DS1)
-        RPT.SetParameterValue("Cashier Name", User.Instance.UserName) 'Set Cashier Name to Parameter Value
-        Dim c As Integer
-        Dim doctoprint As New System.Drawing.Printing.PrintDocument()
-        doctoprint.PrinterSettings.PrinterName = "Zonerich AB-220K"
-        Dim rawKind As Integer
-        For c = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
-            If doctoprint.PrinterSettings.PaperSizes(c).PaperName = "76mm * 297mm" Then
-                rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(c).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(c)))
-                Exit For
+        Dim DA1 As MySqlDataAdapter
+        Try
+            Connection.Open()
+            If rbRep.Checked = True Then
+                DA1 = Db.GetDataAdapter("SELECT CuName,CuTelNo1,CuTelNo2,CuTelNo3,ADDate,Rep.RepNo,Ret.RetNo,PCategory,PName,Amount from (((((RepairAdvanced AD Left Join Repair Rep On Rep.RepNo=AD.RepNo) Left Join Return Ret On Ret.RetNo=AD.RetNo) Left Join Product P ON P.PNo = Rep.PNo) Left Join Receive R ON R.RNo = Rep.RNo) Left Join Customer Cu ON Cu.CuNo=R.CuNo) Where ADNo=" & txtAdNo.Text & ";", Connection)
+            Else
+                DA1 = Db.GetDataAdapter("SELECT CuName,CuTelNo1,CuTelNo2,CuTelNo3,ADDate,Rep.RepNo,Ret.RetNo,PCategory,PName,Amount from (((((RepairAdvanced AD Left Join Return Ret On Ret.RetNo=AD.RetNo) Left Join Repair Rep On Rep.RepNo=Ret.RepNo) LEft Join Product P ON P.PNo = Rep.PNo) Left Join Receive R ON R.RNo = Rep.RNo) Left Join Customer Cu ON Cu.CuNo=R.CuNo) Where ADNo=" & txtAdNo.Text & ";", Connection)
             End If
-        Next
-        RPT.PrintOptions.PaperOrientation = CrystalDecisions.Shared.PaperOrientation.Portrait
-        RPT.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
+            DA1.Fill(DS1, "Repair")
+            DA1.Fill(DS1, "Product")
+            DA1.Fill(DS1, "Rerepair")
+            DA1.Fill(DS1, "Customer")
+            DA1.Fill(DS1, "Receive")
+            DA1.Fill(DS1, "RepairAdvanced")
+            RPT.SetDataSource(DS1)
+            RPT.SetParameterValue("Cashier Name", User.Instance.UserName) 'Set Cashier Name to Parameter Value
+            Dim c As Integer
+            Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+            doctoprint.PrinterSettings.PrinterName = "Zonerich AB-220K"
+            Dim rawKind As Integer
+            For c = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
+                If doctoprint.PrinterSettings.PaperSizes(c).PaperName = "76mm * 297mm" Then
+                    rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(c).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(c)))
+                    Exit For
+                End If
+            Next
+            RPT.PrintOptions.PaperOrientation = CrystalDecisions.Shared.PaperOrientation.Portrait
+            RPT.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
 
-        Dim frm As New frmReport With {.Name = "frmReport" + NextfrmNo(frmReport).ToString}
-        frm.ReportViewer.ReportSource = RPT
-        frm.Show(Me)
-        RPT.Close()
-        DS1.Clear()
+            Dim frm As New frmReport With {.Name = "frmReport" + NextfrmNo(frmReport).ToString}
+            frm.ReportViewer.ReportSource = RPT
+            frm.Show(Me)
+        Catch ex As Exception
+
+        Finally
+            Connection.Close()
+            RPT.Close()
+            DS1.Clear()
+        End Try
     End Sub
 End Class

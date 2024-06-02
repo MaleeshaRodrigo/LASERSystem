@@ -265,7 +265,7 @@ Partial Class frmSalesRepair
         '
         'txtSDamagedStocks
         '
-        Me.txtSDamagedStocks.AutoCompleteCustomSource.AddRange(New String() {"Rs. ####"})
+        Me.txtSDamagedStocks.AutoCompleteCustomSource.AddRange(New String() {"Rs. ''''"})
         Me.txtSDamagedStocks.Enabled = False
         Me.txtSDamagedStocks.Location = New System.Drawing.Point(117, 192)
         Me.txtSDamagedStocks.Name = "txtSDamagedStocks"
@@ -283,7 +283,7 @@ Partial Class frmSalesRepair
         '
         'txtSAvailableStocks
         '
-        Me.txtSAvailableStocks.AutoCompleteCustomSource.AddRange(New String() {"Rs. ####"})
+        Me.txtSAvailableStocks.AutoCompleteCustomSource.AddRange(New String() {"Rs. ''''"})
         Me.txtSAvailableStocks.Enabled = False
         Me.txtSAvailableStocks.Location = New System.Drawing.Point(117, 164)
         Me.txtSAvailableStocks.Name = "txtSAvailableStocks"
@@ -360,7 +360,7 @@ Partial Class frmSalesRepair
         '
         'txtSCostPrice
         '
-        Me.txtSCostPrice.AutoCompleteCustomSource.AddRange(New String() {"Rs. ####"})
+        Me.txtSCostPrice.AutoCompleteCustomSource.AddRange(New String() {"Rs. ''''"})
         Me.txtSCostPrice.Enabled = False
         Me.txtSCostPrice.Location = New System.Drawing.Point(107, 107)
         Me.txtSCostPrice.Name = "txtSCostPrice"

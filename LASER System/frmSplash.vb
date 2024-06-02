@@ -1,4 +1,4 @@
-﻿Imports System.Data.OleDb
+﻿Imports MySqlConnector
 Imports System.IO
 Imports Microsoft.VisualBasic.FileIO
 
@@ -8,7 +8,7 @@ Public NotInheritable Class FrmSplash
     Private flName As Object
 
     Private Sub FrmSplash_Load(sender As Object, e As EventArgs) Handles Me.Load
-        Db.Connect()
+        
         imgSplash.Top = 0
         imgSplash.Left = 0
         C = 0
@@ -80,18 +80,16 @@ Public NotInheritable Class FrmSplash
                 With MdifrmMain
                     LoadingBar.Value += 5
                     txtLoad.Text = "Getting Message to the Message Panel in Main Menu..."
-                    Dim DrCheckStockUnits As OleDbDataReader = Db.GetDataReader("Select COUNT(SNo) as SNoCount from [Stock] Where SAvailableStocks < SMinStocks")
-                    If DrCheckStockUnits.HasRows Then
-                        DrCheckStockUnits.Read()
+                    Dim DrCheckStockUnits = Db.GetDataDictionary("Select COUNT(SNo) as SNoCount from `Stock` Where SAvailableStocks < SMinStocks")
+                    If DrCheckStockUnits IsNot Nothing Then
                         Dim MessagePanel As New MessagePanel(
                         "Stocks Report",
                         DrCheckStockUnits("SNoCount").ToString & " Stocks නැවත පිරවීමට ඇති බැවින් බඩු ගැනීමට පැමිණි පාරිභෝගිකයන් නැවත 
                     හරවා  නොයැවීමට නම් මෙම stocks නැවත පිරවීම සඳහා පියවර ගන්න.")
                         MessagePanel.Add()
                     End If
-                    Dim DR As OleDbDataReader = Db.GetDataReader("Select * from [User] Where UserName='" & .tslblUserName.Text & "'")
-                    If DR.HasRows Then
-                        DR.Read()
+                    Dim DR = Db.GetDataDictionary("Select * from `User` Where UserName='" & .tslblUserName.Text & "'")
+                    If DR IsNot Nothing Then
                         .lblUName.Text = "Name: " + DR("UserName").ToString
                         .lblUEmail.Text = "Email: " + DR("Email").ToString
                         .lblULastLogin.Text = "Last Login: " + DR("LastLogin").ToString
