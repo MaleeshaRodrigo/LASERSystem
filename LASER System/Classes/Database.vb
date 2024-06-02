@@ -35,11 +35,19 @@ Public Class Database
     End Function
 
     Public Function CheckDataExists(Table As String, FieldName As String, Value As Object) As Boolean
-        Dim Command As New MySqlCommand($"SELECT {FieldName} FROM {Table} WHERE {FieldName}=@VALUE;", _Connection)
-        Command.Parameters.Add(New MySqlParameter("VALUE", Value))
-        Using DataReader = Command.ExecuteReader()
-            Return DataReader.HasRows
-        End Using
+        Dim Connection As MySqlConnection = GetConenction()
+        Try
+            Connection.Open()
+            Dim Command As New MySqlCommand($"SELECT {FieldName} FROM {Table} WHERE {FieldName}=@VALUE;", Connection)
+            Command.Parameters.Add(New MySqlParameter("VALUE", Value))
+            Using DataReader = Command.ExecuteReader()
+                Return DataReader.HasRows
+            End Using
+        Catch ex As Exception
+            Throw ex
+        Finally
+            Connection.Close()
+        End Try
     End Function
 
     Public Sub Execute(Query As String, Optional Parameters As MySqlParameter() = Nothing, Optional AdminPer As AdminPermission = Nothing)

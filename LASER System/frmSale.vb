@@ -461,7 +461,7 @@ Public Class frmSale
                                                              New MySqlParameter("CATEGORY", If(grdSale.Item(1, e.RowIndex).Value, "")),
                                                              New MySqlParameter("NAME", If(grdSale.Item(2, e.RowIndex).Value, ""))
                                                                                 })
-                If DR.Count Then
+                If DR IsNot Nothing Then
 
                     grdSale.Item(0, e.RowIndex).Value = DR("SNo").ToString
                     grdSale.Item(1, e.RowIndex).Value = DR("SCategory").ToString
