@@ -2,17 +2,6 @@
 Imports MySqlConnector
 
 Public Class Database
-    'Private _Connection As New MySqlConnection
-
-    Public Sub Connect()
-        'If _Connection.State = ConnectionState.Open Then Exit Sub
-        'Dim Encoder As New Encoder()
-        'Dim DbPassword As String = If(Settings.DBPassword <> "",
-        '    Encoder.Decode(Settings.DBPassword),
-        '    "")
-        '_Connection = New MySqlConnection($"server={Settings.DBServer};port={Settings.DBPort};user={Settings.DBUserName};password={DbPassword};database={Settings.DBName};")
-        '_Connection.Open()
-    End Sub
 
     Public Function GetConenction() As MySqlConnection
         Dim Encoder As New Encoder()
@@ -33,18 +22,11 @@ Public Class Database
             Return (False, "Database Name එක ඇතුලත් කර නොමැත.")
         End If
         Try
-            Connect()
-            Disconnect()
         Catch ex As Exception
             Return (False, ex.Message)
         End Try
         Return (True, "")
     End Function
-
-    Public Sub Disconnect()
-        'If _Connection.State = ConnectionState.Closed Then Exit Sub
-        '_Connection.Close()
-    End Sub
 
     Public Function CheckDataExists(Table As String, FieldName As String, Value As Object) As Boolean
         Dim Command As New MySqlCommand($"SELECT {FieldName} FROM {Table} WHERE {FieldName}=@VALUE;", _Connection)

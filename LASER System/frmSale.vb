@@ -11,7 +11,7 @@ Public Class frmSale
     End Sub
 
     Private Sub frmSale_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Db.Connect()
+        
         Me.AcceptButton = cmdSave
 
         Call cmdNew_Click(Nothing, Nothing)
@@ -49,7 +49,7 @@ Public Class frmSale
     End Sub
 
     Private Sub frmSale_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-        Db.Disconnect()
+        
     End Sub
 
     Private Sub cmdClose_Click(sender As Object, e As EventArgs) Handles cmdClose.Click

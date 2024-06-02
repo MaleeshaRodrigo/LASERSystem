@@ -12,7 +12,7 @@ Public Class frmSettlement
     End Sub
 
     Private Sub frmSettlement_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Db.Connect()
+        
         MenuStrip.Items.Add(mnustrpMENU)
         txtFrom.Value = Today
         dtpTADate.Value = Today

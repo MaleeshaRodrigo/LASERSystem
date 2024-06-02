@@ -12,7 +12,7 @@ Public Class FrmSettings
     End Sub
     Public Sub FrmSettings_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         If Db.CheckConnection().Valid Then
-            Db.Connect()
+            
         End If
         With My.Settings
             TextDbServer.Text = .DBServer
@@ -40,7 +40,7 @@ Public Class FrmSettings
     End Sub
 
     Private Sub FrmSettings_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-        Db.Disconnect()
+        
         If Me.Tag = "Login" Then
             End
         Else

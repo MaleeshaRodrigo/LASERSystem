@@ -15,7 +15,7 @@ Public Class frmReceive
 
     End Sub
     Private Sub FrmReceive_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Db.Connect()
+        
         Call cmdNew_Click(Nothing, Nothing)
         txtCuTelNo1.Focus()
     End Sub
@@ -280,7 +280,7 @@ Public Class frmReceive
             Sub()
                 Dim ThreadDb As New Database()
                 Try
-                    ThreadDb.Connect()
+                    Thread
                     Dim frm1 As New frmReport
                     Dim RPT As New rptReceive
                     Dim DTRepair As DataTable = ThreadDb.GetDataTable($"SELECT RDate,CuName,CuTelNo1,CuTelNo2,CuTelNo3,'' as RetNo, RepNo, PCategory, PName, PModelNo, PSerialNo, Qty, Problem, '' as RepRemarks1 from (((Repair Inner Join Receive On Receive.RNo =Repair.RNo) Left Join Product On Product.PNo=Repair.PNo) Left Join Customer On Customer.CuNo=Receive.CuNo) Where Receive.RNo = {RNo} Union Select RDate,CuName,CuTelNo1,CuTelNo2,CuTelNo3, RetNo, RepNo, PCategory, PName, PModelNo, PSerialNo, Qty, Problem, '' as RepRemarks1 from (((`Return` Inner Join Receive On Receive.RNo =Return.RNo) Left Join Product On Product.PNo=Return.PNo) Left Join Customer On Customer.CuNo=Receive.CuNo) Where Receive.RNo = {RNo}")
@@ -324,7 +324,7 @@ Public Class frmReceive
                 Catch ex As Exception
                     MsgBox("Receipt Invoice එක print කර ගැනීමට අපොහොසත් විය." + vbCrLf + "Error: " + ex.Message, vbCritical, "Print Receipt Invoice Error")
                 Finally
-                    ThreadDb.Disconnect()
+                    Thread
                 End Try
             End Sub) With {
                 .Name = "showInvoiceReport",
@@ -341,7 +341,7 @@ Public Class frmReceive
         Sub()
             Dim ThreadDb As New Database()
             Try
-                ThreadDb.Connect()
+                Thread
                 Dim rpt3 As New rptRepairSticker
                 Dim DT, DT1 As New DataTable
                 DT.Clear()
@@ -401,7 +401,7 @@ Public Class frmReceive
             Catch ex As Exception
                 MsgBox("Receipt Sticker එක print කර ගැනීමට අපොහොසත් විය." + vbCrLf + "Error: " + ex.Message, vbCritical, "Print Receipt Sticker Error")
             Finally
-                ThreadDb.Disconnect()
+                Thread
             End Try
         End Sub) With {
             .Name = "showStickerReport",
@@ -593,7 +593,7 @@ Public Class frmReceive
     End Sub
 
     Private Sub frmReceive_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-        Db.Disconnect()
+        
     End Sub
 
     Private Sub txtCuTelNo1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtCuTelNo1.KeyPress, txtCuTelNo2.KeyPress, txtCuTelNo3.KeyPress

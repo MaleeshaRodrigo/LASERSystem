@@ -7,7 +7,7 @@ Public Class frmLogin
     Private frmMoveX, frmMoveY As Integer
     Private newpoint As New Point
     Private Sub FrmLogin_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-        Db.Disconnect()
+        
         End
     End Sub
 
@@ -28,7 +28,7 @@ Public Class frmLogin
             Exit Sub
             Exit Sub
         Else
-            Db.Connect()
+            
         End If
         Me.AcceptButton = cmdLogin
         cmbUserName_DropDown(sender, e)

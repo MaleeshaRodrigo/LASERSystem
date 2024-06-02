@@ -53,7 +53,7 @@ Public Class frmCustomer
     End Sub
 
     Private Sub frmCustomer_Load(sender As Object, e As EventArgs) Handles Me.Load
-        Db.Connect()
+        
 
         cmbFilter.Items.Clear()     'add values of cmdFilters
         cmbFilter.Items.Add("by Customer Name")
@@ -303,6 +303,6 @@ Public Class frmCustomer
     End Sub
 
     Private Sub frmCustomer_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-        Db.Disconnect()
+        
     End Sub
 End Class

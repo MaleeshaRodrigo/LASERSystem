@@ -13,11 +13,11 @@ Public Class frmSupplier
     End Sub
 
     Private Sub frmSupplier_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-        Db.Disconnect()
+        
     End Sub
 
     Private Sub frmSupplier_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Db.Connect()
+        
         MenuStrip1.Items.Add(mnustrpMENU)
         If Me.Tag = "" Then
             cmdDone.Enabled = False

@@ -4,7 +4,7 @@ Public Class frmTechnicianLoan
     Private Db As New Database
 
     Private Sub frmTechnicianLoan_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Db.Connect()
+        
         MenuStrip1.Items.Add(mnustrpMENU)
         txtTLNo.Text = Db.GetNextKey("TechnicianLoan", "TLNo")
         txtTLFrom.Value = "" & Date.Today.Year & "-" & Date.Today.Month & "-01"
@@ -253,7 +253,7 @@ Public Class frmTechnicianLoan
     End Sub
 
     Private Sub frmTechnicianLoan_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-        Db.Disconnect()
+        
     End Sub
 
     Private Sub cmdTLDelete_Click(sender As Object, e As EventArgs) Handles cmdTLDelete.Click

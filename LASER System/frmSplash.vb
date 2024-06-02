@@ -8,7 +8,7 @@ Public NotInheritable Class FrmSplash
     Private flName As Object
 
     Private Sub FrmSplash_Load(sender As Object, e As EventArgs) Handles Me.Load
-        Db.Connect()
+        
         imgSplash.Top = 0
         imgSplash.Left = 0
         C = 0

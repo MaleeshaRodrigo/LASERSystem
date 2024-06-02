@@ -16,11 +16,11 @@ Public Class frmTechnicianCost
     End Sub
 
     Private Sub frmTechnicianCost_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-        Db.Disconnect()
+        
     End Sub
 
     Private Sub frmTechnicianCost_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Db.Connect()
+        
         MenuStrip.Items.Add(mnustrpMENU)
         txtTCFrom.Value = Date.Today.Year & "-" & Date.Today.Month & "-01"
         txtTCTo.Value = Date.Today

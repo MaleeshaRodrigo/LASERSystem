@@ -18,11 +18,11 @@ Public Class frmMessage
     End Sub
 
     Private Sub frmMessage_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-        Db.Disconnect()
+        
     End Sub
 
     Private Sub frmMessage_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Db.Connect()
+        
         System.Windows.Forms.Control.CheckForIllegalCrossThreadCalls = False
         Select Case Me.Tag
             Case "Message"

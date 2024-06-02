@@ -18,7 +18,7 @@ Public Class frmSalesRepair
     End Sub
 
     Private Sub frmSalesRepair_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Db.Connect()
+        
         Call cmdSaRepNew_Click(sender, e)
     End Sub
 
@@ -64,6 +64,6 @@ Public Class frmSalesRepair
     End Sub
 
     Private Sub frmSalesRepair_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-        Db.Disconnect()
+        
     End Sub
 End Class

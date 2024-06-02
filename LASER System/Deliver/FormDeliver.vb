@@ -10,7 +10,7 @@ Public Class FormDeliver
     End Sub
 
     Private Sub frmDeliver_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Db.Connect()
+
         Call cmdNew_Click(Nothing, Nothing)
         txtDDate.Value = Date.Today
         If User.Instance.UserType <> User.Type.Admin Then
@@ -469,7 +469,7 @@ Public Class FormDeliver
     End Sub
 
     Private Sub frmDeliver_Leave(sender As Object, e As EventArgs) Handles Me.Leave, cmdClose.Click, CloseToolStripMenuItem.Click
-        Db.Disconnect()
+
     End Sub
 
     Private Sub ReceiveInfoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ReceiveInfoToolStripMenuItem.Click

@@ -3,8 +3,8 @@
 Public Class frmTechnician
     Private Db As New Database
 
-    Private Sub cmdClose_Click(sender As Object, e As EventArgs) Handles cmdClose.Click
-        Call frmTechnician_Leave(sender, e)
+    Private Sub cmdClose_Click(sender As Object, e As EventArgs) Handles cmdClose.Click, CloseToolStripMenuItem.Click
+        Me.Close()
     End Sub
 
     Private Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click
@@ -105,12 +105,7 @@ Public Class frmTechnician
         grdTechnician.Refresh()
     End Sub
 
-    Private Sub frmTechnician_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-        Db.Disconnect()
-    End Sub
-
     Private Sub frmTechnician_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Call Db.Connect()
         MenuStrip.Items.Add(mnustrpMENU)
         Call txtSearch_TextChanged(sender, e)
         Call cmdNew_Click(sender, e)
@@ -219,9 +214,5 @@ Public Class frmTechnician
 
     Private Sub DeleteToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles DeleteToolStripMenuItem1.Click
         If cmdDelete.Enabled = True Then cmdDelete_Click(sender, e)
-    End Sub
-
-    Private Sub CloseToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CloseToolStripMenuItem.Click
-        frmTechnician_Leave(sender, e)
     End Sub
 End Class

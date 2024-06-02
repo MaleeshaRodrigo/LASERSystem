@@ -7,11 +7,11 @@ Imports MySqlConnector
 Public Class frmTechnicianSalary
     Private Db As New Database
     Private Sub FrmTechnicianSalary_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-        Db.Disconnect()
+        
     End Sub
 
     Private Sub FrmTechnicianSalary_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Db.Connect()
+        
         SetNextKey(Db, txtTSNo, "Select  TSNo from TechnicianSalary order by TSNo desc LIMIT 1;", "TSNo")
         MenuStrip.Items.Add(mnustrpMENU)
         txtTSFrom.Value = "" & Date.Today.Year & "-" & Date.Today.Month & "-01"

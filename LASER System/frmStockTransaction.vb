@@ -3,7 +3,7 @@
 Public Class frmStockTransaction
     Private Db As New Database
     Private Sub frmStockTransaction_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Db.Connect()
+        
         MenuStrip.Items.Add(mnustrpMENU)
     End Sub
 
@@ -12,7 +12,7 @@ Public Class frmStockTransaction
     End Sub
 
     Private Sub frmStockTransaction_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-        Db.Disconnect()
+        
     End Sub
 
     Private Sub cmbSName_DropDown(sender As Object, e As EventArgs) Handles cmbSName.DropDown

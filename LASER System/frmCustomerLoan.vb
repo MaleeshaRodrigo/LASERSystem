@@ -22,11 +22,11 @@ Public Class frmCustomerLoan
     End Sub
 
     Private Sub frmCustomerLoan_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-        Db.Disconnect()
+        
     End Sub
 
     Private Sub frmCustomerLoan_Load(sender As Object, e As EventArgs) Handles Me.Load
-        Db.Connect()
+        
         MenuStrip1.Items.Add(mnustrpMENU)
         cmbCuLStatus.SelectedIndex = 1
         cmbFilter.Items.Clear()

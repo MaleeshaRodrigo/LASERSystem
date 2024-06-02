@@ -6,11 +6,11 @@ Public Class frmSupply
     Private Db As New Database
 
     Private Sub frmSupply_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-        Db.Disconnect()
+        
     End Sub
 
     Private Sub frmSupply_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Db.Connect()
+        
         MenuStrip.Items.Add(mnustrpMENU)
         Call cmdNew_Click(sender, e)
     End Sub
