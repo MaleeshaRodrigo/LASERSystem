@@ -136,7 +136,7 @@ Public Class ControlTechnicianInfo
     Private Sub grdRepRemarks2_RowValidating(sender As Object, e As DataGridViewCellCancelEventArgs) Handles grdRepRemarks2.RowValidating
         If e.RowIndex < 0 Then Exit Sub
         If grdRepRemarks2.Item(0, e.RowIndex).Value Is Nothing Then Exit Sub
-        Dim DR1 = DB.GetDataReader("SELECT Rem2No,Rem2Date,Remarks,UNo from RepairRemarks2 where Rem2No=" & grdRepRemarks2.Item(0, e.RowIndex).Value & ";")
+        Dim DR1 = DB.GetDataDictionary("SELECT Rem2No,Rem2Date,Remarks,UNo from RepairRemarks2 where Rem2No=" & grdRepRemarks2.Item(0, e.RowIndex).Value & ";")
         If DR1 IsNot Nothing Then
             grdRepRemarks2.Item(1, e.RowIndex).Value = DR1("Rem2Date").ToString
             grdRepRemarks2.Item(2, e.RowIndex).Value = DR1("Remarks").ToString

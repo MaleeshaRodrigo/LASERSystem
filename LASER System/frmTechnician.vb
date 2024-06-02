@@ -120,13 +120,13 @@ Public Class frmTechnician
     End Sub
 
     Private Sub cmbTName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbTName.SelectedIndexChanged
-        Dim DR = Db.GetDataReader("Select * from Technician where TName ='" & cmbTName.Text & "';")
+        Dim DR = Db.GetDataDictionary("Select * from Technician where TName ='" & cmbTName.Text & "';")
         If DR.Count Then
             
             txtTNo.Text = DR("TNo").ToString
             txtTAddress.Text = DR("TAddress").ToString
             txtTFullName.Text = DR("TFullName").ToString
-            txtTNICNo.Text = DR("TNicNo").ToString
+            txtTNICNo.Text = DR("TNICNo").ToString
             txtTEmail.Text = DR("TEmail").ToString
             txtTTelNo1.Text = DR("TTelNo1").ToString
             txtTTelNo2.Text = DR("TTelNo2").ToString

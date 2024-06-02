@@ -95,7 +95,7 @@ Public Class frmRepairAdvanced
                 Search += "ADDate like '%" & txtSearch.Text & "%' or RepNo like '%" & txtSearch.Text & "%' or RetNo like '%" & txtSearch.Text & "%' or Amount like '%" &
                     txtSearch.Text & "%' or Remarks like '%" & txtSearch.Text & "%'"
         End Select
-        Dim DRRepAdv = Db.GetDataReader("Select * from RepairAdvanced " & Search)
+        Dim DRRepAdv = Db.GetDataDictionary("Select * from RepairAdvanced " & Search)
         grdRepAdvanced.Rows.Clear()
         'For Each Item In DRRepAdv
         '    grdRepAdvanced.Rows.Add(DRRepAdv("ADNo").ToString, DRRepAdv("ADDate").ToString, DRRepAdv("RepNo").ToString, DRRepAdv("RetNo").ToString,
@@ -134,7 +134,7 @@ Public Class frmRepairAdvanced
     Private Sub grdRepAdvanced_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles grdRepAdvanced.CellDoubleClick
         If e.RowIndex < 0 Then Exit Sub
         If grdRepAdvanced.Item(0, e.RowIndex).Value Is Nothing Then Exit Sub
-        Dim DRRepAdv = Db.GetDataReader("SELECT * from RepairAdvanced where AdNo=" & grdRepAdvanced.Item(0, e.RowIndex).Value & ";")
+        Dim DRRepAdv = Db.GetDataDictionary("SELECT * from RepairAdvanced where AdNo=" & grdRepAdvanced.Item(0, e.RowIndex).Value & ";")
         If DRRepAdv IsNot Nothing Then
             txtAdNo.Text = grdRepAdvanced.Item(0, e.RowIndex).Value
             txtAdDate.Value = DRRepAdv("ADDate").ToString
@@ -158,7 +158,7 @@ Public Class frmRepairAdvanced
         If rbRep.Checked = True Then
             ComboBoxDropDown(Db, cmbRepNo, "Select RepNo from Repair order by RepNo desc")
         Else
-            ComboBoxDropDown(Db, cmbRepNo, "Select RetNo from Rerepair order by RetNo desc")
+            ComboBoxDropDown(Db, cmbRepNo, "Select RetNo from Return order by RetNo desc")
         End If
     End Sub
 
@@ -218,39 +218,47 @@ Public Class frmRepairAdvanced
                              "Repair Advanced No එක Database එක තුලින් සොයා ගැනීමට නොහැකි වුණි.", False) = False Then
             Exit Sub
         End If
+        Dim Connection = Db.GetConenction()
         Dim RPT As New rptRepairAdvanced
         Dim DS1 As New DataSet
         Dim DA1 As MySqlDataAdapter
-        If rbRep.Checked = True Then
-            DA1 = Db.GetDataAdapter("SELECT CuName,CuTelNo1,CuTelNo2,CuTelNo3,ADDate,Rep.RepNo,Ret.RetNo,PCategory,PName,Amount from (((((RepairAdvanced AD Left Join Repair Rep On Rep.RepNo=AD.RepNo) Left JOin Rerepair Ret On Ret.RetNo=AD.RetNo) LEft Join Product P ON P.PNo = Rep.PNo) Left Join Receive R ON R.RNo = Rep.RNo) Left Join Customer Cu ON Cu.CuNo=R.CuNo) Where ADNo=" & txtAdNo.Text & ";")
-        Else
-            DA1 = Db.GetDataAdapter("SELECT CuName,CuTelNo1,CuTelNo2,CuTelNo3,ADDate,Rep.RepNo,Ret.RetNo,PCategory,PName,Amount from (((((RepairAdvanced AD Left Join Rerepair Ret On Ret.RetNo=AD.RetNo) Left Join Repair Rep On Rep.RepNo=Ret.RepNo) LEft Join Product P ON P.PNo = Rep.PNo) Left Join Receive R ON R.RNo = Rep.RNo) Left Join Customer Cu ON Cu.CuNo=R.CuNo) Where ADNo=" & txtAdNo.Text & ";")
-        End If
-        DA1.Fill(DS1, "Repair")
-        DA1.Fill(DS1, "Product")
-        DA1.Fill(DS1, "Rerepair")
-        DA1.Fill(DS1, "Customer")
-        DA1.Fill(DS1, "Receive")
-        DA1.Fill(DS1, "RepairAdvanced")
-        RPT.SetDataSource(DS1)
-        RPT.SetParameterValue("Cashier Name", User.Instance.UserName) 'Set Cashier Name to Parameter Value
-        Dim c As Integer
-        Dim doctoprint As New System.Drawing.Printing.PrintDocument()
-        doctoprint.PrinterSettings.PrinterName = "Zonerich AB-220K"
-        Dim rawKind As Integer
-        For c = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
-            If doctoprint.PrinterSettings.PaperSizes(c).PaperName = "76mm * 297mm" Then
-                rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(c).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(c)))
-                Exit For
+        Try
+            Connection.Open()
+            If rbRep.Checked = True Then
+                DA1 = Db.GetDataAdapter("SELECT CuName,CuTelNo1,CuTelNo2,CuTelNo3,ADDate,Rep.RepNo,Ret.RetNo,PCategory,PName,Amount from (((((RepairAdvanced AD Left Join Repair Rep On Rep.RepNo=AD.RepNo) Left Join Return Ret On Ret.RetNo=AD.RetNo) Left Join Product P ON P.PNo = Rep.PNo) Left Join Receive R ON R.RNo = Rep.RNo) Left Join Customer Cu ON Cu.CuNo=R.CuNo) Where ADNo=" & txtAdNo.Text & ";", Connection)
+            Else
+                DA1 = Db.GetDataAdapter("SELECT CuName,CuTelNo1,CuTelNo2,CuTelNo3,ADDate,Rep.RepNo,Ret.RetNo,PCategory,PName,Amount from (((((RepairAdvanced AD Left Join Return Ret On Ret.RetNo=AD.RetNo) Left Join Repair Rep On Rep.RepNo=Ret.RepNo) LEft Join Product P ON P.PNo = Rep.PNo) Left Join Receive R ON R.RNo = Rep.RNo) Left Join Customer Cu ON Cu.CuNo=R.CuNo) Where ADNo=" & txtAdNo.Text & ";", Connection)
             End If
-        Next
-        RPT.PrintOptions.PaperOrientation = CrystalDecisions.Shared.PaperOrientation.Portrait
-        RPT.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
+            DA1.Fill(DS1, "Repair")
+            DA1.Fill(DS1, "Product")
+            DA1.Fill(DS1, "Rerepair")
+            DA1.Fill(DS1, "Customer")
+            DA1.Fill(DS1, "Receive")
+            DA1.Fill(DS1, "RepairAdvanced")
+            RPT.SetDataSource(DS1)
+            RPT.SetParameterValue("Cashier Name", User.Instance.UserName) 'Set Cashier Name to Parameter Value
+            Dim c As Integer
+            Dim doctoprint As New System.Drawing.Printing.PrintDocument()
+            doctoprint.PrinterSettings.PrinterName = "Zonerich AB-220K"
+            Dim rawKind As Integer
+            For c = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
+                If doctoprint.PrinterSettings.PaperSizes(c).PaperName = "76mm * 297mm" Then
+                    rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(c).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(c)))
+                    Exit For
+                End If
+            Next
+            RPT.PrintOptions.PaperOrientation = CrystalDecisions.Shared.PaperOrientation.Portrait
+            RPT.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
 
-        Dim frm As New frmReport With {.Name = "frmReport" + NextfrmNo(frmReport).ToString}
-        frm.ReportViewer.ReportSource = RPT
-        frm.Show(Me)
-        RPT.Close()
-        DS1.Clear()
+            Dim frm As New frmReport With {.Name = "frmReport" + NextfrmNo(frmReport).ToString}
+            frm.ReportViewer.ReportSource = RPT
+            frm.Show(Me)
+        Catch ex As Exception
+
+        Finally
+            Connection.Close()
+            RPT.Close()
+            DS1.Clear()
+        End Try
     End Sub
 End Class

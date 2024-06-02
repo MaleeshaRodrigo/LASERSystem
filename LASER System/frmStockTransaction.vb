@@ -29,7 +29,7 @@ Public Class frmStockTransaction
     End Sub
 
     Private Sub cmbSName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbSName.SelectedIndexChanged
-        Dim DR = Db.GetDataReader("SELECT * from Stock where Scategory='" & cmbSCategory.Text & "' and sname ='" & cmbSName.Text & "';")
+        Dim DR = Db.GetDataDictionary("SELECT * from Stock where Scategory='" & cmbSCategory.Text & "' and sname ='" & cmbSName.Text & "';")
         If DR.Count Then
             
             txtSNo.Text = DR("SNO").ToString
@@ -45,7 +45,7 @@ Public Class frmStockTransaction
 
     Public Sub txtSNo_TextChanged(sender As Object, e As EventArgs) Handles txtSNo.TextChanged
         If txtSNo.Text = "" Then Exit Sub
-        Dim DR = Db.GetDataReader("Select SNo,SCategory,SName from `Stock` where SNO = " & txtSNo.Text)
+        Dim DR = Db.GetDataDictionary("Select SNo,SCategory,SName from `Stock` where SNO = " & txtSNo.Text)
         If DR.Count Then
             
             cmbSCategory.Text = DR("SCategory").ToString

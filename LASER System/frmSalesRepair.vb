@@ -8,7 +8,7 @@ Public Class frmSalesRepair
     End Sub
 
     Private Sub cmbTName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbTName.SelectedIndexChanged
-        Dim DR = Db.GetDataReader("Select TNo,TName from Technician where TName = '" & cmbTName.Text & "';")
+        Dim DR = Db.GetDataDictionary("Select TNo,TName from Technician where TName = '" & cmbTName.Text & "';")
         If DR.Count Then
             
             txtTNo.Text = DR("TNo").ToString

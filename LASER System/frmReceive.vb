@@ -7,12 +7,8 @@ Public Class frmReceive
     Private Db As New Database
     Public Property Caller As String
     Public Sub New()
-
-        ' This call is required by the designer.
         InitializeComponent()
         MenuStrip.Items.Add(mnustrpMENU)
-        ' Add any initialization after the InitializeComponent() call.
-
     End Sub
     Private Sub FrmReceive_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         
@@ -41,7 +37,7 @@ Public Class frmReceive
 
     Private Sub cmbCuName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbCuName.SelectedIndexChanged
         If txtCuTelNo1.Text.Trim = "" Then
-            Dim DrCheckCustomerExist = Db.GetDataReader("SELECT * from Customer where CuName='" & cmbCuName.Text & "' and CuTelNo1='" & txtCuTelNo1.Text &
+            Dim DrCheckCustomerExist = Db.GetDataDictionary("SELECT * from Customer where CuName='" & cmbCuName.Text & "' and CuTelNo1='" & txtCuTelNo1.Text &
                                          "' and CuTelNo2='" & txtCuTelNo2.Text & "' and CuTelNo3='" & txtCuTelNo3.Text & "';")
             If DrCheckCustomerExist IsNot Nothing Then
                 cmbCuName_Text(DrCheckCustomerExist("CuName").ToString)
@@ -50,7 +46,7 @@ Public Class frmReceive
                 txtCuTelNo3.Text = DrCheckCustomerExist("CuTelNo3").ToString
             Else
                 For i As Integer = 0 To 1000
-                    Dim DrCuNameSuggest = Db.GetDataReader("Select CuName from Customer Where CuName = '" & cmbCuName.Text & " " & i.ToString & "'")
+                    Dim DrCuNameSuggest = Db.GetDataDictionary("Select CuName from Customer Where CuName = '" & cmbCuName.Text & " " & i.ToString & "'")
                     If DrCuNameSuggest Is Nothing Then
                         cmbCuName_Text(cmbCuName.Text + " " + i.ToString)
                         Exit For
@@ -58,15 +54,15 @@ Public Class frmReceive
                 Next
             End If
         Else
-            Dim DrCheckCustomerExist = Db.GetDataReader("SELECT * from Customer where CuName='" & cmbCuName.Text & "' and CuTelNo1='" & txtCuTelNo1.Text &
+            Dim DrCheckCustomerExist = Db.GetDataDictionary("SELECT * from Customer where CuName='" & cmbCuName.Text & "' and CuTelNo1='" & txtCuTelNo1.Text &
                                          "' and CuTelNo2='" & txtCuTelNo2.Text & "' and CuTelNo3='" & txtCuTelNo3.Text & "';")
             If DrCheckCustomerExist IsNot Nothing Then Exit Sub
             If cmbCuName.Text = "" Then Exit Sub
-            Dim DrCuName = Db.GetDataReader("Select CuName from Customer where CuName ='" & cmbCuName.Text & "';")
+            Dim DrCuName = Db.GetDataDictionary("Select CuName from Customer where CuName ='" & cmbCuName.Text & "';")
 
             If DrCuName IsNot Nothing Then
                 For i As Integer = 0 To 1000
-                    Dim DrCuNameSuggest = Db.GetDataReader("Select CuName from Customer Where CuName = '" & cmbCuName.Text & " " & i.ToString & "'")
+                    Dim DrCuNameSuggest = Db.GetDataDictionary("Select CuName from Customer Where CuName = '" & cmbCuName.Text & " " & i.ToString & "'")
                     If DrCuNameSuggest Is Nothing Then
                         cmbCuName_Text(cmbCuName.Text + " " + i.ToString)
                         Exit For
@@ -176,7 +172,7 @@ Public Class frmReceive
         Cursor = Cursors.WaitCursor
         'Customer Management 
         Dim CuNo, PNo As Integer
-        Dim DR = Db.GetDataReader("Select * from Customer where CuName='" & cmbCuMr.Text & cmbCuName.Text & "' and CuTelNo1='" & txtCuTelNo1.Text & "' and CuTelNo2 ='" & txtCuTelNo2.Text & "' and CuTelNo3='" & txtCuTelNo3.Text & "'")
+        Dim DR = Db.GetDataDictionary("Select * from Customer where CuName='" & cmbCuMr.Text & cmbCuName.Text & "' and CuTelNo1='" & txtCuTelNo1.Text & "' and CuTelNo2 ='" & txtCuTelNo2.Text & "' and CuTelNo3='" & txtCuTelNo3.Text & "'")
         If DR IsNot Nothing Then
             CuNo = DR("CuNo")
         Else
@@ -189,7 +185,7 @@ Public Class frmReceive
         For Each row As DataGridViewRow In grdRepair.Rows
             If row.Index = grdRepair.Rows.Count - 1 Then Continue For
             'Product Management
-            Dim DrProduct = Db.GetDataReader("Select * from Product where PCategory='" & row.Cells(1).Value & "' and PName='" & row.Cells(2).Value & "'")
+            Dim DrProduct = Db.GetDataDictionary("Select * from Product where PCategory='" & row.Cells(1).Value & "' and PName='" & row.Cells(2).Value & "'")
             If DrProduct IsNot Nothing Then
                 PNo = DrProduct("PNo")
             Else
@@ -233,7 +229,7 @@ Public Class frmReceive
         For Each row As DataGridViewRow In grdReRepair.Rows
             If row.Index = grdReRepair.Rows.Count - 1 Then Continue For
             'Product Management
-            Dim DrProduct = Db.GetDataReader("Select * from Product where PCategory='" & row.Cells(2).Value & "' and PName = '" & row.Cells(3).Value & "'")
+            Dim DrProduct = Db.GetDataDictionary("Select * from Product where PCategory='" & row.Cells(2).Value & "' and PName = '" & row.Cells(3).Value & "'")
             If DrProduct IsNot Nothing Then
                 PNo = DrProduct("PNo")
             Else
@@ -476,7 +472,7 @@ Public Class frmReceive
                 If grdRepair.Item(1, e.RowIndex).Value Is Nothing And grdRepair.Item(2, e.RowIndex).Value Is Nothing Then
                     grdRepair.Rows.RemoveAt(e.RowIndex)
                 End If
-                Dim DR = Db.GetDataReader("Select * from Product where PCategory='" & grdRepair.Item(1, e.RowIndex).Value & "' and PName='" & grdRepair.Item(2, e.RowIndex).Value & "';")
+                Dim DR = Db.GetDataDictionary("Select * from Product where PCategory='" & grdRepair.Item(1, e.RowIndex).Value & "' and PName='" & grdRepair.Item(2, e.RowIndex).Value & "';")
                 If DR IsNot Nothing Then
                     grdRepair.Item(1, e.RowIndex).Value = DR("PCategory").ToString
                     grdRepair.Item(2, e.RowIndex).Value = DR("PName").ToString
@@ -493,7 +489,7 @@ Public Class frmReceive
 
     Private Sub grdRepair_UserAddedRow(sender As Object, e As DataGridViewRowEventArgs) Handles grdRepair.UserAddedRow
         Dim i As Integer
-        Dim DR = Db.GetDataReader("Select RepNo from Repair Order by RepNo desc LIMIT 1;")
+        Dim DR = Db.GetDataDictionary("Select RepNo from Repair Order by RepNo desc LIMIT 1;")
         If DR IsNot Nothing Then
             i = Int(DR("RepNo").ToString) + 1
         Else
@@ -514,14 +510,14 @@ Public Class frmReceive
         Select Case e.ColumnIndex
             Case 1
                 If grdReRepair.Item(e.ColumnIndex, e.RowIndex).Value Is Nothing Then Exit Sub
-                Dim DrCustomer = Db.GetDataReader("Select RepNo,Rep.RNo,Cu.CuNo,CuName,CuTelNo1,CuTElNo2,CuTelNo3 from Repair REP, Receive R, Customer Cu Where Rep.RNo = R.RNo and Cu.CuNo = R.CuNo and RepNo = " & grdReRepair.Item(1, e.RowIndex).Value)
+                Dim DrCustomer = Db.GetDataDictionary("Select RepNo,Rep.RNo,Cu.CuNo,CuName,CuTelNo1,CuTElNo2,CuTelNo3 from Repair REP, Receive R, Customer Cu Where Rep.RNo = R.RNo and Cu.CuNo = R.CuNo and RepNo = " & grdReRepair.Item(1, e.RowIndex).Value)
                 If DrCustomer IsNot Nothing Then
                     txtCuTelNo1.Text = DrCustomer("CuTelNo1").ToString
                     txtCuTelNo2.Text = DrCustomer("CUTelNo2").ToString
                     txtCuTelNo3.Text = DrCustomer("CuTelNo3").ToString
                     cmbCuName.Text = DrCustomer("CuName").ToString
                 End If
-                Dim DrProduct = Db.GetDataReader("Select RepNo,PCategory,PName,PModelNo,PSerialNo,PDetails,Qty from Repair Rep,Product P where Rep.Pno = P.PNo and RepNo=" & grdReRepair.Item(1, e.RowIndex).Value)
+                Dim DrProduct = Db.GetDataDictionary("Select RepNo,PCategory,PName,PModelNo,PSerialNo,PDetails,Qty from Repair Rep,Product P where Rep.Pno = P.PNo and RepNo=" & grdReRepair.Item(1, e.RowIndex).Value)
                 If DrProduct IsNot Nothing Then
                     grdReRepair.Item(2, e.RowIndex).Value = DrProduct("PCategory").ToString
                     grdReRepair.Item(3, e.RowIndex).Value = DrProduct("PName").ToString
@@ -535,7 +531,7 @@ Public Class frmReceive
 
     Public Sub grdReRepair_UserAddedRow(sender As Object, e As DataGridViewRowEventArgs) Handles grdReRepair.UserAddedRow
         Dim i As Integer
-        Dim DR = Db.GetDataReader("Select  RetNo from `Return` Order by retno desc LIMIT 1;")
+        Dim DR = Db.GetDataDictionary("Select  RetNo from `Return` Order by retno desc LIMIT 1;")
         If DR.Count Then
 
             i = Int(DR("RetNo").ToString) + 1
@@ -597,7 +593,7 @@ Public Class frmReceive
 
     Private Sub TextCuTelNo_KeyUp(sender As Object, e As KeyEventArgs) Handles txtCuTelNo1.KeyUp, txtCuTelNo2.KeyUp, txtCuTelNo3.KeyUp
         If sender.Text.Replace(" ", "").Length < 10 Then Exit Sub
-        Dim SaDR = Db.GetDataReader($"Select * from Customer where CuTelNo1='{sender.Text}' or CuTelNo2='{sender.Text}' or CuTelNo3='{sender.Text}';")
+        Dim SaDR = Db.GetDataDictionary($"Select * from Customer where CuTelNo1='{sender.Text}' or CuTelNo2='{sender.Text}' or CuTelNo3='{sender.Text}';")
         If SaDR IsNot Nothing Then
             If cmbCuMr.Text + cmbCuName.Text = SaDR("CuName").ToString Then Exit Sub
             Dim frm As New frmCustomer

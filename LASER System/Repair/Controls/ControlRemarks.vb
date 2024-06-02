@@ -164,7 +164,7 @@ Public Class ControlRemarks
         If grdRepRemarks1.Item(0, e.RowIndex).Value Is Nothing Then
             Exit Sub
         End If
-        Dim DR1 = DB.GetDataReader($"SELECT Rem1No,Rem1Date,Remarks,UserName from RepairRemarks1 RepRem1 LEFT JOIN `User` U ON U.UNo=RepRem1.UNo where Rem1No={grdRepRemarks1.Item(0, e.RowIndex).Value};")
+        Dim DR1 = DB.GetDataDictionary($"SELECT Rem1No,Rem1Date,Remarks,UserName from RepairRemarks1 RepRem1 LEFT JOIN `User` U ON U.UNo=RepRem1.UNo where Rem1No={grdRepRemarks1.Item(0, e.RowIndex).Value};")
         If DR1 IsNot Nothing Then
             grdRepRemarks1.Item(1, e.RowIndex).Value = DR1("Rem1Date").ToString
             grdRepRemarks1.Item(2, e.RowIndex).Value = DR1("Remarks").ToString

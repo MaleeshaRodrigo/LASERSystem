@@ -12,7 +12,7 @@ Public Class frmStockSticker
             writer.Format = BarcodeFormat.CODE_128
             writer.Options.PureBarcode = True
             grdStock.Item(6, e.RowIndex).Value = writer.Write(grdStock.Item(0, e.RowIndex).Value)
-            DR = Db.GetDataReader("Select * from Stock where SNo=" & grdStock.Item(0, e.RowIndex).Value)
+            DR = Db.GetDataDictionary("Select * from Stock where SNo=" & grdStock.Item(0, e.RowIndex).Value)
             If DR.Count Then
                 
                 grdStock.Item(1, e.RowIndex).Value = DR("Scategory").ToString
@@ -22,7 +22,7 @@ Public Class frmStockSticker
                 grdStock.Item(5, e.RowIndex).Value = DR("SSalePrice").ToString
             End If
         ElseIf e.ColumnIndex = 1 Or e.ColumnIndex = 2 Then
-            DR = Db.GetDataReader("Select * from Stock where SCategory='" & grdStock.Item(1, e.RowIndex).Value & "' and SName='" & grdStock.Item(2, e.RowIndex).Value & "';")
+            DR = Db.GetDataDictionary("Select * from Stock where SCategory='" & grdStock.Item(1, e.RowIndex).Value & "' and SName='" & grdStock.Item(2, e.RowIndex).Value & "';")
             If DR.Count Then
                 
                 grdStock.Item(0, e.RowIndex).Value = DR("SNo").ToString

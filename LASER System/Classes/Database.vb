@@ -179,7 +179,7 @@ Public Class Database
         End Try
     End Function
 
-    Public Function GetDataReader(Sql As String, Optional Values As MySqlParameter() = Nothing) As Dictionary(Of String, Object)
+    Public Function GetDataDictionary(Sql As String, Optional Values As MySqlParameter() = Nothing) As Dictionary(Of String, Object)
         Dim Connection As MySqlConnection = GetConenction()
         Try
             Connection.Open()
@@ -233,9 +233,9 @@ Public Class Database
         End Try
     End Function
 
-    Public Function GetDataAdapter(Query As String) As MySqlDataAdapter
-        'Dim DA As New MySqlDataAdapter(Query, _Connection)
-        'Return DA
+    Public Function GetDataAdapter(Query As String, Connection As MySqlConnection) As MySqlDataAdapter
+        Dim DA As New MySqlDataAdapter(Query, Connection)
+        Return DA
     End Function
 
     Public Function GetData(Query As String, Optional Values As MySqlParameter() = Nothing) As Object

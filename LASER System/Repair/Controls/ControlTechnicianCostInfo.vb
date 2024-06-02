@@ -55,7 +55,7 @@ Public Class ControlTechnicianCostInfo
                 End If
             Case 2
                 If grdTechnicianCost.Item(2, e.RowIndex).Value Is Nothing Then Exit Sub
-                Dim DrStock = Db.GetDataReader("Select SNo,SCategory,SName,SCostPrice from Stock Where SNo=" & grdTechnicianCost.Item(2, e.RowIndex).Value.ToString)
+                Dim DrStock = Db.GetDataDictionary("Select SNo,SCategory,SName,SCostPrice from Stock Where SNo=" & grdTechnicianCost.Item(2, e.RowIndex).Value.ToString)
                 If DrStock IsNot Nothing Then
                     grdTechnicianCost.Item(3, e.RowIndex).Value = DrStock("SCategory").ToString
                     grdTechnicianCost.Item(4, e.RowIndex).Value = DrStock("SName").ToString
@@ -66,7 +66,7 @@ Public Class ControlTechnicianCostInfo
                 End If
             Case 3, 4
                 frmSearchDropDown.frm_Close()
-                DR = Db.GetDataReader("Select SNo,SCategory,SName,SCostPrice from Stock Where SCategory='" & grdTechnicianCost.Item(3, e.RowIndex).Value &
+                DR = Db.GetDataDictionary("Select SNo,SCategory,SName,SCostPrice from Stock Where SCategory='" & grdTechnicianCost.Item(3, e.RowIndex).Value &
                                        "' and SName='" & grdTechnicianCost.Item(4, e.RowIndex).Value & "';")
                 If DR IsNot Nothing Then
 
@@ -174,7 +174,7 @@ Public Class ControlTechnicianCostInfo
     Private Sub grdTechnicianCost_RowValidating(sender As Object, e As DataGridViewCellCancelEventArgs)
         If e.RowIndex < 0 Then Exit Sub
         If grdTechnicianCost.Item(0, e.RowIndex).Value Is Nothing Then Exit Sub
-        Dim DR1 = Db.GetDataReader("SELECT * from TechnicianCost where TCNo=" & grdTechnicianCost.Item(0, e.RowIndex).Value & ";")
+        Dim DR1 = Db.GetDataDictionary("SELECT * from TechnicianCost where TCNo=" & grdTechnicianCost.Item(0, e.RowIndex).Value & ";")
         If DR1 IsNot Nothing Then
             grdTechnicianCost.Item(1, e.RowIndex).Value = DR1("TCDate").ToString
             grdTechnicianCost.Item(2, e.RowIndex).Value = DR1("SNo").ToString

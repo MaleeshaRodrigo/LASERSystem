@@ -7,11 +7,11 @@ Imports MySqlConnector
 Public Class frmTechnicianSalary
     Private Db As New Database
     Private Sub FrmTechnicianSalary_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-        
+
     End Sub
 
     Private Sub FrmTechnicianSalary_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        
+
         SetNextKey(Db, txtTSNo, "Select  TSNo from TechnicianSalary order by TSNo desc LIMIT 1;", "TSNo")
         MenuStrip.Items.Add(mnustrpMENU)
         txtTSFrom.Value = "" & Date.Today.Year & "-" & Date.Today.Month & "-01"
@@ -63,10 +63,10 @@ Public Class frmTechnicianSalary
         For Each row As DataRow In DT1.Rows
             Dim DR1 = Db.GetDataList("Select Remarks from RepairRemarks1 Where RepNo=" & row.Item("RepNo"))
             row.Item("RepRemarks1") = ""
-                For Each Item In DR1
+            For Each Item In DR1
                 row.Item("RepRemarks1") += Item("Remarks").ToString + vbCrLf
             Next
-            Next
+        Next
         grdReRepair.DataSource = DT2
         grdReRepair.Refresh()
         For Each Row As DataGridViewRow In grdReRepair.Rows
@@ -124,7 +124,7 @@ Public Class frmTechnicianSalary
         If CheckEmptyControl(cmbTName, "This operation couldn't be done because Technician was already empty. You should select any Technician and try again.") = False Then
             cmbTName.Focus()
             Exit Sub
-        ElseIf DB.CheckDataExists("Technician", "TName", cmbTName.Text) = False Then
+        ElseIf Db.CheckDataExists("Technician", "TName", cmbTName.Text) = False Then
             MsgBox("Technician Name එක සොයා ගැනීමට නොහැකි විය. කරුණාකර ඔබ ඇතුලත් කල Technician නිවැරදි දැයි පරික්ෂා කරන්න.")
             cmbTName.Focus()
             Exit Sub
@@ -134,9 +134,9 @@ Public Class frmTechnicianSalary
             Exit Sub
         End If
         Dim TSalaryTNo As Integer
-        Dim DR = Db.GetDataReader("Select TNo, TName from Technician Where Tname='" & cmbTName.Text & "';")
+        Dim DR = Db.GetDataDictionary("Select TNo, TName from Technician Where Tname='" & cmbTName.Text & "';")
         If DR.Count Then
-            
+
             TSalaryTNo = DR("TNo").ToString
         End If
         Db.Execute("Insert into TechnicianSalary(TSNo,TNo,TSDate,TotalRepair,TotalReRepair,TotalSalesRepair,TotalCost,TotalLoan,Earned,AddedLoan,Salary) Values(" & txtTSNo.Text & "," & TSalaryTNo.ToString & ",'" & txtTSDate.Value.Date & "'," & txtTotalRepair.Text & "," & txtTotalReRepair.Text & "," & txtTotalSalesRepair.Text & "," & txtTotalCost.Text & "," & txtTotalLoan.Text & "," & txt3.Text & "," & txt5.Text & "," & txt6.Text & ");")
@@ -153,9 +153,9 @@ Public Class frmTechnicianSalary
             Db.Execute("Update TechnicianCost set TSalNo = " & txtTSNo.Text & " where TCNo=" & Row.Cells(1).Value.ToString)
         Next
         Dim TLNo As String
-        DR = Db.GetDataReader("Select TLNo from TechnicianLoan order by TLNo desc LIMIT 1;")
+        DR = Db.GetDataDictionary("Select TLNo from TechnicianLoan order by TLNo desc LIMIT 1;")
         If DR.Count Then
-            
+
             TLNo = Int(DR.Item("TLNo")) + 1
         Else
             TLNo = "1"
@@ -174,73 +174,77 @@ Public Class frmTechnicianSalary
 
     Private Function TechnicianSalaryReport() As rptTechnicianSalary
         Dim RPT As New rptTechnicianSalary
-        Dim DT1 As DataTable = Db.GetDataTable("SELECT REPNO, DDATE, CUNAME,CUTELNO1,
+        Dim Connection = Db.GetConenction
+        Try
+            Connection.Open()
+            Dim DT1 As DataTable = Db.GetDataTable("SELECT REPNO, DDATE, CUNAME,CUTELNO1,
                                               PCATEGORY, PNAME, PAIDPRICE, QTY FROM (((((REPAIR INNER JOIN RECEIVE ON RECEIVE.RNO = REPAIR.RNO)
                                               LEFT JOIN CUSTOMER ON CUSTOMER.CUNO=RECEIVE.CUNO) INNER JOIN DELIVER ON DELIVER.DNO=REPAIR.DNO) 
                                               LEFT JOIN PRODUCT ON PRODUCT.PNO=REPAIR.PNO) INNER JOIN TECHNICIAN ON TECHNICIAN.TNO = REPAIR.TNO)
                                               WHERE TNAME = '" & cmbTName.Text & "' And DDate between '" & txtTSFrom.Value.Date & " 00:00:00'  And '" & txtTSTo.Value.Date & " 23:59:59' And Status='Repaired Delivered' and (TSalNo Is Null Or TSalNo = 0)" & If(chkRepair.Checked = False, " AND 0", "") & " order by DDAte")
-        RPT.Subreports("rptTechnicianSalaryRepair.rpt").SetDataSource(DT1)
-        Dim DT2 As DataTable = Db.GetDataTable("SELECT RETNO, REPNO,DDATE, CUNAME,CUTELNO1, PCATEGORY, PNAME, PAIDPRICE, QTY FROM 
+            RPT.Subreports("rptTechnicianSalaryRepair.rpt").SetDataSource(DT1)
+            Dim DT2 As DataTable = Db.GetDataTable("SELECT RETNO, REPNO,DDATE, CUNAME,CUTELNO1, PCATEGORY, PNAME, PAIDPRICE, QTY FROM 
                                                 (((((RETURN INNER JOIN RECEIVE ON RECEIVE.RNO=RETURN.RNO) 
                                                 LEFT JOIN CUSTOMER ON CUSTOMER.CUNO = RECEIVE.CUNO)
                                                 INNER JOIN DELIVER ON DELIVER.DNO =RETURN.DNO)
                                                 LEFT JOIN PRODUCT ON PRODUCT.PNO=RETURN.PNO)
                                                 INNER JOIN TECHNICIAN ON TECHNICIAN.TNO=RETURN.TNO) 
                                                 WHERE TNAME = '" & cmbTName.Text & "' And DDate Between '" &
-                                                  txtTSFrom.Value.Date & " 00:00:00' And '" & txtTSTo.Value.Date &
-                                                  " 23:59:59' And Status='Repaired Delivered' and (TSalNo Is Null Or TSalNo = 0)" &
-                                                  If(chkReturn.Checked = False, " AND 0", "") & ";")
-        RPT.Subreports("rptTechnicianSalaryReRepair.rpt").SetDataSource(DT2)
-        Dim DS6 As New DataSet
-        Dim DA6 As MySqlDataAdapter = Db.GetDataAdapter("SELECT SAREPNO,SAREPDATE, SALESREPAIR.SNO, SCATEGORY, SNAME, RATE,QTY, TOTAL FROM ((SALESREPAIR INNER JOIN STOCK ON STOCK.SNO=SALESREPAIR.SNO) INNER JOIN TECHNICIAN ON TECHNICIAN.TNO = SALESREPAIR.TNO) WHERE TNAME='" &
-                                              cmbTName.Text & "' And SaRepDate Between '" & txtTSFrom.Value.Date & " 00:00:00' And '" & txtTSTo.Value.Date &
-                                              " 23:59:59'" & If(chkSalesRepair.Checked = False, " AND 0", "") & ";")
-        DA6.Fill(DS6, "SALESREPAIR")
-        DA6.Fill(DS6, "STOCK")
-        RPT.Subreports("rptTechnicianSalarySalesRepair.rpt").SetDataSource(DS6)
-        Dim DS3 As New DataSet
-        Dim DA3 As MySqlDataAdapter = Db.GetDataAdapter("SELECT TCNo,TCDATE,REPNO,RETNO,TechnicianCost.SNO,SCATEGORY,SNAME,RATE,QTY,TOTAL,TCREMARKS FROM (TECHNICIANCOST INNER JOIN TECHNICIAN ON TECHNICIAN.TNO = TECHNICIANCOST.TNO) WHERE TNAME='" &
-                                                  cmbTName.Text & "' And TCDate BETWEEN '" & txtTSFrom.Value.Date & " 00:00:00' And '" & txtTSTo.Value.Date &
-                                                  " 23:59:59' And (TSalNo Is Null Or TSalNo = 0)" & If(chkCost.Checked = False, " AND 0", "") & ";")
-        DA3.Fill(DS3, "TECHNICIANCOST")
-        DA3.Fill(DS3, "STOCK")
-        RPT.Subreports.Item("rptTechnicianSalaryCost.rpt").SetDataSource(DS3)
-        Dim DT4 As DataTable = Db.GetDataTable("SELECT TLNo,TLDATE, TechnicianLoan.SNo, SCategory, SName,TLREASON, RATE, QTY, TOTAL FROM (TECHNICIANLOAN INNER JOIN TECHNICIAN ON TECHNICIAN.TNO = TECHNICIANLOAN.TNO) WHERE TNAME='" & cmbTName.Text & "' And TLDate BETWEEN '" &
-                                              txtTSFrom.Value.Date &
-                                              " 00:00:00' And '" & txtTSTo.Value.Date & " 23:59:59'" & If(chkLoan.Checked = False, " AND 0", "") & ";")
-        If grdLoan.Rows.Count > 0 And chkLoan.Checked = True Then
-            If grdLoan.Item(0, 0).Value = "0" Then
-                Dim newRow As DataRow = DT4.NewRow()
-                If grdLoan.Item("TLNo", 0).Value.ToString <> "" Then newRow("TLNo") = Int(grdLoan.Item("TLNo", 0).Value)
-                newRow("TLDate") = grdLoan.Item("TLDate", 0).Value.ToString
-                newRow("SCategory") = grdLoan.Item("TLSCategory", 0).Value.ToString
-                newRow("SName") = grdLoan.Item("TLSName", 0).Value.ToString
-                newRow("TLReason") = grdLoan.Item("TLReason", 0).Value.ToString
-                If grdLoan.Item("TLRate", 0).Value.ToString <> "" Then newRow("Rate") = Int(grdLoan.Item("TLRate", 0).Value)
-                If grdLoan.Item("TLQty", 0).Value.ToString <> "" Then newRow("Qty") = Int(grdLoan.Item("TLQty", 0).Value)
-                If grdLoan.Item("TLTotal", 0).Value.ToString <> "" Then newRow("Total") = Int(grdLoan.Item("TLTotal", 0).Value)
-                DT4.Rows.InsertAt(newRow, 0)
+                                                      txtTSFrom.Value.Date & " 00:00:00' And '" & txtTSTo.Value.Date &
+                                                      " 23:59:59' And Status='Repaired Delivered' and (TSalNo Is Null Or TSalNo = 0)" &
+                                                      If(chkReturn.Checked = False, " AND 0", "") & ";")
+            RPT.Subreports("rptTechnicianSalaryReRepair.rpt").SetDataSource(DT2)
+            Dim DS6 As New DataSet
+            Dim DA6 As MySqlDataAdapter = Db.GetDataAdapter("SELECT SAREPNO,SAREPDATE, SALESREPAIR.SNO, SCATEGORY, SNAME, RATE,QTY, TOTAL FROM ((SALESREPAIR INNER JOIN STOCK ON STOCK.SNO=SALESREPAIR.SNO) INNER JOIN TECHNICIAN ON TECHNICIAN.TNO = SALESREPAIR.TNO) WHERE TNAME='" & cmbTName.Text & "' And SaRepDate Between '" & txtTSFrom.Value.Date & " 00:00:00' And '" & txtTSTo.Value.Date & " 23:59:59'" & If(chkSalesRepair.Checked = False, " AND 0", "") & ";", Connection)
+            DA6.Fill(DS6, "SALESREPAIR")
+            DA6.Fill(DS6, "STOCK")
+            RPT.Subreports("rptTechnicianSalarySalesRepair.rpt").SetDataSource(DS6)
+            Dim DS3 As New DataSet
+            Dim DA3 As MySqlDataAdapter = Db.GetDataAdapter("SELECT TCNo,TCDATE,REPNO,RETNO,TechnicianCost.SNO,SCATEGORY,SNAME,RATE,QTY,TOTAL,TCREMARKS FROM (TECHNICIANCOST INNER JOIN TECHNICIAN ON TECHNICIAN.TNO = TECHNICIANCOST.TNO) WHERE TNAME='" & cmbTName.Text & "' And TCDate BETWEEN '" & txtTSFrom.Value.Date & " 00:00:00' And '" & txtTSTo.Value.Date & " 23:59:59' And (TSalNo Is Null Or TSalNo = 0)" & If(chkCost.Checked = False, " AND 0", "") & ";", Connection)
+            DA3.Fill(DS3, "TECHNICIANCOST")
+            DA3.Fill(DS3, "STOCK")
+            RPT.Subreports.Item("rptTechnicianSalaryCost.rpt").SetDataSource(DS3)
+            Dim DT4 As DataTable = Db.GetDataTable("SELECT TLNo,TLDATE, TechnicianLoan.SNo, SCategory, SName,TLREASON, RATE, QTY, TOTAL FROM (TECHNICIANLOAN INNER JOIN TECHNICIAN ON TECHNICIAN.TNO = TECHNICIANLOAN.TNO) WHERE TNAME='" & cmbTName.Text & "' And TLDate BETWEEN '" & txtTSFrom.Value.Date & " 00:00:00' And '" & txtTSTo.Value.Date & " 23:59:59'" & If(chkLoan.Checked = False, " AND 0", "") & ";")
+            If grdLoan.Rows.Count > 0 And chkLoan.Checked = True Then
+                If grdLoan.Item(0, 0).Value = "0" Then
+                    Dim newRow As DataRow = DT4.NewRow()
+                    If grdLoan.Item("TLNo", 0).Value.ToString <> "" Then newRow("TLNo") = Int(grdLoan.Item("TLNo", 0).Value)
+                    newRow("TLDate") = grdLoan.Item("TLDate", 0).Value.ToString
+                    newRow("SCategory") = grdLoan.Item("TLSCategory", 0).Value.ToString
+                    newRow("SName") = grdLoan.Item("TLSName", 0).Value.ToString
+                    newRow("TLReason") = grdLoan.Item("TLReason", 0).Value.ToString
+                    If grdLoan.Item("TLRate", 0).Value.ToString <> "" Then newRow("Rate") = Int(grdLoan.Item("TLRate", 0).Value)
+                    If grdLoan.Item("TLQty", 0).Value.ToString <> "" Then newRow("Qty") = Int(grdLoan.Item("TLQty", 0).Value)
+                    If grdLoan.Item("TLTotal", 0).Value.ToString <> "" Then newRow("Total") = Int(grdLoan.Item("TLTotal", 0).Value)
+                    DT4.Rows.InsertAt(newRow, 0)
+                End If
             End If
-        End If
-        RPT.Subreports.Item("rptTechnicianSalaryLoan.rpt").SetDataSource(DT4)
-        Dim DS5 As New DataSet
-        Dim DA5 As MySqlDataAdapter = Db.GetDataAdapter("SELECT * FROM TECHNICIANSALARY")
-        DA5.Fill(DS5, "TECHNICIANSALARY")
-        RPT.SetDataSource(DS5)
-        RPT.SetParameterValue("fromDate", txtTSFrom.Value.Date.ToString)
-        RPT.SetParameterValue("ToDate", txtTSTo.Value.Date.ToString)
-        RPT.SetParameterValue("Title", cmbTName.Text.ToUpper.ToString + "'S PAYSHEET")
-        RPT.SetParameterValue("TotalofRepair", txtTotalRepair.Text)
-        RPT.SetParameterValue("TotalofReRepair", txtTotalReRepair.Text)
-        RPT.SetParameterValue("TotalofCost", txtTotalCost.Text)
-        RPT.SetParameterValue("TotalofLoan", txtTotalLoan.Text)
-        RPT.SetParameterValue("Salary", txt6.Text)
-        If chkDetails.Checked = True Then
-            RPT.SetParameterValue("ShowDetailSection", True)
-        Else
-            RPT.SetParameterValue("ShowDetailSection", False)
-        End If
-        Return RPT
+            RPT.Subreports.Item("rptTechnicianSalaryLoan.rpt").SetDataSource(DT4)
+            Dim DS5 As New DataSet
+            Dim DA5 As MySqlDataAdapter = Db.GetDataAdapter("SELECT * FROM TECHNICIANSALARY", Connection)
+            DA5.Fill(DS5, "TECHNICIANSALARY")
+            RPT.SetDataSource(DS5)
+            RPT.SetParameterValue("fromDate", txtTSFrom.Value.Date.ToString)
+            RPT.SetParameterValue("ToDate", txtTSTo.Value.Date.ToString)
+            RPT.SetParameterValue("Title", cmbTName.Text.ToUpper.ToString + "'S PAYSHEET")
+            RPT.SetParameterValue("TotalofRepair", txtTotalRepair.Text)
+            RPT.SetParameterValue("TotalofReRepair", txtTotalReRepair.Text)
+            RPT.SetParameterValue("TotalofCost", txtTotalCost.Text)
+            RPT.SetParameterValue("TotalofLoan", txtTotalLoan.Text)
+            RPT.SetParameterValue("Salary", txt6.Text)
+            If chkDetails.Checked = True Then
+                RPT.SetParameterValue("ShowDetailSection", True)
+            Else
+                RPT.SetParameterValue("ShowDetailSection", False)
+            End If
+
+            Return RPT
+        Catch ex As Exception
+            MessageBox.Error(ex.Message)
+            Return Nothing
+        Finally
+            Connection.Close()
+        End Try
     End Function
 
     Private Sub TechnicianSalaryCalculator()
@@ -256,9 +260,9 @@ Public Class frmTechnicianSalary
         Dim frm As New frmReport
         Dim RPT As rptTechnicianSalary = TechnicianSalaryReport()
         frm.ReportViewer.ReportSource = RPT
-        Dim DR = Db.GetDataReader("Select * from Technician Where TNAME ='" & cmbTName.Text & "';")
+        Dim DR = Db.GetDataDictionary("Select * from Technician Where TNAME ='" & cmbTName.Text & "';")
         If DR.Count Then
-            
+
             If DR("TEmail").ToString = "" Then
                 MsgBox("මෙම Technician ගේ Email ලිපිනයක් ඇතුලත් කර නොමැත.", vbCritical + vbOKOnly)
                 Exit Sub

@@ -88,7 +88,7 @@ Public Class frmSale
     End Sub
 
     Private Sub cmbCuName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbCuName.SelectedIndexChanged
-        Dim DR = Db.GetDataReader("SELECT * from Customer where CuName='" & cmbCuName.Text & "';")
+        Dim DR = Db.GetDataDictionary("SELECT * from Customer where CuName='" & cmbCuName.Text & "';")
         If DR IsNot Nothing Then
             txtCuTelNo1.Tag = "1"
 
@@ -233,7 +233,7 @@ Public Class frmSale
         If (Val(txtCAmount.Text) > 0 Or Val(txtCPAmount.Text) > 0) And chkCashDrawer.Checked = True Then CashDrawer.Open()
         'Customer Management
         Dim CuNo As Integer
-        Dim DR = Db.GetDataReader("Select * from Customer where CuName='" & cmbCuName.Text & "' and CuTelNo1='" & txtCuTelNo1.Text & "' and CuTelNo2 ='" & txtCuTelNo2.Text & "' and CuTelNo3='" & txtCuTelNo3.Text & "'")
+        Dim DR = Db.GetDataDictionary("Select * from Customer where CuName='" & cmbCuName.Text & "' and CuTelNo1='" & txtCuTelNo1.Text & "' and CuTelNo2 ='" & txtCuTelNo2.Text & "' and CuTelNo3='" & txtCuTelNo3.Text & "'")
         If DR.Count Then
 
             CuNo = DR("CuNo").ToString
@@ -286,7 +286,7 @@ Public Class frmSale
                     End If
                 Next
             Case "Edit"
-                DR = Db.GetDataReader("SELECT * from Sale where SaNo=" & txtSaNo.Text & ";")
+                DR = Db.GetDataDictionary("SELECT * from Sale where SaNo=" & txtSaNo.Text & ";")
                 If DR.Count Then
 
                     If DR("CuLNo").ToString <> "0" And txtCuLNo.Text = "0" Then
@@ -304,11 +304,11 @@ Public Class frmSale
                     End If
                 End If
                 'Delete old Customer if there is no records about that customer
-                DR = Db.GetDataReader("Select CuNo from Sale where SaNo=" & txtSaNo.Text)
+                DR = Db.GetDataDictionary("Select CuNo from Sale where SaNo=" & txtSaNo.Text)
                 If DR.Count Then
 
-                    DR1 = Db.GetDataReader("Select CuNo from Sale Where CuNo = " & DR("CuNo").ToString)
-                    Dim DR2 = Db.GetDataReader("Select CuNo from Receive where CuNo = " & DR("CuNo").ToString)
+                    DR1 = Db.GetDataDictionary("Select CuNo from Sale Where CuNo = " & DR("CuNo").ToString)
+                    Dim DR2 = Db.GetDataDictionary("Select CuNo from Receive where CuNo = " & DR("CuNo").ToString)
                     If DR1 Is Nothing And DR2 Is Nothing Then
                         Db.Execute("Delete from Customer where CuNo=" & DR("CuNo").ToString)
                     End If
@@ -431,7 +431,7 @@ Public Class frmSale
                 My.Computer.Audio.PlaySystemSound(Media.SystemSounds.Hand)
                 'If IsNumeric(grdSale.Item(0, e.RowIndex).Value) = False Then grdSale.Rows.RemoveAt(e.RowIndex)
                 If grdSale.Item(0, e.RowIndex).Value Is Nothing Then Exit Sub
-                Dim DR = Db.GetDataReader("Select * from Stock where SNo =" & grdSale.Item(0, e.RowIndex).Value.ToString)
+                Dim DR = Db.GetDataDictionary("Select * from Stock where SNo =" & grdSale.Item(0, e.RowIndex).Value.ToString)
                 If DR.Count Then
 
                     grdSale.Item(1, e.RowIndex).Value = DR("SCategory").ToString
@@ -457,7 +457,7 @@ Public Class frmSale
                 End If
             Case 1, 2
                 frmSearchDropDown.frm_Close()
-                Dim DR = Db.GetDataReader("Select * from Stock where SCategory=@CATEGORY and SName=@NAME", {
+                Dim DR = Db.GetDataDictionary("Select * from Stock where SCategory=@CATEGORY and SName=@NAME", {
                                                              New MySqlParameter("CATEGORY", If(grdSale.Item(1, e.RowIndex).Value, "")),
                                                              New MySqlParameter("NAME", If(grdSale.Item(2, e.RowIndex).Value, ""))
                                                                                 })
@@ -551,7 +551,7 @@ Public Class frmSale
 
     Private Sub TextCuTelNo_TextChanged(sender As Object, e As EventArgs) Handles txtCuTelNo1.TextChanged, txtCuTelNo2.TextChanged, txtCuTelNo3.TextChanged
         If sender.Text.Trim() = "" Or sender.Tag = "1" Then Exit Sub
-        Dim SaDR = Db.GetDataReader("Select * from Customer where CuTelNo1='" & sender.Text & "' or CuTelNo2='" & sender.Text & "' or CuTelNo3='" & sender.Text & "';")
+        Dim SaDR = Db.GetDataDictionary("Select * from Customer where CuTelNo1='" & sender.Text & "' or CuTelNo2='" & sender.Text & "' or CuTelNo3='" & sender.Text & "';")
         If SaDR IsNot Nothing Then
             sender.Tag = "1"
             Dim FormCustomer As New frmCustomer With {

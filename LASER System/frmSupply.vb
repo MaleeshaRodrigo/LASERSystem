@@ -178,7 +178,7 @@ Public Class frmSupply
             For Each row As DataGridViewRow In grdSupply.Rows
                 If grdSupply.Rows.Count - 1 = row.Index Then Continue For
                 Dim AvailableUnits As Integer
-                DR = Db.GetDataReader("Select SAvailableStocks from stock where sno =" & row.Cells(0).Value)
+                DR = Db.GetDataDictionary("Select SAvailableStocks from stock where sno =" & row.Cells(0).Value)
                 If DR.Count Then
                     
                     AvailableUnits = DR("SAvailableStocks").ToString
@@ -231,7 +231,7 @@ Public Class frmSupply
         Select Case e.ColumnIndex
             Case 0
                 If grdSupply.Item(0, e.RowIndex).Value = "" Then Exit Sub
-                Dim DR = Db.GetDataReader("Select * from Stock where SNo=" & grdSupply.Item(0, e.RowIndex).Value)
+                Dim DR = Db.GetDataDictionary("Select * from Stock where SNo=" & grdSupply.Item(0, e.RowIndex).Value)
                 If DR.Count Then
                     
                     grdSupply.Item(1, e.RowIndex).Value = DR("SCategory").ToString
@@ -259,7 +259,7 @@ Public Class frmSupply
                     grdSupply.Item(0, e.RowIndex).Value = GetLastStockCode()
                 End If
             Case 1, 2
-                Dim DR = Db.GetDataReader("Select * from Stock where SCategory='" & grdSupply.Item(1, e.RowIndex).Value & "' and SName='" & grdSupply.Item(2, e.RowIndex).Value & "';")
+                Dim DR = Db.GetDataDictionary("Select * from Stock where SCategory='" & grdSupply.Item(1, e.RowIndex).Value & "' and SName='" & grdSupply.Item(2, e.RowIndex).Value & "';")
                 If DR.Count Then
                     
                     grdSupply.Item(0, e.RowIndex).Value = DR("SNo").ToString

@@ -104,7 +104,7 @@ Public Class FrmSettings
     End Sub
 
     Private Sub cmdUACheck_Click(sender As Object, e As EventArgs) Handles cmdUACheck.Click
-        Dim DR = Db.GetDataReader("Select * from `User` Where UserName ='" & txtUAAUserName.Text & "' and Password ='" & txtUAAPassword.Text & "' and Type='Admin';")
+        Dim DR = Db.GetDataDictionary("Select * from `User` Where UserName ='" & txtUAAUserName.Text & "' and Password ='" & txtUAAPassword.Text & "' and Type='Admin';")
         If DR.Count Then
             grpUAUser.Enabled = True
             grdUAUser.Enabled = True
@@ -146,7 +146,7 @@ Public Class FrmSettings
     End Sub
 
     Private Sub cmdUASave_Click(sender As Object, e As EventArgs) Handles cmdUASave.Click
-        Dim Dr = Db.GetDataReader("Select * from `User` Where UserName ='" & txtUAAUserName.Text & "' and Password ='" & txtUAAPassword.Text & "'")
+        Dim Dr = Db.GetDataDictionary("Select * from `User` Where UserName ='" & txtUAAUserName.Text & "' and Password ='" & txtUAAPassword.Text & "'")
         If Dr.Count = 0 Then
             MsgBox("Admin සදහා ලබා දුන් User Name සහ Password එක වැරදිය.", vbExclamation + vbOKOnly)
             Exit Sub
@@ -179,7 +179,7 @@ Public Class FrmSettings
                 If CheckEmptyControl(txtUACurrentPW, "Current Password යන Field එක හිස්ව පවතියි. කරුණාකර එය සම්පූර්ණ කරන්න.") = False Then
                     Exit Sub
                 End If
-                Dr = Db.GetDataReader("Select * from `User` Where UNO=" & txtUAUNo.Text & " and Password='" & txtUACurrentPW.Text & "';")
+                Dr = Db.GetDataDictionary("Select * from `User` Where UNO=" & txtUAUNo.Text & " and Password='" & txtUACurrentPW.Text & "';")
                 If Dr Is Nothing Then
                     MsgBox("Current Password එක සඳහා ඇතුලත් කල අගය වැරදියි. නැවත උත්සහ කරන්න.", vbExclamation + vbOKOnly)
                     txtUAUserName.Focus()
@@ -194,12 +194,12 @@ Public Class FrmSettings
 
     Private Sub grdUAUser_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles grdUAUser.CellDoubleClick
         If e.RowIndex < 0 Or e.ColumnIndex < 0 Then Exit Sub
-        Dim DR = Db.GetDataReader("Select * from `User` Where UserName ='" & txtUAAUserName.Text & "' and Password ='" & txtUAAPassword.Text & "'")
+        Dim DR = Db.GetDataDictionary("Select * from `User` Where UserName ='" & txtUAAUserName.Text & "' and Password ='" & txtUAAPassword.Text & "'")
         If DR.Count = 0 Then
             MsgBox("Admin සදහා ලබා දුන් User Name සහ Password එක වැරදිය.", vbExclamation + vbOKOnly)
             Exit Sub
         End If
-        DR = Db.GetDataReader("Select * from `User` Where UNo=" & grdUAUser.Item(UAUNo.Index, e.RowIndex).Value)
+        DR = Db.GetDataDictionary("Select * from `User` Where UNo=" & grdUAUser.Item(UAUNo.Index, e.RowIndex).Value)
         If DR.Count Then
             txtUAUNo.Text = DR("UNo").ToString
             cmbUAType.Text = DR("Type").ToString
@@ -223,12 +223,12 @@ Public Class FrmSettings
     End Sub
 
     Private Sub cmdUADelete_Click(sender As Object, e As EventArgs) Handles cmdUADelete.Click
-        Dim DR = Db.GetDataReader("Select * from `User` Where UserName ='" & txtUAAUserName.Text & "' and Password ='" & txtUAAPassword.Text & "'")
+        Dim DR = Db.GetDataDictionary("Select * from `User` Where UserName ='" & txtUAAUserName.Text & "' and Password ='" & txtUAAPassword.Text & "'")
         If DR.Count = 0 Then
             MsgBox("Admin සදහා ලබා දුන් fUser Name සහ Password එක වැරදිය.", vbExclamation + vbOKOnly)
             Exit Sub
         End If
-        DR = Db.GetDataReader("Select * from `User` Where UNo =" & txtUAUNo.Text)
+        DR = Db.GetDataDictionary("Select * from `User` Where UNo =" & txtUAUNo.Text)
         If DR.Count = 0 Then
             MsgBox("ඔබ අදාල User ව නිවැරදිව තෝරා ගෙන නොමැත. නැවත උත්සහ කරන්න.", vbExclamation + vbOKOnly)
             Exit Sub

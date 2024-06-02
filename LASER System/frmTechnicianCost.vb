@@ -140,7 +140,7 @@ Public Class frmTechnicianCost
                 dtpDate.Visible = False
             Case 2
                 If grdTechnicianCost.Item(2, e.RowIndex).Value Is Nothing Then Exit Sub
-                DR = Db.GetDataReader("Select SNo,SCategory,SName,SSalePrice from Stock Where SNo=" &
+                DR = Db.GetDataDictionary("Select SNo,SCategory,SName,SSalePrice from Stock Where SNo=" &
                                        grdTechnicianCost.Item(2, e.RowIndex).Value.ToString)
                 If DR IsNot Nothing Then
 
@@ -155,7 +155,7 @@ Public Class frmTechnicianCost
             Case 3, 4
                 frmSearchDropDown.frm_Close()
                 If grdTechnicianCost.Item(3, e.RowIndex).Value Is Nothing Or grdTechnicianCost.Item(4, e.RowIndex).Value Is Nothing Then Exit Sub
-                DR = Db.GetDataReader("Select SNo,SCategory,SName,SSalePrice from Stock Where SCategory='" & grdTechnicianCost.Item(3, e.RowIndex).Value &
+                DR = Db.GetDataDictionary("Select SNo,SCategory,SName,SSalePrice from Stock Where SCategory='" & grdTechnicianCost.Item(3, e.RowIndex).Value &
                                        "' and SName='" & grdTechnicianCost.Item(4, e.RowIndex).Value & "';")
                 If DR IsNot Nothing Then
 
@@ -233,7 +233,7 @@ Public Class frmTechnicianCost
             Exit Sub
         End If
         If User.Instance.UserType = User.Type.Admin Then
-            Dim DR = Db.GetDataReader("Select TCNo from TechnicianCost Where TCNo=" & grdTechnicianCost.Item("TCNo", e.Row.Index).Value)
+            Dim DR = Db.GetDataDictionary("Select TCNo from TechnicianCost Where TCNo=" & grdTechnicianCost.Item("TCNo", e.Row.Index).Value)
             If DR.Count Then
                 
                 If DR("SNo").ToString <> "" Then
@@ -265,7 +265,7 @@ Public Class frmTechnicianCost
 
     Private Sub grdTechnicianCost_RowValidating(sender As Object, e As DataGridViewCellCancelEventArgs) Handles grdTechnicianCost.RowValidating
         If e.RowIndex < 0 Or e.RowIndex > (grdTechnicianCost.Rows.Count - 2) Then Exit Sub
-        Dim DRTC = Db.GetDataReader("Select TC.*,UserName from TechnicianCost TC Left Join `User` U On U.Uno = TC.UNo Where TCNo=" & grdTechnicianCost.Item(0, e.RowIndex).Value)
+        Dim DRTC = Db.GetDataDictionary("Select TC.*,UserName from TechnicianCost TC Left Join `User` U On U.Uno = TC.UNo Where TCNo=" & grdTechnicianCost.Item(0, e.RowIndex).Value)
         If DRTC IsNot Nothing Then
             grdTechnicianCost.Item(1, e.RowIndex).Value = DRTC("TCDate").ToString
             grdTechnicianCost.Item(2, e.RowIndex).Value = DRTC("SNo").ToString

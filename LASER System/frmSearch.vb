@@ -1082,7 +1082,7 @@ end_for_loop:
                 With FormDeliver
                     .txtDNo.Text = grdSearch.Item(0, e.RowIndex).Value
                     .cmdSave.Text = "Edit"
-                    DR = Db.GetDataReader("Select D.*,CuName,CuTelNo1,CuTelNo2,CuTelNo3 from (Deliver D Inner Join Customer Cu On Cu.CuNo = D.CuNo) Where DNo=" & .txtDNo.Text)
+                    DR = Db.GetDataDictionary("Select D.*,CuName,CuTelNo1,CuTelNo2,CuTelNo3 from (Deliver D Inner Join Customer Cu On Cu.CuNo = D.CuNo) Where DNo=" & .txtDNo.Text)
                     If DR IsNot Nothing Then
 
                         .txtDDate.Value = DR("DDate").ToString

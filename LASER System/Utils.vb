@@ -16,7 +16,7 @@ Module Utils
     End Sub
 
     Public Sub SetNextKey(Db As Database, txt As TextBox, SQL As String, ColumnName As String)
-        Dim DR0 = Db.GetDataReader(SQL)
+        Dim DR0 = Db.GetDataDictionary(SQL)
         If DR0 IsNot Nothing Then
             txt.Text = Int(DR0.Item(ColumnName)) + 1
         Else
@@ -68,7 +68,7 @@ Module Utils
     End Function
 
     Public Function CheckExistData(Db As Database, cmb As Control, SQL As String, msg As String, IsDataExist As Boolean) As Boolean
-        Dim DR0 = Db.GetDataReader(SQL)
+        Dim DR0 = Db.GetDataDictionary(SQL)
         If DR0 IsNot Nothing Then
             If IsDataExist = True Then
                 MsgBox(msg, vbCritical + vbOKOnly)

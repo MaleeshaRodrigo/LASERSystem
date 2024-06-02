@@ -120,9 +120,9 @@ Public Class frmTechnicianLoan
     Private Sub cmbSName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbSName.SelectedIndexChanged
         Dim DR
         If cmbSCategory.Text = "" Then
-            DR = Db.GetDataReader("Select * from Stock Where SName='" & cmbSName.Text & "'")
+            DR = Db.GetDataDictionary("Select * from Stock Where SName='" & cmbSName.Text & "'")
         Else
-            DR = Db.GetDataReader("SElect * from Stock Where Scategory='" & cmbSCategory.Text & "' and SName ='" & cmbSName.Text & "'")
+            DR = Db.GetDataDictionary("SElect * from Stock Where Scategory='" & cmbSCategory.Text & "' and SName ='" & cmbSName.Text & "'")
         End If
         If DR.Count Then
             
@@ -174,7 +174,7 @@ Public Class frmTechnicianLoan
             txtTLAmount.Text = "0"
             Exit Sub
         End If
-        Dim DR1 = Db.GetDataReader("SELECT SCategory,SName,SNo FROM Stock WHERE SNo =" & txtSNo.Text & ";")
+        Dim DR1 = Db.GetDataDictionary("SELECT SCategory,SName,SNo FROM Stock WHERE SNo =" & txtSNo.Text & ";")
         If DR1 IsNot Nothing Then
             cmbSCategory.Text = DR1("SCategory").ToString
             cmbSName.Text = DR1("SName").ToString
@@ -202,7 +202,7 @@ Public Class frmTechnicianLoan
                 txtTLAmount.Text = "0"
                 Exit Sub
             End If
-            Dim DR = Db.GetDataReader("SElect SNO from stock where Sno =" & txtSNo.Text)
+            Dim DR = Db.GetDataDictionary("SElect SNO from stock where Sno =" & txtSNo.Text)
             If DR Is Nothing Then
                 cmbSCategory.Text = ""
                 cmbSName.Text = ""
@@ -267,7 +267,7 @@ Public Class frmTechnicianLoan
             AdminPer.AdminSend = True
             AdminPer.Remarks = "අද දිනට නොමැති Technician Loan data එකක් ඉවත් කෙරුණි."
         End If
-        Dim DR = Db.GetDataReader("Select * from TechnicianLoan Where TLNo=" & txtTLNo.Text)
+        Dim DR = Db.GetDataDictionary("Select * from TechnicianLoan Where TLNo=" & txtTLNo.Text)
         If DR.Count Then
             
             If DR("SNo").ToString <> "" And DR("SNo").ToString <> "0" Then

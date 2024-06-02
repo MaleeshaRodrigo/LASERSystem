@@ -54,9 +54,9 @@ Public Class frmLogin
             Me.Close()
             Exit Sub
         End If
-        Dim DR = Db.GetDataReader("Select * from `User` where UserName ='" & cmbUserName.Text & "'")
+        Dim DR = Db.GetDataDictionary("Select * from `User` where UserName ='" & cmbUserName.Text & "'")
         If DR.Count Then
-            DR = Db.GetDataReader("Select * from `User` where  STRCMP('" & cmbUserName.Text & "',UserName)=0 and STRCMP(Password,'" & txtPassword.Text & "')=0")
+            DR = Db.GetDataDictionary("Select * from `User` where  STRCMP('" & cmbUserName.Text & "',UserName)=0 and STRCMP(Password,'" & txtPassword.Text & "')=0")
             If DR.Count Then
 
                 Db.DirectExecute("Update `User` set LogInCount='0' Where LoginCount IS NULL")
@@ -118,7 +118,7 @@ Public Class frmLogin
         ElseIf CheckExistData(Db, txtOTPUserName, "Select UserName from `User` Where UserName='" & txtOTPUserName.Text & "'", "ඔබ ඇතුලත් කල User Name එක වැරදි කරුණාකර නිවැරදි User Name එක ඇතුලත් කරන්න.", False) = False Then
             Exit Sub
         End If
-        Dim DR = Db.GetDataReader("Select Email from `User` Where UserName='" & txtOTPUserName.Text & "'")
+        Dim DR = Db.GetDataDictionary("Select Email from `User` Where UserName='" & txtOTPUserName.Text & "'")
         If DR.Count Then
             If DR("Email").ToString = "" Then
                 MsgBox("මෙම User සඳහා Email ලිපිනයක් ඇතුලත් කර නොමැත. Email ලිපිනයක් සහිත User Name එකක් ඇතුලත් කරන්න.", vbExclamation + vbOKOnly)
@@ -145,7 +145,7 @@ Public Class frmLogin
         End If
         If txtOTPCode.Text = txtOTPCode.Tag Then
             cmbUserName.Text = txtOTPUserName.Text
-            Dim DR = Db.GetDataReader("Select Password from `User` Where UserName='" & cmbUserName.Text & "'")
+            Dim DR = Db.GetDataDictionary("Select Password from `User` Where UserName='" & cmbUserName.Text & "'")
             If DR.Count Then
 
                 txtPassword.Text = DR("Password").ToString

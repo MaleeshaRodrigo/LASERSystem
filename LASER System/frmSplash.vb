@@ -80,7 +80,7 @@ Public NotInheritable Class FrmSplash
                 With MdifrmMain
                     LoadingBar.Value += 5
                     txtLoad.Text = "Getting Message to the Message Panel in Main Menu..."
-                    Dim DrCheckStockUnits = Db.GetDataReader("Select COUNT(SNo) as SNoCount from `Stock` Where SAvailableStocks < SMinStocks")
+                    Dim DrCheckStockUnits = Db.GetDataDictionary("Select COUNT(SNo) as SNoCount from `Stock` Where SAvailableStocks < SMinStocks")
                     If DrCheckStockUnits IsNot Nothing Then
                         Dim MessagePanel As New MessagePanel(
                         "Stocks Report",
@@ -88,7 +88,7 @@ Public NotInheritable Class FrmSplash
                     හරවා  නොයැවීමට නම් මෙම stocks නැවත පිරවීම සඳහා පියවර ගන්න.")
                         MessagePanel.Add()
                     End If
-                    Dim DR = Db.GetDataReader("Select * from `User` Where UserName='" & .tslblUserName.Text & "'")
+                    Dim DR = Db.GetDataDictionary("Select * from `User` Where UserName='" & .tslblUserName.Text & "'")
                     If DR IsNot Nothing Then
                         .lblUName.Text = "Name: " + DR("UserName").ToString
                         .lblUEmail.Text = "Email: " + DR("Email").ToString

@@ -11,7 +11,7 @@ Public Class frmCustomer
 
     Public Sub SelectCustomer(CuNo As Integer)
         txtCuNo.Text = CuNo
-        Dim DR = Db.GetDataReader("SELECT * FROM Customer WHERE CuNo = @CUNO", {
+        Dim DR = Db.GetDataDictionary("SELECT * FROM Customer WHERE CuNo = @CUNO", {
             New MySqlParameter("CUNO", CuNo)
         })
         If DR Is Nothing Then
@@ -169,10 +169,10 @@ Public Class frmCustomer
         End If
         Select Case cmdSave.Text
             Case "Save"
-                Dim DR = Db.GetDataReader("Select CuName from Customer where CuName ='" & TextCuName.Text & "';")
+                Dim DR = Db.GetDataDictionary("Select CuName from Customer where CuName ='" & TextCuName.Text & "';")
                 If DR.Count Then
                     For i As Integer = 0 To 1000
-                        DR = Db.GetDataReader("Select CuName from Customer Where CuName = '" & TextCuName.Text & " " & i.ToString & "'")
+                        DR = Db.GetDataDictionary("Select CuName from Customer Where CuName = '" & TextCuName.Text & " " & i.ToString & "'")
                         If DR Is Nothing Then
                             TextCuName.Text = TextCuName.Text + " " + i.ToString
                             Exit For
@@ -249,7 +249,7 @@ Public Class frmCustomer
 
     Private Sub txtCuTelNo1_KeyUp(sender As Object, e As KeyEventArgs) Handles txtCuTelNo1.KeyUp, txtCuTelNo2.KeyUp, txtCuTelNo3.KeyUp
         If sender.Text.Trim.Length < 10 Then Exit Sub
-        Dim DR = Db.GetDataReader("Select * from Customer where CuTelNo1='" & sender.Text & "' or CuTelNo2='" & sender.Text & "' or CuTelNo3='" & sender.Text & "';")
+        Dim DR = Db.GetDataDictionary("Select * from Customer where CuTelNo1='" & sender.Text & "' or CuTelNo2='" & sender.Text & "' or CuTelNo3='" & sender.Text & "';")
         If DR.Count Then
             If MsgBox("මෙම Telephone No එකට Customer කෙනෙකු ලියාපදිංචි වී ඇත. එය විවෘත කරන්නද?", vbYesNo + vbCritical) = vbYes Then
 
