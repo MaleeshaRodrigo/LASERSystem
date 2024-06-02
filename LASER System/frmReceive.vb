@@ -177,8 +177,7 @@ Public Class frmReceive
         'Customer Management 
         Dim CuNo, PNo As Integer
         Dim DR = Db.GetDataReader("Select * from Customer where CuName='" & cmbCuMr.Text & cmbCuName.Text & "' and CuTelNo1='" & txtCuTelNo1.Text & "' and CuTelNo2 ='" & txtCuTelNo2.Text & "' and CuTelNo3='" & txtCuTelNo3.Text & "'")
-        If DR.Count Then
-
+        If DR IsNot Nothing Then
             CuNo = DR("CuNo")
         Else
             CuNo = Db.GetNextKey("Customer", "CuNo")
@@ -483,8 +482,7 @@ Public Class frmReceive
                     grdRepair.Rows.RemoveAt(e.RowIndex)
                 End If
                 Dim DR = Db.GetDataReader("Select * from Product where PCategory='" & grdRepair.Item(1, e.RowIndex).Value & "' and PName='" & grdRepair.Item(2, e.RowIndex).Value & "';")
-                If DR.Count Then
-
+                If DR IsNot Nothing Then
                     grdRepair.Item(1, e.RowIndex).Value = DR("PCategory").ToString
                     grdRepair.Item(2, e.RowIndex).Value = DR("PName").ToString
                     grdRepair.Item(3, e.RowIndex).Value = DR("PModelNo").ToString
@@ -500,9 +498,8 @@ Public Class frmReceive
 
     Private Sub grdRepair_UserAddedRow(sender As Object, e As DataGridViewRowEventArgs) Handles grdRepair.UserAddedRow
         Dim i As Integer
-        Dim DR = Db.GetDataReader("Select  REpNo from REpair Order by repno desc LIMIT 1;")
-        If DR.Count Then
-
+        Dim DR = Db.GetDataReader("Select RepNo from Repair Order by RepNo desc LIMIT 1;")
+        If DR IsNot Nothing Then
             i = Int(DR("RepNo").ToString) + 1
         Else
             i = 1

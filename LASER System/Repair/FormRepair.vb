@@ -2,7 +2,7 @@
 
 Public Class FormRepair
     Private Db As New Database
-    Public DataReaderRepair
+    Public DataReaderRepair As Dictionary(Of String, Object)
     Public Mode As RepairMode
 
     Public ControlReRepairView As ControlReRepairView
@@ -54,7 +54,7 @@ Public Class FormRepair
     End Sub
 
     Private Sub FrmRepair_Leave(sender As Object, e As EventArgs) Handles Me.Leave, cmdClose.Click, CloseToolStripMenuItem.Click
-        DataReaderRepair.Close()
+        DataReaderRepair = Nothing
         Db.Disconnect()
     End Sub
 
@@ -92,7 +92,6 @@ Public Class FormRepair
             For Each ctrl As Control In {boxReceive, boxProduct, boxCustomer, txtPProblem}
                 ctrl.Enabled = True
             Next
-            DataReaderRepair.Read()
             cmbRepStatus.Text = DataReaderRepair("Status").ToString
             SetBasicInfo()
 
@@ -171,7 +170,7 @@ Public Class FormRepair
         txtPNo.Text = DataReaderRepair("PNo").ToString
         cmbPCategory.Text = DataReaderRepair("PCategory").ToString
         cmbPName.Text = DataReaderRepair("PName").ToString
-        txtPModelNo.Text = DataReaderRepair("PModelNO").ToString
+        txtPModelNo.Text = DataReaderRepair("PModelNo").ToString
         txtPDetails.Text = DataReaderRepair("PDetails").ToString
         txtPSerialNo.Text = DataReaderRepair("PSerialNo").ToString
         txtPQty.Text = DataReaderRepair("Qty").ToString
@@ -223,7 +222,6 @@ Public Class FormRepair
             For Each ctrl As Control In {boxReceive, boxProduct, boxCustomer, txtPProblem}
                 ctrl.Enabled = True
             Next
-            DataReaderRepair.Read()
             cmbRetRepNo.Text = DataReaderRepair("RepNo").ToString
             cmbRetStatus.Text = DataReaderRepair("Status").ToString
             SetBasicInfo()

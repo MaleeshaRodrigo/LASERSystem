@@ -14,9 +14,9 @@ Public Class ControlTechnicianInfo
 
     Public Sub Init()
         cmbTName.Text = FormParent.DataReaderRepair("TName").ToString()
-        Dim DataReader
+        Dim DataReader As List(Of Dictionary(Of String, Object))
         If FormParent.Mode = RepairMode.Repair Then
-            DataReader = DB.GetDataReader("Select Rem2No, Rem2Date, Remarks, UserName from RepairRemarks2 RepRem2 LEFT JOIN `User` U ON U.UNo=RepRem2.UNo Where RepNo=@REPNO;", {New MySqlParameter("REPNO", FormParent.DataReaderRepair("RepNo").ToString())})
+            DataReader = DB.GetDataList("Select Rem2No, Rem2Date, Remarks, UserName from RepairRemarks2 RepRem2 LEFT JOIN `User` U ON U.UNo=RepRem2.UNo Where RepNo=@REPNO;", {New MySqlParameter("REPNO", FormParent.DataReaderRepair("RepNo").ToString())})
         Else
             DataReader = DB.GetDataList("Select Rem2No, Rem2Date, Remarks, UserName from RepairRemarks2 RepRem2 LEFT JOIN `User` U ON U.UNo=RepRem2.UNo Where RetNo=@REREPNO;", {
                                         New MySqlParameter("REREPNO", FormParent.DataReaderRepair("RetNo").ToString())
