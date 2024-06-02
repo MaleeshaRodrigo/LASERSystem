@@ -339,10 +339,10 @@ Public Class frmSupply
                     autoText.AutoCompleteMode = AutoCompleteMode.Suggest
                     autoText.AutoCompleteSource = AutoCompleteSource.CustomSource
                     DataCollection.Clear()
-                    Dim DR = Db.GetDataReader("Select SCategory from Stock group by SCategory;")
-                    While DR.Read
-                        DataCollection.Add(DR("SCategory").ToString)
-                    End While
+                    Dim DR = Db.GetDataList("Select SCategory from Stock group by SCategory;")
+                    For Each Item In DR
+                        DataCollection.Add(Item("SCategory").ToString)
+                    Next
                     autoText.AutoCompleteCustomSource = DataCollection
                 End If
             Case 2
@@ -351,10 +351,10 @@ Public Class frmSupply
                     autoText.AutoCompleteMode = AutoCompleteMode.Suggest
                     autoText.AutoCompleteSource = AutoCompleteSource.CustomSource
                     DataCollection.Clear()
-                    Dim DR = Db.GetDataReader("Select SCategory,SName from Stock where SCategory ='" & grdSupply.Item(1, grdSupply.CurrentCell.RowIndex).Value & "';")
-                    While DR.Read
-                        DataCollection.Add(DR("SName").ToString)
-                    End While
+                    Dim DR = Db.GetDataList("Select SCategory,SName from Stock where SCategory ='" & grdSupply.Item(1, grdSupply.CurrentCell.RowIndex).Value & "';")
+                    For Each Item In DR
+                        DataCollection.Add(Item("SName").ToString)
+                    Next
                     autoText.AutoCompleteCustomSource = DataCollection
                 End If
             Case 4
@@ -363,10 +363,10 @@ Public Class frmSupply
                     autoText.AutoCompleteMode = AutoCompleteMode.Suggest
                     autoText.AutoCompleteSource = AutoCompleteSource.CustomSource
                     DataCollection.Clear()
-                    Dim DR = Db.GetDataReader("Select SLocation from Stock group by SLocation;")
-                    While DR.Read
-                        DataCollection.Add(DR("SLocation").ToString)
-                    End While
+                    Dim DR = Db.GetDataList("Select SLocation from Stock group by SLocation;")
+                    For Each Item In DR
+                        DataCollection.Add(Item("SLocation").ToString)
+                    Next
                     autoText.AutoCompleteCustomSource = DataCollection
                 End If
             Case 0, 9, 6

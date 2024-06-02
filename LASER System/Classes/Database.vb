@@ -142,9 +142,9 @@ Public Class Database
             Connection.Open()
             Dim Command = New MySqlCommand(Query, Connection)
             Using DataReader = Command.ExecuteReader()
-                While DataReader.Read
+                For Each Item In DataReader
                     Output.Add(DataReader(ColumnName).ToString)
-                End While
+                Next
             End Using
 
             Return (Output)
@@ -200,11 +200,46 @@ Public Class Database
                 Command.Parameters.AddRange(Values)
             End If
             Using DataReader = Command.ExecuteReader()
+                If Not DataReader.HasRows Then
+                    Return Nothing
+                End If
                 DataReader.Read()
-                Return DataReader.GetEnumerator()
+
+                Return Enumerable.Range(0, DataReader.FieldCount).ToDictionary(
+                    Function(i) DataReader.GetName(i),
+                    Function(i) DataReader.GetValue(i)
+                )
             End Using
         Catch ex As Exception
             Throw ex
+        Finally
+            Connection.Close()
+        End Try
+    End Function
+
+    Public Function GetDataList(Sql As String, Optional Values As MySqlParameter() = Nothing) As List(Of Dictionary(Of String, Object))
+        Dim Connection As MySqlConnection = GetConenction()
+        Dim Output As New List(Of Dictionary(Of String, Object))
+        Try
+            Connection.Open()
+            Dim Command As New MySqlCommand(Sql, Connection)
+            If Values IsNot Nothing Then
+                Command.Parameters.AddRange(Values)
+            End If
+            Using DataReader = Command.ExecuteReader()
+                While DataReader.Read()
+                    Output.Add(
+                        Enumerable.Range(0, DataReader.FieldCount).ToDictionary(
+                            Function(i) DataReader.GetName(i),
+                            Function(i) DataReader.GetValue(i)
+                        )
+                    )
+                End While
+
+                Return Output
+            End Using
+        Catch ex As Exception
+            Throw
         Finally
             Connection.Close()
         End Try

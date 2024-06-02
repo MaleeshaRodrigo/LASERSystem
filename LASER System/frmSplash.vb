@@ -81,8 +81,7 @@ Public NotInheritable Class FrmSplash
                     LoadingBar.Value += 5
                     txtLoad.Text = "Getting Message to the Message Panel in Main Menu..."
                     Dim DrCheckStockUnits = Db.GetDataReader("Select COUNT(SNo) as SNoCount from `Stock` Where SAvailableStocks < SMinStocks")
-                    If DrCheckStockUnits.HasRows Then
-                        DrCheckStockUnits.Read()
+                    If DrCheckStockUnits IsNot Nothing Then
                         Dim MessagePanel As New MessagePanel(
                         "Stocks Report",
                         DrCheckStockUnits("SNoCount").ToString & " Stocks නැවත පිරවීමට ඇති බැවින් බඩු ගැනීමට පැමිණි පාරිභෝගිකයන් නැවත 
@@ -90,8 +89,7 @@ Public NotInheritable Class FrmSplash
                         MessagePanel.Add()
                     End If
                     Dim DR = Db.GetDataReader("Select * from `User` Where UserName='" & .tslblUserName.Text & "'")
-                    If DR.HasRows Then
-                        
+                    If DR IsNot Nothing Then
                         .lblUName.Text = "Name: " + DR("UserName").ToString
                         .lblUEmail.Text = "Email: " + DR("Email").ToString
                         .lblULastLogin.Text = "Last Login: " + DR("LastLogin").ToString

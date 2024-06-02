@@ -97,7 +97,7 @@ Public Class frmRepairAdvanced
         End Select
         Dim DRRepAdv = Db.GetDataReader("Select * from RepairAdvanced " & Search)
         grdRepAdvanced.Rows.Clear()
-        'While DRRepAdv.Read
+        'For Each Item In DRRepAdv
         '    grdRepAdvanced.Rows.Add(DRRepAdv("ADNo").ToString, DRRepAdv("ADDate").ToString, DRRepAdv("RepNo").ToString, DRRepAdv("RetNo").ToString,
         '                            DRRepAdv("Amount").ToString,
         '                        DRRepAdv("Remarks").ToString, Db.GetData("Select UserName from `User` Where UNo=" &
@@ -135,8 +135,7 @@ Public Class frmRepairAdvanced
         If e.RowIndex < 0 Then Exit Sub
         If grdRepAdvanced.Item(0, e.RowIndex).Value Is Nothing Then Exit Sub
         Dim DRRepAdv = Db.GetDataReader("SELECT * from RepairAdvanced where AdNo=" & grdRepAdvanced.Item(0, e.RowIndex).Value & ";")
-        If DRRepAdv.HasRows Then
-            DRRepAdv.Read()
+        If DRRepAdv IsNot Nothing Then
             txtAdNo.Text = grdRepAdvanced.Item(0, e.RowIndex).Value
             txtAdDate.Value = DRRepAdv("ADDate").ToString
             If DRRepAdv("RepNo").ToString = "0" Then
@@ -151,7 +150,6 @@ Public Class frmRepairAdvanced
             txtAmount.Text = DRRepAdv("Amount").ToString
             txtRemarks.Text = DRRepAdv("Remarks").ToString
         End If
-        DRRepAdv.Close()
         cmdSave.Text = "Edit"
         cmdDelete.Enabled = True
     End Sub

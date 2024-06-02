@@ -17,13 +17,11 @@ Module Utils
 
     Public Sub SetNextKey(Db As Database, txt As TextBox, SQL As String, ColumnName As String)
         Dim DR0 = Db.GetDataReader(SQL)
-        If DR0.Count Then
-            DR0.Read()
+        If DR0 IsNot Nothing Then
             txt.Text = Int(DR0.Item(ColumnName)) + 1
         Else
             txt.Text = "1"
         End If
-        DR0.Close()
     End Sub
 
     Public Sub OnlynumberQty(e As KeyPressEventArgs)
@@ -71,7 +69,7 @@ Module Utils
 
     Public Function CheckExistData(Db As Database, cmb As Control, SQL As String, msg As String, IsDataExist As Boolean) As Boolean
         Dim DR0 = Db.GetDataReader(SQL)
-        If DR0.Count Then
+        If DR0 IsNot Nothing Then
             If IsDataExist = True Then
                 MsgBox(msg, vbCritical + vbOKOnly)
                 cmb.Focus()
@@ -84,21 +82,20 @@ Module Utils
             End If
             Return False
         End If
-        DR0.Close()
     End Function
 
     Public Function CheckExistRelationsforDelete(SQl As String, FieldName As String, msg As String) As Boolean
-        CheckExistRelationsforDelete = True
-        CMD = New OleDb.OleDbCommand(SQl)
-        DR = CMD.ExecuteReader
-        Dim tmp As String = ""
-        If DR.Count Then
-            While DR.Read
-                tmp = tmp + DR(FieldName).ToString + " "
-            End While
-            MsgBox(msg + vbCrLf + "The field/s called '" + FieldName + "' are/is " + tmp, vbCritical + vbOKOnly)
-            Return False
-        End If
+        'CheckExistRelationsforDelete = True
+        'CMD = New OleDb.OleDbCommand(SQl)
+        'DR = CMD.ExecuteReader
+        'Dim tmp As String = ""
+        'If DR.Count Then
+        '    For Each Item In DR
+        '        tmp = tmp + DR(FieldName).ToString + " "
+        '    Next
+        '    MsgBox(msg + vbCrLf + "The field/s called '" + FieldName + "' are/is " + tmp, vbCritical + vbOKOnly)
+        '    Return False
+        'End If
     End Function
 
     Public Function NextfrmNo(frmNew As Form) As Integer

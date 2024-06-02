@@ -29,7 +29,7 @@ Public Class FormDeliver
 
     Private Sub cmbCuName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbCuName.SelectedIndexChanged
         Dim DR = Db.GetDataReader("SELECT * from Customer where CuName='" & cmbCuName.Text & "';")
-        If DR.Count Then
+        If DR IsNot Nothing Then
             txtCuTelNo1.Tag = "1"
 
             txtCuTelNo1.Text = DR("CuTelNo1").ToString
@@ -105,7 +105,7 @@ Public Class FormDeliver
                 Exit Sub
             End If
             Dim DR = Db.GetDataReader("Select TNo from Technician Where TName='" & Row.Cells(6).Value & "'")
-            If DR.HasRows = False Then
+            If DR Is Nothing Then
                 MsgBox("Repair No: " & Row.Cells(0).Value & " යන තීරුවෙ Technician ව System එක තුල නොපවතියි. කරුණාකර නැවත පරික්ෂා කරන්න.", vbExclamation + vbOKOnly)
                 Exit Sub
             End If
@@ -185,8 +185,7 @@ Public Class FormDeliver
                 End If
                 Dim DRD = Db.GetDataReader("Select RepNo,PCategory,PName,PMOdelNO,PSerialNo,PDetails,Qty,Charge,TName,Status,CuName,CuTelNo1,CuTelNo2,CuTelNo3 from ((((Repair REP INNER JOIN RECEIVE R ON R.RNO = REP.RNO) INNER JOIN PRODUCT P ON P.PNO = REP.PNO) INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = REP.TNO) Where RepNo = " &
                                              grdRepair.Item(0, grdRepair.CurrentCell.RowIndex).Value)
-                If DRD.Count Then
-                    DRD.Read()
+                If DRD IsNot Nothing Then
                     If DRD("Status").ToString = "Repaired Delivered" Or DRD("Status").ToString = "Returned Delivered" Then
                         If MsgBox("මෙම Repair එක දැනටමත් Customer විසින් රැගෙන ගොස් ඇත." + vbCrLf + "ඔබට එම Repair එක විවෘත කිරිමට අවශ්‍යද?",
                                   vbInformation + vbYesNo) = vbYes Then
@@ -279,10 +278,10 @@ Public Class FormDeliver
                     autoText.AutoCompleteMode = AutoCompleteMode.Suggest
                     autoText.AutoCompleteSource = AutoCompleteSource.CustomSource
                     DataCollection.Clear()
-                    Dim DR = Db.GetDataReader("Select RepNo from Repair where Status <> 'Repaired Delivered' and Status <> 'Returned Delivered' and Status <> 'Canceled' order by RepNo Desc;")
-                    While DR.Read
-                        DataCollection.Add(DR("REpNo").ToString)
-                    End While
+                    Dim DR = Db.GetDataList("Select RepNo from Repair where Status <> 'Repaired Delivered' and Status <> 'Returned Delivered' and Status <> 'Canceled' order by RepNo Desc;")
+                    For Each Item In DR
+                        DataCollection.Add(Item("REpNo").ToString)
+                    Next
                     autoText.AutoCompleteCustomSource = DataCollection
                 End If
                 AddHandler CType(e.Control, TextBox).KeyPress, AddressOf TextBoxQty_keyPress
@@ -320,10 +319,10 @@ Public Class FormDeliver
                     autoText.AutoCompleteMode = AutoCompleteMode.Suggest
                     autoText.AutoCompleteSource = AutoCompleteSource.CustomSource
                     DataCollection.Clear()
-                    Dim DrRetNo = Db.GetDataReader("Select RetNo from Rerepair order by RetNo Desc;")
-                    While DrRetNo.Read
-                        DataCollection.Add(DrRetNo("RetNo").ToString)
-                    End While
+                    Dim DrRetNo = Db.GetDataList("Select RetNo from Rerepair order by RetNo Desc;")
+                    For Each Item In DrRetNo
+                        DataCollection.Add(item("RetNo").ToString)
+                    Next
                     autoText.AutoCompleteCustomSource = DataCollection
                 End If
                 AddHandler CType(e.Control, TextBox).KeyPress, AddressOf TextBoxQty_keyPress
@@ -333,10 +332,10 @@ Public Class FormDeliver
                     autoText.AutoCompleteMode = AutoCompleteMode.Suggest
                     autoText.AutoCompleteSource = AutoCompleteSource.CustomSource
                     DataCollection.Clear()
-                    Dim DrRepNo = Db.GetDataReader("Select REPNO from Rerepair order by REpNo Desc;")
-                    While DrRepNo.Read
-                        DataCollection.Add(DrRepNo("RepNo").ToString)
-                    End While
+                    Dim DrRepNo = Db.GetDataList("Select REPNO from Rerepair order by REpNo Desc;")
+                    For Each Item In DrRepNo
+                        DataCollection.Add(Item("RepNo").ToString)
+                    Next
                     autoText.AutoCompleteCustomSource = DataCollection
                 End If
                 AddHandler CType(e.Control, TextBox).KeyPress, AddressOf TextBoxQty_keyPress
@@ -407,8 +406,7 @@ Public Class FormDeliver
                 grdRepair.CurrentCell = grdRepair.Item(0, grdRepair.Rows.Count - 1)
             Case 1
                 Dim DrReturn = Db.GetDataReader("Select RepNo,RetNo,Status from Rerepair Where RepNo=" & grdRERepair.Item(1, e.RowIndex).Value)
-                If DrReturn.Count Then
-                    DrReturn.Read()
+                If DrReturn IsNot Nothing Then
                     grdRERepair.Item(0, e.RowIndex).Value = DrReturn("RetNo").ToString
                     Dim E1 As New DataGridViewCellEventArgs(0, e.RowIndex)
                     grdRERepair_CellEndEdit(sender, E1)

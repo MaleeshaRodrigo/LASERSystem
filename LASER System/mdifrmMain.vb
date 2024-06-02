@@ -305,70 +305,71 @@ Public Class MdifrmMain
         If txtIncomevsDateCustom.Text <> "" Then
             Select Case cmbIncomevsDateView.Text
                 Case "Months"
-                    DR0 = Db.GetDataReader("SELECT MonthName(Month(SETDATE)) AS MonthName,SUM(SETGRANDTOTAL) as GrandTotal ,SUM(REPTOTAL) as REPTOTAL,SUM(SATOTAL) AS SATOTAL FROM SETTLEMENT where YEAR(SETDATE) = " & txtIncomevsDateCustom.Text & " Group by  Month(SETDATE);")
-                    If DR0.Count Then
-                        chtIncomevsDate.Series("Total Income vs Date").Points.Clear()
-                        chtIncomevsDate.Series("Total Income by Repairs vs Date").Points.Clear()
-                        chtIncomevsDate.Series("Total Income by Sales vs Date").Points.Clear()
-                        While DR0.Read()
-                            chtIncomevsDate.Series("Total Income vs Date").Points.AddXY(DR0("MonthName").ToString, Int(DR0("GrandTotal").ToString))
-                            chtIncomevsDate.Series("Total Income by Repairs vs Date").Points.AddXY(DR0("MonthName").ToString, Int(DR0("REPTOTAL").ToString))
-                            chtIncomevsDate.Series("Total Income by Sales vs Date").Points.AddXY(DR0("MonthName").ToString, Int(DR0("SATotal").ToString))
-                        End While
-                    End If
-                Case "Week Days"
-                    DR0 = Db.GetDataReader("SELECT WeekDayName(Datepart('w',SETDATE) ) as WeekDayName, Sum(SETGRANDTotal) as GrandTotal ,SUM(REPTOTAL) as REPTOTAL,SUM(SATOTAL) AS SATOTAL FROM SETTLEMENT where MONTH(SETDATE) = " & txtIncomevsDateCustom.Text & " Group by Datepart('w',SETDATE);")
-                    If DR0.Count Then
-                        chtIncomevsDate.Series("Total Income vs Date").Points.Clear()
-                        chtIncomevsDate.Series("Total Income by Repairs vs Date").Points.Clear()
-                        chtIncomevsDate.Series("Total Income by Sales vs Date").Points.Clear()
-                        While DR0.Read()
-                            chtIncomevsDate.Series("Total Income vs Date").Points.AddXY(DR0("WeekDayName").ToString, Int(DR0("GrandTotal").ToString))
-                            chtIncomevsDate.Series("Total Income by Repairs vs Date").Points.AddXY(DR0("WeekDayName").ToString, Int(DR0("REPTOTAL").ToString))
-                            chtIncomevsDate.Series("Total Income by Sales vs Date").Points.AddXY(DR0("WeekDayName").ToString, Int(DR0("SATotal").ToString))
-                        End While
-                    End If
-                Case "Days"
-                    DR0 = Db.GetDataReader("SELECT TOP " & txtIncomevsDateCustom.Text & " SETDATE,SETGRANDTOTAL,REPTOTAL,SATOTAL FROM SETTLEMENT ORDER BY SETDATE DESC;")
+                    DR0 = Db.GetDataList("SELECT MonthName(Month(SETDATE)) AS MonthName,SUM(SETGRANDTOTAL) as GrandTotal ,SUM(REPTOTAL) as REPTOTAL,SUM(SATOTAL) AS SATOTAL FROM SETTLEMENT where YEAR(SETDATE) = " & txtIncomevsDateCustom.Text & " Group by  Month(SETDATE);")
                     If DR0.Count Then
                         chtIncomevsDate.Series("Total Income vs Date").Points.Clear()
                         chtIncomevsDate.Series("Total Income by Repairs vs Date").Points.Clear()
                         chtIncomevsDate.Series("Total Income by Sales vs Date").Points.Clear()
 
-                        While DR0.Read()
-                            chtIncomevsDate.Series("Total Income vs Date").Points.AddXY(DR0("SETDATE").ToString, Int(DR0("SETGrandTotal").ToString))
-                            chtIncomevsDate.Series("Total Income by Repairs vs Date").Points.AddXY(DR0("SETDATE").ToString, Int(DR0("REPTOTAL").ToString))
-                            chtIncomevsDate.Series("Total Income by Sales vs Date").Points.AddXY(DR0("SETDATE").ToString, Int(DR0("SATotal").ToString))
-                        End While
+                        For Each Item In DR0
+                            chtIncomevsDate.Series("Total Income vs Date").Points.AddXY(Item("MonthName").ToString, Int(Item("GrandTotal").ToString))
+                            chtIncomevsDate.Series("Total Income by Repairs vs Date").Points.AddXY(Item("MonthName").ToString, Int(Item("REPTOTAL").ToString))
+                            chtIncomevsDate.Series("Total Income by Sales vs Date").Points.AddXY(Item("MonthName").ToString, Int(Item("SATotal").ToString))
+                        Next
+                    End If
+                Case "Week Days"
+                    DR0 = Db.GetDataList("SELECT WeekDayName(Datepart('w',SETDATE) ) as WeekDayName, Sum(SETGRANDTotal) as GrandTotal ,SUM(REPTOTAL) as REPTOTAL,SUM(SATOTAL) AS SATOTAL FROM SETTLEMENT where MONTH(SETDATE) = " & txtIncomevsDateCustom.Text & " Group by Datepart('w',SETDATE);")
+                    If DR0.Count Then
+                        chtIncomevsDate.Series("Total Income vs Date").Points.Clear()
+                        chtIncomevsDate.Series("Total Income by Repairs vs Date").Points.Clear()
+                        chtIncomevsDate.Series("Total Income by Sales vs Date").Points.Clear()
+                        For Each Item In DR0
+                            chtIncomevsDate.Series("Total Income vs Date").Points.AddXY(Item("WeekDayName").ToString, Int(Item("GrandTotal").ToString))
+                            chtIncomevsDate.Series("Total Income by Repairs vs Date").Points.AddXY(Item("WeekDayName").ToString, Int(Item("REPTOTAL").ToString))
+                            chtIncomevsDate.Series("Total Income by Sales vs Date").Points.AddXY(Item("WeekDayName").ToString, Int(Item("SATotal").ToString))
+                        Next
+                    End If
+                Case "Days"
+                    DR0 = Db.GetDataList("SELECT TOP " & txtIncomevsDateCustom.Text & " SETDATE,SETGRANDTOTAL,REPTOTAL,SATOTAL FROM SETTLEMENT ORDER BY SETDATE DESC;")
+                    If DR0.Count Then
+                        chtIncomevsDate.Series("Total Income vs Date").Points.Clear()
+                        chtIncomevsDate.Series("Total Income by Repairs vs Date").Points.Clear()
+                        chtIncomevsDate.Series("Total Income by Sales vs Date").Points.Clear()
+
+                        For Each Item In DR0
+                            chtIncomevsDate.Series("Total Income vs Date").Points.AddXY(Item("SETDATE").ToString, Int(Item("SETGrandTotal").ToString))
+                            chtIncomevsDate.Series("Total Income by Repairs vs Date").Points.AddXY(Item("SETDATE").ToString, Int(Item("REPTOTAL").ToString))
+                            chtIncomevsDate.Series("Total Income by Sales vs Date").Points.AddXY(Item("SETDATE").ToString, Int(Item("SATotal").ToString))
+                        Next
                     End If
             End Select
         End If
         If txtReceivedRepvsDateCustom.Text <> "" Then
             Select Case cmbReceivedRepvsDateView.Text
                 Case "Months"
-                    DR0 = Db.GetDataReader("SELECT MonthName(Month(RDate)) AS MonthName,SUM(Qty) as Qty FROM Repair REP,Receive R where R.RNo = REP.RNo AND YEAR(RDATE) = " &
+                    DR0 = Db.GetDataList("SELECT MonthName(Month(RDate)) AS MonthName,SUM(Qty) as Qty FROM Repair REP,Receive R where R.RNo = REP.RNo AND YEAR(RDATE) = " &
                                               txtReceivedRepvsDateCustom.Text & " Group by " & "Month(RDATE);")
                     If DR0.Count Then
                         chtReceivedRepvsDate.Series("Qty of Received Repairs vs Date").Points.Clear()
-                        While DR0.Read()
-                            chtReceivedRepvsDate.Series("Qty of Received Repairs vs Date").Points.AddXY(DR0("MonthName").ToString, Int(DR0("Qty").ToString))
-                        End While
+                        For Each Item In DR0
+                            chtReceivedRepvsDate.Series("Qty of Received Repairs vs Date").Points.AddXY(Item("MonthName").ToString, Int(Item("Qty").ToString))
+                        Next
                     End If
                 Case "Week Days"
-                    DR0 = Db.GetDataReader("SELECT WeekDayName(Datepart('w',RDATE) ) as WeekDayName, Sum(Qty) as Qty FROM Repair REP,Receive R where R.RNo = REP.RNO and MONTH(RDATE) = " & txtReceivedRepvsDateCustom.Text & " Group by Datepart('w',RDATE);")
+                    DR0 = Db.GetDataList("SELECT WeekDayName(Datepart('w',RDATE) ) as WeekDayName, Sum(Qty) as Qty FROM Repair REP,Receive R where R.RNo = REP.RNO and MONTH(RDATE) = " & txtReceivedRepvsDateCustom.Text & " Group by Datepart('w',RDATE);")
                     If DR0.Count Then
                         chtReceivedRepvsDate.Series("Qty of Received Repairs vs Date").Points.Clear()
-                        While DR0.Read()
-                            chtReceivedRepvsDate.Series("Qty of Received Repairs vs Date").Points.AddXY(DR0("WeekDayName").ToString, Int(DR0("Qty").ToString))
-                        End While
+                        For Each Item In DR0
+                            chtReceivedRepvsDate.Series("Qty of Received Repairs vs Date").Points.AddXY(Item("WeekDayName").ToString, Int(Item("Qty").ToString))
+                        Next
                     End If
                 Case "Days"
-                    DR0 = Db.GetDataReader("SELECT TOP " & txtReceivedRepvsDateCustom.Text & " DATEVALUE(RDATE) AS RECEIVEDDATE,SUM(Qty) as TOTALQty FROM REPAIR REP,RECEIVE R WHERE R.RNO = REP.RNO GROUP BY DATEVALUE(RDATE) ORDER BY DATEVALUE(RDATE) DESC;")
+                    DR0 = Db.GetDataList("SELECT TOP " & txtReceivedRepvsDateCustom.Text & " DATEVALUE(RDATE) AS RECEIVEDDATE,SUM(Qty) as TOTALQty FROM REPAIR REP,RECEIVE R WHERE R.RNO = REP.RNO GROUP BY DATEVALUE(RDATE) ORDER BY DATEVALUE(RDATE) DESC;")
                     If DR0.Count Then
                         chtReceivedRepvsDate.Series("Qty of Received Repairs vs Date").Points.Clear()
-                        While DR0.Read()
-                            chtReceivedRepvsDate.Series("Qty of Received Repairs vs Date").Points.AddXY(DR0("RECEIVEDDATE").ToString, Int(DR0("TOTALQTY").ToString))
-                        End While
+                        For Each Item In DR0
+                            chtReceivedRepvsDate.Series("Qty of Received Repairs vs Date").Points.AddXY(Item("RECEIVEDDATE").ToString, Int(Item("TOTALQTY").ToString))
+                        Next
                     End If
             End Select
         End If

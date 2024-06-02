@@ -154,7 +154,7 @@ Public Class frmMessage
     Private Sub bgworker_DoWork(sender As Object, e As ComponentModel.DoWorkEventArgs) Handles bgworker.DoWork
         If Me.Tag = "RepTask" Then
             'Dim DR1 = Db.GetDataReader("Select RepNo,RDate,CuName, CuTelNo1, PCategory,PName,Charge,Qty,TName, Status from ((((Repair REP INNER JOIN Product P ON P.PNO = REP.PNO) INNER JOIN Receive R ON R.RNo = REP.RNo) INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNo=REP.TNo) where Status='Received' or Status='Hand Over to Technician' or Status='Repairing'")
-            'While DR1.Read
+            'For Each Item In DR1
             '    If bgworker.CancellationPending = True Then Exit Sub
             '    Dim DR2 = Db.GetDataReader("Select * from Message Where RepNo=" & DR1("RepNo").ToString &
             '                                                            " And MsgDate < '" & DateTime.Today.AddDays(-7).Date & "';")

@@ -14,7 +14,7 @@ Public Class frmCustomer
         Dim DR = Db.GetDataReader("SELECT * FROM Customer WHERE CuNo = @CUNO", {
             New MySqlParameter("CUNO", CuNo)
         })
-        If DR.HasRows = False Then
+        If DR Is Nothing Then
             Exit Sub
         End If
 
@@ -173,7 +173,7 @@ Public Class frmCustomer
                 If DR.Count Then
                     For i As Integer = 0 To 1000
                         DR = Db.GetDataReader("Select CuName from Customer Where CuName = '" & TextCuName.Text & " " & i.ToString & "'")
-                        If DR.HasRows = False Then
+                        If DR Is Nothing Then
                             TextCuName.Text = TextCuName.Text + " " + i.ToString
                             Exit For
                         End If
@@ -226,16 +226,16 @@ Public Class frmCustomer
     Private Sub cmdDelete_Click(sender As Object, e As EventArgs) Handles cmdDelete.Click, DeleteToolStripMenuItem.Click
         Dim C As Integer = 0
         Dim tmp As String = ""
-        Dim DRSale = Db.GetDataReader("Select * from Sale where CuNo= " & txtCuNo.Text & ";")
-        While DRSale.Read
+        Dim DRSale = Db.GetDataList("Select * from Sale where CuNo= " & txtCuNo.Text & ";")
+        For Each Item In DRSale
             C = C + 1
             tmp = tmp + "Sale: " + DRSale("SaNo").ToString + vbCrLf
-        End While
-        Dim DRReceive = Db.GetDataReader("Select * from Receive where CuNo= " & txtCuNo.Text & ";")
-        While DRReceive.Read
+        Next
+        Dim DRReceive = Db.GetDataList("Select * from Receive where CuNo= " & txtCuNo.Text & ";")
+        For Each Item In DRReceive
             C = C + 1
             tmp = tmp + "Receive: " + DRReceive("RNo").ToString + vbCrLf
-        End While
+        Next
         If C > 0 Then
             MsgBox("Relationship/s " & C & " ක් සොයා ගැනුනි.ඒ නිසා මෙම Customer ව Delete කිරීමට හැකියාවක් නොමැත නමුත්, ඔබට එම Relationship/s ඉවත් කිරිමට හැකිනම්, ඒ සඳහා ඉඩ ලබා දෙන්නෙම්. ඒවා, " + vbCrLf + tmp, vbCritical + vbOKOnly)
             Exit Sub

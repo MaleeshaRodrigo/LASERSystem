@@ -175,8 +175,7 @@ Public Class frmTechnicianLoan
             Exit Sub
         End If
         Dim DR1 = Db.GetDataReader("SELECT SCategory,SName,SNo FROM Stock WHERE SNo =" & txtSNo.Text & ";")
-        If DR1.Count Then
-            DR1.Read()
+        If DR1 IsNot Nothing Then
             cmbSCategory.Text = DR1("SCategory").ToString
             cmbSName.Text = DR1("SName").ToString
             Call cmbSName_SelectedIndexChanged(sender, e)
@@ -204,7 +203,7 @@ Public Class frmTechnicianLoan
                 Exit Sub
             End If
             Dim DR = Db.GetDataReader("SElect SNO from stock where Sno =" & txtSNo.Text)
-            If DR.HasRows = False Then
+            If DR Is Nothing Then
                 cmbSCategory.Text = ""
                 cmbSName.Text = ""
                 txtSUnitPrice.Text = "0"

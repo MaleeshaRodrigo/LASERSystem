@@ -16,13 +16,13 @@ Public Class ControlRemarks
         cmbLocation.Text = FormParent.DataReaderRepair("Location").ToString
 
         'Adding Data to grdRepRemarks1 
-        Dim DRREPNO1 = DB.GetDataReader("Select RepRem.*, UserName from RepairRemarks1 RepRem LEFT JOIN `User` U ON U.UNo=RepRem.UNo Where RepNo=@REPNO;", {
+        Dim DRREPNO1 = DB.GetDataList("Select RepRem.*, UserName from RepairRemarks1 RepRem LEFT JOIN `User` U ON U.UNo=RepRem.UNo Where RepNo=@REPNO;", {
                 New MySqlParameter("REPNO", RepNo)
             })
         grdRepRemarks1.Rows.Clear()
-        While DRREPNO1.Read
-            grdRepRemarks1.Rows.Add(DRREPNO1("Rem1No").ToString, DRREPNO1("Rem1Date").ToString, DRREPNO1("Remarks").ToString, DB.GetData("Select UserName from `User` Where UNo=" & DRREPNO1("UNo").ToString))
-        End While
+        For Each Item In DRREPNO1
+            grdRepRemarks1.Rows.Add(Item("Rem1No").ToString, Item("Rem1Date").ToString, Item("Remarks").ToString, DB.GetData("Select UserName from `User` Where UNo=" & Item("UNo").ToString))
+        Next
 
         Dim FilePath As String = Path.Combine(SystemFolderPath, $"\LASER System\Images\REP-{RepNo}.png")
         imgRepair.Image = If(File.Exists(FilePath), Image.FromFile(FilePath), Nothing)
@@ -31,16 +31,16 @@ Public Class ControlRemarks
     Public Sub InitForReRepair(ReRepNo As Integer)
         cmbLocation.Text = FormParent.DataReaderRepair("Location").ToString
 
-        Dim DRREPNO1 = DB.GetDataReader("SELECT RepRem.*, UserName FROM RepairRemarks1 RepRem LEFT JOIN `User` U ON U.UNo=RepRem.UNo WHERE RetNo=@REREPPNO;", {
+        Dim DRREPNO1 = DB.GetDataList("SELECT RepRem.*, UserName FROM RepairRemarks1 RepRem LEFT JOIN `User` U ON U.UNo=RepRem.UNo WHERE RetNo=@REREPPNO;", {
                 New MySqlParameter("REREPPNO", ReRepNo)
             })
         grdRepRemarks1.Rows.Clear()
-        While DRREPNO1.Read
-            grdRepRemarks1.Rows.Add(DRREPNO1("Rem1No").ToString, DRREPNO1("Rem1Date").ToString, DRREPNO1("Remarks").ToString, DRREPNO1("UserName").ToString)
+        For Each Item In DRREPNO1
+            grdRepRemarks1.Rows.Add(Item("Rem1No").ToString, Item("Rem1Date").ToString, Item("Remarks").ToString, Item("UserName").ToString)
             If IsDate(FormParent.DataReaderRepair("DDate")) AndAlso DateValue(FormParent.DataReaderRepair("DDate")).Month <> Today.Month Then
                 grdRepRemarks1.Rows.Item(grdRepRemarks1.Rows.Count - 1).ReadOnly = True
             End If
-        End While
+        Next
 
         Dim FilePath As String = Path.Combine(SystemFolderPath, $"\LASER System\Images\RET-{ReRepNo}.png")
         imgRepair.Image = If(File.Exists(FilePath), Image.FromFile(FilePath), Nothing)
@@ -165,15 +165,13 @@ Public Class ControlRemarks
             Exit Sub
         End If
         Dim DR1 = DB.GetDataReader($"SELECT Rem1No,Rem1Date,Remarks,UserName from RepairRemarks1 RepRem1 LEFT JOIN `User` U ON U.UNo=RepRem1.UNo where Rem1No={grdRepRemarks1.Item(0, e.RowIndex).Value};")
-        If DR1.HasRows Then
-            DR1.Read()
+        If DR1 IsNot Nothing Then
             grdRepRemarks1.Item(1, e.RowIndex).Value = DR1("Rem1Date").ToString
             grdRepRemarks1.Item(2, e.RowIndex).Value = DR1("Remarks").ToString
             grdRepRemarks1.Item(3, e.RowIndex).Value = DR1("UserName").ToString
         Else
             grdRepRemarks1.Rows.RemoveAt(e.RowIndex)
         End If
-        DR1.Close()
     End Sub
 
     Private Sub cmbLocation_DropDown(sender As Object, e As EventArgs) Handles cmbLocation.DropDown

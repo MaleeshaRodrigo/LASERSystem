@@ -151,12 +151,12 @@ Public Class frmSearch
                     .Name = "TName",
                     .HeaderText = "Technician Name"
                 }    '-----------TName Combo Box
-                Dim DrTName = Db.GetDataReader("Select TName from Technician group by TName;")
+                Dim DrTName = Db.GetDataList("Select TName from Technician group by TName;")
                 grdSearchTName.Items.Clear()
                 grdSearchTName.Items.Add("")
-                While DrTName.Read
-                    grdSearchTName.Items.Add(DrTName("TName").ToString)
-                End While
+                For Each Item In DrTName
+                    grdSearchTName.Items.Add(Item("TName").ToString)
+                Next
                 grdSearch.Columns.Insert(grdSearch.Columns("RepRemarks1").Index + 2, grdSearchTName)
                 'Edit properties of the columns
                 grdSearch.EditMode = DataGridViewEditMode.EditOnKeystrokeOrF2
@@ -213,12 +213,12 @@ Public Class frmSearch
                 Dim grdSearchTName As New DataGridViewComboBoxColumn    '-----------TName Combo Box
                 grdSearchTName.Name = "TName"
                 grdSearchTName.HeaderText = "Technician Name"
-                DR = Db.GetDataReader("Select TName from Technician group by TName;")
+                DR = Db.GetDataList("Select TName from Technician group by TName;")
                 grdSearchTName.Items.Clear()
                 grdSearchTName.Items.Add("")
-                While DR.Read
-                    grdSearchTName.Items.Add(DR("TName").ToString)
-                End While
+                For Each Item In DR
+                    grdSearchTName.Items.Add(Item("TName").ToString)
+                Next
                 grdSearch.Columns.Add(grdSearchTName)
                 grdSearch.Columns.Add("RepRemarks2", "Remarks for Technician")
                 grdSearch.Columns.Add("RepDate", "Repaired Date")
@@ -484,30 +484,22 @@ Public Class frmSearch
                                     y += "IIF(REP.RepNo=" & Search & "," & Count
                                 Case "Remarks by Customer"
                                     Dim CMDSearch2 As New OleDb.OleDbCommand
-                                    Dim DRSearch2
-                                    DRSearch2 = Db.GetDataReader("Select RepNo,Remarks from RepairRemarks1 Where Remarks like '%" & Search & "%' ")
+                                    Dim DRSearch2 = Db.GetDataList("Select RepNo,Remarks from RepairRemarks1 Where Remarks like '%" & Search & "%' ")
                                     x += " RepNo IN ("
-                                    While DRSearch2.Read
-                                        x += DRSearch2("RepNo").ToString + ","
-                                    End While
-                                    If DRSearch2.HasRows Then x = x.Remove(x.Length - 1, 1)
+                                    For Each Item In DRSearch2
+                                        x += Item("RepNo").ToString + ","
+                                    Next
+                                    If DRSearch2.Count Then x = x.Remove(x.Length - 1, 1)
                                     x += ") "
-                                    If DRSearch2 IsNot Nothing AndAlso DRSearch2.IsClosed = False Then
-                                        DRSearch2.Close()
-                                        CMDSearch2.Cancel()
-                                    End If
                                 Case "Remarks by Technician"
-                                    Dim DRSearch2 = Db.GetDataReader("Select RepNo,Remarks from RepairRemarks2 Where Remarks like '%" & Search &
+                                    Dim DRSearch2 = Db.GetDataList("Select RepNo,Remarks from RepairRemarks2 Where Remarks like '%" & Search &
                                                                         "%' ")
                                     x += " RepNo IN ( "
-                                    While DRSearch2.Read
-                                        x += DRSearch2("RepNo").ToString + ","
-                                    End While
-                                    If DRSearch2.HasRows Then x = x.Remove(x.Length - 1, 1)
+                                    For Each Item In DRSearch2
+                                        x += Item("RepNo").ToString + ","
+                                    Next
+                                    If DRSearch2.Count Then x = x.Remove(x.Length - 1, 1)
                                     x += ") "
-                                    If DRSearch2 IsNot Nothing AndAlso DRSearch2.IsClosed = False Then
-                                        DRSearch2.Close()
-                                    End If
                                 Case "All"
                                     x += " ("
                                     For Each clm As DataGridViewColumn In grdSearch.Columns
@@ -516,16 +508,14 @@ Public Class frmSearch
                                         x += $"{clm.Name} {cmdLIKE.Text} '{Symbol}{Search}{Symbol}'"
                                     Next
                                     Dim CMDSearch2 As New OleDb.OleDbCommand
-                                    Dim DRSearch2 = Db.GetDataReader($"Select RepNo,Remarks from RepairRemarks1 Where Remarks {cmdLIKE.Text} '{Symbol}{Search}{Symbol}' Union Select RepNo,Remarks from RepairRemarks2 Where Remarks like '{Symbol}{Search}{Symbol}'")
-                                    If DRSearch2.HasRows Then
+                                    Dim DRSearch2 = Db.GetDataList($"Select RepNo,Remarks from RepairRemarks1 Where Remarks {cmdLIKE.Text} '{Symbol}{Search}{Symbol}' Union Select RepNo,Remarks from RepairRemarks2 Where Remarks like '{Symbol}{Search}{Symbol}'")
+                                    If DRSearch2 IsNot Nothing Then
                                         x += " Or RepNo IN ("
-                                        While DRSearch2.Read
-                                            x += DRSearch2("RepNo").ToString + ","
-                                        End While
+                                        For Each Item In DRSearch2
+                                            x += Item("RepNo").ToString + ","
+                                        Next
                                         x = x.Remove(x.Length - 1, 1)
                                         x += ")"
-                                        DRSearch2.Close()
-                                        CMDSearch2.Cancel()
                                     End If
                                     x += ") "
                                 Case Else
@@ -580,34 +570,26 @@ Public Class frmSearch
                                 Case "Remarks by Customer"
                                     Dim CMDSearch2 As New OleDb.OleDbCommand
                                     Dim DRSearch2
-                                    DRSearch2 = Db.GetDataReader("Select RetNo,Remarks from RepairRemarks1 Where Remarks like '%" & Search & "%' ")
+                                    DRSearch2 = Db.GetDataList("Select RetNo,Remarks from RepairRemarks1 Where Remarks like '%" & Search & "%' ")
                                     x += " RetNo IN ("
-                                    While DRSearch2.Read
-                                        x += DRSearch2("RetNo").ToString + ","
-                                    End While
-                                    If DRSearch2.HasRows Then x = x.Remove(x.Length - 1, 1)
+                                    For Each Item In DRSearch2
+                                        x += Item("RetNo").ToString + ","
+                                    Next
+                                    If DRSearch2.Count Then x = x.Remove(x.Length - 1, 1)
                                     x += ") "
-                                    If DRSearch2 IsNot Nothing AndAlso DRSearch2.IsClosed = False Then
-                                        DRSearch2.Close()
-                                        CMDSearch2.Cancel()
-                                    End If
                                 Case "Remarks by Technician"
                                     Dim CMDSearch2 As New OleDb.OleDbCommand
-                                    Dim DRSearch2 = Db.GetDataReader("Select RetNo,Remarks from RepairRemarks2 Where Remarks like '%" & Search &
+                                    Dim DRSearch2 = Db.GetDataList("Select RetNo,Remarks from RepairRemarks2 Where Remarks like '%" & Search &
                                                                         "%' ")
                                     x += " RetNo IN ( "
-                                    While DRSearch2.Read
-                                        x += DRSearch2("RetNo").ToString + ","
-                                    End While
-                                    If DRSearch2.HasRows Then x = x.Remove(x.Length - 1, 1)
+                                    For Each Item In DRSearch2
+                                        x += Item("RetNo").ToString + ","
+                                    Next
+                                    If DRSearch2.Count Then x = x.Remove(x.Length - 1, 1)
                                     x += ") "
-                                    If DRSearch2 IsNot Nothing AndAlso DRSearch2.IsClosed = False Then
-                                        DRSearch2.Close()
-                                        CMDSearch2.Cancel()
-                                    End If
                                 Case "All"
                                     x += " (RET.RETNo like '%" & Search & "%' or RET.RepNo like '%" & Search & "%' or R.RDate like '%" & Search & "%' or CU.CuName like '%" & Search & "%' or CU.CuTelNo1 like '%" & Search & "%' or CU.CuTelNo2 like '%" & Search & "%' or CU.CuTelNo3 like '%" & Search & "%' or P.PCategory like '%" & Search & "%' or P.PName like '%" & Search & "%' or P.PModelNo like '%" & Search & "%' or RET.PSerialNo like '%" & Search & "%' or RET.Problem like '%" & Search & "%' or RET.Charge like '%" & Search &
-                                        "%' or RET.PaidPrice like '%" & Search & "%' or T.TName like '%" & Search & "%' or RET.Status like '%" & Search & "%' or RET.RetRepDate like '%" & Search & "%' or D.DDate like '%" & Search & "%')"
+                                "%' or RET.PaidPrice like '%" & Search & "%' or T.TName like '%" & Search & "%' or RET.Status like '%" & Search & "%' or RET.RetRepDate like '%" & Search & "%' or D.DDate like '%" & Search & "%')"
                             End Select
                         Case "DeliverReRepair"
                             Select Case Filter
@@ -690,62 +672,61 @@ Public Class frmSearch
                 Query = "SELECT RETNo,RET.RepNo,RET.RNo,RDate, R.CuNo, CuName, CuTelNo1,CuTelNo2, CuTelNo3, RET.PNo,PCategory,PName, PModelNo, PSerialNo,Problem,Qty,Charge, RET.TNo, TName, Status, RetRepDate from (((((RETURN RET INNER JOIN RECEIVE R ON R.RNO = RET.RNO) INNER JOIN PRODUCT  P ON P.PNO = RET.PNO) INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = RET.TNO) LEFT JOIN DELIVER D ON D.DNO = RET.DNO) Where Status <> 'Repaired Delivered' and Status <> 'Returned Delivered' " & x & ";"
         End Select
         Dim Rows_Count As Integer = Db.GetRowsCount(Query)
-        Dim DRSearch1 = Db.GetDataReader(Query)
+        Dim DRSearch1 = Db.GetDataList(Query)
         If Rows_Count < 1 Then Exit Sub
         Dim i As Integer = 0
-        While DRSearch1.Read
+        For Each Item In DRSearch1
             If bgwSearch.CancellationPending = True Then
                 e.Cancel = True
-                Exit While
+                Exit For
             End If
             Select Case Me.Tag
                 Case "Sale"
-                    grdSearch.Rows.Add(DRSearch1("SaNo").ToString, DRSearch1("SaDate").ToString, DRSearch1("CuNo").ToString, DRSearch1("CuName").ToString,
-                                           DRSearch1("CuTelNo1").ToString, DRSearch1("CuTelNo2").ToString, DRSearch1("CuTelNo3").ToString,
-                                           DRSearch1("SaSubTotal").ToString, DRSearch1("SaLess").ToString, DRSearch1("SaDue").ToString, DRSearch1("CReceived").ToString,
-                                           DRSearch1("CBalance").ToString, DRSearch1("CAmount").ToString, DRSearch1("CPInvoiceNo").ToString,
-                                           DRSearch1("CPAmount").ToString, DRSearch1("CuLNo").ToString, DRSearch1("CuLAmount").ToString,
-                                           DRSearch1("SaRemarks").ToString)
+                    grdSearch.Rows.Add(Item("SaNo").ToString, Item("SaDate").ToString, Item("CuNo").ToString, Item("CuName").ToString,
+                                           Item("CuTelNo1").ToString, Item("CuTelNo2").ToString, Item("CuTelNo3").ToString,
+                                           Item("SaSubTotal").ToString, Item("SaLess").ToString, Item("SaDue").ToString, Item("CReceived").ToString,
+                                           Item("CBalance").ToString, Item("CAmount").ToString, Item("CPInvoiceNo").ToString,
+                                           Item("CPAmount").ToString, Item("CuLNo").ToString, Item("CuLAmount").ToString,
+                                           Item("SaRemarks").ToString)
                 Case "Supply"
-                    grdSearch.Rows.Add(DRSearch1("SupNo").ToString, DRSearch1("SupDate").ToString, DRSearch1("SuNo").ToString, DRSearch1("SuName").ToString,
-                                           DRSearch1("SupStatus").ToString, DRSearch1("SupPaidDate").ToString, DRSearch1("SupRemarks").ToString)
+                    grdSearch.Rows.Add(Item("SupNo").ToString, Item("SupDate").ToString, Item("SuNo").ToString, Item("SuName").ToString,
+                                           Item("SupStatus").ToString, Item("SupPaidDate").ToString, Item("SupRemarks").ToString)
                 Case "Deliver"
-                    grdSearch.Rows.Add(DRSearch1("DNo").ToString, DRSearch1("DDate").ToString, DRSearch1("CuName").ToString, DRSearch1("CuTelNo1").ToString,
-                                       DRSearch1("CuTelNo2").ToString, DRSearch1("CuTelNo3").ToString, DRSearch1("DGrandTotal").ToString,
-                                       DRSearch1("CReceived").ToString, DRSearch1("CBalance").ToString, DRSearch1("CAmount").ToString,
-                                       DRSearch1("CPInvoiceNo").ToString, DRSearch1("CPAmount").ToString,
-                                       DRSearch1("CuLNo").ToString, DRSearch1("CuLAmount").ToString, DRSearch1("DRemarks").ToString)
+                    grdSearch.Rows.Add(Item("DNo").ToString, Item("DDate").ToString, Item("CuName").ToString, Item("CuTelNo1").ToString,
+                                       Item("CuTelNo2").ToString, Item("CuTelNo3").ToString, Item("DGrandTotal").ToString,
+                                       Item("CReceived").ToString, Item("CBalance").ToString, Item("CAmount").ToString,
+                                       Item("CPInvoiceNo").ToString, Item("CPAmount").ToString,
+                                       Item("CuLNo").ToString, Item("CuLAmount").ToString, Item("DRemarks").ToString)
                 Case "Receive"
-                    grdSearch.Rows.Add(DRSearch1("RepNo").ToString, DRSearch1("RDate").ToString, DRSearch1("CuName").ToString, DRSearch1("CuTelNo1").ToString,
-                                               DRSearch1("CuTelNo2").ToString, DRSearch1("CuTelNo3").ToString, DRSearch1("PCategory").ToString,
-                                               DRSearch1("PName").ToString, DRSearch1("PModelNo").ToString, DRSearch1("PSerialNo").ToString, DRSearch1("Problem").ToString,
-                                               DRSearch1("Qty").ToString, DRSearch1("RepRemarks1").ToString,
-                                               DRSearch1("Status").ToString, DRSearch1("TName").ToString, DRSearch1("RepRemarks2").ToString, DRSearch1("RepDate").ToString,
-                                               DRSearch1("Charge").ToString, DRSearch1("DDate").ToString, DRSearch1("PaidPrice").ToString)
+                    grdSearch.Rows.Add(Item("RepNo").ToString, Item("RDate").ToString, Item("CuName").ToString, Item("CuTelNo1").ToString,
+                                               Item("CuTelNo2").ToString, Item("CuTelNo3").ToString, Item("PCategory").ToString,
+                                               Item("PName").ToString, Item("PModelNo").ToString, Item("PSerialNo").ToString, Item("Problem").ToString,
+                                               Item("Qty").ToString, Item("RepRemarks1").ToString,
+                                               Item("Status").ToString, Item("TName").ToString, Item("RepRemarks2").ToString, Item("RepDate").ToString,
+                                               Item("Charge").ToString, Item("DDate").ToString, Item("PaidPrice").ToString)
                 Case "Repair", "DeliverRepair"
-                    grdSearch.Rows.Add(DRSearch1("RepNo").ToString(), DRSearch1("RDate").ToString(), DRSearch1("CuName").ToString(), DRSearch1("CuTelNo1").ToString(),
-                            DRSearch1("CuTelNo2").ToString(), DRSearch1("CuTelNo3").ToString(), DRSearch1("PCategory").ToString(), DRSearch1("PName").ToString(),
-                            DRSearch1("PModelNo").ToString(), DRSearch1("PSerialNo").ToString(), DRSearch1("Problem").ToString(), DRSearch1("Location").ToString(),
-                            DRSearch1("Qty").ToString(), "",
-                            DRSearch1("Status").ToString(), DRSearch1("TName").ToString(), "", DRSearch1("RepDate").ToString(), DRSearch1("Charge").ToString(),
-                            DRSearch1("DDate").ToString(), DRSearch1("PaidPrice").ToString())
+                    grdSearch.Rows.Add(Item("RepNo").ToString(), Item("RDate").ToString(), Item("CuName").ToString(), Item("CuTelNo1").ToString(),
+                            Item("CuTelNo2").ToString(), Item("CuTelNo3").ToString(), Item("PCategory").ToString(), Item("PName").ToString(),
+                            Item("PModelNo").ToString(), Item("PSerialNo").ToString(), Item("Problem").ToString(), Item("Location").ToString(),
+                            Item("Qty").ToString(), "",
+                            Item("Status").ToString(), Item("TName").ToString(), "", Item("RepDate").ToString(), Item("Charge").ToString(),
+                            Item("DDate").ToString(), Item("PaidPrice").ToString())
                     If (grdSearch.Item("Status", grdSearch.Rows.Count - 1).Value = "Repaired Delivered" Or
                             grdSearch.Item("Status", grdSearch.Rows.Count - 1).Value = "Returned Delivered") Then
                         grdSearch.Rows.Item(grdSearch.Rows.Count - 1).ReadOnly = True
                     End If
                 Case "ReRepair", "DeliverReRepair"
-                    grdSearch.Rows.Add(DRSearch1("RetNo").ToString, DRSearch1("RepNo").ToString, DRSearch1("RDate").ToString, DRSearch1("CuName").ToString,
-                                        DRSearch1("CuTelNo1").ToString,
-                                        DRSearch1("CuTelNo2").ToString, DRSearch1("CuTelNo3").ToString, DRSearch1("PCategory").ToString, DRSearch1("PName").ToString,
-                                        DRSearch1("PModelNo").ToString, DRSearch1("PSerialNo").ToString, DRSearch1("Problem").ToString, DRSearch1("Qty").ToString,
-                                        "", DRSearch1("Status").ToString, DRSearch1("TName").ToString, "",
-                                        DRSearch1("RetRepDate").ToString, DRSearch1("Charge").ToString, DRSearch1("DDate").ToString, DRSearch1("PaidPrice").ToString)
+                    grdSearch.Rows.Add(Item("RetNo").ToString, Item("RepNo").ToString, Item("RDate").ToString, Item("CuName").ToString,
+                                        Item("CuTelNo1").ToString,
+                                        Item("CuTelNo2").ToString, Item("CuTelNo3").ToString, Item("PCategory").ToString, Item("PName").ToString,
+                                        Item("PModelNo").ToString, Item("PSerialNo").ToString, Item("Problem").ToString, Item("Qty").ToString,
+                                        "", Item("Status").ToString, Item("TName").ToString, "",
+                                        Item("RetRepDate").ToString, Item("Charge").ToString, Item("DDate").ToString, Item("PaidPrice").ToString)
             End Select
             i += 1
             bgwSearch.ReportProgress((i * 100) / Rows_Count, $"Transfering Data ({i}/{Rows_Count})....]")
-        End While
+        Next
         bgwSearch.ReportProgress(100, "Completed...")
-        DRSearch1.Close()
     End Sub
 
     Private Sub BgwSearch_ProgressChanged(sender As Object, e As ProgressChangedEventArgs) Handles bgwSearch.ProgressChanged
@@ -930,19 +911,19 @@ end_for_loop:
                     End If
                 End If
             Case "Deliver"
-                Dim DR = Db.GetDataReader("Select RepNo,PCategory,PName,Qty,PaidPrice,TName,Status from (((Repair Rep Inner Join Deliver D On D.DNo=Rep.DNo) Inner Join Product P On p.pno = Rep.pno) Inner Join Technician T On T.TNo = Rep.TNo) Where D.DNo = " &
+                Dim DR = Db.GetDataList("Select RepNo,PCategory,PName,Qty,PaidPrice,TName,Status from (((Repair Rep Inner Join Deliver D On D.DNo=Rep.DNo) Inner Join Product P On p.pno = Rep.pno) Inner Join Technician T On T.TNo = Rep.TNo) Where D.DNo = " &
                                              grdSearch.Item(0, grdSearch.CurrentRow.Index).Value.ToString)
                 grdsubsearch1.Rows.Clear()
-                While DR.Read
-                    grdsubsearch1.Rows.Add(DR("RepNo").ToString, DR("PCategory").ToString, DR("PName").ToString, DR("Qty").ToString,
-                                            DR("PaidPrice").ToString, DR("TName").ToString, DR("Status").ToString)
-                End While
-                DR = Db.GetDataReader("Select RetNo,RepNo,PCAtegory,PName,Qty,PaidPrice,TName,Status from (((Return Ret Inner Join Deliver D On D.DNo = Ret.DNo) Inner Join Product P On p.pno = Ret.pno) Inner Join Technician T On T.TNo = Ret.TNo) Where D.DNo = " & grdSearch.Item(0, grdSearch.CurrentRow.Index).Value.ToString)
+                For Each Item In DR
+                    grdsubsearch1.Rows.Add(Item("RepNo").ToString, Item("PCategory").ToString, Item("PName").ToString, Item("Qty").ToString,
+                                            Item("PaidPrice").ToString, Item("TName").ToString, Item("Status").ToString)
+                Next
+                DR = Db.GetDataList("Select RetNo,RepNo,PCAtegory,PName,Qty,PaidPrice,TName,Status from (((Return Ret Inner Join Deliver D On D.DNo = Ret.DNo) Inner Join Product P On p.pno = Ret.pno) Inner Join Technician T On T.TNo = Ret.TNo) Where D.DNo = " & grdSearch.Item(0, grdSearch.CurrentRow.Index).Value.ToString)
                 grdsubsearch2.Rows.Clear()
-                While DR.Read
-                    grdsubsearch2.Rows.Add(DR("RetNo").ToString, DR("RepNo").ToString, DR("PCategory").ToString, DR("PName").ToString, DR("Qty").ToString,
-                                            DR("PaidPrice").ToString, DR("TName").ToString, DR("Status").ToString)
-                End While
+                For Each Item In DR
+                    grdsubsearch2.Rows.Add(Item("RetNo").ToString, Item("RepNo").ToString, Item("PCategory").ToString, Item("PName").ToString, Item("Qty").ToString,
+                                        Item("PaidPrice").ToString, Item("TName").ToString, Item("Status").ToString)
+                Next
         End Select
     End Sub
 
@@ -1039,12 +1020,10 @@ end_for_loop:
                                 .txtCuLNo.Text = selectedrow.Cells(15).Value.ToString
                                 .txtCuLAmount.Text = selectedrow.Cells(16).Value.ToString
                                 .txtSaRemarks.Text = selectedrow.Cells(17).Value.ToString
-                                DR = Db.GetDataReader("Select Stock.SNo,Stock.SCategory,Stock.SName,StockSale.SaType,StockSale.SaUnits,StockSale.SaRate,SaTotal from StockSale,Stock where StockSale.SNo = Stock.SNo And SaNo = " & .txtSaNo.Text & ";")
-                                If DR.Count Then
-                                    While DR.Read
-                                        .grdSale.Rows.Add(DR("SNo").ToString(), DR("SCategory").ToString(), DR("SName").ToString(), DR("SaType").ToString(), DR("SaRate").ToString(), DR("SaUnits").ToString(), Int(DR("SaTotal")))
-                                    End While
-                                End If
+                                DR = Db.GetDataList("Select Stock.SNo,Stock.SCategory,Stock.SName,StockSale.SaType,StockSale.SaUnits,StockSale.SaRate,SaTotal from StockSale,Stock where StockSale.SNo = Stock.SNo And SaNo = " & .txtSaNo.Text & ";")
+                                For Each Item In DR
+                                    .grdSale.Rows.Add(Item("SNo").ToString(), Item("SCategory").ToString(), Item("SName").ToString(), Item("SaType").ToString(), Item("SaRate").ToString(), Item("SaUnits").ToString(), Int(Item("SaTotal")))
+                                Next
                             End If
                             .cmdSave.Text = "Edit"
                             .cmdDelete.Enabled = True
@@ -1067,12 +1046,10 @@ end_for_loop:
                         .cmbSupStatus.Text = selectedrow.Cells("SupStatus").Value.ToString
                         If selectedrow.Cells("SupPaidDate").Value <> "" And
                             selectedrow.Cells("SupStatus").Value = "Paid" Then .txtSupPaidDate.Value = selectedrow.Cells("SupPaidDate").Value
-                        DR = Db.GetDataReader($"Select Sup.SNo,S.SCategory,S.SName,SModelNo,SLocation,SSalePrice,SLowestPrice,SMinStocks,SupType,SupUnits,SupCostPrice,SDetails from StockSupply Sup,Stock S where Sup.SNo = S.SNo And SupNo={ .txtSupNo.Text};")
-                        If DR.Count Then
-                            While DR.Read
-                                .grdSupply.Rows.Add(DR(Stock.Code), DR(Stock.Category), DR(Stock.Name), DR(Stock.ModelNo), DR(Stock.Location), DR(Stock.SalePrice), DR(Stock.LowestPrice), DR(Stock.ReorderPoint), DR("SupType"), DR("SupCostPrice"), DR("SupUnits"), Int(DR("SupUnits")) * Int(DR("SupCostPrice")), DR(Stock.Details))
-                            End While
-                        End If
+                        DR = Db.GetDataList($"Select Sup.SNo,S.SCategory,S.SName,SModelNo,SLocation,SSalePrice,SLowestPrice,SMinStocks,SupType,SupUnits,SupCostPrice,SDetails from StockSupply Sup,Stock S where Sup.SNo = S.SNo And SupNo={ .txtSupNo.Text};")
+                        For Each Item In DR
+                            .grdSupply.Rows.Add(Item(Stock.Code), Item(Stock.Category), Item(Stock.Name), Item(Stock.ModelNo), Item(Stock.Location), Item(Stock.SalePrice), Item(Stock.LowestPrice), Item(Stock.ReorderPoint), Item("SupType"), Item("SupCostPrice"), Item("SupUnits"), Int(Item("SupUnits")) * Int(Item("SupCostPrice")), Item(Stock.Details))
+                        Next
                     End If
                     .cmdSave.Text = "Edit"
                     If User.Instance.UserType = User.Type.Admin Then
@@ -1106,7 +1083,7 @@ end_for_loop:
                     .txtDNo.Text = grdSearch.Item(0, e.RowIndex).Value
                     .cmdSave.Text = "Edit"
                     DR = Db.GetDataReader("Select D.*,CuName,CuTelNo1,CuTelNo2,CuTelNo3 from (Deliver D Inner Join Customer Cu On Cu.CuNo = D.CuNo) Where DNo=" & .txtDNo.Text)
-                    If DR.HasRows Then
+                    If DR IsNot Nothing Then
 
                         .txtDDate.Value = DR("DDate").ToString
                         .cmbCuName.Text = DR("CuName").ToString
@@ -1114,16 +1091,16 @@ end_for_loop:
                         .txtCuTelNo2.Text = DR("CuTelNo2").ToString
                         .txtCuTelNo3.Text = DR("CuTelNo3").ToString
                         .txtDRemarks.Text = DR("DRemarks").ToString
-                        Dim DR1 = Db.GetDataReader("Select RepNo,REP.PNo,PCategory,PName,Qty,Status,REP.TNo, TName,PaidPrice from (((Repair REP INNER JOIN PRODUCT  P On P.PNO = REP.PNO) LEFT JOIN Technician T On T.TNO = REP.TNO) LEFT JOIN DELIVER D On D.DNO = REP.DNO) Where D.DNo=" & .txtDNo.Text)
+                        Dim DR1 = Db.GetDataList("Select RepNo,REP.PNo,PCategory,PName,Qty,Status,REP.TNo, TName,PaidPrice from (((Repair REP INNER JOIN PRODUCT  P On P.PNO = REP.PNO) LEFT JOIN Technician T On T.TNO = REP.TNO) LEFT JOIN DELIVER D On D.DNO = REP.DNO) Where D.DNo=" & .txtDNo.Text)
                         .grdRepair.Rows.Clear()
-                        While DR1.GetEnumerator
-                            .grdRepair.Rows.Add(DR1("RepNo").ToString, DR1("PCategory").ToString, DR1("PName").ToString, DR1("Qty").ToString, DR1("PaidPrice").ToString, DR1("TName").ToString, DR1("Status").ToString)
-                        End While
-                        DR1 = Db.GetDataReader("Select RetNo,RepNo,RET.PNo,PCategory,PName,Qty,Status,RET.TNo, TName,PaidPrice from (((Return RET INNER JOIN PRODUCT  P On P.PNO = RET.PNO) LEFT JOIN Technician T On T.TNO = RET.TNO) LEFT JOIN DELIVER D On D.DNO = RET.DNO) Where D.DNo=" & .txtDNo.Text)
+                        For Each Item In DR1
+                            .grdRepair.Rows.Add(Item("RepNo").ToString, Item("PCategory").ToString, Item("PName").ToString, Item("Qty").ToString, Item("PaidPrice").ToString, Item("TName").ToString, Item("Status").ToString)
+                        Next
+                        DR1 = Db.GetDataList("Select RetNo,RepNo,RET.PNo,PCategory,PName,Qty,Status,RET.TNo, TName,PaidPrice from (((Return RET INNER JOIN PRODUCT  P On P.PNO = RET.PNO) LEFT JOIN Technician T On T.TNO = RET.TNO) LEFT JOIN DELIVER D On D.DNO = RET.DNO) Where D.DNo=" & .txtDNo.Text)
                         .grdRERepair.Rows.Clear()
-                        While DR1.Read
-                            .grdRERepair.Rows.Add(DR1("RetNo").ToString, DR1("RepNo").ToString, DR1("PCategory").ToString, DR1("PName").ToString, DR1("Qty").ToString, DR1("PaidPrice").ToString, DR1("TName").ToString, DR1("Status").ToString)
-                        End While
+                        For Each Item In DR1
+                            .grdRERepair.Rows.Add(Item("RetNo").ToString, Item("RepNo").ToString, Item("PCategory").ToString, Item("PName").ToString, Item("Qty").ToString, Item("PaidPrice").ToString, Item("TName").ToString, Item("Status").ToString)
+                        Next
                     End If
                 End With
             Case "ReRepair"

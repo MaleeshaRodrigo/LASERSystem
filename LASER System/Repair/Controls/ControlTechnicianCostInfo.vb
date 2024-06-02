@@ -56,8 +56,7 @@ Public Class ControlTechnicianCostInfo
             Case 2
                 If grdTechnicianCost.Item(2, e.RowIndex).Value Is Nothing Then Exit Sub
                 Dim DrStock = Db.GetDataReader("Select SNo,SCategory,SName,SCostPrice from Stock Where SNo=" & grdTechnicianCost.Item(2, e.RowIndex).Value.ToString)
-                If DrStock.HasRows Then
-                    DrStock.Read()
+                If DrStock IsNot Nothing Then
                     grdTechnicianCost.Item(3, e.RowIndex).Value = DrStock("SCategory").ToString
                     grdTechnicianCost.Item(4, e.RowIndex).Value = DrStock("SName").ToString
                     grdTechnicianCost.Item(5, e.RowIndex).Value = DrStock("SCostPrice").ToString
@@ -69,8 +68,8 @@ Public Class ControlTechnicianCostInfo
                 frmSearchDropDown.frm_Close()
                 DR = Db.GetDataReader("Select SNo,SCategory,SName,SCostPrice from Stock Where SCategory='" & grdTechnicianCost.Item(3, e.RowIndex).Value &
                                        "' and SName='" & grdTechnicianCost.Item(4, e.RowIndex).Value & "';")
-                If DR.HasRows Then
-                    
+                If DR IsNot Nothing Then
+
                     grdTechnicianCost.Item(2, e.RowIndex).Value = DR("SNo").ToString
                     grdTechnicianCost.Item(3, e.RowIndex).Value = DR("SCategory").ToString
                     grdTechnicianCost.Item(4, e.RowIndex).Value = DR("SName").ToString
@@ -176,8 +175,7 @@ Public Class ControlTechnicianCostInfo
         If e.RowIndex < 0 Then Exit Sub
         If grdTechnicianCost.Item(0, e.RowIndex).Value Is Nothing Then Exit Sub
         Dim DR1 = Db.GetDataReader("SELECT * from TechnicianCost where TCNo=" & grdTechnicianCost.Item(0, e.RowIndex).Value & ";")
-        If DR1.HasRows Then
-            DR1.Read()
+        If DR1 IsNot Nothing Then
             grdTechnicianCost.Item(1, e.RowIndex).Value = DR1("TCDate").ToString
             grdTechnicianCost.Item(2, e.RowIndex).Value = DR1("SNo").ToString
             grdTechnicianCost.Item(3, e.RowIndex).Value = DR1("SCategory").ToString
@@ -191,6 +189,5 @@ Public Class ControlTechnicianCostInfo
         Else
             grdTechnicianCost.Rows.RemoveAt(e.RowIndex)
         End If
-        DR1.Close()
     End Sub
 End Class

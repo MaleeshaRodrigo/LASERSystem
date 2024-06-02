@@ -101,11 +101,11 @@ Public Class ControlPopUp
         If (Val(txtCAmount.Text) > 0 Or Val(txtCPAmount.Text) > 0) And chkCashDrawer.Checked = True Then
             CashDrawer.Open()
         End If
-        Dim DR = Db.GetDataReader("Select * from Customer where CuName='" & FormParent.cmbCuName.Text & "' and CuTelNo1='" & FormParent.txtCuTelNo1.Text & "' and CuTelNo2 ='" & FormParent.txtCuTelNo2.Text & "' and CuTelNo3='" & FormParent.txtCuTelNo3.Text & "'")
+        Dim CustomerData = Db.GetDataReader("Select * from Customer where CuName='" & FormParent.cmbCuName.Text & "' and CuTelNo1='" & FormParent.txtCuTelNo1.Text & "' and CuTelNo2 ='" & FormParent.txtCuTelNo2.Text & "' and CuTelNo3='" & FormParent.txtCuTelNo3.Text & "'")
         'Customer Management
         Dim CuNo As String
-        If DR.Count Then
-            CuNo = DR("CuNo").ToString
+        If CustomerData IsNot Nothing Then
+            CuNo = CustomerData("CuNo").ToString
         Else
             AdminPer.Keys.Add("CuNo", "?NewKey?Customer?CuNo?")
             CuNo = "?Key?CuNo?"
@@ -137,7 +137,7 @@ Public Class ControlPopUp
         For Each Row1 As DataGridViewRow In FormParent.grdRepair.Rows
             If Row1.Index = FormParent.grdRepair.Rows.Count - 1 Then Continue For
             Dim DrRepStatus = Db.GetDataReader("Select Status,RepNo from Repair where RepNo=" & Row1.Cells(0).Value)
-            If DrRepStatus.Count Then
+            If DrRepStatus IsNot Nothing Then
                 If DrRepStatus("Status").ToString = "Received" Or DrRepStatus("Status").ToString = "Hand Over to Technician" Or
                         DrRepStatus("Status").ToString = "Repairing" Then
                     Db.Execute("Update Repair set RepDate = @REPDATE,Charge=@CHARGE where RepNo=@REPNO;", {
@@ -157,7 +157,7 @@ Public Class ControlPopUp
         For Each Row As DataGridViewRow In FormParent.grdRERepair.Rows
             If Row.Index = FormParent.grdRERepair.Rows.Count - 1 Then Continue For
             Dim DrRetStatus = Db.GetDataReader("Select Status,RetNo from `Return` where RetNo=" & Row.Cells(0).Value)
-            If DrRetStatus.Count Then
+            If DrRetStatus IsNot Nothing Then
                 If DrRetStatus("Status").ToString = "Received" Or DrRetStatus("Status").ToString = "Hand Over to Technician" Or DrRetStatus("Status").ToString = "Repairing" Then
                     Db.Execute("UPDATE `Return` SET RetRepDate = @RETREPDATE,Charge= @CHARGE where RetNo= @RETNO;", {
                             New MySqlParameter("RETREPDATE", FormParent.txtDDate.Value.ToString),
@@ -219,8 +219,7 @@ Public Class ControlPopUp
         If FormParent.cmdSave.Text = "Edit" Then
             AdminPer.Keys.Item("DNo") = FormParent.txtDNo.Text
             Dim DrDeliver = Db.GetDataReader("SELECT * from Deliver where DNo=" & FormParent.txtDNo.Text & ";")
-            If DrDeliver.Count Then
-                DrDeliver.Read()
+            If DrDeliver IsNot Nothing Then
                 If DrDeliver("CuLNo").ToString <> "0" And txtCuLNo.Text = "0" Then
                     Db.Execute("DELETE from CustomerLoan where CuLNo=" & DrDeliver("CuLNO").ToString, {}, AdminPer)
                 ElseIf DrDeliver("CuLNo").ToString <> "0" And txtCuLNo.Text <> "0" Then
@@ -235,16 +234,17 @@ Public Class ControlPopUp
                     Db.Execute("Insert into CustomerLoan(CuLNO,CuLAmount,CuNo,DNo,CulDate,Status) values(?NewKey?CustomerLoan?CuLNo?," &
                               txtCuLAmount.Text & "," & CuNo & "," & FormParent.txtDNo.Text & ",'" & FormParent.txtDDate.Value & "','Not Paid')", {}, AdminPer)
                 End If
-                Dim DR1 = Db.GetDataReader("SELECT RepNo,REP.PNo,PCategory,PName,Qty,Status,REP.TNo, TName,PaidPrice from (((Repair REP INNER JOIN PRODUCT  P ON P.PNO = REP.PNO) LEFT JOIN Technician T ON T.TNO = REP.TNO) LEFT JOIN DELIVER D ON D.DNO = REP.DNO) Where D.DNo=" & FormParent.txtDNo.Text)
-                While DR1.Read
-                    Db.Execute("Update Repair Set " & If(DR1("Status").ToString = "Repaired Delivered", "Status='Repaired Not Delivered'",
+                Dim DR1 = Db.GetDataList("SELECT RepNo,REP.PNo,PCategory,PName,Qty,Status,REP.TNo, TName,PaidPrice from (((Repair REP INNER JOIN PRODUCT  P ON P.PNO = REP.PNO) LEFT JOIN Technician T ON T.TNO = REP.TNO) LEFT JOIN DELIVER D ON D.DNO = REP.DNO) Where D.DNo=" & FormParent.txtDNo.Text)
+                For Each Item In DR1
+                    Db.Execute("Update Repair Set " & If(Item("Status").ToString = "Repaired Delivered", "Status='Repaired Not Delivered'",
                               "Status='Returned Not Delivered'") & ",PaidPrice=0,DNo=0 Where DNo=?Key?DNo?", {}, AdminPer)
-                End While
+                Next
+
                 Dim DRReturn = Db.GetDataReader("SELECT RetNo,RepNo,RET.PNo,PCategory,PName,Qty,Status,RET.TNo, TName,PaidPrice from (( `RETURN` RET INNER JOIN PRODUCT  P ON P.PNO = RET.PNO) LEFT JOIN Technician T ON T.TNO = RET.TNO) LEFT JOIN DELIVER D ON D.DNO = RET.DNO) Where D.DNo=" & FormParent.txtDNo.Text)
-                While DRReturn.Read
-                    Db.Execute($"Update `Return` Set {If(DRReturn("Status").ToString = "Repaired Delivered", "Status='Repaired Not Delivered'",
+                For Each Item In DR1
+                    Db.Execute($"Update `Return` Set {If(Item("Status").ToString = "Repaired Delivered", "Status='Repaired Not Delivered'",
                               "Status='Returned Not Delivered'")},PaidPrice=0,DNo=0 Where DNo={FormParent.txtDNo.Text}", {}, AdminPer)
-                End While
+                Next
                 Db.Execute($"DELETE FROM Deliver WHERE DNo={FormParent.txtDNo.Text}", {}, AdminPer)
             End If
         End If
@@ -255,42 +255,42 @@ Public Class ControlPopUp
         Try
             If My.Settings.DeliveredEmailtoT = False Then Exit Sub
 
-            Dim DRAutoD = Db.GetDataReader($"SELECT RepNo,DDate, CuName, CuTelNo1, PCategory, PName, Qty, PaidPrice, TEmail, TName, Status from ((((Repair Rep Inner Join Deliver D On D.DNo=Rep.DNo) Inner Join Technician T On T.TNo = Rep.TNo) Left Join Product P On P.Pno = Rep.PNo) Left Join Customer Cu On Cu.CuNo = D.CuNo) Where TEmail <> NULL and Status <> 'Returned Delivered' and TActive = 1 AND TBlockEmails <> 1 and D.DNo = {DNo}")
-            While DRAutoD.Read()
+            Dim DRAutoD = Db.GetDataList($"SELECT RepNo,DDate, CuName, CuTelNo1, PCategory, PName, Qty, PaidPrice, TEmail, TName, Status from ((((Repair Rep Inner Join Deliver D On D.DNo=Rep.DNo) Inner Join Technician T On T.TNo = Rep.TNo) Left Join Product P On P.Pno = Rep.PNo) Left Join Customer Cu On Cu.CuNo = D.CuNo) Where TEmail <> NULL and Status <> 'Returned Delivered' and TActive = 1 AND TBlockEmails <> 1 and D.DNo = {DNo}")
+            For Each Item In DRAutoD
                 Db.Execute("Insert Into Mail(MailNo,MailDate,EmailTo,Subject,Body,Status) Values(?NewKey?Mail?MailNo?,'" & DateAndTime.Now &
-                            "','" & DRAutoD("TEmail").ToString & "','Repair No:  " + DRAutoD("RepNo").ToString + " එක Customer විසින් රු." +
-                            DRAutoD("PaidPrice").ToString + " දී රුගෙන ගොස් ඇත.',""LASER System " + vbCrLf + vbCrLf +
-                            "Repair No: " + DRAutoD("RepNo").ToString + vbCrLf +
-                            "Delivered Date: " + DRAutoD("DDate").ToString + vbCrLf +
-                            "Customer Name: " + DRAutoD("CuName").ToString + vbCrLf +
-                            "Customer Telephone No1: " + DRAutoD("CuTelNo1").ToString + vbCrLf +
-                            "Product Category: " + DRAutoD("PCategory").ToString.Replace("""", """""") + vbCrLf +
-                            "Product Name: " + DRAutoD("PName").ToString.Replace("""", """""") + vbCrLf +
-                            "Qty: " + DRAutoD("Qty").ToString + vbCrLf +
-                            "Paid Charge: Rs. " + DRAutoD("PaidPrice").ToString + vbCrLf +
-                            "Technician Name: " + DRAutoD("TName").ToString + vbCrLf +
-                            "Status: " + DRAutoD("Status").ToString + vbCrLf + vbCrLf +
+                            "','" & Item("TEmail").ToString & "','Repair No:  " + Item("RepNo").ToString + " එක Customer විසින් රු." +
+                            Item("PaidPrice").ToString + " දී රුගෙන ගොස් ඇත.',""LASER System " + vbCrLf + vbCrLf +
+                            "Repair No: " + Item("RepNo").ToString + vbCrLf +
+                            "Delivered Date: " + Item("DDate").ToString + vbCrLf +
+                            "Customer Name: " + Item("CuName").ToString + vbCrLf +
+                            "Customer Telephone No1: " + Item("CuTelNo1").ToString + vbCrLf +
+                            "Product Category: " + Item("PCategory").ToString.Replace("""", """""") + vbCrLf +
+                            "Product Name: " + Item("PName").ToString.Replace("""", """""") + vbCrLf +
+                            "Qty: " + Item("Qty").ToString + vbCrLf +
+                            "Paid Charge: Rs. " + Item("PaidPrice").ToString + vbCrLf +
+                            "Technician Name: " + Item("TName").ToString + vbCrLf +
+                            "Status: " + Item("Status").ToString + vbCrLf + vbCrLf +
                             "මෙම Message එක ස්වයංක්‍රීයව LASER System එකෙන් පැමිණෙන්නක් බැවින් ඉහත දත්ත සඳහා යම් ගැටලුවක් පවතියි නම්, කරුණාකර දත්ත කළමනාකරු අමතන්න"",'Waiting');")
-            End While
-            DRAutoD = Db.GetDataReader($"SELECT RetNo,RepNo,DDate, CuName, CuTelNo1, PCategory, PName, Qty, PaidPrice, TEmail, TName, Status from ((( `Return` Ret Inner Join Deliver D On D.DNo=Ret.DNo) Inner Join Technician T On T.TNo = Ret.TNo) Left Join Product P On P.Pno = Ret.PNo) Left Join Customer Cu On Cu.CuNo = D.CuNo) Where TEmail <> NULL and Status <>'Returned Delivered' and TActive = 1 AND TBlockEmails <> 1 and D.DNo = {DNo}")
-            While DRAutoD.Read()
-                Db.Execute("Insert Into Mail(MailNo,MailDate,EmailTo,Subject,Body,Status) Values(?NewKey?Mail?MailNo?,'" & DateAndTime.Now &
-                                  "','" & DRAutoD("TEmail").ToString & "','RERepair No:  " + DRAutoD("RetNo").ToString + " එක Customer විසින් රු." +
-                                  DRAutoD("PaidPrice").ToString + "දී රුගෙන ගොස් ඇත.',
+            Next
+            DRAutoD = Db.GetDataList($"SELECT RetNo,RepNo,DDate, CuName, CuTelNo1, PCategory, PName, Qty, PaidPrice, TEmail, TName, Status from ((( `Return` Ret Inner Join Deliver D On D.DNo=Ret.DNo) Inner Join Technician T On T.TNo = Ret.TNo) Left Join Product P On P.Pno = Ret.PNo) Left Join Customer Cu On Cu.CuNo = D.CuNo) Where TEmail <> NULL and Status <>'Returned Delivered' and TActive = 1 AND TBlockEmails <> 1 and D.DNo = {DNo}")
+            For Each Item In DRAutoD
+                Db.Execute("Insert Into Mail(MailNo,MailDate,EmailTo,Subject,Body,Status) Values(?NewKey?Mail?MailNo?,'" & Now &
+                              "','" & Item("TEmail").ToString & "','RERepair No:  " + Item("RetNo").ToString + " එක Customer විසින් රු." +
+                              Item("PaidPrice").ToString + "දී රුගෙන ගොස් ඇත.',
                                   ""LASER System " + vbCrLf + vbCrLf +
-                                "RERepair No: " + DRAutoD("RetNo").ToString + vbCrLf +
-                                "Repair No: " + DRAutoD("RepNo").ToString + vbCrLf +
-                                    "Delivered Date: " + DRAutoD("DDate").ToString + vbCrLf +
-                                    "Customer Name: " + DRAutoD("CuName").ToString + vbCrLf +
-                                    "Customer Telephone No1: " + DRAutoD("CuTelNo1").ToString + vbCrLf +
-                                    "Product Category: " + DRAutoD("PCategory").ToString.Replace("""", """""") + vbCrLf +
-                                    "Product Name: " + DRAutoD("PName").ToString.Replace("""", """""") + vbCrLf +
-                                    "Qty: " + DRAutoD("Qty").ToString + vbCrLf +
-                                    "Paid Charge: Rs. " + DRAutoD("PaidPrice").ToString + vbCrLf +
-                                    "Technician Name: " + DRAutoD("TName").ToString + vbCrLf +
-                                    "Status: " + DRAutoD("Status").ToString + vbCrLf + vbCrLf +
-                                    "මෙම Message එක ස්වයංක්‍රීයව LASER System එකෙන් පැමිණෙන්නක් බැවින් ඉහත දත්ත සඳහා යම් ගැටලුවක් පවතියි නම්, කරුණාකර දත්ත කළමනාකරු අමතන්න"",'Waiting');")
-            End While
+                            "RERepair No: " + Item("RetNo").ToString + vbCrLf +
+                            "Repair No: " + Item("RepNo").ToString + vbCrLf +
+                                "Delivered Date: " + Item("DDate").ToString + vbCrLf +
+                                "Customer Name: " + Item("CuName").ToString + vbCrLf +
+                                "Customer Telephone No1: " + Item("CuTelNo1").ToString + vbCrLf +
+                                "Product Category: " + Item("PCategory").ToString.Replace("""", """""") + vbCrLf +
+                                "Product Name: " + Item("PName").ToString.Replace("""", """""") + vbCrLf +
+                                "Qty: " + Item("Qty").ToString + vbCrLf +
+                                "Paid Charge: Rs. " + Item("PaidPrice").ToString + vbCrLf +
+                                "Technician Name: " + Item("TName").ToString + vbCrLf +
+                                "Status: " + Item("Status").ToString + vbCrLf + vbCrLf +
+                                "මෙම Message එක ස්වයංක්‍රීයව LASER System එකෙන් පැමිණෙන්නක් බැවින් ඉහත දත්ත සඳහා යම් ගැටලුවක් පවතියි නම්, කරුණාකර දත්ත කළමනාකරු අමතන්න"",'Waiting');")
+            Next
         Catch ex As Exception
             MsgBox("Technician හට Gmail එක යැවීමට අපොහොසත් විය." + vbCrLf + vbCrLf + "Error: " + ex.ToString, vbExclamation, "Technician හට Gmail එක යැවීමට නොහැක.")
         End Try

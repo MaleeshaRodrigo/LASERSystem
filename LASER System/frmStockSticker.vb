@@ -57,10 +57,10 @@ Public Class frmStockSticker
                     autoText.AutoCompleteMode = AutoCompleteMode.Suggest
                     autoText.AutoCompleteSource = AutoCompleteSource.CustomSource
                     DataCollection.Clear()
-                    Dim DR = Db.GetDataReader("Select SCategory from Stock group by SCategory;")
-                    While DR.Read
-                        DataCollection.Add(DR("SCategory").ToString)
-                    End While
+                    Dim DR = Db.GetDataList("Select SCategory from Stock group by SCategory;")
+                    For Each Item In DR
+                        DataCollection.Add(Item("SCategory").ToString)
+                    Next
                     autoText.AutoCompleteCustomSource = DataCollection
                 End If
             Case 2
@@ -69,10 +69,10 @@ Public Class frmStockSticker
                     autoText.AutoCompleteMode = AutoCompleteMode.Suggest
                     autoText.AutoCompleteSource = AutoCompleteSource.CustomSource
                     DataCollection.Clear()
-                    Dim DR = Db.GetDataReader("Select SCategory,SName from Stock where SCategory ='" & grdStock.Item(1, grdStock.CurrentCell.RowIndex).Value & "';")
-                    While DR.Read
-                        DataCollection.Add(DR("SName").ToString)
-                    End While
+                    Dim DR = Db.GetDataList("Select SCategory,SName from Stock where SCategory ='" & grdStock.Item(1, grdStock.CurrentCell.RowIndex).Value & "';")
+                    For Each Item In DR
+                        DataCollection.Add(Item("SName").ToString)
+                    Next
                     autoText.AutoCompleteCustomSource = DataCollection
                 End If
             Case 0, 4

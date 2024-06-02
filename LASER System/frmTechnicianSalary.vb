@@ -47,11 +47,11 @@ Public Class frmTechnicianSalary
                                               cmbTName.Text & "' and DDate BETWEEN '" & txtTSFrom.Value.Date & " 00:00:00' And '" & txtTSTo.Value.Date &
                                               " 23:59:59' " + x)
         For Each row As DataRow In DT1.Rows
-            Dim DR1 = Db.GetDataReader("Select Remarks from RepairRemarks1 Where RepNo=" & row.Item("RepNo"))
+            Dim DR1 = Db.GetDataList("Select Remarks from RepairRemarks1 Where RepNo=" & row.Item("RepNo"))
             row.Item("RepRemarks1") = ""
-            While DR1.Read
-                row.Item("RepRemarks1") += DR1("Remarks").ToString + vbCrLf
-            End While
+            For Each Item In DR1
+                row.Item("RepRemarks1") += Item("Remarks").ToString + vbCrLf
+            Next
         Next
         grdRepair.DataSource = DT1
         grdRepair.Refresh()
@@ -61,12 +61,12 @@ Public Class frmTechnicianSalary
         Dim DT2 As DataTable = Db.GetDataTable("Select Return.RetNo, RepNo, DDate, CuName, CuTelNo1, CuTelNo2, CuTelNo3, PCategory, PName, Qty, PaidPrice,Status, '' as RetRemarks1,'' as RetRemarks2, TSalNo from Receive,Customer, Deliver, Return, Product, Technician Where Receive.RNo=Return.RNo and Product.PNo = Return.PNo And Return.DNo = Deliver.DNo And Customer.CuNo = Receive.CuNo And Technician.TNo = Return.TNo And TName='" & cmbTName.Text &
                                               "' And DDate BETWEEN '" & txtTSFrom.Value.Date & " 00:00:00' And '" & txtTSTo.Value.Date & " 23:59:59' " + x)
         For Each row As DataRow In DT1.Rows
-            Dim DR1 = Db.GetDataReader("Select Remarks from RepairRemarks1 Where RepNo=" & row.Item("RepNo"))
+            Dim DR1 = Db.GetDataList("Select Remarks from RepairRemarks1 Where RepNo=" & row.Item("RepNo"))
             row.Item("RepRemarks1") = ""
-            While DR1.Read
-                row.Item("RepRemarks1") += DR1("Remarks").ToString + vbCrLf
-            End While
-        Next
+                For Each Item In DR1
+                row.Item("RepRemarks1") += Item("Remarks").ToString + vbCrLf
+            Next
+            Next
         grdReRepair.DataSource = DT2
         grdReRepair.Refresh()
         For Each Row As DataGridViewRow In grdReRepair.Rows
@@ -81,13 +81,12 @@ Public Class frmTechnicianSalary
         Next
         Dim DT4 As DataTable = Db.GetDataTable("Select  TLNo, TLDate, SCategory, SName, TLReason, Rate, Qty,Total from (TechnicianLoan TL Inner Join Technician T on T.TNo = TL.TNo) Where TName='" & cmbTName.Text & "' And TLDate BETWEEN '" &
                                               txtTSFrom.Value.Date & " 00:00:00' And '" & txtTSTo.Value.Date & " 23:59:59' ")
-        DR = Db.GetDataReader("Select * from `TechnicianLoan` as TL Where TL.TLDate BETWEEN '" & txtTSFrom.Value.Date & " 00:00:00' and '" &
+        DR = Db.GetDataList("Select * from `TechnicianLoan` as TL Where TL.TLDate BETWEEN '" & txtTSFrom.Value.Date & " 00:00:00' and '" &
                                      txtTSTo.Value.Date & " 23:59:59';")
         Dim ArrearsLoan As Integer = 0
-        While DR.Read
-            If DR("Total").ToString <> "" Then ArrearsLoan += Int(DR("Total").ToString)
-        End While
-        DR.Close()
+        For Each Item In DR
+            If Item("Total").ToString <> "" Then ArrearsLoan += Int(Item("Total").ToString)
+        Next
         If ArrearsLoan <> 0 Then
             Dim newRow As DataRow = DT4.NewRow()
             newRow(0) = "0"

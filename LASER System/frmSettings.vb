@@ -181,7 +181,7 @@ Public Class FrmSettings
                     Exit Sub
                 End If
                 Dr = Db.GetDataReader("Select * from `User` Where UNO=" & txtUAUNo.Text & " and Password='" & txtUACurrentPW.Text & "';")
-                If Dr Then
+                If Dr Is Nothing Then
                     MsgBox("Current Password එක සඳහා ඇතුලත් කල අගය වැරදියි. නැවත උත්සහ කරන්න.", vbExclamation + vbOKOnly)
                     txtUAUserName.Focus()
                     Exit Sub

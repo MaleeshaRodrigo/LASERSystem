@@ -103,13 +103,13 @@ Public Class frmProduct
         Select Case cmdSave.Text
             Case "Save"
                 Dim DrProductNoExist = Db.GetDataReader("Select PNo from Product where PNo =" & txtPNo.Text & ";")
-                If DrProductNoExist.Count Then
+                If DrProductNoExist IsNot Nothing Then
                     MsgBox("Product No is exist", vbOKOnly + vbExclamation)
                     txtPNo.Focus()
                     Exit Sub
                 End If
                 Dim DrProductExist = Db.GetDataReader("Select PCategory,PName from Product where PCategory = '" & cmbPCategory.Text & "' and PName ='" & cmbPName.Text & "';")
-                If DrProductExist.Count Then
+                If DrProductExist IsNot Nothing Then
                     MsgBox("Product category and product name are exist", vbOKOnly + vbExclamation)
                     cmbPCategory.Focus()
                     Exit Sub
