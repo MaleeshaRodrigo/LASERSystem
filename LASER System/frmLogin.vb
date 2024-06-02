@@ -15,8 +15,7 @@ Public Class frmLogin
         Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.High
         Dim ConnectionResult = Db.CheckConnection()
         If ConnectionResult.Valid = False Then
-            MsgBox($"Database එක Connect කර ගැනීමට අපොහොසත් විය. කරුණාකර Database Credentials නිවැරැදි දැයි පරික්ෂා කරන්න. {vbCrLf}
-                    Issue: {ConnectionResult.Message}", vbCritical, "Database Connection Error")
+            MsgBox($"Database එක Connect කර ගැනීමට අපොහොසත් විය. කරුණාකර Database Credentials නිවැරැදි දැයි පරික්ෂා කරන්න. {vbCrLf} Issue: {ConnectionResult.Message}", vbCritical, "Database Connection Error")
             ' Show the setting form
             FrmSettings.tcSettings.TabPages.Remove(FrmSettings.tpDatabase)
             FrmSettings.tcSettings.TabPages.Remove(FrmSettings.tpGeneral)
@@ -62,7 +61,7 @@ Public Class frmLogin
 
                 Db.DirectExecute("Update `User` set LogInCount='0' Where LoginCount IS NULL")
                 Db.DirectExecute("Update `User` set LogInCount= (LogInCount + 1) Where UNo = " & DR("UNo").ToString)
-                Db.DirectExecute("Update `User` set LastLogin='" & DateAndTime.Now & "' Where UNo = " & DR("UNo").ToString)
+                Db.DirectExecute("Update `User` set LastLogin=NOW() Where UNo = " & DR("UNo").ToString)
 
                 'Set the User object
                 User.Instance.UserNo = Int(DR("UNo"))
