@@ -129,30 +129,17 @@ Public Class FormDeliver
     End Sub
 
     Public Sub PrintDeliveryReceipt(DNo As Integer, Optional boolPrint As Boolean = False)
-        Dim Connection = Db.GetConenction()
         Try
-            Connection.Open()
             Dim RPT As New rptDeliver
             Dim Form As New frmReport
             Dim DT1 As New DataTable
-            Dim DS1 As New DataSet
-            Form.SetConnection(Connection)
-            Dim DA1 As MySqlDataAdapter = Db.GetDataAdapter("SELECT Repair.RepNo,Repair.PNo,Product.PCategory,Product.PName,Repair.Qty,Repair.PaidPrice,Repair.TNo from Repair,Product,Deliver where Deliver.DNO = Repair.DNo And Repair.PNo = Product.PNo And Deliver.DNo = " & DNo & ";", Connection)
-            DA1.Fill(DS1, "Repair")
-            DA1.Fill(DS1, "Product")
-            RPT.Subreports.Item("rptDeliverRepair.rpt").SetDataSource(DS1)
+            Dim TableRepair As DataTable = Db.GetDataTable("SELECT Repair.RepNo,Repair.PNo,Product.PCategory,Product.PName,Repair.Qty,Repair.PaidPrice,Repair.TNo from Repair,Product,Deliver where Deliver.DNO = Repair.DNo And Repair.PNo = Product.PNo And Deliver.DNo = " & DNo & ";")
+            RPT.Subreports.Item("rptDeliverRepair.rpt").SetDataSource(TableRepair)
             Dim DT2 As New DataTable
-            Dim DS2 As New DataSet
-            Dim DA2 As MySqlDataAdapter = Db.GetDataAdapter("Select Return.RetNo,Return.RepNo,Return.PNo,Product.PCategory,Product.Pname,Return.Qty,Return.PaidPrice,Return.TNo from `Return`,Product,Deliver where Deliver.DNO = Return.DNo And Return.PNo = Product.PNo And Deliver.DNO  = " & DNo & ";", Connection)
-            DA2.Fill(DS2, "Rerepair")
-            DA2.Fill(DS2, "Product")
-            RPT.Subreports.Item("rptDeliverReturn.rpt").SetDataSource(DS2)
-            Dim DT3 As New DataTable
-            Dim DS3 As New DataSet
-            Dim DA3 As MySqlDataAdapter = Db.GetDataAdapter("SELECT Deliver.DNo, Deliver.DDate,Deliver.CuNo,Customer.CuName,Customer.CuTelNo1,Customer.CuTelNo2,Customer.CuTelNo3,Deliver.DGrandTotal,Deliver.CReceived,Deliver.CBalance,Deliver.CAmount,Deliver.CPInvoiceNO,Deliver.CPAmount,Deliver.CuLNo,Deliver.CuLAmount,Deliver.DRemarks from Deliver,Customer where Deliver.CuNo = Customer.CuNo And Deliver.DNo = " & DNo & ";", Connection)
-            DA3.Fill(DS3, "Deliver")
-            DA3.Fill(DS3, "Customer")
-            RPT.SetDataSource(DS3)
+            Dim TableReReapir = Db.GetDataTable("Select Return.RetNo,Return.RepNo,Return.PNo,Product.PCategory,Product.Pname,Return.Qty,Return.PaidPrice,Return.TNo from `Return`,Product,Deliver where Deliver.DNO = Return.DNo And Return.PNo = Product.PNo And Deliver.DNO  = " & DNo & ";")
+            RPT.Subreports.Item("rptDeliverReturn.rpt").SetDataSource(TableReReapir)
+            Dim TableDeliver As DataTable = Db.GetDataTable("SELECT Deliver.DNo, Deliver.DDate,Deliver.CuNo,Customer.CuName,Customer.CuTelNo1,Customer.CuTelNo2,Customer.CuTelNo3,Deliver.DGrandTotal,Deliver.CReceived,Deliver.CBalance,Deliver.CAmount,Deliver.CPInvoiceNO,Deliver.CPAmount,Deliver.CuLNo,Deliver.CuLAmount,Deliver.DRemarks from Deliver,Customer where Deliver.CuNo = Customer.CuNo And Deliver.DNo = " & DNo & ";")
+            RPT.SetDataSource(TableDeliver)
             RPT.SetParameterValue("Cashier Name", User.Instance.UserName.ToString) 'Set Cashier Name to Parameter Value
             Form.ReportViewer.ReportSource = RPT
             If boolPrint Then

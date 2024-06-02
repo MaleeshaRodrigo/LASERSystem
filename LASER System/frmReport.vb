@@ -2,7 +2,6 @@
 Imports MySqlConnector
 
 Public Class frmReport
-    Private Connection As MySqlConnection
     Public boolClosed As Boolean = False
     Private ClosedCount As Integer
     Private FormName As String
@@ -10,10 +9,6 @@ Public Class frmReport
         InitializeComponent()
 
         MenuStrip1.Items.Add(mnustrpMENU)
-    End Sub
-
-    Public Sub SetConnection(Connection As MySqlConnection)
-        Me.Connection = Connection
     End Sub
 
     Private Sub CloseToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CloseToolStripMenuItem.Click
@@ -76,12 +71,6 @@ Public Class frmReport
     Private Sub frmReport_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         If (e.KeyCode = System.Windows.Forms.Keys.Escape) Then
             Me.Close()
-        End If
-    End Sub
-
-    Private Sub frmReport_Disposed(sender As Object, e As EventArgs) Handles Me.Disposed
-        If Connection IsNot Nothing Then
-            Connection.Close()
         End If
     End Sub
 End Class
