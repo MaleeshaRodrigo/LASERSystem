@@ -15,7 +15,8 @@ Public Class frmLogin
         Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.High
         Dim ConnectionResult = Db.CheckConnection()
         If ConnectionResult.Valid = False Then
-            MsgBox(ConnectionResult.Message, vbCritical, "Database Connection Error")
+            MsgBox($"Database එක Connect කර ගැනීමට අපොහොසත් විය. කරුණාකර Database Credentials නිවැරැදි දැයි පරික්ෂා කරන්න. {vbCrLf}
+                    Issue: {ConnectionResult.Message}", vbCritical, "Database Connection Error")
             ' Show the setting form
             FrmSettings.tcSettings.TabPages.Remove(FrmSettings.tpDatabase)
             FrmSettings.tcSettings.TabPages.Remove(FrmSettings.tpGeneral)

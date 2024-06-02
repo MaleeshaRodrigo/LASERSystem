@@ -279,10 +279,9 @@ Public Class frmReceive
         Dim threadInvoice As New Thread(
             Sub()
                 Dim ThreadDb As New Database()
+                Dim frm1 As New frmReport
+                Dim RPT As New rptReceive
                 Try
-                    Thread
-                    Dim frm1 As New frmReport
-                    Dim RPT As New rptReceive
                     Dim DTRepair As DataTable = ThreadDb.GetDataTable($"SELECT RDate,CuName,CuTelNo1,CuTelNo2,CuTelNo3,'' as RetNo, RepNo, PCategory, PName, PModelNo, PSerialNo, Qty, Problem, '' as RepRemarks1 from (((Repair Inner Join Receive On Receive.RNo =Repair.RNo) Left Join Product On Product.PNo=Repair.PNo) Left Join Customer On Customer.CuNo=Receive.CuNo) Where Receive.RNo = {RNo} Union Select RDate,CuName,CuTelNo1,CuTelNo2,CuTelNo3, RetNo, RepNo, PCategory, PName, PModelNo, PSerialNo, Qty, Problem, '' as RepRemarks1 from (((`Return` Inner Join Receive On Receive.RNo =Return.RNo) Left Join Product On Product.PNo=Return.PNo) Left Join Customer On Customer.CuNo=Receive.CuNo) Where Receive.RNo = {RNo}")
                     For Each row As DataRow In DTRepair.Rows
                         Dim DrRemarks = ThreadDb.GetDataList($"Select Remarks from RepairRemarks1 Where {If(row.Item("RetNo") = "", $"RepNo={row.Item("RepNo")}", $"RetNo={row.Item("RetNo")}")};")
@@ -320,11 +319,10 @@ Public Class frmReceive
                         .Text = "Report - Received Receipt"
                         Application.Run(frm1)
                     End With
-                    RPT.Close()
                 Catch ex As Exception
                     MsgBox("Receipt Invoice එක print කර ගැනීමට අපොහොසත් විය." + vbCrLf + "Error: " + ex.Message, vbCritical, "Print Receipt Invoice Error")
                 Finally
-                    Thread
+                    RPT.Close()
                 End Try
             End Sub) With {
                 .Name = "showInvoiceReport",
@@ -341,7 +339,6 @@ Public Class frmReceive
         Sub()
             Dim ThreadDb As New Database()
             Try
-                Thread
                 Dim rpt3 As New rptRepairSticker
                 Dim DT, DT1 As New DataTable
                 DT.Clear()
@@ -400,8 +397,6 @@ Public Class frmReceive
                 rpt3.Close()
             Catch ex As Exception
                 MsgBox("Receipt Sticker එක print කර ගැනීමට අපොහොසත් විය." + vbCrLf + "Error: " + ex.Message, vbCritical, "Print Receipt Sticker Error")
-            Finally
-                Thread
             End Try
         End Sub) With {
             .Name = "showStickerReport",

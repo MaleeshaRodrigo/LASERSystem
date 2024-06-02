@@ -1,4 +1,5 @@
-﻿Imports LASER_System.My
+﻿Imports System.Data.SqlClient
+Imports LASER_System.My
 Imports MySqlConnector
 
 Public Class Database
@@ -12,20 +13,25 @@ Public Class Database
     End Function
 
     Public Function CheckConnection() As (Valid As Boolean, Message As String)
-        If Settings.DBUserName = "" Then
-            Return (False, "Database User Name එක ඇතුලත් කර නොමැත.")
-        End If
         If Settings.DBServer = "" Then
             Return (False, "Database Server එක ඇතුලත් කර නොමැත.")
+        End If
+        If Settings.DBUserName = "" Then
+            Return (False, "Database User Name එක ඇතුලත් කර නොමැත.")
         End If
         If Settings.DBName = "" Then
             Return (False, "Database Name එක ඇතුලත් කර නොමැත.")
         End If
+        Dim Connection As MySqlConnection = GetConenction()
         Try
+            Connection.Open()
+
+            Return (True, "")
         Catch ex As Exception
             Return (False, ex.Message)
+        Finally
+            Connection.Close()
         End Try
-        Return (True, "")
     End Function
 
     Public Function CheckDataExists(Table As String, FieldName As String, Value As Object) As Boolean

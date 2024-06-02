@@ -40,7 +40,6 @@ Public Class FrmSettings
     End Sub
 
     Private Sub FrmSettings_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-        
         If Me.Tag = "Login" Then
             End
         Else
