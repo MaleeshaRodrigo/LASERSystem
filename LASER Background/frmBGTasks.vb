@@ -1,5 +1,4 @@
 ﻿Imports System.ComponentModel
-Imports System.Data.OleDb
 Imports System.IO
 Imports System.Net
 Imports System.Text
@@ -34,9 +33,11 @@ Public Class frmBGTasks
         SkinManager.ColorScheme = New ColorScheme(Primary.BlueGrey800, Primary.BlueGrey900, Primary.BlueGrey500, Accent.LightBlue200, TextShade.WHITE)
 
         With My.Settings
-            txtDBLocation.Text = .DatabasePath
-            cmbDbProvider.Text = .DatabaseProvider
-            txtDBLocation.Tag = .DatabasePath
+            TextDbServer.Text = .DbServer
+            TextDbPort.Text = .DbPort
+            TextDbUserName.Text = .DbUserName
+            TextDbName.Text = .DbName
+
             txtMApiKey.Text = .APIKey
             txtMApiToken.Text = .APIToken
             cmbMBgSMS.Text = .BGSendSMS
@@ -452,9 +453,9 @@ Public Class frmBGTasks
     End Sub
 
     Private Sub cmdApply_Click(sender As Object, e As EventArgs) Handles cmdApply.Click
-        If CheckEmptyfield(txtDBLocation, "Database Location field is empty, Please select the database!") = False Then
+        If CheckEmptyfield(TextDbServer, "Database Location field is empty, Please select the database!") = False Then
             Exit Sub
-        ElseIf File.Exists(txtDBLocation.Text) = False Then
+        ElseIf File.Exists(TextDbServer.Text) = False Then
             MsgBox("This file name couldn't be found. Please select correct file for using a database", vbExclamation + vbOKOnly)
             Exit Sub
         ElseIf CheckEmptyfield(cmbDbProvider, "Database Provider Field එක හිස්ව පවතියි.") = False Then
@@ -478,7 +479,7 @@ Public Class frmBGTasks
             End If
         End If
         With My.Settings
-            .DatabasePath = txtDBLocation.Text
+            .DbUserName = TextDbServer.Text
             .APIKey = txtMApiKey.Text
             .APIToken = txtMApiToken.Text
             .BGSendSMS = cmbMBgSMS.Text
@@ -488,8 +489,8 @@ Public Class frmBGTasks
             .BackUpDB1 = txtBackUpDB1.Text
             .BackUpDB2 = txtBackUpDB2.Text
             .BackUpDB3 = txtBackUpDB3.Text
-            If txtDbPassword.Text <> "" Then .DatabasePassword = Encoder.Encode(txtDbPassword.Text)
-            .DatabaseProvider = cmbDbProvider.Text
+            If TextDbPassword.Text <> "" Then .DbPassword = Encoder.Encode(TextDbPassword.Text)
+            .DbServer = cmbDbProvider.Text
             .ODBActive = chkOnlineDB.Checked
             If chkOnlineDB.CheckState Then
                 .OnlineDatabasePath = txtOPath.Text
@@ -505,15 +506,6 @@ Public Class frmBGTasks
             .Save()
         End With
         tmrRefresh.Start()
-    End Sub
-
-    Private Sub cmdDBLocation_Click(sender As Object, e As EventArgs) Handles cmdDBLocation.Click
-        ofdDatabase.Title = "Please select the DataBase file"
-        ofdDatabase.InitialDirectory = SpecialDirectories.MyDocuments
-        ofdDatabase.Filter = "DB Files|*.accdb|DB (old) Files|*.mdb"
-        If ofdDatabase.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
-            txtDBLocation.Text = ofdDatabase.FileName
-        End If
     End Sub
 
     Private Sub chkOnlineDB_CheckedChanged(sender As Object, e As EventArgs) Handles chkOnlineDB.CheckedChanged
@@ -622,6 +614,10 @@ Public Class frmBGTasks
 
     Private Sub BtnOpenAdvDB_Click(sender As Object, e As EventArgs) Handles BtnOpenAdvDB.Click
         FrmAdvDB.Show()
+    End Sub
+
+    Private Sub cmdDBLocation_Click(sender As Object, e As EventArgs)
+
     End Sub
 
     Private Sub NotifyIcon_BalloonTipClicked(sender As Object, e As EventArgs) Handles NotifyIcon.BalloonTipClicked, NotifyIcon.Click
