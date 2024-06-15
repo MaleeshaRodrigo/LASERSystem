@@ -11,7 +11,7 @@ Public Class frmSale
     End Sub
 
     Private Sub frmSale_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        
+
         Me.AcceptButton = cmdSave
 
         Call cmdNew_Click(Nothing, Nothing)
@@ -49,7 +49,7 @@ Public Class frmSale
     End Sub
 
     Private Sub frmSale_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-        
+
     End Sub
 
     Private Sub cmdClose_Click(sender As Object, e As EventArgs) Handles cmdClose.Click
@@ -246,15 +246,31 @@ Public Class frmSale
             Case "Save"
                 SetNextKey(Db, txtSaNo, "SELECT SaNo from Sale ORDER BY SaNo Desc LIMIT 1;", "SaNo")
                 'Add Values into Sale
-                Db.Execute("Insert into Sale(SaNo,SaDate,CuNo,SaSubTotal,SaLess,SaDue,CAmount,CReceived,CBalance,CPInvoiceNo,CPAmount,CuLNo,CuLAmount,SaRemarks,UNo)Values(?NewKey?Sale?SaNo?,'" & txtSaDate.Value & "'," & CuNo & "," & txtSubTotal.Text & "," & txtLess.Text &
-                       "," & txtDue.Text & "," & txtCAmount.Text & "," & txtCReceived.Text & "," & txtCBalance.Text & "," &
-                       txtCPInvoiceNo.Text & "," & txtCPAmount.Text & "," & txtCuLNo.Text & "," & txtCuLAmount.Text & ",'" &
-                       txtSaRemarks.Text & "'," & User.Instance.UserNo & ");")
+                Db.Execute("INSERT INTO Sale(SaNo,SaDate,CuNo,SaSubTotal,SaLess,SaDue,CAmount,CReceived,CBalance,CPInvoiceNo,CPAmount,CuLNo,CuLAmount,SaRemarks,UNo)Values(?NewKey?Sale?SaNo?, @SADATE, @CUNO, @SUBTOTAL, @LESS, @DUE, @CAMOUNT, @CRECEIVED, @CBALANCE, @CPINVOICENO, @CPAMOUNT, @CULNO, @CULAMOUNT, @SAREMARKS, @UNO);", {
+                    New MySqlParameter("SADATE", txtSaDate.Value),
+                    New MySqlParameter("CUNO", CuNo),
+                    New MySqlParameter("SUBTOTAL", txtSubTotal.Text),
+                    New MySqlParameter("LESS", txtLess.Text),
+                    New MySqlParameter("DUE", txtDue.Text),
+                    New MySqlParameter("CAMOUNT", txtCAmount.Text),
+                    New MySqlParameter("CRECEIVED", txtCReceived.Text),
+                    New MySqlParameter("CBALANCE", txtCBalance.Text),
+                    New MySqlParameter("CPINVOICENO", txtCPInvoiceNo.Text),
+                    New MySqlParameter("CPAMOUNT", txtCPAmount.Text),
+                    New MySqlParameter("CULNO", txtCuLNo.Text),
+                    New MySqlParameter("CULAMOUNT", txtCuLAmount.Text),
+                    New MySqlParameter("SAREMARKS", txtSaRemarks.Text),
+                    New MySqlParameter("UNO", User.Instance.UserNo)
+                })
                 If txtCuLAmount.Text <> "0" Then
                     SetNextKey(Db, txtCuLNo, "Select CuLNo from CustomerLoan Order by CuLNo Desc LIMIT 1", "CuLNo")
-                    Db.Execute("Insert into CustomerLoan(CuLNo,CuLDate,CuNo,CuLAmount,SaNo,Status) Values(" & txtCuLNo.Text & ",'" & txtSaDate.Value &
-                              "'," & CuNo & "," &
-                              txtCuLAmount.Text & "," & txtSaNo.Text & ",'Not Paid')")
+                    Db.Execute("Insert into CustomerLoan(CuLNo,CuLDate,CuNo,CuLAmount,SaNo,Status) Values(@CULNO, @CULDATE, @CUNO, @CULAMOUNT, @SANO, 'Not Paid')", {
+                              New MySqlParameter("CULNO", txtCuLNo.Text),
+                        New MySqlParameter("CULDATE", txtSaDate.Value),
+                        New MySqlParameter("CUNO", CuNo),
+                        New MySqlParameter("CULAMOUNT", txtCuLAmount.Text),
+                        New MySqlParameter("SANO", txtSaNo.Text)
+                    })
                 End If
                 'Add Values into StockSale
                 For Each row As DataGridViewRow In grdSale.Rows
@@ -462,8 +478,7 @@ Public Class frmSale
                                                              New MySqlParameter("NAME", If(grdSale.Item(2, e.RowIndex).Value, ""))
                                                                                 })
                 If DR IsNot Nothing Then
-
-                    grdSale.Item(0, e.RowIndex).Value = DR("SNo").ToString
+                    grdSale.Item(0, e.RowIndex).Value = DR("Sno").ToString
                     grdSale.Item(1, e.RowIndex).Value = DR("SCategory").ToString
                     grdSale.Item(2, e.RowIndex).Value = DR("SName").ToString
                     grdSale.Item(3, e.RowIndex).Value = "Sale"

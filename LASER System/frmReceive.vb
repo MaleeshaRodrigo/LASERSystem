@@ -11,7 +11,7 @@ Public Class frmReceive
         MenuStrip.Items.Add(mnustrpMENU)
     End Sub
     Private Sub FrmReceive_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        
+
         Call cmdNew_Click(Nothing, Nothing)
         txtCuTelNo1.Focus()
     End Sub
@@ -181,7 +181,12 @@ Public Class frmReceive
         End If
         If txtRDate.Value.Date = Today.Date Then txtRDate.Value = DateAndTime.Now
         txtRNo.Text = Db.GetNextKey("Receive", "RNo")
-        Db.Execute("Insert into Receive(RNo,RDate,CuNo,UNo) values(" & txtRNo.Text & ",'" & txtRDate.Value & "'," & CuNo & ",'" & User.Instance.UserNo & "');")
+        Db.Execute("Insert into Receive(RNo,RDate,CuNo,UNo) values(@RNO, @RDATE, @CUNO, @UNO);", {
+            New MySqlParameter("RNO", txtRNo.Text),
+            New MySqlParameter("RDATE", txtRDate.Value),
+            New MySqlParameter("CUNO", CuNo),
+            New MySqlParameter("UNO", User.Instance.UserNo)
+        })
         For Each row As DataGridViewRow In grdRepair.Rows
             If row.Index = grdRepair.Rows.Count - 1 Then Continue For
             'Product Management
@@ -195,8 +200,7 @@ Public Class frmReceive
             Db.Execute("Insert into Repair(RepNo,RNo,PNo,PSerialNo,Qty,Problem,Status)Values(" & row.Cells(0).Value & "," & txtRNo.Text & "," & PNo & ",'" & row.Cells(4).Value & "'," &
                                         row.Cells(6).Value & ",'" & row.Cells(7).Value & "','Received');")
             Db.Execute("Insert into RepairActivity(RepANo,RepNo,RepADate,Activity,UNo) Values(?NewKey?RepairActivity?RepANo?," &
-                      row.Cells(0).Value & ",'" & DateAndTime.Now &
-                      "','Received Date -> " & txtRDate.Value & vbCrLf &
+                      row.Cells(0).Value & ",NOW(),'Received Date -> " & txtRDate.Value & vbCrLf &
                       ", Name -> " & cmbCuMr.Text & cmbCuName.Text &
                       ", Telephone No1 -> " & txtCuTelNo1.Text &
                       ", Telephone No2 -> " & txtCuTelNo2.Text &
@@ -207,7 +211,7 @@ Public Class frmReceive
                       ", Serial No -> " & row.Cells(4).Value &
                       ", Problem -> " & row.Cells(5).Value & ".'," & User.Instance.UserNo & ")")
             If row.Cells(8).Value IsNot Nothing Then
-                Db.Execute("Insert into RepairRemarks1(Rem1No,Rem1Date,RepNo,Remarks,UNo) Values(?NewKey?RepairRemarks1?Rem1No?,'" & DateAndTime.Now & "'," &
+                Db.Execute("Insert into RepairRemarks1(Rem1No,Rem1Date,RepNo,Remarks,UNo) Values(?NewKey?RepairRemarks1?Rem1No?,NOW()," &
                       row.Cells(0).Value & ",'" & row.Cells(8).Value & "'," & User.Instance.UserNo & ")")
             End If
             If Me.Tag = "Deliver" Then
@@ -218,8 +222,7 @@ Public Class frmReceive
                             .txtCuTelNo1.Text = txtCuTelNo1.Text
                             .txtCuTelNo2.Text = txtCuTelNo2.Text
                             .txtCuTelNo3.Text = txtCuTelNo3.Text
-                            .grdRepair.Rows.Add(row.Cells("RepairNo").Value, row.Cells("PCategory").Value, row.Cells("PName").Value, row.Cells("PQty").Value,
-                                                "0", "", "")
+                            .grdRepair.Rows.Add(row.Cells("RepairNo").Value, row.Cells("PCategory").Value, row.Cells("PName").Value, row.Cells("PQty").Value, "0", "", "")
                         End With
                         Exit For
                     End If
@@ -240,13 +243,13 @@ Public Class frmReceive
             Db.Execute("Insert Into `Return`(RetNo,RNo,RepNo,PNo,PSerialNo,Qty,Problem,Status,RetRemarks1) Values(" & row.Cells(0).Value & "," & txtRNo.Text & "," & row.Cells(1).Value & "," & PNo & ",'" & row.Cells(5).Value & "'," &
             row.Cells(7).Value & ",'" & row.Cells(8).Value & "','Received','" & row.Cells(9).Value & "');")
             Db.Execute("Insert into RepairActivity(RepANo,RetNo,RepADate,Activity,UNo) Values(?NewKey?RepairActivity?RepANo?," &
-                      row.Cells(0).Value & ",'" & DateAndTime.Now & "','Received Date -> " & txtRDate.Value & vbCrLf & ", Name -> " & cmbCuMr.Text & cmbCuName.Text &
+                      row.Cells(0).Value & ",NOW(),'Received Date -> " & txtRDate.Value & vbCrLf & ", Name -> " & cmbCuMr.Text & cmbCuName.Text &
                       ", Telephone No1 -> " & txtCuTelNo1.Text & ", Telephone No2 -> " & txtCuTelNo2.Text & ", Telephone No3 -> " & txtCuTelNo3.Text &
                       vbCrLf & ", Product Category -> " & row.Cells(2).Value &
                       ", Product Name -> " & row.Cells(3).Value & ", Model No -> " & row.Cells(4).Value & ", Serial No -> " & row.Cells(5).Value &
                       ", Problem -> " & row.Cells(6).Value & ".'," & User.Instance.UserNo & ")")
             If row.Cells(9).Value IsNot Nothing Then
-                Db.Execute("Insert into RepairRemarks1(Rem1No,Rem1Date,RetNo,Remarks,UNo) Values(?NewKey?RepairRemarks1?Rem1No?,'" & DateAndTime.Now & "'," &
+                Db.Execute("Insert into RepairRemarks1(Rem1No,Rem1Date,RetNo,Remarks,UNo) Values(?NewKey?RepairRemarks1?Rem1No?,NOW()," &
                       row.Cells(0).Value & ",'" & row.Cells(9).Value & "'," & User.Instance.UserNo & ")")
             End If
             If Me.Tag = "Deliver" Then
