@@ -186,7 +186,7 @@ Public Class ControlStockInfo
                 {Stock.AvailableUnits},
                 {Stock.DamagedUnits},
                 {Stock.ReorderPoint}
-            ) VALUES(@CODE,@CATEGORY,@NAME,@MODELNO,@LOCATION,@DETAILS,@SALEPRICE,@LOWESTPRICE,@COSTPRICE,@REORDERPOINT);", {
+            ) VALUES(@CODE,@CATEGORY,@NAME,@MODELNO,@LOCATION,@DETAILS,@SALEPRICE,@LOWESTPRICE,@COSTPRICE,@AVAILABLEUNITS,@DAMAGEDUNITS,@REORDERPOINT);", {
                         New MySqlParameter("@CODE", TxtSNo.Text),
                         New MySqlParameter("@CATEGORY", CmbCategory.Text),
                         New MySqlParameter("@NAME", CmbName.Text),
