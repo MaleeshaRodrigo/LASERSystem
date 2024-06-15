@@ -3,4 +3,7 @@
         MsgBox(Message, vbCritical + vbOKOnly)
     End Sub
 
+    Public Shared Sub Success(Message As String)
+        MsgBox(Message, vbOKOnly)
+    End Sub
 End Class
