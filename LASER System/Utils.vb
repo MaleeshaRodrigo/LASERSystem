@@ -1,4 +1,4 @@
-﻿Imports System.Data.OleDb
+﻿Imports MySqlConnector
 Imports System.IO
 Imports System.Net
 Imports Microsoft.VisualBasic.FileIO
@@ -16,14 +16,12 @@ Module Utils
     End Sub
 
     Public Sub SetNextKey(Db As Database, txt As TextBox, SQL As String, ColumnName As String)
-        Dim DR0 As OleDbDataReader = Db.GetDataReader(SQL)
-        If DR0.HasRows = True Then
-            DR0.Read()
+        Dim DR0 = Db.GetDataDictionary(SQL)
+        If DR0 IsNot Nothing Then
             txt.Text = Int(DR0.Item(ColumnName)) + 1
         Else
             txt.Text = "1"
         End If
-        DR0.Close()
     End Sub
 
     Public Sub OnlynumberQty(e As KeyPressEventArgs)
@@ -69,26 +67,9 @@ Module Utils
         Return True
     End Function
 
-    ''' <summary>
-    ''' Checking whether the given SQL query has rows or not
-    ''' </summary>
-    ''' <param name="SQL">The SQL Query</param>
-    ''' <returns>True, if there are rows in the SQL query, or false</returns>
-    Public Function CheckExistData(SQL As String) As Boolean
-        Dim CMD0 = New OleDbCommand(SQL)
-        Dim DR0 As OleDbDataReader = CMD0.ExecuteReader()
-        If DR0.HasRows = True Then
-            Return True
-        Else
-            Return False
-        End If
-        CMD0.Cancel()
-        DR0.Close()
-    End Function
-
     Public Function CheckExistData(Db As Database, cmb As Control, SQL As String, msg As String, IsDataExist As Boolean) As Boolean
-        Dim DR0 As OleDbDataReader = Db.GetDataReader(SQL)
-        If DR0.HasRows = True Then
+        Dim DR0 = Db.GetDataDictionary(SQL)
+        If DR0 IsNot Nothing Then
             If IsDataExist = True Then
                 MsgBox(msg, vbCritical + vbOKOnly)
                 cmb.Focus()
@@ -101,21 +82,20 @@ Module Utils
             End If
             Return False
         End If
-        DR0.Close()
     End Function
 
     Public Function CheckExistRelationsforDelete(SQl As String, FieldName As String, msg As String) As Boolean
-        CheckExistRelationsforDelete = True
-        CMD = New OleDb.OleDbCommand(SQl)
-        DR = CMD.ExecuteReader
-        Dim tmp As String = ""
-        If DR.HasRows = True Then
-            While DR.Read
-                tmp = tmp + DR(FieldName).ToString + " "
-            End While
-            MsgBox(msg + vbCrLf + "The field/s called '" + FieldName + "' are/is " + tmp, vbCritical + vbOKOnly)
-            Return False
-        End If
+        'CheckExistRelationsforDelete = True
+        'CMD = New OleDb.OleDbCommand(SQl)
+        'DR = CMD.ExecuteReader
+        'Dim tmp As String = ""
+        'If DR.Count Then
+        '    For Each Item In DR
+        '        tmp = tmp + DR(FieldName).ToString + " "
+        '    Next
+        '    MsgBox(msg + vbCrLf + "The field/s called '" + FieldName + "' are/is " + tmp, vbCritical + vbOKOnly)
+        '    Return False
+        'End If
     End Function
 
     Public Function NextfrmNo(frmNew As Form) As Integer

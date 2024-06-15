@@ -1,4 +1,4 @@
-﻿Imports System.Data.OleDb
+﻿Imports MySqlConnector
 
 Public Class frmSearchDropDown
     Private Db As Database
@@ -52,12 +52,12 @@ Public Class frmSearchDropDown
     Private Sub frm_Load(sender As Object, e As EventArgs) Handles Me.Load
         Me.Font = grd.Font
         lst.Items.Clear()
-        Dim DR As OleDbDataReader = Db.Getdatareader(SQL)
-        While DR.Read
-            If DR(ColumnName).ToString <> "" AndAlso DR(ColumnName).ToLower().Contains(txt.Text.ToLower) = True Then
-                lst.Items.Add(DR(ColumnName).ToString)
+        Dim DR = Db.GetDataList(SQL)
+        For Each Item In DR
+            If Item(ColumnName).ToString <> "" AndAlso Item(ColumnName).ToLower().Contains(txt.Text.ToLower) = True Then
+                lst.Items.Add(Item(ColumnName).ToString)
             End If
-        End While
+        Next
         If lst.Items.Count > 10 Then
             Me.Height = lst.ItemHeight * 11
         ElseIf lst.Items.Count <= 10 Then
@@ -93,18 +93,18 @@ Public Class frmSearchDropDown
     Private Sub txtType_TextChanged(sender As Object, e As EventArgs) Handles txtType.TextChanged
         If Me.Visible = True Then
             lst.Items.Clear()
-            Dim DR As OleDbDataReader = Db.GetDataReader(SQL)
-            While DR.Read
-                If DR(ColumnName).ToString = "" Then Continue While
-                'For Each str As String In DR(ColumnName).ToString.Split(" ")
+            Dim DR = Db.GetDataList(SQL)
+            For Each Item In DR
+                If Item(ColumnName).ToString = "" Then Continue For
+                'For Each str As String In Item(ColumnName).ToString.Split(" ")
                 '    For Each strtxt As String In txt.Text.ToString.Split(" ")
-                If DR(ColumnName).ToLower().Contains(txtType.Text.ToLower) = True Then
-                    lst.Items.Add(DR(ColumnName).ToString)
-                    Continue While
+                If Item(ColumnName).ToLower().Contains(txtType.Text.ToLower) = True Then
+                    lst.Items.Add(Item(ColumnName).ToString)
+                    Continue For
                 End If
                 '    Next
                 'Next
-            End While
+            Next
             If lst.Items.Count > 10 Then
                 Me.Height = lst.ItemHeight * 11
             ElseIf lst.Items.Count <= 10 Then

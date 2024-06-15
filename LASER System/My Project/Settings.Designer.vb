@@ -22,8 +22,8 @@ Namespace My
         
         Private Shared defaultInstance As MySettings = CType(Global.System.Configuration.ApplicationSettingsBase.Synchronized(New MySettings()),MySettings)
         
-#Region "My.Settings Auto-Save Functionality"
-#If _MyType = "WindowsForms" Then
+'Region "My.Settings Auto-Save Functionality"
+'If _MyType = "WindowsForms" Then
     Private Shared addedHandler As Boolean
 
     Private Shared addedHandlerLockObject As New Object
@@ -34,13 +34,13 @@ Namespace My
             My.Settings.Save()
         End If
     End Sub
-#End If
-#End Region
+'End If
+'End Region
         
         Public Shared ReadOnly Property [Default]() As MySettings
             Get
                 
-#If _MyType = "WindowsForms" Then
+'If _MyType = "WindowsForms" Then
                If Not addedHandler Then
                     SyncLock addedHandlerLockObject
                         If Not addedHandler Then
@@ -49,20 +49,20 @@ Namespace My
                         End If
                     End SyncLock
                 End If
-#End If
+'End If
                 Return defaultInstance
             End Get
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
-        Public Property DBPath() As String
+         Global.System.Configuration.DefaultSettingValueAttribute("localhost")>  _
+        Public Property DBServer() As String
             Get
-                Return CType(Me("DBPath"),String)
+                Return CType(Me("DBServer"),String)
             End Get
             Set
-                Me("DBPath") = value
+                Me("DBServer") = value
             End Set
         End Property
         
@@ -236,7 +236,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("YJ9R8NnRqK5tUziPQb+lgQ==")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
         Public Property DBPassword() As String
             Get
                 Return CType(Me("DBPassword"),String)
@@ -248,13 +248,13 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Microsoft.ACE.OLEDB.12.0")>  _
-        Public Property DBProvider() As String
+         Global.System.Configuration.DefaultSettingValueAttribute("root")>  _
+        Public Property DBUserName() As String
             Get
-                Return CType(Me("DBProvider"),String)
+                Return CType(Me("DBUserName"),String)
             End Get
             Set
-                Me("DBProvider") = value
+                Me("DBUserName") = value
             End Set
         End Property
         
@@ -288,6 +288,30 @@ Namespace My
             End Get
             Set
                 Me("CashDrawer") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("lasertec")>  _
+        Public Property DBName() As String
+            Get
+                Return CType(Me("DBName"),String)
+            End Get
+            Set
+                Me("DBName") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("3306")>  _
+        Public Property DBPort() As Integer
+            Get
+                Return CType(Me("DBPort"),Integer)
+            End Get
+            Set
+                Me("DBPort") = value
             End Set
         End Property
     End Class

@@ -1,17 +1,16 @@
 ﻿Imports System.ComponentModel
+Imports MySqlConnector
 
 Public Class frmReport
     Public boolClosed As Boolean = False
     Private ClosedCount As Integer
     Private FormName As String
     Public Sub New()
-
-        ' This call is required by the designer.
         InitializeComponent()
-        MenuStrip1.Items.Add(mnustrpMENU)
-        ' Add any initialization after the InitializeComponent() call.
 
+        MenuStrip1.Items.Add(mnustrpMENU)
     End Sub
+
     Private Sub CloseToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CloseToolStripMenuItem.Click
         Me.Close()
     End Sub
@@ -68,6 +67,7 @@ Public Class frmReport
                 Me.Left = Screen.PrimaryScreen.WorkingArea.Width / 2 - 10
         End Select
     End Sub
+
     Private Sub frmReport_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         If (e.KeyCode = System.Windows.Forms.Keys.Escape) Then
             Me.Close()

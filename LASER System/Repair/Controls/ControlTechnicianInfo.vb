@@ -1,4 +1,4 @@
-﻿Imports System.Data.OleDb
+﻿Imports MySqlConnector
 
 Public Class ControlTechnicianInfo
     Private DB As Database
@@ -14,18 +14,18 @@ Public Class ControlTechnicianInfo
 
     Public Sub Init()
         cmbTName.Text = FormParent.DataReaderRepair("TName").ToString()
-        Dim DataReader As OleDbDataReader
+        Dim DataReader As List(Of Dictionary(Of String, Object))
         If FormParent.Mode = RepairMode.Repair Then
-            DataReader = DB.GetDataReader("Select Rem2No, Rem2Date, Remarks, UserName from RepairRemarks2 RepRem2 LEFT JOIN [User] U ON U.UNo=RepRem2.UNo Where RepNo=@REPNO;", {New OleDbParameter("REPNO", FormParent.DataReaderRepair("RepNo").ToString())})
+            DataReader = DB.GetDataList("Select Rem2No, Rem2Date, Remarks, UserName from RepairRemarks2 RepRem2 LEFT JOIN `User` U ON U.UNo=RepRem2.UNo Where RepNo=@REPNO;", {New MySqlParameter("REPNO", FormParent.DataReaderRepair("RepNo").ToString())})
         Else
-            DataReader = DB.GetDataReader("Select Rem2No, Rem2Date, Remarks, UserName from RepairRemarks2 RepRem2 LEFT JOIN [User] U ON U.UNo=RepRem2.UNo Where RetNo=@REREPNO;", {
-                                        New OleDbParameter("REREPNO", FormParent.DataReaderRepair("RetNo").ToString())
+            DataReader = DB.GetDataList("Select Rem2No, Rem2Date, Remarks, UserName from RepairRemarks2 RepRem2 LEFT JOIN `User` U ON U.UNo=RepRem2.UNo Where RetNo=@REREPNO;", {
+                                        New MySqlParameter("REREPNO", FormParent.DataReaderRepair("RetNo").ToString())
                                     })
         End If
         grdRepRemarks2.Rows.Clear()
-        While DataReader.Read
-            grdRepRemarks2.Rows.Add(DataReader("Rem2No").ToString, DataReader("Rem2Date").ToString, DataReader("Remarks").ToString, DataReader("UserName").ToString)
-        End While
+        For Each Item In DataReader
+            grdRepRemarks2.Rows.Add(Item("Rem2No").ToString, Item("Rem2Date").ToString, Item("Remarks").ToString, Item("UserName").ToString)
+        Next
 
         Call CmbTName_DropDown(Nothing, Nothing)
     End Sub
@@ -106,13 +106,13 @@ Public Class ControlTechnicianInfo
         End If
         If e.RowIndex <> (grdRepRemarks2.Rows.Count - 1) Then
             If DB.CheckDataExists("RepairRemarks2", "Rem2No", grdRepRemarks2.Item(0, e.RowIndex).Value) = True Then
-                DB.Execute($"Update RepairRemarks2 set {If(FormParent.tabRepair.SelectedTab.TabIndex = 0, "RepNo=" & FormParent.cmbRepNo.Text, "RetNo=" & FormParent.cmbRetNo.Text) }, Rem2Date =#{grdRepRemarks2.Item(1, e.RowIndex).Value}#, Remarks ='{grdRepRemarks2.Item(2, e.RowIndex).Value}',UNo={DB.GetData($"Select UNo from [User] Where UserName='{grdRepRemarks2.Item(3, e.RowIndex).Value}'")} Where Rem2No={grdRepRemarks2.Item(0, e.RowIndex).Value}", {}, AdminPer)
+                DB.Execute($"Update RepairRemarks2 set {If(FormParent.tabRepair.SelectedTab.TabIndex = 0, "RepNo=" & FormParent.cmbRepNo.Text, "RetNo=" & FormParent.cmbRetNo.Text) }, Rem2Date ='{grdRepRemarks2.Item(1, e.RowIndex).Value}', Remarks ='{grdRepRemarks2.Item(2, e.RowIndex).Value}',UNo={DB.GetData($"Select UNo from `User` Where UserName='{grdRepRemarks2.Item(3, e.RowIndex).Value}'")} Where Rem2No={grdRepRemarks2.Item(0, e.RowIndex).Value}", {}, AdminPer)
             Else
                 DB.Execute("Insert into RepairRemarks2(Rem2No," & If(FormParent.tabRepair.SelectedTab.TabIndex = 0, "RepNo", "RetNo") &
                           ",Rem2Date,Remarks,UNo) Values(" & grdRepRemarks2.Item(0, e.RowIndex).Value & "," &
-                          If(FormParent.tabRepair.SelectedTab.TabIndex = 0, FormParent.cmbRepNo.Text, FormParent.cmbRetNo.Text) & ",#" & grdRepRemarks2.Item(1, e.RowIndex).Value &
-                          "#,'" & grdRepRemarks2.Item(2, e.RowIndex).Value & "'," &
-                          DB.GetData("Select UNo from [User] Where UserName='" & grdRepRemarks2.Item(3, e.RowIndex).Value & "'") &
+                          If(FormParent.tabRepair.SelectedTab.TabIndex = 0, FormParent.cmbRepNo.Text, FormParent.cmbRetNo.Text) & ",'" & grdRepRemarks2.Item(1, e.RowIndex).Value &
+                          "','" & grdRepRemarks2.Item(2, e.RowIndex).Value & "'," &
+                          DB.GetData("Select UNo from `User` Where UserName='" & grdRepRemarks2.Item(3, e.RowIndex).Value & "'") &
                           ")", {}, AdminPer)
             End If
         End If
@@ -136,16 +136,14 @@ Public Class ControlTechnicianInfo
     Private Sub grdRepRemarks2_RowValidating(sender As Object, e As DataGridViewCellCancelEventArgs) Handles grdRepRemarks2.RowValidating
         If e.RowIndex < 0 Then Exit Sub
         If grdRepRemarks2.Item(0, e.RowIndex).Value Is Nothing Then Exit Sub
-        Dim DR1 As OleDbDataReader = DB.GetDataReader("SELECT Rem2No,Rem2Date,Remarks,UNo from RepairRemarks2 where Rem2No=" & grdRepRemarks2.Item(0, e.RowIndex).Value & ";")
-        If DR1.HasRows Then
-            DR1.Read()
+        Dim DR1 = DB.GetDataDictionary("SELECT Rem2No,Rem2Date,Remarks,UNo from RepairRemarks2 where Rem2No=" & grdRepRemarks2.Item(0, e.RowIndex).Value & ";")
+        If DR1 IsNot Nothing Then
             grdRepRemarks2.Item(1, e.RowIndex).Value = DR1("Rem2Date").ToString
             grdRepRemarks2.Item(2, e.RowIndex).Value = DR1("Remarks").ToString
             grdRepRemarks2.Item(3, e.RowIndex).Value = If(DR1("UNo").ToString <> "",
-                DB.GetData("Select UserName from [User] where Uno=" & DR1("UNo").ToString), "")
+                DB.GetData("Select UserName from `User` where Uno=" & DR1("UNo").ToString), "")
         Else
             grdRepRemarks2.Rows.RemoveAt(e.RowIndex)
         End If
-        DR1.Close()
     End Sub
 End Class
