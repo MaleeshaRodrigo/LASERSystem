@@ -26,14 +26,14 @@
     <Setting Name="BGSendSMS" Type="System.String" Scope="User">
       <Value Profile="(Default)">OFF</Value>
     </Setting>
-    <Setting Name="DatabasePath" Type="System.String" Scope="User">
+    <Setting Name="DbUserName" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="DatabasePassword" Type="System.String" Scope="User">
+    <Setting Name="DbPassword" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="DatabaseProvider" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Microsoft.ACE.OLEDB.12.0</Value>
+    <Setting Name="DbServer" Type="System.String" Scope="User">
+      <Value Profile="(Default)">localhost</Value>
     </Setting>
     <Setting Name="OnlineDatabasePath" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
@@ -58,6 +58,12 @@
     </Setting>
     <Setting Name="MailServerPort" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">587</Value>
+    </Setting>
+    <Setting Name="DbPort" Type="System.String" Scope="User">
+      <Value Profile="(Default)">3306</Value>
+    </Setting>
+    <Setting Name="DbName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">lasertec</Value>
     </Setting>
   </Settings>
 </SettingsFile>
