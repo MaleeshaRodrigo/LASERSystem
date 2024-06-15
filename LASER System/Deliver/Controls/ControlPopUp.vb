@@ -113,8 +113,9 @@ Public Class ControlPopUp
                       "','" & FormParent.txtCuTelNo2.Text & "','" & FormParent.txtCuTelNo3.Text & "');", {}, AdminPer)
         End If
         Dim DNo As Integer = Db.GetNextKey("Deliver", "DNo")
-        Db.Execute($"INSERT INTO Deliver(DNo,DDate,Cuno,DGrandTotal,CAmount,CReceived,CBalance,CPINvoiceNo,CPAmount,CuLNO,CuLAmount,DRemarks) VALUES(@DNO, '{FormParent.txtDDate.Value}', @CUNO, @DGRANDTOTAL, @CAMOUNT, @CRECEIVED, @CBALANCE, @CPINVOICENO, @CPAMOUNT, @CULNO, @CULAMOUNT, @DREMARKS);", {
+        Db.Execute($"INSERT INTO Deliver(DNo,DDate,Cuno,DGrandTotal,CAmount,CReceived,CBalance,CPINvoiceNo,CPAmount,CuLNO,CuLAmount,DRemarks) VALUES(@DNO, @DDATE, @CUNO, @DGRANDTOTAL, @CAMOUNT, @CRECEIVED, @CBALANCE, @CPINVOICENO, @CPAMOUNT, @CULNO, @CULAMOUNT, @DREMARKS);", {
                    New MySqlParameter("DNO", DNo),
+                   New MySqlParameter("DDATE", FormParent.txtDDate.Value),
                    New MySqlParameter("CUNO", CuNo),
                    New MySqlParameter("DGRANDTOTAL", txtGrandTotal.Text),
                    New MySqlParameter("CAMOUNT", txtCAmount.Text),
@@ -128,7 +129,7 @@ Public Class ControlPopUp
         }, AdminPer)
         If txtCuLAmount.Text <> "0" Then
             Db.Execute("Insert into CustomerLoan(CuLNo,CuLDate,CuNO,CuLAmount,DNo,Status) Values(?NewKey?CustomerLoan?CuLNo?,@CULDATE,@CUNO,@CULAMOUNT,@DNO,'Not Paid')", {
-                   New MySqlParameter("CULDATE", FormParent.txtDDate.Value.ToString),
+                   New MySqlParameter("CULDATE", FormParent.txtDDate.Value),
                    New MySqlParameter("CUNO", CuNo),
                    New MySqlParameter("CULAMOUNT", txtCuLAmount.Text),
                    New MySqlParameter("DNO", DNo)
@@ -141,7 +142,7 @@ Public Class ControlPopUp
                 If DrRepStatus("Status").ToString = "Received" Or DrRepStatus("Status").ToString = "Hand Over to Technician" Or
                         DrRepStatus("Status").ToString = "Repairing" Then
                     Db.Execute("Update Repair set RepDate = @REPDATE,Charge=@CHARGE where RepNo=@REPNO;", {
-                            New MySqlParameter("REPDATE", FormParent.txtDDate.Value.ToString),
+                            New MySqlParameter("REPDATE", FormParent.txtDDate.Value),
                             New MySqlParameter("CHARGE", Row1.Cells(4).Value),
                             New MySqlParameter("REPNO", Row1.Cells(0).Value)
                         }, AdminPer)
@@ -160,7 +161,7 @@ Public Class ControlPopUp
             If DrRetStatus IsNot Nothing Then
                 If DrRetStatus("Status").ToString = "Received" Or DrRetStatus("Status").ToString = "Hand Over to Technician" Or DrRetStatus("Status").ToString = "Repairing" Then
                     Db.Execute("UPDATE `Return` SET RetRepDate = @RETREPDATE,Charge= @CHARGE where RetNo= @RETNO;", {
-                            New MySqlParameter("RETREPDATE", FormParent.txtDDate.Value.ToString),
+                            New MySqlParameter("RETREPDATE", FormParent.txtDDate.Value),
                             New MySqlParameter("CHARGE", Row.Cells(5).Value.ToString),
                             New MySqlParameter("RETNO", Row.Cells(0).Value.ToString)
                         }, AdminPer)

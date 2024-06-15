@@ -108,11 +108,11 @@ Public Class frmSupply
     Private Sub SaveSupplyInformation(SuNo As Integer)
         Db.Execute("Insert into Supply(SupNo,SupDate,SuNo,SupRemarks,SupStatus,SupPaidDate,UNo) Values(@SUPNO,@SUPDATE,@SUNO, @SUPREMARKS, @SUPSTATUS, @SUPPAIDDATE, @UNO)", {
                 New MySqlParameter("SUPNO", txtSupNo.Text),
-                New MySqlParameter("SUPDATE", txtSupDate.Value.ToString),
+                New MySqlParameter("SUPDATE", txtSupDate.Value),
                 New MySqlParameter("SUNO", SuNo),
                 New MySqlParameter("SUPREMARKS", txtSupRemarks.Text),
                 New MySqlParameter("SUPSTATUS", cmbSupStatus.Text),
-                New MySqlParameter("SUPPAIDDATE", If(cmbSupStatus.Text = "Paid", txtSupPaidDate.Value.ToString, DBNull.Value)),
+                New MySqlParameter("SUPPAIDDATE", If(cmbSupStatus.Text = "Paid", txtSupPaidDate.Value, DBNull.Value)),
                 New MySqlParameter("UNO", User.Instance.UserNo)
             })
         For Each Row As DataGridViewRow In grdSupply.Rows
