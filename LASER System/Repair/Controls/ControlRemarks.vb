@@ -133,9 +133,10 @@ Public Class ControlRemarks
             Else
                 DB.Execute("Insert into RepairRemarks1(Rem1No," & If(FormParent.Mode = RepairMode.Repair, "RepNo", "RetNo") &
                           ", Rem1Date, Remarks, UNo) Values(@REM1NO," &
-                          If(FormParent.Mode = RepairMode.Repair, FormParent.cmbRepNo.Text, FormParent.cmbRetNo.Text) & ",@REM1DATE,@REMARKS,@UNO;", {
+                          If(FormParent.Mode = RepairMode.Repair, FormParent.cmbRepNo.Text, FormParent.cmbRetNo.Text) &
+                          ", @REM1DATE, @REMARKS, @UNO);", {
                     New MySqlParameter("REM1NO", grdRepRemarks1.Item(0, e.RowIndex).Value),
-                    New MySqlParameter("REM1DATE", grdRepRemarks1.Item(1, e.RowIndex).Value),
+                    New MySqlParameter("REM1DATE", grdRepRemarks1.Item(1, e.RowIndex).Value.ToString),
                     New MySqlParameter("REMARKS", grdRepRemarks1.Item(2, e.RowIndex).Value),
                     New MySqlParameter("UNO", User.Instance.UserNo)
                 }, AdminPer)

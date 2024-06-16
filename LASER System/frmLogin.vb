@@ -55,9 +55,9 @@ Public Class frmLogin
             Exit Sub
         End If
         Dim DR = Db.GetDataDictionary("Select * from `User` where UserName ='" & cmbUserName.Text & "'")
-        If DR.Count Then
+        If DR IsNot Nothing Then
             DR = Db.GetDataDictionary("Select * from `User` where  STRCMP('" & cmbUserName.Text & "',UserName)=0 and STRCMP(Password,'" & txtPassword.Text & "')=0")
-            If DR.Count Then
+            If DR IsNot Nothing Then
 
                 Db.DirectExecute("Update `User` set LogInCount='0' Where LoginCount IS NULL")
                 Db.DirectExecute("Update `User` set LogInCount= (LogInCount + 1) Where UNo = " & DR("UNo").ToString)

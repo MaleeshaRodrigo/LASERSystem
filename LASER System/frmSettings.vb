@@ -48,47 +48,53 @@ Public Class FrmSettings
     End Sub
 
     Private Sub CmdApply_Click(sender As Object, e As EventArgs) Handles cmdApply.Click
-        BoolApplyError = False
-        With My.Settings
-            .DBServer = TextDbServer.Text
-            .DBPort = TextDBPort.Text
-            .DBName = TextDBName.Text
-            .DBUserName = TextDBUserName.Text
-            .DBPassword = If(TextDBPassword.Text.Trim().Length > 0, New Encoder().Encode(TextDBPassword.Text), "")
+        Try
+            BoolApplyError = False
+            With My.Settings
+                .DBServer = TextDbServer.Text
+                .DBPort = TextDBPort.Text
+                .DBName = TextDBName.Text
+                .DBUserName = TextDBUserName.Text
+                .DBPassword = If(TextDBPassword.Text.Trim().Length > 0, New Encoder().Encode(TextDBPassword.Text), "")
 
-            .SendSettlementEmail = chkMSetEmail.CheckState
-            .DeliveredEmailtoT = chkDeliveredEmailtoT.Checked
-            .AdminEmail = txtMAdminEmail.Text
+                .SendSettlementEmail = chkMSetEmail.CheckState
+                .DeliveredEmailtoT = chkDeliveredEmailtoT.Checked
+                .AdminEmail = txtMAdminEmail.Text
 
-            .StickerPrinterName = txtStickerPrinterName.Text
-            .StockStickerPaperName = txtStickerStockPaperName.Text
-            .RepairStickerPrinterPaperName = txtStickerRepairPaperName.Text
-            .BillPrinterName = txtBillPrinterName.Text
-            .BillPrinterPaperName = txtBillPaperName.Text
+                .StickerPrinterName = txtStickerPrinterName.Text
+                .StockStickerPaperName = txtStickerStockPaperName.Text
+                .RepairStickerPrinterPaperName = txtStickerRepairPaperName.Text
+                .BillPrinterName = txtBillPrinterName.Text
+                .BillPrinterPaperName = txtBillPaperName.Text
 
-            .BarcodeScannerCOMMode = chkBSCOMMode.Checked
-            .BarcodeScannerCOMPort1 = cmbBSCOMPort.Text
-            .BarcodeScannerBaudRate = Int(txtBSBaudRate.Text)
-            .BGWorkerPath = TxtBGWokerPath.Text
+                .BarcodeScannerCOMMode = chkBSCOMMode.Checked
+                .BarcodeScannerCOMPort1 = cmbBSCOMPort.Text
+                .BarcodeScannerBaudRate = Int(txtBSBaudRate.Text)
+                .BGWorkerPath = TxtBGWokerPath.Text
 
-            .CashDrawer = ChkCashDrawer.Checked
-            .Save()
+                .CashDrawer = ChkCashDrawer.Checked
+                .Save()
 
-            MdifrmMain.BarCodePort.Close()
-            If chkBSCOMMode.Checked Then
-                If .BarcodeScannerCOMPort1 <> "" And Ports.SerialPort.GetPortNames.Contains(.BarcodeScannerCOMPort1) Then
-                    MdifrmMain.BarCodePort.BaudRate = txtBSBaudRate.Text
-                    MdifrmMain.BarCodePort.PortName = cmbBSCOMPort.Text
-                    MdifrmMain.BarCodePort.Open()
+                MdifrmMain.BarCodePort.Close()
+                If chkBSCOMMode.Checked Then
+                    If .BarcodeScannerCOMPort1 <> "" And Ports.SerialPort.GetPortNames.Contains(.BarcodeScannerCOMPort1) Then
+                        MdifrmMain.BarCodePort.BaudRate = txtBSBaudRate.Text
+                        MdifrmMain.BarCodePort.PortName = cmbBSCOMPort.Text
+                        MdifrmMain.BarCodePort.Open()
+                    End If
                 End If
-            End If
-        End With
+            End With
 
-        Dim ConnectionResult = Db.CheckConnection()
-        If ConnectionResult.Valid = False Then
-            MsgBox(ConnectionResult.Message, vbExclamation, "Database Connection Error")
-            BoolApplyError = True
-        End If
+            Dim ConnectionResult = Db.CheckConnection()
+            If ConnectionResult.Valid = False Then
+                BoolApplyError = True
+                Throw New Exception("Database Connection Error")
+            End If
+
+            MessageBox.Success("Successfully Saved!")
+        Catch ex As Exception
+            MessageBox.Error(ex.Message)
+        End Try
     End Sub
 
     Private Sub CmdOK_Click(sender As Object, e As EventArgs) Handles cmdOK.Click
