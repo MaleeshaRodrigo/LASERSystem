@@ -513,10 +513,10 @@ Public Class frmReceive
         Select Case e.ColumnIndex
             Case 1
                 If grdReRepair.Item(e.ColumnIndex, e.RowIndex).Value Is Nothing Then Exit Sub
-                Dim DrCustomer = Db.GetDataDictionary("Select RepNo,Rep.RNo,Cu.CuNo,CuName,CuTelNo1,CuTElNo2,CuTelNo3 from Repair REP, Receive R, Customer Cu Where Rep.RNo = R.RNo and Cu.CuNo = R.CuNo and RepNo = " & grdReRepair.Item(1, e.RowIndex).Value)
+                Dim DrCustomer = Db.GetDataDictionary("Select RepNo, Rep.RNo, Cu.CuNo, CuName, CuTelNo1, CuTelNo2, CuTelNo3 from Repair REP, Receive R, Customer Cu Where Rep.RNo = R.RNo and Cu.CuNo = R.CuNo and RepNo = " & grdReRepair.Item(1, e.RowIndex).Value)
                 If DrCustomer IsNot Nothing Then
                     txtCuTelNo1.Text = DrCustomer("CuTelNo1").ToString
-                    txtCuTelNo2.Text = DrCustomer("CUTelNo2").ToString
+                    txtCuTelNo2.Text = DrCustomer("CuTelNo2").ToString
                     txtCuTelNo3.Text = DrCustomer("CuTelNo3").ToString
                     cmbCuName.Text = DrCustomer("CuName").ToString
                 End If
