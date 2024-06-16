@@ -509,7 +509,7 @@ Public Class frmSearch
                                     Next
                                     Dim CMDSearch2 As New OleDb.OleDbCommand
                                     Dim DRSearch2 = Db.GetDataList($"Select RepNo,Remarks from RepairRemarks1 Where Remarks {cmdLIKE.Text} '{Symbol}{Search}{Symbol}' Union Select RepNo,Remarks from RepairRemarks2 Where Remarks like '{Symbol}{Search}{Symbol}'")
-                                    If DRSearch2 IsNot Nothing Then
+                                    If DRSearch2.Count Then
                                         x += " Or RepNo IN ("
                                         For Each Item In DRSearch2
                                             x += Item("RepNo").ToString + ","
