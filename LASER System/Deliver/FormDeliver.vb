@@ -3,6 +3,7 @@
 Public Class FormDeliver
     Private Db As New Database
     Public ControlPopUp As ControlPopUp
+
     Public Sub New()
         InitializeComponent()
 
@@ -340,10 +341,9 @@ Public Class FormDeliver
                     grdRERepair.Rows.RemoveAt(grdRERepair.CurrentCell.RowIndex)
                     Exit Sub
                 End If
-                DR = Db.GetDataDictionary("Select RetNo,RepNo,PCategory,PName,PMOdelNO,PSerialNo,PDetails,Qty,Charge,TName,Status,CuName,CuTelNo1,CuTelNo2,CuTelNo3 from ((((Return RET INNER JOIN RECEIVE R ON R.RNO = RET.RNO) INNER JOIN PRODUCT  P ON P.PNO = RET.PNO) INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = RET.TNO) Where RetNo = " & grdRERepair.Item(0, grdRERepair.CurrentCell.RowIndex).Value)
-                If DR.Count Then
-
-                    If DR("Status").ToString = "Repaired Delivered" Or DR("Status").ToString = "Returned Delivered" Then
+                Dim DataReader = Db.GetDataDictionary("Select RetNo,RepNo,PCategory,PName,PModelNo,PSerialNo,PDetails,Qty,Charge,TName,Status,CuName,CuTelNo1,CuTelNo2,CuTelNo3 from ((((`Return` RET INNER JOIN RECEIVE R ON R.RNO = RET.RNO) INNER JOIN PRODUCT  P ON P.PNO = RET.PNO) INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = RET.TNO) Where RetNo = " & grdRERepair.Item(0, grdRERepair.CurrentCell.RowIndex).Value)
+                If DataReader IsNot Nothing Then
+                    If DataReader("Status").ToString = "Repaired Delivered" Or DataReader("Status").ToString = "Returned Delivered" Then
                         If MsgBox("මෙම RERepair එක දැනටමත් Customer විසින් රැගෙන ගොස් ඇත." + vbCrLf + "ඔබට එම RERepair එක විවෘත කිරිමට අවශ්‍යද?", vbInformation + vbYesNo) = vbYes Then
                             Dim frm As New FormRepair
                             With frm
@@ -354,7 +354,7 @@ Public Class FormDeliver
                             End With
                         End If
                         grdRERepair.Rows.RemoveAt(grdRERepair.CurrentCell.RowIndex)
-                    ElseIf DR("Status").ToString = "Canceled" Then
+                    ElseIf DataReader("Status").ToString = "Canceled" Then
                         If MsgBox("මෙම RERepair එක Canceled කර ඇත." + vbCrLf + "ඔබට එම RERepair එක විවෘත කිරිමට අවශ්‍යද?", vbInformation + vbYesNo) = vbYes Then
                             Dim frm As New FormRepair
                             With frm
@@ -366,17 +366,17 @@ Public Class FormDeliver
                         End If
                         grdRERepair.Rows.RemoveAt(grdRERepair.CurrentCell.RowIndex)
                     Else
-                        cmbCuName.Text = DR("CuName").ToString
-                        txtCuTelNo1.Text = DR("CuTelNo1").ToString
-                        txtCuTelNo2.Text = DR("CuTelNo2").ToString
-                        txtCuTelNo3.Text = DR("CuTElno3").ToString
-                        grdRERepair.Item(1, grdRERepair.CurrentCell.RowIndex).Value = DR("Repno").ToString
-                        grdRERepair.Item(2, grdRERepair.CurrentCell.RowIndex).Value = DR("PCategory").ToString
-                        grdRERepair.Item(3, grdRERepair.CurrentCell.RowIndex).Value = DR("PName").ToString
-                        grdRERepair.Item(4, grdRERepair.CurrentCell.RowIndex).Value = DR("Qty").ToString
-                        grdRERepair.Item(5, grdRERepair.CurrentCell.RowIndex).Value = DR("Charge").ToString
-                        grdRERepair.Item(6, grdRERepair.CurrentCell.RowIndex).Value = DR("TName").ToString
-                        If DR("Status").ToString = "Returned Not Delivered" Then
+                        cmbCuName.Text = DataReader("CuName").ToString
+                        txtCuTelNo1.Text = DataReader("CuTelNo1").ToString
+                        txtCuTelNo2.Text = DataReader("CuTelNo2").ToString
+                        txtCuTelNo3.Text = DataReader("CuTelNo3").ToString
+                        grdRERepair.Item(1, grdRERepair.CurrentCell.RowIndex).Value = DataReader("RepNo").ToString
+                        grdRERepair.Item(2, grdRERepair.CurrentCell.RowIndex).Value = DataReader("PCategory").ToString
+                        grdRERepair.Item(3, grdRERepair.CurrentCell.RowIndex).Value = DataReader("PName").ToString
+                        grdRERepair.Item(4, grdRERepair.CurrentCell.RowIndex).Value = DataReader("Qty").ToString
+                        grdRERepair.Item(5, grdRERepair.CurrentCell.RowIndex).Value = DataReader("Charge").ToString
+                        grdRERepair.Item(6, grdRERepair.CurrentCell.RowIndex).Value = DataReader("TName").ToString
+                        If DataReader("Status").ToString = "Returned Not Delivered" Then
                             grdRERepair.Item(7, grdRERepair.CurrentCell.RowIndex).Value = "Returned Delivered"
                         Else
                             grdRERepair.Item(7, grdRERepair.CurrentCell.RowIndex).Value = "Repaired Delivered"
