@@ -148,8 +148,9 @@ Public Class ControlPopUp
                         }, AdminPer)
                 End If
             End If
-            Db.Execute($"UPDATE Repair SET PaidPrice = @PAIDPRICE,TNo = (SELECT TNo FROM Technician WHERE TName = '{Row1.Cells(5).Value}'),Status=@STATUS,DNo = @DNO WHERE RepNo=@REPNO;", {
+            Db.Execute($"UPDATE Repair SET PaidPrice = @PAIDPRICE,TNo = (SELECT TNo FROM Technician WHERE TName = @TNAME),Status=@STATUS,DNo = @DNO WHERE RepNo=@REPNO;", {
                            New MySqlParameter("PAIDPRICE", Row1.Cells(4).Value),
+                           New MySqlParameter("TNAME", Row1.Cells(5).Value),
                            New MySqlParameter("STATUS", Row1.Cells(6).Value.ToString),
                            New MySqlParameter("DNO", DNo),
                            New MySqlParameter("REPNO", Row1.Cells(0).Value)
@@ -160,15 +161,16 @@ Public Class ControlPopUp
             Dim DrRetStatus = Db.GetDataDictionary("Select Status,RetNo from `Return` where RetNo=" & Row.Cells(0).Value)
             If DrRetStatus IsNot Nothing Then
                 If DrRetStatus("Status").ToString = "Received" Or DrRetStatus("Status").ToString = "Hand Over to Technician" Or DrRetStatus("Status").ToString = "Repairing" Then
-                    Db.Execute("UPDATE `Return` SET RetRepDate = @RETREPDATE,Charge= @CHARGE where RetNo= @RETNO;", {
-                            New MySqlParameter("RETREPDATE", FormParent.txtDDate.Value),
+                    Db.Execute("UPDATE `Return` SET RepDate = @REPDATE,Charge= @CHARGE where RetNo= @RETNO;", {
+                            New MySqlParameter("REPDATE", FormParent.txtDDate.Value),
                             New MySqlParameter("CHARGE", Row.Cells(5).Value.ToString),
                             New MySqlParameter("RETNO", Row.Cells(0).Value.ToString)
                         }, AdminPer)
                 End If
             End If
-            Db.Execute($"Update `Return` set PaidPrice = @PAIDPRICE,TNo = DLookup('TNo', 'Technician', 'TName=""{Row.Cells(6).Value}""'),Status= @STATUS,DNo = @DNO where RetNo= @RETNO", {
+            Db.Execute($"Update `Return` set PaidPrice = @PAIDPRICE,TNo = (SELECT TNo FROM Technician WHERE TName = @TNAME),Status= @STATUS,DNo = @DNO where RetNo= @RETNO", {
                             New MySqlParameter("PAIDPRICE", Row.Cells(5).Value.ToString),
+                            New MySqlParameter("TNAME", Row.Cells(6).Value.ToString),
                             New MySqlParameter("STATUS", Row.Cells(7).Value.ToString),
                             New MySqlParameter("DNO", DNo),
                             New MySqlParameter("RETNO", Row.Cells(0).Value.ToString)
