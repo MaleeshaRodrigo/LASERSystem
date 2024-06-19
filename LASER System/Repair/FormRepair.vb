@@ -373,7 +373,10 @@ Public Class FormRepair
                                   cmbRepNo.Text & ",NOW(),'Repair Charge -> " & ControlRepairDeliverInfo.txtRepPrice.Text & "'," & User.Instance.UserNo & ")")
                     End If
                     If DataReaderRepair("RepDate").ToString <> ControlRepairDeliverInfo.txtRepDate.Value.ToString Then
-                        Db.Execute("update Repair set repdate='" & ControlRepairDeliverInfo.txtRepDate.Value.ToString & "' where repno=" & cmbRepNo.Text & ";")
+                        Db.Execute("UPDATE Repair SET RepDate=@REPDATE WHERE RepNo=@REPNO;", {
+                            New MySqlParameter("REPDATE", ControlRepairDeliverInfo.txtRepDate.Value),
+                            New MySqlParameter("REPNO", cmbRepNo.Text)
+                        })
                         Db.Execute("Insert into RepairActivity(RepANo,RepNo,RepADate,Activity,UNo) Values(" & Db.GetNextKey("RepairActivity", "RepANo") & "," &
                                   cmbRepNo.Text & ",NOW(),'Repaired Date -> " & ControlRepairDeliverInfo.txtRepDate.Value.ToString & "'," & User.Instance.UserNo & ")")
                     End If
