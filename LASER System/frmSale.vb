@@ -478,7 +478,7 @@ Public Class frmSale
                                                              New MySqlParameter("NAME", If(grdSale.Item(2, e.RowIndex).Value, ""))
                                                                                 })
                 If DR IsNot Nothing Then
-                    grdSale.Item(0, e.RowIndex).Value = DR("Sno").ToString
+                    grdSale.Item(0, e.RowIndex).Value = DR("SNo").ToString
                     grdSale.Item(1, e.RowIndex).Value = DR("SCategory").ToString
                     grdSale.Item(2, e.RowIndex).Value = DR("SName").ToString
                     grdSale.Item(3, e.RowIndex).Value = "Sale"
