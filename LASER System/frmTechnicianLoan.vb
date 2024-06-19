@@ -202,7 +202,7 @@ Public Class frmTechnicianLoan
                 txtTLAmount.Text = "0"
                 Exit Sub
             End If
-            Dim DR = Db.GetDataDictionary("SElect SNO from stock where Sno =" & txtSNo.Text)
+            Dim DR = Db.GetDataDictionary("SELECT SNo from stock where SNo =" & txtSNo.Text)
             If DR Is Nothing Then
                 cmbSCategory.Text = ""
                 cmbSName.Text = ""
