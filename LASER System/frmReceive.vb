@@ -267,7 +267,7 @@ Public Class frmReceive
                       ", Product Name -> " & row.Cells(3).Value &
                       ", Model No -> " & row.Cells(4).Value &
                       ", Serial No -> " & row.Cells(5).Value &
-                      ", Problem -> " & row.Cells(6).Value),
+                      ", Problem -> " & row.Cells(8).Value),
                 New MySqlParameter("UNO", User.Instance.UserNo)
             })
             If row.Cells(8).Value IsNot Nothing Then
