@@ -1,4 +1,5 @@
 ﻿Imports MySqlConnector
+Imports System.Data.OleDb
 Imports System.IO
 Imports System.Threading
 Imports ZXing
@@ -232,23 +233,44 @@ Public Class frmReceive
         For Each row As DataGridViewRow In grdReRepair.Rows
             If row.Index = grdReRepair.Rows.Count - 1 Then Continue For
             'Product Management
-            Dim DrProduct = Db.GetDataDictionary("Select * from Product where PCategory='" & row.Cells(2).Value & "' and PName = '" & row.Cells(3).Value & "'")
+            Dim DrProduct = Db.GetDataDictionary("Select * from Product where PCategory='" & row.Cells(1).Value & "' and PName='" & row.Cells(2).Value & "'")
             If DrProduct IsNot Nothing Then
                 PNo = DrProduct("PNo")
             Else
                 PNo = Db.GetNextKey("Product", "PNo")
-                Db.Execute("Insert into Product(PNO,PCATEGORY,PNAME,PMODELNO,PDETAILS) Values(" & PNo & ",'" & row.Cells(2).Value & "','" & row.Cells(3).Value & "','" & row.Cells(4).Value &
-                          "','" & row.Cells(6).Value & "');")
+                Db.Execute("INSERT INTO Product(PNO,PCATEGORY,PNAME,PMODELNO,PDETAILS) Values(@PNO, @PCATEGORY, @PNAME, @PMODELNO, @PDETAILS)", {
+                    New MySqlParameter("PNO", PNo),
+                    New MySqlParameter("PCATEGORY", row.Cells(2).Value),
+                    New MySqlParameter("PNAME", row.Cells(3).Value),
+                    New MySqlParameter("PMODELNO", row.Cells(4).Value),
+                    New MySqlParameter("PDETAILS", row.Cells(6).Value)
+                })
             End If
-            Db.Execute("Insert Into `Return`(RetNo,RNo,RepNo,PNo,PSerialNo,Qty,Problem,Status,RetRemarks1) Values(" & row.Cells(0).Value & "," & txtRNo.Text & "," & row.Cells(1).Value & "," & PNo & ",'" & row.Cells(5).Value & "'," &
-            row.Cells(7).Value & ",'" & row.Cells(8).Value & "','Received','" & row.Cells(9).Value & "');")
-            Db.Execute("Insert into RepairActivity(RepANo,RetNo,RepADate,Activity,UNo) Values(?NewKey?RepairActivity?RepANo?," &
-                      row.Cells(0).Value & ",NOW(),'Received Date -> " & txtRDate.Value & vbCrLf & ", Name -> " & cmbCuMr.Text & cmbCuName.Text &
-                      ", Telephone No1 -> " & txtCuTelNo1.Text & ", Telephone No2 -> " & txtCuTelNo2.Text & ", Telephone No3 -> " & txtCuTelNo3.Text &
-                      vbCrLf & ", Product Category -> " & row.Cells(2).Value &
-                      ", Product Name -> " & row.Cells(3).Value & ", Model No -> " & row.Cells(4).Value & ", Serial No -> " & row.Cells(5).Value &
-                      ", Problem -> " & row.Cells(6).Value & ".'," & User.Instance.UserNo & ")")
-            If row.Cells(9).Value IsNot Nothing Then
+            Db.Execute("INSERT INTO `Return`(RetNo,RepNo,RNo,PNo,PSerialNo,Qty,Problem,Status) VALUES(@RETNO, @REPNO, @RNO, @PNO, @PSERIALNO, @QTY, @PROBLEM, @STATUS)", {
+                New MySqlParameter("RETNO", row.Cells(0).Value),
+                New MySqlParameter("REPNO", row.Cells(1).Value),
+                New MySqlParameter("RNO", txtRNo.Text),
+                New MySqlParameter("PNO", PNo),
+                New MySqlParameter("PSERIALNO", row.Cells(5).Value),
+                New MySqlParameter("QTY", row.Cells(7).Value),
+                New MySqlParameter("PROBLEM", row.Cells(8).Value),
+                New MySqlParameter("STATUS", "Received")
+            })
+            Db.Execute("INSERT INTO RepairActivity(RetNo,RepADate,Activity,UNo) VALUES(@RETNO, NOW(), @ACTIVITY, @UNO);", {
+                New MySqlParameter("RETNO", row.Cells(0).Value),
+                New MySqlParameter("ACTIVITY", "Received Date -> " & txtRDate.Value &
+                      ", Name -> " & cmbCuMr.Text & cmbCuName.Text &
+                      ", Telephone No1 -> " & txtCuTelNo1.Text &
+                      ", Telephone No2 -> " & txtCuTelNo2.Text &
+                      ", Telephone No3 -> " & txtCuTelNo3.Text &
+                      ", Product Category -> " & row.Cells(2).Value &
+                      ", Product Name -> " & row.Cells(3).Value &
+                      ", Model No -> " & row.Cells(4).Value &
+                      ", Serial No -> " & row.Cells(5).Value &
+                      ", Problem -> " & row.Cells(8).Value),
+                New MySqlParameter("UNO", User.Instance.UserNo)
+            })
+            If row.Cells(8).Value IsNot Nothing Then
                 Db.Execute("Insert into RepairRemarks1(Rem1No,Rem1Date,RetNo,Remarks,UNo) Values(?NewKey?RepairRemarks1?Rem1No?,NOW()," &
                       row.Cells(0).Value & ",'" & row.Cells(9).Value & "'," & User.Instance.UserNo & ")")
             End If
@@ -260,9 +282,9 @@ Public Class frmReceive
                             .txtCuTelNo1.Text = txtCuTelNo1.Text
                             .txtCuTelNo2.Text = txtCuTelNo2.Text
                             .txtCuTelNo3.Text = txtCuTelNo3.Text
-                            .grdRERepair.Rows.Add(row.Cells("RERepairNo").Value, row.Cells("RETRepNo").Value, row.Cells("RETPCategory").Value,
-                                                  row.Cells("RETPName").Value, row.Cells("RETQty").Value, "0", "", "")
+                            .grdRERepair.Rows.Add(row.Cells(0).Value, row.Cells(1).Value, row.Cells("RETPCategory").Value, row.Cells("RETPName").Value, row.Cells("RETQty").Value, "0", "", "")
                         End With
+                        Exit For
                     End If
                 Next
             End If
@@ -587,7 +609,7 @@ Public Class frmReceive
     End Sub
 
     Private Sub frmReceive_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-        
+
     End Sub
 
     Private Sub txtCuTelNo1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtCuTelNo1.KeyPress, txtCuTelNo2.KeyPress, txtCuTelNo3.KeyPress

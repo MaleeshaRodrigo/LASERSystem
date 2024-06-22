@@ -88,7 +88,7 @@ Public Class FrmSettings
             Dim ConnectionResult = Db.CheckConnection()
             If ConnectionResult.Valid = False Then
                 BoolApplyError = True
-                Throw New Exception("Database Connection Error")
+                Throw New Exception($"Database Connection Error{vbCrLf}{ConnectionResult.Message}")
             End If
 
             MessageBox.Success("Successfully Saved!")
