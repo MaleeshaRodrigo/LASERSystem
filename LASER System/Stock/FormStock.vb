@@ -19,7 +19,6 @@ Public Class FormStock
     End Sub
 
     Private Sub FormStock_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        
         cmbFilter.SelectedIndex = 0
         If User.Instance.UserType = User.Type.Admin Then
             grdStock.Columns.Item("SCostPrice").Visible = True
@@ -178,10 +177,6 @@ Public Class FormStock
         ControlStockInfo.FormParent = Me
         ControlStockInfo.Dock = DockStyle.Fill
         ControlStockInfo.BringToFront()
-    End Sub
-
-    Private Sub FormStock_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-        
     End Sub
 
     Private Sub grdStock_CellFormatting(sender As Object, e As DataGridViewCellFormattingEventArgs) Handles grdStock.CellFormatting

@@ -110,12 +110,12 @@ Public Class ControlStockInfo
                 New MySqlParameter("@MODELNO", TxtModelNo.Text),
                 New MySqlParameter("@LOCATION", CmbLocation.Text),
                 New MySqlParameter("@DETAILS", TxtDetails.Text),
-                New MySqlParameter("@COSTPRICE", TxtCostPrice.Text),
-                New MySqlParameter("@LOWESTPRICE", TxtLowestPrice.Text),
-                New MySqlParameter("@SALEPRICE", TxtSalePrice.Text),
-                New MySqlParameter("@AVAILABLEUNITS", TxtAvailableUnits.Text),
-                New MySqlParameter("@DAMAGEDUNITS", TxtDamagedUnits.Text),
-                New MySqlParameter("@REORDERPOINT", TxtReorderPoint.Text),
+                New MySqlParameter("@COSTPRICE", TxtCostPrice.Value),
+                New MySqlParameter("@LOWESTPRICE", TxtLowestPrice.Value),
+                New MySqlParameter("@SALEPRICE", TxtSalePrice.Value),
+                New MySqlParameter("@AVAILABLEUNITS", TxtAvailableUnits.Value),
+                New MySqlParameter("@DAMAGEDUNITS", TxtDamagedUnits.Value),
+                New MySqlParameter("@REORDERPOINT", TxtReorderPoint.Value),
                 New MySqlParameter("@CODE", TxtSNo.Text)
             })
             Case User.Type.Cashier
@@ -134,9 +134,9 @@ Public Class ControlStockInfo
                     New MySqlParameter("@MODELNO", TxtModelNo.Text),
                     New MySqlParameter("@LOCATION", CmbLocation.Text),
                     New MySqlParameter("@DETAILS", TxtDetails.Text),
-                    New MySqlParameter("@LOWESTPRICE", TxtLowestPrice.Text),
-                    New MySqlParameter("@SALEPRICE", TxtSalePrice.Text),
-                    New MySqlParameter("@REORDERPOINT", TxtReorderPoint.Text),
+                    New MySqlParameter("@LOWESTPRICE", TxtLowestPrice.Value),
+                    New MySqlParameter("@SALEPRICE", TxtSalePrice.Value),
+                    New MySqlParameter("@REORDERPOINT", TxtReorderPoint.Value),
                     New MySqlParameter("@CODE", TxtSNo.Text)
                 })
         End Select
@@ -165,12 +165,12 @@ Public Class ControlStockInfo
                         New MySqlParameter("@MODELNO", TxtModelNo.Text),
                         New MySqlParameter("@LOCATION", CmbLocation.Text),
                         New MySqlParameter("@DETAILS", TxtDetails.Text),
-                        New MySqlParameter("@SALEPRICE", TxtSalePrice.Text),
-                        New MySqlParameter("@LOWESTPRICE", TxtLowestPrice.Text),
-                        New MySqlParameter("@COSTPRICE", TxtCostPrice.Text),
-                        New MySqlParameter("@AVAILABLEUNITS", TxtAvailableUnits.Text),
-                        New MySqlParameter("@DAMAGEDUNITS", TxtDamagedUnits.Text),
-                        New MySqlParameter("@REORDERPOINT", TxtReorderPoint.Text)
+                        New MySqlParameter("@SALEPRICE", TxtSalePrice.Value),
+                        New MySqlParameter("@LOWESTPRICE", TxtLowestPrice.Value),
+                        New MySqlParameter("@COSTPRICE", TxtCostPrice.Value),
+                        New MySqlParameter("@AVAILABLEUNITS", TxtAvailableUnits.Value),
+                        New MySqlParameter("@DAMAGEDUNITS", TxtDamagedUnits.Value),
+                        New MySqlParameter("@REORDERPOINT", TxtReorderPoint.Value)
                     })
             Case User.Type.Cashier
                 Db.Execute($"INSERT INTO {Tables.Stock}(
@@ -193,12 +193,12 @@ Public Class ControlStockInfo
                         New MySqlParameter("@MODELNO", TxtModelNo.Text),
                         New MySqlParameter("@LOCATION", CmbLocation.Text),
                         New MySqlParameter("@DETAILS", TxtDetails.Text),
-                        New MySqlParameter("@SALEPRICE", TxtSalePrice.Text),
-                        New MySqlParameter("@LOWESTPRICE", TxtLowestPrice.Text),
-                        New MySqlParameter("@COSTPRICE", TxtLowestPrice.Text),
+                        New MySqlParameter("@SALEPRICE", TxtSalePrice.Value),
+                        New MySqlParameter("@LOWESTPRICE", TxtLowestPrice.Value),
+                        New MySqlParameter("@COSTPRICE", TxtLowestPrice.Value),
                         New MySqlParameter("@AVAILABLEUNITS", 0),
                         New MySqlParameter("@DAMAGEDUNITS", 0),
-                        New MySqlParameter("@REORDERPOINT", TxtReorderPoint.Text)
+                        New MySqlParameter("@REORDERPOINT", TxtReorderPoint.Value)
                     })
         End Select
     End Sub
