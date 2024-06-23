@@ -1,4 +1,5 @@
-﻿Imports MySqlConnector
+﻿Imports System.Threading
+Imports MySqlConnector
 
 Public Class FormRepair
     Private Db As New Database
@@ -572,7 +573,7 @@ Public Class FormRepair
     Public Sub CmbPName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbPName.SelectedIndexChanged
         Dim DR = Db.GetDataDictionary("Select * from Product where PCategory ='" & cmbPCategory.Text & "' and PName ='" & cmbPName.Text & "';")
         If DR.Count Then
-            
+
             txtPNo.Text = DR("PNo").ToString
             txtPModelNo.Text = DR("PModelNo").ToString
             txtPDetails.Text = DR("PDetails").ToString
@@ -636,8 +637,16 @@ Public Class FormRepair
     End Sub
 
     Private Sub PrintDeliverReceiptToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PrintDeliverReceiptToolStripMenuItem.Click
-        If ControlRepairDeliverInfo Is Nothing Then Exit Sub
-        FormDeliver.PrintDeliveryReceipt(ControlRepairDeliverInfo.txtDNo.Text, False)
+        If ControlRepairDeliverInfo Is Nothing OrElse IsNumeric(ControlRepairDeliverInfo.txtDNo.Text) = False Then Exit Sub
+        Dim DNo As Integer = Int(ControlRepairDeliverInfo.txtDNo.Text)
+        Dim threadDeliver As New Thread(Sub()
+                                            FormDeliver.PrintDeliveryReceipt(DNo, False)
+                                        End Sub) With {
+            .Name = "showDeliverReceiptReport",
+        .IsBackground = False,
+        .Priority = ThreadPriority.Highest}
+        threadDeliver.SetApartmentState(ApartmentState.STA)
+        threadDeliver.Start()
     End Sub
 
     Private Sub PanelMain_Resize(sender As Object, e As EventArgs) Handles PanelMain.Resize, PanelMain.Paint
