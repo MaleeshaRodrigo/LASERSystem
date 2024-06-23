@@ -72,7 +72,7 @@ Public Class frmBGTasks
         Activity.Init()
         GridActivity.DataSource = Activity.GetDataTable()
 
-        Dim ShutDownFilePath As String = Path.Combine(FilePath, "ShutDown.txt")
+        Dim ShutDownFilePath As String = Path.Combine(FilePath, "Shutdown.txt")
         If File.Exists(ShutDownFilePath) Then
             File.Delete(ShutDownFilePath)
         End If
