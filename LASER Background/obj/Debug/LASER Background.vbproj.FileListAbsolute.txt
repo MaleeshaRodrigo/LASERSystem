@@ -136,7 +136,6 @@ C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\bin\Debug\LASER Backgr
 C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\bin\Debug\LASER Background.xml
 C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\bin\Debug\MaterialSkin.dll
 C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\bin\Debug\Newtonsoft.Json.dll
-C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\bin\Debug\Newtonsoft.Json.xml
 C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\obj\Debug\LASER_Background.Resources.resources
 C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\obj\Debug\LASER Background.vbproj.CoreCompileInputs.cache
 C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\obj\Debug\LASER Background.TrustInfo.xml
@@ -170,3 +169,13 @@ D:\LASERSystem\LASER Background\obj\Debug\LASER Background.vbproj.CopyComplete
 D:\LASERSystem\LASER Background\obj\Debug\LASER Background.exe
 D:\LASERSystem\LASER Background\obj\Debug\LASER Background.xml
 D:\LASERSystem\LASER Background\obj\Debug\LASER Background.pdb
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\bin\Debug\Microsoft.Bcl.AsyncInterfaces.dll
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\bin\Debug\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\bin\Debug\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\bin\Debug\MySqlConnector.dll
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\bin\Debug\System.Buffers.dll
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\bin\Debug\System.Diagnostics.DiagnosticSource.dll
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\bin\Debug\System.Memory.dll
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\bin\Debug\System.Numerics.Vectors.dll
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\MaleeshaR\Documents\LASERSystem\LASER Background\bin\Debug\System.Threading.Tasks.Extensions.dll
