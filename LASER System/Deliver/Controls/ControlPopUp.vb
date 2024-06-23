@@ -263,9 +263,10 @@ Public Class ControlPopUp
 
             Dim DRAutoD = Db.GetDataList($"SELECT RepNo,DDate, CuName, CuTelNo1, PCategory, PName, Qty, PaidPrice, TEmail, TName, `Status` from ((((Repair Rep Inner Join Deliver D On D.DNo=Rep.DNo) Inner Join Technician T On T.TNo = Rep.TNo) Left Join Product P On P.Pno = Rep.PNo) Left Join Customer Cu On Cu.CuNo = D.CuNo) Where TEmail IS NOT NULL and `Status` <> 'Returned Delivered' and TActive = 1 AND TBlockEmails <> 1 and D.DNo = {DNo}")
             For Each Item In DRAutoD
-                Db.Execute("Insert Into Mail(MailNo,MailDate,EmailTo,Subject,Body,Status) Values(?NewKey?Mail?MailNo?,'" & Now &
-                            "','" & Item("TEmail").ToString & "','Repair No:  " + Item("RepNo").ToString + " එක Customer විසින් රු." +
-                            Item("PaidPrice").ToString + " දී රුගෙන ගොස් ඇත.',""LASER System " + vbCrLf + vbCrLf +
+                Db.Execute("Insert Into Mail(MailNo,MailDate,EmailTo,Subject,Body,Status) Values(?NewKey?Mail?MailNo?, NOW(), @EMAILTO, @SUBJECT, @BODY, 'Waiting');", {
+                    New MySqlParameter("EMAILTO", Item("TEmail").ToString),
+                    New MySqlParameter("SUBJECT", "Repair No: " + Item("RepNo").ToString + " රු." + Item("PaidPrice").ToString + " දී Customer විසින් රුගෙන ගොස් ඇත."),
+                    New MySqlParameter("BODY", "LASER System " + vbCrLf + vbCrLf +
                             "Repair No: " + Item("RepNo").ToString + vbCrLf +
                             "Delivered Date: " + Item("DDate").ToString + vbCrLf +
                             "Customer Name: " + Item("CuName").ToString + vbCrLf +
@@ -276,14 +277,15 @@ Public Class ControlPopUp
                             "Paid Charge: Rs. " + Item("PaidPrice").ToString + vbCrLf +
                             "Technician Name: " + Item("TName").ToString + vbCrLf +
                             "Status: " + Item("Status").ToString + vbCrLf + vbCrLf +
-                            "මෙම Message එක ස්වයංක්‍රීයව LASER System එකෙන් පැමිණෙන්නක් බැවින් ඉහත දත්ත සඳහා යම් ගැටලුවක් පවතියි නම්, කරුණාකර දත්ත කළමනාකරු අමතන්න"",'Waiting');")
+                            "මෙම Message එක ස්වයංක්‍රීයව LASER System එකෙන් පැමිණෙන්නක් බැවින් ඉහත දත්ත සඳහා යම් ගැටලුවක් පවතියි නම්, කරුණාකර දත්ත කළමනාකරු අමතන්න")
+                })
             Next
             DRAutoD = Db.GetDataList($"SELECT RetNo,RepNo,DDate, CuName, CuTelNo1, PCategory, PName, Qty, PaidPrice, TEmail, TName, `Status` from ((( `Return` Ret Inner Join Deliver D On D.DNo=Ret.DNo) Inner Join Technician T On T.TNo = Ret.TNo) Left Join Product P On P.Pno = Ret.PNo) Left Join Customer Cu On Cu.CuNo = D.CuNo Where TEmail IS NOT NULL and `Status` <>'Returned Delivered' and TActive = 1 AND TBlockEmails <> 1 and D.DNo = {DNo}")
             For Each Item In DRAutoD
-                Db.Execute("Insert Into Mail(MailNo,MailDate,EmailTo,Subject,Body,Status) Values(?NewKey?Mail?MailNo?,'" & Now &
-                              "','" & Item("TEmail").ToString & "','RERepair No:  " + Item("RetNo").ToString + " එක Customer විසින් රු." +
-                              Item("PaidPrice").ToString + "දී රුගෙන ගොස් ඇත.',
-                                  ""LASER System " + vbCrLf + vbCrLf +
+                Db.Execute("Insert Into Mail(MailNo,MailDate,EmailTo,Subject,Body,Status) Values(?NewKey?Mail?MailNo?, NOW(), @EMAILTO, @SUBJECT, @BODY, 'Waiting');", {
+                    New MySqlParameter("EMAILTO", Item("TEmail").ToString),
+                    New MySqlParameter("SUBJECT", "RE-Repair No:  " + Item("RetNo").ToString + " රු." + Item("PaidPrice").ToString + " දී Customer විසින් රුගෙන ගොස් ඇත."),
+                    New MySqlParameter("BODY", "LASER System " + vbCrLf + vbCrLf +
                             "RERepair No: " + Item("RetNo").ToString + vbCrLf +
                             "Repair No: " + Item("RepNo").ToString + vbCrLf +
                                 "Delivered Date: " + Item("DDate").ToString + vbCrLf +
@@ -295,10 +297,11 @@ Public Class ControlPopUp
                                 "Paid Charge: Rs. " + Item("PaidPrice").ToString + vbCrLf +
                                 "Technician Name: " + Item("TName").ToString + vbCrLf +
                                 "Status: " + Item("Status").ToString + vbCrLf + vbCrLf +
-                                "මෙම Message එක ස්වයංක්‍රීයව LASER System එකෙන් පැමිණෙන්නක් බැවින් ඉහත දත්ත සඳහා යම් ගැටලුවක් පවතියි නම්, කරුණාකර දත්ත කළමනාකරු අමතන්න"",'Waiting');")
+                                "මෙම Message එක ස්වයංක්‍රීයව LASER System එකෙන් පැමිණෙන්නක් බැවින් ඉහත දත්ත සඳහා යම් ගැටලුවක් පවතියි නම්, කරුණාකර දත්ත කළමනාකරු අමතන්න")
+                })
             Next
         Catch ex As Exception
-            MsgBox("Technician හට Gmail එක යැවීමට අපොහොසත් විය." + vbCrLf + vbCrLf + "Error: " + ex.ToString, vbExclamation, "Technician හට Gmail එක යැවීමට නොහැක.")
+            MsgBox("Technician හට Mail එක යැවීමට අපොහොසත් විය." + vbCrLf + vbCrLf + "Error: " + ex.ToString, vbExclamation, "Technician හට Gmail එක යැවීමට නොහැක.")
         End Try
     End Sub
 End Class
