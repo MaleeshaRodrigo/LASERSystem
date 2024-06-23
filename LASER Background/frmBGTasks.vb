@@ -496,6 +496,7 @@ Public Class frmBGTasks
             End If
             .Save()
         End With
+        MsgBox("Settings were updated successfully.")
         tmrRefresh.Start()
     End Sub
 
@@ -630,4 +631,8 @@ Public Class frmBGTasks
                 Return False
         End Select
     End Function
+
+    Private Sub cmdApply_Click_1()
+
+    End Sub
 End Class
