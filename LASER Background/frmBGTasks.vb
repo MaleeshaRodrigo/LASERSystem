@@ -9,9 +9,6 @@ Imports Newtonsoft.Json
 Imports Newtonsoft.Json.Linq
 
 Public Class frmBGTasks
-    Private CNNBG As OleDbConnection
-    Private CMDBG1, CMDBG2 As New OleDbCommand
-    Private DRBG1, DRBG2 As OleDbDataReader
     Private Database As New Database()
     Private Encoder As New Encoder()
 
@@ -139,7 +136,6 @@ Public Class frmBGTasks
                 Exit Sub
             End If
 
-            Database.Connect()
             For Each Process In Processes
                 If ErrorExist(Process.ToString) Then
                     Continue For
@@ -152,8 +148,6 @@ Public Class frmBGTasks
         Catch Ex As Exception
             e.Result = New String() {Process.ToString, Ex.Message}
             Exit Sub
-        Finally
-            Database.Disconnect()
         End Try
         'If My.Settings.BGSendSMS <> "OFF" Then
         '    bgworker.ReportProgress(60, "Reloading Balance Amount of the SMS Service...")
@@ -205,24 +199,20 @@ Public Class frmBGTasks
         tsProBar.Value = 100
     End Sub
 
-    Private Function SendSMS(str As String) As JObject
+    Private Function SendSMS(Phone As String, Message As String) As JObject
         Dim url As String
         Dim host As String
-        Dim apikey As String
-        Dim apitoken As String
         Dim originator As String
 
         host = "https://app.newsletters.lk"
-        str = str.TrimStart("0"c)
-        originator = "94" + str.Replace(" ", [String].Empty)
-        apikey = My.Settings.APIKey
-        apitoken = My.Settings.APIToken
+        Phone = Phone.TrimStart("0"c)
+        originator = "94" + Phone.Replace(" ", String.Empty)
         url = host + "/smsAPI?sendsms&" _
-                & "apikey=" & HttpUtility.UrlEncode(apikey) _
-                & "&apitoken=" + HttpUtility.UrlEncode(apitoken) _
+                & "apikey=" & HttpUtility.UrlEncode(My.Settings.APIKey) _
+                & "&apitoken=" + HttpUtility.UrlEncode(My.Settings.APIToken) _
                 & "&type=sms&from=LASERelect" _
                 & "&to=" & HttpUtility.UrlEncode(originator) _
-                & "&text=" + HttpUtility.UrlEncode(DRBG1("Message").ToString) _
+                & "&text=" + HttpUtility.UrlEncode(Message) _
                 & "&scheduledate=" + HttpUtility.UrlEncode(DateAndTime.Now)
         Dim request As WebRequest = HttpWebRequest.Create(url)
         Dim response As HttpWebResponse = DirectCast(request.GetResponse, HttpWebResponse)
@@ -392,28 +382,28 @@ Public Class frmBGTasks
     End Sub
 
     Private Sub bgworkerOnline_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles bgworkerOnline.RunWorkerCompleted
-        lblBGLoad.Text = "Checking Errors..."
-        If e.Cancelled And bgworker.IsBusy = False And Me.Tag = "Close" Then
-            End
-        ElseIf e.Cancelled Then
-            Exit Sub
-        End If
-        If e.Result IsNot Nothing Then
-            lblBGLoad.Text = "Freezed"
-            Select Case e.Result(0)
-                Case "ODBDownloadError"
-                    CreateMessagePanel("Local Database එක Update කිරීමේදී ගැටලුවක් පැන නැගී ඇත.",
-                                       e.Result(1) + vbCrLf + "මේ පිළිබඳව Software Developer හට දැනුම් දෙන්න.", "ODBDownloadError")
-                Case "ODBUploadError"
-                    For Each controlObject As Control In flpMessage.Controls
-                        If controlObject.Tag = "ODBUploadError" Then
-                            Exit Sub
-                        End If
-                    Next
-                    CreateMessagePanel("Online Database එක Update කිරීමේදී ගැටලුවක් පැන නැගී ඇත.",
-                                       e.Result(1) + vbCrLf + "මේ පිළිබඳව Software Developer හට දැනුම් දෙන්න.", "ODBUploadError")
-            End Select
-        End If
+        'lblBGLoad.Text = "Checking Errors..."
+        'If e.Cancelled And bgworker.IsBusy = False And Me.Tag = "Close" Then
+        '    End
+        'ElseIf e.Cancelled Then
+        '    Exit Sub
+        'End If
+        'If e.Result IsNot Nothing Then
+        '    lblBGLoad.Text = "Freezed"
+        '    Select Case e.Result(0)
+        '        Case "ODBDownloadError"
+        '            CreateMessagePanel("Local Database එක Update කිරීමේදී ගැටලුවක් පැන නැගී ඇත.",
+        '                               e.Result(1) + vbCrLf + "මේ පිළිබඳව Software Developer හට දැනුම් දෙන්න.", "ODBDownloadError")
+        '        Case "ODBUploadError"
+        '            For Each controlObject As Control In flpMessage.Controls
+        '                If controlObject.Tag = "ODBUploadError" Then
+        '                    Exit Sub
+        '                End If
+        '            Next
+        '            CreateMessagePanel("Online Database එක Update කිරීමේදී ගැටලුවක් පැන නැගී ඇත.",
+        '                               e.Result(1) + vbCrLf + "මේ පිළිබඳව Software Developer හට දැනුම් දෙන්න.", "ODBUploadError")
+        '    End Select
+        'End If
     End Sub
 
     Public Function GetResponse(Path As String, postdata As String) As String
@@ -453,12 +443,10 @@ Public Class frmBGTasks
     End Sub
 
     Private Sub cmdApply_Click(sender As Object, e As EventArgs) Handles cmdApply.Click
-        If CheckEmptyfield(TextDbServer, "Database Location field is empty, Please select the database!") = False Then
-            Exit Sub
-        ElseIf File.Exists(TextDbServer.Text) = False Then
-            MsgBox("This file name couldn't be found. Please select correct file for using a database", vbExclamation + vbOKOnly)
-            Exit Sub
-        ElseIf CheckEmptyfield(cmbDbProvider, "Database Provider Field එක හිස්ව පවතියි.") = False Then
+        If CheckEmptyfield(TextDbServer, "Database Server Field එක හිස්ව පවතියි. කරුණාකර එය සම්පූර්ණ කරන්න.") = False OrElse
+            CheckEmptyfield(TextPort, "Database Port Field එක හිස්ව පවතියි. කරුණාකර එය සම්පූර්ණ කරන්න.") = False OrElse
+            CheckEmptyfield(TextDbUserName, "Database User Name එක හිස්ව පවතියි. කරුණාකර එය සම්පූර්ණ කරන්න.") = False OrElse
+            CheckEmptyfield(TextDbName, "Database Name Field එක හිස්ව පවතියි. කරුණාකර එය සම්පූර්ණ කරන්න.") = False Then
             Exit Sub
         End If
         If Me.Tag <> "Login" Then
@@ -479,7 +467,12 @@ Public Class frmBGTasks
             End If
         End If
         With My.Settings
-            .DbUserName = TextDbServer.Text
+            .DbServer = TextDbServer.Text
+            .DbPort = TextDbPort.Text
+            .DbUserName = TextDbUserName.Text
+            .DbName = TextDbName.Text
+            If TextDbPassword.Text <> "" Then .DbPassword = Encoder.Encode(TextDbPassword.Text)
+
             .APIKey = txtMApiKey.Text
             .APIToken = txtMApiToken.Text
             .BGSendSMS = cmbMBgSMS.Text
@@ -489,8 +482,6 @@ Public Class frmBGTasks
             .BackUpDB1 = txtBackUpDB1.Text
             .BackUpDB2 = txtBackUpDB2.Text
             .BackUpDB3 = txtBackUpDB3.Text
-            If TextDbPassword.Text <> "" Then .DbPassword = Encoder.Encode(TextDbPassword.Text)
-            .DbServer = cmbDbProvider.Text
             .ODBActive = chkOnlineDB.Checked
             If chkOnlineDB.CheckState Then
                 .OnlineDatabasePath = txtOPath.Text
@@ -505,6 +496,7 @@ Public Class frmBGTasks
             End If
             .Save()
         End With
+        MsgBox("Settings were updated successfully.")
         tmrRefresh.Start()
     End Sub
 
@@ -639,4 +631,8 @@ Public Class frmBGTasks
                 Return False
         End Select
     End Function
+
+    Private Sub cmdApply_Click_1()
+
+    End Sub
 End Class

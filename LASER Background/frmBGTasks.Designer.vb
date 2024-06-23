@@ -67,6 +67,13 @@ Partial Class frmBGTasks
         Me.MaterialTabControl = New MaterialSkin.Controls.MaterialTabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.GroupBox1 = New MaterialSkin.Controls.MaterialCard()
+        Me.MaterialLabel4 = New MaterialSkin.Controls.MaterialLabel()
+        Me.MaterialLabel3 = New MaterialSkin.Controls.MaterialLabel()
+        Me.MaterialLabel2 = New MaterialSkin.Controls.MaterialLabel()
+        Me.MaterialLabel1 = New MaterialSkin.Controls.MaterialLabel()
+        Me.TextDbName = New MaterialSkin.Controls.MaterialTextBox2()
+        Me.TextDbUserName = New MaterialSkin.Controls.MaterialTextBox2()
+        Me.TextDbPort = New MaterialSkin.Controls.MaterialTextBox2()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
         Me.GroupBox3 = New MaterialSkin.Controls.MaterialCard()
         Me.TxtOToken = New MaterialSkin.Controls.MaterialTextBox2()
@@ -85,13 +92,6 @@ Partial Class frmBGTasks
         Me.cmdApply = New MaterialSkin.Controls.MaterialButton()
         Me.flpMessage = New System.Windows.Forms.FlowLayoutPanel()
         Me.bgworkerOnline = New System.ComponentModel.BackgroundWorker()
-        Me.TextDbPort = New MaterialSkin.Controls.MaterialTextBox2()
-        Me.TextDbUserName = New MaterialSkin.Controls.MaterialTextBox2()
-        Me.TextDbName = New MaterialSkin.Controls.MaterialTextBox2()
-        Me.MaterialLabel1 = New MaterialSkin.Controls.MaterialLabel()
-        Me.MaterialLabel2 = New MaterialSkin.Controls.MaterialLabel()
-        Me.MaterialLabel3 = New MaterialSkin.Controls.MaterialLabel()
-        Me.MaterialLabel4 = New MaterialSkin.Controls.MaterialLabel()
         Me.Guna2GroupBox1.SuspendLayout()
         Me.Guna2GroupBox2.SuspendLayout()
         Me.pnlMain.SuspendLayout()
@@ -994,6 +994,145 @@ Partial Class frmBGTasks
         Me.GroupBox1.TabIndex = 69
         Me.GroupBox1.Text = "Local Database Info"
         '
+        'MaterialLabel4
+        '
+        Me.MaterialLabel4.AutoSize = True
+        Me.MaterialLabel4.Depth = 0
+        Me.MaterialLabel4.Font = New System.Drawing.Font("Roboto", 14.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel)
+        Me.MaterialLabel4.Location = New System.Drawing.Point(7, 181)
+        Me.MaterialLabel4.MouseState = MaterialSkin.MouseState.HOVER
+        Me.MaterialLabel4.Name = "MaterialLabel4"
+        Me.MaterialLabel4.Size = New System.Drawing.Size(69, 19)
+        Me.MaterialLabel4.TabIndex = 74
+        Me.MaterialLabel4.Text = "Database"
+        '
+        'MaterialLabel3
+        '
+        Me.MaterialLabel3.AutoSize = True
+        Me.MaterialLabel3.Depth = 0
+        Me.MaterialLabel3.Font = New System.Drawing.Font("Roboto", 14.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel)
+        Me.MaterialLabel3.Location = New System.Drawing.Point(7, 125)
+        Me.MaterialLabel3.MouseState = MaterialSkin.MouseState.HOVER
+        Me.MaterialLabel3.Name = "MaterialLabel3"
+        Me.MaterialLabel3.Size = New System.Drawing.Size(71, 19)
+        Me.MaterialLabel3.TabIndex = 73
+        Me.MaterialLabel3.Text = "Password"
+        '
+        'MaterialLabel2
+        '
+        Me.MaterialLabel2.AutoSize = True
+        Me.MaterialLabel2.Depth = 0
+        Me.MaterialLabel2.Font = New System.Drawing.Font("Roboto", 14.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel)
+        Me.MaterialLabel2.Location = New System.Drawing.Point(7, 68)
+        Me.MaterialLabel2.MouseState = MaterialSkin.MouseState.HOVER
+        Me.MaterialLabel2.Name = "MaterialLabel2"
+        Me.MaterialLabel2.Size = New System.Drawing.Size(78, 19)
+        Me.MaterialLabel2.TabIndex = 72
+        Me.MaterialLabel2.Text = "User Name"
+        '
+        'MaterialLabel1
+        '
+        Me.MaterialLabel1.AutoSize = True
+        Me.MaterialLabel1.Depth = 0
+        Me.MaterialLabel1.Font = New System.Drawing.Font("Roboto", 14.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel)
+        Me.MaterialLabel1.Location = New System.Drawing.Point(7, 14)
+        Me.MaterialLabel1.MouseState = MaterialSkin.MouseState.HOVER
+        Me.MaterialLabel1.Name = "MaterialLabel1"
+        Me.MaterialLabel1.Size = New System.Drawing.Size(45, 19)
+        Me.MaterialLabel1.TabIndex = 71
+        Me.MaterialLabel1.Text = "Server"
+        '
+        'TextDbName
+        '
+        Me.TextDbName.AnimateReadOnly = False
+        Me.TextDbName.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
+        Me.TextDbName.CharacterCasing = System.Windows.Forms.CharacterCasing.Normal
+        Me.TextDbName.Depth = 0
+        Me.TextDbName.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel)
+        Me.TextDbName.HideSelection = True
+        Me.TextDbName.Hint = "Database"
+        Me.TextDbName.LeadingIcon = Nothing
+        Me.TextDbName.Location = New System.Drawing.Point(146, 165)
+        Me.TextDbName.MaxLength = 32767
+        Me.TextDbName.MouseState = MaterialSkin.MouseState.OUT
+        Me.TextDbName.Name = "TextDbName"
+        Me.TextDbName.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
+        Me.TextDbName.PrefixSuffixText = Nothing
+        Me.TextDbName.ReadOnly = False
+        Me.TextDbName.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.TextDbName.SelectedText = ""
+        Me.TextDbName.SelectionLength = 0
+        Me.TextDbName.SelectionStart = 0
+        Me.TextDbName.ShortcutsEnabled = True
+        Me.TextDbName.Size = New System.Drawing.Size(438, 48)
+        Me.TextDbName.TabIndex = 70
+        Me.TextDbName.TabStop = False
+        Me.TextDbName.TextAlign = System.Windows.Forms.HorizontalAlignment.Left
+        Me.TextDbName.TrailingIcon = Nothing
+        Me.TextDbName.UseSystemPasswordChar = False
+        '
+        'TextDbUserName
+        '
+        Me.TextDbUserName.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TextDbUserName.AnimateReadOnly = False
+        Me.TextDbUserName.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
+        Me.TextDbUserName.CharacterCasing = System.Windows.Forms.CharacterCasing.Normal
+        Me.TextDbUserName.Depth = 0
+        Me.TextDbUserName.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel)
+        Me.TextDbUserName.HideSelection = True
+        Me.TextDbUserName.Hint = "User Name"
+        Me.TextDbUserName.LeadingIcon = Nothing
+        Me.TextDbUserName.Location = New System.Drawing.Point(146, 57)
+        Me.TextDbUserName.MaxLength = 32767
+        Me.TextDbUserName.MouseState = MaterialSkin.MouseState.OUT
+        Me.TextDbUserName.Name = "TextDbUserName"
+        Me.TextDbUserName.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
+        Me.TextDbUserName.PrefixSuffixText = Nothing
+        Me.TextDbUserName.ReadOnly = False
+        Me.TextDbUserName.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.TextDbUserName.SelectedText = ""
+        Me.TextDbUserName.SelectionLength = 0
+        Me.TextDbUserName.SelectionStart = 0
+        Me.TextDbUserName.ShortcutsEnabled = True
+        Me.TextDbUserName.Size = New System.Drawing.Size(438, 48)
+        Me.TextDbUserName.TabIndex = 69
+        Me.TextDbUserName.TabStop = False
+        Me.TextDbUserName.TextAlign = System.Windows.Forms.HorizontalAlignment.Left
+        Me.TextDbUserName.TrailingIcon = Nothing
+        Me.TextDbUserName.UseSystemPasswordChar = False
+        '
+        'TextDbPort
+        '
+        Me.TextDbPort.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TextDbPort.AnimateReadOnly = False
+        Me.TextDbPort.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
+        Me.TextDbPort.CharacterCasing = System.Windows.Forms.CharacterCasing.Normal
+        Me.TextDbPort.Depth = 0
+        Me.TextDbPort.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel)
+        Me.TextDbPort.HideSelection = True
+        Me.TextDbPort.Hint = "Port"
+        Me.TextDbPort.LeadingIcon = Nothing
+        Me.TextDbPort.Location = New System.Drawing.Point(466, 3)
+        Me.TextDbPort.MaxLength = 32767
+        Me.TextDbPort.MouseState = MaterialSkin.MouseState.OUT
+        Me.TextDbPort.Name = "TextDbPort"
+        Me.TextDbPort.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
+        Me.TextDbPort.PrefixSuffixText = Nothing
+        Me.TextDbPort.ReadOnly = False
+        Me.TextDbPort.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.TextDbPort.SelectedText = ""
+        Me.TextDbPort.SelectionLength = 0
+        Me.TextDbPort.SelectionStart = 0
+        Me.TextDbPort.ShortcutsEnabled = True
+        Me.TextDbPort.Size = New System.Drawing.Size(118, 48)
+        Me.TextDbPort.TabIndex = 68
+        Me.TextDbPort.TabStop = False
+        Me.TextDbPort.TextAlign = System.Windows.Forms.HorizontalAlignment.Left
+        Me.TextDbPort.TrailingIcon = Nothing
+        Me.TextDbPort.UseSystemPasswordChar = False
+        '
         'TabPage2
         '
         Me.TabPage2.BackColor = System.Drawing.Color.Transparent
@@ -1118,6 +1257,7 @@ Partial Class frmBGTasks
         '
         'ImageList
         '
+        Me.ImageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit
         Me.ImageList.ImageStream = CType(resources.GetObject("ImageList.ImageStream"), System.Windows.Forms.ImageListStreamer)
         Me.ImageList.TransparentColor = System.Drawing.Color.Transparent
         Me.ImageList.Images.SetKeyName(0, "backup.png")
@@ -1250,6 +1390,7 @@ Partial Class frmBGTasks
         Me.cmdApply.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained
         Me.cmdApply.UseAccentColor = False
         Me.cmdApply.UseVisualStyleBackColor = False
+        AddHandler Me.cmdApply.Click, AddressOf Me.cmdApply_Click_1
         '
         'flpMessage
         '
@@ -1271,148 +1412,9 @@ Partial Class frmBGTasks
         Me.bgworkerOnline.WorkerReportsProgress = True
         Me.bgworkerOnline.WorkerSupportsCancellation = True
         '
-        'TextDbPort
-        '
-        Me.TextDbPort.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TextDbPort.AnimateReadOnly = False
-        Me.TextDbPort.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
-        Me.TextDbPort.CharacterCasing = System.Windows.Forms.CharacterCasing.Normal
-        Me.TextDbPort.Depth = 0
-        Me.TextDbPort.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel)
-        Me.TextDbPort.HideSelection = True
-        Me.TextDbPort.Hint = "Port"
-        Me.TextDbPort.LeadingIcon = Nothing
-        Me.TextDbPort.Location = New System.Drawing.Point(466, 3)
-        Me.TextDbPort.MaxLength = 32767
-        Me.TextDbPort.MouseState = MaterialSkin.MouseState.OUT
-        Me.TextDbPort.Name = "TextDbPort"
-        Me.TextDbPort.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
-        Me.TextDbPort.PrefixSuffixText = Nothing
-        Me.TextDbPort.ReadOnly = False
-        Me.TextDbPort.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.TextDbPort.SelectedText = ""
-        Me.TextDbPort.SelectionLength = 0
-        Me.TextDbPort.SelectionStart = 0
-        Me.TextDbPort.ShortcutsEnabled = True
-        Me.TextDbPort.Size = New System.Drawing.Size(118, 48)
-        Me.TextDbPort.TabIndex = 68
-        Me.TextDbPort.TabStop = False
-        Me.TextDbPort.TextAlign = System.Windows.Forms.HorizontalAlignment.Left
-        Me.TextDbPort.TrailingIcon = Nothing
-        Me.TextDbPort.UseSystemPasswordChar = False
-        '
-        'TextDbUserName
-        '
-        Me.TextDbUserName.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TextDbUserName.AnimateReadOnly = False
-        Me.TextDbUserName.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
-        Me.TextDbUserName.CharacterCasing = System.Windows.Forms.CharacterCasing.Normal
-        Me.TextDbUserName.Depth = 0
-        Me.TextDbUserName.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel)
-        Me.TextDbUserName.HideSelection = True
-        Me.TextDbUserName.Hint = "User Name"
-        Me.TextDbUserName.LeadingIcon = Nothing
-        Me.TextDbUserName.Location = New System.Drawing.Point(146, 57)
-        Me.TextDbUserName.MaxLength = 32767
-        Me.TextDbUserName.MouseState = MaterialSkin.MouseState.OUT
-        Me.TextDbUserName.Name = "TextDbUserName"
-        Me.TextDbUserName.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
-        Me.TextDbUserName.PrefixSuffixText = Nothing
-        Me.TextDbUserName.ReadOnly = False
-        Me.TextDbUserName.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.TextDbUserName.SelectedText = ""
-        Me.TextDbUserName.SelectionLength = 0
-        Me.TextDbUserName.SelectionStart = 0
-        Me.TextDbUserName.ShortcutsEnabled = True
-        Me.TextDbUserName.Size = New System.Drawing.Size(438, 48)
-        Me.TextDbUserName.TabIndex = 69
-        Me.TextDbUserName.TabStop = False
-        Me.TextDbUserName.TextAlign = System.Windows.Forms.HorizontalAlignment.Left
-        Me.TextDbUserName.TrailingIcon = Nothing
-        Me.TextDbUserName.UseSystemPasswordChar = False
-        '
-        'TextDbName
-        '
-        Me.TextDbName.AnimateReadOnly = False
-        Me.TextDbName.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
-        Me.TextDbName.CharacterCasing = System.Windows.Forms.CharacterCasing.Normal
-        Me.TextDbName.Depth = 0
-        Me.TextDbName.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel)
-        Me.TextDbName.HideSelection = True
-        Me.TextDbName.Hint = "Database"
-        Me.TextDbName.LeadingIcon = Nothing
-        Me.TextDbName.Location = New System.Drawing.Point(146, 165)
-        Me.TextDbName.MaxLength = 32767
-        Me.TextDbName.MouseState = MaterialSkin.MouseState.OUT
-        Me.TextDbName.Name = "TextDbName"
-        Me.TextDbName.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
-        Me.TextDbName.PrefixSuffixText = Nothing
-        Me.TextDbName.ReadOnly = False
-        Me.TextDbName.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.TextDbName.SelectedText = ""
-        Me.TextDbName.SelectionLength = 0
-        Me.TextDbName.SelectionStart = 0
-        Me.TextDbName.ShortcutsEnabled = True
-        Me.TextDbName.Size = New System.Drawing.Size(438, 48)
-        Me.TextDbName.TabIndex = 70
-        Me.TextDbName.TabStop = False
-        Me.TextDbName.TextAlign = System.Windows.Forms.HorizontalAlignment.Left
-        Me.TextDbName.TrailingIcon = Nothing
-        Me.TextDbName.UseSystemPasswordChar = False
-        '
-        'MaterialLabel1
-        '
-        Me.MaterialLabel1.AutoSize = True
-        Me.MaterialLabel1.Depth = 0
-        Me.MaterialLabel1.Font = New System.Drawing.Font("Roboto", 14.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel)
-        Me.MaterialLabel1.Location = New System.Drawing.Point(7, 14)
-        Me.MaterialLabel1.MouseState = MaterialSkin.MouseState.HOVER
-        Me.MaterialLabel1.Name = "MaterialLabel1"
-        Me.MaterialLabel1.Size = New System.Drawing.Size(45, 19)
-        Me.MaterialLabel1.TabIndex = 71
-        Me.MaterialLabel1.Text = "Server"
-        '
-        'MaterialLabel2
-        '
-        Me.MaterialLabel2.AutoSize = True
-        Me.MaterialLabel2.Depth = 0
-        Me.MaterialLabel2.Font = New System.Drawing.Font("Roboto", 14.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel)
-        Me.MaterialLabel2.Location = New System.Drawing.Point(7, 68)
-        Me.MaterialLabel2.MouseState = MaterialSkin.MouseState.HOVER
-        Me.MaterialLabel2.Name = "MaterialLabel2"
-        Me.MaterialLabel2.Size = New System.Drawing.Size(78, 19)
-        Me.MaterialLabel2.TabIndex = 72
-        Me.MaterialLabel2.Text = "User Name"
-        '
-        'MaterialLabel3
-        '
-        Me.MaterialLabel3.AutoSize = True
-        Me.MaterialLabel3.Depth = 0
-        Me.MaterialLabel3.Font = New System.Drawing.Font("Roboto", 14.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel)
-        Me.MaterialLabel3.Location = New System.Drawing.Point(7, 125)
-        Me.MaterialLabel3.MouseState = MaterialSkin.MouseState.HOVER
-        Me.MaterialLabel3.Name = "MaterialLabel3"
-        Me.MaterialLabel3.Size = New System.Drawing.Size(71, 19)
-        Me.MaterialLabel3.TabIndex = 73
-        Me.MaterialLabel3.Text = "Password"
-        '
-        'MaterialLabel4
-        '
-        Me.MaterialLabel4.AutoSize = True
-        Me.MaterialLabel4.Depth = 0
-        Me.MaterialLabel4.Font = New System.Drawing.Font("Roboto", 14.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel)
-        Me.MaterialLabel4.Location = New System.Drawing.Point(7, 181)
-        Me.MaterialLabel4.MouseState = MaterialSkin.MouseState.HOVER
-        Me.MaterialLabel4.Name = "MaterialLabel4"
-        Me.MaterialLabel4.Size = New System.Drawing.Size(69, 19)
-        Me.MaterialLabel4.TabIndex = 74
-        Me.MaterialLabel4.Text = "Database"
-        '
         'frmBGTasks
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 17.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1097, 674)
         Me.Controls.Add(Me.pnlMain)
