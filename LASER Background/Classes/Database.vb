@@ -1,12 +1,11 @@
-﻿Imports System.Data.SqlClient
-Imports LASER_System.My
+﻿Imports LASER_Background.My
 Imports MySqlConnector
 
 Public Class Database
     Public Function GetConenction() As MySqlConnection
         Dim Encoder As New Encoder()
-        Dim DbPassword As String = If(Settings.DBPassword <> "",
-            Encoder.Decode(Settings.DBPassword),
+        Dim DbPassword As String = If(Settings.DbPassword <> "",
+            Encoder.Decode(Settings.DbPassword),
             "")
         Return New MySqlConnection($"server={Settings.DBServer};port={Settings.DBPort};user={Settings.DBUserName};password={DbPassword};database={Settings.DBName};")
     End Function
@@ -49,11 +48,7 @@ Public Class Database
         End Try
     End Function
 
-    Public Sub Execute(Query As String, Optional Parameters As MySqlParameter() = Nothing, Optional AdminPer As AdminPermission = Nothing)
-        Query = FormatQuery(Query, AdminPer)
-        If AdminPer IsNot Nothing AndAlso AdminPer.AdminSend = True Then
-            Exit Sub
-        End If
+    Public Sub Execute(Query As String, Optional Parameters As MySqlParameter() = Nothing)
         Dim Connection As MySqlConnection = GetConenction()
         Try
             Connection.Open()
@@ -86,29 +81,6 @@ Public Class Database
             Connection.Close()
         End Try
     End Sub
-
-    Private Function FormatQuery(Query As String, Optional AdminPer As AdminPermission = Nothing) As String
-        If Query.Contains("?") = False Then
-            Return Query
-        End If
-        Dim SplitText() As String = Query.Split("?")
-        Dim i As Integer = 0
-        While i < SplitText.Length
-            Select Case SplitText(i)
-                Case "NewKey"
-                    Query = Query.Replace("?" + SplitText(i) + "?" + SplitText(i + 1) + "?" + SplitText(i + 2) + "?",
-                                          GetNextKey(SplitText(i + 1), SplitText(i + 2)))
-                    i += 2
-                Case "Key"
-                    If AdminPer.Keys.ContainsKey(SplitText(i + 1)) Then
-                        Query = Query.Replace($"?{SplitText(i)}?{SplitText(i + 1)}?", AdminPer.Keys.Item(SplitText(i + 1)))
-                        i += 1
-                    End If
-            End Select
-            i += 1
-        End While
-        Return Query
-    End Function
 
     Public Function GetDataTable(Sql As String, Optional Values As MySqlParameter() = Nothing) As DataTable
         Dim DataTable As New DataTable
