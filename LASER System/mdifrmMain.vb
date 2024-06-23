@@ -6,8 +6,8 @@ Imports MySqlConnector
 Public Class MdifrmMain
     Private Db As New Database
     Private Sub mdifrmMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Control.CheckForIllegalCrossThreadCalls = False
-        
+        CheckForIllegalCrossThreadCalls = False
+
         MenuStrip.Items.Add(mnustrpMENU)
     End Sub
 
@@ -16,8 +16,8 @@ Public Class MdifrmMain
         If Not String.IsNullOrEmpty(My.Settings.BGWorkerPath) And File.Exists(My.Settings.BGWorkerPath) Then
             Dim fileName As String = My.Settings.BGWorkerPath
             Dim fi As New IO.FileInfo(fileName)
-            Dim directoryName As String = SpecialDirectories.MyDocuments + "\LASER System\LASER Background"
-            File.Create(directoryName + "\ShutDown.txt")
+            Dim directoryName As String = Path.Combine(SystemFolderPath, "\LASER Background")
+            File.Create(directoryName + "\Shutdown.txt")
         End If
         
         BarCodePort.Close()

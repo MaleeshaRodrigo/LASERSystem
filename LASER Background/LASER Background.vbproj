@@ -19,8 +19,8 @@
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Web</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Background</UpdateMode>
     <UpdateInterval>7</UpdateInterval>
     <UpdateIntervalUnits>Days</UpdateIntervalUnits>
     <UpdatePeriodically>false</UpdatePeriodically>
@@ -28,15 +28,15 @@
     <MapFileExtensions>false</MapFileExtensions>
     <InstallUrl>https://raw.githubusercontent.com/MaleeshaRodrigo/LASERSystem/main/LASER%2520Background/publish/</InstallUrl>
     <UpdateUrl>https://raw.githubusercontent.com/MaleeshaRodrigo/LASERSystem/main/LASER%2520Background/publish/</UpdateUrl>
-    <SupportUrl>https://lasertec.lk</SupportUrl>
-    <ErrorReportUrl>https://lasertec.lk</ErrorReportUrl>
+    <SupportUrl>https://github.com/MaleeshaRodrigo/LASERSystem</SupportUrl>
+    <ErrorReportUrl>https://github.com/MaleeshaRodrigo/LASERSystem/issues</ErrorReportUrl>
     <ProductName>LASER Background</ProductName>
-    <PublisherName>LASER System</PublisherName>
+    <PublisherName>LASER Electronics</PublisherName>
     <SuiteName>LASER Background</SuiteName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationRevision>3</ApplicationRevision>
     <ApplicationVersion>2.1.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
