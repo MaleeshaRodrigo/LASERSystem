@@ -156,7 +156,7 @@ Public Class FormDeliver
                 Next
                 RPT.PrintOptions.PaperOrientation = CrystalDecisions.Shared.PaperOrientation.Portrait
                 RPT.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
-                'RPT.PrintToPrinter(1, False, 1, 1)
+                RPT.PrintToPrinter(1, False, 1, 1)
             End If
             Application.Run(Form)
         Catch ex As Exception
