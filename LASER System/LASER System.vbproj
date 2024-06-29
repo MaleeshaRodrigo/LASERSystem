@@ -197,6 +197,12 @@
     <Compile Include="Deliver\Controls\ControlPopUp.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Message\Controls\ControlMessageUnit.Designer.vb">
+      <DependentUpon>ControlMessageUnit.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Message\Controls\ControlMessageUnit.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Repair\Controls\ControlActivityInfo.Designer.vb">
       <DependentUpon>ControlActivityInfo.vb</DependentUpon>
     </Compile>
@@ -508,6 +514,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Deliver\Controls\ControlPopUp.resx">
       <DependentUpon>ControlPopUp.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Message\Controls\ControlMessageUnit.resx">
+      <DependentUpon>ControlMessageUnit.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Repair\Controls\ControlActivityInfo.resx">
       <DependentUpon>ControlActivityInfo.vb</DependentUpon>

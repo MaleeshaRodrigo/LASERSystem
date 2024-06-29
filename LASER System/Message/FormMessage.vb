@@ -146,7 +146,7 @@ Public Class FormMessage
         OnlynumberQty(e)
     End Sub
 
-    Private Sub cmbField_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbField.SelectedIndexChanged
+    Private Sub cmbField_SelectedIndexChanged(sender As Object, e As EventArgs) 
         cmbRepNo.Text = ""
         cmbRepNo_DropDown(sender, e)
     End Sub
