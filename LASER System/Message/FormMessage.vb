@@ -12,17 +12,10 @@ Public Class FormMessage
         ' This call is required by the designer.
         InitializeComponent()
         MenuStrip.Items.Add(mnustrpMENU)
-        TabControl.TabPages.Remove(tabMsg)
-        TabControl.TabPages.Remove(tabMsgHistory)
-        TabControl.TabPages.Remove(tabRepTask)
-    End Sub
-
-    Private Sub frmMessage_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-        
     End Sub
 
     Private Sub frmMessage_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        
+
         System.Windows.Forms.Control.CheckForIllegalCrossThreadCalls = False
         Select Case Me.Tag
             Case "Message"
@@ -55,22 +48,7 @@ Public Class FormMessage
                 bgworker.RunWorkerAsync()
         End Select
     End Sub
-    Private Sub cmdSend_Click(sender As Object, e As EventArgs) Handles cmdMSend.Click
-        If MsgBox("Phone No: " + txtPhoneNo.Text & vbCr &
-               "Message: " + txtMessage.Text & vbCr &
-               "SMS එක යැවීම සඳහා තහවුරු කරන්න.", vbYesNo + vbExclamation) = False Then Exit Sub
-        If cmbField.Text = "Repair" Then
-            Db.Execute("Insert Into Message(MsgNo,REPNo,CuTelNo,Message,Status) Values(" &
-                  txtMsgNo.Text & "," & cmbRepNo.Text & ",'" & txtPhoneNo.Text & "','" & txtMessage.Text & "','Waiting');")
-        ElseIf cmbField.Text = "RERepair" Then
-            Db.Execute("Insert Into Message(MsgNo,RETNo,CuTelNo,Message,Status) Values(" &
-                  txtMsgNo.Text & "," & cmbRepNo.Text & ",'" & txtPhoneNo.Text & "','" & txtMessage.Text & "','Waiting');")
-        Else
-            Db.Execute("Insert Into Message(MsgNo,CuTelNo,Message,Status) Values(" &
-                  txtMsgNo.Text & ",'" & txtPhoneNo.Text & "','" & txtMessage.Text & "','Waiting');")
-        End If
-    End Sub
-    Private Sub cmbRepNo_DropDown(sender As Object, e As EventArgs) Handles cmbRepNo.DropDown
+    Private Sub cmbRepNo_DropDown(sender As Object, e As EventArgs)
         If cmbField.Text = "Repair" Then
             ComboBoxDropDown(Db, cmbRepNo, "Select REPNo from Repair Order by RePNO Desc;")
         ElseIf cmbField.Text = "RERepair" Then
@@ -78,7 +56,7 @@ Public Class FormMessage
         End If
     End Sub
 
-    Private Sub grdMsgHistory_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs) Handles grdMsgHistory.CellEndEdit
+    Private Sub grdMsgHistory_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs)
         If e.ColumnIndex = 0 Then
             DR = Db.GetDataDictionary("Select RepNo, RDate, CuName, CuTElNo1, PCategory, PName, Charge, Qty, TName, Status, '' as Message from ((((Repair REP INNER JOIN Product P ON P.PNO = REP.PNO) INNER JOIN Receive R ON R.RNo = REP.RNo) INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNo=REP.TNo) where RepNo = " &
                                             grdMsgHistory.Item(e.ColumnIndex, e.RowIndex).Value & ";")
@@ -133,7 +111,7 @@ Public Class FormMessage
         End If
     End Sub
 
-    Private Sub grdMsgHistory_EditingControlShowing(sender As Object, e As DataGridViewEditingControlShowingEventArgs) Handles grdMsgHistory.EditingControlShowing
+    Private Sub grdMsgHistory_EditingControlShowing(sender As Object, e As DataGridViewEditingControlShowingEventArgs)
         Dim DataCollection As New AutoCompleteStringCollection()
         RemoveHandler CType(e.Control, TextBox).KeyPress, AddressOf TextBoxQty_keyPress
         Select Case grdMsgHistory.CurrentCell.ColumnIndex

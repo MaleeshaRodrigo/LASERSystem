@@ -201,7 +201,7 @@
       <DependentUpon>ControlMessageUnit.vb</DependentUpon>
     </Compile>
     <Compile Include="Message\Controls\ControlMessageUnit.vb">
-      <SubType>Form</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Repair\Controls\ControlActivityInfo.Designer.vb">
       <DependentUpon>ControlActivityInfo.vb</DependentUpon>
