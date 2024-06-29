@@ -225,9 +225,9 @@ Public Class frmRepairAdvanced
         Try
             Connection.Open()
             If rbRep.Checked = True Then
-                DA1 = Db.GetDataAdapter("SELECT CuName,CuTelNo1,CuTelNo2,CuTelNo3,ADDate,Rep.RepNo,Ret.RetNo,PCategory,PName,Amount from (((((RepairAdvanced AD Left Join Repair Rep On Rep.RepNo=AD.RepNo) Left Join Return Ret On Ret.RetNo=AD.RetNo) Left Join Product P ON P.PNo = Rep.PNo) Left Join Receive R ON R.RNo = Rep.RNo) Left Join Customer Cu ON Cu.CuNo=R.CuNo) Where ADNo=" & txtAdNo.Text & ";", Connection)
+                DA1 = Db.GetDataAdapter(Connection, "SELECT CuName,CuTelNo1,CuTelNo2,CuTelNo3,ADDate,Rep.RepNo,Ret.RetNo,PCategory,PName,Amount from (((((RepairAdvanced AD Left Join Repair Rep On Rep.RepNo=AD.RepNo) Left Join Return Ret On Ret.RetNo=AD.RetNo) Left Join Product P ON P.PNo = Rep.PNo) Left Join Receive R ON R.RNo = Rep.RNo) Left Join Customer Cu ON Cu.CuNo=R.CuNo) Where ADNo=" & txtAdNo.Text & ";")
             Else
-                DA1 = Db.GetDataAdapter("SELECT CuName,CuTelNo1,CuTelNo2,CuTelNo3,ADDate,Rep.RepNo,Ret.RetNo,PCategory,PName,Amount from (((((RepairAdvanced AD Left Join Return Ret On Ret.RetNo=AD.RetNo) Left Join Repair Rep On Rep.RepNo=Ret.RepNo) LEft Join Product P ON P.PNo = Rep.PNo) Left Join Receive R ON R.RNo = Rep.RNo) Left Join Customer Cu ON Cu.CuNo=R.CuNo) Where ADNo=" & txtAdNo.Text & ";", Connection)
+                DA1 = Db.GetDataAdapter(Connection, "SELECT CuName,CuTelNo1,CuTelNo2,CuTelNo3,ADDate,Rep.RepNo,Ret.RetNo,PCategory,PName,Amount from (((((RepairAdvanced AD Left Join Return Ret On Ret.RetNo=AD.RetNo) Left Join Repair Rep On Rep.RepNo=Ret.RepNo) LEft Join Product P ON P.PNo = Rep.PNo) Left Join Receive R ON R.RNo = Rep.RNo) Left Join Customer Cu ON Cu.CuNo=R.CuNo) Where ADNo=" & txtAdNo.Text & ";")
             End If
             DA1.Fill(DS1, "Repair")
             DA1.Fill(DS1, "Product")
