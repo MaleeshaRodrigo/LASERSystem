@@ -196,11 +196,11 @@ Public Class frmReceive
                 PNo = DrProduct("PNo")
             Else
                 PNo = Db.GetNextKey("Product", "PNo")
-                Db.Execute("Insert into Product(PNO,PCATEGORY,PNAME,PMODELNO,PDETAILS) Values(" & PNo & ",'" & row.Cells(1).Value & "','" & row.Cells(2).Value & "','" & row.Cells(3).Value & "','" & row.Cells(5).Value & "');")
+                Db.Execute("INSERT INTO Product(PNO,PCATEGORY,PNAME,PMODELNO,PDETAILS) Values(" & PNo & ",'" & row.Cells(1).Value & "','" & row.Cells(2).Value & "','" & row.Cells(3).Value & "','" & row.Cells(5).Value & "');")
             End If
-            Db.Execute("Insert into Repair(RepNo,RNo,PNo,PSerialNo,Qty,Problem,Status)Values(" & row.Cells(0).Value & "," & txtRNo.Text & "," & PNo & ",'" & row.Cells(4).Value & "'," &
+            Db.Execute("INSERT INTO Repair(RepNo,RNo,PNo,PSerialNo,Qty,Problem,Status)Values(" & row.Cells(0).Value & "," & txtRNo.Text & "," & PNo & ",'" & row.Cells(4).Value & "'," &
                                         row.Cells(6).Value & ",'" & row.Cells(7).Value & "','Received');")
-            Db.Execute("Insert into RepairActivity(RepANo,RepNo,RepADate,Activity,UNo) Values(?NewKey?RepairActivity?RepANo?," &
+            Db.Execute("INSERT INTO RepairActivity(RepANo,RepNo,RepADate,Activity,UNo) Values(?NewKey?RepairActivity?RepANo?," &
                       row.Cells(0).Value & ",NOW(),'Received Date -> " & txtRDate.Value & vbCrLf &
                       ", Name -> " & cmbCuMr.Text & cmbCuName.Text &
                       ", Telephone No1 -> " & txtCuTelNo1.Text &
@@ -212,7 +212,7 @@ Public Class frmReceive
                       ", Serial No -> " & row.Cells(4).Value &
                       ", Problem -> " & row.Cells(5).Value & ".'," & User.Instance.UserNo & ")")
             If row.Cells(8).Value IsNot Nothing Then
-                Db.Execute("Insert into RepairRemarks1(Rem1No,Rem1Date,RepNo,Remarks,UNo) Values(?NewKey?RepairRemarks1?Rem1No?,NOW()," &
+                Db.Execute("INSERT INTO RepairRemarks1(Rem1No,Rem1Date,RepNo,Remarks,UNo) Values(?NewKey?RepairRemarks1?Rem1No?,NOW()," &
                       row.Cells(0).Value & ",'" & row.Cells(8).Value & "'," & User.Instance.UserNo & ")")
             End If
             If Me.Tag = "Deliver" Then
@@ -233,7 +233,7 @@ Public Class frmReceive
         For Each row As DataGridViewRow In grdReRepair.Rows
             If row.Index = grdReRepair.Rows.Count - 1 Then Continue For
             'Product Management
-            Dim DrProduct = Db.GetDataDictionary("Select * from Product where PCategory='" & row.Cells(1).Value & "' and PName='" & row.Cells(2).Value & "'")
+            Dim DrProduct = Db.GetDataDictionary("Select * from Product where PCategory='" & row.Cells(2).Value & "' and PName='" & row.Cells(3).Value & "'")
             If DrProduct IsNot Nothing Then
                 PNo = DrProduct("PNo")
             Else

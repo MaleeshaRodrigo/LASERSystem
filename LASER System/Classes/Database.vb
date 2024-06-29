@@ -241,8 +241,11 @@ Public Class Database
         End Try
     End Function
 
-    Public Function GetDataAdapter(Query As String, Connection As MySqlConnection) As MySqlDataAdapter
+    Public Function GetDataAdapter(Connection As MySqlConnection, Query As String, Optional Values As MySqlParameter() = Nothing) As MySqlDataAdapter
         Dim DA As New MySqlDataAdapter(Query, Connection)
+        If Values IsNot Nothing Then
+            DA.SelectCommand.Parameters.AddRange(Values)
+        End If
         Return DA
     End Function
 
