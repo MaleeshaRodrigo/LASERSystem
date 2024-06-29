@@ -1,5 +1,4 @@
 ﻿Imports System.ComponentModel
-Imports System.Data.OleDb
 Imports System.IO
 Imports System.Net.Mail
 
@@ -23,14 +22,14 @@ Public Class SendEmailProcess
 
     Public Sub Perform() Implements IProcess.Perform
         Try
-            Dim DataReader As OleDbDataReader = Database.GetDataReader("Select * from Mail Where Status='Waiting';")
-            While DataReader.Read()
+            Dim DataList = Database.GetDataList("Select * from Mail Where Status='Waiting';")
+            For Each Item In DataList
                 If Worker.CancellationPending Then
                     Exit Sub
                 End If
 
-                SendEmail(DataReader("MailNo"), DataReader("EmailTo").ToString, DataReader("Subject").ToString, DataReader("Body").ToString)
-            End While
+                SendEmail(Item("MailNo"), Item("EmailTo").ToString, Item("Subject").ToString, Item("Body").ToString)
+            Next
         Catch ex As Exception
             Throw ex
         End Try

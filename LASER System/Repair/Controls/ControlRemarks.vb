@@ -1,4 +1,4 @@
-﻿Imports System.Data.OleDb
+﻿Imports MySqlConnector
 Imports System.IO
 
 Public Class ControlRemarks
@@ -16,13 +16,13 @@ Public Class ControlRemarks
         cmbLocation.Text = FormParent.DataReaderRepair("Location").ToString
 
         'Adding Data to grdRepRemarks1 
-        Dim DRREPNO1 As OleDbDataReader = DB.GetDataReader("Select RepRem.*, UserName from RepairRemarks1 RepRem LEFT JOIN [User] U ON U.UNo=RepRem.UNo Where RepNo=@REPNO;", {
-                New OleDbParameter("REPNO", RepNo)
+        Dim DRREPNO1 = DB.GetDataList("Select RepRem.*, UserName from RepairRemarks1 RepRem LEFT JOIN `User` U ON U.UNo=RepRem.UNo Where RepNo=@REPNO;", {
+                New MySqlParameter("REPNO", RepNo)
             })
         grdRepRemarks1.Rows.Clear()
-        While DRREPNO1.Read
-            grdRepRemarks1.Rows.Add(DRREPNO1("Rem1No").ToString, DRREPNO1("Rem1Date").ToString, DRREPNO1("Remarks").ToString, DB.GetData("Select UserName from [User] Where UNo=" & DRREPNO1("UNo").ToString))
-        End While
+        For Each Item In DRREPNO1
+            grdRepRemarks1.Rows.Add(Item("Rem1No").ToString, Item("Rem1Date").ToString, Item("Remarks").ToString, DB.GetData("Select UserName from `User` Where UNo=" & Item("UNo").ToString))
+        Next
 
         Dim FilePath As String = Path.Combine(SystemFolderPath, $"\LASER System\Images\REP-{RepNo}.png")
         imgRepair.Image = If(File.Exists(FilePath), Image.FromFile(FilePath), Nothing)
@@ -31,16 +31,16 @@ Public Class ControlRemarks
     Public Sub InitForReRepair(ReRepNo As Integer)
         cmbLocation.Text = FormParent.DataReaderRepair("Location").ToString
 
-        Dim DRREPNO1 As OleDbDataReader = DB.GetDataReader("SELECT RepRem.*, UserName FROM RepairRemarks1 RepRem LEFT JOIN [User] U ON U.UNo=RepRem.UNo WHERE RetNo=@REREPPNO;", {
-                New OleDbParameter("REREPPNO", ReRepNo)
+        Dim DRREPNO1 = DB.GetDataList("SELECT RepRem.*, UserName FROM RepairRemarks1 RepRem LEFT JOIN `User` U ON U.UNo=RepRem.UNo WHERE RetNo=@REREPPNO;", {
+                New MySqlParameter("REREPPNO", ReRepNo)
             })
         grdRepRemarks1.Rows.Clear()
-        While DRREPNO1.Read
-            grdRepRemarks1.Rows.Add(DRREPNO1("Rem1No").ToString, DRREPNO1("Rem1Date").ToString, DRREPNO1("Remarks").ToString, DRREPNO1("UserName").ToString)
+        For Each Item In DRREPNO1
+            grdRepRemarks1.Rows.Add(Item("Rem1No").ToString, Item("Rem1Date").ToString, Item("Remarks").ToString, Item("UserName").ToString)
             If IsDate(FormParent.DataReaderRepair("DDate")) AndAlso DateValue(FormParent.DataReaderRepair("DDate")).Month <> Today.Month Then
                 grdRepRemarks1.Rows.Item(grdRepRemarks1.Rows.Count - 1).ReadOnly = True
             End If
-        End While
+        Next
 
         Dim FilePath As String = Path.Combine(SystemFolderPath, $"\LASER System\Images\RET-{ReRepNo}.png")
         imgRepair.Image = If(File.Exists(FilePath), Image.FromFile(FilePath), Nothing)
@@ -48,7 +48,7 @@ Public Class ControlRemarks
 
     Public Sub SaveData(RepNo As Integer)
         DB.Execute($"UPDATE Repair SET Location= '{cmbLocation.Text}' WHERE repno ={RepNo}")
-        DB.Execute($"INSERT INTO RepairActivity(RepANo,RepNo,RepADate,Activity,UNo) VALUES({DB.GetNextKey("RepairActivity", "RepANo")},{RepNo},#{DateAndTime.Now}#,'Location -> {cmbLocation.Text}',{User.Instance.UserNo})")
+        DB.Execute($"INSERT INTO RepairActivity(RepANo,RepNo,RepADate,Activity,UNo) VALUES({DB.GetNextKey("RepairActivity", "RepANo")},{RepNo},'{DateAndTime.Now}','Location -> {cmbLocation.Text}',{User.Instance.UserNo})")
     End Sub
 
     Public Sub Clear()
@@ -124,18 +124,22 @@ Public Class ControlRemarks
             If DB.CheckDataExists("RepairRemarks1", "Rem1No", grdRepRemarks1.Item(0, e.RowIndex).Value) = True Then
                 DB.Execute("Update RepairRemarks1 set " &
                           If(FormParent.Mode = RepairMode.Repair, "RepNo=" & FormParent.cmbRepNo.Text, "RetNo=" & FormParent.cmbRetNo.Text) &
-                          ",Rem1Date=#" & grdRepRemarks1.Item(1, e.RowIndex).Value &
-                          "#,Remarks='" & grdRepRemarks1.Item(2, e.RowIndex).Value &
-                          "',UNo=" & DB.GetData("Select UNo from [User] Where UserName='" &
-                          grdRepRemarks1.Item(3, e.RowIndex).Value & "'") &
-                          " Where Rem1No=" & grdRepRemarks1.Item(0, e.RowIndex).Value, {}, AdminPer)
+                          ",Rem1Date=@REM1DATE,Remarks=@REMARKS,UNo=@UNO Where Rem1No=@REM1NO;", {
+                    New MySqlParameter("REM1DATE", grdRepRemarks1.Item(1, e.RowIndex).Value),
+                    New MySqlParameter("REMARKS", grdRepRemarks1.Item(2, e.RowIndex).Value),
+                    New MySqlParameter("UNO", User.Instance.UserNo),
+                    New MySqlParameter("REM1NO", grdRepRemarks1.Item(0, e.RowIndex).Value)
+                }, AdminPer)
             Else
                 DB.Execute("Insert into RepairRemarks1(Rem1No," & If(FormParent.Mode = RepairMode.Repair, "RepNo", "RetNo") &
-                          ", Rem1Date, Remarks, UNo) Values(" & grdRepRemarks1.Item(0, e.RowIndex).Value & "," &
-                          If(FormParent.Mode = RepairMode.Repair, FormParent.cmbRepNo.Text, FormParent.cmbRetNo.Text) & ",#" & grdRepRemarks1.Item(1, e.RowIndex).Value &
-                          "#,'" & grdRepRemarks1.Item(2, e.RowIndex).Value & "'," &
-                          DB.GetData("Select UNo from [User] Where UserName='" & grdRepRemarks1.Item(3, e.RowIndex).Value & "'") &
-                          ")", {}, AdminPer)
+                          ", Rem1Date, Remarks, UNo) Values(@REM1NO," &
+                          If(FormParent.Mode = RepairMode.Repair, FormParent.cmbRepNo.Text, FormParent.cmbRetNo.Text) &
+                          ", @REM1DATE, @REMARKS, @UNO);", {
+                    New MySqlParameter("REM1NO", grdRepRemarks1.Item(0, e.RowIndex).Value),
+                    New MySqlParameter("REM1DATE", grdRepRemarks1.Item(1, e.RowIndex).Value),
+                    New MySqlParameter("REMARKS", grdRepRemarks1.Item(2, e.RowIndex).Value),
+                    New MySqlParameter("UNO", User.Instance.UserNo)
+                }, AdminPer)
             End If
         End If
         If AdminPer.AdminSend = True Then
@@ -153,7 +157,7 @@ Public Class ControlRemarks
             e.Cancel = True
         End If
         DB.Execute("Delete from RepairRemarks1 Where Rem1No=@REM1NO", {
-                   New OleDbParameter("REM1NO", grdRepRemarks1.Item(0, e.Row.Index).Value)
+                   New MySqlParameter("REM1NO", grdRepRemarks1.Item(0, e.Row.Index).Value)
         }, AdminPer)
     End Sub
 
@@ -164,16 +168,14 @@ Public Class ControlRemarks
         If grdRepRemarks1.Item(0, e.RowIndex).Value Is Nothing Then
             Exit Sub
         End If
-        Dim DR1 As OleDbDataReader = DB.GetDataReader($"SELECT Rem1No,Rem1Date,Remarks,UserName from RepairRemarks1 RepRem1 LEFT JOIN [User] U ON U.UNo=RepRem1.UNo where Rem1No={grdRepRemarks1.Item(0, e.RowIndex).Value};")
-        If DR1.HasRows Then
-            DR1.Read()
+        Dim DR1 = DB.GetDataDictionary($"SELECT Rem1No,Rem1Date,Remarks,UserName from RepairRemarks1 RepRem1 LEFT JOIN `User` U ON U.UNo=RepRem1.UNo where Rem1No={grdRepRemarks1.Item(0, e.RowIndex).Value};")
+        If DR1 IsNot Nothing Then
             grdRepRemarks1.Item(1, e.RowIndex).Value = DR1("Rem1Date").ToString
             grdRepRemarks1.Item(2, e.RowIndex).Value = DR1("Remarks").ToString
             grdRepRemarks1.Item(3, e.RowIndex).Value = DR1("UserName").ToString
         Else
             grdRepRemarks1.Rows.RemoveAt(e.RowIndex)
         End If
-        DR1.Close()
     End Sub
 
     Private Sub cmbLocation_DropDown(sender As Object, e As EventArgs) Handles cmbLocation.DropDown

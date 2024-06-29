@@ -1,4 +1,4 @@
-﻿Imports System.Data.OleDb
+﻿Imports MySqlConnector
 
 Public Class frmCustomerLoan
     Private Db As New Database
@@ -7,9 +7,9 @@ Public Class frmCustomerLoan
     End Sub
 
     Private Sub cmbCuName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbCuName.SelectedIndexChanged
-        DR = Db.GetDataReader("SELECT * from Customer where CuName='" & cmbCuName.Text & "';")
-        If DR.HasRows = True Then
-            DR.Read()
+        DR = Db.GetDataDictionary("SELECT * from Customer where CuName='" & cmbCuName.Text & "';")
+        If DR.Count Then
+
             cmbCuName.Text = DR("CuName").ToString
             txtCuTelNo1.Text = DR("CuTelNo1").ToString
             txtCuTelNo2.Text = DR("CuTelNo2").ToString
@@ -22,11 +22,11 @@ Public Class frmCustomerLoan
     End Sub
 
     Private Sub frmCustomerLoan_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-        Db.Disconnect()
+        
     End Sub
 
     Private Sub frmCustomerLoan_Load(sender As Object, e As EventArgs) Handles Me.Load
-        Db.Connect()
+        
         MenuStrip1.Items.Add(mnustrpMENU)
         cmbCuLStatus.SelectedIndex = 1
         cmbFilter.Items.Clear()
@@ -48,24 +48,24 @@ Public Class frmCustomerLoan
     End Sub
 
     Private Sub txtDNo_TextChanged(sender As Object, e As EventArgs) Handles txtDNo.TextChanged
-        Dim DR As OleDbDataReader = Db.GetDataReader("SELECT DDate from Deliver where DNo =" & txtDNo.Text & ";")
-        If DR.HasRows = True Then
-            DR.Read()
+        Dim DR = Db.GetDataDictionary("SELECT DDate from Deliver where DNo =" & txtDNo.Text & ";")
+        If DR.Count Then
+
             txtDDate.Value = DR("DDate").ToString
         End If
     End Sub
 
     Private Sub txtSaNo_TextChanged(sender As Object, e As EventArgs) Handles txtSaNo.TextChanged
         If txtSaNo.Text = "" Then Exit Sub
-        Dim DR As OleDbDataReader = Db.GetDataReader("SELECT SaDate from SAle where SaNo =" & txtSaNo.Text & ";")
-        If DR.HasRows = True Then
-            DR.Read()
+        Dim DR = Db.GetDataDictionary("SELECT SaDate from SAle where SaNo =" & txtSaNo.Text & ";")
+        If DR.Count Then
+
             txtSaDate.Value = DR("SaDate").ToString
         End If
     End Sub
 
     Private Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click
-        SetNextKey(Db, txtCuLNo, "SELECT top 1 CuLNo from CustomerLoan ORDER BY CuLNo Desc;", "CuLNO")
+        txtCuLNo.Text = Db.GetNextKey("CustomerLoan", "CuLNo")
         txtCuLAmount.Text = ""
         cmbCuName.Text = ""
         txtCuTelNo1.Text = ""
@@ -99,7 +99,7 @@ Public Class frmCustomerLoan
                 If CheckExistData(Db, txtCuLNo, "SELECT CULNO FROM CUSTOMERLOAN WHERE CULNO = " & txtCuLNo.Text & ";", "Something was wrong. This Customer Loan No is already exist in the database. Please Check it and try again. Otherwise you can contact a software developer.", True) = True Then
                     Exit Sub
                 End If
-                Db.Execute("Insert into CustomerLoan(CuLNo,CuLDate,CuNo,CuLAmount,Status,CuLRemarks) Values(" & txtCuLNo.Text & ",#" & txtCuLDate.Value.Date & "#," & CuNo.ToString & "," & txtCuLAmount.Text & ",'" & cmbCuLStatus.Text & "','" & txtCuLRemarks.Text & "');")
+                Db.Execute("Insert into CustomerLoan(CuLNo,CuLDate,CuNo,CuLAmount,Status,CuLRemarks) Values(" & txtCuLNo.Text & ",'" & txtCuLDate.Value.Date & "'," & CuNo.ToString & "," & txtCuLAmount.Text & ",'" & cmbCuLStatus.Text & "','" & txtCuLRemarks.Text & "');")
                 If txtDNo.Text <> "" Then
                     Db.Execute("Update CustomerLoan set DNo = " & txtDNo.Text & " where CuLNO = " & txtCuLNo.Text)
                     If MsgBox("Will the Deliver Section be updated ? ", vbInformation + vbYesNo) = vbYes Then
@@ -117,8 +117,8 @@ Public Class frmCustomerLoan
                     End If
                 End If
             Case "Edit"
-                Db.Execute("Update CustomerLoan set CuLDate = #" & txtCuLDate.Text &
-                                             "#,CuNo = " & CuNo &
+                Db.Execute("Update CustomerLoan set CuLDate = '" & txtCuLDate.Text &
+                                             "',CuNo = " & CuNo &
                                              If(txtSaNo.Text <> "", ",SaNo = " & txtSaNo.Text, "") &
                                              If(txtDNo.Text <> "", ",DNo = " & txtDNo.Text, "") &
                                              ",CuLAmount = " & txtCuLAmount.Text &
@@ -149,9 +149,9 @@ Public Class frmCustomerLoan
         If index >= 0 Then
             selectedrow = grdCustomerLoan.Rows(index)
             txtCuLNo.Text = selectedrow.Cells(0).Value.ToString
-            Dim Dr As OleDbDataReader = Db.GetDataReader("Select CUL.CuLNo,CuLDate,CuL.CuNo,CuName,CuTelNo1,CuTelNo2,CuTelNo3,Sa.SaNo,Sa.SaDate,D.DNo,D.DDate,CuL.CuLAmount,Status,CuLRemarks from (((CustomerLoan CUL INNER JOIN Customer CU ON CU.CUNO = CUL.CUNO) LEFT JOIN DELIVER D ON D.DNO = CUL.DNO) LEFT JOIN SALE SA ON SA.SANO = CUL.SANO) WHERE CuL.CuLNO =" & txtCuLNo.Text)
-            If DR.HasRows = True Then
-                DR.Read()
+            Dim Dr = Db.GetDataDictionary("Select CUL.CuLNo,CuLDate,CuL.CuNo,CuName,CuTelNo1,CuTelNo2,CuTelNo3,Sa.SaNo,Sa.SaDate,D.DNo,D.DDate,CuL.CuLAmount,Status,CuLRemarks from (((CustomerLoan CUL INNER JOIN Customer CU ON CU.CUNO = CUL.CUNO) LEFT JOIN DELIVER D ON D.DNO = CUL.DNO) LEFT JOIN SALE SA ON SA.SANO = CUL.SANO) WHERE CuL.CuLNO =" & txtCuLNo.Text)
+            If Dr.Count Then
+
                 txtCuLDate.Value = DR("CuLDate").ToString
                 cmbCuLStatus.Text = DR("Status").ToString
                 txtCuLAmount.Text = DR("CuLAmount").ToString
@@ -213,7 +213,7 @@ Public Class frmCustomerLoan
         Else
             x = " Order by CUL.CuLNo"
         End If
-        Me.grdCustomerLoan.DataSource = Db.GetDataTable("SELECT CuL.CuLNo as [Customer Loan No],CuLDate as [Customer Loan Date],CuL.CuNo as [No],CuName as [Name],CuTelNo1 as [Telephone No 1],CuTelNo2 as [Telephone No 2],CuTelNo3 as [Telephone No 3],CuL.SaNo as [Sale No],SaDate as [Sale Date], CuL.DNo as [Deliver No], DDate as [Deliver Date], Status,CuLRemarks as [Remarks] from (((CustomerLoan CUL INNER JOIN CUSTOMER CU ON CU.CUNO = CUL.CUNO) LEFT JOIN SALE SA ON SA.SANO = CUL.SANO) LEFT JOIN DELIVER D ON D.DNO = CUL.DNO) " & x & ";")
+        Me.grdCustomerLoan.DataSource = Db.GetDataTable("SELECT CuL.CuLNo as 'Customer Loan No',CuLDate as 'Customer Loan Date',CuL.CuNo as 'No',CuName as 'Name',CuTelNo1 as 'Telephone No 1',CuTelNo2 as 'Telephone No 2',CuTelNo3 as 'Telephone No 3',CuL.SaNo as 'Sale No',SaDate as 'Sale Date', CuL.DNo as 'Deliver No', DDate as 'Deliver Date', Status,CuLRemarks as 'Remarks' from (((CustomerLoan CUL INNER JOIN CUSTOMER CU ON CU.CUNO = CUL.CUNO) LEFT JOIN SALE SA ON SA.SANO = CUL.SANO) LEFT JOIN DELIVER D ON D.DNO = CUL.DNO) " & x & ";")
         For Each Row As DataGridViewRow In grdCustomerLoan.Rows
             If Row.Cells("Status").Value = "Paid" Then
                 Row.DefaultCellStyle.BackColor = Color.LightGreen

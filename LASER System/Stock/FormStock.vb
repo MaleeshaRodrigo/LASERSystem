@@ -1,6 +1,6 @@
 ﻿Imports System.ComponentModel
 Imports System.IO
-Imports System.Data.OleDb
+Imports MySqlConnector
 Imports Microsoft.VisualBasic.FileIO
 Imports LASER_System.StructureDatabase
 
@@ -19,7 +19,6 @@ Public Class FormStock
     End Sub
 
     Private Sub FormStock_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        DB.Connect()
         cmbFilter.SelectedIndex = 0
         If User.Instance.UserType = User.Type.Admin Then
             grdStock.Columns.Item("SCostPrice").Visible = True
@@ -167,7 +166,7 @@ Public Class FormStock
         Else
             FilterQuery += $" Order by {Stock.Code}"
         End If
-        Dim DT As DataTable = DB.GetDataTable(FilterQuery, {New OleDbParameter("@VALUE", $"%{txtSearch.Text}%")})
+        Dim DT As DataTable = DB.GetDataTable(FilterQuery, {New MySqlParameter("@VALUE", $"%{txtSearch.Text}%")})
         grdStock.DataSource = DT
     End Sub
 
@@ -178,10 +177,6 @@ Public Class FormStock
         ControlStockInfo.FormParent = Me
         ControlStockInfo.Dock = DockStyle.Fill
         ControlStockInfo.BringToFront()
-    End Sub
-
-    Private Sub FormStock_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-        DB.Disconnect()
     End Sub
 
     Private Sub grdStock_CellFormatting(sender As Object, e As DataGridViewCellFormattingEventArgs) Handles grdStock.CellFormatting

@@ -4,7 +4,7 @@
     <PublishUrlHistory>publish\</PublishUrlHistory>
     <InstallUrlHistory>https://raw.githubusercontent.com/MaleeshaRodrigo/LASERSystem/main/LASER%2520Background/publish/|https://raw.githubusercontent.com/MaleeshaRodrigo/LASERSystem/main/LASER%2520System/publish/</InstallUrlHistory>
     <SupportUrlHistory>https://lasertec.lk</SupportUrlHistory>
-    <UpdateUrlHistory />
+    <UpdateUrlHistory>https://raw.githubusercontent.com/MaleeshaRodrigo/LASERSystem/main/LASER%2520Background/publish/</UpdateUrlHistory>
     <BootstrapperUrlHistory />
     <ErrorReportUrlHistory>https://lasertec.lk</ErrorReportUrlHistory>
     <FallbackCulture>en-US</FallbackCulture>

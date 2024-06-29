@@ -15,7 +15,7 @@ Option Explicit On
 Namespace My
     
     <Global.System.Runtime.CompilerServices.CompilerGeneratedAttribute(),  _
-     Global.System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.9.0.0"),  _
+     Global.System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.10.0.0"),  _
      Global.System.ComponentModel.EditorBrowsableAttribute(Global.System.ComponentModel.EditorBrowsableState.Advanced)>  _
     Partial Friend NotInheritable Class MySettings
         Inherits Global.System.Configuration.ApplicationSettingsBase
@@ -153,36 +153,36 @@ Namespace My
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("")>  _
-        Public Property DatabasePath() As String
+        Public Property DbUserName() As String
             Get
-                Return CType(Me("DatabasePath"),String)
+                Return CType(Me("DbUserName"),String)
             End Get
             Set
-                Me("DatabasePath") = value
+                Me("DbUserName") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("")>  _
-        Public Property DatabasePassword() As String
+        Public Property DbPassword() As String
             Get
-                Return CType(Me("DatabasePassword"),String)
+                Return CType(Me("DbPassword"),String)
             End Get
             Set
-                Me("DatabasePassword") = value
+                Me("DbPassword") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Microsoft.ACE.OLEDB.12.0")>  _
-        Public Property DatabaseProvider() As String
+         Global.System.Configuration.DefaultSettingValueAttribute("localhost")>  _
+        Public Property DbServer() As String
             Get
-                Return CType(Me("DatabaseProvider"),String)
+                Return CType(Me("DbServer"),String)
             End Get
             Set
-                Me("DatabaseProvider") = value
+                Me("DbServer") = value
             End Set
         End Property
         
@@ -279,6 +279,30 @@ Namespace My
             End Get
             Set
                 Me("MailServerPort") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("3306")>  _
+        Public Property DbPort() As String
+            Get
+                Return CType(Me("DbPort"),String)
+            End Get
+            Set
+                Me("DbPort") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("lasertec")>  _
+        Public Property DbName() As String
+            Get
+                Return CType(Me("DbName"),String)
+            End Get
+            Set
+                Me("DbName") = value
             End Set
         End Property
     End Class
