@@ -22,12 +22,12 @@ Partial Class ControlMessageUnit
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.GridSuggestion = New System.Windows.Forms.DataGridView()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
         Me.TextMsgNo = New System.Windows.Forms.TextBox()
-        Me.TextTelNo = New System.Windows.Forms.MaskedTextBox()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.ComboReRepNo = New System.Windows.Forms.ComboBox()
         Me.ComboRepNo = New System.Windows.Forms.ComboBox()
@@ -36,12 +36,12 @@ Partial Class ControlMessageUnit
         Me.Label1 = New System.Windows.Forms.Label()
         Me.ButtonSend = New System.Windows.Forms.Button()
         Me.TextMessage = New System.Windows.Forms.RichTextBox()
-        Me.GridSuggestion = New System.Windows.Forms.DataGridView()
+        Me.CheckedListTelNo = New System.Windows.Forms.CheckedListBox()
         Me.Message = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.TableLayoutPanel1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
-        Me.GroupBox3.SuspendLayout()
         CType(Me.GridSuggestion, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.GroupBox3.SuspendLayout()
         Me.SuspendLayout()
         '
         'TableLayoutPanel1
@@ -70,10 +70,27 @@ Partial Class ControlMessageUnit
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Suggestions"
         '
+        'GridSuggestion
+        '
+        Me.GridSuggestion.AllowUserToAddRows = False
+        Me.GridSuggestion.AllowUserToDeleteRows = False
+        Me.GridSuggestion.AllowUserToResizeColumns = False
+        Me.GridSuggestion.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.GridSuggestion.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Message})
+        Me.GridSuggestion.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.GridSuggestion.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically
+        Me.GridSuggestion.Location = New System.Drawing.Point(3, 18)
+        Me.GridSuggestion.MultiSelect = False
+        Me.GridSuggestion.Name = "GridSuggestion"
+        Me.GridSuggestion.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders
+        Me.GridSuggestion.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
+        Me.GridSuggestion.Size = New System.Drawing.Size(251, 300)
+        Me.GridSuggestion.TabIndex = 10
+        '
         'GroupBox3
         '
+        Me.GroupBox3.Controls.Add(Me.CheckedListTelNo)
         Me.GroupBox3.Controls.Add(Me.TextMsgNo)
-        Me.GroupBox3.Controls.Add(Me.TextTelNo)
         Me.GroupBox3.Controls.Add(Me.Label2)
         Me.GroupBox3.Controls.Add(Me.ComboReRepNo)
         Me.GroupBox3.Controls.Add(Me.ComboRepNo)
@@ -92,35 +109,27 @@ Partial Class ControlMessageUnit
         '
         'TextMsgNo
         '
+        Me.TextMsgNo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.TextMsgNo.Location = New System.Drawing.Point(6, 293)
         Me.TextMsgNo.Name = "TextMsgNo"
         Me.TextMsgNo.Size = New System.Drawing.Size(65, 22)
         Me.TextMsgNo.TabIndex = 9
-        '
-        'TextTelNo
-        '
-        Me.TextTelNo.Font = New System.Drawing.Font("Calibri", 10.0!)
-        Me.TextTelNo.Location = New System.Drawing.Point(126, 77)
-        Me.TextTelNo.Mask = "999 0 000 000"
-        Me.TextTelNo.Name = "TextTelNo"
-        Me.TextTelNo.Size = New System.Drawing.Size(104, 24)
-        Me.TextTelNo.TabIndex = 8
         '
         'Label2
         '
         Me.Label2.AutoSize = True
         Me.Label2.Location = New System.Drawing.Point(6, 81)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(114, 14)
+        Me.Label2.Size = New System.Drawing.Size(120, 14)
         Me.Label2.TabIndex = 7
-        Me.Label2.Text = "Telephone Number:"
+        Me.Label2.Text = "Telephone Numbers:"
         '
         'ComboReRepNo
         '
         Me.ComboReRepNo.FormattingEnabled = True
         Me.ComboReRepNo.Location = New System.Drawing.Point(126, 49)
         Me.ComboReRepNo.Name = "ComboReRepNo"
-        Me.ComboReRepNo.Size = New System.Drawing.Size(130, 22)
+        Me.ComboReRepNo.Size = New System.Drawing.Size(125, 22)
         Me.ComboReRepNo.TabIndex = 6
         '
         'ComboRepNo
@@ -128,7 +137,7 @@ Partial Class ControlMessageUnit
         Me.ComboRepNo.FormattingEnabled = True
         Me.ComboRepNo.Location = New System.Drawing.Point(126, 21)
         Me.ComboRepNo.Name = "ComboRepNo"
-        Me.ComboRepNo.Size = New System.Drawing.Size(130, 22)
+        Me.ComboRepNo.Size = New System.Drawing.Size(127, 22)
         Me.ComboRepNo.TabIndex = 5
         '
         'RadioReRepNo
@@ -156,7 +165,7 @@ Partial Class ControlMessageUnit
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(6, 111)
+        Me.Label1.Location = New System.Drawing.Point(6, 156)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(59, 14)
         Me.Label1.TabIndex = 2
@@ -164,7 +173,7 @@ Partial Class ControlMessageUnit
         '
         'ButtonSend
         '
-        Me.ButtonSend.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ButtonSend.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.ButtonSend.BackColor = System.Drawing.SystemColors.ButtonHighlight
         Me.ButtonSend.Location = New System.Drawing.Point(161, 286)
         Me.ButtonSend.Name = "ButtonSend"
@@ -176,33 +185,32 @@ Partial Class ControlMessageUnit
         'TextMessage
         '
         Me.TextMessage.AcceptsTab = True
-        Me.TextMessage.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.TextMessage.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextMessage.AutoWordSelection = True
         Me.TextMessage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TextMessage.EnableAutoDragDrop = True
-        Me.TextMessage.Location = New System.Drawing.Point(6, 128)
+        Me.TextMessage.Location = New System.Drawing.Point(6, 173)
         Me.TextMessage.Name = "TextMessage"
-        Me.TextMessage.Size = New System.Drawing.Size(247, 152)
+        Me.TextMessage.Size = New System.Drawing.Size(247, 107)
         Me.TextMessage.TabIndex = 0
         Me.TextMessage.Text = ""
         '
-        'GridSuggestion
+        'CheckedListTelNo
         '
-        Me.GridSuggestion.AllowUserToResizeColumns = False
-        Me.GridSuggestion.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.GridSuggestion.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Message})
-        Me.GridSuggestion.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.GridSuggestion.Location = New System.Drawing.Point(3, 18)
-        Me.GridSuggestion.Name = "GridSuggestion"
-        Me.GridSuggestion.Size = New System.Drawing.Size(251, 300)
-        Me.GridSuggestion.TabIndex = 10
+        Me.CheckedListTelNo.FormattingEnabled = True
+        Me.CheckedListTelNo.Location = New System.Drawing.Point(6, 98)
+        Me.CheckedListTelNo.Name = "CheckedListTelNo"
+        Me.CheckedListTelNo.Size = New System.Drawing.Size(245, 55)
+        Me.CheckedListTelNo.TabIndex = 10
         '
         'Message
         '
         Me.Message.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.Message.DefaultCellStyle = DataGridViewCellStyle2
+        Me.Message.DataPropertyName = "Message"
+        DataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.Message.DefaultCellStyle = DataGridViewCellStyle6
         Me.Message.HeaderText = "Message"
         Me.Message.Name = "Message"
         '
@@ -216,9 +224,9 @@ Partial Class ControlMessageUnit
         Me.Size = New System.Drawing.Size(526, 327)
         Me.TableLayoutPanel1.ResumeLayout(False)
         Me.GroupBox2.ResumeLayout(False)
+        CType(Me.GridSuggestion, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox3.ResumeLayout(False)
         Me.GroupBox3.PerformLayout()
-        CType(Me.GridSuggestion, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -234,8 +242,8 @@ Partial Class ControlMessageUnit
     Friend WithEvents Label2 As Label
     Friend WithEvents ComboReRepNo As ComboBox
     Friend WithEvents ComboRepNo As ComboBox
-    Friend WithEvents TextTelNo As MaskedTextBox
     Friend WithEvents TextMsgNo As TextBox
     Friend WithEvents GridSuggestion As DataGridView
+    Friend WithEvents CheckedListTelNo As CheckedListBox
     Friend WithEvents Message As DataGridViewTextBoxColumn
 End Class

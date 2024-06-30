@@ -37,7 +37,7 @@ Partial Class ControlReRepairView
         Me.GroupBox1.Font = New System.Drawing.Font("Calibri", 9.0!)
         Me.GroupBox1.Location = New System.Drawing.Point(0, 0)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(451, 163)
+        Me.GroupBox1.Size = New System.Drawing.Size(294, 104)
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "ReRepair View"
@@ -52,7 +52,7 @@ Partial Class ControlReRepairView
         Me.GridReRepairView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically
         Me.GridReRepairView.Location = New System.Drawing.Point(3, 18)
         Me.GridReRepairView.Name = "GridReRepairView"
-        Me.GridReRepairView.Size = New System.Drawing.Size(445, 142)
+        Me.GridReRepairView.Size = New System.Drawing.Size(288, 83)
         Me.GridReRepairView.TabIndex = 0
         '
         'RetNo
@@ -79,7 +79,7 @@ Partial Class ControlReRepairView
         Me.Controls.Add(Me.GroupBox1)
         Me.Font = New System.Drawing.Font("Calibri", 9.0!)
         Me.Name = "ControlReRepairView"
-        Me.Size = New System.Drawing.Size(451, 163)
+        Me.Size = New System.Drawing.Size(294, 104)
         Me.GroupBox1.ResumeLayout(False)
         CType(Me.GridReRepairView, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)

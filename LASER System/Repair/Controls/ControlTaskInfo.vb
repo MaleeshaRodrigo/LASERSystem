@@ -27,4 +27,7 @@ Public Class ControlTaskInfo
         grdRepTask.Rows.Clear()
     End Sub
 
+    Private Sub BtnAdd_Click(sender As Object, e As EventArgs) Handles BtnAdd.Click
+        FormMessage.Show()
+    End Sub
 End Class
