@@ -8,6 +8,7 @@ Imports MySqlConnector
 
 Public Class FormMessage
     Private Db As New Database
+
     Public Sub New()
         InitializeComponent()
 
@@ -93,5 +94,9 @@ Public Class FormMessage
         'End While
         'DR1.Close()
         'End If
+    End Sub
+
+    Private Sub FormMessage_Load(sender As Object, e As EventArgs) Handles Me.Load
+        ControlMessageUnit.Init(Db)
     End Sub
 End Class

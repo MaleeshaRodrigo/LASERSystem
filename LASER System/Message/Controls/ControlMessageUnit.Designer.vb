@@ -22,11 +22,13 @@ Partial Class ControlMessageUnit
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.GridSuggestion = New System.Windows.Forms.DataGridView()
+        Me.Message = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
+        Me.CheckedListTelNo = New System.Windows.Forms.CheckedListBox()
         Me.TextMsgNo = New System.Windows.Forms.TextBox()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.ComboReRepNo = New System.Windows.Forms.ComboBox()
@@ -36,8 +38,6 @@ Partial Class ControlMessageUnit
         Me.Label1 = New System.Windows.Forms.Label()
         Me.ButtonSend = New System.Windows.Forms.Button()
         Me.TextMessage = New System.Windows.Forms.RichTextBox()
-        Me.CheckedListTelNo = New System.Windows.Forms.CheckedListBox()
-        Me.Message = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.TableLayoutPanel1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         CType(Me.GridSuggestion, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -75,6 +75,7 @@ Partial Class ControlMessageUnit
         Me.GridSuggestion.AllowUserToAddRows = False
         Me.GridSuggestion.AllowUserToDeleteRows = False
         Me.GridSuggestion.AllowUserToResizeColumns = False
+        Me.GridSuggestion.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
         Me.GridSuggestion.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.GridSuggestion.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Message})
         Me.GridSuggestion.Dock = System.Windows.Forms.DockStyle.Fill
@@ -86,6 +87,15 @@ Partial Class ControlMessageUnit
         Me.GridSuggestion.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.GridSuggestion.Size = New System.Drawing.Size(251, 300)
         Me.GridSuggestion.TabIndex = 10
+        '
+        'Message
+        '
+        Me.Message.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.Message.DataPropertyName = "Message"
+        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.Message.DefaultCellStyle = DataGridViewCellStyle2
+        Me.Message.HeaderText = "Message"
+        Me.Message.Name = "Message"
         '
         'GroupBox3
         '
@@ -107,9 +117,18 @@ Partial Class ControlMessageUnit
         Me.GroupBox3.TabStop = False
         Me.GroupBox3.Text = "Message Unit"
         '
+        'CheckedListTelNo
+        '
+        Me.CheckedListTelNo.FormattingEnabled = True
+        Me.CheckedListTelNo.Location = New System.Drawing.Point(6, 98)
+        Me.CheckedListTelNo.Name = "CheckedListTelNo"
+        Me.CheckedListTelNo.Size = New System.Drawing.Size(245, 55)
+        Me.CheckedListTelNo.TabIndex = 10
+        '
         'TextMsgNo
         '
         Me.TextMsgNo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.TextMsgNo.Enabled = False
         Me.TextMsgNo.Location = New System.Drawing.Point(6, 293)
         Me.TextMsgNo.Name = "TextMsgNo"
         Me.TextMsgNo.Size = New System.Drawing.Size(65, 22)
@@ -196,23 +215,6 @@ Partial Class ControlMessageUnit
         Me.TextMessage.Size = New System.Drawing.Size(247, 107)
         Me.TextMessage.TabIndex = 0
         Me.TextMessage.Text = ""
-        '
-        'CheckedListTelNo
-        '
-        Me.CheckedListTelNo.FormattingEnabled = True
-        Me.CheckedListTelNo.Location = New System.Drawing.Point(6, 98)
-        Me.CheckedListTelNo.Name = "CheckedListTelNo"
-        Me.CheckedListTelNo.Size = New System.Drawing.Size(245, 55)
-        Me.CheckedListTelNo.TabIndex = 10
-        '
-        'Message
-        '
-        Me.Message.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.Message.DataPropertyName = "Message"
-        DataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.Message.DefaultCellStyle = DataGridViewCellStyle6
-        Me.Message.HeaderText = "Message"
-        Me.Message.Name = "Message"
         '
         'ControlMessageUnit
         '

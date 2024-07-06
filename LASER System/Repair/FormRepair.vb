@@ -103,7 +103,7 @@ Public Class FormRepair
             ControlRemarks.InitForRepair(cmbRepNo.Text)
             PanelMain.Controls.Add(ControlRemarks)
 
-            ControlTaskInfo = New ControlTaskInfo(Db)
+            ControlTaskInfo = New ControlTaskInfo(Db, Me)
             ControlTaskInfo.InitForRepair(cmbRepNo.Text)
             PanelMain.Controls.Add(ControlTaskInfo)
 
@@ -230,12 +230,12 @@ Public Class FormRepair
             ControlRemarks.InitForReRepair(cmbRetNo.Text)
             PanelMain.Controls.Add(ControlRemarks)
 
-            ControlTaskInfo = New ControlTaskInfo(Db)
-            ControlTaskInfo.InitForReRepair(cmbRetRepNo.Text)
+            ControlTaskInfo = New ControlTaskInfo(Db, Me)
+            ControlTaskInfo.InitForReRepair(cmbRetNo.Text)
             PanelMain.Controls.Add(ControlTaskInfo)
 
             ControlActivityInfo = New ControlActivityInfo(Db)
-            ControlActivityInfo.InitForReRepair(cmbRetRepNo.Text)
+            ControlActivityInfo.InitForReRepair(cmbRetNo.Text)
             PanelMain.Controls.Add(ControlActivityInfo)
             If cmbRetStatus.Text = "Received" Then
                 Exit Try
@@ -583,27 +583,6 @@ Public Class FormRepair
     Private Sub CmdPView_Click(sender As Object, e As EventArgs) Handles cmdPView.Click
         frmProduct.Tag = "Repair"
         frmProduct.Show()
-    End Sub
-
-    Private Sub MessageToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MessageToolStripMenuItem.Click
-        With frmMessage
-            .Tag = "Message"
-            .Show()
-            If tabRepair.SelectedTab.TabIndex = 0 Then
-                .cmbField.Text = "Repair"
-                .cmbRepNo.Text = cmbRepNo.Text
-            ElseIf tabRepair.SelectedTab.TabIndex = 1 Then
-                .cmbField.Text = "RERepair"
-                .cmbRepNo.Text = cmbRetNo.Text
-            End If
-        End With
-    End Sub
-
-    Private Sub MessageToCustomerForRepairedProductsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MessageToCustomerForRepairedProductsToolStripMenuItem.Click
-        With frmMessage
-            .Tag = "MessagetoCu"
-            .Show()
-        End With
     End Sub
 
     Private Sub RepairInfoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RepairInfoToolStripMenuItem.Click

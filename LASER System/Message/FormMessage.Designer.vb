@@ -25,7 +25,7 @@ Partial Class FormMessage
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormMessage))
         Me.MenuStrip = New System.Windows.Forms.MenuStrip()
         Me.bgworker = New System.ComponentModel.BackgroundWorker()
-        Me.ControlMessageUnit1 = New LASER_System.ControlMessageUnit()
+        Me.ControlMessageUnit = New LASER_System.ControlMessageUnit()
         Me.SuspendLayout()
         '
         'MenuStrip
@@ -42,20 +42,21 @@ Partial Class FormMessage
         Me.bgworker.WorkerReportsProgress = True
         Me.bgworker.WorkerSupportsCancellation = True
         '
-        'ControlMessageUnit1
+        'ControlMessageUnit
         '
-        Me.ControlMessageUnit1.Font = New System.Drawing.Font("Calibri", 9.0!)
-        Me.ControlMessageUnit1.Location = New System.Drawing.Point(12, 27)
-        Me.ControlMessageUnit1.Name = "ControlMessageUnit1"
-        Me.ControlMessageUnit1.Size = New System.Drawing.Size(623, 326)
-        Me.ControlMessageUnit1.TabIndex = 30
+        Me.ControlMessageUnit.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.ControlMessageUnit.Font = New System.Drawing.Font("Calibri", 9.0!)
+        Me.ControlMessageUnit.Location = New System.Drawing.Point(0, 24)
+        Me.ControlMessageUnit.Name = "ControlMessageUnit"
+        Me.ControlMessageUnit.Size = New System.Drawing.Size(644, 334)
+        Me.ControlMessageUnit.TabIndex = 30
         '
         'FormMessage
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(644, 358)
-        Me.Controls.Add(Me.ControlMessageUnit1)
+        Me.Controls.Add(Me.ControlMessageUnit)
         Me.Controls.Add(Me.MenuStrip)
         Me.Font = New System.Drawing.Font("Calibri", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
@@ -68,5 +69,5 @@ Partial Class FormMessage
     End Sub
     Friend WithEvents MenuStrip As MenuStrip
     Friend WithEvents bgworker As System.ComponentModel.BackgroundWorker
-    Friend WithEvents ControlMessageUnit1 As ControlMessageUnit
+    Friend WithEvents ControlMessageUnit As ControlMessageUnit
 End Class
