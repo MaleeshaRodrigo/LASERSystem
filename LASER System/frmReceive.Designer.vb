@@ -23,11 +23,11 @@ Partial Class frmReceive
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmReceive))
-        Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle7 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle8 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle9 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle10 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.lblRNo = New System.Windows.Forms.Label()
@@ -343,8 +343,8 @@ Partial Class frmReceive
         'RepairNo
         '
         Me.RepairNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        DataGridViewCellStyle6.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RepairNo.DefaultCellStyle = DataGridViewCellStyle6
+        DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RepairNo.DefaultCellStyle = DataGridViewCellStyle1
         Me.RepairNo.HeaderText = "Repair No"
         Me.RepairNo.Name = "RepairNo"
         Me.RepairNo.ReadOnly = True
@@ -383,8 +383,8 @@ Partial Class frmReceive
         'PQty
         '
         Me.PQty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        DataGridViewCellStyle7.NullValue = "1"
-        Me.PQty.DefaultCellStyle = DataGridViewCellStyle7
+        DataGridViewCellStyle2.NullValue = "1"
+        Me.PQty.DefaultCellStyle = DataGridViewCellStyle2
         Me.PQty.HeaderText = "Qty"
         Me.PQty.Name = "PQty"
         Me.PQty.Width = 53
@@ -392,16 +392,16 @@ Partial Class frmReceive
         'PProblem
         '
         Me.PProblem.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        DataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.PProblem.DefaultCellStyle = DataGridViewCellStyle8
+        DataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.PProblem.DefaultCellStyle = DataGridViewCellStyle3
         Me.PProblem.HeaderText = "Problem"
         Me.PProblem.Name = "PProblem"
         '
         'PRemarks
         '
         Me.PRemarks.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        DataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.PRemarks.DefaultCellStyle = DataGridViewCellStyle9
+        DataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.PRemarks.DefaultCellStyle = DataGridViewCellStyle4
         Me.PRemarks.HeaderText = "Remarks"
         Me.PRemarks.Name = "PRemarks"
         '
@@ -480,8 +480,8 @@ Partial Class frmReceive
         'RETQty
         '
         Me.RETQty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        DataGridViewCellStyle10.NullValue = "1"
-        Me.RETQty.DefaultCellStyle = DataGridViewCellStyle10
+        DataGridViewCellStyle5.NullValue = "1"
+        Me.RETQty.DefaultCellStyle = DataGridViewCellStyle5
         Me.RETQty.HeaderText = "Qty"
         Me.RETQty.Name = "RETQty"
         Me.RETQty.ReadOnly = True
@@ -571,7 +571,7 @@ Partial Class frmReceive
         'pnlRSaveFinal
         '
         Me.pnlRSaveFinal.Controls.Add(Me.grpComInfo)
-        Me.pnlRSaveFinal.Location = New System.Drawing.Point(77, 140)
+        Me.pnlRSaveFinal.Location = New System.Drawing.Point(719, 30)
         Me.pnlRSaveFinal.Name = "pnlRSaveFinal"
         Me.pnlRSaveFinal.Size = New System.Drawing.Size(524, 108)
         Me.pnlRSaveFinal.TabIndex = 59

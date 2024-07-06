@@ -23,6 +23,7 @@ Partial Class ControlTaskInfo
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.grpRepTask = New System.Windows.Forms.GroupBox()
+        Me.BtnAdd = New System.Windows.Forms.Button()
         Me.grdRepTask = New System.Windows.Forms.DataGridView()
         Me.TaskTNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.TaskDate = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -35,29 +36,44 @@ Partial Class ControlTaskInfo
         '
         'grpRepTask
         '
+        Me.grpRepTask.Controls.Add(Me.BtnAdd)
         Me.grpRepTask.Controls.Add(Me.grdRepTask)
         Me.grpRepTask.Cursor = System.Windows.Forms.Cursors.Default
         Me.grpRepTask.Dock = System.Windows.Forms.DockStyle.Fill
         Me.grpRepTask.Location = New System.Drawing.Point(0, 0)
         Me.grpRepTask.Name = "grpRepTask"
-        Me.grpRepTask.Size = New System.Drawing.Size(612, 152)
+        Me.grpRepTask.Size = New System.Drawing.Size(612, 144)
         Me.grpRepTask.TabIndex = 82
         Me.grpRepTask.TabStop = False
         Me.grpRepTask.Text = "Task Info"
+        '
+        'BtnAdd
+        '
+        Me.BtnAdd.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.BtnAdd.Image = Global.LASER_System.My.Resources.Resources.add
+        Me.BtnAdd.Location = New System.Drawing.Point(546, 15)
+        Me.BtnAdd.Name = "BtnAdd"
+        Me.BtnAdd.Size = New System.Drawing.Size(60, 26)
+        Me.BtnAdd.TabIndex = 34
+        Me.BtnAdd.Text = "Add"
+        Me.BtnAdd.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
+        Me.BtnAdd.UseVisualStyleBackColor = True
         '
         'grdRepTask
         '
         Me.grdRepTask.AllowUserToAddRows = False
         Me.grdRepTask.AllowUserToDeleteRows = False
+        Me.grdRepTask.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.grdRepTask.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
         Me.grdRepTask.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.grdRepTask.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.grdRepTask.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.TaskTNo, Me.TaskDate, Me.TaskAction, Me.TaskRemarks, Me.TStatus})
-        Me.grdRepTask.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.grdRepTask.Location = New System.Drawing.Point(3, 18)
+        Me.grdRepTask.Location = New System.Drawing.Point(3, 15)
         Me.grdRepTask.Name = "grdRepTask"
         Me.grdRepTask.ReadOnly = True
-        Me.grdRepTask.Size = New System.Drawing.Size(606, 131)
+        Me.grdRepTask.Size = New System.Drawing.Size(537, 126)
         Me.grdRepTask.TabIndex = 33
         '
         'TaskTNo
@@ -108,7 +124,7 @@ Partial Class ControlTaskInfo
         Me.Controls.Add(Me.grpRepTask)
         Me.Font = New System.Drawing.Font("Calibri", 9.0!)
         Me.Name = "ControlTaskInfo"
-        Me.Size = New System.Drawing.Size(612, 152)
+        Me.Size = New System.Drawing.Size(612, 144)
         Me.grpRepTask.ResumeLayout(False)
         CType(Me.grdRepTask, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
@@ -122,4 +138,5 @@ Partial Class ControlTaskInfo
     Friend WithEvents TaskAction As DataGridViewTextBoxColumn
     Friend WithEvents TaskRemarks As DataGridViewTextBoxColumn
     Friend WithEvents TStatus As DataGridViewTextBoxColumn
+    Friend WithEvents BtnAdd As Button
 End Class

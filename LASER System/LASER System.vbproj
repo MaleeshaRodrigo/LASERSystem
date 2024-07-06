@@ -37,8 +37,8 @@
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>6</ApplicationRevision>
-    <ApplicationVersion>2.1.0.%2a</ApplicationVersion>
+    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationVersion>2.2.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -197,6 +197,12 @@
     <Compile Include="Deliver\Controls\ControlPopUp.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Message\Controls\ControlMessageUnit.Designer.vb">
+      <DependentUpon>ControlMessageUnit.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Message\Controls\ControlMessageUnit.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Repair\Controls\ControlActivityInfo.Designer.vb">
       <DependentUpon>ControlActivityInfo.vb</DependentUpon>
     </Compile>
@@ -288,10 +294,10 @@
     <Compile Include="frmLogin.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmMessage.Designer.vb">
-      <DependentUpon>frmMessage.vb</DependentUpon>
+    <Compile Include="Message\FormMessage.Designer.vb">
+      <DependentUpon>FormMessage.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmMessage.vb">
+    <Compile Include="Message\FormMessage.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmProduct.Designer.vb">
@@ -509,6 +515,9 @@
     <EmbeddedResource Include="Deliver\Controls\ControlPopUp.resx">
       <DependentUpon>ControlPopUp.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Message\Controls\ControlMessageUnit.resx">
+      <DependentUpon>ControlMessageUnit.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Repair\Controls\ControlActivityInfo.resx">
       <DependentUpon>ControlActivityInfo.vb</DependentUpon>
     </EmbeddedResource>
@@ -545,8 +554,8 @@
     <EmbeddedResource Include="frmLogin.resx">
       <DependentUpon>frmLogin.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmMessage.resx">
-      <DependentUpon>frmMessage.vb</DependentUpon>
+    <EmbeddedResource Include="Message\FormMessage.resx">
+      <DependentUpon>FormMessage.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmProduct.resx">
       <DependentUpon>frmProduct.vb</DependentUpon>
