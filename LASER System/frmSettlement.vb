@@ -12,7 +12,6 @@ Public Class frmSettlement
     End Sub
 
     Private Sub frmSettlement_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        
         MenuStrip.Items.Add(mnustrpMENU)
         txtFrom.Value = Today
         dtpTADate.Value = Today
@@ -37,11 +36,7 @@ Public Class frmSettlement
                                               ",LKR50=" & txtLKR50.Text & ",LKR20=" & txtLKR20.Text & ",LKR10=" & txtLKR10.Text & ",LKR5=" & txtLKR5.Text & ",LKR2=" & txtLKR2.Text &
                                               ",LKR1=" & txtLKR1.Text & " Where SetDate ='" & txtFrom.Value.Date & "';")
         Else
-            Db.Execute("Insert into Settlement(SetDate,SaTotal,RepTotal,TATotal,SetGrandTotal,CTotal,CPTotal,CuLTotal,CPReceiptQty,CashinLocker,SetChange,LKR5000,LKR1000,LKR500,LKR100,LKR50,LKR20,LKR10,LKR5,LKR2,LKR1) Values('" & txtFrom.Value.Date & "'," & txtTotalofSales.Text & "," &
-                                              txtTotalofRepairs.Text & "," & txtTotalofTransactions.Text & "," & txtIncome.Text & "," & txtCTotal.Text & "," & txtCPTotal.Text & "," &
-                                              txtCuLTotal.Text & "," & txtCPQtyInvoice.Text & "," & txtLockerCash.Text & "," & txtChange.Text & "," & txtLKR5000.Text & "," & txtLKR1000.Text &
-                                              "," & txtLKR500.Text & "," & txtLKR100.Text & "," & txtLKR50.Text & "," & txtLKR20.Text & "," & txtLKR10.Text & "," & txtLKR5.Text & "," & txtLKR2.Text &
-                                              "," & txtLKR1.Text & ");")
+            Db.Execute("Insert into Settlement(SetDate,SaTotal,RepTotal,TATotal,SetGrandTotal,CTotal,CPTotal,CuLTotal,CPReceiptQty,CashinLocker,SetChange,LKR5000,LKR1000,LKR500,LKR100,LKR50,LKR20,LKR10,LKR5,LKR2,LKR1) Values('" & txtFrom.Value.Date & "'," & txtTotalofSales.Text & "," & txtTotalofRepairs.Text & "," & txtTotalofTransactions.Text & "," & txtIncome.Text & "," & txtCTotal.Text & "," & txtCPTotal.Text & "," & txtCuLTotal.Text & "," & txtCPQtyInvoice.Text & "," & txtLockerCash.Text & "," & txtChange.Text & "," & txtLKR5000.Text & "," & txtLKR1000.Text & "," & txtLKR500.Text & "," & txtLKR100.Text & "," & txtLKR50.Text & "," & txtLKR20.Text & "," & txtLKR10.Text & "," & txtLKR5.Text & "," & txtLKR2.Text & "," & txtLKR1.Text & ");")
         End If
         Dim Connection = Db.GetConenction()
         Try
@@ -221,28 +216,36 @@ Public Class frmSettlement
     End Sub
 
     Private Sub CmdSearch_Click(sender As Object, e As EventArgs) Handles cmdSearch.Click
-        Dim DT0 As DataTable = Db.GetDataTable("Select Sale.SaNo,CuName,CuTelNo1,SaSubTotal,SaLess,SaDue,CReceived,CBalance,CAmount,CPInvoiceNo,CPAmount,CuLno,CuLAmount,SaRemarks from Sale,Customer where Sale.CuNo=Customer.CuNo And SaDate BETWEEN '" & txtFrom.Value.Date & " 0000:00' And '" & txtFrom.Value.Date & " 23:59:59';")
+        grdRepair.DataSource = Nothing
+        grdRERepair.DataSource = Nothing
+        grdStockSale.DataSource = Nothing
+        Call CmdTANew_Click(sender, e)
+        For Each Control As Control In {txtTotalofRepairs, txtTotalofSales, txtIncome, txtCTotal, txtCPTotal, txtCuLTotal, txtCPQtyInvoice, txtLockerCash, txtChange}
+            Control.Text = "0"
+        Next
+
+        Dim DT0 As DataTable = Db.GetDataTable("Select Sale.SaNo,CuName,CuTelNo1,SaSubTotal,SaLess,SaDue,CReceived,CBalance,CAmount,CPInvoiceNo,CPAmount,CuLno,CuLAmount,SaRemarks from Sale,Customer where Sale.CuNo=Customer.CuNo And SaDate BETWEEN @FROMDATE And @TODATE;", {
+            New MySqlParameter("FROMDATE", txtFrom.Value.Date & " 00:00:00"),
+            New MySqlParameter("TODATE", txtFrom.Value.Date & " 23:59:59")
+        })
         grdSale.DataSource = DT0
         grdSale.Refresh()
-        Dim DT1 As DataTable = Db.GetDataTable("SELECT Deliver.DNo,CuName,CuTelNo1,DGrandTotal, CReceived,CBalance,CAmount,CPInvoiceNo,CPAmount,CuLno,CuLAmount,DRemarks from Customer,Deliver where Customer.CuNo = Deliver.CuNo And DDate BETWEEN '" & txtFrom.Value.Date & " 0000:00' And '" & txtFrom.Value.Date & " 23:59:59';")
+        Dim DT1 As DataTable = Db.GetDataTable("SELECT Deliver.DNo,CuName,CuTelNo1,DGrandTotal, CReceived,CBalance,CAmount,CPInvoiceNo,CPAmount,CuLno,CuLAmount,DRemarks from Customer,Deliver where Customer.CuNo = Deliver.CuNo And DDate BETWEEN @FROMDATE And @TODATE;", {
+            New MySqlParameter("FROMDATE", txtFrom.Value.Date & " 00:00:00"),
+            New MySqlParameter("TODATE", txtFrom.Value.Date & " 23:59:59")
+        })
         grdDeliver.DataSource = DT1
         grdDeliver.Refresh()
-        Dim DT2 As DataTable = Db.GetDataTable("SELECT * from `Transaction` where TADate BETWEEN '" & txtFrom.Value.Date & " 0000:00' And '" & txtFrom.Value.Date & " 23:59:59';")
+        Dim DT2 As DataTable = Db.GetDataTable("SELECT * from `Transaction` where TADate BETWEEN @FROMDATE And @TODATE;", {
+            New MySqlParameter("FROMDATE", txtFrom.Value.Date & " 00:00:00"),
+            New MySqlParameter("TODATE", txtFrom.Value.Date & " 23:59:59")
+        })
         grdTransaction.DataSource = DT2
         grdTransaction.Refresh()
-        Call CmdTANew_Click(sender, e)
-        txtTotalofRepairs.Text = "0"
-        txtTotalofSales.Text = "0"
-        txtIncome.Text = "0"
-        txtCTotal.Text = "0"
-        txtCPTotal.Text = "0"
-        txtCuLTotal.Text = "0"
-        txtCPQtyInvoice.Text = "0"
-        txtLockerCash.Text = "0"
-        txtChange.Text = "0"
-        Dim DR = Db.GetDataDictionary("Select * from Settlement where SetDate ='" & txtFrom.Value.Date & "'")
+        Dim DR = Db.GetDataDictionary("Select * from Settlement where DATE(SetDate) = @SETDATE;", {
+            New MySqlParameter("SETDATE", txtFrom.Value.Date)
+        })
         If DR IsNot Nothing Then
-            Dim unused =
             txtLockerCash.Text = DR("CashinLocker").ToString
             txtLKR5000.Text = DR("LKR5000").ToString
             txtLKR1000.Text = DR("LKR1000").ToString
@@ -285,14 +288,25 @@ Public Class frmSettlement
         Try
             Connection.Open()
             Dim RPT As New rptSettlement
-            Dim DT1 As DataTable = Db.GetDataTable("SELECT sale.SaNo, sale.SaDate, sale.CuNo, Customer.CuName, Customer.CuTelNo1, Customer.CuTelNo2, Customer.CuTelNo3, StockSale.SNo, SCategory, SName, StockSale.SaType, StockSale.SaUnits, StockSale.SaRate, StockSale.SaTotal, sale.SaSubTotal, sale.SaLess, sale.SaDue, sale.CReceived, sale.CBalance, sale.CAmount, sale.CPInvoiceNo, sale.CPAmount, sale.CuLNo, sale.CuLAmount FROM `Customer`, `sale`, 'StockSale' where Customer.CuNo = Sale.CuNo And Sale.SaNo = StockSale.SaNo And SaDate Between '" & Format(txtFrom.Value, "yyyy-MM-dd") & " 0000:00' And '" & Format(txtFrom.Value, "yyyy-MM-dd") & " 23:59:59'")
+            Dim DT1 As DataTable = Db.GetDataTable("SELECT Sale.SaNo, Sale.SaDate, Sale.CuNo, Customer.CuName, Customer.CuTelNo1, Customer.CuTelNo2, Customer.CuTelNo3, StockSale.SNo, SCategory, SName, StockSale.SaType, StockSale.SaUnits, StockSale.SaRate, StockSale.SaTotal, Sale.SaSubTotal, Sale.SaLess, Sale.SaDue, Sale.CReceived, Sale.CBalance, Sale.CAmount, Sale.CPInvoiceNo, Sale.CPAmount, Sale.CuLNo, Sale.CuLAmount FROM `Customer`, `Sale`, `StockSale` WHERE Customer.CuNo = Sale.CuNo And Sale.SaNo = StockSale.SaNo And SaDate BETWEEN @FROMDATE AND @TODATE", {
+                New MySqlParameter("FROMDATE", txtFrom.Value.Date & " 00:00:00"),
+                New MySqlParameter("TODATE", txtFrom.Value.Date & " 23:59:59")
+            })
             RPT.Subreports("rptSettlementSale.rpt").SetDataSource(DT1)
-            Dim DT2 As DataTable = Db.GetDataTable("SELECT RepNo,Repair.PNo,PCategory,PName, PaidPrice, Qty, Status, Repair.TNo,TName, Repair.Dno, DDate, Deliver.CuNo, CuName, CuTelNo1,DGrandTotal, CAmount, CReceived, CBalance, CPInvoiceNo, CPAmount, CuLNo, CuLAmount, 'Repair' as `TableName`  from Deliver, Customer,Repair,Technician, Product where Product.Pno = Repair.Pno and Repair.TNo = Technician.TNo and Customer.Cuno = Deliver.CuNo and Repair.Dno = Deliver.Dno and Deliver.DDate Between '" & Format(txtFrom.Value, "yyyy-MM-dd") & " 00:00:00' and '" & Format(txtFrom.Value, "yyyy-MM-dd") & " 23:59:59' UNION Select RetNo, Return.PNo,PCategory, PName, PaidPrice, Qty, Status, Return.TNo, TName, Return.Dno, DDate, Deliver.CuNo, CuName, CuTelNo1,DGrandTotal, CAmount, CReceived, CBalance, CPInvoiceNo, CPAmount, CuLNo, CuLAmount, 'Re-Repair' as `TableName` from Deliver, Customer,`Return`,Product, Technician where Product.Pno = Return.Pno and Return.TNo = Technician.TNo and Customer.Cuno = Deliver.CuNo and Return.Dno = Deliver.Dno and Deliver.DDate Between '" & Format(txtFrom.Value, "yyyy-MM-dd") & " 00:00:00' and '" & Format(txtFrom.Value, "yyyy-MM-dd") & " 23:59:59';")
+            Dim DT2 As DataTable = Db.GetDataTable("SELECT RepNo,Repair.PNo,PCategory,PName, PaidPrice, Qty, Status, Repair.TNo,TName, Repair.Dno, DDate, Deliver.CuNo, CuName, CuTelNo1,DGrandTotal, CAmount, CReceived, CBalance, CPInvoiceNo, CPAmount, CuLNo, CuLAmount, 'Repair' as `TableName`  from Deliver, Customer,Repair,Technician, Product WHERE Product.Pno = Repair.Pno AND Repair.TNo = Technician.TNo AND Customer.Cuno = Deliver.CuNo AND Repair.Dno = Deliver.Dno AND Deliver.DDate BETWEEN @FROMDATE AND @TODATE UNION Select RetNo, Return.PNo,PCategory, PName, PaidPrice, Qty, Status, Return.TNo, TName, Return.Dno, DDate, Deliver.CuNo, CuName, CuTelNo1,DGrandTotal, CAmount, CReceived, CBalance, CPInvoiceNo, CPAmount, CuLNo, CuLAmount, 'Re-Repair' as `TableName` from Deliver, Customer,`Return`,Product, Technician WHERE Product.Pno = Return.Pno AND Return.TNo = Technician.TNo AND Customer.Cuno = Deliver.CuNo AND Return.Dno = Deliver.Dno AND Deliver.DDate BETWEEN @FROMDATE AND @TODATE;", {
+                New MySqlParameter("FROMDATE", txtFrom.Value.Date & " 00:00:00"),
+                New MySqlParameter("TODATE", txtFrom.Value.Date & " 23:59:59")
+            })
             RPT.Subreports("rptSettlementDeliver.rpt").SetDataSource(DT2)
-            Dim DT3 As DataTable = Db.GetDataTable("SELECT TANO,TADATE,TADETAILS,TAAMOUNT FROM `TRANSACTION` WHERE TADATE BETWEEN '" & Format(txtFrom.Value, "yyyy-MM-dd") & " 00:00:00' AND '" & Format(txtFrom.Value.Date, "yyyy-MM-dd") & " 23:59:59';")
+            Dim DT3 As DataTable = Db.GetDataTable("SELECT TANO,TADATE,TADETAILS,TAAMOUNT FROM `TRANSACTION` WHERE TADATE BETWEEN @FROMDATE AND @TODATE;", {
+                New MySqlParameter("FROMDATE", txtFrom.Value.Date & " 00:00:00"),
+                New MySqlParameter("TODATE", txtFrom.Value.Date & " 23:59:59")
+            })
             RPT.Subreports("rptSettlementTransaction").SetDataSource(DT3)
             Dim DS4 As New DataSet
-            Dim DA4 As MySqlDataAdapter = Db.GetDataAdapter(Connection, "SELECT * from Settlement Where SetDate='" & Format(txtFrom.Value, "yyyy-MM-dd") & "';")
+            Dim DA4 As MySqlDataAdapter = Db.GetDataAdapter(Connection, "SELECT * from Settlement Where DATE(SetDate) = @SETDATE;", {
+                New MySqlParameter("SETDATE", txtFrom.Value.Date)
+            })
             Dim unused6 = DA4.Fill(DS4, "Settlement")
             RPT.SetDataSource(DS4)
             RPT.SetParameterValue("Cashier Name", User.Instance.UserNo)
@@ -312,7 +326,10 @@ Public Class frmSettlement
             Dim frm1 As New frmReport
             Dim RPT1 As New rptTechnicianCost
             Dim DS1 As New DataSet
-            Dim DA5 As MySqlDataAdapter = Db.GetDataAdapter(Connection, "SELECT TCNO,TCDATE,TECHNICIANCOST.TNO,TNAME,REPNO,RETNO,TECHNICIANCOST.SNO,SCATEGORY,SNAME, RATE,QTY,TOTAL,TCREMARKS FROM (TECHNICIANCOST INNER JOIN TECHNICIAN  ON TECHNICIAN.TNO = TECHNICIANCOST.TNO) WHERE TCDATE Between '" & Format(txtFrom.Value, "yyyy-MM-dd") & " 00:00:00' and '" & Format(txtFrom.Value, "yyyy-MM-dd") & " 23:59:59';")
+            Dim DA5 As MySqlDataAdapter = Db.GetDataAdapter(Connection, "SELECT TCNO,TCDATE,TECHNICIANCOST.TNO,TNAME,REPNO,RETNO,TECHNICIANCOST.SNO,SCATEGORY,SNAME, RATE,QTY,TOTAL,TCREMARKS FROM (TECHNICIANCOST INNER JOIN TECHNICIAN  ON TECHNICIAN.TNO = TECHNICIANCOST.TNO) WHERE TCDATE Between @FROMDATE and @TODATE;", {
+                New MySqlParameter("FROMDATE", txtFrom.Value.Date & " 00:00:00"),
+                New MySqlParameter("TODATE", txtFrom.Value.Date & " 23:59:59")
+            })
             DA5.Fill(DS1, "TECHNICIANCOST")
             DA5.Fill(DS1, "STOCK")
             DA5.Fill(DS1, "TECHNICIAN")
@@ -323,10 +340,13 @@ Public Class frmSettlement
             Dim RPT2 As New rptTechnicianLoan
             Dim frm2 As New frmReport
             Dim DS2 As New DataSet
-            Dim DA6 As MySqlDataAdapter = Db.GetDataAdapter(Connection, "SELECT TLNO,TL.TNO,TNAME,TLDATE,TL.SNO,SCATEGORY,SNAME,TLREASON,QTY,RATE,TOTAL FROM ((TECHNICIANLOAN TL INNER JOIN TECHNICIAN T ON T.TNO = TL.TNO) LEFT JOIN STOCK S ON S.SNO = TL.SNO) WHERE TLDATE Between '" & Format(txtFrom.Value, "yyyy-MM-dd") & " 00:00:00' and '" & Format(txtFrom.Value, "yyyy-MM-dd") & " 23:59:59';")
-            DA6.Fill(DS2, "TECHNICIANLOAN")
-            DA6.Fill(DS2, "STOCK")
-            DA6.Fill(DS2, "TECHNICIAN")
+            Dim DA6 As MySqlDataAdapter = Db.GetDataAdapter(Connection, "SELECT TLNo, TL.TNo, TName, TLDate, TL.SNO, Tl.SCategory, Tl.SName, TLReason, Qty, Rate, Total FROM ((TechnicianLoan TL INNER JOIN Technician T ON T.TNO = TL.TNO) LEFT JOIN Stock S ON S.SNO = TL.SNO) WHERE TlDate BETWEEN @FROMDATE AND @TODATE;", {
+                New MySqlParameter("FROMDATE", txtFrom.Value.Date & " 00:00:00"),
+                New MySqlParameter("TODATE", txtFrom.Value.Date & " 23:59:59")
+            })
+            DA6.Fill(DS2, "TechnicianLoan")
+            DA6.Fill(DS2, "Stock")
+            DA6.Fill(DS2, "Techncian")
             RPT2.SetDataSource(DS2)
             frm2.ReportViewer.ReportSource = RPT2
             frm2.Show(Me)
@@ -360,20 +380,29 @@ Public Class frmSettlement
             Exit Sub
         End If
 
-        Dim AdminPer As New AdminPermission(Db) With {
-            .Remarks = "අද දිනට නොමැති " & txtTANo.Text & " වන Transaction Data එක Edit කෙරුණි."
-       }
-
         If dtpTADate.Value.Date = Today.Date Then
-            dtpTADate.Value = DateAndTime.Now
+            dtpTADate.Value = Now
         Else
-            AdminPer.AdminSend = True
+            MessageBox.Error("ඔබට Cashier ගිණුමක සිට මෙම දත්තය ඇතුලත් කල නොහැක.")
+            Exit Sub
         End If
+
         Select Case cmdTASave.Text
             Case "Save"
-                Db.Execute("Insert into `Transaction`(TANo, TADate,TADetails, TAAmount) Values(?NewKey?Transaction?TANo?,'" & dtpTADate.Value.ToString & "','" & txtTADetails.Text & "', " & txtTAAmount.Text & ");", {}, AdminPer)
+                Db.Execute("INSERT INTO `Transaction`(TADate,TADetails, TAAmount, UNo) VALUES(@TADATE, @TADETAILS, @TAAMOUNT, @UNO);", {
+                    New MySqlParameter("TADATE", dtpTADate.Value),
+                    New MySqlParameter("TADETAILS", txtTADetails.Text),
+                    New MySqlParameter("TAAMOUNT", txtTAAmount.Text),
+                    New MySqlParameter("UNO", User.Instance.UserNo)
+                })
             Case "Edit"
-                Db.Execute("UPDATE `Transaction` SET TADate='" & dtpTADate.Value.ToString & "', TADetails'" & txtTADetails.Text & "', TAAmount=" & txtTAAmount.Text & " WHERE TANO = " & txtTANo.Text, {}, AdminPer)
+                Db.Execute("UPDATE `Transaction` SET TADate = @TADATE, TADetails = @TADETAILS, TAAmount = @TAAMOUNT, UNo = @UNO WHERE TANO = @TANO;", {
+                    New MySqlParameter("TADATE", dtpTADate.Value),
+                    New MySqlParameter("TADETAILS", txtTADetails.Text),
+                    New MySqlParameter("TAAMOUNT", txtTAAmount.Text),
+                    New MySqlParameter("UNO", User.Instance.UserNo),
+                    New MySqlParameter("TANO", txtTANo.Text)
+                })
         End Select
         grdTransaction.Refresh()
         CmdTANew_Click(sender, e)
@@ -381,17 +410,17 @@ Public Class frmSettlement
     End Sub
 
     Private Sub CmdTADelete_Click(sender As Object, e As EventArgs) Handles cmdTADelete.Click
-        Dim AdminPer As New AdminPermission(Db) With {
-        .Remarks = "අද දිනට නොමැති Transaction එකෙහි " & txtTANo.Text & " වන Data එක Delete කෙරුණි."
-        }
         If dtpTADate.Value.Date <> Today.Date Then
-            AdminPer.AdminSend = True
-        End If
-        If CheckEmptyControl(txtTANo, "Transactions No is empty. Please fill it and try again") = False Then
+            MessageBox.Error("මෙම ගණුදෙනුව ඉවත් කිරීමට ඔබ සිටින ගිණුමට Permission නොමැත.")
             Exit Sub
         End If
-        If MsgBox("Are you sure delete this transaction?", vbInformation + vbYesNo) = vbYes Then
-            Db.Execute("DELETE from `Transaction` where TANO = " & txtTANo.Text, {}, AdminPer)
+        If CheckEmptyControl(txtTANo, "Transactions No එක නොමැනිව මෙම ගණුදෙනුව ඉවත් කිරීමට නොහැක.") = False Then
+            Exit Sub
+        End If
+        If MsgBox("ගණුදෙනුව ඉවත් කිරීමට ඔබ එකඟද?", vbInformation + vbYesNo) = vbYes Then
+            Db.Execute("DELETE from `Transaction` where TANO = @TANO", {
+                New MySqlParameter("TANO", txtTANo.Text)
+            })
         End If
         CmdTANew_Click(sender, e)
         CmdSearch_Click(sender, e)
