@@ -140,13 +140,13 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("OFF")>  _
-        Public Property BGSendSMS() As String
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property SendSMS() As Boolean
             Get
-                Return CType(Me("BGSendSMS"),String)
+                Return CType(Me("SendSMS"),Boolean)
             End Get
             Set
-                Me("BGSendSMS") = value
+                Me("SendSMS") = value
             End Set
         End Property
         
