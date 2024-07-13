@@ -3,7 +3,7 @@ Imports System.IO
 Imports System.Net
 Imports System.Web
 
-Public Class SMSController
+Public Class SmsController
     Private ReadOnly Host As String = "https://app.newsletters.lk"
     Private ReadOnly ApiKey As String = My.Settings.APIKey
     Private ReadOnly ApiToken As String = My.Settings.APIToken
@@ -16,8 +16,7 @@ Public Class SMSController
                 & "&apitoken=" + HttpUtility.UrlEncode(ApiToken) _
                 & "&type=sms&from=LASERelect" _
                 & "&to=" & HttpUtility.UrlEncode(originator) _
-                & "&text=" + HttpUtility.UrlEncode(Message) _
-                & "&scheduledate=" + HttpUtility.UrlEncode(Now)
+                & "&text=" + HttpUtility.UrlEncode(Message)
         Dim request As WebRequest = WebRequest.Create(url)
         Dim response As HttpWebResponse = DirectCast(request.GetResponse, HttpWebResponse)
         Dim s As Stream = DirectCast(response.GetResponseStream(), Stream)

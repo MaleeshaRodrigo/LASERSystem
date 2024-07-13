@@ -52,9 +52,6 @@ Public Class frmBGTasks
             If .ODBActive Then
                 txtOPath.Text = .OnlineDatabasePath
                 txtOUser.Text = My.Settings.OnlineDatabaseUser
-            Else
-                txtOPath.Text = ""
-                txtOUser.Text = ""
             End If
             chkOnlineDB_CheckedChanged(Nothing, Nothing)
         End With
@@ -130,7 +127,7 @@ Public Class frmBGTasks
     Private Sub BgWorker_DoWork(sender As Object, e As DoWorkEventArgs) Handles bgworker.DoWork
         Dim Processes As New List(Of IProcess) From {
            New SendEmailProcess(Database, bgworker),
-           New SendSMSProcess(Database, bgworker)
+           New SendSmsProcess(Database, bgworker)
         }
         Dim Process As IProcess = Nothing
         Try
@@ -146,7 +143,7 @@ Public Class frmBGTasks
                 bgworker.ReportProgress((Processes.IndexOf(Process) / Processes.Count) * 100,
                                         $"Initialized {FormatMessage(Process.ToString)}")
                 Process.Perform()
-                bgworker.ReportProgress((Processes.IndexOf(Process) + 1 / Processes.Count) * 100,
+                bgworker.ReportProgress(((Processes.IndexOf(Process) + 1) / Processes.Count) * 100,
                                         $"Completed {FormatMessage(Process.ToString)}")
             Next
         Catch Ex As Exception
@@ -172,17 +169,17 @@ Public Class frmBGTasks
                 '    "Admin වෙත තහවුරු කිරීම සඳහා යවන ලද Data Database එකට Apply කිරිමේ පද්ධතිය බිඳවැටී ඇත." +
                 '    vbCrLf + vbCrLf + "Message: " + e.Result(1) + vbCrLf + "මේ පිළිබඳව Software Developer හට දැනුම් දෙන්න.", "AdminPermissionError")
                 '    Exit Sub
-                Case ErrorClass.SendSMS
+                Case ErrorClass.SendSms
                     CreateMessagePanel("ස්වයංක්‍රීයව යැවෙන SMS පණිවිඩ ක්‍රියාවිරහිත වී ඇත.",
                                        "ස්වයංක්‍රීයව SMS යැවෙන පද්ධතියේ යම් දෝෂයක් නිසා ක්‍රියාවිරහිත වී ඇත." + vbCrLf + vbCrLf +
                                        $"Message: {e.Result(1)}" + vbCrLf +
                                        "මේ පිළිබඳව Software Developer හට දැනුම් දෙන්න.",
-                                       "SendSmsError")
+                                      e.Result(0))
                     Exit Sub
                 Case ErrorClass.SendEmail
                     CreateMessagePanel("ස්වයංක්‍රීයව යැවෙන Emails ක්‍රියාවිරහිත වී ඇත.",
                     "ස්වයංක්‍රීයව Emails යැවෙන පද්ධතියේ යම් දෝෂයක් නිසා ක්‍රියාවිරහිත වී ඇත." +
-                    vbCrLf + vbCrLf + "Message: " + e.Result(1) + vbCrLf + "මේ පිළිබඳව Software Developer හට දැනුම් දෙන්න.", "SendEmailsError")
+                    vbCrLf + vbCrLf + "Message: " + e.Result(1) + vbCrLf + "මේ පිළිබඳව Software Developer හට දැනුම් දෙන්න.", e.Result(0))
                     Exit Sub
             End Select
         End If
@@ -369,7 +366,9 @@ Public Class frmBGTasks
         'End If
     End Sub
     Public Function FormatMessage(Text As String) As String
-        Return Text.ToString.Replace("LASER_Background.", "").Replace("/[A-Z]/g", " $&")
+        Dim Output As String = Text.ToString.Replace("LASER_Background.", "")
+        Output = Regex.Replace(Output, "[A-Z]", " $&")
+        Return Output
     End Function
 
     Public Function GetResponse(Path As String, postdata As String) As String
@@ -571,10 +570,6 @@ Public Class frmBGTasks
         FrmAdvDB.Show()
     End Sub
 
-    Private Sub cmdDBLocation_Click(sender As Object, e As EventArgs)
-
-    End Sub
-
     Private Sub NotifyIcon_BalloonTipClicked(sender As Object, e As EventArgs) Handles NotifyIcon.BalloonTipClicked, NotifyIcon.Click
         Me.Visible = True
         Me.WindowState = FormWindowState.Maximized
@@ -594,12 +589,4 @@ Public Class frmBGTasks
                 Return False
         End Select
     End Function
-
-    Private Sub RadioActivate_CheckedChanged(sender As Object, e As EventArgs) Handles RadioActivate.CheckedChanged, RadioDeactivate.CheckedChanged
-        If sender Is RadioActivate AndAlso RadioActivate.Checked = True Then
-            RadioDeactivate.Checked = False
-        Else
-            RadioActivate.Checked = False
-        End If
-    End Sub
 End Class

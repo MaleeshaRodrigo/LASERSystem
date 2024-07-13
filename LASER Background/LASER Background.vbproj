@@ -160,8 +160,8 @@
     <Compile Include="Classes\Processes\AdminPermissionProcess.vb" />
     <Compile Include="Classes\Processes\BackUpDatabaseProcess.vb" />
     <Compile Include="Classes\Processes\RefreshSMSBalanceProcess.vb" />
-    <Compile Include="Classes\Processes\SendSMSProcess.vb" />
-    <Compile Include="Classes\SMSController.vb" />
+    <Compile Include="Classes\Processes\SendSmsProcess.vb" />
+    <Compile Include="Classes\SmsController.vb" />
     <Compile Include="Structures\ErrorClass.vb" />
     <Compile Include="Modules\Utils.vb" />
     <Compile Include="FrmAdvDB.Designer.vb">

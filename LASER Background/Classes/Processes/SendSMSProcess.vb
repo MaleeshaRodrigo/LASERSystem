@@ -1,11 +1,11 @@
 ﻿Imports Newtonsoft.Json.Linq
 Imports System.ComponentModel
 
-Public Class SendSMSProcess
+Public Class SendSmsProcess
     Implements IProcess
     Private ReadOnly Database As Database
     Private ReadOnly Worker As BackgroundWorker
-    Private ReadOnly SmsController As New SMSController
+    Private ReadOnly SmsController As New SmsController
 
     Public Sub New(Database As Database, Worker As BackgroundWorker)
         Me.Database = Database
@@ -23,11 +23,11 @@ Public Class SendSMSProcess
                 Exit Sub
             End If
 
-            Dim Json As JObject = SmsController.Send(Message("CuTelNo"), Message("Message"))
+            Dim Json As JObject = SmsController.Send(Message("TelNo"), Message("Message"))
             If Json.SelectToken("status").ToString = "queued" Then
-                Database.Execute($"Update Message set Status='Success' Where MsgNo={DataReaderMessage("MsgNo")}")
+                Database.Execute($"Update Message set Status='Success' Where MsgNo={Message("MsgNo")}")
             Else
-                Database.Execute($"Update Message set Status='Failure' Where MsgNo={DataReaderMessage("MsgNo")}")
+                Database.Execute($"Update Message set Status='Failed' Where MsgNo={Message("MsgNo")}")
             End If
         Next
     End Sub
