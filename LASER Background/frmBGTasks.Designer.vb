@@ -42,8 +42,10 @@ Partial Class frmBGTasks
         Me.txtMAdminEmail = New MaterialSkin.Controls.MaterialTextBox2()
         Me.chkMSendEmail = New MaterialSkin.Controls.MaterialCheckbox()
         Me.Guna2GroupBox2 = New MaterialSkin.Controls.MaterialCard()
+        Me.RadioDeactivate = New MaterialSkin.Controls.MaterialRadioButton()
+        Me.RadioActivate = New MaterialSkin.Controls.MaterialRadioButton()
+        Me.MaterialLabel5 = New MaterialSkin.Controls.MaterialLabel()
         Me.lblBalance = New MaterialSkin.Controls.MaterialLabel()
-        Me.cmbMBgSMS = New MaterialSkin.Controls.MaterialComboBox()
         Me.txtMApiToken = New MaterialSkin.Controls.MaterialTextBox2()
         Me.txtMApiKey = New MaterialSkin.Controls.MaterialTextBox2()
         Me.tsProBar = New MaterialSkin.Controls.MaterialProgressBar()
@@ -427,8 +429,10 @@ Partial Class frmBGTasks
         'Guna2GroupBox2
         '
         Me.Guna2GroupBox2.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.Guna2GroupBox2.Controls.Add(Me.RadioDeactivate)
+        Me.Guna2GroupBox2.Controls.Add(Me.RadioActivate)
+        Me.Guna2GroupBox2.Controls.Add(Me.MaterialLabel5)
         Me.Guna2GroupBox2.Controls.Add(Me.lblBalance)
-        Me.Guna2GroupBox2.Controls.Add(Me.cmbMBgSMS)
         Me.Guna2GroupBox2.Controls.Add(Me.txtMApiToken)
         Me.Guna2GroupBox2.Controls.Add(Me.txtMApiKey)
         Me.Guna2GroupBox2.Depth = 0
@@ -443,6 +447,51 @@ Partial Class frmBGTasks
         Me.Guna2GroupBox2.Size = New System.Drawing.Size(590, 230)
         Me.Guna2GroupBox2.TabIndex = 36
         Me.Guna2GroupBox2.Text = "SMS"
+        '
+        'RadioDeactivate
+        '
+        Me.RadioDeactivate.AutoSize = True
+        Me.RadioDeactivate.Checked = True
+        Me.RadioDeactivate.Depth = 0
+        Me.RadioDeactivate.Location = New System.Drawing.Point(242, 16)
+        Me.RadioDeactivate.Margin = New System.Windows.Forms.Padding(0)
+        Me.RadioDeactivate.MouseLocation = New System.Drawing.Point(-1, -1)
+        Me.RadioDeactivate.MouseState = MaterialSkin.MouseState.HOVER
+        Me.RadioDeactivate.Name = "RadioDeactivate"
+        Me.RadioDeactivate.Ripple = True
+        Me.RadioDeactivate.Size = New System.Drawing.Size(110, 37)
+        Me.RadioDeactivate.TabIndex = 62
+        Me.RadioDeactivate.TabStop = True
+        Me.RadioDeactivate.Text = "Deactivate"
+        Me.RadioDeactivate.UseVisualStyleBackColor = True
+        '
+        'RadioActivate
+        '
+        Me.RadioActivate.AutoSize = True
+        Me.RadioActivate.Depth = 0
+        Me.RadioActivate.Location = New System.Drawing.Point(113, 16)
+        Me.RadioActivate.Margin = New System.Windows.Forms.Padding(0)
+        Me.RadioActivate.MouseLocation = New System.Drawing.Point(-1, -1)
+        Me.RadioActivate.MouseState = MaterialSkin.MouseState.HOVER
+        Me.RadioActivate.Name = "RadioActivate"
+        Me.RadioActivate.Ripple = True
+        Me.RadioActivate.Size = New System.Drawing.Size(92, 37)
+        Me.RadioActivate.TabIndex = 61
+        Me.RadioActivate.TabStop = True
+        Me.RadioActivate.Text = "Activate"
+        Me.RadioActivate.UseVisualStyleBackColor = True
+        '
+        'MaterialLabel5
+        '
+        Me.MaterialLabel5.AutoSize = True
+        Me.MaterialLabel5.Depth = 0
+        Me.MaterialLabel5.Font = New System.Drawing.Font("Roboto", 14.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel)
+        Me.MaterialLabel5.Location = New System.Drawing.Point(14, 26)
+        Me.MaterialLabel5.MouseState = MaterialSkin.MouseState.HOVER
+        Me.MaterialLabel5.Name = "MaterialLabel5"
+        Me.MaterialLabel5.Size = New System.Drawing.Size(58, 19)
+        Me.MaterialLabel5.TabIndex = 60
+        Me.MaterialLabel5.Text = "Activate"
         '
         'lblBalance
         '
@@ -459,30 +508,6 @@ Partial Class frmBGTasks
         Me.lblBalance.Text = "Balance: Rs. ###"
         Me.lblBalance.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
-        'cmbMBgSMS
-        '
-        Me.cmbMBgSMS.AutoResize = False
-        Me.cmbMBgSMS.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.cmbMBgSMS.Depth = 0
-        Me.cmbMBgSMS.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable
-        Me.cmbMBgSMS.DropDownHeight = 174
-        Me.cmbMBgSMS.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cmbMBgSMS.DropDownWidth = 121
-        Me.cmbMBgSMS.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel)
-        Me.cmbMBgSMS.ForeColor = System.Drawing.Color.FromArgb(CType(CType(222, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.cmbMBgSMS.FormattingEnabled = True
-        Me.cmbMBgSMS.Hint = "Option"
-        Me.cmbMBgSMS.IntegralHeight = False
-        Me.cmbMBgSMS.ItemHeight = 43
-        Me.cmbMBgSMS.Items.AddRange(New Object() {"OFF", "Only Getting Notification", "Automatically Send SMS"})
-        Me.cmbMBgSMS.Location = New System.Drawing.Point(17, 17)
-        Me.cmbMBgSMS.MaxDropDownItems = 4
-        Me.cmbMBgSMS.MouseState = MaterialSkin.MouseState.OUT
-        Me.cmbMBgSMS.Name = "cmbMBgSMS"
-        Me.cmbMBgSMS.Size = New System.Drawing.Size(378, 49)
-        Me.cmbMBgSMS.StartIndex = 0
-        Me.cmbMBgSMS.TabIndex = 30
-        '
         'txtMApiToken
         '
         Me.txtMApiToken.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
@@ -495,7 +520,7 @@ Partial Class frmBGTasks
         Me.txtMApiToken.HideSelection = True
         Me.txtMApiToken.Hint = "API Token"
         Me.txtMApiToken.LeadingIcon = Nothing
-        Me.txtMApiToken.Location = New System.Drawing.Point(17, 72)
+        Me.txtMApiToken.Location = New System.Drawing.Point(10, 56)
         Me.txtMApiToken.MaxLength = 32767
         Me.txtMApiToken.MouseState = MaterialSkin.MouseState.OUT
         Me.txtMApiToken.Name = "txtMApiToken"
@@ -507,7 +532,7 @@ Partial Class frmBGTasks
         Me.txtMApiToken.SelectionLength = 0
         Me.txtMApiToken.SelectionStart = 0
         Me.txtMApiToken.ShortcutsEnabled = True
-        Me.txtMApiToken.Size = New System.Drawing.Size(556, 48)
+        Me.txtMApiToken.Size = New System.Drawing.Size(563, 48)
         Me.txtMApiToken.TabIndex = 28
         Me.txtMApiToken.TabStop = False
         Me.txtMApiToken.TextAlign = System.Windows.Forms.HorizontalAlignment.Left
@@ -526,7 +551,7 @@ Partial Class frmBGTasks
         Me.txtMApiKey.HideSelection = True
         Me.txtMApiKey.Hint = "API Key"
         Me.txtMApiKey.LeadingIcon = Nothing
-        Me.txtMApiKey.Location = New System.Drawing.Point(17, 126)
+        Me.txtMApiKey.Location = New System.Drawing.Point(10, 110)
         Me.txtMApiKey.MaxLength = 32767
         Me.txtMApiKey.MouseState = MaterialSkin.MouseState.OUT
         Me.txtMApiKey.Name = "txtMApiKey"
@@ -538,7 +563,7 @@ Partial Class frmBGTasks
         Me.txtMApiKey.SelectionLength = 0
         Me.txtMApiKey.SelectionStart = 0
         Me.txtMApiKey.ShortcutsEnabled = True
-        Me.txtMApiKey.Size = New System.Drawing.Size(556, 48)
+        Me.txtMApiKey.Size = New System.Drawing.Size(563, 48)
         Me.txtMApiKey.TabIndex = 26
         Me.txtMApiKey.TabStop = False
         Me.txtMApiKey.TextAlign = System.Windows.Forms.HorizontalAlignment.Left
@@ -1257,7 +1282,6 @@ Partial Class frmBGTasks
         '
         'ImageList
         '
-        Me.ImageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit
         Me.ImageList.ImageStream = CType(resources.GetObject("ImageList.ImageStream"), System.Windows.Forms.ImageListStreamer)
         Me.ImageList.TransparentColor = System.Drawing.Color.Transparent
         Me.ImageList.Images.SetKeyName(0, "backup.png")
@@ -1390,7 +1414,6 @@ Partial Class frmBGTasks
         Me.cmdApply.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained
         Me.cmdApply.UseAccentColor = False
         Me.cmdApply.UseVisualStyleBackColor = False
-        AddHandler Me.cmdApply.Click, AddressOf Me.cmdApply_Click_1
         '
         'flpMessage
         '
@@ -1414,7 +1437,7 @@ Partial Class frmBGTasks
         '
         'frmBGTasks
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 17.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1097, 674)
         Me.Controls.Add(Me.pnlMain)
@@ -1428,6 +1451,7 @@ Partial Class frmBGTasks
         Me.WindowState = System.Windows.Forms.FormWindowState.Minimized
         Me.Guna2GroupBox1.ResumeLayout(False)
         Me.Guna2GroupBox2.ResumeLayout(False)
+        Me.Guna2GroupBox2.PerformLayout()
         Me.pnlMain.ResumeLayout(False)
         Me.pnlMain.PerformLayout()
         CType(Me.GridActivity, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1497,7 +1521,6 @@ Partial Class frmBGTasks
     Friend WithEvents btnAdminEmailVerify As MaterialSkin.Controls.MaterialButton
     Friend WithEvents chkMSendEmail As MaterialSkin.Controls.MaterialCheckbox
     Friend WithEvents lblBalance As MaterialSkin.Controls.MaterialLabel
-    Friend WithEvents cmbMBgSMS As MaterialSkin.Controls.MaterialComboBox
     Friend WithEvents cmdApply As MaterialSkin.Controls.MaterialButton
     Friend WithEvents tsProBar As MaterialSkin.Controls.MaterialProgressBar
     Friend WithEvents lblBGLoad As MaterialSkin.Controls.MaterialLabel
@@ -1524,4 +1547,7 @@ Partial Class frmBGTasks
     Friend WithEvents MaterialLabel2 As MaterialSkin.Controls.MaterialLabel
     Friend WithEvents MaterialLabel1 As MaterialSkin.Controls.MaterialLabel
     Friend WithEvents TextDbName As MaterialSkin.Controls.MaterialTextBox2
+    Friend WithEvents MaterialLabel5 As MaterialSkin.Controls.MaterialLabel
+    Friend WithEvents RadioDeactivate As MaterialSkin.Controls.MaterialRadioButton
+    Friend WithEvents RadioActivate As MaterialSkin.Controls.MaterialRadioButton
 End Class

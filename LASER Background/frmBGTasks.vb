@@ -2,6 +2,7 @@
 Imports System.IO
 Imports System.Net
 Imports System.Text
+Imports System.Text.RegularExpressions
 Imports System.Web
 Imports MaterialSkin
 Imports Microsoft.VisualBasic.FileIO
@@ -37,7 +38,7 @@ Public Class frmBGTasks
 
             txtMApiKey.Text = .APIKey
             txtMApiToken.Text = .APIToken
-            cmbMBgSMS.Text = .BGSendSMS
+            RadioActivate.Checked = .SendSMS
             chkMSendEmail.Checked = .SendEmail
             txtMAdminEmail.Text = .SystemEmail
             TextHost.Text = .MailServer
@@ -128,7 +129,8 @@ Public Class frmBGTasks
 
     Private Sub BgWorker_DoWork(sender As Object, e As DoWorkEventArgs) Handles bgworker.DoWork
         Dim Processes As New List(Of IProcess) From {
-           New SendEmailProcess(Database, bgworker)
+           New SendEmailProcess(Database, bgworker),
+           New SendSMSProcess(Database, bgworker)
         }
         Dim Process As IProcess = Nothing
         Try
@@ -141,29 +143,16 @@ Public Class frmBGTasks
                     Continue For
                 End If
 
-                bgworker.ReportProgress((Processes.IndexOf(Process) / Processes.Count) * 100, $"Initialized {Process}")
+                bgworker.ReportProgress((Processes.IndexOf(Process) / Processes.Count) * 100,
+                                        $"Initialized {FormatMessage(Process.ToString)}")
                 Process.Perform()
-                bgworker.ReportProgress((Processes.IndexOf(Process) + 1 / Processes.Count) * 100, $"Completed {Process}")
+                bgworker.ReportProgress((Processes.IndexOf(Process) + 1 / Processes.Count) * 100,
+                                        $"Completed {FormatMessage(Process.ToString)}")
             Next
         Catch Ex As Exception
             e.Result = New String() {Process.ToString, Ex.Message}
             Exit Sub
         End Try
-        'If My.Settings.BGSendSMS <> "OFF" Then
-        '    bgworker.ReportProgress(60, "Reloading Balance Amount of the SMS Service...")
-        '    Try
-        '        Dim request As WebRequest = HttpWebRequest.Create($"http://app.newsletters.lk/smsAPI?balance&apikey={My.Settings.APIKey}&apitoken={My.Settings.APIToken}")
-        '        Dim response As HttpWebResponse = DirectCast(request.GetResponse, HttpWebResponse)
-        '        Dim s As Stream = DirectCast(response.GetResponseStream(), Stream)
-        '        Dim readStream As New StreamReader(s)
-        '        Dim dataString As String = readStream.ReadToEnd()
-        '        Dim json As JObject = JObject.Parse(dataString)
-        '        lblBalance.Text = "Balance : Rs. " + json.SelectToken("balance").ToString
-        '    Catch ex As Exception
-        '        lblBalance.Text = "Balance : Rs. ###"
-        '        Exit Sub
-        '    End Try
-        'End If
     End Sub
 
     Private Sub BgWorker_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles bgworker.RunWorkerCompleted
@@ -183,11 +172,13 @@ Public Class frmBGTasks
                 '    "Admin වෙත තහවුරු කිරීම සඳහා යවන ලද Data Database එකට Apply කිරිමේ පද්ධතිය බිඳවැටී ඇත." +
                 '    vbCrLf + vbCrLf + "Message: " + e.Result(1) + vbCrLf + "මේ පිළිබඳව Software Developer හට දැනුම් දෙන්න.", "AdminPermissionError")
                 '    Exit Sub
-                'Case "MessageSendtoCustomerforRepairedItemsError"
-                '    CreateMessagePanel("සෑදු අයිතම සඳහා ස්වයංක්‍රීයව යැවෙන Message පණිවිඩය ක්‍රියාවිරහිත වී ඇත.",
-                '    "Status එක 'Repaired Not Delivered' හෝ 'Returned Not Delivered' යන Repair වල Customer සඳහා ස්වයංක්‍රීයව යැවෙන SMS පණිවිඩය ක්‍රියාවිරහිත වී ඇත." +
-                '    vbCrLf + vbCrLf + "Message: " + e.Result(1) + vbCrLf + "මේ පිළිබඳව Software Developer හට දැනුම් දෙන්න.", "MessageSendtoCustomerforRepairedItemsError")
-                    'Exit Sub
+                Case ErrorClass.SendSMS
+                    CreateMessagePanel("ස්වයංක්‍රීයව යැවෙන SMS පණිවිඩ ක්‍රියාවිරහිත වී ඇත.",
+                                       "ස්වයංක්‍රීයව SMS යැවෙන පද්ධතියේ යම් දෝෂයක් නිසා ක්‍රියාවිරහිත වී ඇත." + vbCrLf + vbCrLf +
+                                       $"Message: {e.Result(1)}" + vbCrLf +
+                                       "මේ පිළිබඳව Software Developer හට දැනුම් දෙන්න.",
+                                       "SendSmsError")
+                    Exit Sub
                 Case ErrorClass.SendEmail
                     CreateMessagePanel("ස්වයංක්‍රීයව යැවෙන Emails ක්‍රියාවිරහිත වී ඇත.",
                     "ස්වයංක්‍රීයව Emails යැවෙන පද්ධතියේ යම් දෝෂයක් නිසා ක්‍රියාවිරහිත වී ඇත." +
@@ -198,34 +189,6 @@ Public Class frmBGTasks
         lblLoad.Text = "Restarting..."
         tsProBar.Value = 100
     End Sub
-
-    Private Function SendSMS(Phone As String, Message As String) As JObject
-        Dim url As String
-        Dim host As String
-        Dim originator As String
-
-        host = "https://app.newsletters.lk"
-        Phone = Phone.TrimStart("0"c)
-        originator = "94" + Phone.Replace(" ", String.Empty)
-        url = host + "/smsAPI?sendsms&" _
-                & "apikey=" & HttpUtility.UrlEncode(My.Settings.APIKey) _
-                & "&apitoken=" + HttpUtility.UrlEncode(My.Settings.APIToken) _
-                & "&type=sms&from=LASERelect" _
-                & "&to=" & HttpUtility.UrlEncode(originator) _
-                & "&text=" + HttpUtility.UrlEncode(Message) _
-                & "&scheduledate=" + HttpUtility.UrlEncode(DateAndTime.Now)
-        Dim request As WebRequest = HttpWebRequest.Create(url)
-        Dim response As HttpWebResponse = DirectCast(request.GetResponse, HttpWebResponse)
-        Dim s As Stream = DirectCast(response.GetResponseStream(), Stream)
-        Dim readStream As New StreamReader(s)
-        Dim dataString As String = readStream.ReadToEnd()
-
-        response.Close()
-        s.Close()
-        readStream.Close()
-
-        Return JObject.Parse(dataString)
-    End Function
 
     Private Sub bgworkerOnline_DoWork(sender As Object, e As DoWorkEventArgs) Handles bgworkerOnline.DoWork
         'bgworkerOnline.ReportProgress(0, "Loading...")
@@ -405,6 +368,9 @@ Public Class frmBGTasks
         '    End Select
         'End If
     End Sub
+    Public Function FormatMessage(Text As String) As String
+        Return Text.ToString.Replace("LASER_Background.", "").Replace("/[A-Z]/g", " $&")
+    End Function
 
     Public Function GetResponse(Path As String, postdata As String) As String
         Try
@@ -450,18 +416,15 @@ Public Class frmBGTasks
             Exit Sub
         End If
         If Me.Tag <> "Login" Then
-            If CheckEmptyfield(cmbMBgSMS,
-                "Background send SMS යන field එක හිස්ව පවතියි. කරුණාකර එය නැවත සකස් කරන්න.") = False Then
-                Exit Sub
-            ElseIf chkMSendEmail.Checked = True AndAlso CheckEmptyfield(txtMAdminEmail,
+            If chkMSendEmail.Checked = True AndAlso CheckEmptyfield(txtMAdminEmail,
                 "Admin Email එක හිස්ව පවතියි. කරුණාකර එය සම්පූර්ණ කර උත්සහ කරන්න.") = False Then
                 Exit Sub
             ElseIf chkMSendEmail.Checked = True AndAlso CheckEmptyfield(txtMAdminPass, "Admin Email Password එක හිස්ව පවතියි. කරුණාකර එය සම්පූර්ණ කර උත්සහ කරන්න.") = False Then
                 Exit Sub
-            ElseIf cmbMBgSMS.Text <> "OFF" AndAlso CheckEmptyfield(
+            ElseIf RadioActivate.Checked AndAlso CheckEmptyfield(
                 txtMApiKey, "Api Key යන field එක හිස්ව පවතියි. කරුණාකර එය සම්පුර්ණ කර නැවත උත්සහ කරන්න.") = False Then
                 Exit Sub
-            ElseIf cmbMBgSMS.Text <> "OFF" AndAlso CheckEmptyfield(
+            ElseIf RadioActivate.Checked AndAlso CheckEmptyfield(
                 txtMApiToken, "Api Token යන field එක හිස්ව පවතියි. කරුණාකර එය සම්පුර්ණ කර නැවත උත්සහ කරන්න.") = False Then
                 Exit Sub
             End If
@@ -471,14 +434,14 @@ Public Class frmBGTasks
             .DbPort = TextDbPort.Text
             .DbUserName = TextDbUserName.Text
             .DbName = TextDbName.Text
-            If TextDbPassword.Text <> "" Then .DbPassword = Encoder.Encode(TextDbPassword.Text)
+            If TextDbPassword.Text.Trim <> "" Then .DbPassword = Encoder.Encode(TextDbPassword.Text)
 
             .APIKey = txtMApiKey.Text
             .APIToken = txtMApiToken.Text
-            .BGSendSMS = cmbMBgSMS.Text
+            .SendSMS = RadioActivate.Checked
             .SendEmail = chkMSendEmail.CheckState
             .SystemEmail = txtMAdminEmail.Text
-            .SystemEmailPassword = Encoder.Encode(txtMAdminPass.Text)
+            If txtMAdminPass.Text.Trim <> "" Then .SystemEmailPassword = Encoder.Encode(txtMAdminPass.Text)
             .BackUpDB1 = txtBackUpDB1.Text
             .BackUpDB2 = txtBackUpDB2.Text
             .BackUpDB3 = txtBackUpDB3.Text
@@ -486,8 +449,8 @@ Public Class frmBGTasks
             If chkOnlineDB.CheckState Then
                 .OnlineDatabasePath = txtOPath.Text
                 .OnlineDatabaseUser = txtOUser.Text
-                If txtOPassword.Text <> "" Then .OnlineDatabasePassword = Encoder.Encode(txtOPassword.Text)
-                If TxtOToken.Text <> "" Then .ODBToken = Encoder.Encode(TxtOToken.Text)
+                If txtOPassword.Text.Trim <> "" Then .OnlineDatabasePassword = Encoder.Encode(txtOPassword.Text)
+                If TxtOToken.Text.Trim <> "" Then .ODBToken = Encoder.Encode(TxtOToken.Text)
             Else
                 .OnlineDatabasePath = ""
                 .OnlineDatabaseUser = ""
@@ -632,7 +595,11 @@ Public Class frmBGTasks
         End Select
     End Function
 
-    Private Sub cmdApply_Click_1()
-
+    Private Sub RadioActivate_CheckedChanged(sender As Object, e As EventArgs) Handles RadioActivate.CheckedChanged, RadioDeactivate.CheckedChanged
+        If sender Is RadioActivate AndAlso RadioActivate.Checked = True Then
+            RadioDeactivate.Checked = False
+        Else
+            RadioActivate.Checked = False
+        End If
     End Sub
 End Class

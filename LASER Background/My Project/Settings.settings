@@ -23,8 +23,8 @@
     <Setting Name="BackUpDB3" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="BGSendSMS" Type="System.String" Scope="User">
-      <Value Profile="(Default)">OFF</Value>
+    <Setting Name="SendSMS" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="DbUserName" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
