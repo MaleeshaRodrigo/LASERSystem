@@ -36,8 +36,8 @@
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>3</ApplicationRevision>
-    <ApplicationVersion>2.1.0.%2a</ApplicationVersion>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>2.1.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -159,7 +159,7 @@
     <Compile Include="Classes\Encoder.vb" />
     <Compile Include="Classes\Processes\AdminPermissionProcess.vb" />
     <Compile Include="Classes\Processes\BackUpDatabaseProcess.vb" />
-    <Compile Include="Classes\Processes\RefreshSMSBalanceProcess.vb" />
+    <Compile Include="Classes\Processes\RefreshSmsBalanceProcess.vb" />
     <Compile Include="Classes\Processes\SendSmsProcess.vb" />
     <Compile Include="Classes\SmsController.vb" />
     <Compile Include="Structures\ErrorClass.vb" />

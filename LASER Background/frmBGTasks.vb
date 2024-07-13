@@ -127,7 +127,8 @@ Public Class frmBGTasks
     Private Sub BgWorker_DoWork(sender As Object, e As DoWorkEventArgs) Handles bgworker.DoWork
         Dim Processes As New List(Of IProcess) From {
            New SendEmailProcess(Database, bgworker),
-           New SendSmsProcess(Database, bgworker)
+           New SendSmsProcess(Database, bgworker),
+           New RefreshSmsBalanceProcess(Me)
         }
         Dim Process As IProcess = Nothing
         Try

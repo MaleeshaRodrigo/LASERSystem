@@ -1,21 +1,25 @@
-﻿Public Class RefreshSMSBalanceProcess
+﻿Imports System.IO
+Imports System.Net
+Imports Newtonsoft.Json.Linq
+
+Public Class RefreshSmsBalanceProcess
     Implements IProcess
+    Private ReadOnly ParentForm As frmBGTasks
+    Private ReadOnly SmsController As New SmsController
+
+    Public Sub New(FormParent As frmBGTasks)
+        ParentForm = FormParent
+    End Sub
 
     Public Sub Perform() Implements IProcess.Perform
-        'If My.Settings.BGSendSMS <> "OFF" Then
-        '    bgworker.ReportProgress(60, "Reloading Balance Amount of the SMS Service...")
-        '    Try
-        '        Dim request As WebRequest = HttpWebRequest.Create($"http://app.newsletters.lk/smsAPI?balance&apikey={My.Settings.APIKey}&apitoken={My.Settings.APIToken}")
-        '        Dim response As HttpWebResponse = DirectCast(request.GetResponse, HttpWebResponse)
-        '        Dim s As Stream = DirectCast(response.GetResponseStream(), Stream)
-        '        Dim readStream As New StreamReader(s)
-        '        Dim dataString As String = readStream.ReadToEnd()
-        '        Dim json As JObject = JObject.Parse(dataString)
-        '        lblBalance.Text = "Balance : Rs. " + json.SelectToken("balance").ToString
-        '    Catch ex As Exception
-        '        lblBalance.Text = "Balance : Rs. ###"
-        '        Exit Sub
-        '    End Try
-        'End If
+        If Not My.Settings.SendSMS Then
+            Exit Sub
+        End If
+        Try
+            ParentForm.lblBalance.Text = "Balance : Rs. " + SmsController.GetBalance()
+        Catch ex As Exception
+            ParentForm.lblBalance.Text = "Balance : Rs. ###"
+            Exit Sub
+        End Try
     End Sub
 End Class
