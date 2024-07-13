@@ -308,12 +308,12 @@ Public Class frmSale
                     If DR("CuLNo").ToString <> "0" And txtCuLNo.Text = "0" Then
                         Db.Execute("DELETE from CustomerLoan where CuLNo=" & DR("CuLNO").ToString)
                     ElseIf DR("CuLNo").ToString <> "0" And txtCuLNo.Text <> "0" Then
-                        Db.Execute("Update CustomerLoan set CuLNo = " & DR("CuLNO").ToString &
+                        Db.Execute("Update CustomerLoan set CuLNo = " & DR("CuLNo").ToString &
                                                       "CuNo = " & CuNo &
                                                       ",CuLAmount = " & txtCuLAmount.Text &
                                                       ",SaNo = " & txtSaNo.Text &
                                                       ",CuLDate = " & txtSaDate.Value &
-                                                      "where CuLNo=" & DR("CuLNO").ToString)
+                                                      "where CuLNo=" & DR("CuLNo").ToString)
                         txtCuLNo.Text = DR("CuLNo").ToString
                     ElseIf DR("CuLNo").ToString = "0" And txtCuLNo.Text <> "0" Then
                         Db.Execute("Insert into CustomerLoan(CuLNO,CuLAmount,CuNo,SaNO,CulDate,Status) values(" & txtCuLNo.Text & "," & txtCuLAmount.Text & "," & CuNo & "," & txtSaNo.Text & "," & txtSaDate.Text & ",'Not Paid')")

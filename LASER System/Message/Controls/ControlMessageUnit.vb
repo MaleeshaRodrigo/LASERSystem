@@ -54,7 +54,7 @@ Public Class ControlMessageUnit
                 Values.Add(New MySqlParameter("REPNO", Nothing))
                 Values.Add(New MySqlParameter("REREPNO", Nothing))
             End If
-            Db.Execute("INSERT INTO Message(MsgDate, Action, RepNo, RetNo, CuTelNo, Message, Status) Values(NOW(), @METHOD, @REPNO, @REREPNO, @TELNO, @MESSAGE, @STATUS);", Values.ToArray)
+            Db.Execute("INSERT INTO Message(MsgDate, Action, RepNo, RetNo, TelNo, Message, Status) Values(NOW(), @METHOD, @REPNO, @REREPNO, @TELNO, @MESSAGE, @STATUS);", Values.ToArray)
         Next
         ParentForm?.Close()
     End Sub
