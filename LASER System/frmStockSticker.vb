@@ -5,17 +5,18 @@ Imports System.IO
 
 Public Class frmStockSticker
     Private Db As New Database
+
     Public Sub grdStock_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs) Handles grdStock.CellEndEdit
         If e.ColumnIndex = 0 Then
             If grdStock.Item(0, e.RowIndex).Value = "" Then Exit Sub
-            Dim writer As New BarcodeWriter
-            writer.Format = BarcodeFormat.CODE_128
+            Dim writer As New BarcodeWriter With {
+                .Format = BarcodeFormat.CODE_128
+            }
             writer.Options.PureBarcode = True
             grdStock.Item(6, e.RowIndex).Value = writer.Write(grdStock.Item(0, e.RowIndex).Value)
             DR = Db.GetDataDictionary("Select * from Stock where SNo=" & grdStock.Item(0, e.RowIndex).Value)
-            If DR.Count Then
-                
-                grdStock.Item(1, e.RowIndex).Value = DR("Scategory").ToString
+            If DR IsNot Nothing Then
+                grdStock.Item(1, e.RowIndex).Value = DR("SCategory").ToString
                 grdStock.Item(2, e.RowIndex).Value = DR("SName").ToString
                 grdStock.Item(3, e.RowIndex).Value = DR("SAvailableStocks").ToString
                 grdStock.Item(4, e.RowIndex).Value = DR("SAvailableStocks").ToString
@@ -23,16 +24,16 @@ Public Class frmStockSticker
             End If
         ElseIf e.ColumnIndex = 1 Or e.ColumnIndex = 2 Then
             DR = Db.GetDataDictionary("Select * from Stock where SCategory='" & grdStock.Item(1, e.RowIndex).Value & "' and SName='" & grdStock.Item(2, e.RowIndex).Value & "';")
-            If DR.Count Then
-                
+            If DR IsNot Nothing Then
                 grdStock.Item(0, e.RowIndex).Value = DR("SNo").ToString
                 grdStock.Item(1, e.RowIndex).Value = DR("SCategory").ToString
                 grdStock.Item(2, e.RowIndex).Value = DR("SName").ToString
                 grdStock.Item(3, e.RowIndex).Value = DR("SAvailableStocks").ToString
                 grdStock.Item(4, e.RowIndex).Value = DR("SAvailableStocks").ToString
                 grdStock.Item(5, e.RowIndex).Value = DR("SSalePrice").ToString
-                Dim writer As New BarcodeWriter
-                writer.Format = BarcodeFormat.CODE_128
+                Dim writer As New BarcodeWriter With {
+                    .Format = BarcodeFormat.CODE_128
+                }
                 writer.Options.PureBarcode = True
                 grdStock.Item(6, e.RowIndex).Value = writer.Write(grdStock.Item(0, e.RowIndex).Value)
             End If
@@ -125,10 +126,6 @@ Public Class frmStockSticker
         rpt.PrintOptions.PaperOrientation = CrystalDecisions.Shared.PaperOrientation.Portrait
         rpt.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
         rptViewer.ReportSource = rpt
-    End Sub
-
-    Private Sub frmStockSticker_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        
     End Sub
 
     Private Sub frmStockSticker_Resize(sender As Object, e As EventArgs) Handles Me.Resize
