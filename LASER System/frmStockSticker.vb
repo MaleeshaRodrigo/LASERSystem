@@ -1,7 +1,7 @@
 ﻿Imports ZXing
-Imports MySqlConnector
-Imports System.Drawing
 Imports System.IO
+Imports BarcodeLib.Barcode.CrystalReports
+Imports BarcodeLib.Barcode
 
 Public Class frmStockSticker
     Private Db As New Database
@@ -100,17 +100,27 @@ Public Class frmStockSticker
         dt.Columns.Add("Qty")
         dt.Columns.Add(New DataColumn("Barcode", GetType(Byte())))
         dt.Columns.Add("Rate")
+
+        Dim Barcode As New LinearCrystal()
+        Barcode.Type = BarcodeType.CODE128
+        Barcode.ShowText = False
+        Barcode.BarHeight = 50
+        Barcode.ImageFormat = Imaging.ImageFormat.Png
         For Each row As DataGridViewRow In grdStock.Rows
-            If row.Cells(0).Value = Nothing Then Exit For
+            If row.Cells(0).Value Is Nothing Then Exit For
             For i As Integer = 1 To row.Cells(4).Value.ToString
-                Dim imgStream As MemoryStream = New MemoryStream()
-                Dim img As Image = row.Cells(6).Value
-                img.Save(imgStream, System.Drawing.Imaging.ImageFormat.Png)
-                imgStream.Close()
-                Dim byteArray As Byte() = imgStream.ToArray()
-                dt.Rows.Add(row.Cells.Item(0).Value, row.Cells.Item(1).Value, row.Cells.Item(2).Value, row.Cells.Item(4).Value, byteArray, $"Rs.{row.Cells.Item(5).Value.ToString}")
+                '        Dim imgStream As MemoryStream = New MemoryStream()
+                '        Dim img As Image = row.Cells(6).Value
+                '        img.Save(imgStream, Imaging.ImageFormat.Png)
+                '        imgStream.Close()
+                '        Dim byteArray As Byte() = imgStream.ToArray()
+
+                Barcode.Data = row.Cells(0).Value.ToString
+                Dim imageData As Byte() = Barcode.drawBarcodeAsBytes()
+                dt.Rows.Add(row.Cells.Item(0).Value, row.Cells.Item(1).Value, row.Cells.Item(2).Value, row.Cells.Item(4).Value, imageData, $"Rs.{row.Cells.Item(5).Value}")
             Next
         Next
+
         Dim rpt As New rptStockSticker
         rpt.SetDataSource(dt)
         Dim c As Integer
