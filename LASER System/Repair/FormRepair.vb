@@ -12,7 +12,7 @@ Public Class FormRepair
     Public ControlRemarks As ControlRemarks
     Public ControlRepairDeliverInfo As ControlRepairDeliverInfo
     Public ControlTaskInfo As ControlTaskInfo
-    Public ControlTechnicianCostInfo As ControlTechnicianCostInfo
+    Public ControlTechnicianCostInfo As ControlTechnicianCostListInfo
     Public ControlTechnicianInfo As ControlTechnicianInfo
 
     Public Sub New()
@@ -122,7 +122,7 @@ Public Class FormRepair
                 Exit Try
             End If
 
-            ControlTechnicianCostInfo = New ControlTechnicianCostInfo(Db, Me)
+            ControlTechnicianCostInfo = New ControlTechnicianCostListInfo(Db, Me)
             ControlTechnicianCostInfo.InitForRepair(cmbRepNo.Text)
             PanelMain.Controls.Add(ControlTechnicianCostInfo)
             PanelMain.Controls.SetChildIndex(ControlTechnicianCostInfo, 3)
@@ -249,7 +249,7 @@ Public Class FormRepair
                 Exit Try
             End If
 
-            ControlTechnicianCostInfo = New ControlTechnicianCostInfo(Db, Me)
+            ControlTechnicianCostInfo = New ControlTechnicianCostListInfo(Db, Me)
             ControlTechnicianCostInfo.InitForReRepair(cmbRetRepNo.Text)
             PanelMain.Controls.Add(ControlTechnicianCostInfo)
             PanelMain.Controls.SetChildIndex(ControlTechnicianCostInfo, 2)
@@ -491,7 +491,7 @@ Public Class FormRepair
         PanelMain.Controls.SetChildIndex(ControlTechnicianInfo, 2)
         ControlTechnicianInfo.Init()
 
-        ControlTechnicianCostInfo = New ControlTechnicianCostInfo(Db, Me)
+        ControlTechnicianCostInfo = New ControlTechnicianCostListInfo(Db, Me)
         PanelMain.Controls.Add(ControlTechnicianCostInfo)
         PanelMain.Controls.SetChildIndex(ControlTechnicianCostInfo, 3)
         If sender Is cmbRepStatus Then

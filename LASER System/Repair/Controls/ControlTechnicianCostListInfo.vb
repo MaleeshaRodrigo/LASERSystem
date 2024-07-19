@@ -1,6 +1,6 @@
 ﻿Imports MySqlConnector
 
-Public Class ControlTechnicianCostInfo
+Public Class ControlTechnicianCostListInfo
     Private Db As Database
     Private ReadOnly DtpDate As New DateTimePicker
     Private ParentRepairForm As FormRepair
