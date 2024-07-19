@@ -1,5 +1,5 @@
 ﻿Imports MySqlConnector
-Public Class frmTechnicianCost
+Public Class FormTechnicianCost
     Private Db As New Database
     Private dtpDate As New DateTimePicker
 

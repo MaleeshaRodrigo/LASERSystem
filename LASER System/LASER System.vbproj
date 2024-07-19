@@ -412,10 +412,10 @@
     <Compile Include="frmTechnician.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmTechnicianCost.Designer.vb">
-      <DependentUpon>frmTechnicianCost.vb</DependentUpon>
+    <Compile Include="TechnicianCost\FormTechnicianCost.Designer.vb">
+      <DependentUpon>FormTechnicianCost.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmTechnicianCost.vb">
+    <Compile Include="TechnicianCost\FormTechnicianCost.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmTechnicianLoan.Designer.vb">
@@ -621,8 +621,8 @@
     <EmbeddedResource Include="frmTechnician.resx">
       <DependentUpon>frmTechnician.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmTechnicianCost.resx">
-      <DependentUpon>frmTechnicianCost.vb</DependentUpon>
+    <EmbeddedResource Include="TechnicianCost\FormTechnicianCost.resx">
+      <DependentUpon>FormTechnicianCost.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmTechnicianLoan.resx">
       <DependentUpon>frmTechnicianLoan.vb</DependentUpon>
