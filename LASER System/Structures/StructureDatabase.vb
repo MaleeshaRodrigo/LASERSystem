@@ -1,5 +1,4 @@
-﻿Imports LASER_System.Stock
-Public Structure StructureDatabase
+﻿Public Structure StructureDatabase
     Public Structure Tables
         Const AdminPermission = "AdminPermission"
         Const APCCommand = "APCCommand"
