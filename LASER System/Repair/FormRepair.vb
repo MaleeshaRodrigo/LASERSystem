@@ -12,7 +12,7 @@ Public Class FormRepair
     Public ControlRemarks As ControlRemarks
     Public ControlRepairDeliverInfo As ControlRepairDeliverInfo
     Public ControlTaskInfo As ControlTaskInfo
-    Public ControlTechnicianCostInfo As ControlTechnicianCostListInfo
+    Public ControlTechnicianCostListInfo As ControlTechnicianCostListInfo
     Public ControlTechnicianInfo As ControlTechnicianInfo
 
     Public Sub New()
@@ -122,10 +122,10 @@ Public Class FormRepair
                 Exit Try
             End If
 
-            ControlTechnicianCostInfo = New ControlTechnicianCostListInfo(Db, Me)
-            ControlTechnicianCostInfo.InitForRepair(cmbRepNo.Text)
-            PanelMain.Controls.Add(ControlTechnicianCostInfo)
-            PanelMain.Controls.SetChildIndex(ControlTechnicianCostInfo, 3)
+            ControlTechnicianCostListInfo = New ControlTechnicianCostListInfo(Db, Me)
+            ControlTechnicianCostListInfo.InitForRepair(cmbRepNo.Text)
+            PanelMain.Controls.Add(ControlTechnicianCostListInfo)
+            PanelMain.Controls.SetChildIndex(ControlTechnicianCostListInfo, 3)
             If cmbRepStatus.Text = "Repairing" Then
                 Exit Try
             End If
@@ -147,7 +147,7 @@ Public Class FormRepair
                 DataReaderRepair("DDate").ToString
                 ).SetDeliverInfoVisibility(True)
             If (cmbRepStatus.Text = "Repaired Delivered" Or cmbRepStatus.Text = "Returned Delivered") And User.Instance.UserType <> User.Type.Admin And DateValue(DataReaderRepair("DDate").ToString).Month <> Today.Month Then
-                For Each Item As Control In {boxReceive, boxProduct, boxCustomer, txtPProblem, ControlActivityInfo, ControlAdvancePayInfo, ControlRemarks, ControlRepairDeliverInfo, ControlReRepairView, ControlTaskInfo, ControlTechnicianCostInfo, ControlTechnicianInfo}
+                For Each Item As Control In {boxReceive, boxProduct, boxCustomer, txtPProblem, ControlActivityInfo, ControlAdvancePayInfo, ControlRemarks, ControlRepairDeliverInfo, ControlReRepairView, ControlTaskInfo, ControlTechnicianCostListInfo, ControlTechnicianInfo}
                     If Item Is Nothing Then
                         Continue For
                     End If
@@ -195,7 +195,7 @@ Public Class FormRepair
         ControlRepairDeliverInfo?.Clear()
         ControlReRepairView?.Clear()
         ControlTaskInfo?.Clear()
-        ControlTechnicianCostInfo?.Clear()
+        ControlTechnicianCostListInfo?.Clear()
         ControlTechnicianInfo?.Clear()
 
         For Each Item As Control In {boxReceive, boxCustomer, boxProduct, lblPProblem, txtPProblem}
@@ -249,10 +249,10 @@ Public Class FormRepair
                 Exit Try
             End If
 
-            ControlTechnicianCostInfo = New ControlTechnicianCostListInfo(Db, Me)
-            ControlTechnicianCostInfo.InitForReRepair(cmbRetRepNo.Text)
-            PanelMain.Controls.Add(ControlTechnicianCostInfo)
-            PanelMain.Controls.SetChildIndex(ControlTechnicianCostInfo, 2)
+            ControlTechnicianCostListInfo = New ControlTechnicianCostListInfo(Db, Me)
+            ControlTechnicianCostListInfo.InitForReRepair(cmbRetRepNo.Text)
+            PanelMain.Controls.Add(ControlTechnicianCostListInfo)
+            PanelMain.Controls.SetChildIndex(ControlTechnicianCostListInfo, 2)
             If cmbRetStatus.Text = "Repairing" Then
                 Exit Try
             End If
@@ -274,7 +274,7 @@ Public Class FormRepair
                 DataReaderRepair("DDate")
                 ).SetDeliverInfoVisibility(True)
             If (cmbRepStatus.Text = "Repaired Delivered" Or cmbRepStatus.Text = "Returned Delivered") And User.Instance.UserType <> User.Type.Admin And DateValue(DataReaderRepair("DDate").ToString).Month <> Today.Month Then
-                For Each Item As Control In {boxReceive, boxProduct, boxCustomer, txtPProblem, ControlActivityInfo, ControlAdvancePayInfo, ControlRemarks, ControlRepairDeliverInfo, ControlReRepairView, ControlTaskInfo, ControlTechnicianCostInfo, ControlTechnicianInfo}
+                For Each Item As Control In {boxReceive, boxProduct, boxCustomer, txtPProblem, ControlActivityInfo, ControlAdvancePayInfo, ControlRemarks, ControlRepairDeliverInfo, ControlReRepairView, ControlTaskInfo, ControlTechnicianCostListInfo, ControlTechnicianInfo}
                     If Item Is Nothing Then
                         Continue For
                     End If
@@ -480,7 +480,7 @@ Public Class FormRepair
         End If
 
         PanelMain.Controls.Remove(ControlTechnicianInfo)
-        PanelMain.Controls.Remove(ControlTechnicianCostInfo)
+        PanelMain.Controls.Remove(ControlTechnicianCostListInfo)
         PanelMain.Controls.Remove(ControlRepairDeliverInfo)
         If sender.Text = "Received" Or sender.Text = "Canceled" Then
             Exit Sub
@@ -491,13 +491,13 @@ Public Class FormRepair
         PanelMain.Controls.SetChildIndex(ControlTechnicianInfo, 2)
         ControlTechnicianInfo.Init()
 
-        ControlTechnicianCostInfo = New ControlTechnicianCostListInfo(Db, Me)
-        PanelMain.Controls.Add(ControlTechnicianCostInfo)
-        PanelMain.Controls.SetChildIndex(ControlTechnicianCostInfo, 3)
+        ControlTechnicianCostListInfo = New ControlTechnicianCostListInfo(Db, Me)
+        PanelMain.Controls.Add(ControlTechnicianCostListInfo)
+        PanelMain.Controls.SetChildIndex(ControlTechnicianCostListInfo, 3)
         If sender Is cmbRepStatus Then
-            ControlTechnicianCostInfo.InitForRepair(cmbRepNo.Text)
+            ControlTechnicianCostListInfo.InitForRepair(cmbRepNo.Text)
         Else
-            ControlTechnicianCostInfo.InitForReRepair(cmbRetNo.Text)
+            ControlTechnicianCostListInfo.InitForReRepair(cmbRetNo.Text)
         End If
         If sender.Text = "Hand Over to Technician" Or sender.Text = "Repairing" Then
             Exit Sub
@@ -647,8 +647,8 @@ Public Class FormRepair
         If ControlTaskInfo IsNot Nothing Then
             ControlTaskInfo.Width = PanelMain.Width - 25
         End If
-        If ControlTechnicianCostInfo IsNot Nothing Then
-            ControlTechnicianCostInfo.Width = PanelMain.Width - 25
+        If ControlTechnicianCostListInfo IsNot Nothing Then
+            ControlTechnicianCostListInfo.Width = PanelMain.Width - 25
         End If
         If ControlTechnicianInfo IsNot Nothing Then
             ControlTechnicianInfo.Width = PanelMain.Width - 25

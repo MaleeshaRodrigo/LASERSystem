@@ -30,18 +30,16 @@ Partial Class ControlTechnicianSelection
         '
         'ComboTechnician
         '
-        Me.ComboTechnician.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.ComboTechnician.FormattingEnabled = True
-        Me.ComboTechnician.Location = New System.Drawing.Point(83, 3)
+        Me.ComboTechnician.Location = New System.Drawing.Point(73, 1)
         Me.ComboTechnician.Name = "ComboTechnician"
-        Me.ComboTechnician.Size = New System.Drawing.Size(119, 22)
+        Me.ComboTechnician.Size = New System.Drawing.Size(131, 22)
         Me.ComboTechnician.TabIndex = 5
         '
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(9, 7)
+        Me.Label2.Location = New System.Drawing.Point(0, 4)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(68, 14)
         Me.Label2.TabIndex = 4
@@ -54,7 +52,7 @@ Partial Class ControlTechnicianSelection
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(205, 29)
+        Me.Panel1.Size = New System.Drawing.Size(205, 25)
         Me.Panel1.TabIndex = 6
         '
         'ControlTechnicianSelection
@@ -64,9 +62,9 @@ Partial Class ControlTechnicianSelection
         Me.Controls.Add(Me.Panel1)
         Me.Font = New System.Drawing.Font("Calibri", 9.0!)
         Me.MaximumSize = New System.Drawing.Size(0, 29)
-        Me.MinimumSize = New System.Drawing.Size(205, 29)
+        Me.MinimumSize = New System.Drawing.Size(200, 25)
         Me.Name = "ControlTechnicianSelection"
-        Me.Size = New System.Drawing.Size(205, 29)
+        Me.Size = New System.Drawing.Size(205, 25)
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
         Me.ResumeLayout(False)

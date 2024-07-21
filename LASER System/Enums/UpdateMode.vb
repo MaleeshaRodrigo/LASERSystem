@@ -1,4 +1,4 @@
 ﻿Public Enum UpdateMode
-    Save
+    [New]
     Edit
 End Enum

@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class ControlTechnicianCostListInfo
     Inherits System.Windows.Forms.UserControl
 
     'UserControl overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class ControlTechnicianCostListInfo
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.boxItem = New System.Windows.Forms.GroupBox()
@@ -132,13 +132,13 @@ Partial Class ControlTechnicianCostListInfo
         Me.UName.Name = "UName"
         Me.UName.ReadOnly = True
         '
-        'ControlTechnicianCostInfo
+        'ControlTechnicianCostListInfo
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 14.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.Controls.Add(Me.boxItem)
         Me.Font = New System.Drawing.Font("Calibri", 9.0!)
-        Me.Name = "ControlTechnicianCostInfo"
+        Me.Name = "ControlTechnicianCostListInfo"
         Me.Size = New System.Drawing.Size(648, 193)
         Me.boxItem.ResumeLayout(False)
         CType(Me.grdTechnicianCost, System.ComponentModel.ISupportInitialize).EndInit()

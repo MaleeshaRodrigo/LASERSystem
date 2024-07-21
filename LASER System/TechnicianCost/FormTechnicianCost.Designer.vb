@@ -25,10 +25,8 @@ Partial Class FormTechnicianCost
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormTechnicianCost))
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
-        Me.cmdTView = New System.Windows.Forms.Button()
         Me.cmbTName = New System.Windows.Forms.ComboBox()
         Me.Label2 = New System.Windows.Forms.Label()
-        Me.cmdTCClose = New System.Windows.Forms.Button()
         Me.Label5 = New System.Windows.Forms.Label()
         Me.Label35 = New System.Windows.Forms.Label()
         Me.cmdTCSearch = New System.Windows.Forms.Button()
@@ -38,15 +36,12 @@ Partial Class FormTechnicianCost
         Me.OPTIONToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CloseToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.VIEWToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.TechnicionInfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ItemInfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Label12 = New System.Windows.Forms.Label()
         Me.txtSearch = New System.Windows.Forms.TextBox()
         Me.txtTCFrom = New System.Windows.Forms.DateTimePicker()
         Me.txtTCTo = New System.Windows.Forms.DateTimePicker()
         Me.grdTechnicianCost = New System.Windows.Forms.DataGridView()
-        Me.mnustripOpenRepair = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.ClearToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.TCNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.TCDate = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.SNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -59,6 +54,9 @@ Partial Class FormTechnicianCost
         Me.RepNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.RetNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.UName = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.mnustripOpenRepair = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.ClearToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ButtonNew = New System.Windows.Forms.Button()
         Me.GroupBox1.SuspendLayout()
         Me.MenuStrip.SuspendLayout()
         CType(Me.grdTechnicianCost, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -67,25 +65,15 @@ Partial Class FormTechnicianCost
         '
         'GroupBox1
         '
-        Me.GroupBox1.Controls.Add(Me.cmdTView)
         Me.GroupBox1.Controls.Add(Me.cmbTName)
         Me.GroupBox1.Controls.Add(Me.Label2)
         Me.GroupBox1.Font = New System.Drawing.Font("Calibri", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GroupBox1.Location = New System.Drawing.Point(15, 27)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(319, 51)
+        Me.GroupBox1.Size = New System.Drawing.Size(284, 51)
         Me.GroupBox1.TabIndex = 1
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Technician Info"
-        '
-        'cmdTView
-        '
-        Me.cmdTView.Location = New System.Drawing.Point(284, 21)
-        Me.cmdTView.Name = "cmdTView"
-        Me.cmdTView.Size = New System.Drawing.Size(29, 22)
-        Me.cmdTView.TabIndex = 24
-        Me.cmdTView.Text = "..."
-        Me.cmdTView.UseVisualStyleBackColor = True
         '
         'cmbTName
         '
@@ -104,18 +92,6 @@ Partial Class FormTechnicianCost
         Me.Label2.Size = New System.Drawing.Size(42, 14)
         Me.Label2.TabIndex = 3
         Me.Label2.Text = "Name:"
-        '
-        'cmdTCClose
-        '
-        Me.cmdTCClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.cmdTCClose.Image = My.Resources.Resources.close
-        Me.cmdTCClose.Location = New System.Drawing.Point(668, 27)
-        Me.cmdTCClose.Name = "cmdTCClose"
-        Me.cmdTCClose.Size = New System.Drawing.Size(76, 30)
-        Me.cmdTCClose.TabIndex = 76
-        Me.cmdTCClose.Text = "Close"
-        Me.cmdTCClose.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
-        Me.cmdTCClose.UseVisualStyleBackColor = True
         '
         'Label5
         '
@@ -144,11 +120,13 @@ Partial Class FormTechnicianCost
         'cmdTCSearch
         '
         Me.cmdTCSearch.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.cmdTCSearch.Location = New System.Drawing.Point(677, 84)
+        Me.cmdTCSearch.Image = Global.LASER_System.My.Resources.Resources.search__2_
+        Me.cmdTCSearch.Location = New System.Drawing.Point(672, 84)
         Me.cmdTCSearch.Name = "cmdTCSearch"
-        Me.cmdTCSearch.Size = New System.Drawing.Size(66, 22)
+        Me.cmdTCSearch.Size = New System.Drawing.Size(71, 23)
         Me.cmdTCSearch.TabIndex = 109
         Me.cmdTCSearch.Text = "Search"
+        Me.cmdTCSearch.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.cmdTCSearch.UseVisualStyleBackColor = True
         '
         'txtTCSubTotal
@@ -196,25 +174,17 @@ Partial Class FormTechnicianCost
         '
         'VIEWToolStripMenuItem
         '
-        Me.VIEWToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TechnicionInfoToolStripMenuItem, Me.ItemInfoToolStripMenuItem})
+        Me.VIEWToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ItemInfoToolStripMenuItem})
         Me.VIEWToolStripMenuItem.Name = "VIEWToolStripMenuItem"
         Me.VIEWToolStripMenuItem.Size = New System.Drawing.Size(46, 20)
         Me.VIEWToolStripMenuItem.Text = "VIEW"
-        '
-        'TechnicionInfoToolStripMenuItem
-        '
-        Me.TechnicionInfoToolStripMenuItem.Name = "TechnicionInfoToolStripMenuItem"
-        Me.TechnicionInfoToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
-            Or System.Windows.Forms.Keys.T), System.Windows.Forms.Keys)
-        Me.TechnicionInfoToolStripMenuItem.Size = New System.Drawing.Size(226, 22)
-        Me.TechnicionInfoToolStripMenuItem.Text = "Technician Info"
         '
         'ItemInfoToolStripMenuItem
         '
         Me.ItemInfoToolStripMenuItem.Name = "ItemInfoToolStripMenuItem"
         Me.ItemInfoToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
             Or System.Windows.Forms.Keys.I), System.Windows.Forms.Keys)
-        Me.ItemInfoToolStripMenuItem.Size = New System.Drawing.Size(226, 22)
+        Me.ItemInfoToolStripMenuItem.Size = New System.Drawing.Size(191, 22)
         Me.ItemInfoToolStripMenuItem.Text = "Item Info"
         '
         'Label12
@@ -234,11 +204,9 @@ Partial Class FormTechnicianCost
         Me.txtSearch.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.txtSearch.Cursor = System.Windows.Forms.Cursors.IBeam
-        Me.txtSearch.Location = New System.Drawing.Point(538, 85)
+        Me.txtSearch.Location = New System.Drawing.Point(538, 84)
         Me.txtSearch.Name = "txtSearch"
-        Me.txtSearch.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
-        Me.txtSearch.SelectedText = ""
-        Me.txtSearch.Size = New System.Drawing.Size(133, 20)
+        Me.txtSearch.Size = New System.Drawing.Size(128, 22)
         Me.txtSearch.TabIndex = 124
         '
         'txtTCFrom
@@ -257,27 +225,18 @@ Partial Class FormTechnicianCost
         '
         'grdTechnicianCost
         '
+        Me.grdTechnicianCost.AllowUserToAddRows = False
+        Me.grdTechnicianCost.AllowUserToDeleteRows = False
         Me.grdTechnicianCost.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.grdTechnicianCost.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.grdTechnicianCost.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.TCNo, Me.TCDate, Me.SNo, Me.SCategory, Me.SName, Me.Rate, Me.Qty, Me.Total, Me.TCRemarks, Me.RepNo, Me.RetNo, Me.UName})
+        Me.grdTechnicianCost.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically
         Me.grdTechnicianCost.Location = New System.Drawing.Point(15, 109)
         Me.grdTechnicianCost.Name = "grdTechnicianCost"
         Me.grdTechnicianCost.Size = New System.Drawing.Size(728, 202)
         Me.grdTechnicianCost.TabIndex = 127
-        '
-        'mnustripOpenRepair
-        '
-        Me.mnustripOpenRepair.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ClearToolStripMenuItem1})
-        Me.mnustripOpenRepair.Name = "grdStockmnustrip"
-        Me.mnustripOpenRepair.Size = New System.Drawing.Size(140, 26)
-        '
-        'ClearToolStripMenuItem1
-        '
-        Me.ClearToolStripMenuItem1.Name = "ClearToolStripMenuItem1"
-        Me.ClearToolStripMenuItem1.Size = New System.Drawing.Size(139, 22)
-        Me.ClearToolStripMenuItem1.Text = "Open Repair"
         '
         'TCNo
         '
@@ -286,7 +245,7 @@ Partial Class FormTechnicianCost
         Me.TCNo.HeaderText = "Technician Cost No"
         Me.TCNo.Name = "TCNo"
         Me.TCNo.ReadOnly = True
-        Me.TCNo.Width = 21
+        Me.TCNo.Width = 5
         '
         'TCDate
         '
@@ -302,7 +261,7 @@ Partial Class FormTechnicianCost
         Me.SNo.DataPropertyName = "SNo"
         Me.SNo.HeaderText = "Stock Code"
         Me.SNo.Name = "SNo"
-        Me.SNo.Width = 21
+        Me.SNo.Width = 5
         '
         'SCategory
         '
@@ -376,11 +335,36 @@ Partial Class FormTechnicianCost
         Me.UName.ReadOnly = True
         Me.UName.Width = 85
         '
-        'frmTechnicianCost
+        'mnustripOpenRepair
+        '
+        Me.mnustripOpenRepair.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ClearToolStripMenuItem1})
+        Me.mnustripOpenRepair.Name = "grdStockmnustrip"
+        Me.mnustripOpenRepair.Size = New System.Drawing.Size(140, 26)
+        '
+        'ClearToolStripMenuItem1
+        '
+        Me.ClearToolStripMenuItem1.Name = "ClearToolStripMenuItem1"
+        Me.ClearToolStripMenuItem1.Size = New System.Drawing.Size(139, 22)
+        Me.ClearToolStripMenuItem1.Text = "Open Repair"
+        '
+        'ButtonNew
+        '
+        Me.ButtonNew.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ButtonNew.Image = Global.LASER_System.My.Resources.Resources._new
+        Me.ButtonNew.Location = New System.Drawing.Point(672, 39)
+        Me.ButtonNew.Name = "ButtonNew"
+        Me.ButtonNew.Size = New System.Drawing.Size(71, 37)
+        Me.ButtonNew.TabIndex = 128
+        Me.ButtonNew.Text = "New"
+        Me.ButtonNew.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
+        Me.ButtonNew.UseVisualStyleBackColor = True
+        '
+        'FormTechnicianCost
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 14.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(752, 356)
+        Me.Controls.Add(Me.ButtonNew)
         Me.Controls.Add(Me.grdTechnicianCost)
         Me.Controls.Add(Me.txtTCTo)
         Me.Controls.Add(Me.txtTCFrom)
@@ -391,13 +375,12 @@ Partial Class FormTechnicianCost
         Me.Controls.Add(Me.Label5)
         Me.Controls.Add(Me.Label35)
         Me.Controls.Add(Me.cmdTCSearch)
-        Me.Controls.Add(Me.cmdTCClose)
         Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.MenuStrip)
         Me.Font = New System.Drawing.Font("Calibri", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MainMenuStrip = Me.MenuStrip
-        Me.Name = "frmTechnicianCost"
+        Me.Name = "FormTechnicianCost"
         Me.Text = "LASER System - Technician Cost "
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         Me.GroupBox1.ResumeLayout(False)
@@ -413,8 +396,6 @@ Partial Class FormTechnicianCost
     Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
     Friend WithEvents cmbTName As System.Windows.Forms.ComboBox
     Friend WithEvents Label2 As System.Windows.Forms.Label
-    Friend WithEvents cmdTCClose As System.Windows.Forms.Button
-    Friend WithEvents cmdTView As System.Windows.Forms.Button
     Friend WithEvents Label5 As System.Windows.Forms.Label
     Friend WithEvents Label35 As System.Windows.Forms.Label
     Friend WithEvents cmdTCSearch As System.Windows.Forms.Button
@@ -424,7 +405,6 @@ Partial Class FormTechnicianCost
     Friend WithEvents OPTIONToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents CloseToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents VIEWToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents TechnicionInfoToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ItemInfoToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents Label12 As Label
     Friend WithEvents txtSearch As System.Windows.Forms.TextBox
@@ -445,4 +425,5 @@ Partial Class FormTechnicianCost
     Friend WithEvents RepNo As DataGridViewTextBoxColumn
     Friend WithEvents RetNo As DataGridViewTextBoxColumn
     Friend WithEvents UName As DataGridViewTextBoxColumn
+    Friend WithEvents ButtonNew As Button
 End Class

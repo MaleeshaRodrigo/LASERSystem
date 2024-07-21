@@ -24,37 +24,39 @@ Partial Class ControlTechnicianCostInfo
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ControlTechnicianCostInfo))
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.TextTechnicianCostNo = New System.Windows.Forms.TextBox()
+        Me.TextTotal = New System.Windows.Forms.NumericUpDown()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.TextQty = New System.Windows.Forms.NumericUpDown()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.TextRate = New System.Windows.Forms.NumericUpDown()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.ButtonSave = New System.Windows.Forms.Button()
+        Me.ButtonDelete = New System.Windows.Forms.Button()
+        Me.ButtonClose = New System.Windows.Forms.Button()
+        Me.TextRemarks = New System.Windows.Forms.TextBox()
+        Me.Label3 = New System.Windows.Forms.Label()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.PickerDate = New System.Windows.Forms.DateTimePicker()
         Me.Label1 = New System.Windows.Forms.Label()
-        Me.Label3 = New System.Windows.Forms.Label()
-        Me.TextRemarks = New System.Windows.Forms.TextBox()
-        Me.ButtonSave = New System.Windows.Forms.Button()
-        Me.ButtonDelete = New System.Windows.Forms.Button()
-        Me.ButtonClose = New System.Windows.Forms.Button()
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
+        Me.ControlTechnicianSelection = New LASER_System.ControlTechnicianSelection()
         Me.ControlStockSelection = New LASER_System.ControlStockSelection()
         Me.ControlRepairReRepairSelection = New LASER_System.ControlRepairReRepairSelection()
-        Me.Label4 = New System.Windows.Forms.Label()
-        Me.TextRate = New System.Windows.Forms.NumericUpDown()
-        Me.TextQty = New System.Windows.Forms.NumericUpDown()
-        Me.Label5 = New System.Windows.Forms.Label()
-        Me.TextTotal = New System.Windows.Forms.NumericUpDown()
-        Me.Label6 = New System.Windows.Forms.Label()
-        Me.TextStockNo = New System.Windows.Forms.TextBox()
         Me.GroupBox1.SuspendLayout()
+        CType(Me.TextTotal, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TextQty, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TextRate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox3.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.TableLayoutPanel1.SuspendLayout()
-        CType(Me.TextRate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TextQty, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TextTotal, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'GroupBox1
         '
-        Me.GroupBox1.Controls.Add(Me.TextStockNo)
+        Me.GroupBox1.Controls.Add(Me.ControlTechnicianSelection)
+        Me.GroupBox1.Controls.Add(Me.TextTechnicianCostNo)
         Me.GroupBox1.Controls.Add(Me.TextTotal)
         Me.GroupBox1.Controls.Add(Me.Label6)
         Me.GroupBox1.Controls.Add(Me.TextQty)
@@ -78,59 +80,70 @@ Partial Class ControlTechnicianCostInfo
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Technician Cost Info"
         '
-        'GroupBox3
+        'TextTechnicianCostNo
         '
-        Me.GroupBox3.Controls.Add(Me.ControlStockSelection)
-        Me.GroupBox3.Location = New System.Drawing.Point(9, 77)
-        Me.GroupBox3.Name = "GroupBox3"
-        Me.GroupBox3.Size = New System.Drawing.Size(304, 88)
-        Me.GroupBox3.TabIndex = 6
-        Me.GroupBox3.TabStop = False
-        Me.GroupBox3.Text = "Stock Info"
+        Me.TextTechnicianCostNo.Enabled = False
+        Me.TextTechnicianCostNo.Location = New System.Drawing.Point(6, 381)
+        Me.TextTechnicianCostNo.Name = "TextTechnicianCostNo"
+        Me.TextTechnicianCostNo.Size = New System.Drawing.Size(57, 22)
+        Me.TextTechnicianCostNo.TabIndex = 41
         '
-        'GroupBox2
+        'TextTotal
         '
-        Me.GroupBox2.Controls.Add(Me.ControlRepairReRepairSelection)
-        Me.GroupBox2.Location = New System.Drawing.Point(9, 171)
-        Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(304, 84)
-        Me.GroupBox2.TabIndex = 5
-        Me.GroupBox2.TabStop = False
-        Me.GroupBox2.Text = "Repair Info"
+        Me.TextTotal.Enabled = False
+        Me.TextTotal.Location = New System.Drawing.Point(244, 261)
+        Me.TextTotal.Maximum = New Decimal(New Integer() {99999999, 0, 0, 0})
+        Me.TextTotal.Minimum = New Decimal(New Integer() {999999999, 0, 0, -2147483648})
+        Me.TextTotal.Name = "TextTotal"
+        Me.TextTotal.Size = New System.Drawing.Size(68, 22)
+        Me.TextTotal.TabIndex = 40
         '
-        'PickerDate
+        'Label6
         '
-        Me.PickerDate.Location = New System.Drawing.Point(95, 21)
-        Me.PickerDate.Name = "PickerDate"
-        Me.PickerDate.Size = New System.Drawing.Size(218, 22)
-        Me.PickerDate.TabIndex = 1
+        Me.Label6.AutoSize = True
+        Me.Label6.Location = New System.Drawing.Point(201, 265)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(37, 14)
+        Me.Label6.TabIndex = 39
+        Me.Label6.Text = "Total:"
         '
-        'Label1
+        'TextQty
         '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(6, 25)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(36, 14)
-        Me.Label1.TabIndex = 0
-        Me.Label1.Text = "Date:"
+        Me.TextQty.Location = New System.Drawing.Point(158, 261)
+        Me.TextQty.Maximum = New Decimal(New Integer() {99999999, 0, 0, 0})
+        Me.TextQty.Minimum = New Decimal(New Integer() {1410065407, 2, 0, -2147483648})
+        Me.TextQty.Name = "TextQty"
+        Me.TextQty.Size = New System.Drawing.Size(37, 22)
+        Me.TextQty.TabIndex = 38
         '
-        'Label3
+        'Label5
         '
-        Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(8, 286)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(57, 14)
-        Me.Label3.TabIndex = 7
-        Me.Label3.Text = "Remarks:"
+        Me.Label5.AutoSize = True
+        Me.Label5.Location = New System.Drawing.Point(125, 265)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(27, 14)
+        Me.Label5.TabIndex = 37
+        Me.Label5.Text = "Qty:"
         '
-        'TextRemarks
+        'TextRate
         '
-        Me.TextRemarks.Location = New System.Drawing.Point(6, 303)
-        Me.TextRemarks.Multiline = True
-        Me.TextRemarks.Name = "TextRemarks"
-        Me.TextRemarks.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.TextRemarks.Size = New System.Drawing.Size(306, 65)
-        Me.TextRemarks.TabIndex = 8
+        Me.TextRate.Increment = New Decimal(New Integer() {10, 0, 0, 0})
+        Me.TextRate.Location = New System.Drawing.Point(49, 261)
+        Me.TextRate.Maximum = New Decimal(New Integer() {9999999, 0, 0, 0})
+        Me.TextRate.Minimum = New Decimal(New Integer() {99999999, 0, 0, -2147483648})
+        Me.TextRate.Name = "TextRate"
+        Me.TextRate.Size = New System.Drawing.Size(72, 22)
+        Me.TextRate.TabIndex = 36
+        Me.TextRate.ThousandsSeparator = True
+        '
+        'Label4
+        '
+        Me.Label4.AutoSize = True
+        Me.Label4.Location = New System.Drawing.Point(8, 265)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(35, 14)
+        Me.Label4.TabIndex = 35
+        Me.Label4.Text = "Rate:"
         '
         'ButtonSave
         '
@@ -174,6 +187,60 @@ Partial Class ControlTechnicianCostInfo
         Me.ButtonClose.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.ButtonClose.UseVisualStyleBackColor = True
         '
+        'TextRemarks
+        '
+        Me.TextRemarks.Location = New System.Drawing.Point(6, 303)
+        Me.TextRemarks.Multiline = True
+        Me.TextRemarks.Name = "TextRemarks"
+        Me.TextRemarks.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
+        Me.TextRemarks.Size = New System.Drawing.Size(306, 65)
+        Me.TextRemarks.TabIndex = 8
+        '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.Location = New System.Drawing.Point(8, 286)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(57, 14)
+        Me.Label3.TabIndex = 7
+        Me.Label3.Text = "Remarks:"
+        '
+        'GroupBox3
+        '
+        Me.GroupBox3.Controls.Add(Me.ControlStockSelection)
+        Me.GroupBox3.Location = New System.Drawing.Point(9, 77)
+        Me.GroupBox3.Name = "GroupBox3"
+        Me.GroupBox3.Size = New System.Drawing.Size(304, 88)
+        Me.GroupBox3.TabIndex = 6
+        Me.GroupBox3.TabStop = False
+        Me.GroupBox3.Text = "Stock Info"
+        '
+        'GroupBox2
+        '
+        Me.GroupBox2.Controls.Add(Me.ControlRepairReRepairSelection)
+        Me.GroupBox2.Location = New System.Drawing.Point(9, 171)
+        Me.GroupBox2.Name = "GroupBox2"
+        Me.GroupBox2.Size = New System.Drawing.Size(304, 84)
+        Me.GroupBox2.TabIndex = 5
+        Me.GroupBox2.TabStop = False
+        Me.GroupBox2.Text = "Repair Info"
+        '
+        'PickerDate
+        '
+        Me.PickerDate.Location = New System.Drawing.Point(79, 21)
+        Me.PickerDate.Name = "PickerDate"
+        Me.PickerDate.Size = New System.Drawing.Size(229, 22)
+        Me.PickerDate.TabIndex = 1
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(6, 25)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(36, 14)
+        Me.Label1.TabIndex = 0
+        Me.Label1.Text = "Date:"
+        '
         'TableLayoutPanel1
         '
         Me.TableLayoutPanel1.ColumnCount = 3
@@ -191,6 +258,16 @@ Partial Class ControlTechnicianCostInfo
         Me.TableLayoutPanel1.Size = New System.Drawing.Size(650, 543)
         Me.TableLayoutPanel1.TabIndex = 1
         '
+        'ControlTechnicianSelection
+        '
+        Me.ControlTechnicianSelection.Font = New System.Drawing.Font("Calibri", 9.0!)
+        Me.ControlTechnicianSelection.Location = New System.Drawing.Point(6, 49)
+        Me.ControlTechnicianSelection.MaximumSize = New System.Drawing.Size(0, 29)
+        Me.ControlTechnicianSelection.MinimumSize = New System.Drawing.Size(205, 29)
+        Me.ControlTechnicianSelection.Name = "ControlTechnicianSelection"
+        Me.ControlTechnicianSelection.Size = New System.Drawing.Size(307, 29)
+        Me.ControlTechnicianSelection.TabIndex = 42
+        '
         'ControlStockSelection
         '
         Me.ControlStockSelection.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
@@ -200,7 +277,9 @@ Partial Class ControlTechnicianCostInfo
         Me.ControlStockSelection.MaximumSize = New System.Drawing.Size(0, 60)
         Me.ControlStockSelection.MinimumSize = New System.Drawing.Size(200, 60)
         Me.ControlStockSelection.Name = "ControlStockSelection"
+        Me.ControlStockSelection.SCategory = ""
         Me.ControlStockSelection.Size = New System.Drawing.Size(292, 60)
+        Me.ControlStockSelection.SName = ""
         Me.ControlStockSelection.TabIndex = 0
         '
         'ControlRepairReRepairSelection
@@ -213,62 +292,6 @@ Partial Class ControlTechnicianCostInfo
         Me.ControlRepairReRepairSelection.Size = New System.Drawing.Size(197, 57)
         Me.ControlRepairReRepairSelection.TabIndex = 4
         '
-        'Label4
-        '
-        Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(8, 265)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(35, 14)
-        Me.Label4.TabIndex = 35
-        Me.Label4.Text = "Rate:"
-        '
-        'TextRate
-        '
-        Me.TextRate.Location = New System.Drawing.Point(49, 261)
-        Me.TextRate.Name = "TextRate"
-        Me.TextRate.Size = New System.Drawing.Size(72, 22)
-        Me.TextRate.TabIndex = 36
-        '
-        'TextQty
-        '
-        Me.TextQty.Location = New System.Drawing.Point(158, 261)
-        Me.TextQty.Name = "TextQty"
-        Me.TextQty.Size = New System.Drawing.Size(37, 22)
-        Me.TextQty.TabIndex = 38
-        '
-        'Label5
-        '
-        Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(125, 265)
-        Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(27, 14)
-        Me.Label5.TabIndex = 37
-        Me.Label5.Text = "Qty:"
-        '
-        'TextTotal
-        '
-        Me.TextTotal.Location = New System.Drawing.Point(244, 261)
-        Me.TextTotal.Name = "TextTotal"
-        Me.TextTotal.Size = New System.Drawing.Size(68, 22)
-        Me.TextTotal.TabIndex = 40
-        '
-        'Label6
-        '
-        Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(201, 265)
-        Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(37, 14)
-        Me.Label6.TabIndex = 39
-        Me.Label6.Text = "Total:"
-        '
-        'TextStockNo
-        '
-        Me.TextStockNo.Enabled = False
-        Me.TextStockNo.Location = New System.Drawing.Point(6, 385)
-        Me.TextStockNo.Name = "TextStockNo"
-        Me.TextStockNo.Size = New System.Drawing.Size(57, 22)
-        Me.TextStockNo.TabIndex = 41
-        '
         'ControlTechnicianCostInfo
         '
         Me.Controls.Add(Me.TableLayoutPanel1)
@@ -277,12 +300,12 @@ Partial Class ControlTechnicianCostInfo
         Me.Size = New System.Drawing.Size(650, 543)
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
+        CType(Me.TextTotal, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TextQty, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TextRate, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox3.ResumeLayout(False)
         Me.GroupBox2.ResumeLayout(False)
         Me.TableLayoutPanel1.ResumeLayout(False)
-        CType(Me.TextRate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TextQty, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TextTotal, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -306,5 +329,6 @@ Partial Class ControlTechnicianCostInfo
     Friend WithEvents Label5 As Label
     Friend WithEvents TextRate As NumericUpDown
     Friend WithEvents Label4 As Label
-    Friend WithEvents TextStockNo As TextBox
+    Friend WithEvents TextTechnicianCostNo As TextBox
+    Friend WithEvents ControlTechnicianSelection As ControlTechnicianSelection
 End Class

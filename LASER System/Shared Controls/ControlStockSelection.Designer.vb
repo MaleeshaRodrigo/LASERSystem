@@ -56,6 +56,8 @@ Partial Class ControlStockSelection
         '
         Me.ComboStockCategory.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ComboStockCategory.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest
+        Me.ComboStockCategory.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems
         Me.ComboStockCategory.FormattingEnabled = True
         Me.ComboStockCategory.Location = New System.Drawing.Point(69, 3)
         Me.ComboStockCategory.Name = "ComboStockCategory"

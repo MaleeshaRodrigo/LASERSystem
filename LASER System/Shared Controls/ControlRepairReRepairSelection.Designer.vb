@@ -30,20 +30,24 @@ Partial Class ControlRepairReRepairSelection
         '
         'ComboReRepNo
         '
-        Me.ComboReRepNo.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ComboReRepNo.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Append
+        Me.ComboReRepNo.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems
         Me.ComboReRepNo.FormattingEnabled = True
         Me.ComboReRepNo.Location = New System.Drawing.Point(102, 31)
+        Me.ComboReRepNo.MaximumSize = New System.Drawing.Size(100, 0)
+        Me.ComboReRepNo.MinimumSize = New System.Drawing.Size(60, 0)
         Me.ComboReRepNo.Name = "ComboReRepNo"
         Me.ComboReRepNo.Size = New System.Drawing.Size(92, 22)
         Me.ComboReRepNo.TabIndex = 10
         '
         'ComboRepNo
         '
-        Me.ComboRepNo.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ComboRepNo.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Append
+        Me.ComboRepNo.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems
         Me.ComboRepNo.FormattingEnabled = True
         Me.ComboRepNo.Location = New System.Drawing.Point(102, 3)
+        Me.ComboRepNo.MaximumSize = New System.Drawing.Size(100, 0)
+        Me.ComboRepNo.MinimumSize = New System.Drawing.Size(60, 0)
         Me.ComboRepNo.Name = "ComboRepNo"
         Me.ComboRepNo.Size = New System.Drawing.Size(92, 22)
         Me.ComboRepNo.TabIndex = 9

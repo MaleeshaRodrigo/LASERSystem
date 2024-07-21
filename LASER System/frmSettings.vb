@@ -51,11 +51,13 @@ Public Class FrmSettings
         Try
             BoolApplyError = False
             With My.Settings
-                .DBServer = TextDbServer.Text
-                .DBPort = TextDBPort.Text
-                .DBName = TextDBName.Text
-                .DBUserName = TextDBUserName.Text
-                .DBPassword = If(TextDBPassword.Text.Trim().Length > 0, New Encoder().Encode(TextDBPassword.Text), "")
+                If TextDBPassword.Text <> "" Then
+                    .DBServer = TextDbServer.Text
+                    .DBPort = TextDBPort.Text
+                    .DBName = TextDBName.Text
+                    .DBUserName = TextDBUserName.Text
+                    .DBPassword = If(TextDBPassword.Text.Trim().Length > 0, New Encoder().Encode(TextDBPassword.Text), "")
+                End If
 
                 .SendSettlementEmail = chkMSetEmail.CheckState
                 .DeliveredEmailtoT = chkDeliveredEmailtoT.Checked

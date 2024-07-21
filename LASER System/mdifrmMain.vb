@@ -96,7 +96,7 @@ Public Class MdifrmMain
     End Sub
 
     Public Sub cmdTechnicianCost_Click(sender As Object, e As EventArgs) Handles cmdTechnicianCost.Click
-        With frmTechnicianCost
+        With FormTechnicianCost
             .Show()
             .BringToFront()
             If .WindowState = FormWindowState.Minimized Then .WindowState = FormWindowState.Maximized
@@ -260,10 +260,9 @@ Public Class MdifrmMain
     End Sub
 
     Private Sub MdifrmMain_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-        
         End
     End Sub
-'End Region
+    'End Region
 
     Private Sub cmbIncomevsDateView_SelectedIndexChanged(sender As Object, e As EventArgs)
         Select Case cmbIncomevsDateView.Text
