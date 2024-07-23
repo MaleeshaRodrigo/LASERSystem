@@ -1,13 +1,23 @@
-﻿Imports MySqlConnector
+﻿Imports LASER_System.StructureDatabase
+Imports MySqlConnector
 
 Public Class ControlTechnicianCostInfo
     Private Db As Database
     Private UpdateMode As UpdateMode
 
-    Public Function Init(UpdateMode As UpdateMode, Optional TechnicianCostNo As Integer = Nothing) As ControlTechnicianCostInfo
+    Public Function Init(UpdateMode As UpdateMode, Optional TechnicianCostData As Dictionary(Of String, Object) = Nothing) As ControlTechnicianCostInfo
         Me.UpdateMode = UpdateMode
         If UpdateMode = UpdateMode.Edit Then
-            TextTechnicianCostNo.Text = TechnicianCostNo
+            TextTechnicianCostNo.Text = TechnicianCostData("TCNo")
+            ControlTechnicianSelection.SetTechnician(TechnicianCostData("TName"))
+            ControlStockSelection.SCode = TechnicianCostData("SNo")
+            ControlStockSelection.SCategory = TechnicianCostData("SCategory")
+            ControlStockSelection.SName = TechnicianCostData("SName")
+            If ControlRepairReRepairSelection.RepairMode = RepairMode.Repair Then
+                ControlRepairReRepairSelection.SetRepair(TechnicianCostData("RepNo"))
+            ElseIf ControlRepairReRepairSelection.RepairMode = RepairMode.ReRepair Then
+                ControlRepairReRepairSelection.SetRepair(TechnicianCostData("RetNo"))
+            End If
         Else
             TextTechnicianCostNo.Text = Db.GetNextKey("TechnicianCost", "TCNo")
         End If
@@ -42,7 +52,7 @@ Public Class ControlTechnicianCostInfo
         Dim Values As New List(Of MySqlParameter) From {
             New MySqlParameter("TCDATE", PickerDate.Value),
             New MySqlParameter("TNO", ControlTechnicianSelection.GetTechnicianNo),
-            New MySqlParameter("SNO", ControlStockSelection.GetStockNo),
+            New MySqlParameter("SNO", ControlStockSelection.SCode),
             New MySqlParameter("SCATEGORY", ControlStockSelection.SCategory),
             New MySqlParameter("SNAME", ControlStockSelection.SName),
             New MySqlParameter("RATE", TextRate.Value),
@@ -65,8 +75,8 @@ Public Class ControlTechnicianCostInfo
         If UpdateMode = UpdateMode.New Then
             Db.Execute("INSERT INTO TechnicianCost(TCDate, TNo, RepNo, RetNo, SNo, SCategory, SName, Rate, Qty, Total, TCRemarks, UNo) VALUES(@TCDATE, @TNO, @REPNO, @RETNO, @SNO, @SCATEGORY, @SNAME, @RATE, @QTY, @TOTAL, @REMARKS, @UNO);", Values.ToArray)
         Else
-            Values.Append(New MySqlParameter("TCNO", TextTechnicianCostNo.Text))
-            Db.Execute("UPDATE TechnicianCost SET TCDate=@TCDATE, TNo=@TNO, RepNo=@REPNO, RetNo=@RETNO, SNo=@SNO, SCategory=@SCATEGORY, SName=@SNAME, Rate=@RATE, Qty=@QTY, Total=@TOTAL, TCRemarks=@TCREMARKS, UNo=@UNO WHERE TCNo=@TCNO;", Values.ToArray)
+            Values.Add(New MySqlParameter("TCNO", TextTechnicianCostNo.Text))
+            Db.Execute("UPDATE TechnicianCost SET TCDate=@TCDATE, TNo=@TNO, RepNo=@REPNO, RetNo=@RETNO, SNo=@SNO, SCategory=@SCATEGORY, SName=@SNAME, Rate=@RATE, Qty=@QTY, Total=@TOTAL, TCRemarks=@REMARKS, UNo=@UNO WHERE TCNo=@TCNO;", Values.ToArray)
         End If
         ButtonClose.PerformClick()
     End Sub

@@ -92,42 +92,6 @@ Public Class FormTechnicianCost
         End Select
     End Sub
 
-    Private Sub grdTechnicianCost_UserDeletingRow(sender As Object, e As DataGridViewRowCancelEventArgs) Handles grdTechnicianCost.UserDeletingRow
-        If grdTechnicianCost.Item("TCNo", e.Row.Index).Value Is Nothing Then
-            MsgBox("Technician Cost No එක හිස්ව පවතියි.", vbExclamation + vbOKOnly)
-            e.Cancel = True
-            Exit Sub
-        End If
-        If User.Instance.UserType = User.Type.Admin Then
-            Dim DR = Db.GetDataDictionary("Select TCNo from TechnicianCost Where TCNo=" & grdTechnicianCost.Item("TCNo", e.Row.Index).Value)
-            If DR.Count Then
-                If DR("SNo").ToString <> "" Then
-                    Dim Response = MsgBox("ඔබට මෙම Item එක Technician Cost තුලින් ඉවත් කිරිමට අවශ්‍ය බැවින්, එම Item එක නැවත Available Units තුලට පිරවීමට අවශ්‍යද? " +
-                                      vbCr + vbCr + "Yes - එසෙ නම් ඔබ 'Yes' යන Button එක Click කරන්න. " + vbCr + vbCr +
-                                      "No - නැතහොත්, ඔබට මෙම item එක Damaged Units වලට add කිරිමට අවශ්‍ය නම්, 'No' යන Button එක Click කරන්න." + vbCr +
-                                      vbCr + "Cancel - ඔබට ඉවත් වීමට අවශ්‍ය නම් 'Cancel' යන Button එක Click කරන්න.", vbYesNoCancel + vbCritical)
-                    If Response = vbCancel Then
-                        e.Cancel = True
-                        Exit Sub
-                    ElseIf Response = vbYes Then
-                        Db.Execute("Update Stock set SAvailablestocks=(SAvailableStocks + " & grdTechnicianCost.Item("Qty", e.Row.Index).Value &
-                                                             ") where SNo=" & grdTechnicianCost.Item("SNo", e.Row.Index).Value & "")
-                        Db.Execute("DELETE from TechnicianCost where TCNo=" & grdTechnicianCost.Item(0, e.Row.Index).Value)       'delete data from stocksale 
-                    ElseIf Response = vbNo Then
-                        Db.Execute("Update Stock set SOutofStocks=(SOutofStocks + " & grdTechnicianCost.Item("Qty", e.Row.Index).Value &
-                                                             ") where SNo=" & grdTechnicianCost.Item("SNo", e.Row.Index).Value & "")
-                        Db.Execute("DELETE from TechnicianCost where TCNo=" & grdTechnicianCost.Item(0, e.Row.Index).Value)      'delete data from stocksale 
-                    End If
-                Else
-                    If MsgBox("Are you sure delete this Technician Cost data?", vbYesNo + vbExclamation) = vbYes Then
-                        Db.Execute("DELETE from TechnicianCost where TCNo=" & grdTechnicianCost.Item(0, e.Row.Index).Value)      'delete data from stocksale 
-                    End If
-                End If
-            End If
-        End If
-        cmdTCSearch_Click(sender, e)
-    End Sub
-
     Private Sub grdTechnicianCost_RowValidating(sender As Object, e As DataGridViewCellCancelEventArgs) Handles grdTechnicianCost.RowValidating
         If e.RowIndex < 0 Or e.RowIndex > (grdTechnicianCost.Rows.Count - 2) Then Exit Sub
         Dim DRTC = Db.GetDataDictionary("Select TC.*,UserName from TechnicianCost TC Left Join `User` U On U.Uno = TC.UNo Where TCNo=" & grdTechnicianCost.Item(0, e.RowIndex).Value)
@@ -149,6 +113,20 @@ Public Class FormTechnicianCost
     Private Sub ButtonNew_Click(sender As Object, e As EventArgs) Handles ButtonNew.Click
         ControlTechnicianCostInfo = New ControlTechnicianCostInfo
         ControlTechnicianCostInfo.SetDatabase(Db).Init(UpdateMode.New).SetTechnician(cmbTName.Text)
+        Me.Controls.Add(ControlTechnicianCostInfo)
+        ControlTechnicianCostInfo.Dock = DockStyle.Fill
+        ControlTechnicianCostInfo.BringToFront()
+    End Sub
+
+    Private Sub grdTechnicianCost_DoubleClick(sender As Object, e As EventArgs) Handles grdTechnicianCost.DoubleClick
+        ControlTechnicianCostInfo = New ControlTechnicianCostInfo
+        Dim Data As New Dictionary(Of String, Object) From {
+            {"TName", cmbTName.Text}
+        }
+        For Each Column As DataGridViewColumn In grdTechnicianCost.Columns
+            Data.Add(Column.Name, grdTechnicianCost.CurrentRow.Cells(Column.Name).Value)
+        Next
+        ControlTechnicianCostInfo.SetDatabase(Db).Init(UpdateMode.Edit, Data).SetTechnician(cmbTName.Text)
         Me.Controls.Add(ControlTechnicianCostInfo)
         ControlTechnicianCostInfo.Dock = DockStyle.Fill
         ControlTechnicianCostInfo.BringToFront()

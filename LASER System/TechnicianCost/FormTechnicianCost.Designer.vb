@@ -235,6 +235,7 @@ Partial Class FormTechnicianCost
         Me.grdTechnicianCost.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically
         Me.grdTechnicianCost.Location = New System.Drawing.Point(15, 109)
         Me.grdTechnicianCost.Name = "grdTechnicianCost"
+        Me.grdTechnicianCost.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.grdTechnicianCost.Size = New System.Drawing.Size(728, 202)
         Me.grdTechnicianCost.TabIndex = 127
         '

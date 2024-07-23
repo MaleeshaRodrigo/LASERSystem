@@ -2,22 +2,22 @@
 
 Public Class ControlStockSelection
     Private Db As Database
-    Private SNo As Integer
+    Public Property SCode() As Integer
 
-    Public Property SCategory()
+    Public Property SCategory() As String
         Get
             Return ComboStockCategory.Text
         End Get
-        Set(value)
+        Set(value As String)
             ComboStockCategory.Text = value
         End Set
     End Property
 
-    Public Property SName()
+    Public Property SName() As String
         Get
             Return ComboStockName.Text
         End Get
-        Set(value)
+        Set(value As String)
             ComboStockName.Text = value
         End Set
     End Property
@@ -25,10 +25,6 @@ Public Class ControlStockSelection
     Public Sub SetDatabase(Db As Database)
         Me.Db = Db
     End Sub
-
-    Public Function GetStockNo() As Integer
-        Return SNo
-    End Function
 
     Private Sub ComboStockCategory_DropDown(sender As Object, e As EventArgs) Handles ComboStockCategory.DropDown, Me.Load
         ComboBoxDropDown(Db, ComboStockCategory, "SELECT DISTINCT SCategory FROM Stock ORDER BY SCategory;")
@@ -40,10 +36,10 @@ Public Class ControlStockSelection
 
     Private Sub ComboStockName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboStockName.SelectedIndexChanged, ComboStockCategory.SelectedIndexChanged
         If ComboStockCategory.Text.Trim = "" Or ComboStockName.Text.Trim = "" Then
-            SNo = Nothing
+            SCode = Nothing
             Exit Sub
         End If
-        SNo = Db.GetData("SELECT SNo FROM Stock WHERE SCategory=@CATEGORY AND SName=@NAME", {
+        SCode = Db.GetData("SELECT SNo FROM Stock WHERE SCategory=@CATEGORY AND SName=@NAME", {
             New MySqlParameter("CATEGORY", ComboStockCategory.Text),
             New MySqlParameter("NAME", ComboStockName.Text)
         })
