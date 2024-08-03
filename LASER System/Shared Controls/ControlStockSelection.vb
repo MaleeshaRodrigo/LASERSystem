@@ -1,8 +1,32 @@
-﻿Imports MySqlConnector
+﻿Imports LASER_System.StructureDatabase
+Imports MySqlConnector
 
 Public Class ControlStockSelection
     Private Db As Database
+
     Public Property SCode() As Integer
+        Get
+            If ComboStockCategory.Text.Trim = "" Or ComboStockName.Text.Trim = "" Then
+                Return Nothing
+            End If
+
+            Return Db.GetData("SELECT SNo FROM Stock WHERE SCategory=@CATEGORY AND SName=@NAME", {
+                New MySqlParameter("CATEGORY", ComboStockCategory.Text),
+                New MySqlParameter("NAME", ComboStockName.Text)
+            })
+        End Get
+        Set(Value As Integer)
+            Dim Result = Db.GetDataDictionary("SELECT SCategory, SName FROM Stock WHERE SNo=@SNO;", {
+                New MySqlParameter("SNO", Value)
+            })
+            If Result Is Nothing Then
+                Exit Property
+            End If
+
+            ComboStockCategory.Text = Result(Stock.Category)
+            ComboStockName.Text = Result(Stock.Name)
+        End Set
+    End Property
 
     Public Property SCategory() As String
         Get
@@ -26,26 +50,16 @@ Public Class ControlStockSelection
         Me.Db = Db
     End Sub
 
-    Private Sub ComboStockName_DropDown(sender As Object, e As EventArgs) Handles ComboStockName.DropDown
-        ComboBoxDropDown(Db, ComboStockName, $"SELECT SName FROM Stock WHERE SCategory='{ComboStockCategory.Text}' ORDER BY SName;")
-    End Sub
-
-    Private Sub ComboStockName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboStockName.SelectedIndexChanged, ComboStockCategory.SelectedIndexChanged
-        If ComboStockCategory.Text.Trim = "" Or ComboStockName.Text.Trim = "" Then
-            SCode = Nothing
-            Exit Sub
-        End If
-        SCode = Db.GetData("SELECT SNo FROM Stock WHERE SCategory=@CATEGORY AND SName=@NAME", {
-            New MySqlParameter("CATEGORY", ComboStockCategory.Text),
-            New MySqlParameter("NAME", ComboStockName.Text)
-        })
-    End Sub
-
     Private Sub ControlStockSelection_Load(sender As Object, e As EventArgs) Handles Me.Load
         If DesignMode Then
             Exit Sub
         End If
 
         ComboBoxDropDown(Db, ComboStockCategory, "SELECT DISTINCT SCategory FROM Stock ORDER BY SCategory;")
+    End Sub
+
+    Private Sub ComboStockCategory_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboStockCategory.SelectedIndexChanged
+        ComboBoxDropDown(Db, ComboStockName, $"SELECT SName FROM Stock WHERE SCategory='{ComboStockCategory.Text}' ORDER BY SName;")
+        ComboStockName.Text = ""
     End Sub
 End Class
