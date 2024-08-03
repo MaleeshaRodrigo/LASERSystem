@@ -50,7 +50,7 @@ Public Class ControlTechnicianInfo
             If grdRepRemarks2.CurrentCell.Value IsNot Nothing Then
                 DtpDate.Value = Convert.ToDateTime(grdRepRemarks2.CurrentCell.Value)
             Else
-                DtpDate.Value = DateTime.Now
+                DtpDate.Value = Now
             End If
         End If
         grdRepRemarks2.Item(e.ColumnIndex, e.RowIndex).Tag = grdRepRemarks2.Item(e.ColumnIndex, e.RowIndex).Value
@@ -72,18 +72,18 @@ Public Class ControlTechnicianInfo
             grdRepRemarks2.CurrentCell.Value = DtpDate.Value.ToString
             DtpDate.Visible = False
             If grdRepRemarks2.Item(1, e.RowIndex).Tag IsNot Nothing AndAlso
-                Convert.ToDateTime(grdRepRemarks2.Item(1, e.RowIndex).Tag).Date <> DateTime.Today.Date Then
+                Convert.ToDateTime(grdRepRemarks2.Item(1, e.RowIndex).Tag).Date <> Today.Date Then
                 AdminPer.AdminSend = True
                 AdminPer.Remarks = "Repair Remarks 2 හිදි අද දිනට නොමැති Remarks එකක දිනයක් වෙනස් කෙරුණි."
             End If
         ElseIf e.ColumnIndex = 2 And e.RowIndex <> (grdRepRemarks2.Rows.Count - 1) Then
             If (Not String.IsNullOrEmpty(grdRepRemarks2.Item(1, e.RowIndex).Value)) AndAlso
-           Convert.ToDateTime(grdRepRemarks2.Item(1, e.RowIndex).Value).Date <> DateTime.Today.Date Then
+           Convert.ToDateTime(grdRepRemarks2.Item(1, e.RowIndex).Value).Date <> Today.Date Then
                 AdminPer.AdminSend = True
                 AdminPer.Remarks = "Repair Remarks 2 හිදි අද දිනට නොමැති Remarks එකක් වෙනස් කෙරුණි."
             End If
             If grdRepRemarks2.Item(1, e.RowIndex).Value Is Nothing Or
-                grdRepRemarks2.Item(2, e.RowIndex).Value <> grdRepRemarks2.Item(2, e.RowIndex).Tag Then grdRepRemarks2.Item(1, e.RowIndex).Value = DateTime.Now
+                grdRepRemarks2.Item(2, e.RowIndex).Value <> grdRepRemarks2.Item(2, e.RowIndex).Tag Then grdRepRemarks2.Item(1, e.RowIndex).Value = Now
             If grdRepRemarks2.Item(3, e.RowIndex).Value Is Nothing Or
                 grdRepRemarks2.Item(2, e.RowIndex).Value <> grdRepRemarks2.Item(2, e.RowIndex).Tag Then grdRepRemarks2.Item(3, e.RowIndex).Value = User.Instance.UserName
             If grdRepRemarks2.Item(2, e.RowIndex).Value Is Nothing Then
@@ -106,14 +106,22 @@ Public Class ControlTechnicianInfo
         End If
         If e.RowIndex <> (grdRepRemarks2.Rows.Count - 1) Then
             If DB.CheckDataExists("RepairRemarks2", "Rem2No", grdRepRemarks2.Item(0, e.RowIndex).Value) = True Then
-                DB.Execute($"Update RepairRemarks2 set {If(FormParent.tabRepair.SelectedTab.TabIndex = 0, "RepNo=" & FormParent.cmbRepNo.Text, "RetNo=" & FormParent.cmbRetNo.Text) }, Rem2Date ='{grdRepRemarks2.Item(1, e.RowIndex).Value}', Remarks ='{grdRepRemarks2.Item(2, e.RowIndex).Value}',UNo={DB.GetData($"Select UNo from `User` Where UserName='{grdRepRemarks2.Item(3, e.RowIndex).Value}'")} Where Rem2No={grdRepRemarks2.Item(0, e.RowIndex).Value}", {}, AdminPer)
+                DB.Execute($"Update RepairRemarks2 set RepNo=@REPNO, RetNo=@RETNO, Rem2Date=@DATE, Remarks =@REMARKS,UNo=@UNO Where Rem2No=@NO;", {
+                    New MySqlParameter("REPNO", If(FormParent.Mode = RepairMode.Repair, FormParent.cmbRepNo.Text, Nothing)),
+                    New MySqlParameter("RETNO", If(FormParent.Mode = RepairMode.ReRepair, FormParent.cmbRetNo.Text, Nothing)),
+                    New MySqlParameter("DATE", Convert.ToDateTime(grdRepRemarks2.Item(1, e.RowIndex).Value)),
+                    New MySqlParameter("REMARKS", grdRepRemarks2.Item(2, e.RowIndex).Value),
+                    New MySqlParameter("UNO", User.Instance.UserNo),
+                    New MySqlParameter("NO", grdRepRemarks2.Item(0, e.RowIndex).Value)
+                }, AdminPer)
             Else
-                DB.Execute("Insert into RepairRemarks2(Rem2No," & If(FormParent.tabRepair.SelectedTab.TabIndex = 0, "RepNo", "RetNo") &
-                          ",Rem2Date,Remarks,UNo) Values(" & grdRepRemarks2.Item(0, e.RowIndex).Value & "," &
-                          If(FormParent.tabRepair.SelectedTab.TabIndex = 0, FormParent.cmbRepNo.Text, FormParent.cmbRetNo.Text) & ",'" & grdRepRemarks2.Item(1, e.RowIndex).Value &
-                          "','" & grdRepRemarks2.Item(2, e.RowIndex).Value & "'," &
-                          DB.GetData("Select UNo from `User` Where UserName='" & grdRepRemarks2.Item(3, e.RowIndex).Value & "'") &
-                          ")", {}, AdminPer)
+                DB.Execute("Insert into RepairRemarks2(RepNo, RetNo, Rem2Date, Remarks, UNo) Values(@REPNO, @RETNO, @DATE, @REMARKS, @UNO);", {
+                    New MySqlParameter("REPNO", If(FormParent.Mode = RepairMode.Repair, FormParent.cmbRepNo.Text, Nothing)),
+                    New MySqlParameter("RETNO", If(FormParent.Mode = RepairMode.ReRepair, FormParent.cmbRetNo.Text, Nothing)),
+                    New MySqlParameter("DATE", Convert.ToDateTime(grdRepRemarks2.Item(1, e.RowIndex).Value)),
+                    New MySqlParameter("REMARKS", grdRepRemarks2.Item(2, e.RowIndex).Value),
+                    New MySqlParameter("UNO", User.Instance.UserNo)
+                }, AdminPer)
             End If
         End If
         If AdminPer.AdminSend = True Then

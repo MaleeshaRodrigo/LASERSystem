@@ -22,19 +22,16 @@ Partial Class ControlMessageUnit
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.GridSuggestion = New System.Windows.Forms.DataGridView()
         Me.Message = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
+        Me.ControlRepairReRepairSelection = New LASER_System.ControlRepairReRepairSelection()
         Me.CheckedListTelNo = New System.Windows.Forms.CheckedListBox()
         Me.TextMsgNo = New System.Windows.Forms.TextBox()
         Me.Label2 = New System.Windows.Forms.Label()
-        Me.ComboReRepNo = New System.Windows.Forms.ComboBox()
-        Me.ComboRepNo = New System.Windows.Forms.ComboBox()
-        Me.RadioReRepNo = New System.Windows.Forms.RadioButton()
-        Me.RadioRepNo = New System.Windows.Forms.RadioButton()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.ButtonSend = New System.Windows.Forms.Button()
         Me.TextMessage = New System.Windows.Forms.RichTextBox()
@@ -56,16 +53,16 @@ Partial Class ControlMessageUnit
         Me.TableLayoutPanel1.Name = "TableLayoutPanel1"
         Me.TableLayoutPanel1.RowCount = 1
         Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
-        Me.TableLayoutPanel1.Size = New System.Drawing.Size(526, 327)
+        Me.TableLayoutPanel1.Size = New System.Drawing.Size(522, 327)
         Me.TableLayoutPanel1.TabIndex = 1
         '
         'GroupBox2
         '
         Me.GroupBox2.Controls.Add(Me.GridSuggestion)
         Me.GroupBox2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.GroupBox2.Location = New System.Drawing.Point(266, 3)
+        Me.GroupBox2.Location = New System.Drawing.Point(264, 3)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(257, 321)
+        Me.GroupBox2.Size = New System.Drawing.Size(255, 321)
         Me.GroupBox2.TabIndex = 0
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Suggestions"
@@ -85,44 +82,53 @@ Partial Class ControlMessageUnit
         Me.GridSuggestion.Name = "GridSuggestion"
         Me.GridSuggestion.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders
         Me.GridSuggestion.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.GridSuggestion.Size = New System.Drawing.Size(251, 300)
+        Me.GridSuggestion.Size = New System.Drawing.Size(249, 300)
         Me.GridSuggestion.TabIndex = 10
         '
         'Message
         '
         Me.Message.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
         Me.Message.DataPropertyName = "Message"
-        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.Message.DefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.Message.DefaultCellStyle = DataGridViewCellStyle1
         Me.Message.HeaderText = "Message"
         Me.Message.Name = "Message"
         '
         'GroupBox3
         '
+        Me.GroupBox3.Controls.Add(Me.ControlRepairReRepairSelection)
         Me.GroupBox3.Controls.Add(Me.CheckedListTelNo)
         Me.GroupBox3.Controls.Add(Me.TextMsgNo)
         Me.GroupBox3.Controls.Add(Me.Label2)
-        Me.GroupBox3.Controls.Add(Me.ComboReRepNo)
-        Me.GroupBox3.Controls.Add(Me.ComboRepNo)
-        Me.GroupBox3.Controls.Add(Me.RadioReRepNo)
-        Me.GroupBox3.Controls.Add(Me.RadioRepNo)
         Me.GroupBox3.Controls.Add(Me.Label1)
         Me.GroupBox3.Controls.Add(Me.ButtonSend)
         Me.GroupBox3.Controls.Add(Me.TextMessage)
         Me.GroupBox3.Dock = System.Windows.Forms.DockStyle.Fill
         Me.GroupBox3.Location = New System.Drawing.Point(3, 3)
         Me.GroupBox3.Name = "GroupBox3"
-        Me.GroupBox3.Size = New System.Drawing.Size(257, 321)
+        Me.GroupBox3.Size = New System.Drawing.Size(255, 321)
         Me.GroupBox3.TabIndex = 1
         Me.GroupBox3.TabStop = False
         Me.GroupBox3.Text = "Message Unit"
+        '
+        'ControlRepairReRepairSelection
+        '
+        Me.ControlRepairReRepairSelection.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ControlRepairReRepairSelection.Font = New System.Drawing.Font("Calibri", 9.0!)
+        Me.ControlRepairReRepairSelection.Location = New System.Drawing.Point(6, 18)
+        Me.ControlRepairReRepairSelection.MaximumSize = New System.Drawing.Size(0, 57)
+        Me.ControlRepairReRepairSelection.MinimumSize = New System.Drawing.Size(197, 57)
+        Me.ControlRepairReRepairSelection.Name = "ControlRepairReRepairSelection"
+        Me.ControlRepairReRepairSelection.Size = New System.Drawing.Size(243, 57)
+        Me.ControlRepairReRepairSelection.TabIndex = 11
         '
         'CheckedListTelNo
         '
         Me.CheckedListTelNo.FormattingEnabled = True
         Me.CheckedListTelNo.Location = New System.Drawing.Point(6, 98)
         Me.CheckedListTelNo.Name = "CheckedListTelNo"
-        Me.CheckedListTelNo.Size = New System.Drawing.Size(245, 55)
+        Me.CheckedListTelNo.Size = New System.Drawing.Size(136, 55)
         Me.CheckedListTelNo.TabIndex = 10
         '
         'TextMsgNo
@@ -143,44 +149,6 @@ Partial Class ControlMessageUnit
         Me.Label2.TabIndex = 7
         Me.Label2.Text = "Telephone Numbers:"
         '
-        'ComboReRepNo
-        '
-        Me.ComboReRepNo.FormattingEnabled = True
-        Me.ComboReRepNo.Location = New System.Drawing.Point(126, 49)
-        Me.ComboReRepNo.Name = "ComboReRepNo"
-        Me.ComboReRepNo.Size = New System.Drawing.Size(125, 22)
-        Me.ComboReRepNo.TabIndex = 6
-        '
-        'ComboRepNo
-        '
-        Me.ComboRepNo.FormattingEnabled = True
-        Me.ComboRepNo.Location = New System.Drawing.Point(126, 21)
-        Me.ComboRepNo.Name = "ComboRepNo"
-        Me.ComboRepNo.Size = New System.Drawing.Size(127, 22)
-        Me.ComboRepNo.TabIndex = 5
-        '
-        'RadioReRepNo
-        '
-        Me.RadioReRepNo.AutoSize = True
-        Me.RadioReRepNo.Location = New System.Drawing.Point(6, 50)
-        Me.RadioReRepNo.Name = "RadioReRepNo"
-        Me.RadioReRepNo.Size = New System.Drawing.Size(93, 18)
-        Me.RadioReRepNo.TabIndex = 4
-        Me.RadioReRepNo.TabStop = True
-        Me.RadioReRepNo.Text = "Rerepair No:"
-        Me.RadioReRepNo.UseVisualStyleBackColor = True
-        '
-        'RadioRepNo
-        '
-        Me.RadioRepNo.AutoSize = True
-        Me.RadioRepNo.Location = New System.Drawing.Point(6, 22)
-        Me.RadioRepNo.Name = "RadioRepNo"
-        Me.RadioRepNo.Size = New System.Drawing.Size(82, 18)
-        Me.RadioRepNo.TabIndex = 3
-        Me.RadioRepNo.TabStop = True
-        Me.RadioRepNo.Text = "Repair No:"
-        Me.RadioRepNo.UseVisualStyleBackColor = True
-        '
         'Label1
         '
         Me.Label1.AutoSize = True
@@ -194,7 +162,7 @@ Partial Class ControlMessageUnit
         '
         Me.ButtonSend.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.ButtonSend.BackColor = System.Drawing.SystemColors.ButtonHighlight
-        Me.ButtonSend.Location = New System.Drawing.Point(161, 286)
+        Me.ButtonSend.Location = New System.Drawing.Point(159, 286)
         Me.ButtonSend.Name = "ButtonSend"
         Me.ButtonSend.Size = New System.Drawing.Size(92, 29)
         Me.ButtonSend.TabIndex = 1
@@ -212,7 +180,7 @@ Partial Class ControlMessageUnit
         Me.TextMessage.EnableAutoDragDrop = True
         Me.TextMessage.Location = New System.Drawing.Point(6, 173)
         Me.TextMessage.Name = "TextMessage"
-        Me.TextMessage.Size = New System.Drawing.Size(247, 107)
+        Me.TextMessage.Size = New System.Drawing.Size(245, 107)
         Me.TextMessage.TabIndex = 0
         Me.TextMessage.Text = ""
         '
@@ -223,7 +191,7 @@ Partial Class ControlMessageUnit
         Me.Controls.Add(Me.TableLayoutPanel1)
         Me.Font = New System.Drawing.Font("Calibri", 9.0!)
         Me.Name = "ControlMessageUnit"
-        Me.Size = New System.Drawing.Size(526, 327)
+        Me.Size = New System.Drawing.Size(522, 327)
         Me.TableLayoutPanel1.ResumeLayout(False)
         Me.GroupBox2.ResumeLayout(False)
         CType(Me.GridSuggestion, System.ComponentModel.ISupportInitialize).EndInit()
@@ -238,14 +206,11 @@ Partial Class ControlMessageUnit
     Friend WithEvents GroupBox3 As GroupBox
     Friend WithEvents ButtonSend As Button
     Friend WithEvents TextMessage As RichTextBox
-    Friend WithEvents RadioReRepNo As RadioButton
-    Friend WithEvents RadioRepNo As RadioButton
     Friend WithEvents Label1 As Label
     Friend WithEvents Label2 As Label
-    Friend WithEvents ComboReRepNo As ComboBox
-    Friend WithEvents ComboRepNo As ComboBox
     Friend WithEvents TextMsgNo As TextBox
     Friend WithEvents GridSuggestion As DataGridView
     Friend WithEvents CheckedListTelNo As CheckedListBox
     Friend WithEvents Message As DataGridViewTextBoxColumn
+    Friend WithEvents ControlRepairReRepairSelection As ControlRepairReRepairSelection
 End Class

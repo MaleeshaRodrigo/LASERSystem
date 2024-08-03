@@ -39,7 +39,7 @@
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationRevision>2</ApplicationRevision>
     <ApplicationVersion>2.2.2.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -213,6 +213,7 @@
     <Compile Include="Deliver\Controls\ControlPopUp.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Enums\UpdateMode.vb" />
     <Compile Include="Message\Controls\ControlMessageUnit.Designer.vb">
       <DependentUpon>ControlMessageUnit.vb</DependentUpon>
     </Compile>
@@ -255,10 +256,10 @@
     <Compile Include="Repair\Controls\ControlTaskInfo.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Repair\Controls\ControlTechnicianCostInfo.Designer.vb">
-      <DependentUpon>ControlTechnicianCostInfo.vb</DependentUpon>
+    <Compile Include="Repair\Controls\ControlTechnicianCostListInfo.Designer.vb">
+      <DependentUpon>ControlTechnicianCostListInfo.vb</DependentUpon>
     </Compile>
-    <Compile Include="Repair\Controls\ControlTechnicianCostInfo.vb">
+    <Compile Include="Repair\Controls\ControlTechnicianCostListInfo.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Repair\Controls\ControlTechnicianInfo.Designer.vb">
@@ -273,6 +274,24 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>rptReceive.rpt</DependentUpon>
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Shared Controls\ControlRepairReRepairSelection.Designer.vb">
+      <DependentUpon>ControlRepairReRepairSelection.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Shared Controls\ControlRepairReRepairSelection.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Shared Controls\ControlStockSelection.Designer.vb">
+      <DependentUpon>ControlStockSelection.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Shared Controls\ControlStockSelection.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Shared Controls\ControlTechnicianSelection.Designer.vb">
+      <DependentUpon>ControlTechnicianSelection.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Shared Controls\ControlTechnicianSelection.vb">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Stock\Controls\ControlStockInfo.Designer.vb">
       <DependentUpon>ControlStockInfo.vb</DependentUpon>
@@ -412,10 +431,16 @@
     <Compile Include="frmTechnician.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmTechnicianCost.Designer.vb">
-      <DependentUpon>frmTechnicianCost.vb</DependentUpon>
+    <Compile Include="TechnicianCost\Controls\ControlTechnicianCostInfo.Designer.vb">
+      <DependentUpon>ControlTechnicianCostInfo.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmTechnicianCost.vb">
+    <Compile Include="TechnicianCost\Controls\ControlTechnicianCostInfo.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TechnicianCost\FormTechnicianCost.Designer.vb">
+      <DependentUpon>FormTechnicianCost.vb</DependentUpon>
+    </Compile>
+    <Compile Include="TechnicianCost\FormTechnicianCost.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmTechnicianLoan.Designer.vb">
@@ -437,6 +462,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Structures\StructureDatabase.vb" />
+    <Compile Include="TechnicianCost\Structures\TechnicianCostGridColumns.vb" />
     <Compile Include="Utils.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -552,8 +578,8 @@
     <EmbeddedResource Include="Repair\Controls\ControlTaskInfo.resx">
       <DependentUpon>ControlTaskInfo.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Repair\Controls\ControlTechnicianCostInfo.resx">
-      <DependentUpon>ControlTechnicianCostInfo.vb</DependentUpon>
+    <EmbeddedResource Include="Repair\Controls\ControlTechnicianCostListInfo.resx">
+      <DependentUpon>ControlTechnicianCostListInfo.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Repair\Controls\ControlTechnicianInfo.resx">
       <DependentUpon>ControlTechnicianInfo.vb</DependentUpon>
@@ -621,8 +647,20 @@
     <EmbeddedResource Include="frmTechnician.resx">
       <DependentUpon>frmTechnician.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmTechnicianCost.resx">
-      <DependentUpon>frmTechnicianCost.vb</DependentUpon>
+    <EmbeddedResource Include="Shared Controls\ControlRepairReRepairSelection.resx">
+      <DependentUpon>ControlRepairReRepairSelection.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Shared Controls\ControlStockSelection.resx">
+      <DependentUpon>ControlStockSelection.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Shared Controls\ControlTechnicianSelection.resx">
+      <DependentUpon>ControlTechnicianSelection.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TechnicianCost\Controls\ControlTechnicianCostInfo.resx">
+      <DependentUpon>ControlTechnicianCostInfo.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TechnicianCost\FormTechnicianCost.resx">
+      <DependentUpon>FormTechnicianCost.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmTechnicianLoan.resx">
       <DependentUpon>frmTechnicianLoan.vb</DependentUpon>
