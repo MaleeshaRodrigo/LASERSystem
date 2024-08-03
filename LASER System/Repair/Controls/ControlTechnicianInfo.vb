@@ -50,7 +50,7 @@ Public Class ControlTechnicianInfo
             If grdRepRemarks2.CurrentCell.Value IsNot Nothing Then
                 DtpDate.Value = Convert.ToDateTime(grdRepRemarks2.CurrentCell.Value)
             Else
-                DtpDate.Value = DateTime.Now
+                DtpDate.Value = Now
             End If
         End If
         grdRepRemarks2.Item(e.ColumnIndex, e.RowIndex).Tag = grdRepRemarks2.Item(e.ColumnIndex, e.RowIndex).Value

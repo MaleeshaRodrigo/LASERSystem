@@ -26,10 +26,6 @@ Public Class ControlStockSelection
         Me.Db = Db
     End Sub
 
-    Private Sub ComboStockCategory_DropDown(sender As Object, e As EventArgs) Handles ComboStockCategory.DropDown, Me.Load
-        ComboBoxDropDown(Db, ComboStockCategory, "SELECT DISTINCT SCategory FROM Stock ORDER BY SCategory;")
-    End Sub
-
     Private Sub ComboStockName_DropDown(sender As Object, e As EventArgs) Handles ComboStockName.DropDown
         ComboBoxDropDown(Db, ComboStockName, $"SELECT SName FROM Stock WHERE SCategory='{ComboStockCategory.Text}' ORDER BY SName;")
     End Sub
@@ -43,5 +39,13 @@ Public Class ControlStockSelection
             New MySqlParameter("CATEGORY", ComboStockCategory.Text),
             New MySqlParameter("NAME", ComboStockName.Text)
         })
+    End Sub
+
+    Private Sub ControlStockSelection_Load(sender As Object, e As EventArgs) Handles Me.Load
+        If DesignMode Then
+            Exit Sub
+        End If
+
+        ComboBoxDropDown(Db, ComboStockCategory, "SELECT DISTINCT SCategory FROM Stock ORDER BY SCategory;")
     End Sub
 End Class

@@ -31,11 +31,12 @@
         RadioReRepNo.Checked = True
     End Sub
 
-    Private Sub ComboRepNo_DropDown(sender As Object, e As EventArgs) Handles ComboRepNo.DropDown, Me.Load
-        ComboBoxDropDown(Db, ComboRepNo, "SELECT RepNo FROM Repair ORDER BY RepNo DESC;")
-    End Sub
+    Private Sub ControlRepairReRepairSelection_Load(sender As Object, e As EventArgs) Handles Me.Load
+        If DesignMode = True Then
+            Exit Sub
+        End If
 
-    Private Sub ComboReRepNo_DropDown(sender As Object, e As EventArgs) Handles ComboReRepNo.DropDown, Me.Load
+        ComboBoxDropDown(Db, ComboRepNo, "SELECT RepNo FROM Repair ORDER BY RepNo DESC;")
         ComboBoxDropDown(Db, ComboReRepNo, "SELECT RetNo FROM `Return` ORDER BY RetNo DESC;")
     End Sub
 

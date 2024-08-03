@@ -137,7 +137,7 @@ Public Class frmTechnicianSalary
 
             TSalaryTNo = DR("TNo").ToString
         End If
-        Db.Execute("Insert into TechnicianSalary(TSalNo,TNo,TSDate,TotalRepair,TotalReRepair,TotalSalesRepair,TotalCost,TotalLoan,Earned,AddedLoan,Salary) Values(" & txtTSNo.Text & "," & TSalaryTNo.ToString & ",'" & txtTSDate.Value.Date & "'," & txtTotalRepair.Text & "," & txtTotalReRepair.Text & "," & txtTotalSalesRepair.Text & "," & txtTotalCost.Text & "," & txtTotalLoan.Text & "," & txt3.Text & "," & txt5.Text & "," & txt6.Text & ");")
+        Db.Execute("Insert into TechnicianSalary(TSalNo, TNo, TSDate, TotalRepair, TotalReRepair, TotalSalesRepair, TotalCost, TotalLoan, Earned, AddedLoan, Salary) Values(" & txtTSNo.Text & "," & TSalaryTNo.ToString & ",'" & txtTSDate.Value.Date & "'," & txtTotalRepair.Text & "," & txtTotalReRepair.Text & "," & txtTotalSalesRepair.Text & "," & txtTotalCost.Text & "," & txtTotalLoan.Text & "," & txt3.Text & "," & txt5.Text & "," & txt6.Text & ");")
         For Each Row As DataGridViewRow In grdRepair.Rows
             Db.Execute("Update Repair set TSalNo =" & txtTSNo.Text & " where RepNo=" & Row.Cells(0).Value.ToString)
         Next
@@ -165,13 +165,16 @@ Public Class frmTechnicianSalary
     End Sub
 
     Private Sub cmdTSPrint_Click(sender As Object, e As EventArgs) Handles cmdTSPrint.Click
-        Dim frm As New frmReport
-        frm.ReportViewer.ReportSource = TechnicianSalaryReport()
-        frm.Show(Me)
+        Dim FormTechnicianSalaryReport, FormTechnicianCostReport As New frmReport
+        FormTechnicianSalaryReport.ReportViewer.ReportSource = TechnicianSalaryReport()
+        FormTechnicianSalaryReport.Show(Me)
+
+        FormTechnicianCostReport.ReportViewer.ReportSource = TechnicianCostReport()
+        FormTechnicianCostReport.Show(Me)
     End Sub
 
     Private Function TechnicianSalaryReport() As rptTechnicianSalary
-        Dim RPT As New rptTechnicianSalary
+        Dim ReportTechnicianSalary As New rptTechnicianSalary
         Dim Connection = Db.GetConenction
         Try
             Connection.Open()
@@ -180,7 +183,7 @@ Public Class frmTechnicianSalary
                 New MySqlParameter("FROMDATE", txtTSFrom.Value.Date & " 00:00:00"),
                 New MySqlParameter("TODATE", txtTSTo.Value.Date & " 23:59:59")
             })
-            RPT.Subreports("rptTechnicianSalaryRepair.rpt").SetDataSource(DT1)
+            ReportTechnicianSalary.Subreports("rptTechnicianSalaryRepair.rpt").SetDataSource(DT1)
             Dim DT2 As DataTable = Db.GetDataTable("SELECT RETNO, REPNO, DDATE, CUNAME,CUTELNO1, PCATEGORY, PNAME, PAIDPRICE, QTY FROM 
                                                 (((((`RETURN` INNER JOIN RECEIVE ON RECEIVE.RNO=RETURN.RNO) 
                                                 LEFT JOIN CUSTOMER ON CUSTOMER.CUNO = RECEIVE.CUNO)
@@ -192,21 +195,12 @@ Public Class frmTechnicianSalary
                 New MySqlParameter("FROMDATE", txtTSFrom.Value.Date & " 00:00:00"),
                 New MySqlParameter("TODATE", txtTSTo.Value.Date & " 23:59:59")
             })
-            RPT.Subreports("rptTechnicianSalaryReRepair.rpt").SetDataSource(DT2)
+            ReportTechnicianSalary.Subreports("rptTechnicianSalaryReRepair.rpt").SetDataSource(DT2)
             'Dim DS6 As New DataSet
             'Dim DA6 As MySqlDataAdapter = Db.GetDataAdapter(Connection, "SELECT SAREPNO,SAREPDATE, SALESREPAIR.SNO, SCATEGORY, SNAME, RATE,QTY, TOTAL FROM ((SALESREPAIR INNER JOIN STOCK ON STOCK.SNO=SALESREPAIR.SNO) INNER JOIN TECHNICIAN ON TECHNICIAN.TNO = SALESREPAIR.TNO) WHERE TNAME='" & cmbTName.Text & "' And SaRepDate Between '" & txtTSFrom.Value.Date & " 00:00:00' And '" & txtTSTo.Value.Date & " 23:59:59'" & If(chkSalesRepair.Checked = False, " AND 0", "") & ";")
             'DA6.Fill(DS6, "SALESREPAIR")
             'DA6.Fill(DS6, "STOCK")
             'RPT.Subreports("rptTechnicianSalarySalesRepair.rpt").SetDataSource(DS6)
-            'Dim DS3 As New DataSet
-            'Dim DA3 As MySqlDataAdapter = Db.GetDataAdapter(Connection, "SELECT TCNo,TCDATE,REPNO,RETNO,TechnicianCost.SNO,SCategory,SName,Rate,Qty,TOTAL,TCREMARKS FROM (TECHNICIANCOST INNER JOIN TECHNICIAN ON TECHNICIAN.TNO = TECHNICIANCOST.TNO) WHERE TNAME = @TNAME And TCDate BETWEEN @FROMDATE AND @TODATE And (TSalNo Is Null Or TSalNo = 0)" & If(chkCost.Checked = False, " AND 0", "") & ";", {
-            '    New MySqlParameter("TNAME", cmbTName.Text),
-            '    New MySqlParameter("FROMDATE", txtTSFrom.Value.Date & " 00:00:00"),
-            '    New MySqlParameter("TODATE", txtTSTo.Value.Date & " 23:59:59")
-            '})
-            'DA3.Fill(DS3, "TECHNICIANCOST")
-            'DA3.Fill(DS3, "Technician")
-            'RPT.Subreports.Item("rptTechnicianSalaryCost.rpt").SetDataSource(DS3)
             'Dim DT4 As DataTable = Db.GetDataTable("SELECT TLNo, TLDate, TechnicianLoan.SNo, SCategory, SName, TLReason, RATE, QTY, TOTAL FROM (TECHNICIANLOAN INNER JOIN TECHNICIAN ON TECHNICIAN.TNO = TECHNICIANLOAN.TNO) WHERE TNAME = @TNAME And TLDate BETWEEN @FROMDATE And @TODATE" & If(chkLoan.Checked = False, " AND 0", "") & ";", {
             '    New MySqlParameter("TNAME", cmbTName.Text),
             '    New MySqlParameter("FROMDATE", txtTSFrom.Value.Date & " 00:00:00"),
@@ -230,22 +224,46 @@ Public Class frmTechnicianSalary
             Dim DS5 As New DataSet
             Dim DA5 As MySqlDataAdapter = Db.GetDataAdapter(Connection, "SELECT * FROM TechnicianSalary")
             DA5.Fill(DS5, "TechnicianSalary")
-            RPT.SetDataSource(DS5)
-            RPT.SetParameterValue("fromDate", txtTSFrom.Value.Date.ToString)
-            RPT.SetParameterValue("ToDate", txtTSTo.Value.Date.ToString)
-            RPT.SetParameterValue("Title", cmbTName.Text.ToUpper.ToString + "'S PAYSHEET")
-            RPT.SetParameterValue("TotalofRepair", txtTotalRepair.Text)
-            RPT.SetParameterValue("TotalofReRepair", txtTotalReRepair.Text)
-            RPT.SetParameterValue("TotalofCost", txtTotalCost.Text)
-            RPT.SetParameterValue("TotalofLoan", txtTotalLoan.Text)
-            RPT.SetParameterValue("Salary", txt6.Text)
+            ReportTechnicianSalary.SetDataSource(DS5)
+            ReportTechnicianSalary.SetParameterValue("fromDate", txtTSFrom.Value.Date.ToString)
+            ReportTechnicianSalary.SetParameterValue("ToDate", txtTSTo.Value.Date.ToString)
+            ReportTechnicianSalary.SetParameterValue("Title", cmbTName.Text.ToUpper.ToString + "'S PAYSHEET")
+            ReportTechnicianSalary.SetParameterValue("TotalofRepair", txtTotalRepair.Text)
+            ReportTechnicianSalary.SetParameterValue("TotalofReRepair", txtTotalReRepair.Text)
+            ReportTechnicianSalary.SetParameterValue("TotalofCost", txtTotalCost.Text)
+            ReportTechnicianSalary.SetParameterValue("TotalofLoan", txtTotalLoan.Text)
+            ReportTechnicianSalary.SetParameterValue("Salary", txt6.Text)
             If chkDetails.Checked = True Then
-                RPT.SetParameterValue("ShowDetailSection", True)
+                ReportTechnicianSalary.SetParameterValue("ShowDetailSection", True)
             Else
-                RPT.SetParameterValue("ShowDetailSection", False)
+                ReportTechnicianSalary.SetParameterValue("ShowDetailSection", False)
             End If
 
-            Return RPT
+            Return ReportTechnicianSalary
+        Catch ex As Exception
+            MessageBox.Error(ex.Message)
+            Return Nothing
+        Finally
+            Connection.Close()
+        End Try
+    End Function
+
+    Private Function TechnicianCostReport() As rptTechnicianCost
+        Dim ReportTechnicianCost As New rptTechnicianCost
+        Dim Connection = Db.GetConenction()
+        Try
+            Connection.Open()
+            Dim DS3 As New DataSet
+            Dim DA3 As MySqlDataAdapter = Db.GetDataAdapter(Connection, "SELECT TCNo,TCDATE,REPNO,RETNO,TechnicianCost.SNO,SCategory,SName,Rate,Qty,TOTAL,TCREMARKS FROM (TECHNICIANCOST INNER JOIN TECHNICIAN ON TECHNICIAN.TNO = TECHNICIANCOST.TNO) WHERE TNAME = @TNAME And TCDate BETWEEN @FROMDATE AND @TODATE And (TSalNo Is Null Or TSalNo = 0)" & If(chkCost.Checked = False, " AND 0", "") & ";", {
+                New MySqlParameter("TNAME", cmbTName.Text),
+                New MySqlParameter("FROMDATE", txtTSFrom.Value.Date & " 00:00:00"),
+                New MySqlParameter("TODATE", txtTSTo.Value.Date & " 23:59:59")
+            })
+            DA3.Fill(DS3, "TechnicianCost")
+            DA3.Fill(DS3, "Technician")
+            ReportTechnicianCost.SetDataSource(DS3)
+
+            Return ReportTechnicianCost
         Catch ex As Exception
             MessageBox.Error(ex.Message)
             Return Nothing

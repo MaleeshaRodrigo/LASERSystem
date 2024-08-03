@@ -41,6 +41,10 @@ Partial Class FrmSettings
         Me.chkDeliveredEmailtoT = New System.Windows.Forms.CheckBox()
         Me.chkMSetEmail = New System.Windows.Forms.CheckBox()
         Me.tpDatabase = New System.Windows.Forms.TabPage()
+        Me.TextDBPort = New System.Windows.Forms.TextBox()
+        Me.TextDBName = New System.Windows.Forms.TextBox()
+        Me.Label12 = New System.Windows.Forms.Label()
+        Me.TextDBUserName = New System.Windows.Forms.TextBox()
         Me.Label10 = New System.Windows.Forms.Label()
         Me.TextDBPassword = New System.Windows.Forms.TextBox()
         Me.Label7 = New System.Windows.Forms.Label()
@@ -92,10 +96,6 @@ Partial Class FrmSettings
         Me.cmdApply = New System.Windows.Forms.Button()
         Me.cmdOK = New System.Windows.Forms.Button()
         Me.ofdDatabase = New System.Windows.Forms.OpenFileDialog()
-        Me.TextDBUserName = New System.Windows.Forms.TextBox()
-        Me.TextDBName = New System.Windows.Forms.TextBox()
-        Me.Label12 = New System.Windows.Forms.Label()
-        Me.TextDBPort = New System.Windows.Forms.TextBox()
         Me.tcSettings.SuspendLayout()
         Me.tpGeneral.SuspendLayout()
         Me.GroupBox4.SuspendLayout()
@@ -308,6 +308,42 @@ Partial Class FrmSettings
         Me.tpDatabase.TabIndex = 0
         Me.tpDatabase.Text = "Database"
         Me.tpDatabase.UseVisualStyleBackColor = True
+        '
+        'TextDBPort
+        '
+        Me.TextDBPort.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TextDBPort.Location = New System.Drawing.Point(260, 6)
+        Me.TextDBPort.Name = "TextDBPort"
+        Me.TextDBPort.Size = New System.Drawing.Size(55, 21)
+        Me.TextDBPort.TabIndex = 14
+        '
+        'TextDBName
+        '
+        Me.TextDBName.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TextDBName.Location = New System.Drawing.Point(74, 87)
+        Me.TextDBName.Name = "TextDBName"
+        Me.TextDBName.Size = New System.Drawing.Size(241, 21)
+        Me.TextDBName.TabIndex = 13
+        '
+        'Label12
+        '
+        Me.Label12.AutoSize = True
+        Me.Label12.Location = New System.Drawing.Point(6, 90)
+        Me.Label12.Name = "Label12"
+        Me.Label12.Size = New System.Drawing.Size(56, 13)
+        Me.Label12.TabIndex = 12
+        Me.Label12.Text = "Database:"
+        '
+        'TextDBUserName
+        '
+        Me.TextDBUserName.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TextDBUserName.Location = New System.Drawing.Point(74, 33)
+        Me.TextDBUserName.Name = "TextDBUserName"
+        Me.TextDBUserName.Size = New System.Drawing.Size(241, 21)
+        Me.TextDBUserName.TabIndex = 11
         '
         'Label10
         '
@@ -807,42 +843,6 @@ Partial Class FrmSettings
         Me.cmdOK.Text = "OK"
         Me.cmdOK.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.cmdOK.UseVisualStyleBackColor = True
-        '
-        'TextDBUserName
-        '
-        Me.TextDBUserName.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TextDBUserName.Location = New System.Drawing.Point(74, 33)
-        Me.TextDBUserName.Name = "TextDBUserName"
-        Me.TextDBUserName.Size = New System.Drawing.Size(241, 21)
-        Me.TextDBUserName.TabIndex = 11
-        '
-        'TextDBName
-        '
-        Me.TextDBName.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TextDBName.Location = New System.Drawing.Point(74, 87)
-        Me.TextDBName.Name = "TextDBName"
-        Me.TextDBName.Size = New System.Drawing.Size(241, 21)
-        Me.TextDBName.TabIndex = 13
-        '
-        'Label12
-        '
-        Me.Label12.AutoSize = True
-        Me.Label12.Location = New System.Drawing.Point(6, 90)
-        Me.Label12.Name = "Label12"
-        Me.Label12.Size = New System.Drawing.Size(56, 13)
-        Me.Label12.TabIndex = 12
-        Me.Label12.Text = "Database:"
-        '
-        'TextDBPort
-        '
-        Me.TextDBPort.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TextDBPort.Location = New System.Drawing.Point(260, 6)
-        Me.TextDBPort.Name = "TextDBPort"
-        Me.TextDBPort.Size = New System.Drawing.Size(55, 21)
-        Me.TextDBPort.TabIndex = 14
         '
         'FrmSettings
         '

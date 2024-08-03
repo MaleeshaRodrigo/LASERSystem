@@ -43,7 +43,7 @@ Public Class FormTechnicianCost
         Next
     End Sub
 
-    Private Sub txtTCFrom_ValueChanged(sender As Object, e As EventArgs) Handles txtTCFrom.ValueChanged, txtTCTo.ValueChanged, cmbTName.SelectedIndexChanged
+    Private Sub txtTCFrom_ValueChanged(sender As Object, e As EventArgs) Handles txtTCFrom.ValueChanged, txtTCTo.ValueChanged, cmbTName.SelectedIndexChanged, txtSearch.TextChanged
         Call cmdTCSearch_Click(sender, e)
     End Sub
 
@@ -62,7 +62,7 @@ Public Class FormTechnicianCost
                 dtpDate.CustomFormat = "yyyy-MM-dd hh:mm:ss tt"
                 dtpDate.Visible = True
                 If grdTechnicianCost.CurrentCell.Value Is Nothing Then
-                    dtpDate.Value = DateAndTime.Now
+                    dtpDate.Value = Now
                 Else
                     dtpDate.Value = Convert.ToDateTime(grdTechnicianCost.CurrentCell.Value)
                 End If
@@ -113,6 +113,7 @@ Public Class FormTechnicianCost
     Private Sub ButtonNew_Click(sender As Object, e As EventArgs) Handles ButtonNew.Click
         ControlTechnicianCostInfo = New ControlTechnicianCostInfo
         ControlTechnicianCostInfo.SetDatabase(Db).Init(UpdateMode.New).SetTechnician(cmbTName.Text)
+        AddHandler ControlTechnicianCostInfo.SubmitEvent, AddressOf ControlTechnicianCostInfo_Submit
         Me.Controls.Add(ControlTechnicianCostInfo)
         ControlTechnicianCostInfo.Dock = DockStyle.Fill
         ControlTechnicianCostInfo.BringToFront()
@@ -127,8 +128,13 @@ Public Class FormTechnicianCost
             Data.Add(Column.Name, grdTechnicianCost.CurrentRow.Cells(Column.Name).Value)
         Next
         ControlTechnicianCostInfo.SetDatabase(Db).Init(UpdateMode.Edit, Data).SetTechnician(cmbTName.Text)
+        AddHandler ControlTechnicianCostInfo.SubmitEvent, AddressOf ControlTechnicianCostInfo_Submit
         Me.Controls.Add(ControlTechnicianCostInfo)
         ControlTechnicianCostInfo.Dock = DockStyle.Fill
         ControlTechnicianCostInfo.BringToFront()
+    End Sub
+
+    Private Sub ControlTechnicianCostInfo_Submit()
+        cmdTCSearch.PerformClick()
     End Sub
 End Class

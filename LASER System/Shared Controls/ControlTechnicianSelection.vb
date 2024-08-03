@@ -17,7 +17,11 @@ Public Class ControlTechnicianSelection
         Return TechnicianNo
     End Function
 
-    Private Sub ComboTechnician_DropDown(sender As Object, e As EventArgs) Handles ComboTechnician.DropDown, Me.Load
+    Private Sub ControlTechnicianSelection_Load(sender As Object, e As EventArgs) Handles Me.Load
+        If DesignMode Then
+            Exit Sub
+        End If
+
         ComboBoxDropDown(Db, ComboTechnician, "SELECT TName FROM Technician WHERE TActive = 1 ORDER BY TName;")
     End Sub
 

@@ -2,24 +2,31 @@
 Imports MySqlConnector
 
 Public Class ControlTechnicianCostInfo
+    Public Event SubmitEvent()
+
     Private Db As Database
     Private UpdateMode As UpdateMode
 
     Public Function Init(UpdateMode As UpdateMode, Optional TechnicianCostData As Dictionary(Of String, Object) = Nothing) As ControlTechnicianCostInfo
         Me.UpdateMode = UpdateMode
         If UpdateMode = UpdateMode.Edit Then
-            TextTechnicianCostNo.Text = TechnicianCostData("TCNo")
+            TextTechnicianCostNo.Text = TechnicianCostData(TechnicianCostGridColumns.No)
+            PickerDate.Value = TechnicianCostData(TechnicianCostGridColumns.Date)
             ControlTechnicianSelection.SetTechnician(TechnicianCostData("TName"))
-            ControlStockSelection.SCode = TechnicianCostData("SNo")
-            ControlStockSelection.SCategory = TechnicianCostData("SCategory")
-            ControlStockSelection.SName = TechnicianCostData("SName")
-            If ControlRepairReRepairSelection.RepairMode = RepairMode.Repair Then
-                ControlRepairReRepairSelection.SetRepair(TechnicianCostData("RepNo"))
-            ElseIf ControlRepairReRepairSelection.RepairMode = RepairMode.ReRepair Then
-                ControlRepairReRepairSelection.SetRepair(TechnicianCostData("RetNo"))
+            ControlStockSelection.SCode = TechnicianCostData(TechnicianCostGridColumns.StockNo)
+            ControlStockSelection.SCategory = TechnicianCostData(TechnicianCostGridColumns.StockCategory)
+            ControlStockSelection.SName = TechnicianCostData(TechnicianCostGridColumns.StockName)
+            If Not String.IsNullOrEmpty(TechnicianCostData(TechnicianCostGridColumns.RepairNo)) Then
+                ControlRepairReRepairSelection.SetRepair(TechnicianCostData(TechnicianCostGridColumns.RepairNo))
+            ElseIf Not String.IsNullOrEmpty(TechnicianCostData(TechnicianCostGridColumns.ReRepairNo)) Then
+                ControlRepairReRepairSelection.SetReRepair(TechnicianCostData(TechnicianCostGridColumns.ReRepairNo))
             End If
+            TextRate.Value = TechnicianCostData(TechnicianCostGridColumns.Rate)
+            TextQty.Value = TechnicianCostData(TechnicianCostGridColumns.Qty)
+            TextTotal.Value = TechnicianCostData(TechnicianCostGridColumns.Total)
+            TextRemarks.Text = TechnicianCostData(TechnicianCostGridColumns.Remarks)
         Else
-            TextTechnicianCostNo.Text = Db.GetNextKey("TechnicianCost", "TCNo")
+            TextTechnicianCostNo.Text = Db.GetNextKey(Tables.TechnicianCost, "TCNo")
         End If
 
         Return Me
@@ -78,6 +85,8 @@ Public Class ControlTechnicianCostInfo
             Values.Add(New MySqlParameter("TCNO", TextTechnicianCostNo.Text))
             Db.Execute("UPDATE TechnicianCost SET TCDate=@TCDATE, TNo=@TNO, RepNo=@REPNO, RetNo=@RETNO, SNo=@SNO, SCategory=@SCATEGORY, SName=@SNAME, Rate=@RATE, Qty=@QTY, Total=@TOTAL, TCRemarks=@REMARKS, UNo=@UNO WHERE TCNo=@TCNO;", Values.ToArray)
         End If
+
+        RaiseEvent SubmitEvent()
         ButtonClose.PerformClick()
     End Sub
 
@@ -97,4 +106,32 @@ Public Class ControlTechnicianCostInfo
             TextTotal.Value = Val(TextQty.Value) * Val(TextRate.Value)
         End If
     End Sub
+
+    Private Sub ButtonDelete_Click(sender As Object, e As EventArgs) Handles ButtonDelete.Click
+        Dim Validator = DeleteValidation()
+        If Not Validator.Status Then
+            MessageBox.Error(Validator.Message)
+        End If
+        If Not MessageBox.Question("මෙම Record එක Delete කිරීමට තහවුරු කරන්න.") = vbYes Then
+            Exit Sub
+        End If
+
+        Db.Execute("DELETE FROM TechnicianCost WHERE TCNo = @TCNO;", {
+            New MySqlParameter("TCNO", TextTechnicianCostNo.Text)
+        })
+    End Sub
+
+    Private Function DeleteValidation() As (Status As Boolean, Message As String)
+        If User.Instance.UserType <> User.Type.Admin Then
+            Return (False, "ඔබට මෙම Record එක Delete කිරීමට Permission නොමැත.")
+        End If
+        If String.IsNullOrEmpty(TextTechnicianCostNo.Text) Then
+            Return (False, "Technician Cost Record එකක් තෝරා නොමැත.")
+        End If
+        If Not Db.CheckDataExists("TechnicianCost", "TCNo", TextTechnicianCostNo.Text) Then
+            Return (False, "Technician Cost Record එක Database එක තුලින් සොයා  ගැනීමට නොහැකි විය.")
+        End If
+
+        Return (True, "")
+    End Function
 End Class
