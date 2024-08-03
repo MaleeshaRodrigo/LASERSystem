@@ -6,4 +6,8 @@
     Public Shared Sub Success(Message As String)
         MsgBox(Message, vbOKOnly)
     End Sub
+
+    Public Shared Function Question(Message As String) As MsgBoxResult
+        Return MsgBox(Message, vbYesNo + vbQuestion)
+    End Function
 End Class

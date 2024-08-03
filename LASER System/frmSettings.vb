@@ -3,7 +3,8 @@ Imports System.IO
 
 Public Class FrmSettings
     Private Db As New Database
-    Private BoolApplyError As Boolean 'Represent there is an error in apply function
+    Private BoolApplyError As Boolean ' Represent there is an error in apply function
+    Private BoolDbPasswordIsChanged As Boolean ' Represent the Db Password is changed or not
 
     Public Sub New()
         InitializeComponent()
@@ -51,11 +52,13 @@ Public Class FrmSettings
         Try
             BoolApplyError = False
             With My.Settings
-                .DBServer = TextDbServer.Text
-                .DBPort = TextDBPort.Text
-                .DBName = TextDBName.Text
-                .DBUserName = TextDBUserName.Text
-                .DBPassword = If(TextDBPassword.Text.Trim().Length > 0, New Encoder().Encode(TextDBPassword.Text), "")
+                If BoolDbPasswordIsChanged Then
+                    .DBServer = TextDbServer.Text
+                    .DBPort = TextDBPort.Text
+                    .DBName = TextDBName.Text
+                    .DBUserName = TextDBUserName.Text
+                    .DBPassword = If(TextDBPassword.Text.Trim().Length > 0, New Encoder().Encode(TextDBPassword.Text), "")
+                End If
 
                 .SendSettlementEmail = chkMSetEmail.CheckState
                 .DeliveredEmailtoT = chkDeliveredEmailtoT.Checked
@@ -273,5 +276,9 @@ Public Class FrmSettings
         If ofdDatabase.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
             TxtBGWokerPath.Text = ofdDatabase.FileName
         End If
+    End Sub
+
+    Private Sub TextDBPassword_TextChanged(sender As Object, e As EventArgs) Handles TextDBPassword.TextChanged
+        BoolDbPasswordIsChanged = True
     End Sub
 End Class
