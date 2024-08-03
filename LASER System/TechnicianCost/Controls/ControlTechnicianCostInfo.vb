@@ -27,6 +27,7 @@ Public Class ControlTechnicianCostInfo
             TextRemarks.Text = TechnicianCostData(TechnicianCostGridColumns.Remarks)
         Else
             TextTechnicianCostNo.Text = Db.GetNextKey(Tables.TechnicianCost, "TCNo")
+            ButtonDelete.Enabled = False
         End If
 
         Return Me
@@ -97,6 +98,9 @@ Public Class ControlTechnicianCostInfo
         If User.Instance.UserType = User.Type.Cashier AndAlso PickerDate.Value.Date <> Today.Date Then
             Return (False, "අද දිනට නොමැති Technician Cost Data එකක් Update කිරීමට ඔබට Permission ලබා දී නොමැත.")
         End If
+        If ControlStockSelection.SCode = Nothing And TextRemarks.Text.Trim = "" Then
+            Return (False, "Stock සහ  Remarks යන fields දෙකම හිස්ව පවතියි. කරුණාකර එය සම්පුර්ණ කරන්න.")
+        End If
 
         Return (True, "")
     End Function
@@ -111,6 +115,7 @@ Public Class ControlTechnicianCostInfo
         Dim Validator = DeleteValidation()
         If Not Validator.Status Then
             MessageBox.Error(Validator.Message)
+            Exit Sub
         End If
         If Not MessageBox.Question("මෙම Record එක Delete කිරීමට තහවුරු කරන්න.") = vbYes Then
             Exit Sub
