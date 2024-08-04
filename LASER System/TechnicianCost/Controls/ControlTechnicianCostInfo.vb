@@ -69,15 +69,20 @@ Public Class ControlTechnicianCostInfo
             New MySqlParameter("REMARKS", TextRemarks.Text),
             New MySqlParameter("UNO", User.Instance.UserNo)
         }
-        If ControlRepairReRepairSelection.RepairMode = RepairMode.Repair Then
+        If ControlRepairReRepairSelection.RepairMode = RepairMode.Repair And ControlRepairReRepairSelection.Value <> 0 Then
             Values.AddRange({
                 New MySqlParameter("REPNO", ControlRepairReRepairSelection.Value),
                 New MySqlParameter("RETNO", Nothing)
             })
-        Else
+        ElseIf ControlRepairReRepairSelection.RepairMode = RepairMode.ReRepair And ControlRepairReRepairSelection.Value <> 0 Then
             Values.AddRange({
                 New MySqlParameter("REPNO", Nothing),
                 New MySqlParameter("RETNO", ControlRepairReRepairSelection.Value)
+            })
+        Else
+            Values.AddRange({
+                New MySqlParameter("REPNO", Nothing),
+                New MySqlParameter("RETNO", Nothing)
             })
         End If
         If UpdateMode = UpdateMode.New Then
