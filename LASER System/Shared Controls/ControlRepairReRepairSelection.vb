@@ -32,7 +32,7 @@
     End Sub
 
     Private Sub ControlRepairReRepairSelection_Load(sender As Object, e As EventArgs) Handles Me.Load
-        If DesignMode = True Then
+        If DesignMode Then
             Exit Sub
         End If
 

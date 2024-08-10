@@ -39,8 +39,8 @@
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>2</ApplicationRevision>
-    <ApplicationVersion>2.2.3.%2a</ApplicationVersion>
+    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationVersion>2.2.4.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -220,6 +220,12 @@
     <Compile Include="Message\Controls\ControlMessageUnit.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="RepairAdvance\Controls\ControlRepairAdvanceInfo.Designer.vb">
+      <DependentUpon>ControlRepairAdvanceInfo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="RepairAdvance\Controls\ControlRepairAdvanceInfo.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Repair\Controls\ControlActivityInfo.Designer.vb">
       <DependentUpon>ControlActivityInfo.vb</DependentUpon>
     </Compile>
@@ -353,10 +359,10 @@
     <Compile Include="Repair\FormRepair.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmRepairAdvanced.Designer.vb">
-      <DependentUpon>frmRepairAdvanced.vb</DependentUpon>
+    <Compile Include="RepairAdvance\FormRepairAdvance.Designer.vb">
+      <DependentUpon>FormRepairAdvance.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmRepairAdvanced.vb">
+    <Compile Include="RepairAdvance\FormRepairAdvance.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmReport.Designer.vb">
@@ -560,6 +566,9 @@
     <EmbeddedResource Include="Message\Controls\ControlMessageUnit.resx">
       <DependentUpon>ControlMessageUnit.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="RepairAdvance\Controls\ControlRepairAdvanceInfo.resx">
+      <DependentUpon>ControlRepairAdvanceInfo.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Repair\Controls\ControlActivityInfo.resx">
       <DependentUpon>ControlActivityInfo.vb</DependentUpon>
     </EmbeddedResource>
@@ -608,8 +617,8 @@
     <EmbeddedResource Include="Repair\FormRepair.resx">
       <DependentUpon>FormRepair.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmRepairAdvanced.resx">
-      <DependentUpon>frmRepairAdvanced.vb</DependentUpon>
+    <EmbeddedResource Include="RepairAdvance\FormRepairAdvance.resx">
+      <DependentUpon>FormRepairAdvance.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmReport.resx">
       <DependentUpon>frmReport.vb</DependentUpon>
