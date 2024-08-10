@@ -154,7 +154,7 @@ Partial Class FormRepairAdvance
         '
         Me.PrintRepairAdvancedToolStripMenuItem.Name = "PrintRepairAdvancedToolStripMenuItem"
         Me.PrintRepairAdvancedToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.P), System.Windows.Forms.Keys)
-        Me.PrintRepairAdvancedToolStripMenuItem.Size = New System.Drawing.Size(140, 22)
+        Me.PrintRepairAdvancedToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.PrintRepairAdvancedToolStripMenuItem.Text = "Print"
         '
         'ButtonNew
@@ -173,48 +173,57 @@ Partial Class FormRepairAdvance
         '
         'AdNo
         '
-        Me.AdNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader
+        Me.AdNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
         Me.AdNo.DataPropertyName = "ADNo"
         Me.AdNo.HeaderText = "Repair Advanced No"
         Me.AdNo.Name = "AdNo"
         Me.AdNo.ReadOnly = True
-        Me.AdNo.Width = 5
+        Me.AdNo.Width = 115
         '
         'AdDate
         '
+        Me.AdDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
         Me.AdDate.DataPropertyName = "ADDate"
         Me.AdDate.HeaderText = "Date"
         Me.AdDate.Name = "AdDate"
+        Me.AdDate.Width = 58
         '
         'RepNo
         '
+        Me.RepNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
         Me.RepNo.DataPropertyName = "RepNo"
         DataGridViewCellStyle1.Format = "N0"
         DataGridViewCellStyle1.NullValue = Nothing
         Me.RepNo.DefaultCellStyle = DataGridViewCellStyle1
         Me.RepNo.HeaderText = "Repair No"
         Me.RepNo.Name = "RepNo"
+        Me.RepNo.Width = 79
         '
         'RetNo
         '
+        Me.RetNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
         Me.RetNo.DataPropertyName = "RetNo"
         DataGridViewCellStyle2.Format = "N0"
         DataGridViewCellStyle2.NullValue = Nothing
         Me.RetNo.DefaultCellStyle = DataGridViewCellStyle2
         Me.RetNo.HeaderText = "RE-Repair No"
         Me.RetNo.Name = "RetNo"
+        Me.RetNo.Width = 95
         '
         'Amount
         '
+        Me.Amount.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
         Me.Amount.DataPropertyName = "Amount"
-        DataGridViewCellStyle3.Format = "C2"
+        DataGridViewCellStyle3.Format = "Rs\. #.00"
         DataGridViewCellStyle3.NullValue = Nothing
         Me.Amount.DefaultCellStyle = DataGridViewCellStyle3
         Me.Amount.HeaderText = "Amount"
         Me.Amount.Name = "Amount"
+        Me.Amount.Width = 74
         '
         'Remarks
         '
+        Me.Remarks.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
         Me.Remarks.DataPropertyName = "Remarks"
         DataGridViewCellStyle4.Format = "g"
         DataGridViewCellStyle4.NullValue = Nothing
@@ -224,10 +233,12 @@ Partial Class FormRepairAdvance
         '
         'UserName
         '
+        Me.UserName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
         Me.UserName.DataPropertyName = "User"
         Me.UserName.HeaderText = "User Name"
         Me.UserName.Name = "UserName"
         Me.UserName.ReadOnly = True
+        Me.UserName.Width = 85
         '
         'FormRepairAdvance
         '
