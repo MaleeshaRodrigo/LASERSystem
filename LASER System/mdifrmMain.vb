@@ -176,7 +176,7 @@ Public Class MdifrmMain
     End Sub
 
     Public Sub cmdRepAdvanced_Click(sender As Object, e As EventArgs) Handles cmdRepAdvanced.Click
-        With frmRepairAdvanced
+        With FormRepairAdvance
             .Show()
             .BringToFront()
             If .WindowState = FormWindowState.Minimized Then .WindowState = FormWindowState.Maximized
