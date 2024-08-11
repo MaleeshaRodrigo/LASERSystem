@@ -35,7 +35,9 @@
         If DesignMode Then
             Exit Sub
         End If
-
+        If Db Is Nothing Then
+            Exit Sub
+        End If
         ComboBoxDropDown(Db, ComboRepNo, "SELECT RepNo FROM Repair ORDER BY RepNo DESC;")
         ComboBoxDropDown(Db, ComboReRepNo, "SELECT RetNo FROM `Return` ORDER BY RetNo DESC;")
     End Sub

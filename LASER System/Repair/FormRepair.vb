@@ -40,6 +40,7 @@ Public Class FormRepair
             cmbRetNo.Focus()
             Mode = RepairMode.ReRepair
         End If
+        Me.Enabled = True
     End Sub
 
     Private Sub frmRepair_Move(sender As Object, e As EventArgs) Handles Me.Move
@@ -573,7 +574,6 @@ Public Class FormRepair
     Public Sub CmbPName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbPName.SelectedIndexChanged
         Dim DR = Db.GetDataDictionary("Select * from Product where PCategory ='" & cmbPCategory.Text & "' and PName ='" & cmbPName.Text & "';")
         If DR.Count Then
-
             txtPNo.Text = DR("PNo").ToString
             txtPModelNo.Text = DR("PModelNo").ToString
             txtPDetails.Text = DR("PDetails").ToString
