@@ -9,7 +9,7 @@ Imports Microsoft.VisualBasic.FileIO
 Imports Newtonsoft.Json
 Imports Newtonsoft.Json.Linq
 
-Public Class frmBGTasks
+Public Class FormBGTasks
     Private Database As New Database()
     Private Encoder As New Encoder()
 
