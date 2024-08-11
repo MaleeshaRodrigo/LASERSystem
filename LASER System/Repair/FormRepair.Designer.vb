@@ -739,6 +739,7 @@ Partial Class FormRepair
         Me.Controls.Add(Me.boxCustomer)
         Me.Controls.Add(Me.boxReceive)
         Me.Controls.Add(Me.MenuStrip)
+        Me.Enabled = False
         Me.Font = New System.Drawing.Font("Calibri", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MainMenuStrip = Me.MenuStrip

@@ -40,9 +40,9 @@ Public Class ControlTaskInfo
             End If
         Next
         If FormParent.Mode = RepairMode.Repair Then
-            FormMessage.ControlMessageUnit.SetData(RepairMode.Repair, FormParent.cmbRepNo.Text, ListTelephoneNos)
+            FormMessage.ControlMessageUnit.Init(DB).SetData(RepairMode.Repair, FormParent.cmbRepNo.Text, ListTelephoneNos)
         Else
-            FormMessage.ControlMessageUnit.SetData(RepairMode.ReRepair, FormParent.cmbRetNo.Text, ListTelephoneNos)
+            FormMessage.ControlMessageUnit.Init(DB).SetData(RepairMode.ReRepair, FormParent.cmbRetNo.Text, ListTelephoneNos)
         End If
         FormMessage.Show(FormParent)
     End Sub

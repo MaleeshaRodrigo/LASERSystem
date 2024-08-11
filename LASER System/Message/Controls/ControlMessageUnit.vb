@@ -4,13 +4,14 @@ Imports MySqlConnector
 Public Class ControlMessageUnit
     Private Db As Database
 
-    Public Sub Init(Db As Database)
+    Public Function Init(Db As Database) As ControlMessageUnit
         Me.Db = Db
-        Me.ControlRepairReRepairSelection.SetDatabase(Db)
+        ControlRepairReRepairSelection.SetDatabase(Db)
         TextMsgNo.Text = Db.GetNextKey("Message", "MsgNo")
         Dim Datatable As DataTable = Db.GetDataTable("SELECT Message FROM messagesuggestion")
         GridSuggestion.DataSource = Datatable
-    End Sub
+        Return Me
+    End Function
 
     Public Sub SetData(RepairMode As RepairMode, RepairNo As Integer, TelephoneNos As List(Of String))
         If RepairMode = RepairMode.Repair Then

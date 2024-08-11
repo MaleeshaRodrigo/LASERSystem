@@ -80,7 +80,7 @@ Partial Class FrmSplash
         Me.Label1.Font = New System.Drawing.Font("Calibri", 10.0!)
         Me.Label1.Location = New System.Drawing.Point(132, 308)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(316, 21)
+        Me.Label1.Size = New System.Drawing.Size(253, 17)
         Me.Label1.TabIndex = 3
         Me.Label1.Text = "This Product is licensed to LASER Electronics"
         '
@@ -90,9 +90,9 @@ Partial Class FrmSplash
         Me.Label2.Font = New System.Drawing.Font("Calibri", 10.0!)
         Me.Label2.Location = New System.Drawing.Point(132, 330)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(314, 21)
+        Me.Label2.Size = New System.Drawing.Size(251, 17)
         Me.Label2.TabIndex = 4
-        Me.Label2.Text = "Copyright © 2018 - 2023 All Right Reserved"
+        Me.Label2.Text = "Copyright © 2018 - 2024 All Right Reserved"
         '
         'txtLoad
         '
@@ -106,7 +106,7 @@ Partial Class FrmSplash
         '
         'FrmSplash
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 17.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
         Me.ClientSize = New System.Drawing.Size(497, 387)
