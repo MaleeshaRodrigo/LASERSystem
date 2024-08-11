@@ -32,7 +32,7 @@ Namespace My
         
         <Global.System.Diagnostics.DebuggerStepThroughAttribute()>  _
         Protected Overrides Sub OnCreateMainForm()
-            Me.MainForm = Global.LASER_Background.frmBGTasks
+            Me.MainForm = Global.LASER_Background.FormBGTasks
         End Sub
     End Class
 End Namespace
