@@ -154,7 +154,7 @@ Partial Class FormRepairAdvance
         '
         Me.PrintRepairAdvancedToolStripMenuItem.Name = "PrintRepairAdvancedToolStripMenuItem"
         Me.PrintRepairAdvancedToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.P), System.Windows.Forms.Keys)
-        Me.PrintRepairAdvancedToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.PrintRepairAdvancedToolStripMenuItem.Size = New System.Drawing.Size(140, 22)
         Me.PrintRepairAdvancedToolStripMenuItem.Text = "Print"
         '
         'ButtonNew
@@ -192,7 +192,6 @@ Partial Class FormRepairAdvance
         '
         Me.RepNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
         Me.RepNo.DataPropertyName = "RepNo"
-        DataGridViewCellStyle1.Format = "N0"
         DataGridViewCellStyle1.NullValue = Nothing
         Me.RepNo.DefaultCellStyle = DataGridViewCellStyle1
         Me.RepNo.HeaderText = "Repair No"
@@ -203,7 +202,6 @@ Partial Class FormRepairAdvance
         '
         Me.RetNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
         Me.RetNo.DataPropertyName = "RetNo"
-        DataGridViewCellStyle2.Format = "N0"
         DataGridViewCellStyle2.NullValue = Nothing
         Me.RetNo.DefaultCellStyle = DataGridViewCellStyle2
         Me.RetNo.HeaderText = "RE-Repair No"

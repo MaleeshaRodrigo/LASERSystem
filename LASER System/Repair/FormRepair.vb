@@ -40,6 +40,7 @@ Public Class FormRepair
             cmbRetNo.Focus()
             Mode = RepairMode.ReRepair
         End If
+        Me.Enabled = True
     End Sub
 
     Private Sub frmRepair_Move(sender As Object, e As EventArgs) Handles Me.Move
