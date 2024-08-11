@@ -126,6 +126,7 @@ Public Class FormBGTasks
 
     Private Sub BgWorker_DoWork(sender As Object, e As DoWorkEventArgs) Handles bgworker.DoWork
         Dim Processes As New List(Of IProcess) From {
+           New DatabaseBackupProcess(Database, bgworker),
            New SendEmailProcess(Database, bgworker),
            New SendSmsProcess(Database, bgworker),
            New RefreshSmsBalanceProcess(Me)
@@ -181,6 +182,9 @@ Public Class FormBGTasks
                     CreateMessagePanel("ස්වයංක්‍රීයව යැවෙන Emails ක්‍රියාවිරහිත වී ඇත.",
                     "ස්වයංක්‍රීයව Emails යැවෙන පද්ධතියේ යම් දෝෂයක් නිසා ක්‍රියාවිරහිත වී ඇත." +
                     vbCrLf + vbCrLf + "Message: " + e.Result(1) + vbCrLf + "මේ පිළිබඳව Software Developer හට දැනුම් දෙන්න.", e.Result(0))
+                    Exit Sub
+                Case Else
+                    CreateMessagePanel($"{e.Result(0)} Process එක Fail වී ඇත.", $"Process: {e.Result(0)}, Error: ${e.Result(1)}")
                     Exit Sub
             End Select
         End If
@@ -366,6 +370,7 @@ Public Class FormBGTasks
         '    End Select
         'End If
     End Sub
+
     Public Function FormatMessage(Text As String) As String
         Dim Output As String = Text.ToString.Replace("LASER_Background.", "")
         Output = Regex.Replace(Output, "[A-Z]", " $&")

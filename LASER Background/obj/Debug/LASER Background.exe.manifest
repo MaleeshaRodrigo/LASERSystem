@@ -43,14 +43,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="LASER Background.exe" size="421888">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="LASER Background.exe" size="423936">
       <assemblyIdentity name="LASER Background" version="1.0.0.0" language="neutral" processorArchitecture="amd64" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>IdFb6UbSFenuAo5Owqbbe6KVASnXi7Q9bpUNw0bfd0k=</dsig:DigestValue>
+        <dsig:DigestValue>d8+CDyPjsYXrl4CUeYwejwqTg+VNturVSuaxiITMufQ=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -99,6 +99,18 @@
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
         <dsig:DigestValue>GOhoM3Rb8MXGzycONJBTlz9OJ6hBD3ZSK1BPMY5NyUQ=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="MySqlBackupNet.MySqlConnector.dll" size="70144">
+      <assemblyIdentity name="MySqlBackupNet.MySqlConnector" version="2.3.8.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>KzAEEJVRFq2/DPsuw81DND61OZ/EUGnRAJCpD2iYqLM=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
