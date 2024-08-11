@@ -183,6 +183,9 @@ Public Class FormBGTasks
                     "ස්වයංක්‍රීයව Emails යැවෙන පද්ධතියේ යම් දෝෂයක් නිසා ක්‍රියාවිරහිත වී ඇත." +
                     vbCrLf + vbCrLf + "Message: " + e.Result(1) + vbCrLf + "මේ පිළිබඳව Software Developer හට දැනුම් දෙන්න.", e.Result(0))
                     Exit Sub
+                Case ErrorClass.DatabaseBackup
+                    CreateMessagePanel("Database Backup පද්ධතිය බිද වැටී ඇත.", $"Message: {e.Result(1)}", e.Result(0))
+                    Exit Sub
                 Case Else
                     CreateMessagePanel($"{e.Result(0)} Process එක Fail වී ඇත.", $"Process: {e.Result(0)}, Error: ${e.Result(1)}")
                     Exit Sub
