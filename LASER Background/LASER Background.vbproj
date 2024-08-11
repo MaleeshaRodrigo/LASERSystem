@@ -158,7 +158,6 @@
     <Compile Include="Classes\EmailController.vb" />
     <Compile Include="Classes\Encoder.vb" />
     <Compile Include="Classes\Processes\AdminPermissionProcess.vb" />
-    <Compile Include="Classes\Processes\BackUpDatabaseProcess.vb" />
     <Compile Include="Classes\Processes\DatabaseBackupProcess.vb" />
     <Compile Include="Classes\Processes\RefreshSmsBalanceProcess.vb" />
     <Compile Include="Classes\Processes\SendSmsProcess.vb" />
