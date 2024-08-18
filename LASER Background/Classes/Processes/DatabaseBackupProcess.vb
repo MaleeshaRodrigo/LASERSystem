@@ -6,6 +6,7 @@ Imports MySqlConnector
 Public Class DatabaseBackupProcess
     Implements IProcess
 
+    Private Shared NextRunTime As Date = Now()
     Private ReadOnly Database As Database
     Private ReadOnly Worker As BackgroundWorker
 
@@ -17,7 +18,7 @@ Public Class DatabaseBackupProcess
     Public Sub Perform() Implements IProcess.Perform
         Dim Connection As MySqlConnection = Database.GetConenction
         Try
-            If Worker.CancellationPending Then
+            If Worker.CancellationPending Or NextRunTime > Now Then
                 Exit Sub
             End If
 
@@ -34,6 +35,7 @@ Public Class DatabaseBackupProcess
                 Backup.ExportToFile(Path.Combine(My.Settings.BackUpDB3, $"Database {Now.Date.ToShortDateString} {Now.Hour}.sql"))
                 DeleteExpiredBackUps(My.Settings.BackUpDB3)
             End If
+            NextRunTime = Now.AddHours(1)
         Catch ex As Exception
             Throw ex
         Finally
