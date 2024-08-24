@@ -54,7 +54,7 @@ Partial Class ControlStockSelection
         Me.TextStockCode.Maximum = New Decimal(New Integer() {9999999, 0, 0, 0})
         Me.TextStockCode.Name = "TextStockCode"
         Me.TextStockCode.Size = New System.Drawing.Size(80, 22)
-        Me.TextStockCode.TabIndex = 9
+        Me.TextStockCode.TabIndex = 0
         '
         'Label3
         '
@@ -73,7 +73,7 @@ Partial Class ControlStockSelection
         Me.ComboStockName.Location = New System.Drawing.Point(69, 61)
         Me.ComboStockName.Name = "ComboStockName"
         Me.ComboStockName.Size = New System.Drawing.Size(127, 22)
-        Me.ComboStockName.TabIndex = 7
+        Me.ComboStockName.TabIndex = 2
         '
         'ComboStockCategory
         '
@@ -85,7 +85,7 @@ Partial Class ControlStockSelection
         Me.ComboStockCategory.Location = New System.Drawing.Point(69, 31)
         Me.ComboStockCategory.Name = "ComboStockCategory"
         Me.ComboStockCategory.Size = New System.Drawing.Size(127, 22)
-        Me.ComboStockCategory.TabIndex = 6
+        Me.ComboStockCategory.TabIndex = 1
         '
         'Label2
         '

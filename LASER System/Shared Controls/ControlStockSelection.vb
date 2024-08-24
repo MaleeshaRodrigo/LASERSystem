@@ -3,6 +3,7 @@ Imports MySqlConnector
 
 Public Class ControlStockSelection
     Private Db As Database
+    Public Event StockChanged()
 
     Public Property SCode() As Integer
         Get
@@ -60,6 +61,7 @@ Public Class ControlStockSelection
 
         ComboStockCategory.Text = Result(Stock.Category)
         ComboStockName.Text = Result(Stock.Name)
+        RaiseEvent StockChanged()
     End Sub
 
     Private Sub ComboStockName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboStockName.SelectedIndexChanged

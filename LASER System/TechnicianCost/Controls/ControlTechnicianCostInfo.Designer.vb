@@ -88,7 +88,7 @@ Partial Class ControlTechnicianCostInfo
         Me.ControlTechnicianSelection.MinimumSize = New System.Drawing.Size(205, 29)
         Me.ControlTechnicianSelection.Name = "ControlTechnicianSelection"
         Me.ControlTechnicianSelection.Size = New System.Drawing.Size(307, 29)
-        Me.ControlTechnicianSelection.TabIndex = 42
+        Me.ControlTechnicianSelection.TabIndex = 1
         '
         'TextTechnicianCostNo
         '
@@ -106,7 +106,7 @@ Partial Class ControlTechnicianCostInfo
         Me.TextTotal.Minimum = New Decimal(New Integer() {999999999, 0, 0, -2147483648})
         Me.TextTotal.Name = "TextTotal"
         Me.TextTotal.Size = New System.Drawing.Size(68, 22)
-        Me.TextTotal.TabIndex = 40
+        Me.TextTotal.TabIndex = 7
         '
         'Label6
         '
@@ -124,7 +124,7 @@ Partial Class ControlTechnicianCostInfo
         Me.TextQty.Minimum = New Decimal(New Integer() {1410065407, 2, 0, -2147483648})
         Me.TextQty.Name = "TextQty"
         Me.TextQty.Size = New System.Drawing.Size(37, 22)
-        Me.TextQty.TabIndex = 38
+        Me.TextQty.TabIndex = 6
         '
         'Label5
         '
@@ -143,7 +143,7 @@ Partial Class ControlTechnicianCostInfo
         Me.TextRate.Minimum = New Decimal(New Integer() {99999999, 0, 0, -2147483648})
         Me.TextRate.Name = "TextRate"
         Me.TextRate.Size = New System.Drawing.Size(72, 22)
-        Me.TextRate.TabIndex = 36
+        Me.TextRate.TabIndex = 5
         Me.TextRate.ThousandsSeparator = True
         '
         'Label4
@@ -163,7 +163,7 @@ Partial Class ControlTechnicianCostInfo
         Me.ButtonSave.Margin = New System.Windows.Forms.Padding(2)
         Me.ButtonSave.Name = "ButtonSave"
         Me.ButtonSave.Size = New System.Drawing.Size(86, 34)
-        Me.ButtonSave.TabIndex = 32
+        Me.ButtonSave.TabIndex = 9
         Me.ButtonSave.Text = "Save"
         Me.ButtonSave.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.ButtonSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
@@ -177,7 +177,7 @@ Partial Class ControlTechnicianCostInfo
         Me.ButtonDelete.Margin = New System.Windows.Forms.Padding(2)
         Me.ButtonDelete.Name = "ButtonDelete"
         Me.ButtonDelete.Size = New System.Drawing.Size(84, 34)
-        Me.ButtonDelete.TabIndex = 33
+        Me.ButtonDelete.TabIndex = 10
         Me.ButtonDelete.Text = "Delete"
         Me.ButtonDelete.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.ButtonDelete.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
@@ -191,7 +191,7 @@ Partial Class ControlTechnicianCostInfo
         Me.ButtonClose.Margin = New System.Windows.Forms.Padding(2)
         Me.ButtonClose.Name = "ButtonClose"
         Me.ButtonClose.Size = New System.Drawing.Size(73, 34)
-        Me.ButtonClose.TabIndex = 34
+        Me.ButtonClose.TabIndex = 11
         Me.ButtonClose.Text = "Close"
         Me.ButtonClose.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.ButtonClose.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
@@ -238,7 +238,7 @@ Partial Class ControlTechnicianCostInfo
         Me.ControlStockSelection.SCode = 0
         Me.ControlStockSelection.Size = New System.Drawing.Size(294, 90)
         Me.ControlStockSelection.SName = ""
-        Me.ControlStockSelection.TabIndex = 0
+        Me.ControlStockSelection.TabIndex = 2
         '
         'GroupBox2
         '
@@ -265,7 +265,7 @@ Partial Class ControlTechnicianCostInfo
         Me.PickerDate.Location = New System.Drawing.Point(79, 21)
         Me.PickerDate.Name = "PickerDate"
         Me.PickerDate.Size = New System.Drawing.Size(229, 22)
-        Me.PickerDate.TabIndex = 1
+        Me.PickerDate.TabIndex = 0
         '
         'Label1
         '
