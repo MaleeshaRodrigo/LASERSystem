@@ -51,7 +51,7 @@ Partial Class ControlStockSelection
         '
         Me.TextStockCode.InterceptArrowKeys = False
         Me.TextStockCode.Location = New System.Drawing.Point(69, 3)
-        Me.TextStockCode.Maximum = New Decimal(New Integer() {0, 0, 0, 0})
+        Me.TextStockCode.Maximum = New Decimal(New Integer() {9999999, 0, 0, 0})
         Me.TextStockCode.Name = "TextStockCode"
         Me.TextStockCode.Size = New System.Drawing.Size(80, 22)
         Me.TextStockCode.TabIndex = 9

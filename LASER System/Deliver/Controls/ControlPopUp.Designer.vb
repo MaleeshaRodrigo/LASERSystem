@@ -89,10 +89,10 @@ Partial Class ControlPopUp
         Me.grpPaymentInfo.Font = New System.Drawing.Font("Calibri", 9.0!)
         Me.grpPaymentInfo.ForeColor = System.Drawing.Color.FromArgb(CType(CType(125, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(149, Byte), Integer))
         Me.grpPaymentInfo.Location = New System.Drawing.Point(2, 2)
-        Me.grpPaymentInfo.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.grpPaymentInfo.Margin = New System.Windows.Forms.Padding(2)
         Me.grpPaymentInfo.Name = "grpPaymentInfo"
-        Me.grpPaymentInfo.Padding = New System.Windows.Forms.Padding(2, 2, 2, 2)
-        Me.grpPaymentInfo.Size = New System.Drawing.Size(320, 342)
+        Me.grpPaymentInfo.Padding = New System.Windows.Forms.Padding(2)
+        Me.grpPaymentInfo.Size = New System.Drawing.Size(377, 374)
         Me.grpPaymentInfo.TabIndex = 84
         Me.grpPaymentInfo.TabStop = False
         Me.grpPaymentInfo.Text = "Payment Info"
@@ -101,8 +101,8 @@ Partial Class ControlPopUp
         '
         Me.txtRepAdvanced.Enabled = False
         Me.txtRepAdvanced.Font = New System.Drawing.Font("Calibri", 10.0!)
-        Me.txtRepAdvanced.Location = New System.Drawing.Point(97, 43)
-        Me.txtRepAdvanced.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.txtRepAdvanced.Location = New System.Drawing.Point(113, 47)
+        Me.txtRepAdvanced.Margin = New System.Windows.Forms.Padding(2)
         Me.txtRepAdvanced.Name = "txtRepAdvanced"
         Me.txtRepAdvanced.Size = New System.Drawing.Size(60, 24)
         Me.txtRepAdvanced.TabIndex = 114
@@ -112,7 +112,7 @@ Partial Class ControlPopUp
         '
         Me.Label16.AutoSize = True
         Me.Label16.Font = New System.Drawing.Font("Calibri", 10.0!)
-        Me.Label16.Location = New System.Drawing.Point(4, 46)
+        Me.Label16.Location = New System.Drawing.Point(8, 50)
         Me.Label16.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label16.Name = "Label16"
         Me.Label16.Size = New System.Drawing.Size(67, 17)
@@ -123,10 +123,10 @@ Partial Class ControlPopUp
         '
         Me.Label17.BackColor = System.Drawing.SystemColors.AppWorkspace
         Me.Label17.Font = New System.Drawing.Font("Calibri", 9.0!)
-        Me.Label17.Location = New System.Drawing.Point(78, 43)
+        Me.Label17.Location = New System.Drawing.Point(86, 48)
         Me.Label17.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label17.Name = "Label17"
-        Me.Label17.Size = New System.Drawing.Size(18, 20)
+        Me.Label17.Size = New System.Drawing.Size(26, 22)
         Me.Label17.TabIndex = 115
         Me.Label17.Text = "Rs."
         Me.Label17.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -135,8 +135,8 @@ Partial Class ControlPopUp
         '
         Me.txtSubTotal.Enabled = False
         Me.txtSubTotal.Font = New System.Drawing.Font("Calibri", 10.0!)
-        Me.txtSubTotal.Location = New System.Drawing.Point(97, 21)
-        Me.txtSubTotal.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.txtSubTotal.Location = New System.Drawing.Point(113, 19)
+        Me.txtSubTotal.Margin = New System.Windows.Forms.Padding(2)
         Me.txtSubTotal.Name = "txtSubTotal"
         Me.txtSubTotal.Size = New System.Drawing.Size(60, 24)
         Me.txtSubTotal.TabIndex = 111
@@ -146,7 +146,7 @@ Partial Class ControlPopUp
         '
         Me.Label14.AutoSize = True
         Me.Label14.Font = New System.Drawing.Font("Calibri", 10.0!)
-        Me.Label14.Location = New System.Drawing.Point(4, 24)
+        Me.Label14.Location = New System.Drawing.Point(8, 22)
         Me.Label14.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label14.Name = "Label14"
         Me.Label14.Size = New System.Drawing.Size(63, 17)
@@ -157,10 +157,10 @@ Partial Class ControlPopUp
         '
         Me.Label15.BackColor = System.Drawing.SystemColors.AppWorkspace
         Me.Label15.Font = New System.Drawing.Font("Calibri", 9.0!)
-        Me.Label15.Location = New System.Drawing.Point(78, 21)
+        Me.Label15.Location = New System.Drawing.Point(86, 20)
         Me.Label15.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label15.Name = "Label15"
-        Me.Label15.Size = New System.Drawing.Size(18, 20)
+        Me.Label15.Size = New System.Drawing.Size(26, 22)
         Me.Label15.TabIndex = 112
         Me.Label15.Text = "Rs."
         Me.Label15.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -168,10 +168,10 @@ Partial Class ControlPopUp
         'Label13
         '
         Me.Label13.Font = New System.Drawing.Font("Calibri", 10.0!)
-        Me.Label13.Location = New System.Drawing.Point(4, 260)
+        Me.Label13.Location = New System.Drawing.Point(4, 281)
         Me.Label13.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(309, 72)
+        Me.Label13.Size = New System.Drawing.Size(373, 86)
         Me.Label13.TabIndex = 109
         Me.Label13.Text = resources.GetString("Label13.Text")
         '
@@ -180,10 +180,10 @@ Partial Class ControlPopUp
         Me.chkCashDrawer.Checked = True
         Me.chkCashDrawer.CheckState = System.Windows.Forms.CheckState.Checked
         Me.chkCashDrawer.Font = New System.Drawing.Font("Calibri", 10.0!)
-        Me.chkCashDrawer.Location = New System.Drawing.Point(218, 198)
-        Me.chkCashDrawer.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.chkCashDrawer.Location = New System.Drawing.Point(253, 232)
+        Me.chkCashDrawer.Margin = New System.Windows.Forms.Padding(2)
         Me.chkCashDrawer.Name = "chkCashDrawer"
-        Me.chkCashDrawer.Size = New System.Drawing.Size(96, 47)
+        Me.chkCashDrawer.Size = New System.Drawing.Size(120, 47)
         Me.chkCashDrawer.TabIndex = 108
         Me.chkCashDrawer.Text = "Cash Drawer එක විවෘත විය යුතුය  "
         Me.chkCashDrawer.UseVisualStyleBackColor = True
@@ -192,8 +192,8 @@ Partial Class ControlPopUp
         '
         Me.cmdCancel.Font = New System.Drawing.Font("Calibri", 12.0!)
         Me.cmdCancel.Image = Global.LASER_System.My.Resources.Resources.close
-        Me.cmdCancel.Location = New System.Drawing.Point(294, 0)
-        Me.cmdCancel.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.cmdCancel.Location = New System.Drawing.Point(352, 5)
+        Me.cmdCancel.Margin = New System.Windows.Forms.Padding(2)
         Me.cmdCancel.Name = "cmdCancel"
         Me.cmdCancel.Size = New System.Drawing.Size(26, 24)
         Me.cmdCancel.TabIndex = 105
@@ -203,8 +203,8 @@ Partial Class ControlPopUp
         '
         Me.txtGrandTotal.Enabled = False
         Me.txtGrandTotal.Font = New System.Drawing.Font("Calibri", 10.0!)
-        Me.txtGrandTotal.Location = New System.Drawing.Point(97, 66)
-        Me.txtGrandTotal.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.txtGrandTotal.Location = New System.Drawing.Point(113, 75)
+        Me.txtGrandTotal.Margin = New System.Windows.Forms.Padding(2)
         Me.txtGrandTotal.Name = "txtGrandTotal"
         Me.txtGrandTotal.Size = New System.Drawing.Size(60, 24)
         Me.txtGrandTotal.TabIndex = 87
@@ -213,10 +213,10 @@ Partial Class ControlPopUp
         'cmdNotReceipt
         '
         Me.cmdNotReceipt.Font = New System.Drawing.Font("Calibri", 12.0!)
-        Me.cmdNotReceipt.Location = New System.Drawing.Point(116, 195)
-        Me.cmdNotReceipt.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.cmdNotReceipt.Location = New System.Drawing.Point(128, 229)
+        Me.cmdNotReceipt.Margin = New System.Windows.Forms.Padding(2)
         Me.cmdNotReceipt.Name = "cmdNotReceipt"
-        Me.cmdNotReceipt.Size = New System.Drawing.Size(98, 50)
+        Me.cmdNotReceipt.Size = New System.Drawing.Size(116, 50)
         Me.cmdNotReceipt.TabIndex = 107
         Me.cmdNotReceipt.Text = "බිල්පතක් අවශ්‍ය නැත."
         Me.cmdNotReceipt.UseVisualStyleBackColor = True
@@ -226,11 +226,11 @@ Partial Class ControlPopUp
         Me.tabcontrolPayment.Controls.Add(Me.tabpageCash)
         Me.tabcontrolPayment.Controls.Add(Me.tabpageCard)
         Me.tabcontrolPayment.Controls.Add(Me.tabpageCuLoan)
-        Me.tabcontrolPayment.Location = New System.Drawing.Point(5, 90)
-        Me.tabcontrolPayment.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.tabcontrolPayment.Location = New System.Drawing.Point(7, 111)
+        Me.tabcontrolPayment.Margin = New System.Windows.Forms.Padding(2)
         Me.tabcontrolPayment.Name = "tabcontrolPayment"
         Me.tabcontrolPayment.SelectedIndex = 0
-        Me.tabcontrolPayment.Size = New System.Drawing.Size(309, 100)
+        Me.tabcontrolPayment.Size = New System.Drawing.Size(366, 114)
         Me.tabcontrolPayment.TabIndex = 52
         '
         'tabpageCash
@@ -245,10 +245,10 @@ Partial Class ControlPopUp
         Me.tabpageCash.Controls.Add(Me.txtCReceived)
         Me.tabpageCash.Controls.Add(Me.Label24)
         Me.tabpageCash.Location = New System.Drawing.Point(4, 23)
-        Me.tabpageCash.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.tabpageCash.Margin = New System.Windows.Forms.Padding(2)
         Me.tabpageCash.Name = "tabpageCash"
-        Me.tabpageCash.Padding = New System.Windows.Forms.Padding(2, 2, 2, 2)
-        Me.tabpageCash.Size = New System.Drawing.Size(301, 73)
+        Me.tabpageCash.Padding = New System.Windows.Forms.Padding(2)
+        Me.tabpageCash.Size = New System.Drawing.Size(358, 87)
         Me.tabpageCash.TabIndex = 0
         Me.tabpageCash.Text = "By Cash"
         Me.tabpageCash.UseVisualStyleBackColor = True
@@ -257,10 +257,10 @@ Partial Class ControlPopUp
         '
         Me.Label9.BackColor = System.Drawing.SystemColors.AppWorkspace
         Me.Label9.Font = New System.Drawing.Font("Calibri", 9.0!)
-        Me.Label9.Location = New System.Drawing.Point(56, 50)
+        Me.Label9.Location = New System.Drawing.Point(69, 58)
         Me.Label9.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(18, 20)
+        Me.Label9.Size = New System.Drawing.Size(23, 20)
         Me.Label9.TabIndex = 82
         Me.Label9.Text = "Rs."
         Me.Label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -269,10 +269,10 @@ Partial Class ControlPopUp
         '
         Me.Label8.BackColor = System.Drawing.SystemColors.AppWorkspace
         Me.Label8.Font = New System.Drawing.Font("Calibri", 9.0!)
-        Me.Label8.Location = New System.Drawing.Point(56, 28)
+        Me.Label8.Location = New System.Drawing.Point(69, 31)
         Me.Label8.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(18, 20)
+        Me.Label8.Size = New System.Drawing.Size(23, 20)
         Me.Label8.TabIndex = 81
         Me.Label8.Text = "Rs."
         Me.Label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -281,18 +281,18 @@ Partial Class ControlPopUp
         '
         Me.Label7.BackColor = System.Drawing.SystemColors.AppWorkspace
         Me.Label7.Font = New System.Drawing.Font("Calibri", 9.0!)
-        Me.Label7.Location = New System.Drawing.Point(56, 5)
+        Me.Label7.Location = New System.Drawing.Point(69, 5)
         Me.Label7.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(18, 20)
+        Me.Label7.Size = New System.Drawing.Size(23, 20)
         Me.Label7.TabIndex = 80
         Me.Label7.Text = "Rs."
         Me.Label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'txtCAmount
         '
-        Me.txtCAmount.Location = New System.Drawing.Point(75, 5)
-        Me.txtCAmount.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.txtCAmount.Location = New System.Drawing.Point(94, 5)
+        Me.txtCAmount.Margin = New System.Windows.Forms.Padding(2)
         Me.txtCAmount.Name = "txtCAmount"
         Me.txtCAmount.Size = New System.Drawing.Size(79, 22)
         Me.txtCAmount.TabIndex = 45
@@ -311,8 +311,8 @@ Partial Class ControlPopUp
         'txtCBalance
         '
         Me.txtCBalance.Enabled = False
-        Me.txtCBalance.Location = New System.Drawing.Point(75, 50)
-        Me.txtCBalance.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.txtCBalance.Location = New System.Drawing.Point(94, 57)
+        Me.txtCBalance.Margin = New System.Windows.Forms.Padding(2)
         Me.txtCBalance.Name = "txtCBalance"
         Me.txtCBalance.Size = New System.Drawing.Size(79, 22)
         Me.txtCBalance.TabIndex = 43
@@ -321,7 +321,7 @@ Partial Class ControlPopUp
         'Label25
         '
         Me.Label25.AutoSize = True
-        Me.Label25.Location = New System.Drawing.Point(4, 54)
+        Me.Label25.Location = New System.Drawing.Point(4, 61)
         Me.Label25.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label25.Name = "Label25"
         Me.Label25.Size = New System.Drawing.Size(54, 14)
@@ -330,8 +330,8 @@ Partial Class ControlPopUp
         '
         'txtCReceived
         '
-        Me.txtCReceived.Location = New System.Drawing.Point(75, 28)
-        Me.txtCReceived.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.txtCReceived.Location = New System.Drawing.Point(94, 31)
+        Me.txtCReceived.Margin = New System.Windows.Forms.Padding(2)
         Me.txtCReceived.Name = "txtCReceived"
         Me.txtCReceived.Size = New System.Drawing.Size(79, 22)
         Me.txtCReceived.TabIndex = 41
@@ -355,10 +355,10 @@ Partial Class ControlPopUp
         Me.tabpageCard.Controls.Add(Me.txtCPInvoiceNo)
         Me.tabpageCard.Controls.Add(Me.Label28)
         Me.tabpageCard.Location = New System.Drawing.Point(4, 23)
-        Me.tabpageCard.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.tabpageCard.Margin = New System.Windows.Forms.Padding(2)
         Me.tabpageCard.Name = "tabpageCard"
-        Me.tabpageCard.Padding = New System.Windows.Forms.Padding(2, 2, 2, 2)
-        Me.tabpageCard.Size = New System.Drawing.Size(301, 73)
+        Me.tabpageCard.Padding = New System.Windows.Forms.Padding(2)
+        Me.tabpageCard.Size = New System.Drawing.Size(358, 87)
         Me.tabpageCard.TabIndex = 1
         Me.tabpageCard.Text = "By Card Payment"
         Me.tabpageCard.UseVisualStyleBackColor = True
@@ -367,27 +367,27 @@ Partial Class ControlPopUp
         '
         Me.Label6.BackColor = System.Drawing.SystemColors.AppWorkspace
         Me.Label6.Font = New System.Drawing.Font("Calibri", 9.0!)
-        Me.Label6.Location = New System.Drawing.Point(52, 29)
+        Me.Label6.Location = New System.Drawing.Point(60, 32)
         Me.Label6.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(18, 21)
+        Me.Label6.Size = New System.Drawing.Size(23, 21)
         Me.Label6.TabIndex = 79
         Me.Label6.Text = "Rs."
         Me.Label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'txtCPAmount
         '
-        Me.txtCPAmount.Location = New System.Drawing.Point(70, 29)
-        Me.txtCPAmount.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.txtCPAmount.Location = New System.Drawing.Point(84, 32)
+        Me.txtCPAmount.Margin = New System.Windows.Forms.Padding(2)
         Me.txtCPAmount.Name = "txtCPAmount"
-        Me.txtCPAmount.Size = New System.Drawing.Size(52, 22)
+        Me.txtCPAmount.Size = New System.Drawing.Size(63, 22)
         Me.txtCPAmount.TabIndex = 10
         Me.txtCPAmount.Text = "0"
         '
         'Label32
         '
         Me.Label32.AutoSize = True
-        Me.Label32.Location = New System.Drawing.Point(4, 32)
+        Me.Label32.Location = New System.Drawing.Point(4, 35)
         Me.Label32.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label32.Name = "Label32"
         Me.Label32.Size = New System.Drawing.Size(52, 14)
@@ -396,8 +396,8 @@ Partial Class ControlPopUp
         '
         'txtCPInvoiceNo
         '
-        Me.txtCPInvoiceNo.Location = New System.Drawing.Point(136, 5)
-        Me.txtCPInvoiceNo.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.txtCPInvoiceNo.Location = New System.Drawing.Point(145, 4)
+        Me.txtCPInvoiceNo.Margin = New System.Windows.Forms.Padding(2)
         Me.txtCPInvoiceNo.Name = "txtCPInvoiceNo"
         Me.txtCPInvoiceNo.Size = New System.Drawing.Size(57, 22)
         Me.txtCPInvoiceNo.TabIndex = 1
@@ -420,9 +420,9 @@ Partial Class ControlPopUp
         Me.tabpageCuLoan.Controls.Add(Me.txtCuLAmount)
         Me.tabpageCuLoan.Controls.Add(Me.Label30)
         Me.tabpageCuLoan.Location = New System.Drawing.Point(4, 23)
-        Me.tabpageCuLoan.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.tabpageCuLoan.Margin = New System.Windows.Forms.Padding(2)
         Me.tabpageCuLoan.Name = "tabpageCuLoan"
-        Me.tabpageCuLoan.Size = New System.Drawing.Size(301, 73)
+        Me.tabpageCuLoan.Size = New System.Drawing.Size(358, 87)
         Me.tabpageCuLoan.TabIndex = 2
         Me.tabpageCuLoan.Text = "By Customer Loan"
         Me.tabpageCuLoan.UseVisualStyleBackColor = True
@@ -431,10 +431,10 @@ Partial Class ControlPopUp
         '
         Me.Label35.BackColor = System.Drawing.SystemColors.AppWorkspace
         Me.Label35.Font = New System.Drawing.Font("Calibri", 9.0!)
-        Me.Label35.Location = New System.Drawing.Point(56, 28)
+        Me.Label35.Location = New System.Drawing.Point(63, 33)
         Me.Label35.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label35.Name = "Label35"
-        Me.Label35.Size = New System.Drawing.Size(22, 21)
+        Me.Label35.Size = New System.Drawing.Size(24, 21)
         Me.Label35.TabIndex = 79
         Me.Label35.Text = "Rs."
         Me.Label35.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -442,16 +442,16 @@ Partial Class ControlPopUp
         'txtCuLNo
         '
         Me.txtCuLNo.Enabled = False
-        Me.txtCuLNo.Location = New System.Drawing.Point(104, 4)
-        Me.txtCuLNo.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.txtCuLNo.Location = New System.Drawing.Point(117, 6)
+        Me.txtCuLNo.Margin = New System.Windows.Forms.Padding(2)
         Me.txtCuLNo.Name = "txtCuLNo"
-        Me.txtCuLNo.Size = New System.Drawing.Size(38, 22)
+        Me.txtCuLNo.Size = New System.Drawing.Size(50, 22)
         Me.txtCuLNo.TabIndex = 14
         '
         'Label33
         '
         Me.Label33.AutoSize = True
-        Me.Label33.Location = New System.Drawing.Point(5, 6)
+        Me.Label33.Location = New System.Drawing.Point(5, 9)
         Me.Label33.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label33.Name = "Label33"
         Me.Label33.Size = New System.Drawing.Size(108, 14)
@@ -460,8 +460,8 @@ Partial Class ControlPopUp
         '
         'txtCuLAmount
         '
-        Me.txtCuLAmount.Location = New System.Drawing.Point(79, 28)
-        Me.txtCuLAmount.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.txtCuLAmount.Location = New System.Drawing.Point(89, 32)
+        Me.txtCuLAmount.Margin = New System.Windows.Forms.Padding(2)
         Me.txtCuLAmount.Name = "txtCuLAmount"
         Me.txtCuLAmount.Size = New System.Drawing.Size(78, 22)
         Me.txtCuLAmount.TabIndex = 12
@@ -470,7 +470,7 @@ Partial Class ControlPopUp
         'Label30
         '
         Me.Label30.AutoSize = True
-        Me.Label30.Location = New System.Drawing.Point(5, 31)
+        Me.Label30.Location = New System.Drawing.Point(5, 36)
         Me.Label30.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label30.Name = "Label30"
         Me.Label30.Size = New System.Drawing.Size(52, 14)
@@ -480,10 +480,10 @@ Partial Class ControlPopUp
         'cmdReceipt
         '
         Me.cmdReceipt.Font = New System.Drawing.Font("Calibri", 12.0!)
-        Me.cmdReceipt.Location = New System.Drawing.Point(5, 195)
-        Me.cmdReceipt.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.cmdReceipt.Location = New System.Drawing.Point(4, 229)
+        Me.cmdReceipt.Margin = New System.Windows.Forms.Padding(2)
         Me.cmdReceipt.Name = "cmdReceipt"
-        Me.cmdReceipt.Size = New System.Drawing.Size(106, 50)
+        Me.cmdReceipt.Size = New System.Drawing.Size(120, 50)
         Me.cmdReceipt.TabIndex = 106
         Me.cmdReceipt.Text = "බිල්පතක් අවශ්‍යයි."
         Me.cmdReceipt.UseVisualStyleBackColor = True
@@ -492,7 +492,7 @@ Partial Class ControlPopUp
         '
         Me.Label26.AutoSize = True
         Me.Label26.Font = New System.Drawing.Font("Calibri", 10.0!)
-        Me.Label26.Location = New System.Drawing.Point(4, 69)
+        Me.Label26.Location = New System.Drawing.Point(4, 78)
         Me.Label26.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label26.Name = "Label26"
         Me.Label26.Size = New System.Drawing.Size(78, 17)
@@ -503,10 +503,10 @@ Partial Class ControlPopUp
         '
         Me.Label10.BackColor = System.Drawing.SystemColors.AppWorkspace
         Me.Label10.Font = New System.Drawing.Font("Calibri", 9.0!)
-        Me.Label10.Location = New System.Drawing.Point(78, 66)
+        Me.Label10.Location = New System.Drawing.Point(86, 76)
         Me.Label10.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(18, 20)
+        Me.Label10.Size = New System.Drawing.Size(26, 22)
         Me.Label10.TabIndex = 88
         Me.Label10.Text = "Rs."
         Me.Label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -516,9 +516,9 @@ Partial Class ControlPopUp
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.Controls.Add(Me.grpPaymentInfo)
-        Me.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.Margin = New System.Windows.Forms.Padding(2)
         Me.Name = "ControlPopUp"
-        Me.Size = New System.Drawing.Size(334, 347)
+        Me.Size = New System.Drawing.Size(429, 471)
         Me.grpPaymentInfo.ResumeLayout(False)
         Me.grpPaymentInfo.PerformLayout()
         Me.tabcontrolPayment.ResumeLayout(False)

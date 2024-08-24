@@ -53,6 +53,8 @@ Public Class ControlStockSelection
             New MySqlParameter("SNO", TextStockCode.Value)
         })
         If Result Is Nothing Then
+            ComboStockCategory.Text = ""
+            ComboStockName.Text = ""
             Return
         End If
 
