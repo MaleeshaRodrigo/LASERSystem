@@ -40,16 +40,8 @@ Partial Class frmTechnicianSalary
         Me.cmdTView = New System.Windows.Forms.Button()
         Me.cmbTName = New System.Windows.Forms.ComboBox()
         Me.Label2 = New System.Windows.Forms.Label()
-        Me.Label10 = New System.Windows.Forms.Label()
-        Me.txt1 = New System.Windows.Forms.TextBox()
-        Me.txt2 = New System.Windows.Forms.TextBox()
-        Me.Label11 = New System.Windows.Forms.Label()
-        Me.Label12 = New System.Windows.Forms.Label()
         Me.Label16 = New System.Windows.Forms.Label()
-        Me.txt4 = New System.Windows.Forms.TextBox()
         Me.Label17 = New System.Windows.Forms.Label()
-        Me.txt5 = New System.Windows.Forms.TextBox()
-        Me.txt6 = New System.Windows.Forms.TextBox()
         Me.Label18 = New System.Windows.Forms.Label()
         Me.cmdTSDone = New System.Windows.Forms.Button()
         Me.cmdTSCancel = New System.Windows.Forms.Button()
@@ -135,11 +127,6 @@ Partial Class frmTechnicianSalary
         Me.TLQty = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.TLTotal = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.cmdTSPrint = New System.Windows.Forms.Button()
-        Me.lblRs1 = New System.Windows.Forms.Label()
-        Me.Label13 = New System.Windows.Forms.Label()
-        Me.Label20 = New System.Windows.Forms.Label()
-        Me.Label21 = New System.Windows.Forms.Label()
-        Me.Label22 = New System.Windows.Forms.Label()
         Me.ToolTip = New System.Windows.Forms.ToolTip(Me.components)
         Me.MenuStrip = New System.Windows.Forms.MenuStrip()
         Me.OPTIONToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -151,11 +138,15 @@ Partial Class frmTechnicianSalary
         Me.TechnicianInfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MalToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SendTechnicianSalaryToTechnicianToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.Label14 = New System.Windows.Forms.Label()
-        Me.txt3 = New System.Windows.Forms.TextBox()
-        Me.Label15 = New System.Windows.Forms.Label()
-        Me.Label1 = New System.Windows.Forms.Label()
         Me.chkDetails = New System.Windows.Forms.CheckBox()
+        Me.ControlSalaryPrecentage = New System.Windows.Forms.NumericUpDown()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.Label10 = New System.Windows.Forms.Label()
+        Me.Label11 = New System.Windows.Forms.Label()
+        Me.ControlTechnicianLoan = New LASER_System.ControlPrice()
+        Me.ControlTechnicianEarnedSalary = New LASER_System.ControlPrice()
+        Me.ControlTechnicianSalary = New LASER_System.ControlPrice()
+        Me.ControlTotalEarned = New LASER_System.ControlPrice()
         Me.boxItem.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.tabctrlSalary.SuspendLayout()
@@ -170,6 +161,7 @@ Partial Class frmTechnicianSalary
         Me.Loan.SuspendLayout()
         CType(Me.grdLoan, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.MenuStrip.SuspendLayout()
+        CType(Me.ControlSalaryPrecentage, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'boxItem
@@ -333,105 +325,31 @@ Partial Class frmTechnicianSalary
         Me.Label2.TabIndex = 3
         Me.Label2.Text = "Name:"
         '
-        'Label10
-        '
-        Me.Label10.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.Label10.AutoSize = True
-        Me.Label10.Location = New System.Drawing.Point(9, 378)
-        Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(99, 14)
-        Me.Label10.TabIndex = 70
-        Me.Label10.Text = "Earned Amount ="
-        '
-        'txt1
-        '
-        Me.txt1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.txt1.Enabled = False
-        Me.txt1.Location = New System.Drawing.Point(139, 358)
-        Me.txt1.Name = "txt1"
-        Me.txt1.Size = New System.Drawing.Size(50, 22)
-        Me.txt1.TabIndex = 71
-        '
-        'txt2
-        '
-        Me.txt2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.txt2.Enabled = False
-        Me.txt2.Location = New System.Drawing.Point(237, 358)
-        Me.txt2.Name = "txt2"
-        Me.txt2.Size = New System.Drawing.Size(50, 22)
-        Me.txt2.TabIndex = 72
-        '
-        'Label11
-        '
-        Me.Label11.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.Label11.AutoSize = True
-        Me.Label11.Location = New System.Drawing.Point(195, 362)
-        Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(11, 14)
-        Me.Label11.TabIndex = 73
-        Me.Label11.Text = "-"
-        '
-        'Label12
-        '
-        Me.Label12.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.Label12.AutoSize = True
-        Me.Label12.Location = New System.Drawing.Point(195, 399)
-        Me.Label12.Name = "Label12"
-        Me.Label12.Size = New System.Drawing.Size(13, 14)
-        Me.Label12.TabIndex = 75
-        Me.Label12.Text = "2"
-        '
         'Label16
         '
         Me.Label16.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.Label16.AutoSize = True
-        Me.Label16.Location = New System.Drawing.Point(399, 378)
+        Me.Label16.Location = New System.Drawing.Point(9, 383)
         Me.Label16.Name = "Label16"
         Me.Label16.Size = New System.Drawing.Size(110, 14)
         Me.Label16.TabIndex = 81
         Me.Label16.Text = "Technician Salary ="
         '
-        'txt4
-        '
-        Me.txt4.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.txt4.Enabled = False
-        Me.txt4.Location = New System.Drawing.Point(540, 373)
-        Me.txt4.Name = "txt4"
-        Me.txt4.Size = New System.Drawing.Size(50, 22)
-        Me.txt4.TabIndex = 82
-        '
         'Label17
         '
         Me.Label17.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.Label17.AutoSize = True
-        Me.Label17.Location = New System.Drawing.Point(596, 377)
+        Me.Label17.Location = New System.Drawing.Point(245, 383)
         Me.Label17.Name = "Label17"
-        Me.Label17.Size = New System.Drawing.Size(11, 14)
+        Me.Label17.Size = New System.Drawing.Size(12, 14)
         Me.Label17.TabIndex = 84
-        Me.Label17.Text = "-"
-        '
-        'txt5
-        '
-        Me.txt5.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.txt5.Location = New System.Drawing.Point(638, 373)
-        Me.txt5.Name = "txt5"
-        Me.txt5.Size = New System.Drawing.Size(50, 22)
-        Me.txt5.TabIndex = 83
-        '
-        'txt6
-        '
-        Me.txt6.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.txt6.Enabled = False
-        Me.txt6.Location = New System.Drawing.Point(738, 374)
-        Me.txt6.Name = "txt6"
-        Me.txt6.Size = New System.Drawing.Size(50, 22)
-        Me.txt6.TabIndex = 86
+        Me.Label17.Text = "x"
         '
         'Label18
         '
         Me.Label18.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.Label18.AutoSize = True
-        Me.Label18.Location = New System.Drawing.Point(694, 378)
+        Me.Label18.Location = New System.Drawing.Point(581, 383)
         Me.Label18.Name = "Label18"
         Me.Label18.Size = New System.Drawing.Size(13, 14)
         Me.Label18.TabIndex = 85
@@ -440,7 +358,7 @@ Partial Class frmTechnicianSalary
         'cmdTSDone
         '
         Me.cmdTSDone.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.cmdTSDone.Image = My.Resources.Resources.Save
+        Me.cmdTSDone.Image = Global.LASER_System.My.Resources.Resources.Save
         Me.cmdTSDone.Location = New System.Drawing.Point(1052, 357)
         Me.cmdTSDone.Name = "cmdTSDone"
         Me.cmdTSDone.Size = New System.Drawing.Size(72, 56)
@@ -453,7 +371,7 @@ Partial Class frmTechnicianSalary
         'cmdTSCancel
         '
         Me.cmdTSCancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.cmdTSCancel.Image = My.Resources.Resources.close
+        Me.cmdTSCancel.Image = Global.LASER_System.My.Resources.Resources.close
         Me.cmdTSCancel.Location = New System.Drawing.Point(1130, 357)
         Me.cmdTSCancel.Name = "cmdTSCancel"
         Me.cmdTSCancel.Size = New System.Drawing.Size(72, 56)
@@ -499,7 +417,7 @@ Partial Class frmTechnicianSalary
         Me.chkRepair.AutoSize = True
         Me.chkRepair.Checked = True
         Me.chkRepair.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkRepair.Location = New System.Drawing.Point(372, 190)
+        Me.chkRepair.Location = New System.Drawing.Point(372, 188)
         Me.chkRepair.Name = "chkRepair"
         Me.chkRepair.Size = New System.Drawing.Size(184, 18)
         Me.chkRepair.TabIndex = 100
@@ -510,7 +428,7 @@ Partial Class frmTechnicianSalary
         '
         Me.txtTotalRepair.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.txtTotalRepair.Enabled = False
-        Me.txtTotalRepair.Location = New System.Drawing.Point(252, 188)
+        Me.txtTotalRepair.Location = New System.Drawing.Point(252, 186)
         Me.txtTotalRepair.Name = "txtTotalRepair"
         Me.txtTotalRepair.Size = New System.Drawing.Size(114, 22)
         Me.txtTotalRepair.TabIndex = 5
@@ -519,7 +437,7 @@ Partial Class frmTechnicianSalary
         '
         Me.Label4.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(6, 191)
+        Me.Label4.Location = New System.Drawing.Point(6, 189)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(240, 14)
         Me.Label4.TabIndex = 4
@@ -538,7 +456,7 @@ Partial Class frmTechnicianSalary
         Me.grdRepair.Name = "grdRepair"
         Me.grdRepair.RowHeadersVisible = False
         Me.grdRepair.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.grdRepair.Size = New System.Drawing.Size(1191, 179)
+        Me.grdRepair.Size = New System.Drawing.Size(1191, 177)
         Me.grdRepair.TabIndex = 3
         '
         'RepNo
@@ -1184,66 +1102,6 @@ Partial Class frmTechnicianSalary
         Me.cmdTSPrint.Text = "Print Technician Salary Report"
         Me.cmdTSPrint.UseVisualStyleBackColor = True
         '
-        'lblRs1
-        '
-        Me.lblRs1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.lblRs1.BackColor = System.Drawing.SystemColors.AppWorkspace
-        Me.lblRs1.Font = New System.Drawing.Font("Calibri", 9.0!)
-        Me.lblRs1.Location = New System.Drawing.Point(114, 358)
-        Me.lblRs1.Name = "lblRs1"
-        Me.lblRs1.Size = New System.Drawing.Size(24, 22)
-        Me.lblRs1.TabIndex = 91
-        Me.lblRs1.Text = "Rs."
-        Me.lblRs1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'Label13
-        '
-        Me.Label13.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.Label13.BackColor = System.Drawing.SystemColors.AppWorkspace
-        Me.Label13.Font = New System.Drawing.Font("Calibri", 9.0!)
-        Me.Label13.Location = New System.Drawing.Point(212, 358)
-        Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(24, 22)
-        Me.Label13.TabIndex = 92
-        Me.Label13.Text = "Rs."
-        Me.Label13.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'Label20
-        '
-        Me.Label20.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.Label20.BackColor = System.Drawing.SystemColors.AppWorkspace
-        Me.Label20.Font = New System.Drawing.Font("Calibri", 9.0!)
-        Me.Label20.Location = New System.Drawing.Point(515, 373)
-        Me.Label20.Name = "Label20"
-        Me.Label20.Size = New System.Drawing.Size(24, 22)
-        Me.Label20.TabIndex = 94
-        Me.Label20.Text = "Rs."
-        Me.Label20.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'Label21
-        '
-        Me.Label21.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.Label21.BackColor = System.Drawing.SystemColors.AppWorkspace
-        Me.Label21.Font = New System.Drawing.Font("Calibri", 9.0!)
-        Me.Label21.Location = New System.Drawing.Point(613, 373)
-        Me.Label21.Name = "Label21"
-        Me.Label21.Size = New System.Drawing.Size(24, 22)
-        Me.Label21.TabIndex = 95
-        Me.Label21.Text = "Rs."
-        Me.Label21.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'Label22
-        '
-        Me.Label22.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.Label22.BackColor = System.Drawing.SystemColors.AppWorkspace
-        Me.Label22.Font = New System.Drawing.Font("Calibri", 9.0!)
-        Me.Label22.Location = New System.Drawing.Point(713, 374)
-        Me.Label22.Name = "Label22"
-        Me.Label22.Size = New System.Drawing.Size(24, 22)
-        Me.Label22.TabIndex = 96
-        Me.Label22.Text = "Rs."
-        Me.Label22.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
         'MenuStrip
         '
         Me.MenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OPTIONToolStripMenuItem, Me.VIEWToolStripMenuItem, Me.MalToolStripMenuItem})
@@ -1310,47 +1168,6 @@ Partial Class frmTechnicianSalary
         Me.SendTechnicianSalaryToTechnicianToolStripMenuItem.Size = New System.Drawing.Size(266, 22)
         Me.SendTechnicianSalaryToTechnicianToolStripMenuItem.Text = "Send Technician Salary to Technician"
         '
-        'Label14
-        '
-        Me.Label14.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.Label14.AutoSize = True
-        Me.Label14.Location = New System.Drawing.Point(299, 378)
-        Me.Label14.Name = "Label14"
-        Me.Label14.Size = New System.Drawing.Size(13, 14)
-        Me.Label14.TabIndex = 78
-        Me.Label14.Text = "="
-        '
-        'txt3
-        '
-        Me.txt3.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.txt3.Enabled = False
-        Me.txt3.Location = New System.Drawing.Point(343, 374)
-        Me.txt3.Name = "txt3"
-        Me.txt3.Size = New System.Drawing.Size(50, 22)
-        Me.txt3.TabIndex = 80
-        '
-        'Label15
-        '
-        Me.Label15.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.Label15.BackColor = System.Drawing.SystemColors.AppWorkspace
-        Me.Label15.Font = New System.Drawing.Font("Calibri", 9.0!)
-        Me.Label15.Location = New System.Drawing.Point(318, 374)
-        Me.Label15.Name = "Label15"
-        Me.Label15.Size = New System.Drawing.Size(24, 22)
-        Me.Label15.TabIndex = 93
-        Me.Label15.Text = "Rs."
-        Me.Label15.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'Label1
-        '
-        Me.Label1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(114, 381)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(179, 14)
-        Me.Label1.TabIndex = 98
-        Me.Label1.Text = "-------------------------------------------"
-        '
         'chkDetails
         '
         Me.chkDetails.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -1364,36 +1181,114 @@ Partial Class frmTechnicianSalary
         Me.chkDetails.Text = "Salary Detail Section"
         Me.chkDetails.UseVisualStyleBackColor = True
         '
+        'ControlSalaryPrecentage
+        '
+        Me.ControlSalaryPrecentage.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.ControlSalaryPrecentage.Location = New System.Drawing.Point(263, 379)
+        Me.ControlSalaryPrecentage.Name = "ControlSalaryPrecentage"
+        Me.ControlSalaryPrecentage.Size = New System.Drawing.Size(36, 22)
+        Me.ControlSalaryPrecentage.TabIndex = 106
+        '
+        'Label1
+        '
+        Me.Label1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(303, 387)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(16, 14)
+        Me.Label1.TabIndex = 107
+        Me.Label1.Text = "%"
+        '
+        'Label10
+        '
+        Me.Label10.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.Label10.AutoSize = True
+        Me.Label10.Location = New System.Drawing.Point(325, 383)
+        Me.Label10.Name = "Label10"
+        Me.Label10.Size = New System.Drawing.Size(13, 14)
+        Me.Label10.TabIndex = 108
+        Me.Label10.Text = "="
+        '
+        'Label11
+        '
+        Me.Label11.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.Label11.AutoSize = True
+        Me.Label11.Location = New System.Drawing.Point(450, 383)
+        Me.Label11.Name = "Label11"
+        Me.Label11.Size = New System.Drawing.Size(11, 14)
+        Me.Label11.TabIndex = 110
+        Me.Label11.Text = "-"
+        '
+        'ControlTechnicianLoan
+        '
+        Me.ControlTechnicianLoan.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.ControlTechnicianLoan.Font = New System.Drawing.Font("Calibri", 9.0!)
+        Me.ControlTechnicianLoan.Location = New System.Drawing.Point(467, 379)
+        Me.ControlTechnicianLoan.MinimumSize = New System.Drawing.Size(76, 22)
+        Me.ControlTechnicianLoan.Name = "ControlTechnicianLoan"
+        Me.ControlTechnicianLoan.ReadOnlyText = False
+        Me.ControlTechnicianLoan.Size = New System.Drawing.Size(108, 22)
+        Me.ControlTechnicianLoan.TabIndex = 109
+        Me.ControlTechnicianLoan.Value = "0"
+        '
+        'ControlTechnicianEarnedSalary
+        '
+        Me.ControlTechnicianEarnedSalary.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.ControlTechnicianEarnedSalary.Font = New System.Drawing.Font("Calibri", 9.0!)
+        Me.ControlTechnicianEarnedSalary.Location = New System.Drawing.Point(600, 379)
+        Me.ControlTechnicianEarnedSalary.MinimumSize = New System.Drawing.Size(76, 22)
+        Me.ControlTechnicianEarnedSalary.Name = "ControlTechnicianEarnedSalary"
+        Me.ControlTechnicianEarnedSalary.ReadOnlyText = True
+        Me.ControlTechnicianEarnedSalary.Size = New System.Drawing.Size(105, 22)
+        Me.ControlTechnicianEarnedSalary.TabIndex = 105
+        Me.ControlTechnicianEarnedSalary.Value = "0"
+        '
+        'ControlTechnicianSalary
+        '
+        Me.ControlTechnicianSalary.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.ControlTechnicianSalary.Font = New System.Drawing.Font("Calibri", 9.0!)
+        Me.ControlTechnicianSalary.Location = New System.Drawing.Point(344, 379)
+        Me.ControlTechnicianSalary.MinimumSize = New System.Drawing.Size(76, 22)
+        Me.ControlTechnicianSalary.Name = "ControlTechnicianSalary"
+        Me.ControlTechnicianSalary.ReadOnlyText = True
+        Me.ControlTechnicianSalary.Size = New System.Drawing.Size(100, 22)
+        Me.ControlTechnicianSalary.TabIndex = 104
+        Me.ControlTechnicianSalary.Value = "0"
+        '
+        'ControlTotalEarned
+        '
+        Me.ControlTotalEarned.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.ControlTotalEarned.Font = New System.Drawing.Font("Calibri", 9.0!)
+        Me.ControlTotalEarned.ImeMode = System.Windows.Forms.ImeMode.NoControl
+        Me.ControlTotalEarned.Location = New System.Drawing.Point(125, 379)
+        Me.ControlTotalEarned.MinimumSize = New System.Drawing.Size(76, 22)
+        Me.ControlTotalEarned.Name = "ControlTotalEarned"
+        Me.ControlTotalEarned.ReadOnlyText = True
+        Me.ControlTotalEarned.Size = New System.Drawing.Size(114, 22)
+        Me.ControlTotalEarned.TabIndex = 103
+        Me.ControlTotalEarned.Value = "0"
+        '
         'frmTechnicianSalary
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 14.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1214, 453)
-        Me.Controls.Add(Me.chkDetails)
+        Me.Controls.Add(Me.Label11)
+        Me.Controls.Add(Me.ControlTechnicianLoan)
+        Me.Controls.Add(Me.Label10)
         Me.Controls.Add(Me.Label1)
-        Me.Controls.Add(Me.Label22)
-        Me.Controls.Add(Me.Label21)
-        Me.Controls.Add(Me.Label20)
-        Me.Controls.Add(Me.Label15)
-        Me.Controls.Add(Me.Label13)
-        Me.Controls.Add(Me.lblRs1)
+        Me.Controls.Add(Me.ControlSalaryPrecentage)
+        Me.Controls.Add(Me.ControlTechnicianEarnedSalary)
+        Me.Controls.Add(Me.ControlTechnicianSalary)
+        Me.Controls.Add(Me.ControlTotalEarned)
+        Me.Controls.Add(Me.chkDetails)
         Me.Controls.Add(Me.cmdTSPrint)
         Me.Controls.Add(Me.tabctrlSalary)
         Me.Controls.Add(Me.cmdTSCancel)
         Me.Controls.Add(Me.cmdTSDone)
-        Me.Controls.Add(Me.txt6)
         Me.Controls.Add(Me.Label18)
         Me.Controls.Add(Me.Label17)
-        Me.Controls.Add(Me.txt5)
-        Me.Controls.Add(Me.txt4)
         Me.Controls.Add(Me.Label16)
-        Me.Controls.Add(Me.txt3)
-        Me.Controls.Add(Me.Label14)
-        Me.Controls.Add(Me.Label12)
-        Me.Controls.Add(Me.Label11)
-        Me.Controls.Add(Me.txt2)
-        Me.Controls.Add(Me.txt1)
-        Me.Controls.Add(Me.Label10)
         Me.Controls.Add(Me.boxItem)
         Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.MenuStrip)
@@ -1425,6 +1320,7 @@ Partial Class frmTechnicianSalary
         CType(Me.grdLoan, System.ComponentModel.ISupportInitialize).EndInit()
         Me.MenuStrip.ResumeLayout(False)
         Me.MenuStrip.PerformLayout()
+        CType(Me.ControlSalaryPrecentage, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1442,16 +1338,8 @@ Partial Class frmTechnicianSalary
     Friend WithEvents cmdTSSearch As System.Windows.Forms.Button
     Friend WithEvents txtTSTo As System.Windows.Forms.DateTimePicker
     Friend WithEvents txtTSFrom As System.Windows.Forms.DateTimePicker
-    Friend WithEvents Label10 As System.Windows.Forms.Label
-    Friend WithEvents txt1 As System.Windows.Forms.TextBox
-    Friend WithEvents txt2 As System.Windows.Forms.TextBox
-    Friend WithEvents Label11 As System.Windows.Forms.Label
-    Friend WithEvents Label12 As System.Windows.Forms.Label
     Friend WithEvents Label16 As System.Windows.Forms.Label
-    Friend WithEvents txt4 As System.Windows.Forms.TextBox
     Friend WithEvents Label17 As System.Windows.Forms.Label
-    Friend WithEvents txt5 As System.Windows.Forms.TextBox
-    Friend WithEvents txt6 As System.Windows.Forms.TextBox
     Friend WithEvents Label18 As System.Windows.Forms.Label
     Friend WithEvents cmdTSDone As System.Windows.Forms.Button
     Friend WithEvents cmdTSCancel As System.Windows.Forms.Button
@@ -1479,11 +1367,6 @@ Partial Class frmTechnicianSalary
     Friend WithEvents txtTotalSalesRepair As System.Windows.Forms.TextBox
     Friend WithEvents Label19 As System.Windows.Forms.Label
     Friend WithEvents grdSalesRepair As System.Windows.Forms.DataGridView
-    Friend WithEvents lblRs1 As System.Windows.Forms.Label
-    Friend WithEvents Label13 As System.Windows.Forms.Label
-    Friend WithEvents Label20 As System.Windows.Forms.Label
-    Friend WithEvents Label21 As System.Windows.Forms.Label
-    Friend WithEvents Label22 As System.Windows.Forms.Label
     Friend WithEvents ToolTip As System.Windows.Forms.ToolTip
     Friend WithEvents chkPaidTSal As System.Windows.Forms.CheckBox
     Friend WithEvents MenuStrip As System.Windows.Forms.MenuStrip
@@ -1551,14 +1434,18 @@ Partial Class frmTechnicianSalary
     Friend WithEvents TCQty As DataGridViewTextBoxColumn
     Friend WithEvents TCTotal As DataGridViewTextBoxColumn
     Friend WithEvents Column3 As DataGridViewTextBoxColumn
-    Friend WithEvents Label14 As Label
-    Friend WithEvents txt3 As TextBox
-    Friend WithEvents Label15 As Label
-    Friend WithEvents Label1 As Label
     Friend WithEvents chkDetails As CheckBox
     Friend WithEvents chkRepair As CheckBox
     Friend WithEvents chkReturn As CheckBox
     Friend WithEvents chkSalesRepair As CheckBox
     Friend WithEvents chkCost As CheckBox
     Friend WithEvents chkLoan As CheckBox
+    Friend WithEvents ControlTotalEarned As ControlPrice
+    Friend WithEvents ControlTechnicianSalary As ControlPrice
+    Friend WithEvents ControlTechnicianEarnedSalary As ControlPrice
+    Friend WithEvents ControlSalaryPrecentage As NumericUpDown
+    Friend WithEvents Label1 As Label
+    Friend WithEvents Label10 As Label
+    Friend WithEvents ControlTechnicianLoan As ControlPrice
+    Friend WithEvents Label11 As Label
 End Class

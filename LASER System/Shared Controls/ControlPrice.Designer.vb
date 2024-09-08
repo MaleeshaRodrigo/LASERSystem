@@ -48,7 +48,7 @@ Partial Class ControlPrice
         Me.TextPrice.Location = New System.Drawing.Point(26, 0)
         Me.TextPrice.Maximum = New Decimal(New Integer() {9999999, 0, 0, 0})
         Me.TextPrice.Name = "TextPrice"
-        Me.TextPrice.Size = New System.Drawing.Size(49, 22)
+        Me.TextPrice.Size = New System.Drawing.Size(54, 22)
         Me.TextPrice.TabIndex = 94
         Me.TextPrice.ThousandsSeparator = True
         '
@@ -57,7 +57,7 @@ Partial Class ControlPrice
         Me.Panel.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Panel.Location = New System.Drawing.Point(0, 0)
         Me.Panel.Name = "Panel"
-        Me.Panel.Size = New System.Drawing.Size(76, 22)
+        Me.Panel.Size = New System.Drawing.Size(81, 22)
         Me.Panel.TabIndex = 95
         '
         'ControlPrice
@@ -68,10 +68,9 @@ Partial Class ControlPrice
         Me.Controls.Add(Me.Label)
         Me.Controls.Add(Me.Panel)
         Me.Font = New System.Drawing.Font("Calibri", 9.0!)
-        Me.MaximumSize = New System.Drawing.Size(0, 22)
         Me.MinimumSize = New System.Drawing.Size(76, 22)
         Me.Name = "ControlPrice"
-        Me.Size = New System.Drawing.Size(76, 22)
+        Me.Size = New System.Drawing.Size(81, 22)
         CType(Me.TextPrice, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

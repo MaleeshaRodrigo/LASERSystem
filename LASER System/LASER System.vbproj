@@ -281,6 +281,12 @@
       <DependentUpon>rptReceive.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Shared Controls\ControlPrice.Designer.vb">
+      <DependentUpon>ControlPrice.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Shared Controls\ControlPrice.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Shared Controls\ControlRepairReRepairSelection.Designer.vb">
       <DependentUpon>ControlRepairReRepairSelection.vb</DependentUpon>
     </Compile>
@@ -655,6 +661,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmTechnician.resx">
       <DependentUpon>frmTechnician.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Shared Controls\ControlPrice.resx">
+      <DependentUpon>ControlPrice.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Shared Controls\ControlRepairReRepairSelection.resx">
       <DependentUpon>ControlRepairReRepairSelection.vb</DependentUpon>

@@ -22,7 +22,7 @@ Partial Class ControlTechnicianCostListInfo
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.boxItem = New System.Windows.Forms.GroupBox()
         Me.grdTechnicianCost = New System.Windows.Forms.DataGridView()
         Me.TCNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -34,6 +34,7 @@ Partial Class ControlTechnicianCostListInfo
         Me.Qty = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Total = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.TCRemarks = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.TName = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.UName = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.boxItem.SuspendLayout()
         CType(Me.grdTechnicianCost, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -52,9 +53,12 @@ Partial Class ControlTechnicianCostListInfo
         '
         'grdTechnicianCost
         '
+        Me.grdTechnicianCost.AllowUserToAddRows = False
+        Me.grdTechnicianCost.AllowUserToDeleteRows = False
         Me.grdTechnicianCost.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.grdTechnicianCost.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.TCNo, Me.TCDate, Me.Sno, Me.SCategory, Me.SName, Me.Rate, Me.Qty, Me.Total, Me.TCRemarks, Me.UName})
+        Me.grdTechnicianCost.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.TCNo, Me.TCDate, Me.Sno, Me.SCategory, Me.SName, Me.Rate, Me.Qty, Me.Total, Me.TCRemarks, Me.TName, Me.UName})
         Me.grdTechnicianCost.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.grdTechnicianCost.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically
         Me.grdTechnicianCost.Location = New System.Drawing.Point(3, 18)
         Me.grdTechnicianCost.Name = "grdTechnicianCost"
         Me.grdTechnicianCost.Size = New System.Drawing.Size(642, 172)
@@ -67,15 +71,15 @@ Partial Class ControlTechnicianCostListInfo
         Me.TCNo.HeaderText = "No"
         Me.TCNo.Name = "TCNo"
         Me.TCNo.ReadOnly = True
-        Me.TCNo.Width = 21
+        Me.TCNo.Width = 5
         '
         'TCDate
         '
         Me.TCDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
         Me.TCDate.DataPropertyName = "TCDate"
-        DataGridViewCellStyle2.Format = "d"
-        DataGridViewCellStyle2.NullValue = Nothing
-        Me.TCDate.DefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewCellStyle1.Format = "d"
+        DataGridViewCellStyle1.NullValue = Nothing
+        Me.TCDate.DefaultCellStyle = DataGridViewCellStyle1
         Me.TCDate.HeaderText = "Date"
         Me.TCDate.Name = "TCDate"
         Me.TCDate.Width = 58
@@ -90,34 +94,44 @@ Partial Class ControlTechnicianCostListInfo
         '
         'SCategory
         '
+        Me.SCategory.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
         Me.SCategory.DataPropertyName = "SCategory"
         Me.SCategory.HeaderText = "Item Category"
         Me.SCategory.Name = "SCategory"
+        Me.SCategory.Width = 106
         '
         'SName
         '
+        Me.SName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
         Me.SName.DataPropertyName = "SName"
         Me.SName.HeaderText = "Item Name"
         Me.SName.Name = "SName"
+        Me.SName.Width = 92
         '
         'Rate
         '
+        Me.Rate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
         Me.Rate.DataPropertyName = "Rate"
         Me.Rate.HeaderText = "Unit Price"
         Me.Rate.Name = "Rate"
+        Me.Rate.Width = 84
         '
         'Qty
         '
+        Me.Qty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
         Me.Qty.DataPropertyName = "Qty"
         Me.Qty.HeaderText = "Qty"
         Me.Qty.Name = "Qty"
+        Me.Qty.Width = 49
         '
         'Total
         '
+        Me.Total.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
         Me.Total.DataPropertyName = "Total"
         Me.Total.HeaderText = "Total"
         Me.Total.Name = "Total"
         Me.Total.ReadOnly = True
+        Me.Total.Width = 59
         '
         'TCRemarks
         '
@@ -125,12 +139,22 @@ Partial Class ControlTechnicianCostListInfo
         Me.TCRemarks.HeaderText = "Remarks"
         Me.TCRemarks.Name = "TCRemarks"
         '
+        'TName
+        '
+        Me.TName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
+        Me.TName.DataPropertyName = "TName"
+        Me.TName.HeaderText = "Technician"
+        Me.TName.Name = "TName"
+        Me.TName.Width = 90
+        '
         'UName
         '
+        Me.UName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
         Me.UName.DataPropertyName = "UserName"
         Me.UName.HeaderText = "User"
         Me.UName.Name = "UName"
         Me.UName.ReadOnly = True
+        Me.UName.Width = 57
         '
         'ControlTechnicianCostListInfo
         '
@@ -157,5 +181,6 @@ Partial Class ControlTechnicianCostListInfo
     Friend WithEvents Qty As DataGridViewTextBoxColumn
     Friend WithEvents Total As DataGridViewTextBoxColumn
     Friend WithEvents TCRemarks As DataGridViewTextBoxColumn
+    Friend WithEvents TName As DataGridViewTextBoxColumn
     Friend WithEvents UName As DataGridViewTextBoxColumn
 End Class

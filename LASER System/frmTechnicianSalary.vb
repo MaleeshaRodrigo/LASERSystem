@@ -6,32 +6,25 @@ Imports MySqlConnector
 
 Public Class frmTechnicianSalary
     Private Db As New Database
-    Private Sub FrmTechnicianSalary_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-
-    End Sub
 
     Private Sub FrmTechnicianSalary_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
         SetNextKey(Db, txtTSNo, "Select TSalNo from TechnicianSalary order by TSalNo desc LIMIT 1;", "TSalNo")
         MenuStrip.Items.Add(mnustrpMENU)
         txtTSFrom.Value = "" & Date.Today.Year & "-" & Date.Today.Month & "-01"
         txtTSTo.Value = Date.Today
-        ToolTip.SetToolTip(txt1, "Total Amount of Repairs, Re-Repairs and Sales Repairs")
-        ToolTip.SetToolTip(txt2, "Total Amount of Cost")
-        ToolTip.SetToolTip(txt3, "Technician earn amount")
-        ToolTip.SetToolTip(txt4, "Technician earn amount")
-        ToolTip.SetToolTip(txt5, "Total Amount of Loan")
-        ToolTip.SetToolTip(txt6, "Technician Salary")
+        ToolTip.SetToolTip(ControlTotalEarned, "Total Amount of Repairs, Re-Repairs and Sales Repairs")
+        ToolTip.SetToolTip(ControlTechnicianSalary, "Technician Earn Salary")
+        ToolTip.SetToolTip(ControlTechnicianLoan, "Total Amount of Loan")
+        ToolTip.SetToolTip(ControlTechnicianEarnedSalary, "Technician Salary")
         CmbTName_DropDown(sender, e)
     End Sub
 
     Private Sub CmdTSSearch_Click(sender As Object, e As EventArgs) Handles cmdTSSearch.Click
-        txt1.Text = "0"
-        txt2.Text = "0"
-        txt3.Text = "0"
-        txt4.Text = "0"
-        txt5.Text = "0"
-        txt6.Text = "0"
+        ControlTotalEarned.Value = 0
+        ControlSalaryPrecentage.Value = 50
+        ControlTechnicianSalary.Value = 0
+        ControlTechnicianLoan.Value = 0
+        ControlTechnicianEarnedSalary.Value = 0
         txtTotalCost.Text = "0"
         txtTotalLoan.Text = "0"
         txtTotalSalesRepair.Text = "0"
@@ -111,11 +104,7 @@ Public Class frmTechnicianSalary
     End Sub
 
     Private Sub CmbTName_DropDown(sender As Object, e As EventArgs) Handles cmbTName.DropDown
-        Call ComboBoxDropDown(Db, cmbTName, "Select TName from Technician group by TName;")
-    End Sub
-
-    Private Sub cmdTSCancel_Click(sender As Object, e As EventArgs) Handles cmdTSCancel.Click
-        Call FrmTechnicianSalary_Leave(sender, e)
+        Call ComboBoxDropDown(Db, cmbTName, "Select TName from Technician WHERE TActive = 1 group by TName;")
     End Sub
 
     Private Sub cmdTCDone_Click(sender As Object, e As EventArgs) Handles cmdTSDone.Click
@@ -137,7 +126,7 @@ Public Class frmTechnicianSalary
 
             TSalaryTNo = DR("TNo").ToString
         End If
-        Db.Execute("Insert into TechnicianSalary(TSalNo, TNo, TSDate, TotalRepair, TotalReRepair, TotalSalesRepair, TotalCost, TotalLoan, Earned, AddedLoan, Salary) Values(" & txtTSNo.Text & "," & TSalaryTNo.ToString & ",'" & txtTSDate.Value.Date & "'," & txtTotalRepair.Text & "," & txtTotalReRepair.Text & "," & txtTotalSalesRepair.Text & "," & txtTotalCost.Text & "," & txtTotalLoan.Text & "," & txt3.Text & "," & txt5.Text & "," & txt6.Text & ");")
+        Db.Execute("Insert into TechnicianSalary(TSalNo, TNo, TSDate, TotalRepair, TotalReRepair, TotalSalesRepair, TotalCost, TotalLoan, Earned, AddedLoan, Salary) Values(" & txtTSNo.Text & "," & TSalaryTNo.ToString & ",'" & txtTSDate.Value.Date & "'," & txtTotalRepair.Text & "," & txtTotalReRepair.Text & "," & txtTotalSalesRepair.Text & "," & txtTotalCost.Text & "," & txtTotalLoan.Text & "," & ControlTotalEarned.Value & "," & ControlTechnicianLoan.Value & "," & ControlTechnicianEarnedSalary.Value & ");")
         For Each Row As DataGridViewRow In grdRepair.Rows
             Db.Execute("Update Repair set TSalNo =" & txtTSNo.Text & " where RepNo=" & Row.Cells(0).Value.ToString)
         Next
@@ -158,7 +147,7 @@ Public Class frmTechnicianSalary
         Else
             TLNo = "1"
         End If
-        Db.Execute("Insert Into TechnicianLoan(TLNo,TNo,TLDate,TLReason,Total) Values(" & TLNo & "," & TSalaryTNo.ToString & ",'" & txtTSDate.Value & "', 'This Loan was paid from Technician Salary No called " & txtTSNo.Text & "',-" & txt5.Text & ");")
+        Db.Execute("Insert Into TechnicianLoan(TLNo,TNo,TLDate,TLReason,Total) Values(" & TLNo & "," & TSalaryTNo.ToString & ",'" & txtTSDate.Value & "', 'This Loan was paid from Technician Salary No called " & txtTSNo.Text & "',-" & ControlTechnicianLoan.Value & ");")
         MsgBox("Salary Submit Successful!", vbExclamation + vbOKOnly)
         SetNextKey(Db, txtTSNo, "Select TSalNo from TechnicianSalary order by TSalNo desc LIMIT 1;", "TSalNo")
         Call CmdTSSearch_Click(sender, e)
@@ -232,7 +221,7 @@ Public Class frmTechnicianSalary
             ReportTechnicianSalary.SetParameterValue("TotalofReRepair", txtTotalReRepair.Text)
             ReportTechnicianSalary.SetParameterValue("TotalofCost", txtTotalCost.Text)
             ReportTechnicianSalary.SetParameterValue("TotalofLoan", txtTotalLoan.Text)
-            ReportTechnicianSalary.SetParameterValue("Salary", txt6.Text)
+            ReportTechnicianSalary.SetParameterValue("Salary", ControlTechnicianEarnedSalary.Value)
             If chkDetails.Checked = True Then
                 ReportTechnicianSalary.SetParameterValue("ShowDetailSection", True)
             Else
@@ -249,36 +238,31 @@ Public Class frmTechnicianSalary
     End Function
 
     Private Function TechnicianCostReport() As rptTechnicianCost
+        If chkCost.Checked = False Then
+            Return Nothing
+        End If
+
         Dim ReportTechnicianCost As New rptTechnicianCost
-        Dim Connection = Db.GetConenction()
         Try
-            Connection.Open()
-            Dim DS3 As New DataSet
-            Dim DA3 As MySqlDataAdapter = Db.GetDataAdapter(Connection, "SELECT TCNo,TCDATE,REPNO,RETNO,TechnicianCost.SNO,SCategory,SName,Rate,Qty,TOTAL,TCREMARKS FROM (TECHNICIANCOST INNER JOIN TECHNICIAN ON TECHNICIAN.TNO = TECHNICIANCOST.TNO) WHERE TNAME = @TNAME And TCDate BETWEEN @FROMDATE AND @TODATE And (TSalNo Is Null Or TSalNo = 0)" & If(chkCost.Checked = False, " AND 0", "") & ";", {
+            Dim DataTable = Db.GetDataTable("SELECT TCNo, TCDATE, TName, REPNO, RETNO,TechnicianCost.SNO,SCategory,SName,Rate,Qty,TOTAL,TCREMARKS FROM (TECHNICIANCOST INNER JOIN TECHNICIAN ON TECHNICIAN.TNO = TECHNICIANCOST.TNO) WHERE TNAME = @TNAME And TCDate BETWEEN @FROMDATE AND @TODATE And (TSalNo Is Null Or TSalNo = 0);", {
                 New MySqlParameter("TNAME", cmbTName.Text),
                 New MySqlParameter("FROMDATE", txtTSFrom.Value.Date & " 00:00:00"),
                 New MySqlParameter("TODATE", txtTSTo.Value.Date & " 23:59:59")
             })
-            DA3.Fill(DS3, "TechnicianCost")
-            DA3.Fill(DS3, "Technician")
-            ReportTechnicianCost.SetDataSource(DS3)
+            ReportTechnicianCost.SetDataSource(DataTable)
 
             Return ReportTechnicianCost
         Catch ex As Exception
             MessageBox.Error(ex.Message)
             Return Nothing
-        Finally
-            Connection.Close()
         End Try
     End Function
 
     Private Sub TechnicianSalaryCalculator()
-        txt1.Text = Int(txtTotalRepair.Text) + Int(txtTotalReRepair.Text) + Int(txtTotalSalesRepair.Text)
-        txt2.Text = txtTotalCost.Text
-        txt3.Text = (Int(txt1.Text) - Int(txt2.Text)) / 2
-        txt4.Text = txt3.Text
-        txt5.Text = txtTotalLoan.Text
-        txt6.Text = Int(txt4.Text) - Int(txt5.Text)
+        ControlTotalEarned.Value = Double.Parse(txtTotalRepair.Text) + Double.Parse(txtTotalReRepair.Text) + Double.Parse(txtTotalSalesRepair.Text) - Double.Parse(txtTotalCost.Text)
+        ControlTechnicianLoan.Value = txtTotalLoan.Text
+        Call ControlSalaryPrecentage_ValueChanged(Nothing, Nothing)
+        Call ControlTechnicianLoan_ValueChanged()
     End Sub
 
     Private Sub SendTechnicianSalaryToTechnicianToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SendTechnicianSalaryToTechnicianToolStripMenuItem.Click
@@ -294,7 +278,7 @@ Public Class frmTechnicianSalary
             End If
         End If
         'Export PDF File code
-        Dim fileName As String = System.IO.Path.GetTempPath() + Guid.NewGuid().ToString() + ".pdf"
+        Dim fileName As String = $"{Path.GetTempPath()}{Guid.NewGuid()}.pdf"
         Dim CrExportOptions As ExportOptions
         Dim CrDiskFileDestinationOptions As New DiskFileDestinationOptions()
         Dim CrFormatTypeOptions As New PdfRtfWordFormatOptions
@@ -358,7 +342,19 @@ Public Class frmTechnicianSalary
         Call TechnicianSalaryCalculator()
     End Sub
 
-    Private Sub txt5_TextChanged(sender As Object, e As EventArgs) Handles txt5.TextChanged
-        If txt4.Text <> "" Or txt5.Text <> "" Then txt6.Text = Val(txt4.Text) - Val(txt5.Text)
+    Private Sub ControlSalaryPrecentage_ValueChanged(sender As Object, e As EventArgs) Handles ControlSalaryPrecentage.ValueChanged
+        If Not (IsNumeric(ControlTotalEarned.Value) And IsNumeric(ControlSalaryPrecentage.Value)) Then
+            Return
+        End If
+
+        ControlTechnicianSalary.Value = Double.Parse(ControlTotalEarned.Value) * Double.Parse(ControlSalaryPrecentage.Value) / 100
+    End Sub
+
+    Private Sub ControlTechnicianLoan_ValueChanged() Handles ControlTechnicianLoan.ValueChanged
+        If Not (IsNumeric(ControlTechnicianSalary.Value) And IsNumeric(ControlTechnicianLoan.Value)) Then
+            Return
+        End If
+
+        ControlTechnicianEarnedSalary.Value = Double.Parse(ControlTechnicianSalary.Value) - Double.Parse(ControlTechnicianLoan.Value)
     End Sub
 End Class
