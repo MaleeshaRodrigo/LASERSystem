@@ -293,6 +293,18 @@
     <Compile Include="Shared Controls\ControlRepairReRepairSelection.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Shared Controls\ControlSearchEngine.Designer.vb">
+      <DependentUpon>ControlSearchEngine.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Shared Controls\ControlSearchEngine.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Shared Controls\ControlSearchEnginePoistion.Designer.vb">
+      <DependentUpon>ControlSearchEnginePoistion.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Shared Controls\ControlSearchEnginePoistion.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Shared Controls\ControlStockSelection.Designer.vb">
       <DependentUpon>ControlStockSelection.vb</DependentUpon>
     </Compile>
@@ -667,6 +679,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Shared Controls\ControlRepairReRepairSelection.resx">
       <DependentUpon>ControlRepairReRepairSelection.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Shared Controls\ControlSearchEngine.resx">
+      <DependentUpon>ControlSearchEngine.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Shared Controls\ControlSearchEnginePoistion.resx">
+      <DependentUpon>ControlSearchEnginePoistion.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Shared Controls\ControlStockSelection.resx">
       <DependentUpon>ControlStockSelection.vb</DependentUpon>

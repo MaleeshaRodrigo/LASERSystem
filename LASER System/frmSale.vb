@@ -587,7 +587,6 @@ Public Class frmSale
             .Name = "frmStock" + NextfrmNo(FormStock).ToString
             .Tag = "Sale"
             .Show(Me)
-            .txtSearch.Focus()
         End With
     End Sub
 

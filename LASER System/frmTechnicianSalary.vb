@@ -108,7 +108,7 @@ Public Class frmTechnicianSalary
     End Sub
 
     Private Sub cmdTCDone_Click(sender As Object, e As EventArgs) Handles cmdTSDone.Click
-        If CheckEmptyControl(cmbTName, "This operation couldn't be done because Technician was already empty. You should select any Technician and try again.") = False Then
+        If CheckEmptyControl(cmbTName, "This operation couldn't be performed because Technician was already empty. You should select any Technician and try again.") = False Then
             cmbTName.Focus()
             Exit Sub
         ElseIf Db.CheckDataExists("Technician", "TName", cmbTName.Text) = False Then
@@ -120,10 +120,10 @@ Public Class frmTechnicianSalary
             MsgBox("You have marked checkbox called 'with Paid Technician Salary'. Therefore This operation couldn't be submitted. So you should unmark that and try agin", vbCritical + vbOKOnly)
             Exit Sub
         End If
+
         Dim TSalaryTNo As Integer
         Dim DR = Db.GetDataDictionary("Select TNo, TName from Technician Where Tname='" & cmbTName.Text & "';")
         If DR.Count Then
-
             TSalaryTNo = DR("TNo").ToString
         End If
         Db.Execute("Insert into TechnicianSalary(TSalNo, TNo, TSDate, TotalRepair, TotalReRepair, TotalSalesRepair, TotalCost, TotalLoan, Earned, AddedLoan, Salary) Values(" & txtTSNo.Text & "," & TSalaryTNo.ToString & ",'" & txtTSDate.Value.Date & "'," & txtTotalRepair.Text & "," & txtTotalReRepair.Text & "," & txtTotalSalesRepair.Text & "," & txtTotalCost.Text & "," & txtTotalLoan.Text & "," & ControlTotalEarned.Value & "," & ControlTechnicianLoan.Value & "," & ControlTechnicianEarnedSalary.Value & ");")
@@ -244,7 +244,7 @@ Public Class frmTechnicianSalary
 
         Dim ReportTechnicianCost As New rptTechnicianCost
         Try
-            Dim DataTable = Db.GetDataTable("SELECT TCNo, TCDATE, TName, REPNO, RETNO,TechnicianCost.SNO,SCategory,SName,Rate,Qty,TOTAL,TCREMARKS FROM (TECHNICIANCOST INNER JOIN TECHNICIAN ON TECHNICIAN.TNO = TECHNICIANCOST.TNO) WHERE TNAME = @TNAME And TCDate BETWEEN @FROMDATE AND @TODATE And (TSalNo Is Null Or TSalNo = 0);", {
+            Dim DataTable = Db.GetDataTable("SELECT TCNo, TCDATE, TName, REPNO, RETNO, TechnicianCost.SNO, SCategory, SName, Rate, Qty, TOTAL, TCREMARKS FROM (TECHNICIANCOST INNER JOIN TECHNICIAN ON TECHNICIAN.TNO = TECHNICIANCOST.TNO) WHERE TNAME = @TNAME And TCDate BETWEEN @FROMDATE AND @TODATE And (TSalNo Is Null Or TSalNo = 0);", {
                 New MySqlParameter("TNAME", cmbTName.Text),
                 New MySqlParameter("FROMDATE", txtTSFrom.Value.Date & " 00:00:00"),
                 New MySqlParameter("TODATE", txtTSTo.Value.Date & " 23:59:59")
