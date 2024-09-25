@@ -4,10 +4,10 @@ Imports Newtonsoft.Json.Linq
 
 Public Class RefreshSmsBalanceProcess
     Implements IProcess
-    Private ReadOnly ParentForm As frmBGTasks
+    Private ReadOnly ParentForm As FormBGTasks
     Private ReadOnly SmsController As New SmsController
 
-    Public Sub New(FormParent As frmBGTasks)
+    Public Sub New(FormParent As FormBGTasks)
         ParentForm = FormParent
     End Sub
 

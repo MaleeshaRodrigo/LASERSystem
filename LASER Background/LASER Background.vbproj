@@ -36,8 +36,8 @@
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>1</ApplicationRevision>
-    <ApplicationVersion>2.1.1.%2a</ApplicationVersion>
+    <ApplicationRevision>2</ApplicationRevision>
+    <ApplicationVersion>2.1.2.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -158,7 +158,7 @@
     <Compile Include="Classes\EmailController.vb" />
     <Compile Include="Classes\Encoder.vb" />
     <Compile Include="Classes\Processes\AdminPermissionProcess.vb" />
-    <Compile Include="Classes\Processes\BackUpDatabaseProcess.vb" />
+    <Compile Include="Classes\Processes\DatabaseBackupProcess.vb" />
     <Compile Include="Classes\Processes\RefreshSmsBalanceProcess.vb" />
     <Compile Include="Classes\Processes\SendSmsProcess.vb" />
     <Compile Include="Classes\SmsController.vb" />
@@ -170,10 +170,10 @@
     <Compile Include="FrmAdvDB.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmBGTasks.Designer.vb">
-      <DependentUpon>frmBGTasks.vb</DependentUpon>
+    <Compile Include="FormBGTasks.Designer.vb">
+      <DependentUpon>FormBGTasks.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmBGTasks.vb">
+    <Compile Include="FormBGTasks.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Interfaces\Process.vb" />
@@ -205,8 +205,8 @@
     <EmbeddedResource Include="FrmAdvDB.resx">
       <DependentUpon>FrmAdvDB.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmBGTasks.resx">
-      <DependentUpon>frmBGTasks.vb</DependentUpon>
+    <EmbeddedResource Include="FormBGTasks.resx">
+      <DependentUpon>FormBGTasks.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
@@ -270,6 +270,9 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions">
       <Version>8.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="MySqlBackup.NET.MySqlConnector">
+      <Version>2.3.8</Version>
     </PackageReference>
     <PackageReference Include="MySqlConnector">
       <Version>2.3.7</Version>
