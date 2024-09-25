@@ -22,7 +22,6 @@ Public Class FormRepair
     End Sub
 
     Private Sub FrmRepair_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
         CmbRepNo_DropDown(sender, e)
         CmbRetNo_DropDown(sender, e)
         CmbRepNo_SelectedIndexChanged(Nothing, Nothing)

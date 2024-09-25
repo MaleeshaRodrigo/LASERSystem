@@ -958,6 +958,7 @@ Partial Class frmSettlement
         '
         'txtTANo
         '
+        Me.txtTANo.Enabled = False
         Me.txtTANo.Location = New System.Drawing.Point(434, 18)
         Me.txtTANo.Name = "txtTANo"
         Me.txtTANo.Size = New System.Drawing.Size(57, 22)

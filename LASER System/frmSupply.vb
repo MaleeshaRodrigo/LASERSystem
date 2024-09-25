@@ -308,7 +308,6 @@ Public Class frmSupply
         Dim frm As New FormStock
         frm.Tag = "Supply"
         frm.ShowDialog()
-        frm.txtSearch.Focus()
     End Sub
 
     Private Sub cmbSupStatus_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbSupStatus.SelectedIndexChanged

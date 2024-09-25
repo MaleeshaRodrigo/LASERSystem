@@ -35,18 +35,9 @@ Partial Class FormStock
         Dim DataGridViewCellStyle7 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle8 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.GrpSearch = New System.Windows.Forms.GroupBox()
-        Me.btnSearch = New System.Windows.Forms.Button()
-        Me.cmbFilter = New System.Windows.Forms.ComboBox()
-        Me.txtSearch = New System.Windows.Forms.TextBox()
-        Me.Label11 = New System.Windows.Forms.Label()
+        Me.ControlSearchEngine = New LASER_System.ControlSearchEngine()
         Me.cmdNew = New System.Windows.Forms.Button()
         Me.grdStock = New System.Windows.Forms.DataGridView()
-        Me.OpenFileDialog = New System.Windows.Forms.OpenFileDialog()
-        Me.MenuStrip = New System.Windows.Forms.MenuStrip()
-        Me.OPTIONToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.CloseToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.VIEWToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ViewStockTransactionDetailsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.SCategory = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.SName = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -59,6 +50,12 @@ Partial Class FormStock
         Me.SOutofstocks = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.SMinStocks = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.SDetails = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.OpenFileDialog = New System.Windows.Forms.OpenFileDialog()
+        Me.MenuStrip = New System.Windows.Forms.MenuStrip()
+        Me.OPTIONToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CloseToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.VIEWToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ViewStockTransactionDetailsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.GrpSearch.SuspendLayout()
         CType(Me.grdStock, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.MenuStrip.SuspendLayout()
@@ -66,68 +63,34 @@ Partial Class FormStock
         '
         'GrpSearch
         '
-        Me.GrpSearch.Controls.Add(Me.btnSearch)
-        Me.GrpSearch.Controls.Add(Me.cmbFilter)
-        Me.GrpSearch.Controls.Add(Me.txtSearch)
-        Me.GrpSearch.Controls.Add(Me.Label11)
+        Me.GrpSearch.Controls.Add(Me.ControlSearchEngine)
         Me.GrpSearch.Controls.Add(Me.cmdNew)
         Me.GrpSearch.Controls.Add(Me.grdStock)
         Me.GrpSearch.Dock = System.Windows.Forms.DockStyle.Fill
         Me.GrpSearch.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.GrpSearch.Location = New System.Drawing.Point(0, 28)
+        Me.GrpSearch.Location = New System.Drawing.Point(0, 24)
         Me.GrpSearch.Name = "GrpSearch"
-        Me.GrpSearch.Size = New System.Drawing.Size(802, 321)
+        Me.GrpSearch.Size = New System.Drawing.Size(802, 325)
         Me.GrpSearch.TabIndex = 21
         Me.GrpSearch.TabStop = False
         Me.GrpSearch.Text = "Stock View"
         '
-        'btnSearch
+        'ControlSearchEngine
         '
-        Me.btnSearch.BackColor = System.Drawing.SystemColors.ButtonFace
-        Me.btnSearch.Font = New System.Drawing.Font("Segoe UI", 9.0!)
-        Me.btnSearch.ForeColor = System.Drawing.Color.Black
-        Me.btnSearch.Location = New System.Drawing.Point(306, 26)
-        Me.btnSearch.Name = "btnSearch"
-        Me.btnSearch.Size = New System.Drawing.Size(84, 27)
-        Me.btnSearch.TabIndex = 27
-        Me.btnSearch.Text = "Search"
-        Me.btnSearch.UseVisualStyleBackColor = False
-        '
-        'cmbFilter
-        '
-        Me.cmbFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cmbFilter.ItemHeight = 19
-        Me.cmbFilter.Items.AddRange(New Object() {"by All", "by Code", "by Category", "by Name", "by Model No", "by Location", "by Lowest Price", "by Sale Price", "by Reorder Point", "by Details"})
-        Me.cmbFilter.Location = New System.Drawing.Point(448, 31)
-        Me.cmbFilter.Name = "cmbFilter"
-        Me.cmbFilter.Size = New System.Drawing.Size(249, 27)
-        Me.cmbFilter.TabIndex = 26
-        '
-        'txtSearch
-        '
-        Me.txtSearch.Cursor = System.Windows.Forms.Cursors.IBeam
-        Me.txtSearch.Font = New System.Drawing.Font("Segoe UI", 9.0!)
-        Me.txtSearch.ForeColor = System.Drawing.Color.Black
-        Me.txtSearch.Location = New System.Drawing.Point(12, 26)
-        Me.txtSearch.Name = "txtSearch"
-        Me.txtSearch.Size = New System.Drawing.Size(288, 27)
-        Me.txtSearch.TabIndex = 25
-        '
-        'Label11
-        '
-        Me.Label11.AutoSize = True
-        Me.Label11.Location = New System.Drawing.Point(396, 30)
-        Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(46, 21)
-        Me.Label11.TabIndex = 24
-        Me.Label11.Text = "Filter"
+        Me.ControlSearchEngine.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ControlSearchEngine.Font = New System.Drawing.Font("Calibri", 9.0!)
+        Me.ControlSearchEngine.Location = New System.Drawing.Point(11, 22)
+        Me.ControlSearchEngine.Name = "ControlSearchEngine"
+        Me.ControlSearchEngine.Size = New System.Drawing.Size(688, 82)
+        Me.ControlSearchEngine.TabIndex = 28
         '
         'cmdNew
         '
         Me.cmdNew.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.cmdNew.Font = New System.Drawing.Font("Calibri", 10.0!)
         Me.cmdNew.Image = CType(resources.GetObject("cmdNew.Image"), System.Drawing.Image)
-        Me.cmdNew.Location = New System.Drawing.Point(705, 26)
+        Me.cmdNew.Location = New System.Drawing.Point(705, 22)
         Me.cmdNew.Name = "cmdNew"
         Me.cmdNew.Size = New System.Drawing.Size(85, 32)
         Me.cmdNew.TabIndex = 27
@@ -166,7 +129,7 @@ Partial Class FormStock
         Me.grdStock.DefaultCellStyle = DataGridViewCellStyle9
         Me.grdStock.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically
         Me.grdStock.GridColor = System.Drawing.Color.White
-        Me.grdStock.Location = New System.Drawing.Point(6, 70)
+        Me.grdStock.Location = New System.Drawing.Point(6, 110)
         Me.grdStock.Name = "grdStock"
         Me.grdStock.ReadOnly = True
         DataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
@@ -187,50 +150,8 @@ Partial Class FormStock
         Me.grdStock.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Black
         Me.grdStock.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.DarkBlue
         Me.grdStock.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.White
-        Me.grdStock.Size = New System.Drawing.Size(790, 245)
+        Me.grdStock.Size = New System.Drawing.Size(790, 209)
         Me.grdStock.TabIndex = 18
-        '
-        'OpenFileDialog
-        '
-        Me.OpenFileDialog.Filter = "(*.jpg)|*.jpg|(*.png)|*.png|(*.jpg)|*.jpg|All files|*.*"
-        '
-        'MenuStrip
-        '
-        Me.MenuStrip.BackColor = System.Drawing.SystemColors.ActiveCaption
-        Me.MenuStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
-        Me.MenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OPTIONToolStripMenuItem, Me.VIEWToolStripMenuItem})
-        Me.MenuStrip.Location = New System.Drawing.Point(0, 0)
-        Me.MenuStrip.Name = "MenuStrip"
-        Me.MenuStrip.Size = New System.Drawing.Size(802, 28)
-        Me.MenuStrip.TabIndex = 22
-        Me.MenuStrip.Text = "MenuStrip"
-        '
-        'OPTIONToolStripMenuItem
-        '
-        Me.OPTIONToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CloseToolStripMenuItem})
-        Me.OPTIONToolStripMenuItem.Name = "OPTIONToolStripMenuItem"
-        Me.OPTIONToolStripMenuItem.Size = New System.Drawing.Size(76, 24)
-        Me.OPTIONToolStripMenuItem.Text = "OPTION"
-        '
-        'CloseToolStripMenuItem
-        '
-        Me.CloseToolStripMenuItem.Name = "CloseToolStripMenuItem"
-        Me.CloseToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.F4), System.Windows.Forms.Keys)
-        Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(181, 26)
-        Me.CloseToolStripMenuItem.Text = "Close"
-        '
-        'VIEWToolStripMenuItem
-        '
-        Me.VIEWToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ViewStockTransactionDetailsToolStripMenuItem})
-        Me.VIEWToolStripMenuItem.Name = "VIEWToolStripMenuItem"
-        Me.VIEWToolStripMenuItem.Size = New System.Drawing.Size(58, 24)
-        Me.VIEWToolStripMenuItem.Text = "VIEW"
-        '
-        'ViewStockTransactionDetailsToolStripMenuItem
-        '
-        Me.ViewStockTransactionDetailsToolStripMenuItem.Name = "ViewStockTransactionDetailsToolStripMenuItem"
-        Me.ViewStockTransactionDetailsToolStripMenuItem.Size = New System.Drawing.Size(293, 26)
-        Me.ViewStockTransactionDetailsToolStripMenuItem.Text = "View Stock Transaction Details"
         '
         'SNo
         '
@@ -239,7 +160,7 @@ Partial Class FormStock
         Me.SNo.MinimumWidth = 6
         Me.SNo.Name = "SNo"
         Me.SNo.ReadOnly = True
-        Me.SNo.Width = 74
+        Me.SNo.Width = 59
         '
         'SCategory
         '
@@ -248,7 +169,7 @@ Partial Class FormStock
         Me.SCategory.MinimumWidth = 6
         Me.SCategory.Name = "SCategory"
         Me.SCategory.ReadOnly = True
-        Me.SCategory.Width = 101
+        Me.SCategory.Width = 80
         '
         'SName
         '
@@ -257,7 +178,7 @@ Partial Class FormStock
         Me.SName.MinimumWidth = 6
         Me.SName.Name = "SName"
         Me.SName.ReadOnly = True
-        Me.SName.Width = 80
+        Me.SName.Width = 63
         '
         'SModelNo
         '
@@ -266,7 +187,7 @@ Partial Class FormStock
         Me.SModelNo.MinimumWidth = 6
         Me.SModelNo.Name = "SModelNo"
         Me.SModelNo.ReadOnly = True
-        Me.SModelNo.Width = 108
+        Me.SModelNo.Width = 79
         '
         'SLocation
         '
@@ -277,7 +198,7 @@ Partial Class FormStock
         Me.SLocation.ReadOnly = True
         Me.SLocation.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
         Me.SLocation.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable
-        Me.SLocation.Width = 74
+        Me.SLocation.Width = 59
         '
         'SCostPrice
         '
@@ -300,7 +221,7 @@ Partial Class FormStock
         Me.SLowestPrice.MinimumWidth = 6
         Me.SLowestPrice.Name = "SLowestPrice"
         Me.SLowestPrice.ReadOnly = True
-        Me.SLowestPrice.Width = 126
+        Me.SLowestPrice.Width = 92
         '
         'SSalePrice
         '
@@ -311,7 +232,7 @@ Partial Class FormStock
         Me.SSalePrice.MinimumWidth = 6
         Me.SSalePrice.Name = "SSalePrice"
         Me.SSalePrice.ReadOnly = True
-        Me.SSalePrice.Width = 105
+        Me.SSalePrice.Width = 79
         '
         'SAvailableStocks
         '
@@ -322,7 +243,7 @@ Partial Class FormStock
         Me.SAvailableStocks.MinimumWidth = 6
         Me.SAvailableStocks.Name = "SAvailableStocks"
         Me.SAvailableStocks.ReadOnly = True
-        Me.SAvailableStocks.Width = 143
+        Me.SAvailableStocks.Width = 106
         '
         'SOutofstocks
         '
@@ -333,7 +254,7 @@ Partial Class FormStock
         Me.SOutofstocks.MinimumWidth = 6
         Me.SOutofstocks.Name = "SOutofstocks"
         Me.SOutofstocks.ReadOnly = True
-        Me.SOutofstocks.Width = 145
+        Me.SOutofstocks.Width = 106
         '
         'SMinStocks
         '
@@ -344,7 +265,7 @@ Partial Class FormStock
         Me.SMinStocks.MinimumWidth = 6
         Me.SMinStocks.Name = "SMinStocks"
         Me.SMinStocks.ReadOnly = True
-        Me.SMinStocks.Width = 135
+        Me.SMinStocks.Width = 98
         '
         'SDetails
         '
@@ -355,11 +276,53 @@ Partial Class FormStock
         Me.SDetails.MinimumWidth = 6
         Me.SDetails.Name = "SDetails"
         Me.SDetails.ReadOnly = True
-        Me.SDetails.Width = 86
+        Me.SDetails.Width = 71
+        '
+        'OpenFileDialog
+        '
+        Me.OpenFileDialog.Filter = "(*.jpg)|*.jpg|(*.png)|*.png|(*.jpg)|*.jpg|All files|*.*"
+        '
+        'MenuStrip
+        '
+        Me.MenuStrip.BackColor = System.Drawing.SystemColors.ActiveCaption
+        Me.MenuStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
+        Me.MenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OPTIONToolStripMenuItem, Me.VIEWToolStripMenuItem})
+        Me.MenuStrip.Location = New System.Drawing.Point(0, 0)
+        Me.MenuStrip.Name = "MenuStrip"
+        Me.MenuStrip.Size = New System.Drawing.Size(802, 24)
+        Me.MenuStrip.TabIndex = 22
+        Me.MenuStrip.Text = "MenuStrip"
+        '
+        'OPTIONToolStripMenuItem
+        '
+        Me.OPTIONToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CloseToolStripMenuItem})
+        Me.OPTIONToolStripMenuItem.Name = "OPTIONToolStripMenuItem"
+        Me.OPTIONToolStripMenuItem.Size = New System.Drawing.Size(62, 20)
+        Me.OPTIONToolStripMenuItem.Text = "OPTION"
+        '
+        'CloseToolStripMenuItem
+        '
+        Me.CloseToolStripMenuItem.Name = "CloseToolStripMenuItem"
+        Me.CloseToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.F4), System.Windows.Forms.Keys)
+        Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(145, 22)
+        Me.CloseToolStripMenuItem.Text = "Close"
+        '
+        'VIEWToolStripMenuItem
+        '
+        Me.VIEWToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ViewStockTransactionDetailsToolStripMenuItem})
+        Me.VIEWToolStripMenuItem.Name = "VIEWToolStripMenuItem"
+        Me.VIEWToolStripMenuItem.Size = New System.Drawing.Size(46, 20)
+        Me.VIEWToolStripMenuItem.Text = "VIEW"
+        '
+        'ViewStockTransactionDetailsToolStripMenuItem
+        '
+        Me.ViewStockTransactionDetailsToolStripMenuItem.Name = "ViewStockTransactionDetailsToolStripMenuItem"
+        Me.ViewStockTransactionDetailsToolStripMenuItem.Size = New System.Drawing.Size(232, 22)
+        Me.ViewStockTransactionDetailsToolStripMenuItem.Text = "View Stock Transaction Details"
         '
         'FormStock
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 19.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.AutoScroll = True
         Me.BackColor = System.Drawing.SystemColors.Control
@@ -373,7 +336,6 @@ Partial Class FormStock
         Me.Text = "LASER System - Stock"
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         Me.GrpSearch.ResumeLayout(False)
-        Me.GrpSearch.PerformLayout()
         CType(Me.grdStock, System.ComponentModel.ISupportInitialize).EndInit()
         Me.MenuStrip.ResumeLayout(False)
         Me.MenuStrip.PerformLayout()
@@ -382,17 +344,13 @@ Partial Class FormStock
 
     End Sub
     Friend WithEvents GrpSearch As System.Windows.Forms.GroupBox
-    Friend WithEvents Label11 As System.Windows.Forms.Label
     Friend WithEvents OpenFileDialog As System.Windows.Forms.OpenFileDialog
     Friend WithEvents MenuStrip As System.Windows.Forms.MenuStrip
     Friend WithEvents OPTIONToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents CloseToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents VIEWToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ViewStockTransactionDetailsToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents txtSearch As TextBox
     Friend WithEvents grdStock As DataGridView
-    Friend WithEvents cmbFilter As ComboBox
-    Friend WithEvents btnSearch As Button
     Friend WithEvents cmdNew As Button
     Friend WithEvents SNo As DataGridViewTextBoxColumn
     Friend WithEvents SCategory As DataGridViewTextBoxColumn
@@ -406,4 +364,5 @@ Partial Class FormStock
     Friend WithEvents SOutofstocks As DataGridViewTextBoxColumn
     Friend WithEvents SMinStocks As DataGridViewTextBoxColumn
     Friend WithEvents SDetails As DataGridViewTextBoxColumn
+    Friend WithEvents ControlSearchEngine As ControlSearchEngine
 End Class

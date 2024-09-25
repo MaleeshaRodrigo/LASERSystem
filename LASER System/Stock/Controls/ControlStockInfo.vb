@@ -85,7 +85,6 @@ Public Class ControlStockInfo
         Else
             ExecuteInsertQuery()
         End If
-        FormParent.btnSearch.PerformClick()
         Dispose()
     End Sub
 

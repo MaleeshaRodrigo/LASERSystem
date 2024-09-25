@@ -301,6 +301,23 @@
         Const UNo = "UNo"
     End Structure
 
+    Public Structure TechnicianCost
+        Const TCNo = "TCNo"
+        Const TCDate = "TCDate"
+        Const TNo = "TNo"
+        Const RepNo = "RepNo"
+        Const RetNo = "RetNo"
+        Const SNo = "SNo"
+        Const SCategory = "SCategory"
+        Const SName = "SName"
+        Const Rate = "Rate"
+        Const Qty = "Qty"
+        Const Total = "Total"
+        Const TCRemarks = "TCRemarks"
+        Const TSalNo = "TSalNo"
+        Const UNo = "UNo"
+    End Structure
+
     Public Structure User
         Const UNo = "UNo"
         Const Username = "Username"

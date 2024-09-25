@@ -220,7 +220,7 @@ Public Class frmSettlement
         grdRERepair.DataSource = Nothing
         grdStockSale.DataSource = Nothing
         Call CmdTANew_Click(sender, e)
-        For Each Control As Control In {txtTotalofRepairs, txtTotalofSales, txtIncome, txtCTotal, txtCPTotal, txtCuLTotal, txtCPQtyInvoice, txtLockerCash, txtChange}
+        For Each Control As Control In {txtTotalofRepairs, txtTotalofSales, txtIncome, txtCTotal, txtCPTotal, txtCuLTotal, txtCPQtyInvoice, txtLockerCash, txtChange, txtTotalofTransactions}
             Control.Text = "0"
         Next
 
