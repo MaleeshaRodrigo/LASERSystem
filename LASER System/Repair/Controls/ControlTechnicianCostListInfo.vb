@@ -12,7 +12,7 @@ Public Class ControlTechnicianCostListInfo
     End Sub
 
     Public Sub InitForRepair(RepNo As Integer)
-        Dim DataTable = Db.GetDataTable("SELECT TCNo,TCDate,TC.SNo,S.SCategory,S.SName,Rate,Qty,Total,TCRemarks,UserName FROM (Stock S INNER JOIN TechnicianCost TC ON TC.SNo = S.SNo) LEFT JOIN `User` U ON U.UNo = TC.UNo WHERE RepNo=@REPNO;", {
+        Dim DataTable = Db.GetDataTable("SELECT TCNo, TCDate, TC.SNo, S.SCategory, S.SName, Rate, Qty, Total, TCRemarks, TName, UserName FROM ((Stock S INNER JOIN TechnicianCost TC ON TC.SNo = S.SNo) INNER JOIN Technician T ON T.TNo=TC.TNo) LEFT JOIN `User` U ON U.UNo = TC.UNo WHERE RepNo=@REPNO;", {
             New MySqlParameter("REPNO", RepNo)
                                         })
         grdTechnicianCost.DataSource = DataTable

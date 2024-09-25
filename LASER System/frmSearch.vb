@@ -758,7 +758,7 @@ Public Class frmSearch
     'Add Message panel to flow layout panel
     Private Sub CreateSearchPanel(txt As String)
 
-        Dim SearchPanel As New System.Windows.Forms.Panel()
+        Dim SearchPanel As New Panel()
         _SearchPanelsAddedCount += 1
 
         'Set panel properties
@@ -846,6 +846,7 @@ end_for_loop:
             _SearchPanelsAddedCount = PanelAddedCount
         End Sub)
     End Sub
+
     Private Sub ClearToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ClearToolStripMenuItem.Click
         If flpSearch.Controls.Count < 1 Then Exit Sub
         'Remove Message panel

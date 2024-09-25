@@ -144,4 +144,10 @@ Public Class ControlTechnicianCostInfo
 
         Return (True, "")
     End Function
+
+    Private Sub ControlStockSelection_StockChanged() Handles ControlStockSelection.StockChanged
+        TextRate.Value = Db.GetData($"SELECT {Stock.LowestPrice} FROM {Tables.Stock} WHERE SNo=@SNO;", {
+            New MySqlParameter("SNO", ControlStockSelection.SCode)
+        })
+    End Sub
 End Class

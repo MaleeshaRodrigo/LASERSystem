@@ -12,7 +12,7 @@ Public Class MdifrmMain
     End Sub
 
     Private Sub MdifrmMain_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
-        'Create the shutdown.txt for close the BackgroundWorker
+        ' Create the shutdown.txt for close the BackgroundWorker
         If Not String.IsNullOrEmpty(My.Settings.BGWorkerPath) Then
             Dim directoryName As String = Path.Combine(Utils.SystemFolderPath, "LASER Background")
             File.Create(directoryName + "\Shutdown.txt")

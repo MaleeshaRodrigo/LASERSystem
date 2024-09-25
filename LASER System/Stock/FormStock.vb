@@ -9,22 +9,27 @@ Public Class FormStock
     Private ReadOnly DB As New Database
 
     Public Sub New()
-        ' This call is required by the designer.
         InitializeComponent()
-        ' Add any initialization after the InitializeComponent() call.
 
         MenuStrip.Items.Add(mnustrpMENU)
-        Control.CheckForIllegalCrossThreadCalls = False
-        AcceptButton = btnSearch
     End Sub
 
     Private Sub FormStock_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        cmbFilter.SelectedIndex = 0
         If User.Instance.UserType = User.Type.Admin Then
             grdStock.Columns.Item("SCostPrice").Visible = True
         End If
 
-        btnSearch.PerformClick()
+        ControlSearchEngine.Init(New Dictionary(Of String, String) From {
+            {"All", "All"},
+            {"SNo", "Code"},
+            {"SCategory", "Category"},
+            {"SName", "Name"},
+            {"SModelNo", "Model No"},
+            {"SLocation", "Location"},
+            {"SSalePrice", "SalePrice"},
+            {"SDetails", "Details"}
+        })
+        SearchSubmission("", {})
     End Sub
 
     Private Sub grdStock_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles grdStock.CellDoubleClick
@@ -81,7 +86,6 @@ Public Class FormStock
                 End With
         End Select
     End Sub
-
     Private Sub CloseToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CloseToolStripMenuItem.Click
         Me.Close()
     End Sub
@@ -116,7 +120,7 @@ Public Class FormStock
         OnlynumberQty(e)
     End Sub
 
-    Private Sub BtnSearch_Click(sender As Object, e As EventArgs) Handles btnSearch.Click
+    Private Sub SearchSubmission(WhereQuery As String, Values As MySqlParameter()) Handles ControlSearchEngine.SearchSubmissionEvent
         Dim Columns As String() = {
             Stock.Code,
             Stock.Category,
@@ -131,43 +135,17 @@ Public Class FormStock
             Stock.ReorderPoint,
             Stock.Details
         }
-        Dim FilterQuery As String = $"Select {String.Join(", ", Columns) } from {Tables.Stock} "
-        If txtSearch.Text <> "" Then
-            Select Case cmbFilter.Text
-                Case "by Code"
-                    FilterQuery += $"Where {Stock.Code} Like @VALUE"
-                Case "by Category"
-                    FilterQuery += $"Where {Stock.Category} like @VALUE"
-                Case "by Name"
-                    FilterQuery += $"Where {Stock.Name} like @VALUE"
-                Case "by Model No"
-                    FilterQuery += $"Where {Stock.ModelNo} like @VALUE"
-                Case "by Location"
-                    FilterQuery += $"Where {Stock.Location} like @VALUE"
-                Case "by Lowest Price"
-                    FilterQuery += $"Where {Stock.LowestPrice} like @VALUE"
-                Case "by Sale Price"
-                    FilterQuery += $"Where {Stock.SalePrice} like @VALUE"
-                Case "by Reorder Point"
-                    FilterQuery += $"Where {Stock.ReorderPoint} like @VALUE"
-                Case "by Details"
-                    FilterQuery += $"Where {Stock.Details} like @VALUE"
-                Case Else
-                    FilterQuery += $"Where {Stock.Code} LIKE @VALUE OR 
-                        {Stock.Category} LIKE @VALUE OR 
-                        {Stock.Name} LIKE @VALUE OR 
-                        {Stock.ModelNo} LIKE @VALUE OR 
-                        {Stock.Location} LIKE @VALUE OR 
-                        {Stock.LowestPrice} LIKE @VALUE OR 
-                        {Stock.SalePrice} LIKE @VALUE OR 
-                        {Stock.ReorderPoint} LIKE @VALUE OR 
-                        {Stock.Details} LIKE @VALUE"
-            End Select
-        Else
-            FilterQuery += $" Order by {Stock.Code}"
-        End If
-        Dim DT As DataTable = DB.GetDataTable(FilterQuery, {New MySqlParameter("@VALUE", $"%{txtSearch.Text}%")})
-        grdStock.DataSource = DT
+        WhereQuery = If(WhereQuery.Trim() = "", "1", WhereQuery)
+        Dim FilterQuery As String = $"SELECT {String.Join(", ", Columns) } FROM {Tables.Stock} WHERE {WhereQuery} ORDER BY {Stock.Code};"
+        Dim DT As New DataTable
+        Try
+            DT = DB.GetDataTable(FilterQuery, Values)
+            ControlSearchEngine.QueryValidator(True)
+            grdStock.DataSource = DT
+        Catch ex As Exception
+            DT = DB.GetDataTable($"SELECT {String.Join(", ", Columns) } FROM {Tables.Stock} ORDER BY {Stock.Code};", {})
+            ControlSearchEngine.QueryValidator(False)
+        End Try
     End Sub
 
     Private Sub CmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click
