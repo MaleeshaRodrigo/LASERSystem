@@ -21,7 +21,7 @@ Public Class ControlSearchEngine
         LabelInvalidator.Visible = Not Valid
     End Sub
 
-    Private Sub ButtonSearch_Click(sender As Object, e As EventArgs) Handles ButtonSearch.Click
+    Private Sub ButtonSearch_Click(sender As Object, e As EventArgs) Handles ButtonSearch.Click, TextSearch.Enter
         If TextSearch.Text.Trim() = "" Then
             Return
         End If
