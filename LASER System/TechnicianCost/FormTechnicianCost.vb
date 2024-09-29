@@ -51,65 +51,6 @@ Public Class FormTechnicianCost
         Me.Close()
     End Sub
 
-    Private Sub grdTechnicianCost_CellBeginEdit(sender As Object, e As DataGridViewCellCancelEventArgs) Handles grdTechnicianCost.CellBeginEdit
-        If e.RowIndex < 0 Then Exit Sub
-        Select Case e.ColumnIndex
-            Case 1
-                grdTechnicianCost.Controls.Add(dtpDate)
-                dtpDate.Location = grdTechnicianCost.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, False).Location
-                dtpDate.Size = New Size(grdTechnicianCost.Columns.Item(e.ColumnIndex).Width, grdTechnicianCost.Rows.Item(e.RowIndex).Height)
-                dtpDate.Format = DateTimePickerFormat.Custom
-                dtpDate.CustomFormat = "yyyy-MM-dd hh:mm:ss tt"
-                dtpDate.Visible = True
-                If grdTechnicianCost.CurrentCell.Value Is Nothing Then
-                    dtpDate.Value = Now
-                Else
-                    dtpDate.Value = Convert.ToDateTime(grdTechnicianCost.CurrentCell.Value)
-                End If
-        End Select
-        grdTechnicianCost.Item(e.ColumnIndex, e.RowIndex).Tag = grdTechnicianCost.Item(e.ColumnIndex, e.RowIndex).Value
-    End Sub
-
-    Private Sub grdTechnicianCost_EditingControlShowing(sender As Object, e As DataGridViewEditingControlShowingEventArgs) Handles grdTechnicianCost.EditingControlShowing
-        If grdTechnicianCost.CurrentCell.RowIndex < 0 Then Exit Sub
-        Select Case grdTechnicianCost.CurrentCell.ColumnIndex
-            Case 1
-                dtpDate.Location = grdTechnicianCost.GetCellDisplayRectangle(grdTechnicianCost.CurrentCell.ColumnIndex,
-                                                                              grdTechnicianCost.CurrentCell.RowIndex, True).Location
-                dtpDate.Size = New Size(grdTechnicianCost.Columns.Item(grdTechnicianCost.CurrentCell.ColumnIndex).Width,
-                                        grdTechnicianCost.Rows.Item(grdTechnicianCost.CurrentCell.RowIndex).Height)
-            Case 3
-                Dim tb As TextBox = TryCast(e.Control, TextBox)
-                frmSearchDropDown.passtext(tb)
-                AddHandler tb.KeyUp, AddressOf frmSearchDropDown.dgv_KeyUp
-                frmSearchDropDown.frm_Open(Db, grdTechnicianCost, Me, "Select SCategory from Stock group by SCategory;", "SCategory")
-            Case 4
-                Dim tb As TextBox = TryCast(e.Control, TextBox)
-                frmSearchDropDown.passtext(tb)
-                AddHandler tb.KeyUp, AddressOf frmSearchDropDown.dgv_KeyUp
-                frmSearchDropDown.frm_Open(Db, grdTechnicianCost, Me, "Select SCategory,SName from Stock where SCategory='" &
-                grdTechnicianCost.Item(3, grdTechnicianCost.CurrentCell.RowIndex).Value & "';", "SName")
-        End Select
-    End Sub
-
-    Private Sub grdTechnicianCost_RowValidating(sender As Object, e As DataGridViewCellCancelEventArgs) Handles grdTechnicianCost.RowValidating
-        If e.RowIndex < 0 Or e.RowIndex > (grdTechnicianCost.Rows.Count - 2) Then Exit Sub
-        Dim DRTC = Db.GetDataDictionary("Select TC.*,UserName from TechnicianCost TC Left Join `User` U On U.Uno = TC.UNo Where TCNo=" & grdTechnicianCost.Item(0, e.RowIndex).Value)
-        If DRTC IsNot Nothing Then
-            grdTechnicianCost.Item(1, e.RowIndex).Value = DRTC("TCDate").ToString
-            grdTechnicianCost.Item(2, e.RowIndex).Value = DRTC("SNo").ToString
-            grdTechnicianCost.Item(3, e.RowIndex).Value = DRTC("SCategory").ToString
-            grdTechnicianCost.Item(4, e.RowIndex).Value = DRTC("SName").ToString
-            grdTechnicianCost.Item(5, e.RowIndex).Value = DRTC("Rate").ToString
-            grdTechnicianCost.Item(6, e.RowIndex).Value = DRTC("Qty").ToString
-            grdTechnicianCost.Item(7, e.RowIndex).Value = DRTC("Total").ToString
-            grdTechnicianCost.Item(8, e.RowIndex).Value = DRTC("TCRemarks").ToString
-            grdTechnicianCost.Item(9, e.RowIndex).Value = DRTC("RepNo").ToString
-            grdTechnicianCost.Item(10, e.RowIndex).Value = DRTC("RetNo").ToString
-            grdTechnicianCost.Item(11, e.RowIndex).Value = DRTC("UserName").ToString
-        End If
-    End Sub
-
     Private Sub ButtonNew_Click(sender As Object, e As EventArgs) Handles ButtonNew.Click
         ControlTechnicianCostInfo = New ControlTechnicianCostInfo
         ControlTechnicianCostInfo.SetDatabase(Db).Init(UpdateMode.New).SetTechnician(cmbTName.Text)

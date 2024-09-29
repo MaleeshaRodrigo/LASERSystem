@@ -455,6 +455,12 @@
     <Compile Include="frmTechnician.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="TechnicianCost\Controls\ControlTechnicianCostBulkInsert.Designer.vb">
+      <DependentUpon>ControlTechnicianCostBulkInsert.vb</DependentUpon>
+    </Compile>
+    <Compile Include="TechnicianCost\Controls\ControlTechnicianCostBulkInsert.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="TechnicianCost\Controls\ControlTechnicianCostInfo.Designer.vb">
       <DependentUpon>ControlTechnicianCostInfo.vb</DependentUpon>
     </Compile>
@@ -691,6 +697,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Shared Controls\ControlTechnicianSelection.resx">
       <DependentUpon>ControlTechnicianSelection.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TechnicianCost\Controls\ControlTechnicianCostBulkInsert.resx">
+      <DependentUpon>ControlTechnicianCostBulkInsert.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TechnicianCost\Controls\ControlTechnicianCostInfo.resx">
       <DependentUpon>ControlTechnicianCostInfo.vb</DependentUpon>
