@@ -88,6 +88,27 @@ Public Class Database
         End Try
     End Sub
 
+    Public Sub ExecuteBatch(Query As String, Optional ParametersArray As MySqlParameter()() = Nothing)
+        Dim Connection As MySqlConnection = GetConenction()
+        Try
+            Connection.Open()
+            Using Batch = New MySqlBatch(Connection)
+                For Each Parameters In ParametersArray
+                    Dim BatchCommand = New MySqlBatchCommand(Query)
+                    If Parameters IsNot Nothing Then
+                        BatchCommand.Parameters.AddRange(Parameters)
+                    End If
+                    Batch.BatchCommands.Add(BatchCommand)
+                Next
+                Batch.ExecuteNonQuery()
+            End Using
+        Catch ex As Exception
+            Throw ex
+        Finally
+            Connection.Close()
+        End Try
+    End Sub
+
     Private Function FormatQuery(Query As String, Optional AdminPer As AdminPermission = Nothing) As String
         If Query.Contains("?") = False Then
             Return Query

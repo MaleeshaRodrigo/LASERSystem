@@ -1,7 +1,6 @@
 ﻿Imports MySqlConnector
 Public Class FormTechnicianCost
     Private Db As New Database
-    Private dtpDate As New DateTimePicker
     Private ControlTechnicianCostInfo As ControlTechnicianCostInfo
 
     Private Sub cmbTName_DropDown(sender As Object, e As EventArgs) Handles cmbTName.DropDown
@@ -77,5 +76,13 @@ Public Class FormTechnicianCost
 
     Private Sub ControlTechnicianCostInfo_Submit()
         cmdTCSearch.PerformClick()
+    End Sub
+
+    Private Sub ButtonBulkInsert_Click(sender As Object, e As EventArgs) Handles ButtonBulkInsert.Click
+        Dim ControlBulkInsert As New ControlTechnicianCostBulkInsert
+        ControlBulkInsert.Init(Db)
+        Me.Controls.Add(ControlBulkInsert)
+        ControlBulkInsert.BringToFront()
+        ControlBulkInsert.Dock = DockStyle.Fill
     End Sub
 End Class

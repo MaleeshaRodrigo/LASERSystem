@@ -57,6 +57,7 @@ Partial Class FormTechnicianCost
         Me.mnustripOpenRepair = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ClearToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ButtonNew = New System.Windows.Forms.Button()
+        Me.ButtonBulkInsert = New System.Windows.Forms.Button()
         Me.GroupBox1.SuspendLayout()
         Me.MenuStrip.SuspendLayout()
         CType(Me.grdTechnicianCost, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -360,11 +361,24 @@ Partial Class FormTechnicianCost
         Me.ButtonNew.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.ButtonNew.UseVisualStyleBackColor = True
         '
+        'ButtonBulkInsert
+        '
+        Me.ButtonBulkInsert.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ButtonBulkInsert.Image = Global.LASER_System.My.Resources.Resources.upload
+        Me.ButtonBulkInsert.Location = New System.Drawing.Point(572, 41)
+        Me.ButtonBulkInsert.Name = "ButtonBulkInsert"
+        Me.ButtonBulkInsert.Size = New System.Drawing.Size(94, 37)
+        Me.ButtonBulkInsert.TabIndex = 129
+        Me.ButtonBulkInsert.Text = "Bulk Insert"
+        Me.ButtonBulkInsert.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
+        Me.ButtonBulkInsert.UseVisualStyleBackColor = True
+        '
         'FormTechnicianCost
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 14.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(752, 356)
+        Me.Controls.Add(Me.ButtonBulkInsert)
         Me.Controls.Add(Me.ButtonNew)
         Me.Controls.Add(Me.grdTechnicianCost)
         Me.Controls.Add(Me.txtTCTo)
@@ -427,4 +441,5 @@ Partial Class FormTechnicianCost
     Friend WithEvents RetNo As DataGridViewTextBoxColumn
     Friend WithEvents UName As DataGridViewTextBoxColumn
     Friend WithEvents ButtonNew As Button
+    Friend WithEvents ButtonBulkInsert As Button
 End Class

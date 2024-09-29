@@ -22,14 +22,17 @@ Partial Class ControlTechnicianCostBulkInsert
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.ButtonClose = New System.Windows.Forms.Button()
         Me.GridView = New System.Windows.Forms.DataGridView()
+        Me.ButtonSave = New System.Windows.Forms.Button()
         Me.TCDate = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.SNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.SCategory = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.SName = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Remarks = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.TCRemarks = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Rate = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Qty = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Total = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -41,6 +44,7 @@ Partial Class ControlTechnicianCostBulkInsert
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.ButtonSave)
         Me.GroupBox1.Controls.Add(Me.ButtonClose)
         Me.GroupBox1.Controls.Add(Me.GridView)
         Me.GroupBox1.Dock = System.Windows.Forms.DockStyle.Fill
@@ -53,6 +57,7 @@ Partial Class ControlTechnicianCostBulkInsert
         '
         'ButtonClose
         '
+        Me.ButtonClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.ButtonClose.Image = Global.LASER_System.My.Resources.Resources.close
         Me.ButtonClose.Location = New System.Drawing.Point(760, 12)
         Me.ButtonClose.Name = "ButtonClose"
@@ -64,12 +69,27 @@ Partial Class ControlTechnicianCostBulkInsert
         '
         'GridView
         '
+        Me.GridView.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.GridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.GridView.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.TCDate, Me.SNo, Me.SCategory, Me.SName, Me.Remarks, Me.Rate, Me.Qty, Me.Total, Me.RepNo, Me.RetNo})
+        Me.GridView.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.TCDate, Me.SNo, Me.SCategory, Me.SName, Me.TCRemarks, Me.Rate, Me.Qty, Me.Total, Me.RepNo, Me.RetNo})
         Me.GridView.Location = New System.Drawing.Point(6, 52)
         Me.GridView.Name = "GridView"
         Me.GridView.Size = New System.Drawing.Size(824, 168)
         Me.GridView.TabIndex = 0
+        '
+        'ButtonSave
+        '
+        Me.ButtonSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ButtonSave.Image = Global.LASER_System.My.Resources.Resources.Save
+        Me.ButtonSave.Location = New System.Drawing.Point(684, 12)
+        Me.ButtonSave.Name = "ButtonSave"
+        Me.ButtonSave.Size = New System.Drawing.Size(70, 34)
+        Me.ButtonSave.TabIndex = 2
+        Me.ButtonSave.Text = "Save"
+        Me.ButtonSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
+        Me.ButtonSave.UseVisualStyleBackColor = True
         '
         'TCDate
         '
@@ -99,14 +119,17 @@ Partial Class ControlTechnicianCostBulkInsert
         Me.SName.Name = "SName"
         Me.SName.Width = 64
         '
-        'Remarks
+        'TCRemarks
         '
-        Me.Remarks.HeaderText = "Remarks"
-        Me.Remarks.Name = "Remarks"
+        Me.TCRemarks.HeaderText = "Remarks"
+        Me.TCRemarks.Name = "TCRemarks"
         '
         'Rate
         '
         Me.Rate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
+        DataGridViewCellStyle1.Format = "N2"
+        DataGridViewCellStyle1.NullValue = Nothing
+        Me.Rate.DefaultCellStyle = DataGridViewCellStyle1
         Me.Rate.HeaderText = "Rate"
         Me.Rate.Name = "Rate"
         Me.Rate.Width = 57
@@ -121,8 +144,12 @@ Partial Class ControlTechnicianCostBulkInsert
         'Total
         '
         Me.Total.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
+        DataGridViewCellStyle2.Format = "N2"
+        DataGridViewCellStyle2.NullValue = Nothing
+        Me.Total.DefaultCellStyle = DataGridViewCellStyle2
         Me.Total.HeaderText = "Total"
         Me.Total.Name = "Total"
+        Me.Total.ReadOnly = True
         Me.Total.Width = 59
         '
         'RepNo
@@ -156,11 +183,12 @@ Partial Class ControlTechnicianCostBulkInsert
     Friend WithEvents GroupBox1 As GroupBox
     Friend WithEvents GridView As DataGridView
     Friend WithEvents ButtonClose As Button
+    Friend WithEvents ButtonSave As Button
     Friend WithEvents TCDate As DataGridViewTextBoxColumn
     Friend WithEvents SNo As DataGridViewTextBoxColumn
     Friend WithEvents SCategory As DataGridViewTextBoxColumn
     Friend WithEvents SName As DataGridViewTextBoxColumn
-    Friend WithEvents Remarks As DataGridViewTextBoxColumn
+    Friend WithEvents TCRemarks As DataGridViewTextBoxColumn
     Friend WithEvents Rate As DataGridViewTextBoxColumn
     Friend WithEvents Qty As DataGridViewTextBoxColumn
     Friend WithEvents Total As DataGridViewTextBoxColumn

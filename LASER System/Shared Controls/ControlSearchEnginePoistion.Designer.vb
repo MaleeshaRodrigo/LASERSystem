@@ -38,14 +38,14 @@ Partial Class ControlSearchEnginePoistion
         Me.PanelPoistion.Location = New System.Drawing.Point(0, 0)
         Me.PanelPoistion.Name = "PanelPoistion"
         Me.PanelPoistion.Padding = New System.Windows.Forms.Padding(3)
-        Me.PanelPoistion.Size = New System.Drawing.Size(96, 23)
+        Me.PanelPoistion.Size = New System.Drawing.Size(135, 23)
         Me.PanelPoistion.TabIndex = 1
         '
         'PicturePoistionClose
         '
         Me.PicturePoistionClose.Dock = System.Windows.Forms.DockStyle.Right
         Me.PicturePoistionClose.Image = Global.LASER_System.My.Resources.Resources.close
-        Me.PicturePoistionClose.Location = New System.Drawing.Point(77, 3)
+        Me.PicturePoistionClose.Location = New System.Drawing.Point(116, 3)
         Me.PicturePoistionClose.Name = "PicturePoistionClose"
         Me.PicturePoistionClose.Size = New System.Drawing.Size(16, 17)
         Me.PicturePoistionClose.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
@@ -74,7 +74,7 @@ Partial Class ControlSearchEnginePoistion
         Me.MaximumSize = New System.Drawing.Size(0, 23)
         Me.MinimumSize = New System.Drawing.Size(0, 23)
         Me.Name = "ControlSearchEnginePoistion"
-        Me.Size = New System.Drawing.Size(96, 23)
+        Me.Size = New System.Drawing.Size(135, 23)
         Me.PanelPoistion.ResumeLayout(False)
         Me.PanelPoistion.PerformLayout()
         CType(Me.PicturePoistionClose, System.ComponentModel.ISupportInitialize).EndInit()

@@ -3,14 +3,14 @@ Imports MySqlConnector
 Imports LASER_System.StructureDatabase
 
 Public Class ControlStockInfo
-    Private Db As Database
     Public FormParent As FormStock
-    Public Sub New(Db As Database)
+    Public Event UpdateEvent()
 
-        ' This call is required by the designer.
+    Private Db As Database
+
+    Public Sub New(Db As Database)
         InitializeComponent()
 
-        ' Add any initialization after the InitializeComponent() call.
         Me.Db = Db
     End Sub
 
@@ -85,6 +85,7 @@ Public Class ControlStockInfo
         Else
             ExecuteInsertQuery()
         End If
+        RaiseEvent UpdateEvent()
         Dispose()
     End Sub
 
