@@ -44,6 +44,7 @@ Public Class ControlStockInfo
         TableRowTxtCostPrice.SizeType = SizeType.Absolute
         TableRowTxtCostPrice.Height = 0
 
+        TxtLowestPrice.Enabled = False
         TxtAvailableUnits.Enabled = False
         TxtDamagedUnits.Enabled = False
     End Sub
