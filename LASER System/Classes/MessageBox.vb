@@ -10,4 +10,8 @@
     Public Shared Function Question(Message As String) As MsgBoxResult
         Return MsgBox(Message, vbYesNo + vbQuestion)
     End Function
+
+    Public Shared Function Exclamation(Message As String) As MsgBoxResult
+        Return MsgBox(Message, vbOKOnly + vbExclamation)
+    End Function
 End Class

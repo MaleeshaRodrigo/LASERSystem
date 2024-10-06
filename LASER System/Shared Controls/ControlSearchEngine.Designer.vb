@@ -24,6 +24,7 @@ Partial Class ControlSearchEngine
     Private Sub InitializeComponent()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.LabelInvalidator = New System.Windows.Forms.Label()
         Me.ComboFilter = New System.Windows.Forms.ComboBox()
         Me.ButtonCloseBracket = New System.Windows.Forms.Button()
         Me.ButtonOpenBracket = New System.Windows.Forms.Button()
@@ -32,7 +33,6 @@ Partial Class ControlSearchEngine
         Me.FlowPanel = New System.Windows.Forms.FlowLayoutPanel()
         Me.ButtonSearch = New System.Windows.Forms.Button()
         Me.TextSearch = New System.Windows.Forms.TextBox()
-        Me.LabelInvalidator = New System.Windows.Forms.Label()
         Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -62,6 +62,18 @@ Partial Class ControlSearchEngine
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(705, 65)
         Me.Panel1.TabIndex = 1
+        '
+        'LabelInvalidator
+        '
+        Me.LabelInvalidator.AutoSize = True
+        Me.LabelInvalidator.BackColor = System.Drawing.Color.DarkRed
+        Me.LabelInvalidator.ForeColor = System.Drawing.SystemColors.ButtonHighlight
+        Me.LabelInvalidator.Location = New System.Drawing.Point(554, 10)
+        Me.LabelInvalidator.Name = "LabelInvalidator"
+        Me.LabelInvalidator.Size = New System.Drawing.Size(118, 14)
+        Me.LabelInvalidator.TabIndex = 9
+        Me.LabelInvalidator.Text = "Invalid Search Query"
+        Me.LabelInvalidator.Visible = False
         '
         'ComboFilter
         '
@@ -141,18 +153,6 @@ Partial Class ControlSearchEngine
         Me.TextSearch.Name = "TextSearch"
         Me.TextSearch.Size = New System.Drawing.Size(124, 22)
         Me.TextSearch.TabIndex = 1
-        '
-        'LabelInvalidator
-        '
-        Me.LabelInvalidator.AutoSize = True
-        Me.LabelInvalidator.BackColor = System.Drawing.Color.DarkRed
-        Me.LabelInvalidator.ForeColor = System.Drawing.SystemColors.ButtonHighlight
-        Me.LabelInvalidator.Location = New System.Drawing.Point(554, 10)
-        Me.LabelInvalidator.Name = "LabelInvalidator"
-        Me.LabelInvalidator.Size = New System.Drawing.Size(118, 14)
-        Me.LabelInvalidator.TabIndex = 9
-        Me.LabelInvalidator.Text = "Invalid Search Query"
-        Me.LabelInvalidator.Visible = False
         '
         'ControlSearchEngine
         '

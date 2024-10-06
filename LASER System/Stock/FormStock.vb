@@ -79,13 +79,15 @@ Public Class FormStock
                     .TxtDamagedUnits.Text = CurrentRow.Cells.Item(Stock.DamagedUnits).Value.ToString()
                     .TxtReorderPoint.Text = CurrentRow.Cells.Item(Stock.ReorderPoint).Value.ToString()
                     .TxtDetails.Text = CurrentRow.Cells.Item(Stock.Details).Value.ToString()
-                    Me.Controls.Add(ControlStockInfo)
+                    AddHandler ControlStockInfo.UpdateEvent, AddressOf ControlStockInfo_Submit
+                    Controls.Add(ControlStockInfo)
                     .FormParent = Me
                     .Dock = DockStyle.Fill
                     .BringToFront()
                 End With
         End Select
     End Sub
+
     Private Sub CloseToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CloseToolStripMenuItem.Click
         Me.Close()
     End Sub
@@ -137,24 +139,28 @@ Public Class FormStock
         }
         WhereQuery = If(WhereQuery.Trim() = "", "1", WhereQuery)
         Dim FilterQuery As String = $"SELECT {String.Join(", ", Columns) } FROM {Tables.Stock} WHERE {WhereQuery} ORDER BY {Stock.Code};"
-        Dim DT As New DataTable
+        Dim DT As DataTable
         Try
             DT = DB.GetDataTable(FilterQuery, Values)
             ControlSearchEngine.QueryValidator(True)
             grdStock.DataSource = DT
         Catch ex As Exception
-            DT = DB.GetDataTable($"SELECT {String.Join(", ", Columns) } FROM {Tables.Stock} ORDER BY {Stock.Code};", {})
             ControlSearchEngine.QueryValidator(False)
         End Try
     End Sub
 
     Private Sub CmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click
         Dim ControlStockInfo As New ControlStockInfo(DB)
+        AddHandler ControlStockInfo.UpdateEvent, AddressOf ControlStockInfo_Submit
         Me.Controls.Add(ControlStockInfo)
         ControlStockInfo.ClearControls()
         ControlStockInfo.FormParent = Me
         ControlStockInfo.Dock = DockStyle.Fill
         ControlStockInfo.BringToFront()
+    End Sub
+
+    Private Sub ControlStockInfo_Submit()
+        ControlSearchEngine.Search()
     End Sub
 
     Private Sub grdStock_CellFormatting(sender As Object, e As DataGridViewCellFormattingEventArgs) Handles grdStock.CellFormatting

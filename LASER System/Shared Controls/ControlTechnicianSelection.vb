@@ -11,6 +11,14 @@ Public Class ControlTechnicianSelection
         ComboTechnician.Text = Name
     End Sub
 
+    Public Function GetTechnician() As String
+        If String.IsNullOrWhiteSpace(ComboTechnician.Text) Then
+            Return Nothing
+        End If
+
+        Return ComboTechnician.Text
+    End Function
+
     Public Function GetTechnicianNo() As Integer
         Dim TechnicianNo As Object = Db.GetData("SELECT TNo FROM Technician WHERE TName=@TNAME;", {
             New MySqlParameter("TNAME", ComboTechnician.Text)

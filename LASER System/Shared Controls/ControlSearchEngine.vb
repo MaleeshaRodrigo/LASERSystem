@@ -21,16 +21,8 @@ Public Class ControlSearchEngine
         LabelInvalidator.Visible = Not Valid
     End Sub
 
-    Private Sub ButtonSearch_Click(sender As Object, e As EventArgs) Handles ButtonSearch.Click, TextSearch.Enter
-        If TextSearch.Text.Trim() = "" Then
-            Return
-        End If
-
-        ApplyPrefixOperator()
-        AddPoistion(TextSearch.Text, GetKeyFromValue(Filters, ComboFilter.Text))
+    Public Sub Search()
         Dim QueryResult = BuildQuery()
-        TextSearch.Text = ""
-
         RaiseEvent SearchSubmissionEvent(QueryResult.Query, QueryResult.Values.ToArray)
     End Sub
 
@@ -70,6 +62,19 @@ Public Class ControlSearchEngine
 
         Return ($" ({String.Join(" OR ", QueryArray)}) ", ParameterValue)
     End Function
+
+    Private Sub ButtonSearch_Click(sender As Object, e As EventArgs) Handles ButtonSearch.Click
+        If TextSearch.Text.Trim() = "" Then
+            Return
+        End If
+
+        ApplyPrefixOperator()
+        AddPoistion(TextSearch.Text, GetKeyFromValue(Filters, ComboFilter.Text))
+        Dim QueryResult = BuildQuery()
+        TextSearch.Text = ""
+
+        RaiseEvent SearchSubmissionEvent(QueryResult.Query, QueryResult.Values.ToArray)
+    End Sub
 
     Private Sub AddPoistion(Text As String, Optional Field As String = Nothing)
         If Field Is Nothing Then
@@ -122,6 +127,12 @@ Public Class ControlSearchEngine
         AddPoistion(")")
         Dim QueryResult = BuildQuery()
         RaiseEvent SearchSubmissionEvent(QueryResult.Query, QueryResult.Values.ToArray)
+    End Sub
+
+    Private Sub TextSearch_KeyUp(sender As Object, e As KeyEventArgs) Handles TextSearch.KeyUp
+        If e.KeyCode = Keys.Enter Then
+            ButtonSearch.PerformClick()
+        End If
     End Sub
 
     Private Sub ApplyPrefixOperator()
