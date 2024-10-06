@@ -118,12 +118,14 @@ Public Class ControlTechnicianCostBulkInsert
                 Return
             End If
 
+            Dim Queries As New List(Of String)
             Dim Values As New List(Of MySqlParameter())
             For Each Row As DataGridViewRow In GridView.Rows
                 If Row.IsNewRow Then
                     Continue For
                 End If
 
+                Queries.Add($"INSERT INTO {Tables.TechnicianCost}(TCDate, TNo, RepNo, RetNo, SNo, SCategory, SName, Rate, Qty, Total, TCRemarks, UNo) VALUES(@TCDATE, @TNO, @REPNO, @RETNO, @SNO, @SCATEGORY, @SNAME, @RATE, @QTY, @TOTAL, @REMARKS, @UNO)")
                 Values.Add({
                     New MySqlParameter("TCDATE", Row.Cells(TechnicianCostGridColumns.Date).Value),
                     New MySqlParameter("TNO", ControlTechnician.GetTechnicianNo),
@@ -138,13 +140,19 @@ Public Class ControlTechnicianCostBulkInsert
                     New MySqlParameter("REMARKS", Row.Cells(TechnicianCostGridColumns.Remarks).Value),
                     New MySqlParameter("UNO", User.Instance.UserNo)
                 })
+                If String.IsNullOrWhiteSpace(Row.Cells(TechnicianCostGridColumns.StockNo).Value) = False Then
+                    Queries.Add($"UPDATE {Tables.Stock} SET {Stock.AvailableUnits}=({Stock.AvailableUnits}-@UNITS) WHERE {Stock.Code}=@CODE;")
+                    Values.Add({
+                        New MySqlParameter("UNITS", Row.Cells(TechnicianCostGridColumns.Qty).Value),
+                        New MySqlParameter("CODE", Row.Cells(TechnicianCostGridColumns.StockNo).Value)
+                    })
+                End If
             Next
-            Db.ExecuteBatch($"INSERT INTO {Tables.TechnicianCost}(TCDate, TNo, RepNo, RetNo, SNo, SCategory, SName, Rate, Qty, Total, TCRemarks, UNo) VALUES(@TCDATE, @TNO, @REPNO, @RETNO, @SNO, @SCATEGORY, @SNAME, @RATE, @QTY, @TOTAL, @REMARKS, @UNO)", Values.ToArray)
-        Catch ex As Exception
-            MessageBox.Error(ex.Message)
-        Finally
+            Db.ExecuteBatches(Queries.ToArray, Values.ToArray)
             ButtonClose.PerformClick()
             RaiseEvent SubmitEvent()
+        Catch ex As Exception
+            MessageBox.Error(ex.Message)
         End Try
     End Sub
 
