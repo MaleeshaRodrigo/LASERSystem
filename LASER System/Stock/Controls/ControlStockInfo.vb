@@ -3,14 +3,14 @@ Imports MySqlConnector
 Imports LASER_System.StructureDatabase
 
 Public Class ControlStockInfo
-    Private Db As Database
     Public FormParent As FormStock
-    Public Sub New(Db As Database)
+    Public Event UpdateEvent()
 
-        ' This call is required by the designer.
+    Private Db As Database
+
+    Public Sub New(Db As Database)
         InitializeComponent()
 
-        ' Add any initialization after the InitializeComponent() call.
         Me.Db = Db
     End Sub
 
@@ -44,6 +44,7 @@ Public Class ControlStockInfo
         TableRowTxtCostPrice.SizeType = SizeType.Absolute
         TableRowTxtCostPrice.Height = 0
 
+        TxtLowestPrice.Enabled = False
         TxtAvailableUnits.Enabled = False
         TxtDamagedUnits.Enabled = False
     End Sub
@@ -85,6 +86,7 @@ Public Class ControlStockInfo
         Else
             ExecuteInsertQuery()
         End If
+        RaiseEvent UpdateEvent()
         Dispose()
     End Sub
 
@@ -124,7 +126,6 @@ Public Class ControlStockInfo
                     {Stock.ModelNo} = @MODELNO,
                     {Stock.Location} = @LOCATION,
                     {Stock.Details} = @DETAILS,
-                    {Stock.LowestPrice} = @LOWESTPRICE,
                     {Stock.SalePrice} = @SALEPRICE,
                     {Stock.ReorderPoint} = @REORDERPOINT
                     WHERE {Stock.Code} = @CODE;", {
@@ -133,7 +134,6 @@ Public Class ControlStockInfo
                     New MySqlParameter("@MODELNO", TxtModelNo.Text),
                     New MySqlParameter("@LOCATION", CmbLocation.Text),
                     New MySqlParameter("@DETAILS", TxtDetails.Text),
-                    New MySqlParameter("@LOWESTPRICE", TxtLowestPrice.Value),
                     New MySqlParameter("@SALEPRICE", TxtSalePrice.Value),
                     New MySqlParameter("@REORDERPOINT", TxtReorderPoint.Value),
                     New MySqlParameter("@CODE", TxtSNo.Text)

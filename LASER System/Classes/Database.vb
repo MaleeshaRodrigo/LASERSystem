@@ -38,7 +38,7 @@ Public Class Database
         Dim Connection As MySqlConnection = GetConenction()
         Try
             Connection.Open()
-            Dim Command As New MySqlCommand($"SELECT {FieldName} FROM {Table} WHERE {FieldName}=@VALUE;", Connection)
+            Dim Command As New MySqlCommand($"SELECT `{FieldName}` FROM `{Table}` WHERE `{FieldName}`=@VALUE;", Connection)
             Command.Parameters.Add(New MySqlParameter("VALUE", Value))
             Using DataReader = Command.ExecuteReader()
                 Return DataReader.HasRows
@@ -82,6 +82,54 @@ Public Class Database
                 Command.Cancel()
             End Using
         Catch ex As Exception
+            Throw ex
+        Finally
+            Connection.Close()
+        End Try
+    End Sub
+
+    Public Sub ExecuteBatch(Query As String, Optional ParametersArray As MySqlParameter()() = Nothing)
+        Dim Connection As MySqlConnection = GetConenction()
+        Connection.Open()
+        Dim Transaction As MySqlTransaction = Connection.BeginTransaction()
+        Try
+            Using Batch = New MySqlBatch(Connection, Transaction)
+                For Each Parameters In ParametersArray
+                    Dim BatchCommand = New MySqlBatchCommand(Query)
+                    If Parameters IsNot Nothing Then
+                        BatchCommand.Parameters.AddRange(Parameters)
+                    End If
+                    Batch.BatchCommands.Add(BatchCommand)
+                Next
+                Batch.ExecuteNonQuery()
+            End Using
+            Transaction.Commit()
+        Catch ex As Exception
+            Transaction.Rollback()
+            Throw ex
+        Finally
+            Connection.Close()
+        End Try
+    End Sub
+
+    Public Sub ExecuteBatches(Queries As String(), Optional ParametersArray As MySqlParameter()() = Nothing)
+        Dim Connection As MySqlConnection = GetConenction()
+        Connection.Open()
+        Dim Transaction As MySqlTransaction = Connection.BeginTransaction()
+        Try
+            Using Batch = New MySqlBatch(Connection, Transaction)
+                For i As Integer = 0 To Queries.Length - 1
+                    Dim BatchCommand = New MySqlBatchCommand(Queries(i))
+                    If ParametersArray(i) IsNot Nothing Then
+                        BatchCommand.Parameters.AddRange(ParametersArray(i))
+                    End If
+                    Batch.BatchCommands.Add(BatchCommand)
+                Next
+                Batch.ExecuteNonQuery()
+            End Using
+            Transaction.Commit()
+        Catch ex As Exception
+            Transaction.Rollback()
             Throw ex
         Finally
             Connection.Close()
