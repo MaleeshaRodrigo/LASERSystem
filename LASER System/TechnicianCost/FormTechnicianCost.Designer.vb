@@ -25,8 +25,6 @@ Partial Class FormTechnicianCost
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormTechnicianCost))
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
-        Me.cmbTName = New System.Windows.Forms.ComboBox()
-        Me.Label2 = New System.Windows.Forms.Label()
         Me.Label5 = New System.Windows.Forms.Label()
         Me.Label35 = New System.Windows.Forms.Label()
         Me.cmdTCSearch = New System.Windows.Forms.Button()
@@ -58,6 +56,8 @@ Partial Class FormTechnicianCost
         Me.ClearToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ButtonNew = New System.Windows.Forms.Button()
         Me.ButtonBulkInsert = New System.Windows.Forms.Button()
+        Me.cmbTName = New System.Windows.Forms.ComboBox()
+        Me.Label2 = New System.Windows.Forms.Label()
         Me.GroupBox1.SuspendLayout()
         Me.MenuStrip.SuspendLayout()
         CType(Me.grdTechnicianCost, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -75,24 +75,6 @@ Partial Class FormTechnicianCost
         Me.GroupBox1.TabIndex = 1
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Technician Info"
-        '
-        'cmbTName
-        '
-        Me.cmbTName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cmbTName.FormattingEnabled = True
-        Me.cmbTName.Location = New System.Drawing.Point(68, 21)
-        Me.cmbTName.Name = "cmbTName"
-        Me.cmbTName.Size = New System.Drawing.Size(210, 22)
-        Me.cmbTName.TabIndex = 21
-        '
-        'Label2
-        '
-        Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(6, 23)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(42, 14)
-        Me.Label2.TabIndex = 3
-        Me.Label2.Text = "Name:"
         '
         'Label5
         '
@@ -373,6 +355,24 @@ Partial Class FormTechnicianCost
         Me.ButtonBulkInsert.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.ButtonBulkInsert.UseVisualStyleBackColor = True
         '
+        'cmbTName
+        '
+        Me.cmbTName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cmbTName.FormattingEnabled = True
+        Me.cmbTName.Location = New System.Drawing.Point(68, 21)
+        Me.cmbTName.Name = "cmbTName"
+        Me.cmbTName.Size = New System.Drawing.Size(210, 22)
+        Me.cmbTName.TabIndex = 21
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(6, 23)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(42, 14)
+        Me.Label2.TabIndex = 3
+        Me.Label2.Text = "Name:"
+        '
         'FormTechnicianCost
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 14.0!)
@@ -409,8 +409,6 @@ Partial Class FormTechnicianCost
 
     End Sub
     Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
-    Friend WithEvents cmbTName As System.Windows.Forms.ComboBox
-    Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents Label5 As System.Windows.Forms.Label
     Friend WithEvents Label35 As System.Windows.Forms.Label
     Friend WithEvents cmdTCSearch As System.Windows.Forms.Button
@@ -442,4 +440,6 @@ Partial Class FormTechnicianCost
     Friend WithEvents UName As DataGridViewTextBoxColumn
     Friend WithEvents ButtonNew As Button
     Friend WithEvents ButtonBulkInsert As Button
+    Friend WithEvents cmbTName As ComboBox
+    Friend WithEvents Label2 As Label
 End Class

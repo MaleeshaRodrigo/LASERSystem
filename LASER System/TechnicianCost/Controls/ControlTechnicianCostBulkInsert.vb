@@ -2,12 +2,21 @@
 Imports MySqlConnector
 
 Public Class ControlTechnicianCostBulkInsert
+    Public Event SubmitEvent()
+
     Private Db As Database
     Private ReadOnly DatePicker As New DateTimePicker
 
-    Public Sub Init(Db As Database)
+    Public Function Init(Db As Database) As ControlTechnicianCostBulkInsert
         Me.Db = Db
-    End Sub
+        ControlTechnician.SetDatabase(Db)
+        Return Me
+    End Function
+
+    Public Function SetTechnician(Technician As String) As ControlTechnicianCostBulkInsert
+        ControlTechnician.SetTechnician(Technician)
+        Return Me
+    End Function
 
     Private Sub GridView_CellBeginEdit(sender As Object, e As DataGridViewCellCancelEventArgs) Handles GridView.CellBeginEdit
         If e.RowIndex < 0 Then Exit Sub
@@ -53,26 +62,8 @@ Public Class ControlTechnicianCostBulkInsert
         End Select
     End Sub
 
-    'Private Sub GridView_RowValidating(sender As Object, e As DataGridViewCellCancelEventArgs) Handles GridView.RowValidating
-    '    If e.RowIndex < 0 Or e.RowIndex > (GridView.Rows.Count - 2) Then Exit Sub
-    '    Dim DRTC = Db.GetDataDictionary("Select TC.*,UserName from TechnicianCost TC Left Join `User` U On U.Uno = TC.UNo Where TCNo=" & GridView.Item(0, e.RowIndex).Value)
-    '    If DRTC IsNot Nothing Then
-    '        GridView.Item(1, e.RowIndex).Value = DRTC("TCDate").ToString
-    '        GridView.Item(2, e.RowIndex).Value = DRTC("SNo").ToString
-    '        GridView.Item(3, e.RowIndex).Value = DRTC("SCategory").ToString
-    '        GridView.Item(4, e.RowIndex).Value = DRTC("SName").ToString
-    '        GridView.Item(5, e.RowIndex).Value = DRTC("Rate").ToString
-    '        GridView.Item(6, e.RowIndex).Value = DRTC("Qty").ToString
-    '        GridView.Item(7, e.RowIndex).Value = DRTC("Total").ToString
-    '        GridView.Item(8, e.RowIndex).Value = DRTC("TCRemarks").ToString
-    '        GridView.Item(9, e.RowIndex).Value = DRTC("RepNo").ToString
-    '        GridView.Item(10, e.RowIndex).Value = DRTC("RetNo").ToString
-    '        GridView.Item(11, e.RowIndex).Value = DRTC("UserName").ToString
-    '    End If
-    'End Sub
-
     Private Sub GridView_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs) Handles GridView.CellEndEdit
-        If GridView.CurrentCell.RowIndex < 0 Then
+        If GridView.CurrentRow.IsNewRow Then
             Exit Sub
         End If
         Dim CurrentRowIndex As Integer = GridView.CurrentCell.RowIndex
@@ -122,19 +113,92 @@ Public Class ControlTechnicianCostBulkInsert
     End Sub
 
     Private Sub ButtonSave_Click(sender As Object, e As EventArgs) Handles ButtonSave.Click
-        For Each Row As DataGridViewRow In GridView.Rows
-            If Row.Cells(TechnicianCostGridColumns.Date).Value Is Nothing And Row.Cells(TechnicianCostGridColumns.Remarks) Is Nothing Then
+        Try
+            If ButtonSaveValidationAndAssignDefaultValues() = False Then
                 Return
             End If
-            If Row.Cells(0).Value Is Nothing Then
+
+            Dim Values As New List(Of MySqlParameter())
+            For Each Row As DataGridViewRow In GridView.Rows
+                If Row.IsNewRow Then
+                    Continue For
+                End If
+
+                Values.Add({
+                    New MySqlParameter("TCDATE", Row.Cells(TechnicianCostGridColumns.Date).Value),
+                    New MySqlParameter("TNO", ControlTechnician.GetTechnicianNo),
+                    New MySqlParameter("REPNO", Row.Cells(TechnicianCostGridColumns.RepairNo).Value),
+                    New MySqlParameter("RETNO", Row.Cells(TechnicianCostGridColumns.ReRepairNo).Value),
+                    New MySqlParameter("SNO", Row.Cells(TechnicianCostGridColumns.StockNo).Value),
+                    New MySqlParameter("SCATEGORY", Row.Cells(TechnicianCostGridColumns.StockCategory).Value),
+                    New MySqlParameter("SNAME", Row.Cells(TechnicianCostGridColumns.StockName).Value),
+                    New MySqlParameter("RATE", Row.Cells(TechnicianCostGridColumns.Rate).Value),
+                    New MySqlParameter("QTY", Row.Cells(TechnicianCostGridColumns.Qty).Value),
+                    New MySqlParameter("TOTAL", Row.Cells(TechnicianCostGridColumns.Total).Value),
+                    New MySqlParameter("REMARKS", Row.Cells(TechnicianCostGridColumns.Remarks).Value),
+                    New MySqlParameter("UNO", User.Instance.UserNo)
+                })
+            Next
+            Db.ExecuteBatch($"INSERT INTO {Tables.TechnicianCost}(TCDate, TNo, RepNo, RetNo, SNo, SCategory, SName, Rate, Qty, Total, TCRemarks, UNo) VALUES(@TCDATE, @TNO, @REPNO, @RETNO, @SNO, @SCATEGORY, @SNAME, @RATE, @QTY, @TOTAL, @REMARKS, @UNO)", Values.ToArray)
+        Catch ex As Exception
+            MessageBox.Error(ex.Message)
+        Finally
+            ButtonClose.PerformClick()
+            RaiseEvent SubmitEvent()
+        End Try
+    End Sub
+
+    Private Function ButtonSaveValidationAndAssignDefaultValues() As Boolean
+        If ControlTechnician.GetTechnician() Is Nothing Then
+            MessageBox.Exclamation("Technician කෙනෙකු තෝරා නොමැත.")
+            Return False
+        End If
+        For Each Row As DataGridViewRow In GridView.Rows
+            If Row.ErrorText <> "" Then
+                Return False
+            End If
+            If String.IsNullOrWhiteSpace(Row.Cells(0).Value) Then
                 Row.Cells(0).Value = Now
             End If
         Next
 
-
-    End Sub
+        Return True
+    End Function
 
     Private Sub ButtonClose_Click(sender As Object, e As EventArgs) Handles ButtonClose.Click
         Dispose()
+    End Sub
+
+    Private Sub GridView_RowValidating(sender As Object, e As DataGridViewCellCancelEventArgs) Handles GridView.RowValidating
+        Dim Row As DataGridViewRow = GridView.Rows.Item(e.RowIndex)
+        Row.ErrorText = ""
+        If Row.IsNewRow Then
+            Return
+        End If
+        If String.IsNullOrWhiteSpace(Row.Cells(TechnicianCostGridColumns.StockNo).Value) And String.IsNullOrWhiteSpace(Row.Cells(TechnicianCostGridColumns.Remarks).Value) Then
+            Row.ErrorText = "Stock No හෝ  Remarks Field දෙකම හිස්ව පවතියි."
+            e.Cancel = True
+            Return
+        End If
+        If String.IsNullOrWhiteSpace(Row.Cells(TechnicianCostGridColumns.Rate).Value) Then
+            Row.ErrorText = "Rate Field එක හිස්ව පවතියි."
+            e.Cancel = True
+            Return
+        End If
+        If String.IsNullOrWhiteSpace(Row.Cells(TechnicianCostGridColumns.Qty).Value) Then
+            Row.ErrorText = "Qty Field එක හිස්ව පවතියි."
+            e.Cancel = True
+            Return
+        End If
+        If String.IsNullOrWhiteSpace(Row.Cells(TechnicianCostGridColumns.RepairNo).Value) = False AndAlso Db.CheckDataExists(Tables.Repair, Repair.RepNo, Row.Cells(TechnicianCostGridColumns.RepairNo).Value) = False Then
+            Row.ErrorText = "Repair No එක සොයා ගත නොහැකි විය."
+            e.Cancel = True
+            Return
+        End If
+        If String.IsNullOrWhiteSpace(Row.Cells(TechnicianCostGridColumns.ReRepairNo).Value) = False AndAlso Db.CheckDataExists(Tables.ReRepair, ReRepair.RetNo, Row.Cells(TechnicianCostGridColumns.ReRepairNo).Value) = False Then
+            Row.ErrorText = "ReRepair No එක සොයා ගත නොහැකි විය."
+            e.Cancel = True
+            Return
+        End If
     End Sub
 End Class

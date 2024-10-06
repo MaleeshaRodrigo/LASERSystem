@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class ControlTechnicianCostBulkInsert
     Inherits System.Windows.Forms.UserControl
 
     'UserControl overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,14 +20,15 @@ Partial Class ControlTechnicianCostBulkInsert
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.ControlTechnician = New LASER_System.ControlTechnicianSelection()
+        Me.ButtonSave = New System.Windows.Forms.Button()
         Me.ButtonClose = New System.Windows.Forms.Button()
         Me.GridView = New System.Windows.Forms.DataGridView()
-        Me.ButtonSave = New System.Windows.Forms.Button()
         Me.TCDate = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.SNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.SCategory = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -44,6 +45,7 @@ Partial Class ControlTechnicianCostBulkInsert
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.ControlTechnician)
         Me.GroupBox1.Controls.Add(Me.ButtonSave)
         Me.GroupBox1.Controls.Add(Me.ButtonClose)
         Me.GroupBox1.Controls.Add(Me.GridView)
@@ -54,6 +56,28 @@ Partial Class ControlTechnicianCostBulkInsert
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Technician Cost Bulk Insertion"
+        '
+        'ControlTechnician
+        '
+        Me.ControlTechnician.Font = New System.Drawing.Font("Calibri", 9.0!)
+        Me.ControlTechnician.Location = New System.Drawing.Point(6, 21)
+        Me.ControlTechnician.MaximumSize = New System.Drawing.Size(0, 29)
+        Me.ControlTechnician.MinimumSize = New System.Drawing.Size(200, 25)
+        Me.ControlTechnician.Name = "ControlTechnician"
+        Me.ControlTechnician.Size = New System.Drawing.Size(212, 25)
+        Me.ControlTechnician.TabIndex = 3
+        '
+        'ButtonSave
+        '
+        Me.ButtonSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ButtonSave.Image = Global.LASER_System.My.Resources.Resources.Save
+        Me.ButtonSave.Location = New System.Drawing.Point(684, 12)
+        Me.ButtonSave.Name = "ButtonSave"
+        Me.ButtonSave.Size = New System.Drawing.Size(70, 34)
+        Me.ButtonSave.TabIndex = 2
+        Me.ButtonSave.Text = "Save"
+        Me.ButtonSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
+        Me.ButtonSave.UseVisualStyleBackColor = True
         '
         'ButtonClose
         '
@@ -78,18 +102,6 @@ Partial Class ControlTechnicianCostBulkInsert
         Me.GridView.Name = "GridView"
         Me.GridView.Size = New System.Drawing.Size(824, 168)
         Me.GridView.TabIndex = 0
-        '
-        'ButtonSave
-        '
-        Me.ButtonSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ButtonSave.Image = Global.LASER_System.My.Resources.Resources.Save
-        Me.ButtonSave.Location = New System.Drawing.Point(684, 12)
-        Me.ButtonSave.Name = "ButtonSave"
-        Me.ButtonSave.Size = New System.Drawing.Size(70, 34)
-        Me.ButtonSave.TabIndex = 2
-        Me.ButtonSave.Text = "Save"
-        Me.ButtonSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
-        Me.ButtonSave.UseVisualStyleBackColor = True
         '
         'TCDate
         '
@@ -194,4 +206,5 @@ Partial Class ControlTechnicianCostBulkInsert
     Friend WithEvents Total As DataGridViewTextBoxColumn
     Friend WithEvents RepNo As DataGridViewTextBoxColumn
     Friend WithEvents RetNo As DataGridViewTextBoxColumn
+    Friend WithEvents ControlTechnician As ControlTechnicianSelection
 End Class

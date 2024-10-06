@@ -10,23 +10,9 @@ Public Class ControlTechnicianCostInfo
     Public Function Init(UpdateMode As UpdateMode, Optional TechnicianCostData As Dictionary(Of String, Object) = Nothing) As ControlTechnicianCostInfo
         Me.UpdateMode = UpdateMode
         If UpdateMode = UpdateMode.Edit Then
-            TextTechnicianCostNo.Text = TechnicianCostData(TechnicianCostGridColumns.No)
-            PickerDate.Value = TechnicianCostData(TechnicianCostGridColumns.Date)
-            ControlTechnicianSelection.SetTechnician(TechnicianCostData("TName"))
-            ControlStockSelection.SCode = TechnicianCostData(TechnicianCostGridColumns.StockNo)
-            ControlStockSelection.SCategory = TechnicianCostData(TechnicianCostGridColumns.StockCategory)
-            ControlStockSelection.SName = TechnicianCostData(TechnicianCostGridColumns.StockName)
-            If Not String.IsNullOrEmpty(TechnicianCostData(TechnicianCostGridColumns.RepairNo)) Then
-                ControlRepairReRepairSelection.SetRepair(TechnicianCostData(TechnicianCostGridColumns.RepairNo))
-            ElseIf Not String.IsNullOrEmpty(TechnicianCostData(TechnicianCostGridColumns.ReRepairNo)) Then
-                ControlRepairReRepairSelection.SetReRepair(TechnicianCostData(TechnicianCostGridColumns.ReRepairNo))
-            End If
-            TextRate.Value = TechnicianCostData(TechnicianCostGridColumns.Rate)
-            TextQty.Value = TechnicianCostData(TechnicianCostGridColumns.Qty)
-            TextTotal.Value = TechnicianCostData(TechnicianCostGridColumns.Total)
-            TextRemarks.Text = TechnicianCostData(TechnicianCostGridColumns.Remarks)
+            PerformUpdateMode(TechnicianCostData)
         Else
-            TextTechnicianCostNo.Text = Db.GetNextKey(Tables.TechnicianCost, "TCNo")
+            TextTechnicianCostNo.Text = Db.GetNextKey(Tables.TechnicianCost, TechnicianCost.TCNo)
             ButtonDelete.Enabled = False
         End If
 
@@ -45,6 +31,26 @@ Public Class ControlTechnicianCostInfo
         ControlTechnicianSelection.SetTechnician(Name)
         Return Me
     End Function
+
+    Private Sub PerformUpdateMode(TechnicianCostData As Dictionary(Of String, Object))
+        TextTechnicianCostNo.Text = TechnicianCostData(TechnicianCostGridColumns.No)
+        PickerDate.Value = TechnicianCostData(TechnicianCostGridColumns.Date)
+        ControlTechnicianSelection.SetTechnician(TechnicianCostData("TName"))
+        If String.IsNullOrWhiteSpace(TechnicianCostData(TechnicianCostGridColumns.StockNo)) = False Then
+            ControlStockSelection.SCode = TechnicianCostData(TechnicianCostGridColumns.StockNo)
+            ControlStockSelection.SCategory = TechnicianCostData(TechnicianCostGridColumns.StockCategory)
+            ControlStockSelection.SName = TechnicianCostData(TechnicianCostGridColumns.StockName)
+        End If
+        If Not String.IsNullOrEmpty(TechnicianCostData(TechnicianCostGridColumns.RepairNo)) Then
+            ControlRepairReRepairSelection.SetRepair(TechnicianCostData(TechnicianCostGridColumns.RepairNo))
+        ElseIf Not String.IsNullOrEmpty(TechnicianCostData(TechnicianCostGridColumns.ReRepairNo)) Then
+            ControlRepairReRepairSelection.SetReRepair(TechnicianCostData(TechnicianCostGridColumns.ReRepairNo))
+        End If
+        TextRate.Value = TechnicianCostData(TechnicianCostGridColumns.Rate)
+        TextQty.Value = TechnicianCostData(TechnicianCostGridColumns.Qty)
+        TextTotal.Value = TechnicianCostData(TechnicianCostGridColumns.Total)
+        TextRemarks.Text = TechnicianCostData(TechnicianCostGridColumns.Remarks)
+    End Sub
 
     Private Sub CmdClose_Click(sender As Object, e As EventArgs) Handles ButtonClose.Click
         Me.Dispose()

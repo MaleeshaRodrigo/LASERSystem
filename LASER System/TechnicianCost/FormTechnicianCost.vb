@@ -80,7 +80,8 @@ Public Class FormTechnicianCost
 
     Private Sub ButtonBulkInsert_Click(sender As Object, e As EventArgs) Handles ButtonBulkInsert.Click
         Dim ControlBulkInsert As New ControlTechnicianCostBulkInsert
-        ControlBulkInsert.Init(Db)
+        ControlBulkInsert.Init(Db).SetTechnician(cmbTName.Text)
+        AddHandler ControlBulkInsert.SubmitEvent, AddressOf ControlTechnicianCostInfo_Submit
         Me.Controls.Add(ControlBulkInsert)
         ControlBulkInsert.BringToFront()
         ControlBulkInsert.Dock = DockStyle.Fill
