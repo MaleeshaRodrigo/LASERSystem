@@ -125,7 +125,6 @@ Public Class ControlStockInfo
                     {Stock.ModelNo} = @MODELNO,
                     {Stock.Location} = @LOCATION,
                     {Stock.Details} = @DETAILS,
-                    {Stock.LowestPrice} = @LOWESTPRICE,
                     {Stock.SalePrice} = @SALEPRICE,
                     {Stock.ReorderPoint} = @REORDERPOINT
                     WHERE {Stock.Code} = @CODE;", {
@@ -134,7 +133,6 @@ Public Class ControlStockInfo
                     New MySqlParameter("@MODELNO", TxtModelNo.Text),
                     New MySqlParameter("@LOCATION", CmbLocation.Text),
                     New MySqlParameter("@DETAILS", TxtDetails.Text),
-                    New MySqlParameter("@LOWESTPRICE", TxtLowestPrice.Value),
                     New MySqlParameter("@SALEPRICE", TxtSalePrice.Value),
                     New MySqlParameter("@REORDERPOINT", TxtReorderPoint.Value),
                     New MySqlParameter("@CODE", TxtSNo.Text)
