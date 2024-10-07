@@ -112,16 +112,16 @@ Public Class Database
         End Try
     End Sub
 
-    Public Sub ExecuteBatches(Queries As String(), Optional ParametersArray As MySqlParameter()() = Nothing)
+    Public Sub ExecuteBatches(QueriesWithValues As (Query As String, Parameters As MySqlParameter())())
         Dim Connection As MySqlConnection = GetConenction()
         Connection.Open()
         Dim Transaction As MySqlTransaction = Connection.BeginTransaction()
         Try
             Using Batch = New MySqlBatch(Connection, Transaction)
-                For i As Integer = 0 To Queries.Length - 1
-                    Dim BatchCommand = New MySqlBatchCommand(Queries(i))
-                    If ParametersArray(i) IsNot Nothing Then
-                        BatchCommand.Parameters.AddRange(ParametersArray(i))
+                For Each QueryWithValue In QueriesWithValues
+                    Dim BatchCommand = New MySqlBatchCommand(QueryWithValue.Query)
+                    If QueryWithValue.Parameters IsNot Nothing Then
+                        BatchCommand.Parameters.AddRange(QueryWithValue.Parameters)
                     End If
                     Batch.BatchCommands.Add(BatchCommand)
                 Next
