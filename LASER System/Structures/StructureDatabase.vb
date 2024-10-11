@@ -301,6 +301,21 @@
         Const UNo = "UNo"
     End Structure
 
+    Public Structure Technician
+        Const TNo = "TNo"
+        Const TName = "TName"
+        Const TFullName = "TFullName"
+        Const TNICNo = "TNICNo"
+        Const TEmail = "TEmail"
+        Const TAddress = "TAddress"
+        Const TTelNo1 = "TTelNo1"
+        Const TTelNo2 = "TTelNo2"
+        Const TTelNo3 = "TTelNo3"
+        Const TRemarks = "TRemarks"
+        Const TActive = "TActive"
+        Const TBlockEmails = "TBlockEmails"
+    End Structure
+
     Public Structure TechnicianCost
         Const TCNo = "TCNo"
         Const TCDate = "TCDate"

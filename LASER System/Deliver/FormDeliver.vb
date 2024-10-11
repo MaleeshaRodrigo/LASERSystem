@@ -1,4 +1,5 @@
-﻿Imports MySqlConnector
+﻿Imports LASER_System.StructureDatabase
+Imports MySqlConnector
 
 Public Class FormDeliver
     Private Db As New Database
@@ -50,7 +51,7 @@ Public Class FormDeliver
         grdRERepair.Rows.Clear()
 
         Dim grdtxt1 As DataGridViewComboBoxColumn = grdRepair.Columns.Item(5)
-        Dim DT0 As DataTable = Db.GetDataTable("Select TName from Technician Where TActive=1 group by TName;")
+        Dim DT0 As DataTable = Db.GetDataTable("SELECT TName FROM Technician WHERE TActive=1 GROUP BY TName;")
         Dim items = DT0.AsEnumerable().Select(Function(d) DirectCast(d(0).ToString(), Object)).ToArray()
         grdtxt1.DataSource = items
 
@@ -172,7 +173,7 @@ Public Class FormDeliver
                     grdRepair.Rows.RemoveAt(grdRepair.CurrentCell.RowIndex)
                     Exit Sub
                 End If
-                Dim DRD = Db.GetDataDictionary("Select RepNo,PCategory,PName,PMOdelNO,PSerialNo,PDetails,Qty,Charge,TName,Status,CuName,CuTelNo1,CuTelNo2,CuTelNo3 from ((((Repair REP INNER JOIN RECEIVE R ON R.RNO = REP.RNO) INNER JOIN PRODUCT P ON P.PNO = REP.PNO) INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = REP.TNO) Where RepNo = " & grdRepair.Item(0, grdRepair.CurrentCell.RowIndex).Value)
+                Dim DRD = Db.GetDataDictionary("Select RepNo,PCategory,PName,PMOdelNO,PSerialNo,PDetails,Qty,Charge,TName,Status,CuName,CuTelNo1,CuTelNo2,CuTelNo3 from ((((Repair REP INNER JOIN RECEIVE R ON R.RNO = REP.RNO) INNER JOIN PRODUCT P ON P.PNO = REP.PNO) INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = REP.TNO AND TActive=1) Where RepNo = " & grdRepair.Item(0, grdRepair.CurrentCell.RowIndex).Value)
                 If DRD IsNot Nothing Then
                     If DRD("Status").ToString = "Repaired Delivered" Or DRD("Status").ToString = "Returned Delivered" Then
                         If MsgBox("මෙම Repair එක දැනටමත් Customer විසින් රැගෙන ගොස් ඇත." + vbCrLf + "ඔබට එම Repair එක විවෘත කිරිමට අවශ්‍යද?",
