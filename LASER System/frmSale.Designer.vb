@@ -23,10 +23,10 @@ Partial Class frmSale
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmSale))
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmSale))
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.txtSaDate = New System.Windows.Forms.DateTimePicker()
@@ -44,6 +44,13 @@ Partial Class frmSale
         Me.Label4 = New System.Windows.Forms.Label()
         Me.Label5 = New System.Windows.Forms.Label()
         Me.grdSale = New System.Windows.Forms.DataGridView()
+        Me.SNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.SCategory = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.SName = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Type = New System.Windows.Forms.DataGridViewComboBoxColumn()
+        Me.Rate = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Qty = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Total = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.MenuStrip = New System.Windows.Forms.MenuStrip()
         Me.OPTIONToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.AddToCartToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -101,13 +108,8 @@ Partial Class frmSale
         Me.Label33 = New System.Windows.Forms.Label()
         Me.txtCuLAmount = New System.Windows.Forms.TextBox()
         Me.Label30 = New System.Windows.Forms.Label()
-        Me.SNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.SCategory = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.SName = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Type = New System.Windows.Forms.DataGridViewComboBoxColumn()
-        Me.Rate = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Qty = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Total = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Label8 = New System.Windows.Forms.Label()
+        Me.ComboUser = New System.Windows.Forms.ComboBox()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         CType(Me.grdSale, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -298,6 +300,65 @@ Partial Class frmSale
         Me.grdSale.RowsDefaultCellStyle = DataGridViewCellStyle4
         Me.grdSale.Size = New System.Drawing.Size(1044, 509)
         Me.grdSale.TabIndex = 33
+        '
+        'SNo
+        '
+        Me.SNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
+        Me.SNo.HeaderText = "Code"
+        Me.SNo.Name = "SNo"
+        Me.SNo.Width = 59
+        '
+        'SCategory
+        '
+        Me.SCategory.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.SCategory.HeaderText = "Category"
+        Me.SCategory.Name = "SCategory"
+        '
+        'SName
+        '
+        Me.SName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.SName.HeaderText = "Name"
+        Me.SName.Name = "SName"
+        '
+        'Type
+        '
+        Me.Type.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
+        Me.Type.HeaderText = "Type"
+        Me.Type.Items.AddRange(New Object() {"Sale", "Return to Available Units", "Return to Damaged Units"})
+        Me.Type.Name = "Type"
+        Me.Type.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.Type.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic
+        Me.Type.Width = 56
+        '
+        'Rate
+        '
+        Me.Rate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
+        DataGridViewCellStyle1.Format = "C2"
+        DataGridViewCellStyle1.NullValue = "0"
+        Me.Rate.DefaultCellStyle = DataGridViewCellStyle1
+        Me.Rate.HeaderText = "Rate"
+        Me.Rate.Name = "Rate"
+        Me.Rate.Width = 57
+        '
+        'Qty
+        '
+        Me.Qty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
+        DataGridViewCellStyle2.Format = "N0"
+        Me.Qty.DefaultCellStyle = DataGridViewCellStyle2
+        Me.Qty.HeaderText = "Qty"
+        Me.Qty.Name = "Qty"
+        Me.Qty.Width = 49
+        '
+        'Total
+        '
+        Me.Total.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
+        DataGridViewCellStyle3.Format = "N2"
+        DataGridViewCellStyle3.NullValue = "0"
+        Me.Total.DefaultCellStyle = DataGridViewCellStyle3
+        Me.Total.HeaderText = "Total"
+        Me.Total.Name = "Total"
+        Me.Total.ReadOnly = True
+        Me.Total.Width = 59
         '
         'MenuStrip
         '
@@ -866,70 +927,31 @@ Partial Class frmSale
         Me.Label30.TabIndex = 11
         Me.Label30.Text = "Amount:"
         '
-        'SNo
+        'Label8
         '
-        Me.SNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        Me.SNo.HeaderText = "Code"
-        Me.SNo.Name = "SNo"
-        Me.SNo.Width = 59
+        Me.Label8.AutoSize = True
+        Me.Label8.Location = New System.Drawing.Point(18, 154)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(60, 14)
+        Me.Label8.TabIndex = 87
+        Me.Label8.Text = "Assignee:"
         '
-        'SCategory
+        'ComboUser
         '
-        Me.SCategory.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.SCategory.HeaderText = "Category"
-        Me.SCategory.Name = "SCategory"
-        '
-        'SName
-        '
-        Me.SName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.SName.HeaderText = "Name"
-        Me.SName.Name = "SName"
-        '
-        'Type
-        '
-        Me.Type.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        Me.Type.HeaderText = "Type"
-        Me.Type.Items.AddRange(New Object() {"Sale", "Return to Available Units", "Return to Damaged Units"})
-        Me.Type.Name = "Type"
-        Me.Type.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.Type.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic
-        Me.Type.Width = 56
-        '
-        'Rate
-        '
-        Me.Rate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        DataGridViewCellStyle1.Format = "C2"
-        DataGridViewCellStyle1.NullValue = "0"
-        Me.Rate.DefaultCellStyle = DataGridViewCellStyle1
-        Me.Rate.HeaderText = "Rate"
-        Me.Rate.Name = "Rate"
-        Me.Rate.Width = 57
-        '
-        'Qty
-        '
-        Me.Qty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        DataGridViewCellStyle2.Format = "N0"
-        Me.Qty.DefaultCellStyle = DataGridViewCellStyle2
-        Me.Qty.HeaderText = "Qty"
-        Me.Qty.Name = "Qty"
-        Me.Qty.Width = 49
-        '
-        'Total
-        '
-        Me.Total.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        DataGridViewCellStyle3.Format = "N2"
-        DataGridViewCellStyle3.NullValue = "0"
-        Me.Total.DefaultCellStyle = DataGridViewCellStyle3
-        Me.Total.HeaderText = "Total"
-        Me.Total.Name = "Total"
-        Me.Total.ReadOnly = True
-        Me.Total.Width = 59
+        Me.ComboUser.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.ComboUser.FormattingEnabled = True
+        Me.ComboUser.Location = New System.Drawing.Point(84, 151)
+        Me.ComboUser.Name = "ComboUser"
+        Me.ComboUser.Size = New System.Drawing.Size(203, 22)
+        Me.ComboUser.TabIndex = 88
         '
         'frmSale
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 14.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1364, 749)
+        Me.Controls.Add(Me.ComboUser)
+        Me.Controls.Add(Me.Label8)
         Me.Controls.Add(Me.pnlSaSaveFinal)
         Me.Controls.Add(Me.txtSaRemarks)
         Me.Controls.Add(Me.Label26)
@@ -1050,4 +1072,6 @@ Partial Class frmSale
     Friend WithEvents Rate As DataGridViewTextBoxColumn
     Friend WithEvents Qty As DataGridViewTextBoxColumn
     Friend WithEvents Total As DataGridViewTextBoxColumn
+    Friend WithEvents Label8 As Label
+    Friend WithEvents ComboUser As ComboBox
 End Class
