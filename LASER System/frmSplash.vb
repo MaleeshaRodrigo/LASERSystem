@@ -8,7 +8,6 @@ Public NotInheritable Class FrmSplash
     Private flName As Object
 
     Private Sub FrmSplash_Load(sender As Object, e As EventArgs) Handles Me.Load
-        
         imgSplash.Top = 0
         imgSplash.Left = 0
         C = 0
@@ -88,17 +87,7 @@ Public NotInheritable Class FrmSplash
                     හරවා  නොයැවීමට නම් මෙම stocks නැවත පිරවීම සඳහා පියවර ගන්න.")
                         MessagePanel.Add()
                     End If
-                    Dim DR = Db.GetDataDictionary("Select * from `User` Where UserName='" & .tslblUserName.Text & "'")
-                    If DR IsNot Nothing Then
-                        .lblUName.Text = "Name: " + DR("UserName").ToString
-                        .lblUEmail.Text = "Email: " + DR("Email").ToString
-                        .lblULastLogin.Text = "Last Login: " + DR("LastLogin").ToString
-                        .lblULoginCount.Text = "Login Count: " + DR("LoginCount").ToString
-                        Dim ImageFilePath As String = Path.Combine(SystemFolderPath, "System Files\Images\U-" & DR("UNo").ToString & ".png")
-                        If File.Exists(ImageFilePath) Then
-                            .picUImage.Image = Image.FromFile(ImageFilePath)
-                        End If
-                    End If
+                    .ControlCashierDashboard.Init(Db)
                 End With
             Case 80
                 txtLoad.Text = "Setting Accessibility..."

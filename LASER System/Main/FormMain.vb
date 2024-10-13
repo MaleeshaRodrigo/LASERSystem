@@ -3,7 +3,7 @@ Imports System.IO
 Imports Microsoft.VisualBasic.FileIO
 Imports MySqlConnector
 
-Public Class MdifrmMain
+Public Class FormMain
     Private Db As New Database
     Private Sub mdifrmMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         CheckForIllegalCrossThreadCalls = False
