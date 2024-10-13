@@ -70,7 +70,7 @@ Public Class frmLogin
                 User.Instance.Email = DR("Email").ToString
                 Select Case Me.Tag
                     Case "MainMenu"
-                        With MdifrmMain
+                        With FormMain
                             .Tag = DR("UNo").ToString
                             .tslblUserName.Text = DR("UserName").ToString
                             .tslblUserType.Text = DR("Type").ToString
@@ -79,7 +79,7 @@ Public Class frmLogin
                         End With
                     Case Else
                         FrmSplash.Show()
-                        With MdifrmMain
+                        With FormMain
                             .Tag = DR("UNo").ToString
                             .tslblUserName.Text = DR("UserName").ToString
                             .tslblUserType.Text = DR("Type").ToString

@@ -61,7 +61,7 @@ Public NotInheritable Class FrmSplash
                 frmReport.Hide()
             Case 60
                 txtLoad.Text = "Setting Main Menu..."
-                With MdifrmMain
+                With FormMain
                     Activity.Write($"Logged In Successfull by { .tslblUserName.Text} as a { .tslblUserType.Text}")
                     .WindowState = FormWindowState.Minimized
                     .Show()
@@ -76,7 +76,7 @@ Public NotInheritable Class FrmSplash
                     .GrdActivity.Left = .tabChart.Left
                 End With
             Case 70
-                With MdifrmMain
+                With FormMain
                     LoadingBar.Value += 5
                     txtLoad.Text = "Getting Message to the Message Panel in Main Menu..."
                     Dim DrCheckStockUnits = Db.GetDataDictionary("Select COUNT(SNo) as SNoCount from `Stock` Where SAvailableStocks < SMinStocks")
@@ -91,12 +91,12 @@ Public NotInheritable Class FrmSplash
                 End With
             Case 80
                 txtLoad.Text = "Setting Accessibility..."
-                With MdifrmMain
+                With FormMain
                     .BarCodePort.Close()
                     If My.Settings.BarcodeScannerCOMMode = True Then
                         Try
                             If My.Settings.BarcodeScannerCOMPort1 <> "" And
-                                IO.Ports.SerialPort.GetPortNames.Contains(My.Settings.BarcodeScannerCOMPort1) Then
+                                Ports.SerialPort.GetPortNames.Contains(My.Settings.BarcodeScannerCOMPort1) Then
                                 .BarCodePort.BaudRate = My.Settings.BarcodeScannerBaudRate
                                 .BarCodePort.PortName = My.Settings.BarcodeScannerCOMPort1
                                 .BarCodePort.Open()
@@ -107,7 +107,7 @@ Public NotInheritable Class FrmSplash
                 End With
             Case 99
                 txtLoad.Text = "Finalizing..."
-                MdifrmMain.Visible = True
+                FormMain.Visible = True
         End Select
         tmrSplash.Start()
     End Sub

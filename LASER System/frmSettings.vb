@@ -78,12 +78,12 @@ Public Class FrmSettings
                 .CashDrawer = ChkCashDrawer.Checked
                 .Save()
 
-                MdifrmMain.BarCodePort.Close()
+                FormMain.BarCodePort.Close()
                 If chkBSCOMMode.Checked Then
                     If .BarcodeScannerCOMPort1 <> "" And Ports.SerialPort.GetPortNames.Contains(.BarcodeScannerCOMPort1) Then
-                        MdifrmMain.BarCodePort.BaudRate = txtBSBaudRate.Text
-                        MdifrmMain.BarCodePort.PortName = cmbBSCOMPort.Text
-                        MdifrmMain.BarCodePort.Open()
+                        FormMain.BarCodePort.BaudRate = txtBSBaudRate.Text
+                        FormMain.BarCodePort.PortName = cmbBSCOMPort.Text
+                        FormMain.BarCodePort.Open()
                     End If
                 End If
             End With

@@ -43,7 +43,7 @@ Public Class frmSettlement
             Connection.Open()
             Dim Simple As New Encoder()
             If My.Settings.SendSettlementEmail = "False" Then Exit Try
-            For Each controlObject As Control In MdifrmMain.flpMessage.Controls
+            For Each controlObject As Control In FormMain.flpMessage.Controls
                 If controlObject.Tag = "SendAdminsSettlementError" Then
                     Exit Try
                 End If
@@ -54,9 +54,9 @@ Public Class frmSettlement
                 File.Exists(Path.Combine(ReportsFolderPath, $"TechinicianLoan {Today.Year } - { Today.Month} - {Today.Day }.pdf")) Then
                 Exit Sub
             End If
-            MdifrmMain.tsProBar.Visible = True
-            MdifrmMain.tsProBar.Value = 0
-            MdifrmMain.tslblLoad.Text = "Collecting Data for Settlement Report..."
+            FormMain.tsProBar.Visible = True
+            FormMain.tsProBar.Value = 0
+            FormMain.tslblLoad.Text = "Collecting Data for Settlement Report..."
 
             Dim RPT As New rptSettlement
             Dim SaTotal, RepTotal, CTotal, CPTotal, CuLTotal, CPQty, TATotal, GrandTotal As Integer
@@ -115,8 +115,8 @@ Public Class frmSettlement
             RPT.SetParameterValue("GrandTotal", GrandTotal)
             RPT.SetParameterValue("CashinLocker", "0")
             RPT.SetParameterValue("Change", "0")
-            MdifrmMain.tsProBar.Value = 30
-            MdifrmMain.tslblLoad.Text = "Collecting Data for Technician Cost Report..."
+            FormMain.tsProBar.Value = 30
+            FormMain.tslblLoad.Text = "Collecting Data for Technician Cost Report..."
             Dim RPT1 As New rptTechnicianCost
             Dim DS1 As New DataSet
             Dim DA5 As MySqlDataAdapter = Db.GetDataAdapter(Connection, "SELECT TCNO,TCDATE,TECHNICIANCOST.TNO,TNAME,REPNO,RETNO,SNO,SCATEGORY,SNAME,RATE,QTY,TOTAL,TCREMARKS FROM (TECHNICIANCOST INNER JOIN TECHNICIAN  ON TECHNICIAN.TNO = TECHNICIANCOST.TNO) WHERE TCDATE Between '" & Today.Date & " 00:00:00' and '" & Today.Date & " 23:59:59';")
@@ -124,8 +124,8 @@ Public Class frmSettlement
             Dim unused5 = DA5.Fill(DS1, "STOCK")
             Dim unused4 = DA5.Fill(DS1, "TECHNICIAN")
             RPT1.SetDataSource(DS1)
-            MdifrmMain.tsProBar.Value = 40
-            MdifrmMain.tslblLoad.Text = "Collecting Data for Technician Loan Report..."
+            FormMain.tsProBar.Value = 40
+            FormMain.tslblLoad.Text = "Collecting Data for Technician Loan Report..."
             Dim RPT2 As New rptTechnicianLoan
             Dim frm2 As New frmReport
             Dim DS2 As New DataSet
@@ -134,8 +134,8 @@ Public Class frmSettlement
             Dim unused2 = DA6.Fill(DS2, "STOCK")
             Dim unused1 = DA6.Fill(DS2, "TECHNICIAN")
             RPT2.SetDataSource(DS2)
-            MdifrmMain.tsProBar.Value = 50
-            MdifrmMain.tslblLoad.Text = "Creating Settlement Report..."
+            FormMain.tsProBar.Value = 50
+            FormMain.tslblLoad.Text = "Creating Settlement Report..."
             If DT1.Rows.Count > 0 Or DT2.Rows.Count > 0 Or DT3.Rows.Count > 0 Then
                 Dim CrExportOptions As ExportOptions
                 Dim CrDiskFileDestinationOptions As New DiskFileDestinationOptions()
@@ -151,8 +151,8 @@ Public Class frmSettlement
                 RPT.Export()
             End If
 
-            MdifrmMain.tsProBar.Value = 60
-            MdifrmMain.tslblLoad.Text = "Creating Technician Cost Report..."
+            FormMain.tsProBar.Value = 60
+            FormMain.tslblLoad.Text = "Creating Technician Cost Report..."
             If DS1.Tables("TechnicianCost").Rows.Count > 0 Then
                 Dim CrExportOptions1 As ExportOptions
                 Dim CrDiskFileDestinationOptions1 As New DiskFileDestinationOptions()
@@ -168,8 +168,8 @@ Public Class frmSettlement
                 RPT1.Export()
             End If
 
-            MdifrmMain.tsProBar.Value = 70
-            MdifrmMain.tslblLoad.Text = "Creating Technician Loan Report..."
+            FormMain.tsProBar.Value = 70
+            FormMain.tslblLoad.Text = "Creating Technician Loan Report..."
             If DS2.Tables("TechnicianLoan").Rows.Count > 0 Then
                 Dim CrExportOptions2 As ExportOptions
                 Dim CrDiskFileDestinationOptions2 As New DiskFileDestinationOptions()
@@ -188,15 +188,15 @@ Public Class frmSettlement
 
             If DT1.Rows.Count > 0 Or DT2.Rows.Count > 0 Or DT3.Rows.Count > 0 Or DS1.Tables("TechnicianCost").Rows.Count > 0 Or
                     DS2.Tables("TechnicianLoan").Rows.Count > 0 Then
-                MdifrmMain.tsProBar.Value = 80
-                MdifrmMain.tslblLoad.Text = "Sending Email..."
+                FormMain.tsProBar.Value = 80
+                FormMain.tslblLoad.Text = "Sending Email..."
                 Dim SettlementSheetFilePath As String = Path.Combine(ReportFolderPath, $"SettlementSheet {Today.Year} - {Today.Month} - {Today.Day}.pdf")
                 Dim TechnicianCostFilePath As String = Path.Combine(ReportFolderPath, $"TechnicianCost {Today.Year} - {Today.Month} - {Today.Day}.pdf")
                 Dim TechnicianLoanFilePath As String = Path.Combine(ReportFolderPath, $"TechnicianLoan {Today.Year} - {Today.Month} - {Today.Day}.pdf")
                 Db.Execute($"Insert Into Mail(MailNo,MailDate,EmailTo,Subject,Body,Status,Attachment1,Attachment2,Attachment3) Values({Db.GetNextKey("Mail", "MailNo")},'{DateAndTime.Now}','{My.Settings.AdminEmail}','Settlement {Today.Date.ToString}','මෙය LASER System එකෙන් Automatically පැමිණන Email එකක් බැවින් ඔබට මෙය නැවැත්වීමට අවශ්‍යනම්, අපගේ Programe Developer හට දැනුම් දෙන්න.','Waiting','{If(File.Exists(SettlementSheetFilePath), SettlementSheetFilePath, "")}','{If(File.Exists(TechnicianCostFilePath), TechnicianCostFilePath, "")}','{If(File.Exists(TechnicianLoanFilePath), TechnicianLoanFilePath, "") }')")
             End If
-            MdifrmMain.tsProBar.Value = 100
-            MdifrmMain.tslblLoad.Text = "Settlement Email sent successfull..."
+            FormMain.tsProBar.Value = 100
+            FormMain.tslblLoad.Text = "Settlement Email sent successfull..."
             RPT.Close()
             RPT1.Close()
             RPT2.Close()
