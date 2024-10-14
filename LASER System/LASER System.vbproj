@@ -39,7 +39,7 @@
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>3</ApplicationRevision>
+    <ApplicationRevision>4</ApplicationRevision>
     <ApplicationVersion>2.2.6.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -280,6 +280,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>rptReceive.rpt</DependentUpon>
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Shared Controls\ControlGridDatePicker.Designer.vb">
+      <DependentUpon>ControlGridDatePicker.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Shared Controls\ControlGridDatePicker.vb">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Shared Controls\ControlPrice.Designer.vb">
       <DependentUpon>ControlPrice.vb</DependentUpon>
@@ -679,6 +685,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmTechnician.resx">
       <DependentUpon>frmTechnician.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Shared Controls\ControlGridDatePicker.resx">
+      <DependentUpon>ControlGridDatePicker.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Shared Controls\ControlPrice.resx">
       <DependentUpon>ControlPrice.vb</DependentUpon>

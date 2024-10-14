@@ -6,7 +6,7 @@ Public Class ControlTechnicianCostBulkInsert
     Public Event SubmitEvent()
 
     Private Db As Database
-    Private ReadOnly DatePicker As New DateTimePicker
+    Private DatePicker As ControlGridDatePicker
 
     Public Function Init(Db As Database) As ControlTechnicianCostBulkInsert
         Me.Db = Db
@@ -23,19 +23,13 @@ Public Class ControlTechnicianCostBulkInsert
         If e.RowIndex < 0 Then Exit Sub
         Select Case e.ColumnIndex
             Case 0
-                GridView.Controls.Add(DatePicker)
+                DatePicker = New ControlGridDatePicker()
+                DatePicker.Init(GridView.CurrentCell)
                 DatePicker.Location = GridView.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, False).Location
                 DatePicker.Size = New Size(GridView.Columns.Item(e.ColumnIndex).Width, GridView.Rows.Item(e.RowIndex).Height)
-                DatePicker.Format = DateTimePickerFormat.Custom
-                DatePicker.CustomFormat = "yyyy-MM-dd hh:mm:ss tt"
-                DatePicker.Visible = True
-                If GridView.CurrentCell.Value Is Nothing Then
-                    DatePicker.Value = Now
-                Else
-                    DatePicker.Value = Convert.ToDateTime(GridView.CurrentCell.Value)
-                End If
+                DatePicker.Value = If(GridView.CurrentCell.Value Is Nothing, Now, Convert.ToDateTime(GridView.CurrentCell.Value))
+                GridView.Controls.Add(DatePicker)
         End Select
-        GridView.Item(e.ColumnIndex, e.RowIndex).Tag = GridView.Item(e.ColumnIndex, e.RowIndex).Value
     End Sub
 
     Private Sub GridView_EditingControlShowing(sender As Object, e As DataGridViewEditingControlShowingEventArgs) Handles GridView.EditingControlShowing
@@ -64,17 +58,13 @@ Public Class ControlTechnicianCostBulkInsert
     End Sub
 
     Private Sub GridView_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs) Handles GridView.CellEndEdit
-        If GridView.CurrentRow.IsNewRow Then
-            Exit Sub
-        End If
         Dim CurrentRowIndex As Integer = GridView.CurrentCell.RowIndex
         If GridView.Item(0, CurrentRowIndex).Value Is Nothing Then
             GridView.Item(0, CurrentRowIndex).Value = Now
         End If
         Select Case e.ColumnIndex
             Case 0
-                GridView.CurrentCell.Value = DatePicker.Value.ToString
-                DatePicker.Visible = False
+                'GridView.CurrentCell.Value = DatePicker.Value.ToString
             Case 1
                 Dim Result = Db.GetDataDictionary("SELECT SCategory, SName, SLowestPrice FROM Stock WHERE SNo = @SNO;", {
                     New MySqlParameter("SNO", GridView.Item(1, CurrentRowIndex).Value)
@@ -126,7 +116,7 @@ Public Class ControlTechnicianCostBulkInsert
                 End If
 
                 QueriesWithValues.Add(($"INSERT INTO {Tables.TechnicianCost}(TCDate, TNo, RepNo, RetNo, SNo, SCategory, SName, Rate, Qty, Total, TCRemarks, UNo) VALUES(@TCDATE, @TNO, @REPNO, @RETNO, @SNO, @SCATEGORY, @SNAME, @RATE, @QTY, @TOTAL, @REMARKS, @UNO)", {
-                    New MySqlParameter("TCDATE", Row.Cells(TechnicianCostGridColumns.Date).Value),
+                    New MySqlParameter("TCDATE", Date.Parse(Row.Cells(TechnicianCostGridColumns.Date).Value)),
                     New MySqlParameter("TNO", ControlTechnician.GetTechnicianNo),
                     New MySqlParameter("REPNO", Row.Cells(TechnicianCostGridColumns.RepairNo).Value),
                     New MySqlParameter("RETNO", Row.Cells(TechnicianCostGridColumns.ReRepairNo).Value),
@@ -156,12 +146,11 @@ Public Class ControlTechnicianCostBulkInsert
 
     Private Function ButtonSaveValidationAndAssignDefaultValues() As Boolean
         If ControlTechnician.GetTechnician() Is Nothing Then
-            MessageBox.Exclamation("Technician කෙනෙකු තෝරා නොමැත.")
-            Return False
+            Throw New Exception("Technician කෙනෙකු තෝරා නොමැත.")
         End If
         For Each Row As DataGridViewRow In GridView.Rows
             If Row.ErrorText <> "" Then
-                Return False
+                Throw New Exception("Insert කිරීමට ගනු ලබන Data වල Errors පවතියි.")
             End If
             If String.IsNullOrWhiteSpace(Row.Cells(0).Value) Then
                 Row.Cells(0).Value = Now
@@ -203,6 +192,11 @@ Public Class ControlTechnicianCostBulkInsert
         End If
         If String.IsNullOrWhiteSpace(Row.Cells(TechnicianCostGridColumns.ReRepairNo).Value) = False AndAlso Db.CheckDataExists(Tables.ReRepair, ReRepair.RetNo, Row.Cells(TechnicianCostGridColumns.ReRepairNo).Value) = False Then
             Row.ErrorText = "ReRepair No එක සොයා ගත නොහැකි විය."
+            e.Cancel = True
+            Return
+        End If
+        If User.Instance.UserType = User.Type.Cashier AndAlso Today.Date.CompareTo(Date.Parse(Row.Cells(0).Value).Date) Then
+            Row.ErrorText = "ඔබට අද දිනට අදාළ නොවන Record එකක් ඇතුලත් කිරීමට අවසර නොමැත."
             e.Cancel = True
             Return
         End If
