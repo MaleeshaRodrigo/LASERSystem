@@ -1,4 +1,5 @@
-﻿Imports MySqlConnector
+﻿Imports LASER_System.StructureDatabase
+Imports MySqlConnector
 Imports System.Threading
 
 Public Class frmSale
@@ -11,11 +12,13 @@ Public Class frmSale
     End Sub
 
     Private Sub frmSale_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
         Me.AcceptButton = cmdSave
 
         Call cmdNew_Click(Nothing, Nothing)
-        txtSaDate.Value = DateAndTime.Now
+        txtSaDate.Value = Now
+        ComboUser.DataSource = Db.GetDataTable($"SELECT UserName FROM {Tables.User} GROUP BY UserName ORDER BY UserName;")
+        ComboUser.DisplayMember = "UserName"
+        ComboUser.Text = User.Instance.UserName
         If User.Instance.UserType <> User.Type.Admin Then
             GetDataToolStripMenuItem.Enabled = False
             txtSaDate.Enabled = False
@@ -242,10 +245,12 @@ Public Class frmSale
             Db.Execute("Insert into Customer(CuNo,CuName,CuTelNo1,CuTelNo2,CutelNo3) Values(" & CuNo & ",'" & cmbCuName.Text & "','" & txtCuTelNo1.Text & "','" &
                       txtCuTelNo2.Text & "','" & txtCuTelNo3.Text & "');")
         End If
+        Dim UserNo As Integer = Db.GetData("SELECT UNo FROM User WHERE UserName=@USERNAME;", {
+            New MySqlParameter("USERNAME", ComboUser.Text)
+        })
         Select Case cmdSave.Text
             Case "Save"
                 SetNextKey(Db, txtSaNo, "SELECT SaNo from Sale ORDER BY SaNo Desc LIMIT 1;", "SaNo")
-                'Add Values into Sale
                 Db.Execute("INSERT INTO Sale(SaNo,SaDate,CuNo,SaSubTotal,SaLess,SaDue,CAmount,CReceived,CBalance,CPInvoiceNo,CPAmount,CuLNo,CuLAmount,SaRemarks,UNo)Values(?NewKey?Sale?SaNo?, @SADATE, @CUNO, @SUBTOTAL, @LESS, @DUE, @CAMOUNT, @CRECEIVED, @CBALANCE, @CPINVOICENO, @CPAMOUNT, @CULNO, @CULAMOUNT, @SAREMARKS, @UNO);", {
                     New MySqlParameter("SADATE", txtSaDate.Value),
                     New MySqlParameter("CUNO", CuNo),
@@ -260,7 +265,7 @@ Public Class frmSale
                     New MySqlParameter("CULNO", txtCuLNo.Text),
                     New MySqlParameter("CULAMOUNT", txtCuLAmount.Text),
                     New MySqlParameter("SAREMARKS", txtSaRemarks.Text),
-                    New MySqlParameter("UNO", User.Instance.UserNo)
+                    New MySqlParameter("UNO", UserNo)
                 })
                 If txtCuLAmount.Text <> "0" Then
                     SetNextKey(Db, txtCuLNo, "Select CuLNo from CustomerLoan Order by CuLNo Desc LIMIT 1", "CuLNo")
