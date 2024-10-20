@@ -2,10 +2,8 @@
 Imports MySqlConnector
 
 Public Class FormRepair
-    Private Db As New Database
     Public DataReaderRepair As Dictionary(Of String, Object)
     Public Mode As RepairMode
-
     Public ControlReRepairView As ControlReRepairView
     Public ControlActivityInfo As ControlActivityInfo
     Public ControlAdvancePayInfo As ControlAdvancePayInfo
@@ -14,6 +12,9 @@ Public Class FormRepair
     Public ControlTaskInfo As ControlTaskInfo
     Public ControlTechnicianCostListInfo As ControlTechnicianCostListInfo
     Public ControlTechnicianInfo As ControlTechnicianInfo
+
+    Private Db As New Database
+    Private ReportPrintManager As New ReportPrintManager
 
     Public Sub New()
         InitializeComponent()
@@ -607,11 +608,11 @@ Public Class FormRepair
     End Sub
 
     Private Sub PrintRepairStickerToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PrintRepairStickerToolStripMenuItem.Click
-        frmReceive.PrintSticker(txtRNo.Text, False, False, "RepairStickerReceipt")
+        ReportPrintManager.PrintRepairSticker(txtRNo.Text, False, False, "RepairStickerReceipt")
     End Sub
 
     Private Sub PrintReceivedReceiptToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PrintReceivedReceiptToolStripMenuItem.Click
-        frmReceive.PrintReceivedReceipt(txtRNo.Text, False, False, "RepairReceivedReceipt")
+        ReportPrintManager.PrintReceivedReceipt(txtRNo.Text, False, False, "RepairReceivedReceipt")
     End Sub
 
     Private Sub PrintDeliverReceiptToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PrintDeliverReceiptToolStripMenuItem.Click
