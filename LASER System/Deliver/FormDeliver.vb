@@ -401,7 +401,7 @@ Public Class FormDeliver
                 Else
                     If MsgBox("එම Repair එක සඳහා RERepair එකක් විවෘත කර නොමැත. ඔබට මෙය ඇතුලත් කිරිමට අවශ්‍ය ද?", vbYesNo + vbInformation) = vbYes Then
                         Dim frm As New FormReceive
-                        frm.Name = "frmReceive" + NextfrmNo(frmReceive).ToString
+                        frm.Name = "frmReceive" + NextfrmNo(FormReceive).ToString
                         frm.Caller = Me.Name
                         frm.Show(Me)
                         frm.grdReRepair.Rows.Add("", grdRERepair.Item(1, e.RowIndex).Value)
@@ -459,7 +459,7 @@ Public Class FormDeliver
     Private Sub ReceiveInfoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ReceiveInfoToolStripMenuItem.Click
         Dim frmNewReceive As New FormReceive
         With frmNewReceive
-            .Name = "frmReceive" + NextfrmNo(frmReceive).ToString
+            .Name = "frmReceive" + NextfrmNo(FormReceive).ToString
             .Caller = Me.Name
             .Show(Me)
             .Tag = "Deliver"

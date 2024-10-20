@@ -19,21 +19,21 @@ Public Class FormReceive
         txtCuTelNo1.Focus()
     End Sub
 
-    Private Sub frmReceive_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
-        'If ControlCommandInfo IsNot Nothing Then
-        '    If (e.KeyCode = System.Windows.Forms.Keys.Escape) Then
-        '        cmdCancel.PerformClick()
-        '    ElseIf (e.KeyCode And Not Keys.Modifiers) = Keys.D1 AndAlso e.Modifiers = Keys.Control Then
-        '        cmdReceiptSticker.PerformClick()
-        '    ElseIf (e.KeyCode And Not Keys.Modifiers) = Keys.D2 AndAlso e.Modifiers = Keys.Control Then
-        '        cmdReceipt.PerformClick()
-        '    ElseIf (e.KeyCode And Not Keys.Modifiers) = Keys.D3 AndAlso e.Modifiers = Keys.Control Then
-        '        cmdSticker.PerformClick()
-        '    ElseIf (e.KeyCode And Not Keys.Modifiers) = Keys.D4 AndAlso e.Modifiers = Keys.Control Then
-        '        cmdSaveOnly.PerformClick()
-        '    End If
-        'End If
-    End Sub
+    'Private Sub frmReceive_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
+    'If ControlCommandInfo IsNot Nothing Then
+    '    If (e.KeyCode = System.Windows.Forms.Keys.Escape) Then
+    '        cmdCancel.PerformClick()
+    '    ElseIf (e.KeyCode And Not Keys.Modifiers) = Keys.D1 AndAlso e.Modifiers = Keys.Control Then
+    '        cmdReceiptSticker.PerformClick()
+    '    ElseIf (e.KeyCode And Not Keys.Modifiers) = Keys.D2 AndAlso e.Modifiers = Keys.Control Then
+    '        cmdReceipt.PerformClick()
+    '    ElseIf (e.KeyCode And Not Keys.Modifiers) = Keys.D3 AndAlso e.Modifiers = Keys.Control Then
+    '        cmdSticker.PerformClick()
+    '    ElseIf (e.KeyCode And Not Keys.Modifiers) = Keys.D4 AndAlso e.Modifiers = Keys.Control Then
+    '        cmdSaveOnly.PerformClick()
+    '    End If
+    'End If
+    'End Sub
 
     Private Sub cmbCuName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbCuName.SelectedIndexChanged
         If txtCuTelNo1.Text.Trim = "" Then
@@ -141,7 +141,7 @@ Public Class FormReceive
         cmdSave.Focus()
 
         If Tag = "Deliver" Then
-            SaveReceive()
+            SaveReceivedRepair()
             Tag = ""
             Close()
             Exit Sub
@@ -158,140 +158,125 @@ Public Class FormReceive
         cmdReceiptSticker.Focus()
     End Sub
 
-    Public Sub PrintReceivedReceipt(RNo As String, Optional boolPrint As Boolean = False, Optional boolClosed As Boolean = False, Optional formTag As String = "")
-        If IsNumeric(RNo) = False Or RNo = "" Then
-            Exit Sub
+    Private Sub SaveReceivedRepair()
+        'Customer Management 
+        Dim CuNo, PNo As Integer
+        Dim DR = Db.GetDataDictionary("Select * from Customer where CuName='" & cmbCuMr.Text & cmbCuName.Text & "' and CuTelNo1='" & txtCuTelNo1.Text & "' and CuTelNo2 ='" & txtCuTelNo2.Text & "' and CuTelNo3='" & txtCuTelNo3.Text & "'")
+        If DR IsNot Nothing Then
+            CuNo = DR("CuNo")
+        Else
+            CuNo = Db.GetNextKey("Customer", "CuNo")
+            Db.Execute("Insert into Customer(CuNo,CuName,CuTelNo1,CuTelNo2,CutelNo3) Values(" & CuNo & ",'" & cmbCuMr.Text & cmbCuName.Text & "','" & txtCuTelNo1.Text & "','" & txtCuTelNo2.Text & "','" & txtCuTelNo3.Text & "')")
         End If
-        Dim UserName As String = User.Instance.UserName
-        Dim threadInvoice As New Thread(
-            Sub()
-                Dim ThreadDb As New Database()
-                Dim frm1 As New frmReport
-                Dim RPT As New rptReceive
-                Try
-                    Dim DTRepair As DataTable = ThreadDb.GetDataTable($"SELECT RDate,CuName,CuTelNo1,CuTelNo2,CuTelNo3,'' as RetNo, RepNo, PCategory, PName, PModelNo, PSerialNo, Qty, Problem, '' as RepRemarks1 from (((Repair Inner Join Receive On Receive.RNo =Repair.RNo) Left Join Product On Product.PNo=Repair.PNo) Left Join Customer On Customer.CuNo=Receive.CuNo) Where Receive.RNo = {RNo} Union Select RDate,CuName,CuTelNo1,CuTelNo2,CuTelNo3, RetNo, RepNo, PCategory, PName, PModelNo, PSerialNo, Qty, Problem, '' as RepRemarks1 from (((`Return` Inner Join Receive On Receive.RNo =Return.RNo) Left Join Product On Product.PNo=Return.PNo) Left Join Customer On Customer.CuNo=Receive.CuNo) Where Receive.RNo = {RNo}")
-                    For Each row As DataRow In DTRepair.Rows
-                        Dim DrRemarks = ThreadDb.GetDataList($"Select Remarks from RepairRemarks1 Where {If(row.Item("RetNo") = "", $"RepNo={row.Item("RepNo")}", $"RetNo={row.Item("RetNo")}")};")
-                        row.Item("RepRemarks1") = ""
-                        For Each Item In DrRemarks
-                            row.Item("RepRemarks1") += Item("Remarks").ToString + vbCrLf
-                        Next
-                    Next
-                    RPT.SetDataSource(DTRepair)
-
-                    RPT.SetParameterValue("Cashier Name", UserName)
-                    Dim rawKind1 As Integer
-                    Dim c1 As Integer
-                    Dim doctoprint1 As New Printing.PrintDocument()
-                    doctoprint1.PrinterSettings.PrinterName = My.Settings.BillPrinterName
-                    For c1 = 0 To doctoprint1.PrinterSettings.PaperSizes.Count - 1
-                        If doctoprint1.PrinterSettings.PaperSizes(c1).PaperName = My.Settings.BillPrinterPaperName Then
-                            rawKind1 = CInt(doctoprint1.PrinterSettings.PaperSizes(c1).
-                                                    GetType().GetField("kind", Reflection.BindingFlags.Instance Or
-                                                    Reflection.BindingFlags.NonPublic).GetValue(doctoprint1.PrinterSettings.PaperSizes(c1)))
-                            Exit For
-                        End If
-                    Next
-                    RPT.PrintOptions.PaperSize = CType(rawKind1, CrystalDecisions.Shared.PaperSize)
-                    RPT.PrintOptions.PaperOrientation = CrystalDecisions.Shared.PaperOrientation.Portrait
-                    If boolPrint Then   'Choose the printer and paper size. Then, print the report
-                        RPT.PrintToPrinter(1, False, 0, 0)
-                    End If
-                    With frm1
-                        .ReportViewer.ReportSource = RPT
-                        .Name = "frmReport" + NextfrmNo(frmReport).ToString
-                        .boolClosed = boolClosed
-                        .Tag = formTag
-                        .WindowState = FormWindowState.Normal
-                        .Text = "Report - Received Receipt"
-                        Application.Run(frm1)
-                    End With
-                Catch ex As Exception
-                    MsgBox("Receipt Invoice එක print කර ගැනීමට අපොහොසත් විය." + vbCrLf + "Error: " + ex.Message, vbCritical, "Print Receipt Invoice Error")
-                Finally
-                    RPT.Close()
-                End Try
-            End Sub) With {
-                .Name = "showInvoiceReport",
-                .IsBackground = False
-                                            }
-        threadInvoice.SetApartmentState(ApartmentState.STA)
-        threadInvoice.Priority = ThreadPriority.Highest
-        threadInvoice.Start()
-    End Sub
-
-    Public Sub PrintSticker(RNo As String, Optional boolPrint As Boolean = False, Optional boolClosed As Boolean = False, Optional formTag As String = "")
-        If IsNumeric(RNo) = False Or RNo = "" Then Exit Sub
-        Dim threadSticker As New Thread(
-        Sub()
-            Dim ThreadDb As New Database()
-            Try
-                Dim rpt3 As New rptRepairSticker
-                Dim DT, DT1 As New DataTable
-                DT.Clear()
-                DT.Columns.Add("RepNo")
-                DT.Columns.Add("CuName")
-                DT.Columns.Add("CuTelNo1")
-                DT.Columns.Add("CuTelNo2")
-                DT.Columns.Add("CuTelNo3")
-                DT.Columns.Add("PCategory")
-                DT.Columns.Add("PName")
-                DT.Columns.Add("RDate")
-                DT.Columns.Add(New DataColumn("Barcode", GetType(Byte())))
-                Dim writer As New BarcodeWriter
-                writer.Format = BarcodeFormat.CODE_128
-                writer.Options.PureBarcode = True
-                DT1 = ThreadDb.GetDataTable("SELECT Repair.RepNo,RDate,CuName,CuTelNo1,CuTelNo2,CuTelNo3,PCategory,PName,Qty from Repair,Product,Receive,Customer where Receive.RNO = Repair.RNo and Repair.PNo = Product.PNo and Customer.CuNo = Receive.CuNo and Receive.RNo=" &
-                                                      RNo & ";")
-                For Each row As DataRow In DT1.Rows
-                    Dim imgStream As MemoryStream = New MemoryStream()
-                    Dim img As Image = writer.Write(row.Item("RepNo"))
-                    img.Save(imgStream, System.Drawing.Imaging.ImageFormat.Png)
-                    Dim byteArray As Byte() = imgStream.ToArray()
-                    imgStream.Close()
-                    For i As Integer = 1 To row.Item("Qty")
-                        DT.Rows.Add("R" & row.Item("RepNo"), row.Item("CuName"), row.Item("CuTelNo1"), row.Item("CuTelNo2"), row.Item("CuTelNo3"), row.Item("PCategory"),
-                                row.Item("PName"), row.Item("RDate"), byteArray)
-                    Next
-                Next
-                rpt3.SetDataSource(DT)
-                If DT.Rows.Count < 1 Then Exit Sub
-                Dim frm2 As New frmReport
-                frm2.ReportViewer.ReportSource = rpt3
-                Dim c2 As Integer
-                Dim doctoprint2 As New System.Drawing.Printing.PrintDocument()
-                doctoprint2.PrinterSettings.PrinterName = My.Settings.StickerPrinterName
-                Dim rawKind As Integer
-                For c2 = 0 To doctoprint2.PrinterSettings.PaperSizes.Count - 1
-                    If doctoprint2.PrinterSettings.PaperSizes(c2).PaperName = My.Settings.RepairStickerPrinterPaperName Then
-                        rawKind = CInt(doctoprint2.PrinterSettings.PaperSizes(c2).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint2.PrinterSettings.PaperSizes(c2)))
+        If txtRDate.Value.Date = Today.Date Then txtRDate.Value = DateAndTime.Now
+        txtRNo.Text = Db.GetNextKey("Receive", "RNo")
+        Db.Execute("Insert into Receive(RNo,RDate,CuNo,UNo) values(@RNO, @RDATE, @CUNO, @UNO);", {
+            New MySqlParameter("RNO", txtRNo.Text),
+            New MySqlParameter("RDATE", txtRDate.Value),
+            New MySqlParameter("CUNO", CuNo),
+            New MySqlParameter("UNO", User.Instance.UserNo)
+        })
+        For Each row As DataGridViewRow In grdRepair.Rows
+            If row.Index = grdRepair.Rows.Count - 1 Then Continue For
+            'Product Management
+            Dim DrProduct = Db.GetDataDictionary("Select * from Product where PCategory='" & row.Cells(1).Value & "' and PName='" & row.Cells(2).Value & "'")
+            If DrProduct IsNot Nothing Then
+                PNo = DrProduct("PNo")
+            Else
+                PNo = Db.GetNextKey("Product", "PNo")
+                Db.Execute("INSERT INTO Product(PNO,PCATEGORY,PNAME,PMODELNO,PDETAILS) Values(" & PNo & ",'" & row.Cells(1).Value & "','" & row.Cells(2).Value & "','" & row.Cells(3).Value & "','" & row.Cells(5).Value & "');")
+            End If
+            Db.Execute("INSERT INTO Repair(RepNo,RNo,PNo,PSerialNo,Qty,Problem,Status)Values(" & row.Cells(0).Value & "," & txtRNo.Text & "," & PNo & ",'" & row.Cells(4).Value & "'," &
+                                        row.Cells(6).Value & ",'" & row.Cells(7).Value & "','Received');")
+            Db.Execute("INSERT INTO RepairActivity(RepANo,RepNo,RepADate,Activity,UNo) Values(?NewKey?RepairActivity?RepANo?," &
+                      row.Cells(0).Value & ",NOW(),'Received Date -> " & txtRDate.Value & vbCrLf &
+                      ", Name -> " & cmbCuMr.Text & cmbCuName.Text &
+                      ", Telephone No1 -> " & txtCuTelNo1.Text &
+                      ", Telephone No2 -> " & txtCuTelNo2.Text &
+                      ", Telephone No3 -> " & txtCuTelNo3.Text & vbCrLf &
+                      ", Product Category -> " & row.Cells(1).Value &
+                      ", Product Name -> " & row.Cells(2).Value &
+                      ", Model No -> " & row.Cells(3).Value &
+                      ", Serial No -> " & row.Cells(4).Value &
+                      ", Problem -> " & row.Cells(5).Value & ".'," & User.Instance.UserNo & ")")
+            If row.Cells(8).Value IsNot Nothing Then
+                Db.Execute("INSERT INTO RepairRemarks1(Rem1No,Rem1Date,RepNo,Remarks,UNo) Values(?NewKey?RepairRemarks1?Rem1No?,NOW()," &
+                      row.Cells(0).Value & ",'" & row.Cells(8).Value & "'," & User.Instance.UserNo & ")")
+            End If
+            If Me.Tag = "Deliver" Then
+                For Each oForm As FormDeliver In Application.OpenForms().OfType(Of FormDeliver)()
+                    If oForm.Name = Me.Caller Then
+                        With oForm
+                            .cmbCuName.Text = cmbCuMr.Text & cmbCuName.Text
+                            .txtCuTelNo1.Text = txtCuTelNo1.Text
+                            .txtCuTelNo2.Text = txtCuTelNo2.Text
+                            .txtCuTelNo3.Text = txtCuTelNo3.Text
+                            .grdRepair.Rows.Add(row.Cells("RepairNo").Value, row.Cells("PCategory").Value, row.Cells("PName").Value, row.Cells("PQty").Value, "0", "", "")
+                        End With
                         Exit For
                     End If
                 Next
-                rpt3.PrintOptions.PaperOrientation = CrystalDecisions.Shared.PaperOrientation.Portrait
-                rpt3.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
-                If boolPrint Then
-                    rpt3.PrintToPrinter(1, False, 0, 0)
-                End If
-                With frm2
-                    .Name = "frmReport" + NextfrmNo(frmReport).ToString
-                    .boolClosed = boolClosed
-                    .Tag = formTag
-                    .WindowState = FormWindowState.Normal
-                    .Text = "Report - Received Sticker/s"
-                    Application.Run(frm2)
-                End With
-                rpt3.Close()
-            Catch ex As Exception
-                MsgBox("Receipt Sticker එක print කර ගැනීමට අපොහොසත් විය." + vbCrLf + "Error: " + ex.Message, vbCritical, "Print Receipt Sticker Error")
-            End Try
-        End Sub) With {
-            .Name = "showStickerReport",
-            .IsBackground = False
-        }
-        threadSticker.SetApartmentState(ApartmentState.STA)
-        threadSticker.Priority = ThreadPriority.Highest
-        threadSticker.Start()
+            End If
+        Next row
+        For Each row As DataGridViewRow In grdReRepair.Rows
+            If row.Index = grdReRepair.Rows.Count - 1 Then Continue For
+            'Product Management
+            Dim DrProduct = Db.GetDataDictionary("Select * from Product where PCategory='" & row.Cells(2).Value & "' and PName='" & row.Cells(3).Value & "'")
+            If DrProduct IsNot Nothing Then
+                PNo = DrProduct("PNo")
+            Else
+                PNo = Db.GetNextKey("Product", "PNo")
+                Db.Execute("INSERT INTO Product(PNO,PCATEGORY,PNAME,PMODELNO,PDETAILS) Values(@PNO, @PCATEGORY, @PNAME, @PMODELNO, @PDETAILS)", {
+                    New MySqlParameter("PNO", PNo),
+                    New MySqlParameter("PCATEGORY", row.Cells(2).Value),
+                    New MySqlParameter("PNAME", row.Cells(3).Value),
+                    New MySqlParameter("PMODELNO", row.Cells(4).Value),
+                    New MySqlParameter("PDETAILS", row.Cells(6).Value)
+                })
+            End If
+            Db.Execute("INSERT INTO `Return`(RetNo,RepNo,RNo,PNo,PSerialNo,Qty,Problem,Status) VALUES(@RETNO, @REPNO, @RNO, @PNO, @PSERIALNO, @QTY, @PROBLEM, @STATUS)", {
+                New MySqlParameter("RETNO", row.Cells(0).Value),
+                New MySqlParameter("REPNO", row.Cells(1).Value),
+                New MySqlParameter("RNO", txtRNo.Text),
+                New MySqlParameter("PNO", PNo),
+                New MySqlParameter("PSERIALNO", row.Cells(5).Value),
+                New MySqlParameter("QTY", row.Cells(7).Value),
+                New MySqlParameter("PROBLEM", row.Cells(8).Value),
+                New MySqlParameter("STATUS", "Received")
+            })
+            Db.Execute("INSERT INTO RepairActivity(RetNo,RepADate,Activity,UNo) VALUES(@RETNO, NOW(), @ACTIVITY, @UNO);", {
+                New MySqlParameter("RETNO", row.Cells(0).Value),
+                New MySqlParameter("ACTIVITY", "Received Date -> " & txtRDate.Value &
+                      ", Name -> " & cmbCuMr.Text & cmbCuName.Text &
+                      ", Telephone No1 -> " & txtCuTelNo1.Text &
+                      ", Telephone No2 -> " & txtCuTelNo2.Text &
+                      ", Telephone No3 -> " & txtCuTelNo3.Text &
+                      ", Product Category -> " & row.Cells(2).Value &
+                      ", Product Name -> " & row.Cells(3).Value &
+                      ", Model No -> " & row.Cells(4).Value &
+                      ", Serial No -> " & row.Cells(5).Value &
+                      ", Problem -> " & row.Cells(8).Value),
+                New MySqlParameter("UNO", User.Instance.UserNo)
+            })
+            If row.Cells(8).Value IsNot Nothing Then
+                Db.Execute("Insert into RepairRemarks1(Rem1No,Rem1Date,RetNo,Remarks,UNo) Values(?NewKey?RepairRemarks1?Rem1No?,NOW()," &
+                      row.Cells(0).Value & ",'" & row.Cells(9).Value & "'," & User.Instance.UserNo & ")")
+            End If
+            If Me.Tag = "Deliver" Then
+                For Each oForm As FormDeliver In Application.OpenForms().OfType(Of FormDeliver)()
+                    If oForm.Name = Me.Caller Then
+                        With oForm
+                            .cmbCuName.Text = cmbCuMr.Text & cmbCuName.Text
+                            .txtCuTelNo1.Text = txtCuTelNo1.Text
+                            .txtCuTelNo2.Text = txtCuTelNo2.Text
+                            .txtCuTelNo3.Text = txtCuTelNo3.Text
+                            .grdRERepair.Rows.Add(row.Cells(0).Value, row.Cells(1).Value, row.Cells("RETPCategory").Value, row.Cells("RETPName").Value, row.Cells("RETQty").Value, "0", "", "")
+                        End With
+                        Exit For
+                    End If
+                Next
+            End If
+        Next row
     End Sub
 
     Private Sub cmdCancel_Click(sender As Object, e As EventArgs)
