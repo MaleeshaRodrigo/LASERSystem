@@ -201,6 +201,7 @@
     <Compile Include="Classes\Encoder.vb" />
     <Compile Include="Classes\MessageBox.vb" />
     <Compile Include="Classes\MessagePanel.vb" />
+    <Compile Include="Classes\ReportPrintManager.vb" />
     <Compile Include="Classes\User.vb" />
     <Compile Include="Classes\Validators\CustomValidator.vb" />
     <Compile Include="Classes\Validators\ExecuteValidators.vb" />
@@ -218,6 +219,12 @@
       <DependentUpon>ControlMessageUnit.vb</DependentUpon>
     </Compile>
     <Compile Include="Message\Controls\ControlMessageUnit.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Receive\Controls\ControlCommandInfo.Designer.vb">
+      <DependentUpon>ControlCommandInfo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Receive\Controls\ControlCommandInfo.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="RepairAdvance\Controls\ControlRepairAdvanceInfo.Designer.vb">
@@ -371,10 +378,10 @@
     <Compile Include="frmProduct.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmReceive.Designer.vb">
-      <DependentUpon>frmReceive.vb</DependentUpon>
+    <Compile Include="Receive\FormReceive.Designer.vb">
+      <DependentUpon>FormReceive.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmReceive.vb">
+    <Compile Include="Receive\FormReceive.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Repair\FormRepair.Designer.vb">
@@ -596,6 +603,9 @@
     <EmbeddedResource Include="Message\Controls\ControlMessageUnit.resx">
       <DependentUpon>ControlMessageUnit.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Receive\Controls\ControlCommandInfo.resx">
+      <DependentUpon>ControlCommandInfo.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="RepairAdvance\Controls\ControlRepairAdvanceInfo.resx">
       <DependentUpon>ControlRepairAdvanceInfo.vb</DependentUpon>
     </EmbeddedResource>
@@ -641,8 +651,8 @@
     <EmbeddedResource Include="frmProduct.resx">
       <DependentUpon>frmProduct.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmReceive.resx">
-      <DependentUpon>frmReceive.vb</DependentUpon>
+    <EmbeddedResource Include="Receive\FormReceive.resx">
+      <DependentUpon>FormReceive.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Repair\FormRepair.resx">
       <DependentUpon>FormRepair.vb</DependentUpon>

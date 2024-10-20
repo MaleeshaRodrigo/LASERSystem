@@ -1,39 +1,38 @@
 ﻿Imports MySqlConnector
-Imports System.Data.OleDb
 Imports System.IO
 Imports System.Threading
 Imports ZXing
 
-Public Class frmReceive
-    Private Db As New Database
+Public Class FormReceive
     Public Property Caller As String
+
+    Private Db As New Database
+    Private ControlCommandInfo As ControlCommandInfo
+
     Public Sub New()
         InitializeComponent()
         MenuStrip.Items.Add(mnustrpMENU)
     End Sub
-    Private Sub FrmReceive_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
+    Private Sub FrmReceive_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Call cmdNew_Click(Nothing, Nothing)
         txtCuTelNo1.Focus()
     End Sub
-    Private Sub frmReceive_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
-        If pnlRSaveFinal.Visible = True Then
-            If (e.KeyCode = System.Windows.Forms.Keys.Escape) Then
-                cmdCancel.PerformClick()
-            ElseIf (e.KeyCode And Not Keys.Modifiers) = Keys.D1 AndAlso e.Modifiers = Keys.Control Then
-                cmdReceiptSticker.PerformClick()
-            ElseIf (e.KeyCode And Not Keys.Modifiers) = Keys.D2 AndAlso e.Modifiers = Keys.Control Then
-                cmdReceipt.PerformClick()
-            ElseIf (e.KeyCode And Not Keys.Modifiers) = Keys.D3 AndAlso e.Modifiers = Keys.Control Then
-                cmdSticker.PerformClick()
-            ElseIf (e.KeyCode And Not Keys.Modifiers) = Keys.D4 AndAlso e.Modifiers = Keys.Control Then
-                cmdSaveOnly.PerformClick()
-            End If
-        End If
-    End Sub
 
-    Private Sub cmbCuName_DropDown(sender As Object, e As EventArgs) Handles cmbCuName.DropDown
-        ComboBoxDropDown(Db, cmbCuName, "Select CuName from Customer Group by CuName;")
+    Private Sub frmReceive_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
+        'If ControlCommandInfo IsNot Nothing Then
+        '    If (e.KeyCode = System.Windows.Forms.Keys.Escape) Then
+        '        cmdCancel.PerformClick()
+        '    ElseIf (e.KeyCode And Not Keys.Modifiers) = Keys.D1 AndAlso e.Modifiers = Keys.Control Then
+        '        cmdReceiptSticker.PerformClick()
+        '    ElseIf (e.KeyCode And Not Keys.Modifiers) = Keys.D2 AndAlso e.Modifiers = Keys.Control Then
+        '        cmdReceipt.PerformClick()
+        '    ElseIf (e.KeyCode And Not Keys.Modifiers) = Keys.D3 AndAlso e.Modifiers = Keys.Control Then
+        '        cmdSticker.PerformClick()
+        '    ElseIf (e.KeyCode And Not Keys.Modifiers) = Keys.D4 AndAlso e.Modifiers = Keys.Control Then
+        '        cmdSaveOnly.PerformClick()
+        '    End If
+        'End If
     End Sub
 
     Private Sub cmbCuName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbCuName.SelectedIndexChanged
@@ -74,7 +73,7 @@ Public Class frmReceive
         End If
     End Sub
 
-    Private Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click
+    Private Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click, NewToolStripMenuItem.Click
         Cursor = Cursors.WaitCursor
         Call SetNextKey(Db, txtRNo, "SELECT  RNo from Receive ORDER BY RNo Desc LIMIT 1;", "RNo")
         'clear customer fileds
@@ -83,18 +82,18 @@ Public Class frmReceive
         Next
         grdRepair.Rows.Clear()
         grdReRepair.Rows.Clear()
-        'cmbCuName_DropDown(sender, e)
         grdRepair.CurrentCell = grdRepair.Rows(grdRepair.Rows.Count - 1).Cells(0)
         cmdCancel_Click(sender, e)
+        ComboBoxDropDown(Db, cmbCuName, "SELECT CuName FROM Customer GROUP BY CuName;")
         Cursor = Cursors.Default
         txtCuTelNo1.Focus()
     End Sub
 
-    Private Sub cmdClose_Click(sender As Object, e As EventArgs) Handles cmdClose.Click
-        Call frmReceive_Leave(sender, e)
+    Private Sub cmdClose_Click(sender As Object, e As EventArgs) Handles cmdClose.Click, CloseToolStripMenuItem.Click
+        Me.Close()
     End Sub
 
-    Private Sub cmdSave_Click(sender As Object, e As EventArgs) Handles cmdSave.Click
+    Private Sub cmdSave_Click(sender As Object, e As EventArgs) Handles cmdSave.Click, SaveToolStripMenuItem.Click
         If CheckEmptyControl(cmbCuName, "Customer Name යන field එක හිස්ව පවතියි. කරුණාකර Customer කෙනෙකු තෝරා නැවත උත්සහ කරන්න.") = False Then
             Exit Sub
         ElseIf grdRepair.Rows.Count < 2 And grdReRepair.Rows.Count < 2 Then
@@ -141,155 +140,22 @@ Public Class frmReceive
         grdReRepair.EndEdit()
         cmdSave.Focus()
 
-        If Me.Tag = "Deliver" Then
+        If Tag = "Deliver" Then
             SaveReceive()
-            Me.Tag = ""
-            frmReceive_Leave(sender, e)
+            Tag = ""
+            Close()
             Exit Sub
         End If
 
-        pnlRSaveFinal.Dock = DockStyle.Fill
-        pnlRSaveFinal.BringToFront()
-        pnlRSaveFinal.Visible = True
-        grpComInfo.Top = (Val(pnlRSaveFinal.Height) / 2) - (Val(grpComInfo.Height) / 2)
-        grpComInfo.Left = (Val(pnlRSaveFinal.Width) / 2) - (Val(grpComInfo.Width) / 2)
+        ControlCommandInfo = New ControlCommandInfo With {
+            .Dock = DockStyle.Fill
+        }
+        Controls.Add(ControlCommandInfo)
+        ControlCommandInfo.BringToFront()
+
         MenuStrip.Enabled = False
         AcceptButton = cmdReceiptSticker
         cmdReceiptSticker.Focus()
-    End Sub
-    Private Sub cmdReceiptSticker_Click(sender As Object, e As EventArgs) Handles cmdReceiptSticker.Click, cmdReceipt.Click, cmdSticker.Click, cmdSaveOnly.Click
-        SaveReceive()
-        Dim RNo As Integer = txtRNo.Text
-        cmdNew_Click(sender, e)
-        If sender Is cmdReceipt Or sender Is cmdReceiptSticker Then
-            PrintReceivedReceipt(RNo, True, True, "ReceivedReceipt")
-        End If
-        If sender Is cmdSticker Or sender Is cmdReceiptSticker Then
-            PrintSticker(RNo, True, True, "ReceivedSticker")
-        End If
-    End Sub
-
-    Private Sub SaveReceive()
-        Cursor = Cursors.WaitCursor
-        'Customer Management 
-        Dim CuNo, PNo As Integer
-        Dim DR = Db.GetDataDictionary("Select * from Customer where CuName='" & cmbCuMr.Text & cmbCuName.Text & "' and CuTelNo1='" & txtCuTelNo1.Text & "' and CuTelNo2 ='" & txtCuTelNo2.Text & "' and CuTelNo3='" & txtCuTelNo3.Text & "'")
-        If DR IsNot Nothing Then
-            CuNo = DR("CuNo")
-        Else
-            CuNo = Db.GetNextKey("Customer", "CuNo")
-            Db.Execute("Insert into Customer(CuNo,CuName,CuTelNo1,CuTelNo2,CutelNo3) Values(" & CuNo & ",'" & cmbCuMr.Text & cmbCuName.Text & "','" & txtCuTelNo1.Text & "','" & txtCuTelNo2.Text & "','" & txtCuTelNo3.Text & "')")
-        End If
-        If txtRDate.Value.Date = Today.Date Then txtRDate.Value = DateAndTime.Now
-        txtRNo.Text = Db.GetNextKey("Receive", "RNo")
-        Db.Execute("Insert into Receive(RNo,RDate,CuNo,UNo) values(@RNO, @RDATE, @CUNO, @UNO);", {
-            New MySqlParameter("RNO", txtRNo.Text),
-            New MySqlParameter("RDATE", txtRDate.Value),
-            New MySqlParameter("CUNO", CuNo),
-            New MySqlParameter("UNO", User.Instance.UserNo)
-        })
-        For Each row As DataGridViewRow In grdRepair.Rows
-            If row.Index = grdRepair.Rows.Count - 1 Then Continue For
-            'Product Management
-            Dim DrProduct = Db.GetDataDictionary("Select * from Product where PCategory='" & row.Cells(1).Value & "' and PName='" & row.Cells(2).Value & "'")
-            If DrProduct IsNot Nothing Then
-                PNo = DrProduct("PNo")
-            Else
-                PNo = Db.GetNextKey("Product", "PNo")
-                Db.Execute("INSERT INTO Product(PNO,PCATEGORY,PNAME,PMODELNO,PDETAILS) Values(" & PNo & ",'" & row.Cells(1).Value & "','" & row.Cells(2).Value & "','" & row.Cells(3).Value & "','" & row.Cells(5).Value & "');")
-            End If
-            Db.Execute("INSERT INTO Repair(RepNo,RNo,PNo,PSerialNo,Qty,Problem,Status)Values(" & row.Cells(0).Value & "," & txtRNo.Text & "," & PNo & ",'" & row.Cells(4).Value & "'," &
-                                        row.Cells(6).Value & ",'" & row.Cells(7).Value & "','Received');")
-            Db.Execute("INSERT INTO RepairActivity(RepANo,RepNo,RepADate,Activity,UNo) Values(?NewKey?RepairActivity?RepANo?," &
-                      row.Cells(0).Value & ",NOW(),'Received Date -> " & txtRDate.Value & vbCrLf &
-                      ", Name -> " & cmbCuMr.Text & cmbCuName.Text &
-                      ", Telephone No1 -> " & txtCuTelNo1.Text &
-                      ", Telephone No2 -> " & txtCuTelNo2.Text &
-                      ", Telephone No3 -> " & txtCuTelNo3.Text & vbCrLf &
-                      ", Product Category -> " & row.Cells(1).Value &
-                      ", Product Name -> " & row.Cells(2).Value &
-                      ", Model No -> " & row.Cells(3).Value &
-                      ", Serial No -> " & row.Cells(4).Value &
-                      ", Problem -> " & row.Cells(5).Value & ".'," & User.Instance.UserNo & ")")
-            If row.Cells(8).Value IsNot Nothing Then
-                Db.Execute("INSERT INTO RepairRemarks1(Rem1No,Rem1Date,RepNo,Remarks,UNo) Values(?NewKey?RepairRemarks1?Rem1No?,NOW()," &
-                      row.Cells(0).Value & ",'" & row.Cells(8).Value & "'," & User.Instance.UserNo & ")")
-            End If
-            If Me.Tag = "Deliver" Then
-                For Each oForm As FormDeliver In Application.OpenForms().OfType(Of FormDeliver)()
-                    If oForm.Name = Me.Caller Then
-                        With oForm
-                            .cmbCuName.Text = cmbCuMr.Text & cmbCuName.Text
-                            .txtCuTelNo1.Text = txtCuTelNo1.Text
-                            .txtCuTelNo2.Text = txtCuTelNo2.Text
-                            .txtCuTelNo3.Text = txtCuTelNo3.Text
-                            .grdRepair.Rows.Add(row.Cells("RepairNo").Value, row.Cells("PCategory").Value, row.Cells("PName").Value, row.Cells("PQty").Value, "0", "", "")
-                        End With
-                        Exit For
-                    End If
-                Next
-            End If
-        Next row
-        For Each row As DataGridViewRow In grdReRepair.Rows
-            If row.Index = grdReRepair.Rows.Count - 1 Then Continue For
-            'Product Management
-            Dim DrProduct = Db.GetDataDictionary("Select * from Product where PCategory='" & row.Cells(2).Value & "' and PName='" & row.Cells(3).Value & "'")
-            If DrProduct IsNot Nothing Then
-                PNo = DrProduct("PNo")
-            Else
-                PNo = Db.GetNextKey("Product", "PNo")
-                Db.Execute("INSERT INTO Product(PNO,PCATEGORY,PNAME,PMODELNO,PDETAILS) Values(@PNO, @PCATEGORY, @PNAME, @PMODELNO, @PDETAILS)", {
-                    New MySqlParameter("PNO", PNo),
-                    New MySqlParameter("PCATEGORY", row.Cells(2).Value),
-                    New MySqlParameter("PNAME", row.Cells(3).Value),
-                    New MySqlParameter("PMODELNO", row.Cells(4).Value),
-                    New MySqlParameter("PDETAILS", row.Cells(6).Value)
-                })
-            End If
-            Db.Execute("INSERT INTO `Return`(RetNo,RepNo,RNo,PNo,PSerialNo,Qty,Problem,Status) VALUES(@RETNO, @REPNO, @RNO, @PNO, @PSERIALNO, @QTY, @PROBLEM, @STATUS)", {
-                New MySqlParameter("RETNO", row.Cells(0).Value),
-                New MySqlParameter("REPNO", row.Cells(1).Value),
-                New MySqlParameter("RNO", txtRNo.Text),
-                New MySqlParameter("PNO", PNo),
-                New MySqlParameter("PSERIALNO", row.Cells(5).Value),
-                New MySqlParameter("QTY", row.Cells(7).Value),
-                New MySqlParameter("PROBLEM", row.Cells(8).Value),
-                New MySqlParameter("STATUS", "Received")
-            })
-            Db.Execute("INSERT INTO RepairActivity(RetNo,RepADate,Activity,UNo) VALUES(@RETNO, NOW(), @ACTIVITY, @UNO);", {
-                New MySqlParameter("RETNO", row.Cells(0).Value),
-                New MySqlParameter("ACTIVITY", "Received Date -> " & txtRDate.Value &
-                      ", Name -> " & cmbCuMr.Text & cmbCuName.Text &
-                      ", Telephone No1 -> " & txtCuTelNo1.Text &
-                      ", Telephone No2 -> " & txtCuTelNo2.Text &
-                      ", Telephone No3 -> " & txtCuTelNo3.Text &
-                      ", Product Category -> " & row.Cells(2).Value &
-                      ", Product Name -> " & row.Cells(3).Value &
-                      ", Model No -> " & row.Cells(4).Value &
-                      ", Serial No -> " & row.Cells(5).Value &
-                      ", Problem -> " & row.Cells(8).Value),
-                New MySqlParameter("UNO", User.Instance.UserNo)
-            })
-            If row.Cells(8).Value IsNot Nothing Then
-                Db.Execute("Insert into RepairRemarks1(Rem1No,Rem1Date,RetNo,Remarks,UNo) Values(?NewKey?RepairRemarks1?Rem1No?,NOW()," &
-                      row.Cells(0).Value & ",'" & row.Cells(9).Value & "'," & User.Instance.UserNo & ")")
-            End If
-            If Me.Tag = "Deliver" Then
-                For Each oForm As FormDeliver In Application.OpenForms().OfType(Of FormDeliver)()
-                    If oForm.Name = Me.Caller Then
-                        With oForm
-                            .cmbCuName.Text = cmbCuMr.Text & cmbCuName.Text
-                            .txtCuTelNo1.Text = txtCuTelNo1.Text
-                            .txtCuTelNo2.Text = txtCuTelNo2.Text
-                            .txtCuTelNo3.Text = txtCuTelNo3.Text
-                            .grdRERepair.Rows.Add(row.Cells(0).Value, row.Cells(1).Value, row.Cells("RETPCategory").Value, row.Cells("RETPName").Value, row.Cells("RETQty").Value, "0", "", "")
-                        End With
-                        Exit For
-                    End If
-                Next
-            End If
-        Next row
-        Cursor = Cursors.Default
     End Sub
 
     Public Sub PrintReceivedReceipt(RNo As String, Optional boolPrint As Boolean = False, Optional boolClosed As Boolean = False, Optional formTag As String = "")
@@ -428,9 +294,7 @@ Public Class frmReceive
         threadSticker.Start()
     End Sub
 
-    Private Sub cmdCancel_Click(sender As Object, e As EventArgs) Handles cmdCancel.Click
-        pnlRSaveFinal.Visible = False
-        pnlRSaveFinal.Dock = DockStyle.None
+    Private Sub cmdCancel_Click(sender As Object, e As EventArgs)
         MenuStrip.Enabled = True
         AcceptButton = cmdSave
         txtCuTelNo1.Focus()
@@ -501,13 +365,11 @@ Public Class frmReceive
                 If DR IsNot Nothing Then
                     grdRepair.Item(1, e.RowIndex).Value = DR("PCategory").ToString
                     grdRepair.Item(2, e.RowIndex).Value = DR("PName").ToString
-                    grdRepair.Item(3, e.RowIndex).Value = DR("PModelNo").ToString
-                    grdRepair.Item(5, e.RowIndex).Value = DR("PDetails").ToString
-                    grdRepair.Item(6, e.RowIndex).Value = "1"
+                    grdRepair.Item(4, e.RowIndex).Value = DR("PDetails").ToString
+                    grdRepair.Item(5, e.RowIndex).Value = "1"
                 Else
-                    grdRepair.Item(6, e.RowIndex).Value = "1"
-                    grdRepair.Item(3, e.RowIndex).Value = ""
-                    grdRepair.Item(5, e.RowIndex).Value = ""
+                    grdRepair.Item(5, e.RowIndex).Value = "1"
+                    grdRepair.Item(4, e.RowIndex).Value = ""
                 End If
         End Select
     End Sub
@@ -542,14 +404,13 @@ Public Class frmReceive
                     txtCuTelNo3.Text = DrCustomer("CuTelNo3").ToString
                     cmbCuName.Text = DrCustomer("CuName").ToString
                 End If
-                Dim DrProduct = Db.GetDataDictionary("Select RepNo,PCategory,PName,PModelNo,PSerialNo,PDetails,Qty from Repair Rep,Product P where Rep.Pno = P.PNo and RepNo=" & grdReRepair.Item(1, e.RowIndex).Value)
+                Dim DrProduct = Db.GetDataDictionary("Select RepNo,PCategory,PName,PSerialNo,PDetails,Qty from Repair Rep,Product P where Rep.Pno = P.PNo and RepNo=" & grdReRepair.Item(1, e.RowIndex).Value)
                 If DrProduct IsNot Nothing Then
                     grdReRepair.Item(2, e.RowIndex).Value = DrProduct("PCategory").ToString
                     grdReRepair.Item(3, e.RowIndex).Value = DrProduct("PName").ToString
-                    grdReRepair.Item(4, e.RowIndex).Value = DrProduct("PModelNo").ToString
-                    grdReRepair.Item(5, e.RowIndex).Value = DrProduct("PSerialNo").ToString
-                    grdReRepair.Item(6, e.RowIndex).Value = DrProduct("PDetails").ToString
-                    grdReRepair.Item(7, e.RowIndex).Value = DrProduct("Qty").ToString
+                    grdReRepair.Item(4, e.RowIndex).Value = DrProduct("PSerialNo").ToString
+                    grdReRepair.Item(5, e.RowIndex).Value = DrProduct("PDetails").ToString
+                    grdReRepair.Item(6, e.RowIndex).Value = DrProduct("Qty").ToString
                 End If
         End Select
     End Sub
@@ -574,25 +435,9 @@ Public Class frmReceive
         Call grdReRepair_UserAddedRow(sender, e)
     End Sub
 
-    Private Sub cmdCuView_Click(sender As Object, e As EventArgs) Handles cmdCuView.Click
+    Private Sub cmdCuView_Click(sender As Object, e As EventArgs) Handles cmdCuView.Click, CustomerInfoToolStripMenuItem.Click
         frmCustomer.Tag = "Receive"
         frmCustomer.Show()
-    End Sub
-
-    Private Sub CustomerInfoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CustomerInfoToolStripMenuItem.Click
-        Call cmdCuView_Click(sender, e)
-    End Sub
-
-    Private Sub NewToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NewToolStripMenuItem.Click
-        Call cmdNew_Click(sender, e)
-    End Sub
-
-    Private Sub SaveToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveToolStripMenuItem.Click
-        Call cmdSave_Click(sender, e)
-    End Sub
-
-    Private Sub CloseToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CloseToolStripMenuItem.Click
-        Call cmdClose_Click(sender, e)
     End Sub
 
     Private Sub ProductInfoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ProductInfoToolStripMenuItem.Click
@@ -606,10 +451,6 @@ Public Class frmReceive
     Private Sub RepairInfoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RepairInfoToolStripMenuItem.Click
         frmSearch.Tag = "Receive"
         frmSearch.Show()
-    End Sub
-
-    Private Sub frmReceive_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-
     End Sub
 
     Private Sub txtCuTelNo1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtCuTelNo1.KeyPress, txtCuTelNo2.KeyPress, txtCuTelNo3.KeyPress
@@ -633,6 +474,7 @@ Public Class frmReceive
             cmbCuName_SelectedIndexChanged(sender, e)
         End If
     End Sub
+
     Public Sub cmbCuName_Text(CuName As String)
         cmbCuName.Text = CuName
         CuName = CuName.TrimStart(" ")
