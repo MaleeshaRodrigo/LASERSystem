@@ -200,9 +200,12 @@
     <Compile Include="Classes\Database.vb" />
     <Compile Include="Classes\Encoder.vb" />
     <Compile Include="Classes\MessageBox.vb" />
-    <Compile Include="Classes\Models\AbstractModel.vb" />
+    <Compile Include="Classes\Controllers\AbstractController.vb" />
     <Compile Include="Classes\MessagePanel.vb" />
-    <Compile Include="Classes\Models\RepairModel.vb" />
+    <Compile Include="Classes\Controllers\CustomerController.vb" />
+    <Compile Include="Classes\Controllers\ProductController.vb" />
+    <Compile Include="Classes\Controllers\RepairController.vb" />
+    <Compile Include="Classes\Models\ProductModel.vb" />
     <Compile Include="Classes\ReportPrintManager.vb" />
     <Compile Include="Classes\User.vb" />
     <Compile Include="Classes\Validators\CustomValidator.vb" />
