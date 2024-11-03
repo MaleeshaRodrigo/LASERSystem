@@ -51,27 +51,8 @@ Partial Class FormReceive
         Me.cmdNew = New System.Windows.Forms.Button()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
         Me.grdRepair = New System.Windows.Forms.DataGridView()
-        Me.RepairNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.PCategory = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.PName = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.PSerialNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.PDescription = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.PQty = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.PProblem = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.PRemarks = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.TName = New System.Windows.Forms.DataGridViewComboBoxColumn()
         Me.GroupBox4 = New System.Windows.Forms.GroupBox()
         Me.grdReRepair = New System.Windows.Forms.DataGridView()
-        Me.RERepairNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.RetRepNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.RETPCategory = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.RETPName = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.RETPSerialNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.RETPDescription = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.RETQty = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.RETProblem = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.RETRemarks = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.RETTName = New System.Windows.Forms.DataGridViewComboBoxColumn()
         Me.MenuStrip = New System.Windows.Forms.MenuStrip()
         Me.OPTIONToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.NewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -82,6 +63,25 @@ Partial Class FormReceive
         Me.ProductInfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RepairInfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
+        Me.RepairGridRepNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.RepairGridPCategory = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.RepairGridPName = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.RepairGridPSerialNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.RepairGridPDescription = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.RepairGridQty = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.RepairGridProblem = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.RepairGridRemarks = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.RepairGridTName = New System.Windows.Forms.DataGridViewComboBoxColumn()
+        Me.ReRepairGridRetNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.ReRepairGridRepNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.ReRepairGridPCategory = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.ReRepairGridPName = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.ReRepairGridPSerialNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.ReRepairGridPDescription = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.ReRepairGridQty = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.ReRepairGridProblem = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.ReRepairGridRemarks = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.ReRepairGridTName = New System.Windows.Forms.DataGridViewComboBoxColumn()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
@@ -324,7 +324,7 @@ Partial Class FormReceive
         '
         Me.grdRepair.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
         Me.grdRepair.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.grdRepair.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.RepairNo, Me.PCategory, Me.PName, Me.PSerialNo, Me.PDescription, Me.PQty, Me.PProblem, Me.PRemarks, Me.TName})
+        Me.grdRepair.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.RepairGridRepNo, Me.RepairGridPCategory, Me.RepairGridPName, Me.RepairGridPSerialNo, Me.RepairGridPDescription, Me.RepairGridQty, Me.RepairGridProblem, Me.RepairGridRemarks, Me.RepairGridTName})
         Me.grdRepair.Dock = System.Windows.Forms.DockStyle.Fill
         Me.grdRepair.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter
         Me.grdRepair.Location = New System.Drawing.Point(3, 20)
@@ -332,75 +332,6 @@ Partial Class FormReceive
         Me.grdRepair.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders
         Me.grdRepair.Size = New System.Drawing.Size(1051, 133)
         Me.grdRepair.TabIndex = 6
-        '
-        'RepairNo
-        '
-        Me.RepairNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RepairNo.DefaultCellStyle = DataGridViewCellStyle1
-        Me.RepairNo.HeaderText = "Repair No"
-        Me.RepairNo.Name = "RepairNo"
-        Me.RepairNo.ReadOnly = True
-        Me.RepairNo.Width = 82
-        '
-        'PCategory
-        '
-        Me.PCategory.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.PCategory.HeaderText = "Product Category"
-        Me.PCategory.Name = "PCategory"
-        '
-        'PName
-        '
-        Me.PName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.PName.HeaderText = "Product Name"
-        Me.PName.Name = "PName"
-        '
-        'PSerialNo
-        '
-        Me.PSerialNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.PSerialNo.HeaderText = "Product Serial No"
-        Me.PSerialNo.Name = "PSerialNo"
-        '
-        'PDescription
-        '
-        Me.PDescription.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.PDescription.HeaderText = "Product Description"
-        Me.PDescription.Name = "PDescription"
-        '
-        'PQty
-        '
-        Me.PQty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        DataGridViewCellStyle2.NullValue = "1"
-        Me.PQty.DefaultCellStyle = DataGridViewCellStyle2
-        Me.PQty.HeaderText = "Qty"
-        Me.PQty.Name = "PQty"
-        Me.PQty.Width = 53
-        '
-        'PProblem
-        '
-        Me.PProblem.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        DataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.PProblem.DefaultCellStyle = DataGridViewCellStyle3
-        Me.PProblem.HeaderText = "Problem"
-        Me.PProblem.Name = "PProblem"
-        '
-        'PRemarks
-        '
-        Me.PRemarks.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        DataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.PRemarks.DefaultCellStyle = DataGridViewCellStyle4
-        Me.PRemarks.HeaderText = "Remarks"
-        Me.PRemarks.Name = "PRemarks"
-        '
-        'TName
-        '
-        Me.TName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
-        DataGridViewCellStyle5.NullValue = "None"
-        Me.TName.DefaultCellStyle = DataGridViewCellStyle5
-        Me.TName.HeaderText = "Technician"
-        Me.TName.Items.AddRange(New Object() {"None"})
-        Me.TName.Name = "TName"
-        Me.TName.Width = 73
         '
         'GroupBox4
         '
@@ -417,85 +348,13 @@ Partial Class FormReceive
         'grdReRepair
         '
         Me.grdReRepair.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.grdReRepair.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.RERepairNo, Me.RetRepNo, Me.RETPCategory, Me.RETPName, Me.RETPSerialNo, Me.RETPDescription, Me.RETQty, Me.RETProblem, Me.RETRemarks, Me.RETTName})
+        Me.grdReRepair.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.ReRepairGridRetNo, Me.ReRepairGridRepNo, Me.ReRepairGridPCategory, Me.ReRepairGridPName, Me.ReRepairGridPSerialNo, Me.ReRepairGridPDescription, Me.ReRepairGridQty, Me.ReRepairGridProblem, Me.ReRepairGridRemarks, Me.ReRepairGridTName})
         Me.grdReRepair.Dock = System.Windows.Forms.DockStyle.Fill
         Me.grdReRepair.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter
         Me.grdReRepair.Location = New System.Drawing.Point(3, 20)
         Me.grdReRepair.Name = "grdReRepair"
         Me.grdReRepair.Size = New System.Drawing.Size(1051, 134)
         Me.grdReRepair.TabIndex = 7
-        '
-        'RERepairNo
-        '
-        Me.RERepairNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        Me.RERepairNo.HeaderText = "Re-Repair No"
-        Me.RERepairNo.Name = "RERepairNo"
-        Me.RERepairNo.ReadOnly = True
-        Me.RERepairNo.Width = 99
-        '
-        'RetRepNo
-        '
-        Me.RetRepNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        Me.RetRepNo.HeaderText = "Repair No"
-        Me.RetRepNo.Name = "RetRepNo"
-        Me.RetRepNo.Width = 82
-        '
-        'RETPCategory
-        '
-        Me.RETPCategory.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.RETPCategory.HeaderText = "Product Category"
-        Me.RETPCategory.Name = "RETPCategory"
-        Me.RETPCategory.ReadOnly = True
-        '
-        'RETPName
-        '
-        Me.RETPName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.RETPName.HeaderText = "Product Name"
-        Me.RETPName.Name = "RETPName"
-        Me.RETPName.ReadOnly = True
-        '
-        'RETPSerialNo
-        '
-        Me.RETPSerialNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.RETPSerialNo.HeaderText = "Product Serial No"
-        Me.RETPSerialNo.Name = "RETPSerialNo"
-        '
-        'RETPDescription
-        '
-        Me.RETPDescription.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.RETPDescription.HeaderText = "Product Description"
-        Me.RETPDescription.Name = "RETPDescription"
-        Me.RETPDescription.ReadOnly = True
-        '
-        'RETQty
-        '
-        Me.RETQty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        DataGridViewCellStyle6.NullValue = "1"
-        Me.RETQty.DefaultCellStyle = DataGridViewCellStyle6
-        Me.RETQty.HeaderText = "Qty"
-        Me.RETQty.Name = "RETQty"
-        Me.RETQty.ReadOnly = True
-        Me.RETQty.Width = 53
-        '
-        'RETProblem
-        '
-        Me.RETProblem.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.RETProblem.HeaderText = "Problem"
-        Me.RETProblem.Name = "RETProblem"
-        '
-        'RETRemarks
-        '
-        Me.RETRemarks.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.RETRemarks.HeaderText = "Remarks"
-        Me.RETRemarks.Name = "RETRemarks"
-        '
-        'RETTName
-        '
-        DataGridViewCellStyle7.NullValue = "None"
-        Me.RETTName.DefaultCellStyle = DataGridViewCellStyle7
-        Me.RETTName.HeaderText = "Technician"
-        Me.RETTName.Items.AddRange(New Object() {"None"})
-        Me.RETTName.Name = "RETTName"
         '
         'MenuStrip
         '
@@ -583,6 +442,147 @@ Partial Class FormReceive
         Me.TableLayoutPanel1.Size = New System.Drawing.Size(1063, 325)
         Me.TableLayoutPanel1.TabIndex = 60
         '
+        'RepairGridRepNo
+        '
+        Me.RepairGridRepNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
+        DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RepairGridRepNo.DefaultCellStyle = DataGridViewCellStyle1
+        Me.RepairGridRepNo.HeaderText = "Repair No"
+        Me.RepairGridRepNo.Name = "RepairGridRepNo"
+        Me.RepairGridRepNo.ReadOnly = True
+        Me.RepairGridRepNo.Width = 89
+        '
+        'RepairGridPCategory
+        '
+        Me.RepairGridPCategory.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.RepairGridPCategory.HeaderText = "Product Category"
+        Me.RepairGridPCategory.Name = "RepairGridPCategory"
+        '
+        'RepairGridPName
+        '
+        Me.RepairGridPName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.RepairGridPName.HeaderText = "Product Name"
+        Me.RepairGridPName.Name = "RepairGridPName"
+        '
+        'RepairGridPSerialNo
+        '
+        Me.RepairGridPSerialNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.RepairGridPSerialNo.HeaderText = "Product Serial No"
+        Me.RepairGridPSerialNo.Name = "RepairGridPSerialNo"
+        '
+        'RepairGridPDescription
+        '
+        Me.RepairGridPDescription.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.RepairGridPDescription.HeaderText = "Product Description"
+        Me.RepairGridPDescription.Name = "RepairGridPDescription"
+        '
+        'RepairGridQty
+        '
+        Me.RepairGridQty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
+        DataGridViewCellStyle2.NullValue = "1"
+        Me.RepairGridQty.DefaultCellStyle = DataGridViewCellStyle2
+        Me.RepairGridQty.HeaderText = "Qty"
+        Me.RepairGridQty.Name = "RepairGridQty"
+        Me.RepairGridQty.Width = 53
+        '
+        'RepairGridProblem
+        '
+        Me.RepairGridProblem.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        DataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.RepairGridProblem.DefaultCellStyle = DataGridViewCellStyle3
+        Me.RepairGridProblem.HeaderText = "Problem"
+        Me.RepairGridProblem.Name = "RepairGridProblem"
+        '
+        'RepairGridRemarks
+        '
+        Me.RepairGridRemarks.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        DataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.RepairGridRemarks.DefaultCellStyle = DataGridViewCellStyle4
+        Me.RepairGridRemarks.HeaderText = "Remarks"
+        Me.RepairGridRemarks.Name = "RepairGridRemarks"
+        '
+        'RepairGridTName
+        '
+        Me.RepairGridTName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
+        DataGridViewCellStyle5.NullValue = "None"
+        Me.RepairGridTName.DefaultCellStyle = DataGridViewCellStyle5
+        Me.RepairGridTName.HeaderText = "Technician"
+        Me.RepairGridTName.Items.AddRange(New Object() {"None"})
+        Me.RepairGridTName.Name = "RepairGridTName"
+        Me.RepairGridTName.Width = 73
+        '
+        'ReRepairGridRetNo
+        '
+        Me.ReRepairGridRetNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
+        Me.ReRepairGridRetNo.HeaderText = "Re-Repair No"
+        Me.ReRepairGridRetNo.Name = "ReRepairGridRetNo"
+        Me.ReRepairGridRetNo.ReadOnly = True
+        Me.ReRepairGridRetNo.Width = 108
+        '
+        'ReRepairGridRepNo
+        '
+        Me.ReRepairGridRepNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
+        Me.ReRepairGridRepNo.HeaderText = "Repair No"
+        Me.ReRepairGridRepNo.Name = "ReRepairGridRepNo"
+        Me.ReRepairGridRepNo.Width = 89
+        '
+        'ReRepairGridPCategory
+        '
+        Me.ReRepairGridPCategory.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.ReRepairGridPCategory.HeaderText = "Product Category"
+        Me.ReRepairGridPCategory.Name = "ReRepairGridPCategory"
+        Me.ReRepairGridPCategory.ReadOnly = True
+        '
+        'ReRepairGridPName
+        '
+        Me.ReRepairGridPName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.ReRepairGridPName.HeaderText = "Product Name"
+        Me.ReRepairGridPName.Name = "ReRepairGridPName"
+        Me.ReRepairGridPName.ReadOnly = True
+        '
+        'ReRepairGridPSerialNo
+        '
+        Me.ReRepairGridPSerialNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.ReRepairGridPSerialNo.HeaderText = "Product Serial No"
+        Me.ReRepairGridPSerialNo.Name = "ReRepairGridPSerialNo"
+        '
+        'ReRepairGridPDescription
+        '
+        Me.ReRepairGridPDescription.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.ReRepairGridPDescription.HeaderText = "Product Description"
+        Me.ReRepairGridPDescription.Name = "ReRepairGridPDescription"
+        Me.ReRepairGridPDescription.ReadOnly = True
+        '
+        'ReRepairGridQty
+        '
+        Me.ReRepairGridQty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
+        DataGridViewCellStyle6.NullValue = "1"
+        Me.ReRepairGridQty.DefaultCellStyle = DataGridViewCellStyle6
+        Me.ReRepairGridQty.HeaderText = "Qty"
+        Me.ReRepairGridQty.Name = "ReRepairGridQty"
+        Me.ReRepairGridQty.ReadOnly = True
+        Me.ReRepairGridQty.Width = 53
+        '
+        'ReRepairGridProblem
+        '
+        Me.ReRepairGridProblem.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.ReRepairGridProblem.HeaderText = "Problem"
+        Me.ReRepairGridProblem.Name = "ReRepairGridProblem"
+        '
+        'ReRepairGridRemarks
+        '
+        Me.ReRepairGridRemarks.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.ReRepairGridRemarks.HeaderText = "Remarks"
+        Me.ReRepairGridRemarks.Name = "ReRepairGridRemarks"
+        '
+        'ReRepairGridTName
+        '
+        DataGridViewCellStyle7.NullValue = "None"
+        Me.ReRepairGridTName.DefaultCellStyle = DataGridViewCellStyle7
+        Me.ReRepairGridTName.HeaderText = "Technician"
+        Me.ReRepairGridTName.Items.AddRange(New Object() {"None"})
+        Me.ReRepairGridTName.Name = "ReRepairGridTName"
+        '
         'FormReceive
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 14.0!)
@@ -651,23 +651,23 @@ Partial Class FormReceive
     Friend WithEvents lblRNo As Label
     Friend WithEvents cmbCuMr As ComboBox
     Friend WithEvents TableLayoutPanel1 As TableLayoutPanel
-    Friend WithEvents RepairNo As DataGridViewTextBoxColumn
-    Friend WithEvents PCategory As DataGridViewTextBoxColumn
-    Friend WithEvents PName As DataGridViewTextBoxColumn
-    Friend WithEvents PSerialNo As DataGridViewTextBoxColumn
-    Friend WithEvents PDescription As DataGridViewTextBoxColumn
-    Friend WithEvents PQty As DataGridViewTextBoxColumn
-    Friend WithEvents PProblem As DataGridViewTextBoxColumn
-    Friend WithEvents PRemarks As DataGridViewTextBoxColumn
-    Friend WithEvents TName As DataGridViewComboBoxColumn
-    Friend WithEvents RERepairNo As DataGridViewTextBoxColumn
-    Friend WithEvents RetRepNo As DataGridViewTextBoxColumn
-    Friend WithEvents RETPCategory As DataGridViewTextBoxColumn
-    Friend WithEvents RETPName As DataGridViewTextBoxColumn
-    Friend WithEvents RETPSerialNo As DataGridViewTextBoxColumn
-    Friend WithEvents RETPDescription As DataGridViewTextBoxColumn
-    Friend WithEvents RETQty As DataGridViewTextBoxColumn
-    Friend WithEvents RETProblem As DataGridViewTextBoxColumn
-    Friend WithEvents RETRemarks As DataGridViewTextBoxColumn
-    Friend WithEvents RETTName As DataGridViewComboBoxColumn
+    Friend WithEvents RepairGridRepNo As DataGridViewTextBoxColumn
+    Friend WithEvents RepairGridPCategory As DataGridViewTextBoxColumn
+    Friend WithEvents RepairGridPName As DataGridViewTextBoxColumn
+    Friend WithEvents RepairGridPSerialNo As DataGridViewTextBoxColumn
+    Friend WithEvents RepairGridPDescription As DataGridViewTextBoxColumn
+    Friend WithEvents RepairGridQty As DataGridViewTextBoxColumn
+    Friend WithEvents RepairGridProblem As DataGridViewTextBoxColumn
+    Friend WithEvents RepairGridRemarks As DataGridViewTextBoxColumn
+    Friend WithEvents RepairGridTName As DataGridViewComboBoxColumn
+    Friend WithEvents ReRepairGridRetNo As DataGridViewTextBoxColumn
+    Friend WithEvents ReRepairGridRepNo As DataGridViewTextBoxColumn
+    Friend WithEvents ReRepairGridPCategory As DataGridViewTextBoxColumn
+    Friend WithEvents ReRepairGridPName As DataGridViewTextBoxColumn
+    Friend WithEvents ReRepairGridPSerialNo As DataGridViewTextBoxColumn
+    Friend WithEvents ReRepairGridPDescription As DataGridViewTextBoxColumn
+    Friend WithEvents ReRepairGridQty As DataGridViewTextBoxColumn
+    Friend WithEvents ReRepairGridProblem As DataGridViewTextBoxColumn
+    Friend WithEvents ReRepairGridRemarks As DataGridViewTextBoxColumn
+    Friend WithEvents ReRepairGridTName As DataGridViewComboBoxColumn
 End Class

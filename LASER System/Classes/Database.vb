@@ -50,10 +50,10 @@ Public Class Database
         End Try
     End Function
 
-    Public Sub Execute(Query As String, Optional Parameters As MySqlParameter() = Nothing, Optional AdminPer As AdminPermission = Nothing)
+    Public Function Execute(Query As String, Optional Parameters As MySqlParameter() = Nothing, Optional AdminPer As AdminPermission = Nothing) As Integer
         Query = FormatQuery(Query, AdminPer)
         If AdminPer IsNot Nothing AndAlso AdminPer.AdminSend = True Then
-            Exit Sub
+            Return Nothing
         End If
         Dim Connection As MySqlConnection = GetConenction()
         Try
@@ -63,6 +63,7 @@ Public Class Database
                     CommandUpdate.Parameters.AddRange(Parameters)
                 End If
                 CommandUpdate.ExecuteNonQuery()
+                Return CommandUpdate.LastInsertedId
             End Using
 
             Activity.Write(Query)
@@ -71,7 +72,7 @@ Public Class Database
         Finally
             Connection.Close()
         End Try
-    End Sub
+    End Function
 
     Public Sub DirectExecute(Query As String)
         Dim Connection As MySqlConnection = GetConenction()

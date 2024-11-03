@@ -1,4 +1,4 @@
-﻿Public Class RepairStatus
+﻿Public Structure RepairStatus
     Const Received = "Received"
     Const HandOverToTechnician = "Hand Over to Technician"
     Const Repairing = "Repairing"
@@ -7,4 +7,4 @@
     Const Canceled = "Canceled"
     Const RepairedDelivered = "Repaired Delivered"
     Const ReturnedDelivered = "Returned Delivered"
-End Class
+End Structure

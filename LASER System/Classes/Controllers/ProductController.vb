@@ -11,11 +11,19 @@ Public Class ProductController
         })
     End Function
 
-    Public Sub InsertProduct(Data As Dictionary(Of String, Object))
-        Db.Execute("INSERT INTO Product(PCATEGORY, PNAME, PDETAILS) VALUES(@PCATEGORY, @PNAME, @PDETAILS);", {
+    Public Function InsertProduct(Data As Dictionary(Of String, Object)) As Integer
+        Return Db.Execute("INSERT INTO Product(PCATEGORY, PNAME, PDETAILS) VALUES(@PCATEGORY, @PNAME, @PDETAILS);", {
             New MySqlParameter("PCATEGORY", Data(Product.PCategory)),
             New MySqlParameter("PNAME", Data(Product.PName)),
             New MySqlParameter("PDETAILS", Data(Product.PDetails))
+        })
+    End Function
+
+    Public Sub InsertProduct(ProductModel As ProductModel)
+        Db.Execute("INSERT INTO Product(PCATEGORY, PNAME, PDETAILS) VALUES(@PCATEGORY, @PNAME, @PDETAILS);", {
+            New MySqlParameter("PCATEGORY", ProductModel.Category),
+            New MySqlParameter("PNAME", ProductModel.Name),
+            New MySqlParameter("PDETAILS", ProductModel.Details)
         })
     End Sub
 End Class

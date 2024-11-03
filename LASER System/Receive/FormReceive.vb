@@ -1,4 +1,5 @@
-﻿Imports MySqlConnector
+﻿Imports LASER_System.StructureDatabase
+Imports MySqlConnector
 Imports System.IO
 Imports System.Threading
 Imports ZXing
@@ -7,6 +8,8 @@ Public Class FormReceive
     Public Property Caller As String
 
     Private Db As New Database
+    Private RepairController As New RepairController
+    Private ReRerepairControlelr As New ReRepairController
     Private ControlCommandInfo As ControlCommandInfo
 
     Public Sub New()
@@ -15,25 +18,14 @@ Public Class FormReceive
     End Sub
 
     Private Sub FrmReceive_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        RepairController.SetDatabase(Db)
         Call cmdNew_Click(Nothing, Nothing)
         txtCuTelNo1.Focus()
     End Sub
 
-    'Private Sub frmReceive_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
-    'If ControlCommandInfo IsNot Nothing Then
-    '    If (e.KeyCode = System.Windows.Forms.Keys.Escape) Then
-    '        cmdCancel.PerformClick()
-    '    ElseIf (e.KeyCode And Not Keys.Modifiers) = Keys.D1 AndAlso e.Modifiers = Keys.Control Then
-    '        cmdReceiptSticker.PerformClick()
-    '    ElseIf (e.KeyCode And Not Keys.Modifiers) = Keys.D2 AndAlso e.Modifiers = Keys.Control Then
-    '        cmdReceipt.PerformClick()
-    '    ElseIf (e.KeyCode And Not Keys.Modifiers) = Keys.D3 AndAlso e.Modifiers = Keys.Control Then
-    '        cmdSticker.PerformClick()
-    '    ElseIf (e.KeyCode And Not Keys.Modifiers) = Keys.D4 AndAlso e.Modifiers = Keys.Control Then
-    '        cmdSaveOnly.PerformClick()
-    '    End If
-    'End If
-    'End Sub
+    Private Sub frmReceive_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
+        ControlCommandInfo?.KeyDownEvent(sender, e)
+    End Sub
 
     Private Sub cmbCuName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbCuName.SelectedIndexChanged
         If txtCuTelNo1.Text.Trim = "" Then
@@ -89,6 +81,12 @@ Public Class FormReceive
         txtCuTelNo1.Focus()
     End Sub
 
+    Private Sub ControlCommandInfo_Cancel()
+        MenuStrip.Enabled = True
+        AcceptButton = cmdSave
+        txtCuTelNo1.Focus()
+    End Sub
+
     Private Sub cmdClose_Click(sender As Object, e As EventArgs) Handles cmdClose.Click, CloseToolStripMenuItem.Click
         Me.Close()
     End Sub
@@ -141,7 +139,7 @@ Public Class FormReceive
         cmdSave.Focus()
 
         If Tag = "Deliver" Then
-            SaveReceivedRepair()
+            SetDataToControlCommandInfo()
             Tag = ""
             Close()
             Exit Sub
@@ -150,133 +148,91 @@ Public Class FormReceive
         ControlCommandInfo = New ControlCommandInfo With {
             .Dock = DockStyle.Fill
         }
+        ControlCommandInfo.SetDatabase(Db)
+        SetDataToControlCommandInfo()
+        AddHandler ControlCommandInfo.CancelEvent, AddressOf ControlCommandInfo_Cancel
         Controls.Add(ControlCommandInfo)
         ControlCommandInfo.BringToFront()
 
         MenuStrip.Enabled = False
-        AcceptButton = cmdReceiptSticker
-        cmdReceiptSticker.Focus()
     End Sub
 
-    Private Sub SaveReceivedRepair()
-        'Customer Management 
-        Dim CuNo, PNo As Integer
-        Dim DR = Db.GetDataDictionary("Select * from Customer where CuName='" & cmbCuMr.Text & cmbCuName.Text & "' and CuTelNo1='" & txtCuTelNo1.Text & "' and CuTelNo2 ='" & txtCuTelNo2.Text & "' and CuTelNo3='" & txtCuTelNo3.Text & "'")
-        If DR IsNot Nothing Then
-            CuNo = DR("CuNo")
-        Else
-            CuNo = Db.GetNextKey("Customer", "CuNo")
-            Db.Execute("Insert into Customer(CuNo,CuName,CuTelNo1,CuTelNo2,CutelNo3) Values(" & CuNo & ",'" & cmbCuMr.Text & cmbCuName.Text & "','" & txtCuTelNo1.Text & "','" & txtCuTelNo2.Text & "','" & txtCuTelNo3.Text & "')")
-        End If
-        If txtRDate.Value.Date = Today.Date Then txtRDate.Value = DateAndTime.Now
-        txtRNo.Text = Db.GetNextKey("Receive", "RNo")
-        Db.Execute("Insert into Receive(RNo,RDate,CuNo,UNo) values(@RNO, @RDATE, @CUNO, @UNO);", {
-            New MySqlParameter("RNO", txtRNo.Text),
-            New MySqlParameter("RDATE", txtRDate.Value),
-            New MySqlParameter("CUNO", CuNo),
-            New MySqlParameter("UNO", User.Instance.UserNo)
+    Private Sub SetDataToControlCommandInfo()
+        Dim DataTableRepair, DataTableReRepair As New DataTable
+        DataTableRepair.Columns.AddRange({
+            New DataColumn(Repair.RepNo),
+            New DataColumn(Product.PCategory),
+            New DataColumn(Product.PName),
+            New DataColumn(Repair.PSerialNo),
+            New DataColumn(Product.PDetails),
+            New DataColumn(Repair.Qty),
+            New DataColumn(Repair.Problem),
+            New DataColumn(Repair.TNo)
         })
-        For Each row As DataGridViewRow In grdRepair.Rows
-            If row.Index = grdRepair.Rows.Count - 1 Then Continue For
-            'Product Management
-            Dim DrProduct = Db.GetDataDictionary("Select * from Product where PCategory='" & row.Cells(1).Value & "' and PName='" & row.Cells(2).Value & "'")
-            If DrProduct IsNot Nothing Then
-                PNo = DrProduct("PNo")
-            Else
-                PNo = Db.GetNextKey("Product", "PNo")
-                Db.Execute("INSERT INTO Product(PNO,PCATEGORY,PNAME,PMODELNO,PDETAILS) Values(" & PNo & ",'" & row.Cells(1).Value & "','" & row.Cells(2).Value & "','" & row.Cells(3).Value & "','" & row.Cells(5).Value & "');")
+        For Each Row As DataGridViewRow In grdRepair.Rows
+            If Row.IsNewRow Then
+                Exit For
             End If
-            Db.Execute("INSERT INTO Repair(RepNo,RNo,PNo,PSerialNo,Qty,Problem,Status)Values(" & row.Cells(0).Value & "," & txtRNo.Text & "," & PNo & ",'" & row.Cells(4).Value & "'," &
-                                        row.Cells(6).Value & ",'" & row.Cells(7).Value & "','Received');")
-            Db.Execute("INSERT INTO RepairActivity(RepANo,RepNo,RepADate,Activity,UNo) Values(?NewKey?RepairActivity?RepANo?," &
-                      row.Cells(0).Value & ",NOW(),'Received Date -> " & txtRDate.Value & vbCrLf &
-                      ", Name -> " & cmbCuMr.Text & cmbCuName.Text &
-                      ", Telephone No1 -> " & txtCuTelNo1.Text &
-                      ", Telephone No2 -> " & txtCuTelNo2.Text &
-                      ", Telephone No3 -> " & txtCuTelNo3.Text & vbCrLf &
-                      ", Product Category -> " & row.Cells(1).Value &
-                      ", Product Name -> " & row.Cells(2).Value &
-                      ", Model No -> " & row.Cells(3).Value &
-                      ", Serial No -> " & row.Cells(4).Value &
-                      ", Problem -> " & row.Cells(5).Value & ".'," & User.Instance.UserNo & ")")
-            If row.Cells(8).Value IsNot Nothing Then
-                Db.Execute("INSERT INTO RepairRemarks1(Rem1No,Rem1Date,RepNo,Remarks,UNo) Values(?NewKey?RepairRemarks1?Rem1No?,NOW()," &
-                      row.Cells(0).Value & ",'" & row.Cells(8).Value & "'," & User.Instance.UserNo & ")")
+            Dim NewRow As DataRow = DataTableRepair.NewRow()
+            NewRow(Repair.RepNo) = Row.Cells(RepairGridColumns.RepairNo).Value
+            NewRow(Product.PCategory) = Row.Cells(RepairGridColumns.ProductCategory).Value
+            NewRow(Product.PName) = Row.Cells(RepairGridColumns.ProductName).Value
+            NewRow(Repair.PSerialNo) = Row.Cells(RepairGridColumns.ProductSerialNo).Value
+            NewRow(Product.PDetails) = Row.Cells(RepairGridColumns.ProductDescription).Value
+            NewRow(Repair.Qty) = Row.Cells(RepairGridColumns.Qty).Value
+            NewRow(Repair.Problem) = Row.Cells(RepairGridColumns.Problem).Value
+            NewRow(Repair.TNo) = If(Row.Cells(RepairGridColumns.Technician).Value.ToString() = "None", Nothing, Row.Cells(RepairGridColumns.Technician).Value)
+            DataTableRepair.Rows.Add(NewRow)
+        Next
+
+        DataTableReRepair.Columns.AddRange({
+            New DataColumn(ReRepair.RetNo),
+            New DataColumn(ReRepair.RepNo),
+            New DataColumn(Product.PCategory),
+            New DataColumn(Product.PName),
+            New DataColumn(ReRepair.PSerialNo),
+            New DataColumn(Product.PDetails),
+            New DataColumn(ReRepair.Qty),
+            New DataColumn(ReRepair.Problem),
+            New DataColumn(ReRepair.TNo)
+        })
+        For Each Row As DataGridViewRow In grdReRepair.Rows
+            If Row.IsNewRow Then
+                Exit For
             End If
-            If Me.Tag = "Deliver" Then
-                For Each oForm As FormDeliver In Application.OpenForms().OfType(Of FormDeliver)()
-                    If oForm.Name = Me.Caller Then
-                        With oForm
-                            .cmbCuName.Text = cmbCuMr.Text & cmbCuName.Text
-                            .txtCuTelNo1.Text = txtCuTelNo1.Text
-                            .txtCuTelNo2.Text = txtCuTelNo2.Text
-                            .txtCuTelNo3.Text = txtCuTelNo3.Text
-                            .grdRepair.Rows.Add(row.Cells("RepairNo").Value, row.Cells("PCategory").Value, row.Cells("PName").Value, row.Cells("PQty").Value, "0", "", "")
-                        End With
-                        Exit For
-                    End If
-                Next
-            End If
-        Next row
-        For Each row As DataGridViewRow In grdReRepair.Rows
-            If row.Index = grdReRepair.Rows.Count - 1 Then Continue For
-            'Product Management
-            Dim DrProduct = Db.GetDataDictionary("Select * from Product where PCategory='" & row.Cells(2).Value & "' and PName='" & row.Cells(3).Value & "'")
-            If DrProduct IsNot Nothing Then
-                PNo = DrProduct("PNo")
-            Else
-                PNo = Db.GetNextKey("Product", "PNo")
-                Db.Execute("INSERT INTO Product(PNO,PCATEGORY,PNAME,PMODELNO,PDETAILS) Values(@PNO, @PCATEGORY, @PNAME, @PMODELNO, @PDETAILS)", {
-                    New MySqlParameter("PNO", PNo),
-                    New MySqlParameter("PCATEGORY", row.Cells(2).Value),
-                    New MySqlParameter("PNAME", row.Cells(3).Value),
-                    New MySqlParameter("PMODELNO", row.Cells(4).Value),
-                    New MySqlParameter("PDETAILS", row.Cells(6).Value)
-                })
-            End If
-            Db.Execute("INSERT INTO `Return`(RetNo,RepNo,RNo,PNo,PSerialNo,Qty,Problem,Status) VALUES(@RETNO, @REPNO, @RNO, @PNO, @PSERIALNO, @QTY, @PROBLEM, @STATUS)", {
-                New MySqlParameter("RETNO", row.Cells(0).Value),
-                New MySqlParameter("REPNO", row.Cells(1).Value),
-                New MySqlParameter("RNO", txtRNo.Text),
-                New MySqlParameter("PNO", PNo),
-                New MySqlParameter("PSERIALNO", row.Cells(5).Value),
-                New MySqlParameter("QTY", row.Cells(7).Value),
-                New MySqlParameter("PROBLEM", row.Cells(8).Value),
-                New MySqlParameter("STATUS", "Received")
-            })
-            Db.Execute("INSERT INTO RepairActivity(RetNo,RepADate,Activity,UNo) VALUES(@RETNO, NOW(), @ACTIVITY, @UNO);", {
-                New MySqlParameter("RETNO", row.Cells(0).Value),
-                New MySqlParameter("ACTIVITY", "Received Date -> " & txtRDate.Value &
-                      ", Name -> " & cmbCuMr.Text & cmbCuName.Text &
-                      ", Telephone No1 -> " & txtCuTelNo1.Text &
-                      ", Telephone No2 -> " & txtCuTelNo2.Text &
-                      ", Telephone No3 -> " & txtCuTelNo3.Text &
-                      ", Product Category -> " & row.Cells(2).Value &
-                      ", Product Name -> " & row.Cells(3).Value &
-                      ", Model No -> " & row.Cells(4).Value &
-                      ", Serial No -> " & row.Cells(5).Value &
-                      ", Problem -> " & row.Cells(8).Value),
-                New MySqlParameter("UNO", User.Instance.UserNo)
-            })
-            If row.Cells(8).Value IsNot Nothing Then
-                Db.Execute("Insert into RepairRemarks1(Rem1No,Rem1Date,RetNo,Remarks,UNo) Values(?NewKey?RepairRemarks1?Rem1No?,NOW()," &
-                      row.Cells(0).Value & ",'" & row.Cells(9).Value & "'," & User.Instance.UserNo & ")")
-            End If
-            If Me.Tag = "Deliver" Then
-                For Each oForm As FormDeliver In Application.OpenForms().OfType(Of FormDeliver)()
-                    If oForm.Name = Me.Caller Then
-                        With oForm
-                            .cmbCuName.Text = cmbCuMr.Text & cmbCuName.Text
-                            .txtCuTelNo1.Text = txtCuTelNo1.Text
-                            .txtCuTelNo2.Text = txtCuTelNo2.Text
-                            .txtCuTelNo3.Text = txtCuTelNo3.Text
-                            .grdRERepair.Rows.Add(row.Cells(0).Value, row.Cells(1).Value, row.Cells("RETPCategory").Value, row.Cells("RETPName").Value, row.Cells("RETQty").Value, "0", "", "")
-                        End With
-                        Exit For
-                    End If
-                Next
-            End If
-        Next row
+            Dim NewRow As DataRow = DataTableReRepair.NewRow()
+            NewRow(ReRepair.RetNo) = Row.Cells(ReRepairGridColumns.ReRepairNo).Value
+            NewRow(ReRepair.RepNo) = Row.Cells(ReRepairGridColumns.RepairNo).Value
+            NewRow(Product.PCategory) = Row.Cells(ReRepairGridColumns.ProductCategory).Value
+            NewRow(Product.PName) = Row.Cells(ReRepairGridColumns.ProductName).Value
+            NewRow(ReRepair.PSerialNo) = Row.Cells(ReRepairGridColumns.ProductSerialNo).Value
+            NewRow(Product.PDetails) = Row.Cells(ReRepairGridColumns.ProductDescription).Value
+            NewRow(ReRepair.Qty) = Row.Cells(ReRepairGridColumns.Qty).Value
+            NewRow(ReRepair.Problem) = Row.Cells(ReRepairGridColumns.Problem).Value
+            NewRow(ReRepair.TNo) = If(Row.Cells(ReRepairGridColumns.Technician).Value = "None", Nothing, Row.Cells(ReRepairGridColumns.Technician).Value)
+            DataTableReRepair.Rows.Add(NewRow)
+        Next
+        ControlCommandInfo.SetData(New Dictionary(Of String, Object) From {
+            {Receive.RDate, txtRDate.Text},
+            {Customer.CuName, $"{cmbCuMr.Text}{cmbCuName.Text}"},
+            {Customer.CuTelNo1, txtCuTelNo1.Text},
+            {Customer.CuTelNo2, txtCuTelNo2.Text},
+            {Customer.CuTelNo3, txtCuTelNo3.Text}
+        }, DataTableRepair, DataTableReRepair)
+        'If Me.Tag = "Deliver" Then
+        '    For Each oForm As FormDeliver In Application.OpenForms().OfType(Of FormDeliver)()
+        '        If oForm.Name = Me.Caller Then
+        '            With oForm
+        '                .cmbCuName.Text = cmbCuMr.Text & cmbCuName.Text
+        '                .txtCuTelNo1.Text = txtCuTelNo1.Text
+        '                .txtCuTelNo2.Text = txtCuTelNo2.Text
+        '                .txtCuTelNo3.Text = txtCuTelNo3.Text
+        '                .grdRERepair.Rows.Add(row.Cells(0).Value, row.Cells(1).Value, row.Cells("RETPCategory").Value, row.Cells("RETPName").Value, row.Cells("RETQty").Value, "0", "", "")
+        '            End With
+        '            Exit For
+        '        End If
+        '    Next
+        'End If
     End Sub
 
     Private Sub cmdCancel_Click(sender As Object, e As EventArgs)
@@ -286,6 +242,9 @@ Public Class FormReceive
     End Sub
 
     Private Sub grdRepair_EditingControlShowing(sender As Object, e As DataGridViewEditingControlShowingEventArgs) Handles grdRepair.EditingControlShowing
+        If grdRepair.CurrentCell.ColumnIndex = 8 Then
+            Exit Sub
+        End If
         Dim txtKeyPress As TextBox = e.Control
         'remove any existing handler
         RemoveHandler txtKeyPress.KeyPress, AddressOf txtKeyPress_Keypress
@@ -324,7 +283,7 @@ Public Class FormReceive
                     Next
                     autoText.AutoCompleteCustomSource = DataCollection
                 End If
-            Case 6
+            Case 5
                 AddHandler CType(e.Control, TextBox).KeyPress, AddressOf TextBoxQty_keyPress
         End Select
     End Sub
