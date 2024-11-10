@@ -55,46 +55,54 @@ Partial Class ControlRemarks
         Me.grdRepRemarks1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.grdRepRemarks1.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Rem1No, Me.Rem1Date, Me.Rem1Remarks, Me.Rem1UNo})
         Me.grdRepRemarks1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.grdRepRemarks1.Location = New System.Drawing.Point(3, 18)
+        Me.grdRepRemarks1.Location = New System.Drawing.Point(3, 22)
         Me.grdRepRemarks1.Name = "grdRepRemarks1"
-        Me.grdRepRemarks1.Size = New System.Drawing.Size(449, 126)
+        Me.grdRepRemarks1.RowHeadersWidth = 51
+        Me.grdRepRemarks1.Size = New System.Drawing.Size(449, 122)
         Me.grdRepRemarks1.TabIndex = 23
         '
         'Rem1No
         '
         Me.Rem1No.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader
         Me.Rem1No.HeaderText = "No"
+        Me.Rem1No.MinimumWidth = 6
         Me.Rem1No.Name = "Rem1No"
         Me.Rem1No.ReadOnly = True
         Me.Rem1No.Visible = False
+        Me.Rem1No.Width = 125
         '
         'Rem1Date
         '
         Me.Rem1Date.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
         Me.Rem1Date.HeaderText = "Date"
+        Me.Rem1Date.MinimumWidth = 6
         Me.Rem1Date.Name = "Rem1Date"
-        Me.Rem1Date.Width = 58
+        Me.Rem1Date.Width = 66
         '
         'Rem1Remarks
         '
         Me.Rem1Remarks.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
         Me.Rem1Remarks.HeaderText = "Remarks"
+        Me.Rem1Remarks.MinimumWidth = 6
         Me.Rem1Remarks.Name = "Rem1Remarks"
         '
         'Rem1UNo
         '
         Me.Rem1UNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
         Me.Rem1UNo.HeaderText = "User"
+        Me.Rem1UNo.MinimumWidth = 6
         Me.Rem1UNo.Name = "Rem1UNo"
         Me.Rem1UNo.ReadOnly = True
-        Me.Rem1UNo.Width = 57
+        Me.Rem1UNo.Width = 65
         '
         'cmbLocation
         '
+        Me.cmbLocation.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend
+        Me.cmbLocation.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems
         Me.cmbLocation.FormattingEnabled = True
         Me.cmbLocation.Location = New System.Drawing.Point(64, 3)
         Me.cmbLocation.Name = "cmbLocation"
-        Me.cmbLocation.Size = New System.Drawing.Size(251, 22)
+        Me.cmbLocation.Size = New System.Drawing.Size(251, 26)
         Me.cmbLocation.TabIndex = 81
         '
         'lblLocation
@@ -102,7 +110,7 @@ Partial Class ControlRemarks
         Me.lblLocation.AutoSize = True
         Me.lblLocation.Location = New System.Drawing.Point(3, 6)
         Me.lblLocation.Name = "lblLocation"
-        Me.lblLocation.Size = New System.Drawing.Size(55, 14)
+        Me.lblLocation.Size = New System.Drawing.Size(63, 18)
         Me.lblLocation.TabIndex = 83
         Me.lblLocation.Text = "Location:"
         '
@@ -120,7 +128,7 @@ Partial Class ControlRemarks
         '
         'ControlRemarks
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 14.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 18.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.Controls.Add(Me.GroupRepRem1)
         Me.Controls.Add(Me.cmbLocation)
