@@ -32,21 +32,21 @@ Public Class FormRepair
             cmdDone.Enabled = True
         End If
 
-        If tabRepair.SelectedIndex = 0 Then
-            cmbRepNo.Focus()
-            Mode = RepairMode.Repair
-        Else
-            cmbRetNo.Focus()
-            Mode = RepairMode.ReRepair
-        End If
         Me.Enabled = True
+        If tabRepair.SelectedIndex = 0 Then
+            Mode = RepairMode.Repair
+            cmbRepNo.Focus()
+        Else
+            Mode = RepairMode.ReRepair
+            cmbRetNo.Focus()
+        End If
     End Sub
 
     Private Sub frmRepair_Move(sender As Object, e As EventArgs) Handles Me.Move
         frmSearchDropDown.frm_Move()
     End Sub
 
-    Private Sub frmRepair_GotFocus(sender As Object, e As EventArgs) Handles Me.GotFocus
+    Private Sub frmRepair_Activated(sender As Object, e As EventArgs) Handles Me.Activated
         If tabRepair.SelectedTab.TabIndex = 0 Then
             cmbRepNo.Focus()
         Else
@@ -505,6 +505,7 @@ Public Class FormRepair
             ControlTechnicianCostListInfo.InitForReRepair(cmbRetNo.Text)
         End If
         If sender.Text = "Hand Over to Technician" Or sender.Text = "Repairing" Then
+            ControlTechnicianInfo.cmbTName.Focus()
             Exit Sub
         End If
 
