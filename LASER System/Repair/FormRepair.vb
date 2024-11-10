@@ -311,6 +311,11 @@ Public Class FormRepair
                 MessageBox.Error("මෙම Repair Form තුලින් මෙය සිදු කිරීමට නොහැකිය. Deliver Form එක භාවිතා කරන්න.")
                 Exit Sub
             End If
+
+            If User.Instance.UserType <> User.Type.Admin AndAlso DeliveredStatuses.Contains(DataReaderRepair("Status").ToString) AndAlso DataReaderRepair("Status").ToString <> cmbRepStatus.Text Then
+                MessageBox.Error("Delivered හෝ  Canceled Product එකක් නැවත Status එක වෙනස් කිරීමට ඔබ්ට Permission නොමැත.")
+                Exit Sub
+            End If
             Select Case Mode
                 Case RepairMode.Repair
                     If DataReaderRepair("Status").ToString <> cmbRepStatus.Text Then
