@@ -56,10 +56,10 @@ Public NotInheritable Class FrmSplash
                     Process.Start(My.Settings.BGWorkerPath)
                 End If
             Case 40
-                txtLoad.Text = "Optimizing Report Viewer for printing..."
-                frmReport.WindowState = FormWindowState.Minimized
-                frmReport.Show()
-                frmReport.Hide()
+                'txtLoad.Text = "Optimizing Report Viewer for printing..."
+                'frmReport.WindowState = FormWindowState.Minimized
+                'frmReport.Show()
+                'frmReport.Hide()
             Case 60
                 txtLoad.Text = "Setting Main Menu..."
                 With MdifrmMain
