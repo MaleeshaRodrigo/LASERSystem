@@ -4,15 +4,17 @@ Imports MySqlConnector
 Public MustInherit Class AbstractRepairController : Inherits AbstractController
     Private ReadOnly CustomerController As New CustomerController()
     Private ReadOnly ProductController As New ProductController()
+    Private ReadOnly TechnicianController As New TechnicianController()
 
     Public Overrides Function SetDatabase(ByRef Db As Database) As AbstractController
         CustomerController.SetDatabase(Db)
         ProductController.SetDatabase(Db)
+        TechnicianController.SetDatabase(Db)
         Return MyBase.SetDatabase(Db)
     End Function
 
 
-    Public Sub SaveReceivedRepair(Data As Dictionary(Of String, Object), RepairTable As DataTable, ReRepairTable As DataTable)
+    Public Function SaveReceivedRepair(Data As Dictionary(Of String, Object), RepairTable As DataTable, ReRepairTable As DataTable) As Integer
         Dim CustomerNo As Integer = CustomerController.GetCustomerNo(Data(Customer.CuName), Data(Customer.CuTelNo1), Data(Customer.CuTelNo2), Data(Customer.CuTelNo3))
         If CustomerNo = 0 Then
             CustomerNo = CustomerController.InsertCustomer(New Dictionary(Of String, Object) From {
@@ -23,18 +25,20 @@ Public MustInherit Class AbstractRepairController : Inherits AbstractController
                 {Customer.CuTelNo3, Data(Customer.CuTelNo3)}
             })
         End If
-        InsertReceiveRepair(New Dictionary(Of String, Object) From {
+        Dim RNo As Integer = InsertReceiveRepair(New Dictionary(Of String, Object) From {
             {Receive.RDate, Data(Receive.RDate)},
             {Receive.CuNo, CustomerNo}
         })
         For Each Row As DataRow In RepairTable.Rows
-            InsertRepairData(Row, IsReRepair:=False)
+            InsertRepairData(RNo, Row, IsReRepair:=False)
         Next
 
         For Each Row As DataRow In ReRepairTable.Rows
-            InsertRepairData(Row, IsReRepair:=True)
+            InsertRepairData(RNo, Row, IsReRepair:=True)
         Next
-    End Sub
+
+        Return RNo
+    End Function
 
     Private Function GetOrInsertProduct(Row As DataRow) As Integer
         Dim ProductNo As Integer
@@ -53,48 +57,55 @@ Public MustInherit Class AbstractRepairController : Inherits AbstractController
         Return ProductNo
     End Function
 
-    Private Sub InsertRepairData(TableRow As DataRow, IsReRepair As Boolean)
+    Private Sub InsertRepairData(RNo As Integer, TableRow As DataRow, IsReRepair As Boolean)
         Dim ProductNo As Integer = GetOrInsertProduct(TableRow)
-        Dim repairData = New Dictionary(Of String, Object) From {
-            {If(IsReRepair, ReRepair.RetNo, Repair.RepNo), TableRow(If(IsReRepair, ReRepair.RetNo, Repair.RepNo))},
-            {If(IsReRepair, ReRepair.RepNo, Repair.RNo), TableRow(If(IsReRepair, ReRepair.RepNo, Repair.RNo))},
-            {If(IsReRepair, ReRepair.PNo, Repair.PNo), ProductNo},
-            {If(IsReRepair, ReRepair.PSerialNo, Repair.PSerialNo), TableRow(If(IsReRepair, ReRepair.PSerialNo, Repair.PSerialNo))},
-            {If(IsReRepair, ReRepair.Qty, Repair.Qty), TableRow(If(IsReRepair, ReRepair.Qty, Repair.Qty))},
-            {If(IsReRepair, ReRepair.Problem, Repair.Problem), TableRow(If(IsReRepair, ReRepair.Problem, Repair.Problem))}
+        Dim RepairData = New Dictionary(Of String, Object) From {
+            {Repair.RNo, RNo},
+            {ReRepair.RetNo, If(IsReRepair, TableRow(ReRepair.RetNo), Nothing)},
+            {Repair.RepNo, TableRow(ReRepair.RepNo)},
+            {Repair.PNo, ProductNo},
+            {Repair.PSerialNo, TableRow(Repair.PSerialNo)},
+            {Repair.Qty, TableRow(Repair.Qty)},
+            {Repair.Problem, TableRow(Repair.Problem)}
         }
+        Dim TNo As Object = Nothing
+        If Not IsDBNull(TableRow(Technician.TName)) Then
+            TNo = TechnicianController.GetTechnicianNo(TableRow(Technician.TName))
+        End If
+        RepairData.Add(Repair.Status, If(TNo, RepairStatus.HandOverToTechnician, RepairStatus.Received))
+        RepairData.Add(Repair.TNo, TNo)
         Dim RepairController As New RepairController
         Dim ReRepairController As New ReRepairController
         RepairController.SetDatabase(Db)
         ReRepairController.SetDatabase(Db)
-        If Not IsReRepair Then
-            repairData.Add(Repair.Status, TableRow(Repair.Status))
-            RepairController.InsertRepair(repairData)
+        If IsReRepair Then
+            ReRepairController.InsertReRepair(RepairData)
+            InsertRemarksIfPresent(Nothing, TableRow(ReRepair.RetNo), TableRow(RepairRemarks1.Remarks))
         Else
-            ReRepairController.InsertReRepair(repairData)
-        End If
-
-        InsertRemarksIfPresent(TableRow(If(IsReRepair, ReRepair.RepNo, Repair.RepNo)), TableRow(RepairRemarks1.Remarks))
-    End Sub
-
-    Private Sub InsertRemarksIfPresent(RepNo As Object, Remarks As Object)
-        If Remarks IsNot Nothing AndAlso Not String.IsNullOrEmpty(Remarks.ToString()) Then
-            InsertRepairRemarks1(RepNo, Remarks)
+            RepairController.InsertRepair(RepairData)
+            InsertRemarksIfPresent(TableRow(Repair.RepNo), Nothing, TableRow(RepairRemarks1.Remarks))
         End If
     End Sub
 
-    Private Sub InsertReceiveRepair(Data As Dictionary(Of String, Object))
-        Db.Execute("INSERT INTO Receive(RDate,CuNo,UNo) VALUES(@RDATE, @CUNO, @UNO);", {
+    Private Sub InsertRemarksIfPresent(RepNo As Object, RetNo As Object, Remarks As Object)
+        If Not IsDBNull(Remarks) Then
+            InsertRepairRemarks1(RepNo, RetNo, Remarks)
+        End If
+    End Sub
+
+    Private Function InsertReceiveRepair(Data As Dictionary(Of String, Object)) As Integer
+        Return Db.Execute("INSERT INTO Receive(RDate,CuNo,UNo) VALUES(@RDATE, @CUNO, @UNO);", {
             New MySqlParameter("RDATE", Date.Parse(Data(Receive.RDate))),
             New MySqlParameter("CUNO", Data(Receive.CuNo)),
             New MySqlParameter("UNO", User.Instance.UserNo)
         })
-    End Sub
+    End Function
 
-    Private Sub InsertRepairRemarks1(RepairNo As Integer, Remarks As String)
-        Db.Execute("INSERT INTO RepairRemarks1(Rem1Date,RepNo,Remarks,UNo) Values(@DATE, @REPNO, @REMARKS, @UNO);", {
+    Private Sub InsertRepairRemarks1(RepairNo As Object, ReRepairNo As Object, Remarks As String)
+        Db.Execute("INSERT INTO RepairRemarks1(Rem1Date, RepNo, RetNo, Remarks, UNo) Values(@DATE, @REPNO, @RETNO, @REMARKS, @UNO);", {
             New MySqlParameter("DATE", Now),
             New MySqlParameter("REPNO", RepairNo),
+            New MySqlParameter("RETNO", ReRepairNo),
             New MySqlParameter("REMARKS", Remarks),
             New MySqlParameter("UNO", User.Instance.UserNo)
         })

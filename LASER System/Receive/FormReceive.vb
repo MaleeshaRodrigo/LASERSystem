@@ -19,65 +19,72 @@ Public Class FormReceive
 
     Private Sub FrmReceive_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         RepairController.SetDatabase(Db)
-        Call cmdNew_Click(Nothing, Nothing)
+        Call CmdNew_Click(Nothing, Nothing)
         txtCuTelNo1.Focus()
     End Sub
 
-    Private Sub frmReceive_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
+    Private Sub FrmReceive_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         ControlCommandInfo?.KeyDownEvent(sender, e)
     End Sub
 
-    Private Sub cmbCuName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbCuName.SelectedIndexChanged
-        If txtCuTelNo1.Text.Trim = "" Then
-            Dim DrCheckCustomerExist = Db.GetDataDictionary("SELECT * from Customer where CuName='" & cmbCuName.Text & "' and CuTelNo1='" & txtCuTelNo1.Text &
-                                         "' and CuTelNo2='" & txtCuTelNo2.Text & "' and CuTelNo3='" & txtCuTelNo3.Text & "';")
-            If DrCheckCustomerExist IsNot Nothing Then
-                cmbCuName_Text(DrCheckCustomerExist("CuName").ToString)
-                txtCuTelNo1.Text = DrCheckCustomerExist("CuTelNo1").ToString
-                txtCuTelNo2.Text = DrCheckCustomerExist("CuTelNo2").ToString
-                txtCuTelNo3.Text = DrCheckCustomerExist("CuTelNo3").ToString
-            Else
-                For i As Integer = 0 To 1000
-                    Dim DrCuNameSuggest = Db.GetDataDictionary("Select CuName from Customer Where CuName = '" & cmbCuName.Text & " " & i.ToString & "'")
-                    If DrCuNameSuggest Is Nothing Then
-                        cmbCuName_Text(cmbCuName.Text + " " + i.ToString)
-                        Exit For
-                    End If
-                Next
-            End If
-        Else
-            Dim DrCheckCustomerExist = Db.GetDataDictionary("SELECT * from Customer where CuName='" & cmbCuName.Text & "' and CuTelNo1='" & txtCuTelNo1.Text &
-                                         "' and CuTelNo2='" & txtCuTelNo2.Text & "' and CuTelNo3='" & txtCuTelNo3.Text & "';")
-            If DrCheckCustomerExist IsNot Nothing Then Exit Sub
-            If cmbCuName.Text = "" Then Exit Sub
-            Dim DrCuName = Db.GetDataDictionary("Select CuName from Customer where CuName ='" & cmbCuName.Text & "';")
+    Private Sub CmbCuName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbCuName.SelectedIndexChanged
+        'If txtCuTelNo1.Text.Trim = "" Then
+        '    Dim DrCheckCustomerExist = Db.GetDataDictionary("SELECT * from Customer where CuName='" & cmbCuName.Text & "' and CuTelNo1='" & txtCuTelNo1.Text &
+        '                                 "' and CuTelNo2='" & txtCuTelNo2.Text & "' and CuTelNo3='" & txtCuTelNo3.Text & "';")
+        '    If DrCheckCustomerExist IsNot Nothing Then
+        '        cmbCuName_Text(DrCheckCustomerExist("CuName").ToString)
+        '        txtCuTelNo1.Text = DrCheckCustomerExist("CuTelNo1").ToString
+        '        txtCuTelNo2.Text = DrCheckCustomerExist("CuTelNo2").ToString
+        '        txtCuTelNo3.Text = DrCheckCustomerExist("CuTelNo3").ToString
+        '    Else
+        '        For i As Integer = 0 To 1000
+        '            Dim DrCuNameSuggest = Db.GetDataDictionary("Select CuName from Customer Where CuName = '" & cmbCuName.Text & " " & i.ToString & "'")
+        '            If DrCuNameSuggest Is Nothing Then
+        '                cmbCuName_Text(cmbCuName.Text + " " + i.ToString)
+        '                Exit For
+        '            End If
+        '        Next
+        '    End If
+        'Else
+        '    Dim DrCheckCustomerExist = Db.GetDataDictionary("SELECT * from Customer where CuName='" & cmbCuName.Text & "' and CuTelNo1='" & txtCuTelNo1.Text &
+        '                                 "' and CuTelNo2='" & txtCuTelNo2.Text & "' and CuTelNo3='" & txtCuTelNo3.Text & "';")
+        '    If DrCheckCustomerExist IsNot Nothing Then Exit Sub
+        '    If cmbCuName.Text = "" Then Exit Sub
+        '    Dim DrCuName = Db.GetDataDictionary("Select CuName from Customer where CuName ='" & cmbCuName.Text & "';")
 
-            If DrCuName IsNot Nothing Then
-                For i As Integer = 0 To 1000
-                    Dim DrCuNameSuggest = Db.GetDataDictionary("Select CuName from Customer Where CuName = '" & cmbCuName.Text & " " & i.ToString & "'")
-                    If DrCuNameSuggest Is Nothing Then
-                        cmbCuName_Text(cmbCuName.Text + " " + i.ToString)
-                        Exit For
-                    End If
-                Next
-                Exit Sub
-            End If
-        End If
+        '    If DrCuName IsNot Nothing Then
+        '        For i As Integer = 0 To 1000
+        '            Dim DrCuNameSuggest = Db.GetDataDictionary("Select CuName from Customer Where CuName = '" & cmbCuName.Text & " " & i.ToString & "'")
+        '            If DrCuNameSuggest Is Nothing Then
+        '                cmbCuName_Text(cmbCuName.Text + " " + i.ToString)
+        '                Exit For
+        '            End If
+        '        Next
+        '        Exit Sub
+        '    End If
+        'End If
     End Sub
 
-    Private Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click, NewToolStripMenuItem.Click
-        Cursor = Cursors.WaitCursor
+    Private Sub CmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click, NewToolStripMenuItem.Click
         Call SetNextKey(Db, txtRNo, "SELECT  RNo from Receive ORDER BY RNo Desc LIMIT 1;", "RNo")
-        'clear customer fileds
         For Each obj As Object In {cmbCuMr, cmbCuName, txtCuTelNo1, txtCuTelNo2, txtCuTelNo3}
             obj.Text = ""
         Next
         grdRepair.Rows.Clear()
         grdReRepair.Rows.Clear()
         grdRepair.CurrentCell = grdRepair.Rows(grdRepair.Rows.Count - 1).Cells(0)
-        cmdCancel_Click(sender, e)
         ComboBoxDropDown(Db, cmbCuName, "SELECT CuName FROM Customer GROUP BY CuName;")
-        Cursor = Cursors.Default
+
+        Dim DataTableTechnician As DataTable = Db.GetDataTable("SELECT TName FROM Technician WHERE TActive=1 GROUP BY TName;")
+        Dim newRow As DataRow = DataTableTechnician.NewRow()
+        newRow("TName") = "None"
+        DataTableTechnician.Rows.InsertAt(newRow, 0)
+        Dim Technicians = DataTableTechnician.AsEnumerable().Select(Function(d) DirectCast(d(0).ToString(), Object)).ToArray()
+        Dim ColumnRepair As DataGridViewComboBoxColumn = grdRepair.Columns.Item(RepairGridColumns.Technician)
+        ColumnRepair.DataSource = Technicians
+        Dim ColumnReRepair As DataGridViewComboBoxColumn = grdReRepair.Columns.Item(ReRepairGridColumns.Technician)
+        ColumnReRepair.DataSource = Technicians
+
         txtCuTelNo1.Focus()
     End Sub
 
@@ -87,75 +94,93 @@ Public Class FormReceive
         txtCuTelNo1.Focus()
     End Sub
 
+    Private Sub ControlCommandInfo_Submit()
+        MenuStrip.Enabled = True
+        AcceptButton = cmdSave
+        CmdNew_Click(ControlCommandInfo, Nothing)
+    End Sub
+
     Private Sub cmdClose_Click(sender As Object, e As EventArgs) Handles cmdClose.Click, CloseToolStripMenuItem.Click
         Me.Close()
     End Sub
 
     Private Sub cmdSave_Click(sender As Object, e As EventArgs) Handles cmdSave.Click, SaveToolStripMenuItem.Click
-        If CheckEmptyControl(cmbCuName, "Customer Name යන field එක හිස්ව පවතියි. කරුණාකර Customer කෙනෙකු තෝරා නැවත උත්සහ කරන්න.") = False Then
-            Exit Sub
+        Try
+            Dim Validation = SaveValidation()
+            If Not Validation.Status Then
+                MessageBox.Error(Validation.Message)
+                Return
+            End If
+
+            If Tag = "Deliver" Then
+                SetDataToControlCommandInfo()
+                Tag = ""
+                Close()
+                Return
+            End If
+
+            ControlCommandInfo = New ControlCommandInfo With {
+                .Dock = DockStyle.Fill
+            }
+            ControlCommandInfo.SetDatabase(Db)
+            SetDataToControlCommandInfo()
+            AddHandler ControlCommandInfo.CancelEvent, AddressOf ControlCommandInfo_Cancel
+            AddHandler ControlCommandInfo.SubmitEvent, AddressOf ControlCommandInfo_Submit
+            Controls.Add(ControlCommandInfo)
+            ControlCommandInfo.BringToFront()
+
+            MenuStrip.Enabled = False
+        Catch ex As Exception
+            MessageBox.Error("Save Section එකෙහි දෝෂයක් පවතියි." + vbCrLf + "Message: " + ex.Message)
+        End Try
+    End Sub
+
+    Private Function SaveValidation() As (Status As Boolean, Message As String)
+        If cmbCuName.Text.Trim = "" Then
+            Return (False, "Customer Name යන field එක හිස්ව පවතියි. කරුණාකර Customer කෙනෙකු තෝරා නැවත උත්සහ කරන්න.")
         ElseIf grdRepair.Rows.Count < 2 And grdReRepair.Rows.Count < 2 Then
-            MsgBox("ඔබ තවමත් කිසිම Repair එකක් හෝ RERepair එකක් ඇතුලත් කර නොමැත. කරුණාකර Repair එකක් හෝ RERepair එකක් ඇතුලත් කර නැවත උත්සහ කරන්න.", vbOKOnly + vbExclamation)
             grdRepair.Focus()
-            Exit Sub
+            Return (False, "ඔබ තවමත් කිසිම Repair එකක් හෝ RERepair එකක් ඇතුලත් කර නොමැත. කරුණාකර Repair එකක් හෝ RERepair එකක් ඇතුලත් කර නැවත උත්සහ කරන්න.")
         ElseIf txtCuTelNo1.Text.Trim <> "" AndAlso txtCuTelNo1.Text.Trim.Length < 10 Then
-            MsgBox("Customer Telephone No 1 field එකෙහි සම්පුර්ණ දුරකතනය ඇතුලත් කර නොමැත.", vbExclamation)
-            Exit Sub
+            Return (False, "Customer Telephone No 1 field එකෙහි සම්පුර්ණ දුරකතනය ඇතුලත් කර නොමැත.")
         ElseIf txtCuTelNo2.Text.Trim <> "" AndAlso txtCuTelNo2.Text.Trim.Length < 10 Then
-            MsgBox("Customer Telephone No 2 field එකෙහි සම්පුර්ණ දුරකතනය ඇතුලත් කර නොමැත.", vbExclamation)
-            Exit Sub
+            Return (False, "Customer Telephone No 2 field එකෙහි සම්පුර්ණ දුරකතනය ඇතුලත් කර නොමැත.")
         ElseIf txtCuTelNo3.Text.Trim <> "" AndAlso txtCuTelNo3.Text.Trim.Length < 10 Then
-            MsgBox("Customer Telephone No 3 field එකෙහි සම්පුර්ණ දුරකතනය ඇතුලත් කර නොමැත.", vbExclamation)
-            Exit Sub
+            Return (False, "Customer Telephone No 3 field එකෙහි සම්පුර්ණ දුරකතනය ඇතුලත් කර නොමැත.")
         End If
-        For Each row As DataGridViewRow In grdRepair.Rows
-            If row.Index = grdRepair.Rows.Count - 1 Then Continue For
-            If row.Cells(0).Value.ToString = "" Then
-                MsgBox(row.Index + " වන තීරුවේ Repair No යන fild එක හිස්ව පවතින බැවින් Save කිරීමට අපොහොසත් විය. එම තීරුව ඉවත් කර නැවත ඇතුලත් කරන්න.", vbExclamation + vbOKOnly)
-                Exit Sub
-            End If
-            If row.Cells(1).Value Is Nothing OrElse row.Cells(1).Value.ToString = "" Then
-                MsgBox("Repair No: " + row.Cells(0).Value.ToString + " හි Product Category Field එක හිස්ව පවතියි. කරුණාකර එය සම්පුර්ණ කරන්න.", vbExclamation + vbOKOnly)
-                Exit Sub
-            End If
-            If row.Cells(2).Value Is Nothing OrElse row.Cells(2).Value.ToString = "" Then
-                MsgBox("Repair No: " + row.Cells(0).Value.ToString + " හි Product Name Field එක හිස්ව පවතියි. කරුණාකර එය සම්පුර්ණ කරන්න.", vbExclamation + vbOKOnly)
-                Exit Sub
-            End If
-        Next
-        For Each row As DataGridViewRow In grdReRepair.Rows
-            If row.Index = grdReRepair.Rows.Count - 1 Then Continue For
-            If row.Cells(0).Value.ToString = "" Then
-                MsgBox(row.Index + " වන තීරුවේ RERepair No යන fild එක හිස්ව පවතින බැවින් Save කිරීමට අපොහොසත් විය. එම තීරුව ඉවත් කර නැවත ඇතුලත් කරන්න.", vbExclamation + vbOKOnly)
-                Exit Sub
-            End If
-            If row.Cells(1).Value.ToString = "" Then
-                MsgBox("RERepair No: " + row.Cells(0).Value.ToString + " හි Repair No Field එක හිස්ව පවතියි. කරුණාකර එය සම්පුර්ණ කරන්න.", vbExclamation + vbOKOnly)
-                Exit Sub
-            End If
-        Next
+
         grdRepair.EndEdit()
         grdReRepair.EndEdit()
         cmdSave.Focus()
+        For Each Row As DataGridViewRow In grdRepair.Rows
+            If Row.IsNewRow Then
+                Continue For
+            End If
 
-        If Tag = "Deliver" Then
-            SetDataToControlCommandInfo()
-            Tag = ""
-            Close()
-            Exit Sub
-        End If
+            If Row.Cells(0).Value.ToString = "" Then
+                Return (False, Row.Index + " වන තීරුවේ Repair No යන fild එක හිස්ව පවතින බැවින් Save කිරීමට අපොහොසත් විය. එම තීරුව ඉවත් කර නැවත ඇතුලත් කරන්න.")
+            End If
+            If Row.Cells(1).Value Is Nothing OrElse Row.Cells(1).Value.ToString = "" Then
+                Return (False, "Repair No: " + Row.Cells(0).Value.ToString + " හි Product Category Field එක හිස්ව පවතියි. කරුණාකර එය සම්පුර්ණ කරන්න.")
+            End If
+            If Row.Cells(2).Value Is Nothing OrElse Row.Cells(2).Value.ToString = "" Then
+                Return (False, "Repair No: " + Row.Cells(0).Value.ToString + " හි Product Name Field එක හිස්ව පවතියි. කරුණාකර එය සම්පුර්ණ කරන්න.")
+            End If
+        Next
+        For Each Row As DataGridViewRow In grdReRepair.Rows
+            If Row.IsNewRow Then
+                Continue For
+            End If
+            If Row.Cells(0).Value.ToString = "" Then
+                Return (False, Row.Index + " වන තීරුවේ RERepair No යන fild එක හිස්ව පවතින බැවින් Save කිරීමට අපොහොසත් විය. එම තීරුව ඉවත් කර නැවත ඇතුලත් කරන්න.")
+            End If
+            If Row.Cells(1).Value.ToString = "" Then
+                Return (False, "RERepair No: " + Row.Cells(0).Value.ToString + " හි Repair No Field එක හිස්ව පවතියි. කරුණාකර එය සම්පුර්ණ කරන්න.")
+            End If
+        Next
 
-        ControlCommandInfo = New ControlCommandInfo With {
-            .Dock = DockStyle.Fill
-        }
-        ControlCommandInfo.SetDatabase(Db)
-        SetDataToControlCommandInfo()
-        AddHandler ControlCommandInfo.CancelEvent, AddressOf ControlCommandInfo_Cancel
-        Controls.Add(ControlCommandInfo)
-        ControlCommandInfo.BringToFront()
-
-        MenuStrip.Enabled = False
-    End Sub
+        Return (True, "")
+    End Function
 
     Private Sub SetDataToControlCommandInfo()
         Dim DataTableRepair, DataTableReRepair As New DataTable
@@ -167,7 +192,8 @@ Public Class FormReceive
             New DataColumn(Product.PDetails),
             New DataColumn(Repair.Qty),
             New DataColumn(Repair.Problem),
-            New DataColumn(Repair.TNo)
+            New DataColumn(RepairRemarks1.Remarks),
+            New DataColumn(Technician.TName)
         })
         For Each Row As DataGridViewRow In grdRepair.Rows
             If Row.IsNewRow Then
@@ -181,7 +207,8 @@ Public Class FormReceive
             NewRow(Product.PDetails) = Row.Cells(RepairGridColumns.ProductDescription).Value
             NewRow(Repair.Qty) = Row.Cells(RepairGridColumns.Qty).Value
             NewRow(Repair.Problem) = Row.Cells(RepairGridColumns.Problem).Value
-            NewRow(Repair.TNo) = If(Row.Cells(RepairGridColumns.Technician).Value.ToString() = "None", Nothing, Row.Cells(RepairGridColumns.Technician).Value)
+            NewRow(RepairRemarks1.Remarks) = Row.Cells(RepairGridColumns.Remarks).Value
+            NewRow(Technician.TName) = Row.Cells(RepairGridColumns.Technician).Value
             DataTableRepair.Rows.Add(NewRow)
         Next
 
@@ -194,7 +221,8 @@ Public Class FormReceive
             New DataColumn(Product.PDetails),
             New DataColumn(ReRepair.Qty),
             New DataColumn(ReRepair.Problem),
-            New DataColumn(ReRepair.TNo)
+            New DataColumn(RepairRemarks1.Remarks),
+            New DataColumn(Technician.TName)
         })
         For Each Row As DataGridViewRow In grdReRepair.Rows
             If Row.IsNewRow Then
@@ -209,7 +237,8 @@ Public Class FormReceive
             NewRow(Product.PDetails) = Row.Cells(ReRepairGridColumns.ProductDescription).Value
             NewRow(ReRepair.Qty) = Row.Cells(ReRepairGridColumns.Qty).Value
             NewRow(ReRepair.Problem) = Row.Cells(ReRepairGridColumns.Problem).Value
-            NewRow(ReRepair.TNo) = If(Row.Cells(ReRepairGridColumns.Technician).Value = "None", Nothing, Row.Cells(ReRepairGridColumns.Technician).Value)
+            NewRow(RepairRemarks1.Remarks) = Row.Cells(ReRepairGridColumns.Remarks).Value
+            NewRow(Technician.TName) = Row.Cells(ReRepairGridColumns.Technician).Value
             DataTableReRepair.Rows.Add(NewRow)
         Next
         ControlCommandInfo.SetData(New Dictionary(Of String, Object) From {
@@ -233,12 +262,6 @@ Public Class FormReceive
         '        End If
         '    Next
         'End If
-    End Sub
-
-    Private Sub cmdCancel_Click(sender As Object, e As EventArgs)
-        MenuStrip.Enabled = True
-        AcceptButton = cmdSave
-        txtCuTelNo1.Focus()
     End Sub
 
     Private Sub grdRepair_EditingControlShowing(sender As Object, e As DataGridViewEditingControlShowingEventArgs) Handles grdRepair.EditingControlShowing
@@ -302,9 +325,6 @@ Public Class FormReceive
         Select Case e.ColumnIndex
             Case 1, 2
                 If grdRepair.CurrentCell.RowIndex = grdRepair.Rows.Count - 1 Then Exit Sub
-                If grdRepair.Item(1, e.RowIndex).Value Is Nothing And grdRepair.Item(2, e.RowIndex).Value Is Nothing Then
-                    grdRepair.Rows.RemoveAt(e.RowIndex)
-                End If
                 Dim DR = Db.GetDataDictionary("Select * from Product where PCategory='" & grdRepair.Item(1, e.RowIndex).Value & "' and PName='" & grdRepair.Item(2, e.RowIndex).Value & "';")
                 If DR IsNot Nothing Then
                     grdRepair.Item(1, e.RowIndex).Value = DR("PCategory").ToString
@@ -415,7 +435,7 @@ Public Class FormReceive
                 frm.SelectCustomer(SaDR("CuNo"), SaDR("CuName"), SaDR("CuTelNo1"), SaDR("CuTelNo2"), SaDR("CuTelNo3"))
             End With
         Else
-            cmbCuName_SelectedIndexChanged(sender, e)
+            CmbCuName_SelectedIndexChanged(sender, e)
         End If
     End Sub
 

@@ -12,7 +12,6 @@ Public Class FormDeliver
     End Sub
 
     Private Sub frmDeliver_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
         Call cmdNew_Click(Nothing, Nothing)
         txtDDate.Value = Date.Today
         If User.Instance.UserType <> User.Type.Admin Then

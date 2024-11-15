@@ -44,7 +44,7 @@ Public Class ReportPrintManager
             Next
             RPT.SetDataSource(DTRepair)
 
-            RPT.SetParameterValue("Cashier Name", UserName)
+            RPT.SetParameterValue("Cashier Name", User.Instance.UserName)
             Dim rawKind1 As Integer
             Dim c1 As Integer
             Dim doctoprint1 As New Printing.PrintDocument()
@@ -57,8 +57,10 @@ Public Class ReportPrintManager
                     Exit For
                 End If
             Next
-            RPT.PrintOptions.PaperSize = CType(rawKind1, CrystalDecisions.Shared.PaperSize)
-            RPT.PrintOptions.PaperOrientation = CrystalDecisions.Shared.PaperOrientation.Portrait
+            If rawKind1 Then
+                RPT.PrintOptions.PaperSize = CType(rawKind1, CrystalDecisions.Shared.PaperSize)
+                RPT.PrintOptions.PaperOrientation = CrystalDecisions.Shared.PaperOrientation.Portrait
+            End If
             If boolPrint Then   'Choose the printer and paper size. Then, print the report
                 RPT.PrintToPrinter(1, False, 0, 0)
             End If
@@ -66,7 +68,6 @@ Public Class ReportPrintManager
                 .ReportViewer.ReportSource = RPT
                 .Name = "frmReport" + NextfrmNo(frmReport).ToString
                 .boolClosed = boolClosed
-                .Tag = formTag
                 .WindowState = FormWindowState.Normal
                 .Text = "Report - Received Receipt"
                 Application.Run(frm1)
@@ -93,13 +94,14 @@ Public Class ReportPrintManager
             DT.Columns.Add("PName")
             DT.Columns.Add("RDate")
             DT.Columns.Add(New DataColumn("Barcode", GetType(Byte())))
-            Dim writer As New BarcodeWriter
-            writer.Format = BarcodeFormat.CODE_128
+            Dim writer As New BarcodeWriter With {
+                .Format = BarcodeFormat.CODE_128
+            }
             writer.Options.PureBarcode = True
             DT1 = ThreadDb.GetDataTable("SELECT Repair.RepNo,RDate,CuName,CuTelNo1,CuTelNo2,CuTelNo3,PCategory,PName,Qty from Repair,Product,Receive,Customer where Receive.RNO = Repair.RNo and Repair.PNo = Product.PNo and Customer.CuNo = Receive.CuNo and Receive.RNo=" &
                                                   RNo & ";")
             For Each row As DataRow In DT1.Rows
-                Dim imgStream As MemoryStream = New MemoryStream()
+                Dim imgStream As New MemoryStream()
                 Dim img As Image = writer.Write(row.Item("RepNo"))
                 img.Save(imgStream, System.Drawing.Imaging.ImageFormat.Png)
                 Dim byteArray As Byte() = imgStream.ToArray()
@@ -131,7 +133,6 @@ Public Class ReportPrintManager
             With FormReport
                 .Name = "frmReport" + NextfrmNo(frmReport).ToString
                 .boolClosed = boolClosed
-                .Tag = formTag
                 .WindowState = FormWindowState.Normal
                 .Text = "Report - Received Sticker/s"
                 Application.Run(FormReport)

@@ -2,6 +2,7 @@
 Imports MySqlConnector
 
 Public Class ControlCommandInfo
+    Public Event SubmitEvent()
     Public Event CancelEvent()
 
     Private Db As Database
@@ -36,19 +37,31 @@ Public Class ControlCommandInfo
         End If
     End Sub
 
+    Private Sub ControlCommandInfo_Load(sender As Object, e As EventArgs) Handles Me.Load
+        AcceptButton = cmdReceiptSticker
+    End Sub
+
     Private Sub cmdCancel_Click(sender As Object, e As EventArgs) Handles cmdCancel.Click
         Me.Dispose()
         RaiseEvent CancelEvent()
     End Sub
 
-    Private Sub cmdReceiptSticker_Click(sender As Object, e As EventArgs) Handles cmdReceiptSticker.Click, cmdReceipt.Click, cmdSticker.Click, cmdSaveOnly.Click
-        Dim ReportPrintManager As New ReportPrintManager()
-        RepairController.SaveReceivedRepair(Data, RepairTable, ReRepairTable)
-        If sender Is cmdReceipt Or sender Is cmdReceiptSticker Then
-            ReportPrintManager.PrintReceivedReceipt(Data(Receive.RNo), True, True, "ReceivedReceipt")
-        End If
-        If sender Is cmdSticker Or sender Is cmdReceiptSticker Then
-            ReportPrintManager.PrintRepairSticker(Data(Receive.RNo), True, True, "ReceivedSticker")
-        End If
+    Private Sub CmdReceiptSticker_Click(sender As Object, e As EventArgs) Handles cmdReceiptSticker.Click, cmdReceipt.Click, cmdSticker.Click, cmdSaveOnly.Click
+        Try
+            Dim ReportPrintManager As New ReportPrintManager()
+            Dim RNo As Integer = RepairController.SaveReceivedRepair(Data, RepairTable, ReRepairTable)
+            If sender Is cmdReceipt Or sender Is cmdReceiptSticker Then
+                ReportPrintManager.PrintReceivedReceipt(RNo, True, True, "ReceivedReceipt")
+            End If
+            If sender Is cmdSticker Or sender Is cmdReceiptSticker Then
+                ReportPrintManager.PrintRepairSticker(RNo, True, True, "ReceivedSticker")
+            End If
+        Catch ex As Exception
+            MessageBox.Error("Received Repair Save and Print Section එකෙහි දෝෂයක් පවතියි." + vbCrLf + "Message: " + ex.Message)
+        Finally
+            Me.Dispose()
+            RaiseEvent SubmitEvent()
+        End Try
     End Sub
+
 End Class

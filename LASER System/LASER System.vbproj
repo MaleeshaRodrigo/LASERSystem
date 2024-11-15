@@ -208,6 +208,7 @@
     <Compile Include="Classes\Controllers\ProductController.vb" />
     <Compile Include="Classes\Controllers\RepairController.vb" />
     <Compile Include="Classes\Models\ProductModel.vb" />
+    <Compile Include="Classes\Controllers\TechnicianController.vb" />
     <Compile Include="Classes\ReportPrintManager.vb" />
     <Compile Include="Classes\User.vb" />
     <Compile Include="Classes\Validators\CustomValidator.vb" />
@@ -296,6 +297,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>rptReceive.rpt</DependentUpon>
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Shared Controls\ControlCustomer.Designer.vb">
+      <DependentUpon>ControlCustomer.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Shared Controls\ControlCustomer.vb">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Shared Controls\ControlGridDatePicker.Designer.vb">
       <DependentUpon>ControlGridDatePicker.vb</DependentUpon>
@@ -705,6 +712,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmTechnician.resx">
       <DependentUpon>frmTechnician.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Shared Controls\ControlCustomer.resx">
+      <DependentUpon>ControlCustomer.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Shared Controls\ControlGridDatePicker.resx">
       <DependentUpon>ControlGridDatePicker.vb</DependentUpon>
