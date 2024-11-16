@@ -122,7 +122,7 @@ Public Class FormReceive
             ControlCommandInfo = New ControlCommandInfo With {
                 .Dock = DockStyle.Fill
             }
-            ControlCommandInfo.SetDatabase(Db)
+            ControlCommandInfo.Init()
             SetDataToControlCommandInfo()
             AddHandler ControlCommandInfo.CancelEvent, AddressOf ControlCommandInfo_Cancel
             AddHandler ControlCommandInfo.SubmitEvent, AddressOf ControlCommandInfo_Submit

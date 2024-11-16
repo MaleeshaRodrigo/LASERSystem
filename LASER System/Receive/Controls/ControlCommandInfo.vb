@@ -5,13 +5,12 @@ Public Class ControlCommandInfo
     Public Event SubmitEvent()
     Public Event CancelEvent()
 
-    Private Db As Database
+    Private Db As New TransactionDatabase
     Private RepairController As New RepairController()
     Private RepairTable, ReRepairTable As DataTable
     Private Data As Dictionary(Of String, Object)
 
-    Public Function SetDatabase(Db As Database) As ControlCommandInfo
-        Me.Db = Db
+    Public Function Init() As ControlCommandInfo
         RepairController.SetDatabase(Db)
         Return Me
     End Function
@@ -48,8 +47,8 @@ Public Class ControlCommandInfo
 
     Private Sub CmdReceiptSticker_Click(sender As Object, e As EventArgs) Handles cmdReceiptSticker.Click, cmdReceipt.Click, cmdSticker.Click, cmdSaveOnly.Click
         Try
+            Dim RNo As Integer = SaveReceivedRepair()
             Dim ReportPrintManager As New ReportPrintManager()
-            Dim RNo As Integer = RepairController.SaveReceivedRepair(Data, RepairTable, ReRepairTable)
             If sender Is cmdReceipt Or sender Is cmdReceiptSticker Then
                 ReportPrintManager.PrintReceivedReceipt(RNo, True, True, "ReceivedReceipt")
             End If
@@ -63,5 +62,17 @@ Public Class ControlCommandInfo
             RaiseEvent SubmitEvent()
         End Try
     End Sub
+
+    Private Function SaveReceivedRepair() As Integer
+        Try
+            Db.BeginTransaction()
+            Dim RNo As Integer = RepairController.SaveReceivedRepair(Data, RepairTable, ReRepairTable)
+            Db.CommitTransaction()
+            Return RNo
+        Catch ex As Exception
+            Db.RollbackTransaction()
+            Throw ex
+        End Try
+    End Function
 
 End Class

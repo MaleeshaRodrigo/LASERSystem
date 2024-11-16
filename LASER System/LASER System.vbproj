@@ -210,6 +210,7 @@
     <Compile Include="Classes\Models\ProductModel.vb" />
     <Compile Include="Classes\Controllers\TechnicianController.vb" />
     <Compile Include="Classes\ReportPrintManager.vb" />
+    <Compile Include="Classes\TransactionDatabase.vb" />
     <Compile Include="Classes\User.vb" />
     <Compile Include="Classes\Validators\CustomValidator.vb" />
     <Compile Include="Classes\Validators\ExecuteValidators.vb" />
