@@ -109,6 +109,7 @@ Public Class ControlTechnicianCostInfo
             }))
         End If
 
+        Db.ExecuteBatches(QueriesWithValues.ToArray)
         RaiseEvent SubmitEvent()
         ButtonClose.PerformClick()
     End Sub
