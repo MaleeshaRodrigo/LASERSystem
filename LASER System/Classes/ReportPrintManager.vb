@@ -35,12 +35,14 @@ Public Class ReportPrintManager
         Dim RPT As New rptReceive
         Try
             Dim DTRepair As DataTable = ThreadDb.GetDataTable($"SELECT RDate,CuName,CuTelNo1,CuTelNo2,CuTelNo3,'' as RetNo, RepNo, PCategory, PName, PModelNo, PSerialNo, Qty, Problem, '' as RepRemarks1 from (((Repair Inner Join Receive On Receive.RNo =Repair.RNo) Left Join Product On Product.PNo=Repair.PNo) Left Join Customer On Customer.CuNo=Receive.CuNo) Where Receive.RNo = {RNo} Union Select RDate,CuName,CuTelNo1,CuTelNo2,CuTelNo3, RetNo, RepNo, PCategory, PName, PModelNo, PSerialNo, Qty, Problem, '' as RepRemarks1 from (((`Return` Inner Join Receive On Receive.RNo =Return.RNo) Left Join Product On Product.PNo=Return.PNo) Left Join Customer On Customer.CuNo=Receive.CuNo) Where Receive.RNo = {RNo}")
+            DTRepair.Columns.Add(New DataColumn("Barcode", GetType(Byte())))
             For Each row As DataRow In DTRepair.Rows
                 Dim DrRemarks = ThreadDb.GetDataList($"Select Remarks from RepairRemarks1 Where {If(row.Item("RetNo") = "", $"RepNo={row.Item("RepNo")}", $"RetNo={row.Item("RetNo")}")};")
                 row.Item("RepRemarks1") = ""
                 For Each Item In DrRemarks
                     row.Item("RepRemarks1") += Item("Remarks").ToString + vbCrLf
                 Next
+                row.Item("Barcode") = GetBarcode(row.Item("RepNo"))
             Next
             RPT.SetDataSource(DTRepair)
 
@@ -94,21 +96,11 @@ Public Class ReportPrintManager
             DT.Columns.Add("PName")
             DT.Columns.Add("RDate")
             DT.Columns.Add(New DataColumn("Barcode", GetType(Byte())))
-            Dim writer As New BarcodeWriter With {
-                .Format = BarcodeFormat.CODE_128
-            }
-            writer.Options.PureBarcode = True
             DT1 = ThreadDb.GetDataTable("SELECT Repair.RepNo,RDate,CuName,CuTelNo1,CuTelNo2,CuTelNo3,PCategory,PName,Qty from Repair,Product,Receive,Customer where Receive.RNO = Repair.RNo and Repair.PNo = Product.PNo and Customer.CuNo = Receive.CuNo and Receive.RNo=" &
                                                   RNo & ";")
             For Each row As DataRow In DT1.Rows
-                Dim imgStream As New MemoryStream()
-                Dim img As Image = writer.Write(row.Item("RepNo"))
-                img.Save(imgStream, System.Drawing.Imaging.ImageFormat.Png)
-                Dim byteArray As Byte() = imgStream.ToArray()
-                imgStream.Close()
                 For i As Integer = 1 To row.Item("Qty")
-                    DT.Rows.Add("R" & row.Item("RepNo"), row.Item("CuName"), row.Item("CuTelNo1"), row.Item("CuTelNo2"), row.Item("CuTelNo3"), row.Item("PCategory"),
-                            row.Item("PName"), row.Item("RDate"), byteArray)
+                    DT.Rows.Add("R" & row.Item("RepNo"), row.Item("CuName"), row.Item("CuTelNo1"), row.Item("CuTelNo2"), row.Item("CuTelNo3"), row.Item("PCategory"), row.Item("PName"), row.Item("RDate"), GetBarcode(row.Item("RepNo")))
                 Next
             Next
             rpt3.SetDataSource(DT)
@@ -142,4 +134,16 @@ Public Class ReportPrintManager
             MsgBox("Receipt Sticker එක print කර ගැනීමට අපොහොසත් විය." + vbCrLf + "Error: " + ex.Message, vbCritical, "Print Receipt Sticker Error")
         End Try
     End Sub
+
+    Private Function GetBarcode(Value As String) As Byte()
+        Dim Writer As New BarcodeWriter With {
+            .Format = BarcodeFormat.CODE_128
+        }
+        Writer.Options.PureBarcode = True
+        Using ImgStream As New MemoryStream()
+            Dim img As Image = Writer.Write(Value)
+            img.Save(ImgStream, Imaging.ImageFormat.Png)
+            Return ImgStream.ToArray()
+        End Using
+    End Function
 End Class
