@@ -63,7 +63,7 @@ Public Class MdifrmMain
     End Sub
 
     Public Sub CmdReceive_Click(sender As Object, e As EventArgs) Handles cmdReceive.Click
-        With frmReceive
+        With FormReceive
             .Show()
             .BringToFront()
             If .WindowState = FormWindowState.Minimized Then .WindowState = FormWindowState.Maximized

@@ -21,12 +21,7 @@ Public Class frmCustomerLoan
         Call cmdSearch_Click(sender, e)
     End Sub
 
-    Private Sub frmCustomerLoan_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-        
-    End Sub
-
     Private Sub frmCustomerLoan_Load(sender As Object, e As EventArgs) Handles Me.Load
-        
         MenuStrip1.Items.Add(mnustrpMENU)
         cmbCuLStatus.SelectedIndex = 1
         cmbFilter.Items.Clear()
@@ -80,7 +75,7 @@ Public Class frmCustomerLoan
     End Sub
 
     Private Sub cmdClose_Click(sender As Object, e As EventArgs) Handles cmdClose.Click
-        frmCustomerLoan_Leave(sender, e)
+        Me.Close()
     End Sub
 
     Private Sub cmdSave_Click(sender As Object, e As EventArgs) Handles cmdSave.Click

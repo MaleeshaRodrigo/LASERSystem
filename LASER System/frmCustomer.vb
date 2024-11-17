@@ -137,7 +137,7 @@ Public Class frmCustomer
                     End If
                 Next
             Case "Receive"
-                For Each oForm As frmReceive In Application.OpenForms().OfType(Of frmReceive)()
+                For Each oForm As FormReceive In Application.OpenForms().OfType(Of FormReceive)()
                     If oForm.Name = Me.Caller Then
                         With oForm
                             .txtCuTelNo1.Text = Me.txtCuTelNo1.Text

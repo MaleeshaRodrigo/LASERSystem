@@ -76,8 +76,8 @@ Public Class frmProduct
         Call cmbPName_DropDown(sender, e)
         Select Case Me.Tag
             Case "Receive"
-                cmbPCategory.Text = frmReceive.grdRepair.Item(1, frmReceive.grdRepair.CurrentCell.RowIndex).Value
-                cmbPName.Text = frmReceive.grdRepair.Item(2, frmReceive.grdRepair.CurrentCell.RowIndex).Value
+                cmbPCategory.Text = FormReceive.grdRepair.Item(1, FormReceive.grdRepair.CurrentCell.RowIndex).Value
+                cmbPName.Text = FormReceive.grdRepair.Item(2, FormReceive.grdRepair.CurrentCell.RowIndex).Value
                 cmbPName_SelectedIndexChanged(sender, e)
             Case "Repair"
                 cmbPCategory.Text = FormRepair.cmbPCategory.Text
@@ -220,7 +220,7 @@ Public Class frmProduct
         End If
         Select Case Me.Tag
             Case "Receive"
-                With frmReceive
+                With FormReceive
                     .grdRepair.Item(1, .grdRepair.CurrentCell.RowIndex).Value = cmbPCategory.Text
                     .grdRepair.Item(2, .grdRepair.CurrentCell.RowIndex).Value = cmbPName.Text
                     Dim E1 As New DataGridViewCellEventArgs(1, .grdRepair.CurrentCell.RowIndex)
