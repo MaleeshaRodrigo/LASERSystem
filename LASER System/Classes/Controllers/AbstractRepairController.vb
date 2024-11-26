@@ -94,8 +94,7 @@ Public MustInherit Class AbstractRepairController : Inherits AbstractController
     End Sub
 
     Private Function InsertReceiveRepair(Data As Dictionary(Of String, Object)) As Integer
-        Return Db.Execute("INSERT INTO Receive(RDate,CuNo,UNo) VALUES(@RDATE, @CUNO, @UNO);", {
-            New MySqlParameter("RDATE", Date.Parse(Data(Receive.RDate))),
+        Return Db.Execute("INSERT INTO Receive(RDate,CuNo,UNo) VALUES(NOW(), @CUNO, @UNO);", {
             New MySqlParameter("CUNO", Data(Receive.CuNo)),
             New MySqlParameter("UNO", User.Instance.UserNo)
         })
