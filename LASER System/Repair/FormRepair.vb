@@ -2,10 +2,8 @@
 Imports MySqlConnector
 
 Public Class FormRepair
-    Private Db As New Database
     Public DataReaderRepair As Dictionary(Of String, Object)
     Public Mode As RepairMode
-
     Public ControlReRepairView As ControlReRepairView
     Public ControlActivityInfo As ControlActivityInfo
     Public ControlAdvancePayInfo As ControlAdvancePayInfo
@@ -14,6 +12,9 @@ Public Class FormRepair
     Public ControlTaskInfo As ControlTaskInfo
     Public ControlTechnicianCostListInfo As ControlTechnicianCostListInfo
     Public ControlTechnicianInfo As ControlTechnicianInfo
+
+    Private Db As New Database
+    Private ReportPrintManager As New ReportPrintManager
 
     Public Sub New()
         InitializeComponent()
@@ -32,21 +33,21 @@ Public Class FormRepair
             cmdDone.Enabled = True
         End If
 
-        If tabRepair.SelectedIndex = 0 Then
-            cmbRepNo.Focus()
-            Mode = RepairMode.Repair
-        Else
-            cmbRetNo.Focus()
-            Mode = RepairMode.ReRepair
-        End If
         Me.Enabled = True
+        If tabRepair.SelectedIndex = 0 Then
+            Mode = RepairMode.Repair
+            cmbRepNo.Focus()
+        Else
+            Mode = RepairMode.ReRepair
+            cmbRetNo.Focus()
+        End If
     End Sub
 
     Private Sub frmRepair_Move(sender As Object, e As EventArgs) Handles Me.Move
         frmSearchDropDown.frm_Move()
     End Sub
 
-    Private Sub frmRepair_GotFocus(sender As Object, e As EventArgs) Handles Me.GotFocus
+    Private Sub frmRepair_Activated(sender As Object, e As EventArgs) Handles Me.Activated
         If tabRepair.SelectedTab.TabIndex = 0 Then
             cmbRepNo.Focus()
         Else
@@ -311,6 +312,11 @@ Public Class FormRepair
                 MessageBox.Error("මෙම Repair Form තුලින් මෙය සිදු කිරීමට නොහැකිය. Deliver Form එක භාවිතා කරන්න.")
                 Exit Sub
             End If
+
+            If User.Instance.UserType <> User.Type.Admin AndAlso DeliveredStatuses.Contains(DataReaderRepair("Status").ToString) AndAlso DataReaderRepair("Status").ToString <> cmbRepStatus.Text Then
+                MessageBox.Error("Delivered හෝ  Canceled Product එකක් නැවත Status එක වෙනස් කිරීමට ඔබ්ට Permission නොමැත.")
+                Exit Sub
+            End If
             Select Case Mode
                 Case RepairMode.Repair
                     If DataReaderRepair("Status").ToString <> cmbRepStatus.Text Then
@@ -500,6 +506,7 @@ Public Class FormRepair
             ControlTechnicianCostListInfo.InitForReRepair(cmbRetNo.Text)
         End If
         If sender.Text = "Hand Over to Technician" Or sender.Text = "Repairing" Then
+            ControlTechnicianInfo.cmbTName.Focus()
             Exit Sub
         End If
 
@@ -607,11 +614,11 @@ Public Class FormRepair
     End Sub
 
     Private Sub PrintRepairStickerToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PrintRepairStickerToolStripMenuItem.Click
-        frmReceive.PrintSticker(txtRNo.Text, False, False, "RepairStickerReceipt")
+        ReportPrintManager.PrintRepairSticker(txtRNo.Text, False, False, "RepairStickerReceipt")
     End Sub
 
     Private Sub PrintReceivedReceiptToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PrintReceivedReceiptToolStripMenuItem.Click
-        frmReceive.PrintReceivedReceipt(txtRNo.Text, False, False, "RepairReceivedReceipt")
+        ReportPrintManager.PrintReceivedReceipt(txtRNo.Text, False, False, "RepairReceivedReceipt")
     End Sub
 
     Private Sub PrintDeliverReceiptToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PrintDeliverReceiptToolStripMenuItem.Click

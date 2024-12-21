@@ -13,6 +13,7 @@ Public Class ControlRemarks
     End Sub
 
     Public Sub InitForRepair(RepNo As Integer)
+        ComboBoxDropDown(DB, cmbLocation, "Select Location from Repair Group by Location;")
         cmbLocation.Text = FormParent.DataReaderRepair("Location").ToString
 
         'Adding Data to grdRepRemarks1 
@@ -29,6 +30,7 @@ Public Class ControlRemarks
     End Sub
 
     Public Sub InitForReRepair(ReRepNo As Integer)
+        ComboBoxDropDown(DB, cmbLocation, "Select Location from Repair Group by Location;")
         cmbLocation.Text = FormParent.DataReaderRepair("Location").ToString
 
         Dim DRREPNO1 = DB.GetDataList("SELECT RepRem.*, UserName FROM RepairRemarks1 RepRem LEFT JOIN `User` U ON U.UNo=RepRem.UNo WHERE RetNo=@REREPPNO;", {
@@ -176,9 +178,5 @@ Public Class ControlRemarks
         Else
             grdRepRemarks1.Rows.RemoveAt(e.RowIndex)
         End If
-    End Sub
-
-    Private Sub cmbLocation_DropDown(sender As Object, e As EventArgs) Handles cmbLocation.DropDown
-        ComboBoxDropDown(DB, cmbLocation, "Select Location from Repair Group by Location;")
     End Sub
 End Class

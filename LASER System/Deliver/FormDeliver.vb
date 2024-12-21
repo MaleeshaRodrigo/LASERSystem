@@ -12,7 +12,6 @@ Public Class FormDeliver
     End Sub
 
     Private Sub frmDeliver_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
         Call cmdNew_Click(Nothing, Nothing)
         txtDDate.Value = Date.Today
         If User.Instance.UserType <> User.Type.Admin Then
@@ -400,8 +399,8 @@ Public Class FormDeliver
                     grdRERepair_CellEndEdit(sender, E1)
                 Else
                     If MsgBox("එම Repair එක සඳහා RERepair එකක් විවෘත කර නොමැත. ඔබට මෙය ඇතුලත් කිරිමට අවශ්‍ය ද?", vbYesNo + vbInformation) = vbYes Then
-                        Dim frm As New frmReceive
-                        frm.Name = "frmReceive" + NextfrmNo(frmReceive).ToString
+                        Dim frm As New FormReceive
+                        frm.Name = "frmReceive" + NextfrmNo(FormReceive).ToString
                         frm.Caller = Me.Name
                         frm.Show(Me)
                         frm.grdReRepair.Rows.Add("", grdRERepair.Item(1, e.RowIndex).Value)
@@ -457,9 +456,9 @@ Public Class FormDeliver
     End Sub
 
     Private Sub ReceiveInfoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ReceiveInfoToolStripMenuItem.Click
-        Dim frmNewReceive As New frmReceive
+        Dim frmNewReceive As New FormReceive
         With frmNewReceive
-            .Name = "frmReceive" + NextfrmNo(frmReceive).ToString
+            .Name = "frmReceive" + NextfrmNo(FormReceive).ToString
             .Caller = Me.Name
             .Show(Me)
             .Tag = "Deliver"

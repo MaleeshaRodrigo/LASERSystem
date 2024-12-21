@@ -27,16 +27,12 @@ Public Class ControlTechnicianInfo
             grdRepRemarks2.Rows.Add(Item("Rem2No").ToString, Item("Rem2Date").ToString, Item("Remarks").ToString, Item("UserName").ToString)
         Next
 
-        Call CmbTName_DropDown(Nothing, Nothing)
+        Call ComboBoxDropDown(DB, cmbTName, "Select TName from Technician Where TActive = True group by TName;")
     End Sub
 
     Public Sub Clear()
         grdRepRemarks2.DataSource = Nothing
         grdRepRemarks2.Rows.Clear()
-    End Sub
-
-    Private Sub CmbTName_DropDown(sender As Object, e As EventArgs) Handles cmbTName.DropDown
-        Call ComboBoxDropDown(DB, cmbTName, "Select TName from Technician Where TActive = True group by TName;")
     End Sub
 
     Private Sub grdRepRemarks2_CellBeginEdit(sender As Object, e As DataGridViewCellCancelEventArgs) Handles grdRepRemarks2.CellBeginEdit

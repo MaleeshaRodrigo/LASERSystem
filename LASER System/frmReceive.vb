@@ -157,6 +157,7 @@ Public Class frmReceive
         AcceptButton = cmdReceiptSticker
         cmdReceiptSticker.Focus()
     End Sub
+
     Private Sub cmdReceiptSticker_Click(sender As Object, e As EventArgs) Handles cmdReceiptSticker.Click, cmdReceipt.Click, cmdSticker.Click, cmdSaveOnly.Click
         SaveReceive()
         Dim RNo As Integer = txtRNo.Text
@@ -304,9 +305,11 @@ Public Class frmReceive
                 Dim RPT As New rptReceive
                 Try
                     Dim DTRepair As DataTable = ThreadDb.GetDataTable($"SELECT RDate,CuName,CuTelNo1,CuTelNo2,CuTelNo3,'' as RetNo, RepNo, PCategory, PName, PModelNo, PSerialNo, Qty, Problem, '' as RepRemarks1 from (((Repair Inner Join Receive On Receive.RNo =Repair.RNo) Left Join Product On Product.PNo=Repair.PNo) Left Join Customer On Customer.CuNo=Receive.CuNo) Where Receive.RNo = {RNo} Union Select RDate,CuName,CuTelNo1,CuTelNo2,CuTelNo3, RetNo, RepNo, PCategory, PName, PModelNo, PSerialNo, Qty, Problem, '' as RepRemarks1 from (((`Return` Inner Join Receive On Receive.RNo =Return.RNo) Left Join Product On Product.PNo=Return.PNo) Left Join Customer On Customer.CuNo=Receive.CuNo) Where Receive.RNo = {RNo}")
+                    DTRepair.Columns.Add(New DataColumn("Barcode", GetType(Byte())))
                     For Each row As DataRow In DTRepair.Rows
                         Dim DrRemarks = ThreadDb.GetDataList($"Select Remarks from RepairRemarks1 Where {If(row.Item("RetNo") = "", $"RepNo={row.Item("RepNo")}", $"RetNo={row.Item("RetNo")}")};")
                         row.Item("RepRemarks1") = ""
+                        row.Item("Barcode") = GetBarcode(row.Item("RepNo"))
                         For Each Item In DrRemarks
                             row.Item("RepRemarks1") += Item("Remarks").ToString + vbCrLf
                         Next
@@ -326,7 +329,9 @@ Public Class frmReceive
                             Exit For
                         End If
                     Next
-                    RPT.PrintOptions.PaperSize = CType(rawKind1, CrystalDecisions.Shared.PaperSize)
+                    If rawKind1 Then
+                        RPT.PrintOptions.PaperSize = CType(rawKind1, CrystalDecisions.Shared.PaperSize)
+                    End If
                     RPT.PrintOptions.PaperOrientation = CrystalDecisions.Shared.PaperOrientation.Portrait
                     If boolPrint Then   'Choose the printer and paper size. Then, print the report
                         RPT.PrintToPrinter(1, False, 0, 0)
@@ -372,9 +377,9 @@ Public Class frmReceive
                 DT.Columns.Add("PName")
                 DT.Columns.Add("RDate")
                 DT.Columns.Add(New DataColumn("Barcode", GetType(Byte())))
-                Dim writer As New BarcodeWriter
-                writer.Format = BarcodeFormat.CODE_128
-                writer.Options.PureBarcode = True
+                Dim Writer As New BarcodeWriter
+                Writer.Format = BarcodeFormat.CODE_128
+                Writer.Options.PureBarcode = True
                 DT1 = ThreadDb.GetDataTable("SELECT Repair.RepNo,RDate,CuName,CuTelNo1,CuTelNo2,CuTelNo3,PCategory,PName,Qty from Repair,Product,Receive,Customer where Receive.RNO = Repair.RNo and Repair.PNo = Product.PNo and Customer.CuNo = Receive.CuNo and Receive.RNo=" &
                                                       RNo & ";")
                 For Each row As DataRow In DT1.Rows
@@ -427,6 +432,18 @@ Public Class frmReceive
         threadSticker.Priority = ThreadPriority.Highest
         threadSticker.Start()
     End Sub
+
+    Private Function GetBarcode(Value As String) As Byte()
+        Dim Writer As New BarcodeWriter With {
+            .Format = BarcodeFormat.CODE_128
+        }
+        Writer.Options.PureBarcode = True
+        Using ImgStream As New MemoryStream()
+            Dim img As Image = Writer.Write(Value)
+            img.Save(ImgStream, Imaging.ImageFormat.Png)
+            Return ImgStream.ToArray()
+        End Using
+    End Function
 
     Private Sub cmdCancel_Click(sender As Object, e As EventArgs) Handles cmdCancel.Click
         pnlRSaveFinal.Visible = False
