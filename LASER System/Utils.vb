@@ -148,31 +148,31 @@ Module Utils
         Dim cmdOpenCashDrawer As ToolStripMenuItem = New ToolStripMenuItem("Open Cash Drawer")
         Dim sep1, sep2, sep3, sep4 As New ToolStripSeparator
         cmdStock.ShortcutKeys = Keys.F1
-        AddHandler cmdStock.Click, AddressOf MdifrmMain.CmdStock_Click
-        AddHandler cmdCustomer.Click, AddressOf MdifrmMain.CmdCustomer_Click
-        AddHandler cmdSupplier.Click, AddressOf MdifrmMain.CmdSupplier_Click
-        AddHandler cmdTechnician.Click, AddressOf MdifrmMain.cmdTechnician_Click
-        AddHandler cmdProduct.Click, AddressOf MdifrmMain.CmdProduct_Click
-        AddHandler cmdOpenSale.Click, AddressOf MdifrmMain.OpenSaleToolStripMenuItem_Click
+        AddHandler cmdStock.Click, AddressOf FormMain.CmdStock_Click
+        AddHandler cmdCustomer.Click, AddressOf FormMain.CmdCustomer_Click
+        AddHandler cmdSupplier.Click, AddressOf FormMain.CmdSupplier_Click
+        AddHandler cmdTechnician.Click, AddressOf FormMain.cmdTechnician_Click
+        AddHandler cmdProduct.Click, AddressOf FormMain.CmdProduct_Click
+        AddHandler cmdOpenSale.Click, AddressOf FormMain.OpenSaleToolStripMenuItem_Click
         cmdOpenSale.ShortcutKeys = Keys.F2 + Keys.Control
-        AddHandler cmdNewSale.Click, AddressOf MdifrmMain.NewSaleToolStripMenuItem_Click
+        AddHandler cmdNewSale.Click, AddressOf FormMain.NewSaleToolStripMenuItem_Click
         cmdNewSale.ShortcutKeys = Keys.F2
-        AddHandler cmdSupply.Click, AddressOf MdifrmMain.CmdSupply_Click
+        AddHandler cmdSupply.Click, AddressOf FormMain.CmdSupply_Click
         cmdReceive.ShortcutKeys = Keys.F3
-        AddHandler cmdReceive.Click, AddressOf MdifrmMain.CmdReceive_Click
+        AddHandler cmdReceive.Click, AddressOf FormMain.CmdReceive_Click
         cmdRepair.ShortcutKeys = Keys.F4
-        AddHandler cmdRepair.Click, AddressOf MdifrmMain.cmdRepair_Click
+        AddHandler cmdRepair.Click, AddressOf FormMain.cmdRepair_Click
         cmdDeliver.ShortcutKeys = Keys.F5
-        AddHandler cmdDeliver.Click, AddressOf MdifrmMain.cmdDeliver_Click
-        AddHandler cmdSalesRepair.Click, AddressOf MdifrmMain.cmdSalesRepair_Click
+        AddHandler cmdDeliver.Click, AddressOf FormMain.cmdDeliver_Click
+        AddHandler cmdSalesRepair.Click, AddressOf FormMain.cmdSalesRepair_Click
         cmdTechnicianCost.ShortcutKeys = Keys.F6
-        AddHandler cmdTechnicianCost.Click, AddressOf MdifrmMain.cmdTechnicianCost_Click
+        AddHandler cmdTechnicianCost.Click, AddressOf FormMain.cmdTechnicianCost_Click
         cmdTechnicianLoan.ShortcutKeys = Keys.F7
-        AddHandler cmdTechnicianLoan.Click, AddressOf MdifrmMain.cmdTechnicianLoan_Click
-        AddHandler cmdTechnicianSalary.Click, AddressOf MdifrmMain.cmdTechnicianSalary_Click
-        AddHandler cmdCustomerLoan.Click, AddressOf MdifrmMain.cmdCustomerLoan_Click
-        AddHandler cmdSettlement.Click, AddressOf MdifrmMain.CmdSettlement_Click
-        AddHandler cmdBarCodeGenerator.Click, AddressOf MdifrmMain.BarCodeGeneratorToolStripMenuItem_Click
+        AddHandler cmdTechnicianLoan.Click, AddressOf FormMain.cmdTechnicianLoan_Click
+        AddHandler cmdTechnicianSalary.Click, AddressOf FormMain.cmdTechnicianSalary_Click
+        AddHandler cmdCustomerLoan.Click, AddressOf FormMain.cmdCustomerLoan_Click
+        AddHandler cmdSettlement.Click, AddressOf FormMain.CmdSettlement_Click
+        AddHandler cmdBarCodeGenerator.Click, AddressOf FormMain.BarCodeGeneratorToolStripMenuItem_Click
         cmdOpenCashDrawer.ShortcutKeys = Keys.F8
         AddHandler cmdOpenCashDrawer.Click, AddressOf CashDrawer.Open
 

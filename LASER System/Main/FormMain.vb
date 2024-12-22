@@ -3,15 +3,15 @@ Imports System.IO
 Imports Microsoft.VisualBasic.FileIO
 Imports MySqlConnector
 
-Public Class MdifrmMain
+Public Class FormMain
     Private Db As New Database
-    Private Sub mdifrmMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub FormMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         CheckForIllegalCrossThreadCalls = False
 
         MenuStrip.Items.Add(mnustrpMENU)
     End Sub
 
-    Private Sub MdifrmMain_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
+    Private Sub FormMain_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
         ' Create the shutdown.txt for close the BackgroundWorker
         If Not String.IsNullOrEmpty(My.Settings.BGWorkerPath) Then
             Dim directoryName As String = Path.Combine(Utils.SystemFolderPath, "LASER Background")
@@ -251,15 +251,15 @@ Public Class MdifrmMain
     End Sub
 
     Private Sub LogOutToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles LogOutToolStripMenuItem.Click
-        frmLogin.Tag = "MainMenu"
-        frmLogin.Show()
+        FormLogin.Tag = "MainMenu"
+        FormLogin.Show()
     End Sub
 
     Private Sub ExitToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExitToolStripMenuItem.Click
-        MdifrmMain_Leave(sender, e)
+        FormMain_Leave(sender, e)
     End Sub
 
-    Private Sub MdifrmMain_Leave(sender As Object, e As EventArgs) Handles Me.Leave
+    Private Sub FormMain_Leave(sender As Object, e As EventArgs) Handles Me.Leave
         End
     End Sub
     'End Region
@@ -296,9 +296,6 @@ Public Class MdifrmMain
         Dim cmd0 As New MySqlCommand
         Dim DR0
         If Me.Tag = "Cashier" Then Exit Sub
-        tsProBar.Visible = True
-        tsProBar.Value = 0
-        tslblLoad.Text = "Getting Data to Chart..."
         If txtIncomevsDateCustom.Text <> "" Then
             Select Case cmbIncomevsDateView.Text
                 Case "Months"
@@ -370,9 +367,6 @@ Public Class MdifrmMain
                     End If
             End Select
         End If
-        tsProBar.Value = 100
-        tslblLoad.Text = ""
-        tsProBar.Visible = False
     End Sub
 
     Private Sub txtReceivedRepvsDateCustom_TextChanged(sender As Object, e As EventArgs)

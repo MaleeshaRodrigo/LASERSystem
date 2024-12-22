@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
-Partial Class MdifrmMain
+Partial Class FormMain
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -24,7 +24,7 @@ Partial Class MdifrmMain
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MdifrmMain))
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormMain))
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim ChartArea1 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
         Dim Legend1 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
@@ -42,10 +42,6 @@ Partial Class MdifrmMain
         Me.tslblUserType = New System.Windows.Forms.ToolStripStatusLabel()
         Me.ToolStripStatusLabel3 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.ToolStripStatusDetailsTitle = New System.Windows.Forms.ToolStripStatusLabel()
-        Me.ToolStripStatusLabel4 = New System.Windows.Forms.ToolStripStatusLabel()
-        Me.ToolStripStatusLabel5 = New System.Windows.Forms.ToolStripStatusLabel()
-        Me.tslblLoad = New System.Windows.Forms.ToolStripStatusLabel()
-        Me.tsProBar = New System.Windows.Forms.ToolStripProgressBar()
         Me.ToolStrip = New System.Windows.Forms.ToolStrip()
         Me.cmdStock = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripDropDownButton1 = New System.Windows.Forms.ToolStripDropDownButton()
@@ -121,78 +117,55 @@ Partial Class MdifrmMain
         'StatusStrip
         '
         Me.StatusStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
-        Me.StatusStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripStatusLabel2, Me.tslblUserName, Me.ToolStripStatusLabel1, Me.ToolStripStatusLabel6, Me.tslblUserType, Me.ToolStripStatusLabel3, Me.ToolStripStatusDetailsTitle, Me.ToolStripStatusLabel4, Me.ToolStripStatusLabel5, Me.tslblLoad, Me.tsProBar})
-        Me.StatusStrip.Location = New System.Drawing.Point(0, 717)
+        Me.StatusStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripStatusLabel2, Me.tslblUserName, Me.ToolStripStatusLabel1, Me.ToolStripStatusLabel6, Me.tslblUserType, Me.ToolStripStatusLabel3, Me.ToolStripStatusDetailsTitle})
+        Me.StatusStrip.Location = New System.Drawing.Point(0, 719)
         Me.StatusStrip.Name = "StatusStrip"
-        Me.StatusStrip.Size = New System.Drawing.Size(1364, 24)
+        Me.StatusStrip.Size = New System.Drawing.Size(1364, 22)
         Me.StatusStrip.TabIndex = 7
         Me.StatusStrip.Text = "StatusStrip"
         '
         'ToolStripStatusLabel2
         '
         Me.ToolStripStatusLabel2.Name = "ToolStripStatusLabel2"
-        Me.ToolStripStatusLabel2.Size = New System.Drawing.Size(68, 19)
+        Me.ToolStripStatusLabel2.Size = New System.Drawing.Size(68, 17)
         Me.ToolStripStatusLabel2.Text = "User Name:"
         '
         'tslblUserName
         '
         Me.tslblUserName.Name = "tslblUserName"
-        Me.tslblUserName.Size = New System.Drawing.Size(65, 19)
+        Me.tslblUserName.Size = New System.Drawing.Size(65, 17)
         Me.tslblUserName.Text = "User Name"
         '
         'ToolStripStatusLabel1
         '
         Me.ToolStripStatusLabel1.Name = "ToolStripStatusLabel1"
-        Me.ToolStripStatusLabel1.Size = New System.Drawing.Size(10, 19)
+        Me.ToolStripStatusLabel1.Size = New System.Drawing.Size(10, 17)
         Me.ToolStripStatusLabel1.Text = "|"
         '
         'ToolStripStatusLabel6
         '
         Me.ToolStripStatusLabel6.Name = "ToolStripStatusLabel6"
-        Me.ToolStripStatusLabel6.Size = New System.Drawing.Size(60, 19)
+        Me.ToolStripStatusLabel6.Size = New System.Drawing.Size(60, 17)
         Me.ToolStripStatusLabel6.Text = "User Type:"
         '
         'tslblUserType
         '
         Me.tslblUserType.Name = "tslblUserType"
-        Me.tslblUserType.Size = New System.Drawing.Size(57, 19)
+        Me.tslblUserType.Size = New System.Drawing.Size(57, 17)
         Me.tslblUserType.Text = "User Type"
         '
         'ToolStripStatusLabel3
         '
         Me.ToolStripStatusLabel3.Name = "ToolStripStatusLabel3"
-        Me.ToolStripStatusLabel3.Size = New System.Drawing.Size(10, 19)
+        Me.ToolStripStatusLabel3.Size = New System.Drawing.Size(10, 17)
         Me.ToolStripStatusLabel3.Text = "|"
         '
         'ToolStripStatusDetailsTitle
         '
         Me.ToolStripStatusDetailsTitle.Name = "ToolStripStatusDetailsTitle"
-        Me.ToolStripStatusDetailsTitle.Size = New System.Drawing.Size(476, 19)
+        Me.ToolStripStatusDetailsTitle.Size = New System.Drawing.Size(476, 17)
         Me.ToolStripStatusDetailsTitle.Text = "This Product is licensed to LASER Electronics.  Copyright © 2018 - 2024 All Right" &
     " Reserved"
-        '
-        'ToolStripStatusLabel4
-        '
-        Me.ToolStripStatusLabel4.Name = "ToolStripStatusLabel4"
-        Me.ToolStripStatusLabel4.Size = New System.Drawing.Size(10, 19)
-        Me.ToolStripStatusLabel4.Text = "|"
-        '
-        'ToolStripStatusLabel5
-        '
-        Me.ToolStripStatusLabel5.Name = "ToolStripStatusLabel5"
-        Me.ToolStripStatusLabel5.Size = New System.Drawing.Size(42, 19)
-        Me.ToolStripStatusLabel5.Text = "Status:"
-        '
-        'tslblLoad
-        '
-        Me.tslblLoad.Name = "tslblLoad"
-        Me.tslblLoad.Size = New System.Drawing.Size(76, 19)
-        Me.tslblLoad.Text = "Please Wait..."
-        '
-        'tsProBar
-        '
-        Me.tsProBar.Name = "tsProBar"
-        Me.tsProBar.Size = New System.Drawing.Size(100, 18)
         '
         'ToolStrip
         '
@@ -469,7 +442,7 @@ Partial Class MdifrmMain
         Me.TableLayoutPanel1.Name = "TableLayoutPanel1"
         Me.TableLayoutPanel1.RowCount = 1
         Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
-        Me.TableLayoutPanel1.Size = New System.Drawing.Size(1364, 604)
+        Me.TableLayoutPanel1.Size = New System.Drawing.Size(1364, 606)
         Me.TableLayoutPanel1.TabIndex = 22
         '
         'flpMessage
@@ -483,7 +456,7 @@ Partial Class MdifrmMain
         Me.flpMessage.Location = New System.Drawing.Point(957, 3)
         Me.flpMessage.Name = "flpMessage"
         Me.flpMessage.Padding = New System.Windows.Forms.Padding(5, 5, 0, 0)
-        Me.flpMessage.Size = New System.Drawing.Size(404, 598)
+        Me.flpMessage.Size = New System.Drawing.Size(404, 600)
         Me.flpMessage.TabIndex = 24
         Me.flpMessage.WrapContents = False
         '
@@ -496,7 +469,7 @@ Partial Class MdifrmMain
         Me.pnlLeft.Dock = System.Windows.Forms.DockStyle.Fill
         Me.pnlLeft.Location = New System.Drawing.Point(3, 3)
         Me.pnlLeft.Name = "pnlLeft"
-        Me.pnlLeft.Size = New System.Drawing.Size(948, 598)
+        Me.pnlLeft.Size = New System.Drawing.Size(948, 600)
         Me.pnlLeft.TabIndex = 23
         '
         'GrdActivity
@@ -512,7 +485,7 @@ Partial Class MdifrmMain
         Me.GrdActivity.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.AID, Me.ADate, Me.ACommand})
         Me.GrdActivity.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically
         Me.GrdActivity.GridColor = System.Drawing.Color.White
-        Me.GrdActivity.Location = New System.Drawing.Point(10, 375)
+        Me.GrdActivity.Location = New System.Drawing.Point(10, 450)
         Me.GrdActivity.Name = "GrdActivity"
         Me.GrdActivity.ReadOnly = True
         Me.GrdActivity.RowHeadersVisible = False
@@ -520,7 +493,7 @@ Partial Class MdifrmMain
         DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
         Me.GrdActivity.RowsDefaultCellStyle = DataGridViewCellStyle1
         Me.GrdActivity.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.GrdActivity.Size = New System.Drawing.Size(931, 220)
+        Me.GrdActivity.Size = New System.Drawing.Size(931, 147)
         Me.GrdActivity.TabIndex = 23
         '
         'AID
@@ -562,7 +535,7 @@ Partial Class MdifrmMain
         Me.tabChart.Location = New System.Drawing.Point(10, 5)
         Me.tabChart.Name = "tabChart"
         Me.tabChart.SelectedIndex = 0
-        Me.tabChart.Size = New System.Drawing.Size(935, 365)
+        Me.tabChart.Size = New System.Drawing.Size(935, 439)
         Me.tabChart.TabIndex = 10
         '
         'pageIncomevsDate
@@ -735,7 +708,7 @@ Partial Class MdifrmMain
         Me.pageCashier.Controls.Add(Me.picUImage)
         Me.pageCashier.Location = New System.Drawing.Point(4, 22)
         Me.pageCashier.Name = "pageCashier"
-        Me.pageCashier.Size = New System.Drawing.Size(927, 339)
+        Me.pageCashier.Size = New System.Drawing.Size(927, 413)
         Me.pageCashier.TabIndex = 2
         Me.pageCashier.Text = "Cashier"
         Me.pageCashier.UseVisualStyleBackColor = True
@@ -794,7 +767,7 @@ Partial Class MdifrmMain
         Me.picUImage.TabIndex = 0
         Me.picUImage.TabStop = False
         '
-        'MdifrmMain
+        'FormMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -807,7 +780,7 @@ Partial Class MdifrmMain
         Me.Font = New System.Drawing.Font("Calibri", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MainMenuStrip = Me.MenuStrip
-        Me.Name = "MdifrmMain"
+        Me.Name = "FormMain"
         Me.Text = "LASER System - Main Menu"
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         Me.StatusStrip.ResumeLayout(False)
@@ -860,10 +833,6 @@ Partial Class MdifrmMain
     Friend WithEvents ToolStripStatusLabel1 As ToolStripStatusLabel
     Friend WithEvents tslblUserType As ToolStripStatusLabel
     Friend WithEvents ToolStripStatusLabel3 As ToolStripStatusLabel
-    Friend WithEvents ToolStripStatusLabel4 As ToolStripStatusLabel
-    Friend WithEvents ToolStripStatusLabel5 As ToolStripStatusLabel
-    Friend WithEvents tslblLoad As ToolStripStatusLabel
-    Friend WithEvents tsProBar As ToolStripProgressBar
     Friend WithEvents ToolStripStatusLabel2 As ToolStripStatusLabel
     Friend WithEvents ToolStripStatusLabel6 As ToolStripStatusLabel
     Friend WithEvents ToolStripDropDownButton1 As ToolStripDropDownButton
