@@ -114,6 +114,10 @@
     <Reference Include="CrystalDecisions.Windows.Forms">
       <HintPath>..\..\..\..\..\program files (x86)\sap businessobjects\crystal reports for .net framework 4.0\common\sap businessobjects enterprise xi 4.0\win64_x64\dotnet\CrystalDecisions.Windows.Forms.dll</HintPath>
     </Reference>
+    <Reference Include="LASER System, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>obj\Debug\LASER System.exe</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.8.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
@@ -199,6 +203,7 @@
     <Compile Include="Classes\CashDrawer.vb" />
     <Compile Include="Classes\Controllers\AbstractRepairController.vb" />
     <Compile Include="Classes\Controllers\ReRepairController.vb" />
+    <Compile Include="Classes\Controllers\UserController.vb" />
     <Compile Include="Classes\Database.vb" />
     <Compile Include="Classes\Encoder.vb" />
     <Compile Include="Classes\MessageBox.vb" />
@@ -317,6 +322,12 @@
     <Compile Include="Shared Controls\ControlGridDatePicker.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Shared Controls\ControlLogin.Designer.vb">
+      <DependentUpon>ControlLogin.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Shared Controls\ControlLogin.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Shared Controls\ControlPrice.Designer.vb">
       <DependentUpon>ControlPrice.vb</DependentUpon>
     </Compile>
@@ -383,10 +394,10 @@
     <Compile Include="Deliver\FormDeliver.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmLogin.Designer.vb">
-      <DependentUpon>frmLogin.vb</DependentUpon>
+    <Compile Include="FormLogin.Designer.vb">
+      <DependentUpon>FormLogin.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmLogin.vb">
+    <Compile Include="FormLogin.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Message\FormMessage.Designer.vb">
@@ -669,8 +680,8 @@
     <EmbeddedResource Include="Deliver\FormDeliver.resx">
       <DependentUpon>FormDeliver.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmLogin.resx">
-      <DependentUpon>frmLogin.vb</DependentUpon>
+    <EmbeddedResource Include="FormLogin.resx">
+      <DependentUpon>FormLogin.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Message\FormMessage.resx">
       <DependentUpon>FormMessage.vb</DependentUpon>
@@ -728,6 +739,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Shared Controls\ControlGridDatePicker.resx">
       <DependentUpon>ControlGridDatePicker.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Shared Controls\ControlLogin.resx">
+      <DependentUpon>ControlLogin.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Shared Controls\ControlPrice.resx">
       <DependentUpon>ControlPrice.vb</DependentUpon>

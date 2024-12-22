@@ -251,8 +251,8 @@ Public Class FormMain
     End Sub
 
     Private Sub LogOutToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles LogOutToolStripMenuItem.Click
-        FormLogin.Tag = "MainMenu"
-        FormLogin.Show()
+        frmLogin.Tag = "MainMenu"
+        frmLogin.Show()
     End Sub
 
     Private Sub ExitToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExitToolStripMenuItem.Click

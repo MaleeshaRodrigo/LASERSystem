@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
-Partial Class frmLogin
-    Inherits System.Windows.Forms.Form
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+Partial Class ControlLogin
+    Inherits System.Windows.Forms.UserControl
 
-    'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()>
+    'UserControl overrides dispose to clean up the component list.
+    <System.Diagnostics.DebuggerNonUserCode()> _
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,11 +20,10 @@ Partial Class frmLogin
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()>
+    <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmLogin))
-        Me.tctrlLogin = New System.Windows.Forms.TabControl()
+        Me.TabControl = New System.Windows.Forms.TabControl()
         Me.PasswordLog = New System.Windows.Forms.TabPage()
         Me.cmdLogin = New System.Windows.Forms.Button()
         Me.txtPassword = New System.Windows.Forms.TextBox()
@@ -38,26 +37,25 @@ Partial Class frmLogin
         Me.txtOTPUserName = New System.Windows.Forms.TextBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
-        Me.lblVersion = New System.Windows.Forms.Label()
-        Me.pnlWrongPrompt = New System.Windows.Forms.Panel()
-        Me.lblWrongTime = New System.Windows.Forms.Label()
-        Me.tmrWrongLoginTime = New System.Windows.Forms.Timer(Me.components)
-        Me.cmdClose = New System.Windows.Forms.Button()
-        Me.tctrlLogin.SuspendLayout()
+        Me.ErrorProviderPassword = New System.Windows.Forms.ErrorProvider(Me.components)
+        Me.ErrorProviderOtp = New System.Windows.Forms.ErrorProvider(Me.components)
+        Me.TabControl.SuspendLayout()
         Me.PasswordLog.SuspendLayout()
         Me.OTPLog.SuspendLayout()
-        Me.pnlWrongPrompt.SuspendLayout()
+        CType(Me.ErrorProviderPassword, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ErrorProviderOtp, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
-        'tctrlLogin
+        'TabControl
         '
-        Me.tctrlLogin.Controls.Add(Me.PasswordLog)
-        Me.tctrlLogin.Controls.Add(Me.OTPLog)
-        Me.tctrlLogin.Location = New System.Drawing.Point(22, 59)
-        Me.tctrlLogin.Name = "tctrlLogin"
-        Me.tctrlLogin.SelectedIndex = 0
-        Me.tctrlLogin.Size = New System.Drawing.Size(300, 265)
-        Me.tctrlLogin.TabIndex = 15
+        Me.TabControl.Controls.Add(Me.PasswordLog)
+        Me.TabControl.Controls.Add(Me.OTPLog)
+        Me.TabControl.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TabControl.Location = New System.Drawing.Point(0, 0)
+        Me.TabControl.Name = "TabControl"
+        Me.TabControl.SelectedIndex = 0
+        Me.TabControl.Size = New System.Drawing.Size(303, 272)
+        Me.TabControl.TabIndex = 16
         '
         'PasswordLog
         '
@@ -71,7 +69,7 @@ Partial Class frmLogin
         Me.PasswordLog.Location = New System.Drawing.Point(4, 23)
         Me.PasswordLog.Name = "PasswordLog"
         Me.PasswordLog.Padding = New System.Windows.Forms.Padding(3)
-        Me.PasswordLog.Size = New System.Drawing.Size(292, 238)
+        Me.PasswordLog.Size = New System.Drawing.Size(295, 245)
         Me.PasswordLog.TabIndex = 0
         Me.PasswordLog.Text = "Password Login"
         '
@@ -148,7 +146,7 @@ Partial Class frmLogin
         Me.OTPLog.Location = New System.Drawing.Point(4, 23)
         Me.OTPLog.Name = "OTPLog"
         Me.OTPLog.Padding = New System.Windows.Forms.Padding(3)
-        Me.OTPLog.Size = New System.Drawing.Size(292, 238)
+        Me.OTPLog.Size = New System.Drawing.Size(295, 245)
         Me.OTPLog.TabIndex = 1
         Me.OTPLog.Text = "OTP Login"
         '
@@ -160,7 +158,7 @@ Partial Class frmLogin
         Me.cmdGetOTP.ForeColor = System.Drawing.Color.Black
         Me.cmdGetOTP.Location = New System.Drawing.Point(155, 131)
         Me.cmdGetOTP.Name = "cmdGetOTP"
-        Me.cmdGetOTP.Size = New System.Drawing.Size(114, 36)
+        Me.cmdGetOTP.Size = New System.Drawing.Size(96, 31)
         Me.cmdGetOTP.TabIndex = 6
         Me.cmdGetOTP.Text = "Get OTP Code"
         Me.cmdGetOTP.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
@@ -225,106 +223,49 @@ Partial Class frmLogin
         Me.Label2.TabIndex = 38
         Me.Label2.Text = "User Name :"
         '
-        'lblVersion
+        'ErrorProviderPassword
         '
-        Me.lblVersion.AutoSize = True
-        Me.lblVersion.BackColor = System.Drawing.Color.Transparent
-        Me.lblVersion.Font = New System.Drawing.Font("Cambria", 20.0!, System.Drawing.FontStyle.Bold)
-        Me.lblVersion.ForeColor = System.Drawing.Color.LightGray
-        Me.lblVersion.Location = New System.Drawing.Point(122, 9)
-        Me.lblVersion.Name = "lblVersion"
-        Me.lblVersion.Size = New System.Drawing.Size(82, 32)
-        Me.lblVersion.TabIndex = 39
-        Me.lblVersion.Text = "Login"
+        Me.ErrorProviderPassword.ContainerControl = Me
         '
-        'pnlWrongPrompt
+        'ErrorProviderOtp
         '
-        Me.pnlWrongPrompt.Controls.Add(Me.lblWrongTime)
-        Me.pnlWrongPrompt.Location = New System.Drawing.Point(369, 67)
-        Me.pnlWrongPrompt.Name = "pnlWrongPrompt"
-        Me.pnlWrongPrompt.Size = New System.Drawing.Size(80, 67)
-        Me.pnlWrongPrompt.TabIndex = 43
-        Me.pnlWrongPrompt.Visible = False
+        Me.ErrorProviderOtp.ContainerControl = Me
         '
-        'lblWrongTime
+        'ControlLogin
         '
-        Me.lblWrongTime.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lblWrongTime.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.lblWrongTime.Font = New System.Drawing.Font("Calibri", 15.0!)
-        Me.lblWrongTime.ForeColor = System.Drawing.Color.Red
-        Me.lblWrongTime.Location = New System.Drawing.Point(0, 0)
-        Me.lblWrongTime.Name = "lblWrongTime"
-        Me.lblWrongTime.Size = New System.Drawing.Size(80, 67)
-        Me.lblWrongTime.TabIndex = 34
-        Me.lblWrongTime.Text = "You are trying to log in 3 times. You can try again after 00:00:00"
-        Me.lblWrongTime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'tmrWrongLoginTime
-        '
-        Me.tmrWrongLoginTime.Interval = 900
-        '
-        'cmdClose
-        '
-        Me.cmdClose.BackColor = System.Drawing.Color.Red
-        Me.cmdClose.Font = New System.Drawing.Font("Segoe UI", 9.0!)
-        Me.cmdClose.ForeColor = System.Drawing.Color.White
-        Me.cmdClose.Image = Global.LASER_System.My.Resources.Resources.close
-        Me.cmdClose.Location = New System.Drawing.Point(313, 12)
-        Me.cmdClose.Name = "cmdClose"
-        Me.cmdClose.Size = New System.Drawing.Size(25, 25)
-        Me.cmdClose.TabIndex = 44
-        Me.cmdClose.UseVisualStyleBackColor = False
-        '
-        'frmLogin
-        '
-        Me.AllowDrop = True
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 14.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.BackColor = System.Drawing.Color.Black
-        Me.BackgroundImage = CType(resources.GetObject("$this.BackgroundImage"), System.Drawing.Image)
-        Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
-        Me.ClientSize = New System.Drawing.Size(350, 350)
-        Me.Controls.Add(Me.cmdClose)
-        Me.Controls.Add(Me.pnlWrongPrompt)
-        Me.Controls.Add(Me.lblVersion)
-        Me.Controls.Add(Me.tctrlLogin)
-        Me.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.Font = New System.Drawing.Font("Calibri", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
-        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
-        Me.MaximizeBox = False
-        Me.MinimizeBox = False
-        Me.Name = "frmLogin"
-        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "LASER System - User Login"
-        Me.tctrlLogin.ResumeLayout(False)
+        Me.Controls.Add(Me.TabControl)
+        Me.Font = New System.Drawing.Font("Calibri", 9.0!)
+        Me.MaximumSize = New System.Drawing.Size(303, 272)
+        Me.MinimumSize = New System.Drawing.Size(303, 272)
+        Me.Name = "ControlLogin"
+        Me.Size = New System.Drawing.Size(303, 272)
+        Me.TabControl.ResumeLayout(False)
         Me.PasswordLog.ResumeLayout(False)
         Me.PasswordLog.PerformLayout()
         Me.OTPLog.ResumeLayout(False)
         Me.OTPLog.PerformLayout()
-        Me.pnlWrongPrompt.ResumeLayout(False)
+        CType(Me.ErrorProviderPassword, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ErrorProviderOtp, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
-        Me.PerformLayout()
 
     End Sub
 
-    Friend WithEvents tctrlLogin As TabControl
+    Friend WithEvents TabControl As TabControl
     Friend WithEvents PasswordLog As TabPage
+    Friend WithEvents cmdLogin As Button
+    Friend WithEvents txtPassword As TextBox
+    Friend WithEvents cmbUserName As ComboBox
     Friend WithEvents lblPassword As Label
     Friend WithEvents lblUserName As Label
     Friend WithEvents OTPLog As TabPage
-    Friend WithEvents lblVersion As Label
     Friend WithEvents cmdGetOTP As Button
     Friend WithEvents cmdOTPLogin As Button
     Friend WithEvents txtOTPCode As TextBox
     Friend WithEvents txtOTPUserName As TextBox
     Friend WithEvents Label1 As Label
     Friend WithEvents Label2 As Label
-    Friend WithEvents pnlWrongPrompt As Panel
-    Friend WithEvents lblWrongTime As Label
-    Friend WithEvents tmrWrongLoginTime As Timer
-    Friend WithEvents cmbUserName As ComboBox
-    Friend WithEvents cmdLogin As Button
-    Friend WithEvents txtPassword As TextBox
-    Friend WithEvents cmdClose As Button
+    Friend WithEvents ErrorProviderPassword As ErrorProvider
+    Friend WithEvents ErrorProviderOtp As ErrorProvider
 End Class

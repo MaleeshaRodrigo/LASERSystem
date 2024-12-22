@@ -22,18 +22,13 @@ Partial Class ControlCashierDashboard
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ControlCashierDashboard))
         Me.LabelLastLogin = New System.Windows.Forms.Label()
-        Me.LabelLogCount = New System.Windows.Forms.Label()
         Me.LabelEmail = New System.Windows.Forms.Label()
         Me.LabelUserName = New System.Windows.Forms.Label()
         Me.PictureUserImage = New System.Windows.Forms.PictureBox()
         Me.GridCashierSales = New System.Windows.Forms.DataGridView()
-        Me.LabelProfit = New System.Windows.Forms.Label()
-        Me.Label2 = New System.Windows.Forms.Label()
-        Me.Label3 = New System.Windows.Forms.Label()
-        Me.PickerFrom = New System.Windows.Forms.DateTimePicker()
-        Me.PickerTo = New System.Windows.Forms.DateTimePicker()
         Me.UDate = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.SNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.SCategory = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -45,6 +40,13 @@ Partial Class ControlCashierDashboard
         Me.TotalLowestPrice = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Total = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Profit = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.LabelProfit = New System.Windows.Forms.Label()
+        Me.LabelFrom = New System.Windows.Forms.Label()
+        Me.LabelTo = New System.Windows.Forms.Label()
+        Me.PickerFrom = New System.Windows.Forms.DateTimePicker()
+        Me.PickerTo = New System.Windows.Forms.DateTimePicker()
+        Me.ButtonShowProfit = New System.Windows.Forms.Button()
+        Me.TimerHideProfit = New System.Windows.Forms.Timer(Me.components)
         CType(Me.PictureUserImage, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.GridCashierSales, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -58,16 +60,6 @@ Partial Class ControlCashierDashboard
         Me.LabelLastLogin.Size = New System.Drawing.Size(68, 17)
         Me.LabelLastLogin.TabIndex = 9
         Me.LabelLastLogin.Text = "Last Login:"
-        '
-        'LabelLogCount
-        '
-        Me.LabelLogCount.AutoSize = True
-        Me.LabelLogCount.Font = New System.Drawing.Font("Calibri", 10.0!)
-        Me.LabelLogCount.Location = New System.Drawing.Point(192, 104)
-        Me.LabelLogCount.Name = "LabelLogCount"
-        Me.LabelLogCount.Size = New System.Drawing.Size(82, 17)
-        Me.LabelLogCount.TabIndex = 8
-        Me.LabelLogCount.Text = "Log In Count:"
         '
         'LabelEmail
         '
@@ -117,48 +109,6 @@ Partial Class ControlCashierDashboard
         Me.GridCashierSales.Name = "GridCashierSales"
         Me.GridCashierSales.Size = New System.Drawing.Size(707, 257)
         Me.GridCashierSales.TabIndex = 10
-        '
-        'LabelProfit
-        '
-        Me.LabelProfit.AutoSize = True
-        Me.LabelProfit.Font = New System.Drawing.Font("Calibri", 15.0!)
-        Me.LabelProfit.Location = New System.Drawing.Point(191, 131)
-        Me.LabelProfit.Name = "LabelProfit"
-        Me.LabelProfit.Size = New System.Drawing.Size(61, 24)
-        Me.LabelProfit.TabIndex = 11
-        Me.LabelProfit.Text = "Profit:"
-        '
-        'Label2
-        '
-        Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(194, 164)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(37, 14)
-        Me.Label2.TabIndex = 12
-        Me.Label2.Text = "From:"
-        '
-        'Label3
-        '
-        Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(463, 164)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(22, 14)
-        Me.Label3.TabIndex = 13
-        Me.Label3.Text = "To:"
-        '
-        'PickerFrom
-        '
-        Me.PickerFrom.Location = New System.Drawing.Point(237, 158)
-        Me.PickerFrom.Name = "PickerFrom"
-        Me.PickerFrom.Size = New System.Drawing.Size(220, 22)
-        Me.PickerFrom.TabIndex = 14
-        '
-        'PickerTo
-        '
-        Me.PickerTo.Location = New System.Drawing.Point(491, 157)
-        Me.PickerTo.Name = "PickerTo"
-        Me.PickerTo.Size = New System.Drawing.Size(220, 22)
-        Me.PickerTo.TabIndex = 15
         '
         'UDate
         '
@@ -247,18 +197,74 @@ Partial Class ControlCashierDashboard
         Me.Profit.Name = "Profit"
         Me.Profit.Width = 59
         '
+        'LabelProfit
+        '
+        Me.LabelProfit.AutoSize = True
+        Me.LabelProfit.Font = New System.Drawing.Font("Calibri", 15.0!, System.Drawing.FontStyle.Bold)
+        Me.LabelProfit.Location = New System.Drawing.Point(192, 114)
+        Me.LabelProfit.Name = "LabelProfit"
+        Me.LabelProfit.Size = New System.Drawing.Size(63, 24)
+        Me.LabelProfit.TabIndex = 11
+        Me.LabelProfit.Text = "Profit:"
+        '
+        'LabelFrom
+        '
+        Me.LabelFrom.AutoSize = True
+        Me.LabelFrom.Location = New System.Drawing.Point(194, 164)
+        Me.LabelFrom.Name = "LabelFrom"
+        Me.LabelFrom.Size = New System.Drawing.Size(37, 14)
+        Me.LabelFrom.TabIndex = 12
+        Me.LabelFrom.Text = "From:"
+        '
+        'LabelTo
+        '
+        Me.LabelTo.AutoSize = True
+        Me.LabelTo.Location = New System.Drawing.Point(463, 164)
+        Me.LabelTo.Name = "LabelTo"
+        Me.LabelTo.Size = New System.Drawing.Size(22, 14)
+        Me.LabelTo.TabIndex = 13
+        Me.LabelTo.Text = "To:"
+        '
+        'PickerFrom
+        '
+        Me.PickerFrom.Location = New System.Drawing.Point(237, 158)
+        Me.PickerFrom.Name = "PickerFrom"
+        Me.PickerFrom.Size = New System.Drawing.Size(220, 22)
+        Me.PickerFrom.TabIndex = 14
+        '
+        'PickerTo
+        '
+        Me.PickerTo.Location = New System.Drawing.Point(491, 157)
+        Me.PickerTo.Name = "PickerTo"
+        Me.PickerTo.Size = New System.Drawing.Size(220, 22)
+        Me.PickerTo.TabIndex = 15
+        '
+        'ButtonShowProfit
+        '
+        Me.ButtonShowProfit.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ButtonShowProfit.BackColor = System.Drawing.SystemColors.ButtonHighlight
+        Me.ButtonShowProfit.Location = New System.Drawing.Point(631, 5)
+        Me.ButtonShowProfit.Name = "ButtonShowProfit"
+        Me.ButtonShowProfit.Size = New System.Drawing.Size(79, 27)
+        Me.ButtonShowProfit.TabIndex = 16
+        Me.ButtonShowProfit.Text = "Show Profit"
+        Me.ButtonShowProfit.UseVisualStyleBackColor = False
+        '
+        'TimerHideProfit
+        '
+        '
         'ControlCashierDashboard
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 14.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.Controls.Add(Me.ButtonShowProfit)
         Me.Controls.Add(Me.PickerTo)
         Me.Controls.Add(Me.PickerFrom)
-        Me.Controls.Add(Me.Label3)
-        Me.Controls.Add(Me.Label2)
+        Me.Controls.Add(Me.LabelTo)
+        Me.Controls.Add(Me.LabelFrom)
         Me.Controls.Add(Me.LabelProfit)
         Me.Controls.Add(Me.GridCashierSales)
         Me.Controls.Add(Me.LabelLastLogin)
-        Me.Controls.Add(Me.LabelLogCount)
         Me.Controls.Add(Me.LabelEmail)
         Me.Controls.Add(Me.LabelUserName)
         Me.Controls.Add(Me.PictureUserImage)
@@ -273,14 +279,13 @@ Partial Class ControlCashierDashboard
     End Sub
 
     Friend WithEvents LabelLastLogin As Label
-    Friend WithEvents LabelLogCount As Label
     Friend WithEvents LabelEmail As Label
     Friend WithEvents LabelUserName As Label
     Friend WithEvents PictureUserImage As PictureBox
     Friend WithEvents GridCashierSales As DataGridView
     Friend WithEvents LabelProfit As Label
-    Friend WithEvents Label2 As Label
-    Friend WithEvents Label3 As Label
+    Friend WithEvents LabelFrom As Label
+    Friend WithEvents LabelTo As Label
     Friend WithEvents PickerFrom As DateTimePicker
     Friend WithEvents PickerTo As DateTimePicker
     Friend WithEvents UDate As DataGridViewTextBoxColumn
@@ -294,4 +299,6 @@ Partial Class ControlCashierDashboard
     Friend WithEvents TotalLowestPrice As DataGridViewTextBoxColumn
     Friend WithEvents Total As DataGridViewTextBoxColumn
     Friend WithEvents Profit As DataGridViewTextBoxColumn
+    Friend WithEvents ButtonShowProfit As Button
+    Friend WithEvents TimerHideProfit As Timer
 End Class
