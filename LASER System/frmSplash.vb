@@ -62,7 +62,7 @@ Public NotInheritable Class FrmSplash
                 frmReport.Hide()
             Case 60
                 txtLoad.Text = "Setting Main Menu..."
-                With MdifrmMain
+                With FormMain
                     Activity.Write($"Logged In Successfull by { .tslblUserName.Text} as a { .tslblUserType.Text}")
                     .WindowState = FormWindowState.Minimized
                     .Show()
@@ -77,32 +77,20 @@ Public NotInheritable Class FrmSplash
                     .GrdActivity.Left = .tabChart.Left
                 End With
             Case 70
-                With MdifrmMain
+                With FormMain
                     LoadingBar.Value += 5
-                    txtLoad.Text = "Getting Message to the Message Panel in Main Menu..."
-                    Dim DrCheckStockUnits = Db.GetDataDictionary("Select COUNT(SNo) as SNoCount from `Stock` Where SAvailableStocks < SMinStocks")
-                    If DrCheckStockUnits IsNot Nothing Then
-                        Dim MessagePanel As New MessagePanel(
-                        "Stocks Report",
-                        DrCheckStockUnits("SNoCount").ToString & " Stocks නැවත පිරවීමට ඇති බැවින් බඩු ගැනීමට පැමිණි පාරිභෝගිකයන් නැවත 
-                    හරවා  නොයැවීමට නම් මෙම stocks නැවත පිරවීම සඳහා පියවර ගන්න.")
-                        MessagePanel.Add()
-                    End If
-                    Dim DR = Db.GetDataDictionary("Select * from `User` Where UserName='" & .tslblUserName.Text & "'")
-                    If DR IsNot Nothing Then
-                        .lblUName.Text = "Name: " + DR("UserName").ToString
-                        .lblUEmail.Text = "Email: " + DR("Email").ToString
-                        .lblULastLogin.Text = "Last Login: " + DR("LastLogin").ToString
-                        .lblULoginCount.Text = "Login Count: " + DR("LoginCount").ToString
-                        Dim ImageFilePath As String = Path.Combine(SystemFolderPath, "System Files\Images\U-" & DR("UNo").ToString & ".png")
-                        If File.Exists(ImageFilePath) Then
-                            .picUImage.Image = Image.FromFile(ImageFilePath)
-                        End If
-                    End If
+                    'txtLoad.Text = "Getting Message to the Message Panel in Main Menu..."
+                    'Dim DrCheckStockUnits = Db.GetDataDictionary("Select COUNT(SNo) as SNoCount from `Stock` Where SAvailableStocks < SMinStocks")
+                    'If DrCheckStockUnits IsNot Nothing Then
+                    '    Dim MessagePanel As New MessagePanel(
+                    '    "Stocks Report",
+                    '    DrCheckStockUnits("SNoCount").ToString & " Stocks නැවත පිරවීමට ඇති බැවින් බඩු ගැනීමට පැමිණි පාරිභෝගිකයන් නැවත 
+                    'හරවා  නොයැවීමට නම් මෙම stocks නැවත පිරවීම සඳහා පියවර ගන්න.")
+                    'End If
                 End With
             Case 80
                 txtLoad.Text = "Setting Accessibility..."
-                With MdifrmMain
+                With FormMain
                     .BarCodePort.Close()
                     If My.Settings.BarcodeScannerCOMMode = True Then
                         Try
@@ -118,7 +106,7 @@ Public NotInheritable Class FrmSplash
                 End With
             Case 99
                 txtLoad.Text = "Finalizing..."
-                MdifrmMain.Visible = True
+                FormMain.Visible = True
         End Select
         tmrSplash.Start()
     End Sub

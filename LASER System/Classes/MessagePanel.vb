@@ -22,6 +22,6 @@
 
     Public Sub Add()
         'Add panel to flow layout panel
-        MdifrmMain.flpMessage.Controls.Add(_ControlMessagePanel)
+        FormMain.flpMessage.Controls.Add(_ControlMessagePanel)
     End Sub
 End Class

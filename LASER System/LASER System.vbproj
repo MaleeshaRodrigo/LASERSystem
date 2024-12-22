@@ -39,8 +39,8 @@
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>5</ApplicationRevision>
-    <ApplicationVersion>2.2.8.%2a</ApplicationVersion>
+    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationVersion>2.2.9.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -199,6 +199,7 @@
     <Compile Include="Classes\CashDrawer.vb" />
     <Compile Include="Classes\Controllers\AbstractRepairController.vb" />
     <Compile Include="Classes\Controllers\ReRepairController.vb" />
+    <Compile Include="Classes\Controllers\UserController.vb" />
     <Compile Include="Classes\Database.vb" />
     <Compile Include="Classes\Encoder.vb" />
     <Compile Include="Classes\MessageBox.vb" />
@@ -224,6 +225,24 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Enums\UpdateMode.vb" />
+    <Compile Include="Main\Controls\ControlCashierDashboard.Designer.vb">
+      <DependentUpon>ControlCashierDashboard.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Main\Controls\ControlCashierDashboard.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Main\Controls\ControlCashierDashboardLogin.Designer.vb">
+      <DependentUpon>ControlCashierDashboardLogin.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Main\Controls\ControlCashierDashboardLogin.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Main\FormMain.Designer.vb">
+      <DependentUpon>FormMain.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Main\FormMain.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Message\Controls\ControlMessageUnit.Designer.vb">
       <DependentUpon>ControlMessageUnit.vb</DependentUpon>
     </Compile>
@@ -311,6 +330,12 @@
     <Compile Include="Shared Controls\ControlGridDatePicker.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Shared Controls\ControlLogin.Designer.vb">
+      <DependentUpon>ControlLogin.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Shared Controls\ControlLogin.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Shared Controls\ControlPrice.Designer.vb">
       <DependentUpon>ControlPrice.vb</DependentUpon>
     </Compile>
@@ -377,10 +402,10 @@
     <Compile Include="Deliver\FormDeliver.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmLogin.Designer.vb">
-      <DependentUpon>frmLogin.vb</DependentUpon>
+    <Compile Include="FormLogin.Designer.vb">
+      <DependentUpon>FormLogin.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmLogin.vb">
+    <Compile Include="FormLogin.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Message\FormMessage.Designer.vb">
@@ -516,12 +541,6 @@
     <Compile Include="frmTechnicianSalary.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="mdifrmMain.Designer.vb">
-      <DependentUpon>mdifrmMain.vb</DependentUpon>
-    </Compile>
-    <Compile Include="mdifrmMain.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Structures\StructureDatabase.vb" />
     <Compile Include="TechnicianCost\Structures\TechnicianCostGridColumns.vb" />
     <Compile Include="Utils.vb" />
@@ -618,6 +637,16 @@
     <EmbeddedResource Include="Deliver\Controls\ControlPopUp.resx">
       <DependentUpon>ControlPopUp.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Main\Controls\ControlCashierDashboard.resx">
+      <DependentUpon>ControlCashierDashboard.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Main\Controls\ControlCashierDashboardLogin.resx">
+      <DependentUpon>ControlCashierDashboardLogin.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Main\FormMain.resx">
+      <DependentUpon>FormMain.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Message\Controls\ControlMessageUnit.resx">
       <DependentUpon>ControlMessageUnit.vb</DependentUpon>
     </EmbeddedResource>
@@ -660,8 +689,8 @@
     <EmbeddedResource Include="Deliver\FormDeliver.resx">
       <DependentUpon>FormDeliver.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmLogin.resx">
-      <DependentUpon>frmLogin.vb</DependentUpon>
+    <EmbeddedResource Include="FormLogin.resx">
+      <DependentUpon>FormLogin.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Message\FormMessage.resx">
       <DependentUpon>FormMessage.vb</DependentUpon>
@@ -752,9 +781,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmTechnicianSalary.resx">
       <DependentUpon>frmTechnicianSalary.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="mdifrmMain.resx">
-      <DependentUpon>mdifrmMain.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>

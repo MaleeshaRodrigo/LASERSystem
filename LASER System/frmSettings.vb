@@ -30,6 +30,7 @@ Public Class FrmSettings
             txtBillPaperName.Text = .BillPrinterPaperName
             TxtBGWokerPath.Text = .BGWorkerPath
             ChkCashDrawer.Checked = .CashDrawer
+            TextCommissionPrecentage.Value = .SaleCommissionPrecentage
 
             chkBSCOMMode.Checked = .BarcodeScannerCOMMode
             cmbBSCOMPort.Text = .BarcodeScannerCOMPort1.ToString
@@ -77,14 +78,15 @@ Public Class FrmSettings
                 .BGWorkerPath = TxtBGWokerPath.Text
 
                 .CashDrawer = ChkCashDrawer.Checked
+                .SaleCommissionPrecentage = TextCommissionPrecentage.Value
                 .Save()
 
-                MdifrmMain.BarCodePort.Close()
+                FormMain.BarCodePort.Close()
                 If chkBSCOMMode.Checked Then
                     If .BarcodeScannerCOMPort1 <> "" And Ports.SerialPort.GetPortNames.Contains(.BarcodeScannerCOMPort1) Then
-                        MdifrmMain.BarCodePort.BaudRate = txtBSBaudRate.Text
-                        MdifrmMain.BarCodePort.PortName = cmbBSCOMPort.Text
-                        MdifrmMain.BarCodePort.Open()
+                        FormMain.BarCodePort.BaudRate = txtBSBaudRate.Text
+                        FormMain.BarCodePort.PortName = cmbBSCOMPort.Text
+                        FormMain.BarCodePort.Open()
                     End If
                 End If
             End With

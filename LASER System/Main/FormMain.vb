@@ -3,11 +3,11 @@ Imports System.IO
 Imports Microsoft.VisualBasic.FileIO
 Imports MySqlConnector
 
-Public Class MdifrmMain
+Public Class FormMain
     Private Db As New Database
     Private Sub mdifrmMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         CheckForIllegalCrossThreadCalls = False
-
+        ControlCashierDashboard.Init(Db)
         MenuStrip.Items.Add(mnustrpMENU)
     End Sub
 
@@ -183,7 +183,7 @@ Public Class MdifrmMain
         End With
     End Sub
 
-'Region "MenuStrip Items"
+    'Region "MenuStrip Items"
 
     Private Sub StockToolStripMenuItem_Click(sender As Object, e As EventArgs)
         CmdStock_Click(sender, e)
@@ -251,8 +251,8 @@ Public Class MdifrmMain
     End Sub
 
     Private Sub LogOutToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles LogOutToolStripMenuItem.Click
-        frmLogin.Tag = "MainMenu"
-        frmLogin.Show()
+        FormLogin.Tag = "MainMenu"
+        FormLogin.Show()
     End Sub
 
     Private Sub ExitToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExitToolStripMenuItem.Click
