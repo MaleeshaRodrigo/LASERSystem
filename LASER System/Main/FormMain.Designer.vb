@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
-Partial Class MdifrmMain
+Partial Class FormMain
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -24,7 +24,7 @@ Partial Class MdifrmMain
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MdifrmMain))
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormMain))
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim ChartArea1 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
         Dim Legend1 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
@@ -98,11 +98,7 @@ Partial Class MdifrmMain
         Me.cmbReceivedRepvsDateView = New System.Windows.Forms.ComboBox()
         Me.chtReceivedRepvsDate = New System.Windows.Forms.DataVisualization.Charting.Chart()
         Me.pageCashier = New System.Windows.Forms.TabPage()
-        Me.lblULastLogin = New System.Windows.Forms.Label()
-        Me.lblULoginCount = New System.Windows.Forms.Label()
-        Me.lblUEmail = New System.Windows.Forms.Label()
-        Me.lblUName = New System.Windows.Forms.Label()
-        Me.picUImage = New System.Windows.Forms.PictureBox()
+        Me.ControlCashierDashboard = New LASER_System.ControlCashierDashboard()
         Me.StatusStrip.SuspendLayout()
         Me.ToolStrip.SuspendLayout()
         Me.MenuStrip.SuspendLayout()
@@ -115,7 +111,6 @@ Partial Class MdifrmMain
         Me.pageReceivedRepvsDate.SuspendLayout()
         CType(Me.chtReceivedRepvsDate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pageCashier.SuspendLayout()
-        CType(Me.picUImage, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'StatusStrip
@@ -728,11 +723,7 @@ Partial Class MdifrmMain
         '
         'pageCashier
         '
-        Me.pageCashier.Controls.Add(Me.lblULastLogin)
-        Me.pageCashier.Controls.Add(Me.lblULoginCount)
-        Me.pageCashier.Controls.Add(Me.lblUEmail)
-        Me.pageCashier.Controls.Add(Me.lblUName)
-        Me.pageCashier.Controls.Add(Me.picUImage)
+        Me.pageCashier.Controls.Add(Me.ControlCashierDashboard)
         Me.pageCashier.Location = New System.Drawing.Point(4, 22)
         Me.pageCashier.Name = "pageCashier"
         Me.pageCashier.Size = New System.Drawing.Size(927, 339)
@@ -740,61 +731,16 @@ Partial Class MdifrmMain
         Me.pageCashier.Text = "Cashier"
         Me.pageCashier.UseVisualStyleBackColor = True
         '
-        'lblULastLogin
+        'ControlCashierDashboard
         '
-        Me.lblULastLogin.AutoSize = True
-        Me.lblULastLogin.Font = New System.Drawing.Font("Calibri", 10.0!)
-        Me.lblULastLogin.Location = New System.Drawing.Point(209, 105)
-        Me.lblULastLogin.Name = "lblULastLogin"
-        Me.lblULastLogin.Size = New System.Drawing.Size(68, 17)
-        Me.lblULastLogin.TabIndex = 4
-        Me.lblULastLogin.Text = "Last Login:"
+        Me.ControlCashierDashboard.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.ControlCashierDashboard.Font = New System.Drawing.Font("Calibri", 9.0!)
+        Me.ControlCashierDashboard.Location = New System.Drawing.Point(0, 0)
+        Me.ControlCashierDashboard.Name = "ControlCashierDashboard"
+        Me.ControlCashierDashboard.Size = New System.Drawing.Size(927, 339)
+        Me.ControlCashierDashboard.TabIndex = 0
         '
-        'lblULoginCount
-        '
-        Me.lblULoginCount.AutoSize = True
-        Me.lblULoginCount.Font = New System.Drawing.Font("Calibri", 10.0!)
-        Me.lblULoginCount.Location = New System.Drawing.Point(210, 76)
-        Me.lblULoginCount.Name = "lblULoginCount"
-        Me.lblULoginCount.Size = New System.Drawing.Size(82, 17)
-        Me.lblULoginCount.TabIndex = 3
-        Me.lblULoginCount.Text = "Log In Count:"
-        '
-        'lblUEmail
-        '
-        Me.lblUEmail.AutoSize = True
-        Me.lblUEmail.Font = New System.Drawing.Font("Calibri", 15.0!)
-        Me.lblUEmail.Location = New System.Drawing.Point(209, 38)
-        Me.lblUEmail.Name = "lblUEmail"
-        Me.lblUEmail.Size = New System.Drawing.Size(61, 24)
-        Me.lblUEmail.TabIndex = 2
-        Me.lblUEmail.Text = "Email:"
-        '
-        'lblUName
-        '
-        Me.lblUName.AutoSize = True
-        Me.lblUName.Font = New System.Drawing.Font("Calibri", 15.0!)
-        Me.lblUName.Location = New System.Drawing.Point(209, 3)
-        Me.lblUName.Name = "lblUName"
-        Me.lblUName.Size = New System.Drawing.Size(64, 24)
-        Me.lblUName.TabIndex = 1
-        Me.lblUName.Text = "Name:"
-        '
-        'picUImage
-        '
-        Me.picUImage.BackColor = System.Drawing.Color.Transparent
-        Me.picUImage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
-        Me.picUImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.picUImage.Image = Global.LASER_System.My.Resources.Resources.Customer
-        Me.picUImage.InitialImage = CType(resources.GetObject("picUImage.InitialImage"), System.Drawing.Image)
-        Me.picUImage.Location = New System.Drawing.Point(3, 3)
-        Me.picUImage.Name = "picUImage"
-        Me.picUImage.Size = New System.Drawing.Size(200, 200)
-        Me.picUImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
-        Me.picUImage.TabIndex = 0
-        Me.picUImage.TabStop = False
-        '
-        'MdifrmMain
+        'FormMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -807,7 +753,7 @@ Partial Class MdifrmMain
         Me.Font = New System.Drawing.Font("Calibri", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MainMenuStrip = Me.MenuStrip
-        Me.Name = "MdifrmMain"
+        Me.Name = "FormMain"
         Me.Text = "LASER System - Main Menu"
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         Me.StatusStrip.ResumeLayout(False)
@@ -828,8 +774,6 @@ Partial Class MdifrmMain
         Me.pageReceivedRepvsDate.PerformLayout()
         CType(Me.chtReceivedRepvsDate, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pageCashier.ResumeLayout(False)
-        Me.pageCashier.PerformLayout()
-        CType(Me.picUImage, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -894,13 +838,9 @@ Partial Class MdifrmMain
     Friend WithEvents cmbReceivedRepvsDateView As ComboBox
     Friend WithEvents chtReceivedRepvsDate As DataVisualization.Charting.Chart
     Friend WithEvents pageCashier As TabPage
-    Friend WithEvents lblULastLogin As Label
-    Friend WithEvents lblULoginCount As Label
-    Friend WithEvents lblUEmail As Label
-    Friend WithEvents lblUName As Label
-    Friend WithEvents picUImage As PictureBox
     Friend WithEvents GrdActivity As DataGridView
     Friend WithEvents AID As DataGridViewTextBoxColumn
     Friend WithEvents ADate As DataGridViewTextBoxColumn
     Friend WithEvents ACommand As DataGridViewTextBoxColumn
+    Friend WithEvents ControlCashierDashboard As ControlCashierDashboard
 End Class

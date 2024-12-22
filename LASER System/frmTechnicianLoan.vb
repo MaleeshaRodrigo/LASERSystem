@@ -250,7 +250,7 @@ Public Class frmTechnicianLoan
     Private Sub cmdTLDelete_Click(sender As Object, e As EventArgs) Handles cmdTLDelete.Click
         If CheckEmptyControl(txtTLNo, "Technician Loan No එක හිස්ව පවතියි. ඔබට Technician Loan පොරමය Closed කර නැවත Open කල යුතුයි.") = False Then
             Me.Close()
-            MdifrmMain.cmdTechnicianLoan.PerformClick()
+            FormMain.cmdTechnicianLoan.PerformClick()
             Exit Sub
         End If
         Dim AdminPer As New AdminPermission(Db)
