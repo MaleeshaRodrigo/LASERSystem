@@ -42,6 +42,10 @@ Partial Class FormMain
         Me.tslblUserType = New System.Windows.Forms.ToolStripStatusLabel()
         Me.ToolStripStatusLabel3 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.ToolStripStatusDetailsTitle = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.ToolStripStatusLabel4 = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.ToolStripStatusLabel5 = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.tslblLoad = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.tsProBar = New System.Windows.Forms.ToolStripProgressBar()
         Me.ToolStrip = New System.Windows.Forms.ToolStrip()
         Me.cmdStock = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripDropDownButton1 = New System.Windows.Forms.ToolStripDropDownButton()
@@ -94,11 +98,7 @@ Partial Class FormMain
         Me.cmbReceivedRepvsDateView = New System.Windows.Forms.ComboBox()
         Me.chtReceivedRepvsDate = New System.Windows.Forms.DataVisualization.Charting.Chart()
         Me.pageCashier = New System.Windows.Forms.TabPage()
-        Me.lblULastLogin = New System.Windows.Forms.Label()
-        Me.lblULoginCount = New System.Windows.Forms.Label()
-        Me.lblUEmail = New System.Windows.Forms.Label()
-        Me.lblUName = New System.Windows.Forms.Label()
-        Me.picUImage = New System.Windows.Forms.PictureBox()
+        Me.ControlCashierDashboard = New LASER_System.ControlCashierDashboard()
         Me.StatusStrip.SuspendLayout()
         Me.ToolStrip.SuspendLayout()
         Me.MenuStrip.SuspendLayout()
@@ -111,61 +111,83 @@ Partial Class FormMain
         Me.pageReceivedRepvsDate.SuspendLayout()
         CType(Me.chtReceivedRepvsDate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pageCashier.SuspendLayout()
-        CType(Me.picUImage, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'StatusStrip
         '
         Me.StatusStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
-        Me.StatusStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripStatusLabel2, Me.tslblUserName, Me.ToolStripStatusLabel1, Me.ToolStripStatusLabel6, Me.tslblUserType, Me.ToolStripStatusLabel3, Me.ToolStripStatusDetailsTitle})
-        Me.StatusStrip.Location = New System.Drawing.Point(0, 719)
+        Me.StatusStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripStatusLabel2, Me.tslblUserName, Me.ToolStripStatusLabel1, Me.ToolStripStatusLabel6, Me.tslblUserType, Me.ToolStripStatusLabel3, Me.ToolStripStatusDetailsTitle, Me.ToolStripStatusLabel4, Me.ToolStripStatusLabel5, Me.tslblLoad, Me.tsProBar})
+        Me.StatusStrip.Location = New System.Drawing.Point(0, 717)
         Me.StatusStrip.Name = "StatusStrip"
-        Me.StatusStrip.Size = New System.Drawing.Size(1364, 22)
+        Me.StatusStrip.Size = New System.Drawing.Size(1364, 24)
         Me.StatusStrip.TabIndex = 7
         Me.StatusStrip.Text = "StatusStrip"
         '
         'ToolStripStatusLabel2
         '
         Me.ToolStripStatusLabel2.Name = "ToolStripStatusLabel2"
-        Me.ToolStripStatusLabel2.Size = New System.Drawing.Size(68, 17)
+        Me.ToolStripStatusLabel2.Size = New System.Drawing.Size(68, 19)
         Me.ToolStripStatusLabel2.Text = "User Name:"
         '
         'tslblUserName
         '
         Me.tslblUserName.Name = "tslblUserName"
-        Me.tslblUserName.Size = New System.Drawing.Size(65, 17)
+        Me.tslblUserName.Size = New System.Drawing.Size(65, 19)
         Me.tslblUserName.Text = "User Name"
         '
         'ToolStripStatusLabel1
         '
         Me.ToolStripStatusLabel1.Name = "ToolStripStatusLabel1"
-        Me.ToolStripStatusLabel1.Size = New System.Drawing.Size(10, 17)
+        Me.ToolStripStatusLabel1.Size = New System.Drawing.Size(10, 19)
         Me.ToolStripStatusLabel1.Text = "|"
         '
         'ToolStripStatusLabel6
         '
         Me.ToolStripStatusLabel6.Name = "ToolStripStatusLabel6"
-        Me.ToolStripStatusLabel6.Size = New System.Drawing.Size(60, 17)
+        Me.ToolStripStatusLabel6.Size = New System.Drawing.Size(60, 19)
         Me.ToolStripStatusLabel6.Text = "User Type:"
         '
         'tslblUserType
         '
         Me.tslblUserType.Name = "tslblUserType"
-        Me.tslblUserType.Size = New System.Drawing.Size(57, 17)
+        Me.tslblUserType.Size = New System.Drawing.Size(57, 19)
         Me.tslblUserType.Text = "User Type"
         '
         'ToolStripStatusLabel3
         '
         Me.ToolStripStatusLabel3.Name = "ToolStripStatusLabel3"
-        Me.ToolStripStatusLabel3.Size = New System.Drawing.Size(10, 17)
+        Me.ToolStripStatusLabel3.Size = New System.Drawing.Size(10, 19)
         Me.ToolStripStatusLabel3.Text = "|"
         '
         'ToolStripStatusDetailsTitle
         '
         Me.ToolStripStatusDetailsTitle.Name = "ToolStripStatusDetailsTitle"
-        Me.ToolStripStatusDetailsTitle.Size = New System.Drawing.Size(476, 17)
+        Me.ToolStripStatusDetailsTitle.Size = New System.Drawing.Size(476, 19)
         Me.ToolStripStatusDetailsTitle.Text = "This Product is licensed to LASER Electronics.  Copyright © 2018 - 2024 All Right" &
     " Reserved"
+        '
+        'ToolStripStatusLabel4
+        '
+        Me.ToolStripStatusLabel4.Name = "ToolStripStatusLabel4"
+        Me.ToolStripStatusLabel4.Size = New System.Drawing.Size(10, 19)
+        Me.ToolStripStatusLabel4.Text = "|"
+        '
+        'ToolStripStatusLabel5
+        '
+        Me.ToolStripStatusLabel5.Name = "ToolStripStatusLabel5"
+        Me.ToolStripStatusLabel5.Size = New System.Drawing.Size(42, 19)
+        Me.ToolStripStatusLabel5.Text = "Status:"
+        '
+        'tslblLoad
+        '
+        Me.tslblLoad.Name = "tslblLoad"
+        Me.tslblLoad.Size = New System.Drawing.Size(76, 19)
+        Me.tslblLoad.Text = "Please Wait..."
+        '
+        'tsProBar
+        '
+        Me.tsProBar.Name = "tsProBar"
+        Me.tsProBar.Size = New System.Drawing.Size(100, 18)
         '
         'ToolStrip
         '
@@ -442,7 +464,7 @@ Partial Class FormMain
         Me.TableLayoutPanel1.Name = "TableLayoutPanel1"
         Me.TableLayoutPanel1.RowCount = 1
         Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
-        Me.TableLayoutPanel1.Size = New System.Drawing.Size(1364, 606)
+        Me.TableLayoutPanel1.Size = New System.Drawing.Size(1364, 604)
         Me.TableLayoutPanel1.TabIndex = 22
         '
         'flpMessage
@@ -456,7 +478,7 @@ Partial Class FormMain
         Me.flpMessage.Location = New System.Drawing.Point(957, 3)
         Me.flpMessage.Name = "flpMessage"
         Me.flpMessage.Padding = New System.Windows.Forms.Padding(5, 5, 0, 0)
-        Me.flpMessage.Size = New System.Drawing.Size(404, 600)
+        Me.flpMessage.Size = New System.Drawing.Size(404, 598)
         Me.flpMessage.TabIndex = 24
         Me.flpMessage.WrapContents = False
         '
@@ -469,7 +491,7 @@ Partial Class FormMain
         Me.pnlLeft.Dock = System.Windows.Forms.DockStyle.Fill
         Me.pnlLeft.Location = New System.Drawing.Point(3, 3)
         Me.pnlLeft.Name = "pnlLeft"
-        Me.pnlLeft.Size = New System.Drawing.Size(948, 600)
+        Me.pnlLeft.Size = New System.Drawing.Size(948, 598)
         Me.pnlLeft.TabIndex = 23
         '
         'GrdActivity
@@ -485,7 +507,7 @@ Partial Class FormMain
         Me.GrdActivity.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.AID, Me.ADate, Me.ACommand})
         Me.GrdActivity.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically
         Me.GrdActivity.GridColor = System.Drawing.Color.White
-        Me.GrdActivity.Location = New System.Drawing.Point(10, 450)
+        Me.GrdActivity.Location = New System.Drawing.Point(10, 375)
         Me.GrdActivity.Name = "GrdActivity"
         Me.GrdActivity.ReadOnly = True
         Me.GrdActivity.RowHeadersVisible = False
@@ -493,7 +515,7 @@ Partial Class FormMain
         DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
         Me.GrdActivity.RowsDefaultCellStyle = DataGridViewCellStyle1
         Me.GrdActivity.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.GrdActivity.Size = New System.Drawing.Size(931, 147)
+        Me.GrdActivity.Size = New System.Drawing.Size(931, 220)
         Me.GrdActivity.TabIndex = 23
         '
         'AID
@@ -535,7 +557,7 @@ Partial Class FormMain
         Me.tabChart.Location = New System.Drawing.Point(10, 5)
         Me.tabChart.Name = "tabChart"
         Me.tabChart.SelectedIndex = 0
-        Me.tabChart.Size = New System.Drawing.Size(935, 439)
+        Me.tabChart.Size = New System.Drawing.Size(935, 365)
         Me.tabChart.TabIndex = 10
         '
         'pageIncomevsDate
@@ -701,71 +723,22 @@ Partial Class FormMain
         '
         'pageCashier
         '
-        Me.pageCashier.Controls.Add(Me.lblULastLogin)
-        Me.pageCashier.Controls.Add(Me.lblULoginCount)
-        Me.pageCashier.Controls.Add(Me.lblUEmail)
-        Me.pageCashier.Controls.Add(Me.lblUName)
-        Me.pageCashier.Controls.Add(Me.picUImage)
+        Me.pageCashier.Controls.Add(Me.ControlCashierDashboard)
         Me.pageCashier.Location = New System.Drawing.Point(4, 22)
         Me.pageCashier.Name = "pageCashier"
-        Me.pageCashier.Size = New System.Drawing.Size(927, 413)
+        Me.pageCashier.Size = New System.Drawing.Size(927, 339)
         Me.pageCashier.TabIndex = 2
         Me.pageCashier.Text = "Cashier"
         Me.pageCashier.UseVisualStyleBackColor = True
         '
-        'lblULastLogin
+        'ControlCashierDashboard
         '
-        Me.lblULastLogin.AutoSize = True
-        Me.lblULastLogin.Font = New System.Drawing.Font("Calibri", 10.0!)
-        Me.lblULastLogin.Location = New System.Drawing.Point(209, 105)
-        Me.lblULastLogin.Name = "lblULastLogin"
-        Me.lblULastLogin.Size = New System.Drawing.Size(68, 17)
-        Me.lblULastLogin.TabIndex = 4
-        Me.lblULastLogin.Text = "Last Login:"
-        '
-        'lblULoginCount
-        '
-        Me.lblULoginCount.AutoSize = True
-        Me.lblULoginCount.Font = New System.Drawing.Font("Calibri", 10.0!)
-        Me.lblULoginCount.Location = New System.Drawing.Point(210, 76)
-        Me.lblULoginCount.Name = "lblULoginCount"
-        Me.lblULoginCount.Size = New System.Drawing.Size(82, 17)
-        Me.lblULoginCount.TabIndex = 3
-        Me.lblULoginCount.Text = "Log In Count:"
-        '
-        'lblUEmail
-        '
-        Me.lblUEmail.AutoSize = True
-        Me.lblUEmail.Font = New System.Drawing.Font("Calibri", 15.0!)
-        Me.lblUEmail.Location = New System.Drawing.Point(209, 38)
-        Me.lblUEmail.Name = "lblUEmail"
-        Me.lblUEmail.Size = New System.Drawing.Size(61, 24)
-        Me.lblUEmail.TabIndex = 2
-        Me.lblUEmail.Text = "Email:"
-        '
-        'lblUName
-        '
-        Me.lblUName.AutoSize = True
-        Me.lblUName.Font = New System.Drawing.Font("Calibri", 15.0!)
-        Me.lblUName.Location = New System.Drawing.Point(209, 3)
-        Me.lblUName.Name = "lblUName"
-        Me.lblUName.Size = New System.Drawing.Size(64, 24)
-        Me.lblUName.TabIndex = 1
-        Me.lblUName.Text = "Name:"
-        '
-        'picUImage
-        '
-        Me.picUImage.BackColor = System.Drawing.Color.Transparent
-        Me.picUImage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
-        Me.picUImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.picUImage.Image = Global.LASER_System.My.Resources.Resources.Customer
-        Me.picUImage.InitialImage = CType(resources.GetObject("picUImage.InitialImage"), System.Drawing.Image)
-        Me.picUImage.Location = New System.Drawing.Point(3, 3)
-        Me.picUImage.Name = "picUImage"
-        Me.picUImage.Size = New System.Drawing.Size(200, 200)
-        Me.picUImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
-        Me.picUImage.TabIndex = 0
-        Me.picUImage.TabStop = False
+        Me.ControlCashierDashboard.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.ControlCashierDashboard.Font = New System.Drawing.Font("Calibri", 9.0!)
+        Me.ControlCashierDashboard.Location = New System.Drawing.Point(0, 0)
+        Me.ControlCashierDashboard.Name = "ControlCashierDashboard"
+        Me.ControlCashierDashboard.Size = New System.Drawing.Size(927, 339)
+        Me.ControlCashierDashboard.TabIndex = 0
         '
         'FormMain
         '
@@ -801,8 +774,6 @@ Partial Class FormMain
         Me.pageReceivedRepvsDate.PerformLayout()
         CType(Me.chtReceivedRepvsDate, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pageCashier.ResumeLayout(False)
-        Me.pageCashier.PerformLayout()
-        CType(Me.picUImage, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -833,6 +804,10 @@ Partial Class FormMain
     Friend WithEvents ToolStripStatusLabel1 As ToolStripStatusLabel
     Friend WithEvents tslblUserType As ToolStripStatusLabel
     Friend WithEvents ToolStripStatusLabel3 As ToolStripStatusLabel
+    Friend WithEvents ToolStripStatusLabel4 As ToolStripStatusLabel
+    Friend WithEvents ToolStripStatusLabel5 As ToolStripStatusLabel
+    Friend WithEvents tslblLoad As ToolStripStatusLabel
+    Friend WithEvents tsProBar As ToolStripProgressBar
     Friend WithEvents ToolStripStatusLabel2 As ToolStripStatusLabel
     Friend WithEvents ToolStripStatusLabel6 As ToolStripStatusLabel
     Friend WithEvents ToolStripDropDownButton1 As ToolStripDropDownButton
@@ -863,13 +838,9 @@ Partial Class FormMain
     Friend WithEvents cmbReceivedRepvsDateView As ComboBox
     Friend WithEvents chtReceivedRepvsDate As DataVisualization.Charting.Chart
     Friend WithEvents pageCashier As TabPage
-    Friend WithEvents lblULastLogin As Label
-    Friend WithEvents lblULoginCount As Label
-    Friend WithEvents lblUEmail As Label
-    Friend WithEvents lblUName As Label
-    Friend WithEvents picUImage As PictureBox
     Friend WithEvents GrdActivity As DataGridView
     Friend WithEvents AID As DataGridViewTextBoxColumn
     Friend WithEvents ADate As DataGridViewTextBoxColumn
     Friend WithEvents ACommand As DataGridViewTextBoxColumn
+    Friend WithEvents ControlCashierDashboard As ControlCashierDashboard
 End Class

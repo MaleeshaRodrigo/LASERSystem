@@ -31,8 +31,7 @@ Partial Class ControlCashierDashboard
         Me.GridCashierSales = New System.Windows.Forms.DataGridView()
         Me.UDate = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.SNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.SCategory = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.SName = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Stock = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Type = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.LowestPrice = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Rate = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -40,13 +39,14 @@ Partial Class ControlCashierDashboard
         Me.TotalLowestPrice = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Total = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Profit = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.LabelProfit = New System.Windows.Forms.Label()
+        Me.LabelCommision = New System.Windows.Forms.Label()
         Me.LabelFrom = New System.Windows.Forms.Label()
         Me.LabelTo = New System.Windows.Forms.Label()
         Me.PickerFrom = New System.Windows.Forms.DateTimePicker()
         Me.PickerTo = New System.Windows.Forms.DateTimePicker()
         Me.ButtonShowProfit = New System.Windows.Forms.Button()
         Me.TimerHideProfit = New System.Windows.Forms.Timer(Me.components)
+        Me.LabelLessAmount = New System.Windows.Forms.Label()
         CType(Me.PictureUserImage, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.GridCashierSales, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -103,7 +103,7 @@ Partial Class ControlCashierDashboard
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.GridCashierSales.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.GridCashierSales.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.UDate, Me.SNo, Me.SCategory, Me.SName, Me.Type, Me.LowestPrice, Me.Rate, Me.Qty, Me.TotalLowestPrice, Me.Total, Me.Profit})
+        Me.GridCashierSales.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.UDate, Me.SNo, Me.Stock, Me.Type, Me.LowestPrice, Me.Rate, Me.Qty, Me.TotalLowestPrice, Me.Total, Me.Profit})
         Me.GridCashierSales.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically
         Me.GridCashierSales.Location = New System.Drawing.Point(3, 186)
         Me.GridCashierSales.Name = "GridCashierSales"
@@ -126,20 +126,13 @@ Partial Class ControlCashierDashboard
         Me.SNo.Name = "SNo"
         Me.SNo.Width = 83
         '
-        'SCategory
+        'Stock
         '
-        Me.SCategory.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
-        Me.SCategory.DataPropertyName = "SCategory"
-        Me.SCategory.HeaderText = "Stock Category"
-        Me.SCategory.Name = "SCategory"
-        '
-        'SName
-        '
-        Me.SName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
-        Me.SName.DataPropertyName = "SName"
-        Me.SName.HeaderText = "Stock Name"
-        Me.SName.Name = "SName"
-        Me.SName.Width = 88
+        Me.Stock.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
+        Me.Stock.DataPropertyName = "Stock"
+        Me.Stock.HeaderText = "Stock"
+        Me.Stock.Name = "Stock"
+        Me.Stock.Width = 60
         '
         'Type
         '
@@ -197,15 +190,15 @@ Partial Class ControlCashierDashboard
         Me.Profit.Name = "Profit"
         Me.Profit.Width = 59
         '
-        'LabelProfit
+        'LabelCommision
         '
-        Me.LabelProfit.AutoSize = True
-        Me.LabelProfit.Font = New System.Drawing.Font("Calibri", 15.0!, System.Drawing.FontStyle.Bold)
-        Me.LabelProfit.Location = New System.Drawing.Point(192, 114)
-        Me.LabelProfit.Name = "LabelProfit"
-        Me.LabelProfit.Size = New System.Drawing.Size(63, 24)
-        Me.LabelProfit.TabIndex = 11
-        Me.LabelProfit.Text = "Profit:"
+        Me.LabelCommision.AutoSize = True
+        Me.LabelCommision.Font = New System.Drawing.Font("Calibri", 15.0!, System.Drawing.FontStyle.Bold)
+        Me.LabelCommision.Location = New System.Drawing.Point(193, 127)
+        Me.LabelCommision.Name = "LabelCommision"
+        Me.LabelCommision.Size = New System.Drawing.Size(118, 24)
+        Me.LabelCommision.TabIndex = 11
+        Me.LabelCommision.Text = "Commission:"
         '
         'LabelFrom
         '
@@ -252,17 +245,29 @@ Partial Class ControlCashierDashboard
         '
         'TimerHideProfit
         '
+        Me.TimerHideProfit.Interval = 300000
+        '
+        'LabelLessAmount
+        '
+        Me.LabelLessAmount.AutoSize = True
+        Me.LabelLessAmount.Font = New System.Drawing.Font("Calibri", 10.0!)
+        Me.LabelLessAmount.Location = New System.Drawing.Point(194, 104)
+        Me.LabelLessAmount.Name = "LabelLessAmount"
+        Me.LabelLessAmount.Size = New System.Drawing.Size(83, 17)
+        Me.LabelLessAmount.TabIndex = 17
+        Me.LabelLessAmount.Text = "Less Amount:"
         '
         'ControlCashierDashboard
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 14.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.Controls.Add(Me.LabelLessAmount)
         Me.Controls.Add(Me.ButtonShowProfit)
         Me.Controls.Add(Me.PickerTo)
         Me.Controls.Add(Me.PickerFrom)
         Me.Controls.Add(Me.LabelTo)
         Me.Controls.Add(Me.LabelFrom)
-        Me.Controls.Add(Me.LabelProfit)
+        Me.Controls.Add(Me.LabelCommision)
         Me.Controls.Add(Me.GridCashierSales)
         Me.Controls.Add(Me.LabelLastLogin)
         Me.Controls.Add(Me.LabelEmail)
@@ -283,15 +288,16 @@ Partial Class ControlCashierDashboard
     Friend WithEvents LabelUserName As Label
     Friend WithEvents PictureUserImage As PictureBox
     Friend WithEvents GridCashierSales As DataGridView
-    Friend WithEvents LabelProfit As Label
+    Friend WithEvents LabelCommision As Label
     Friend WithEvents LabelFrom As Label
     Friend WithEvents LabelTo As Label
     Friend WithEvents PickerFrom As DateTimePicker
     Friend WithEvents PickerTo As DateTimePicker
+    Friend WithEvents ButtonShowProfit As Button
+    Friend WithEvents TimerHideProfit As Timer
     Friend WithEvents UDate As DataGridViewTextBoxColumn
     Friend WithEvents SNo As DataGridViewTextBoxColumn
-    Friend WithEvents SCategory As DataGridViewTextBoxColumn
-    Friend WithEvents SName As DataGridViewTextBoxColumn
+    Friend WithEvents Stock As DataGridViewTextBoxColumn
     Friend WithEvents Type As DataGridViewTextBoxColumn
     Friend WithEvents LowestPrice As DataGridViewTextBoxColumn
     Friend WithEvents Rate As DataGridViewTextBoxColumn
@@ -299,6 +305,5 @@ Partial Class ControlCashierDashboard
     Friend WithEvents TotalLowestPrice As DataGridViewTextBoxColumn
     Friend WithEvents Total As DataGridViewTextBoxColumn
     Friend WithEvents Profit As DataGridViewTextBoxColumn
-    Friend WithEvents ButtonShowProfit As Button
-    Friend WithEvents TimerHideProfit As Timer
+    Friend WithEvents LabelLessAmount As Label
 End Class

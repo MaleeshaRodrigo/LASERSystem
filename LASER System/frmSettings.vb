@@ -30,6 +30,7 @@ Public Class FrmSettings
             txtBillPaperName.Text = .BillPrinterPaperName
             TxtBGWokerPath.Text = .BGWorkerPath
             ChkCashDrawer.Checked = .CashDrawer
+            TextCommissionPrecentage.Value = .SaleCommissionPrecentage
 
             chkBSCOMMode.Checked = .BarcodeScannerCOMMode
             cmbBSCOMPort.Text = .BarcodeScannerCOMPort1.ToString
@@ -77,6 +78,7 @@ Public Class FrmSettings
                 .BGWorkerPath = TxtBGWokerPath.Text
 
                 .CashDrawer = ChkCashDrawer.Checked
+                .SaleCommissionPrecentage = TextCommissionPrecentage.Value
                 .Save()
 
                 FormMain.BarCodePort.Close()

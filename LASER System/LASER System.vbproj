@@ -231,6 +231,12 @@
     <Compile Include="Main\Controls\ControlCashierDashboard.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Main\Controls\ControlCashierDashboardLogin.Designer.vb">
+      <DependentUpon>ControlCashierDashboardLogin.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Main\Controls\ControlCashierDashboardLogin.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Main\FormMain.Designer.vb">
       <DependentUpon>FormMain.vb</DependentUpon>
     </Compile>
@@ -634,6 +640,9 @@
     <EmbeddedResource Include="Main\Controls\ControlCashierDashboard.resx">
       <DependentUpon>ControlCashierDashboard.vb</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Main\Controls\ControlCashierDashboardLogin.resx">
+      <DependentUpon>ControlCashierDashboardLogin.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Main\FormMain.resx">
       <DependentUpon>FormMain.vb</DependentUpon>
