@@ -96,6 +96,8 @@ Partial Class FrmSettings
         Me.cmdApply = New System.Windows.Forms.Button()
         Me.cmdOK = New System.Windows.Forms.Button()
         Me.ofdDatabase = New System.Windows.Forms.OpenFileDialog()
+        Me.Label13 = New System.Windows.Forms.Label()
+        Me.TextCommissionPrecentage = New System.Windows.Forms.NumericUpDown()
         Me.tcSettings.SuspendLayout()
         Me.tpGeneral.SuspendLayout()
         Me.GroupBox4.SuspendLayout()
@@ -108,6 +110,7 @@ Partial Class FrmSettings
         CType(Me.grdUAUser, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpUAUser.SuspendLayout()
         Me.grpUAAdmin.SuspendLayout()
+        CType(Me.TextCommissionPrecentage, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'tcSettings
@@ -128,6 +131,8 @@ Partial Class FrmSettings
         '
         'tpGeneral
         '
+        Me.tpGeneral.Controls.Add(Me.TextCommissionPrecentage)
+        Me.tpGeneral.Controls.Add(Me.Label13)
         Me.tpGeneral.Controls.Add(Me.ChkCashDrawer)
         Me.tpGeneral.Controls.Add(Me.TxtBGWokerPath)
         Me.tpGeneral.Controls.Add(Me.BtnBGWokerPath)
@@ -145,7 +150,7 @@ Partial Class FrmSettings
         'ChkCashDrawer
         '
         Me.ChkCashDrawer.AutoSize = True
-        Me.ChkCashDrawer.Location = New System.Drawing.Point(513, 170)
+        Me.ChkCashDrawer.Location = New System.Drawing.Point(508, 141)
         Me.ChkCashDrawer.Name = "ChkCashDrawer"
         Me.ChkCashDrawer.Size = New System.Drawing.Size(116, 17)
         Me.ChkCashDrawer.TabIndex = 28
@@ -156,7 +161,7 @@ Partial Class FrmSettings
         '
         Me.TxtBGWokerPath.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TxtBGWokerPath.Location = New System.Drawing.Point(141, 169)
+        Me.TxtBGWokerPath.Location = New System.Drawing.Point(136, 140)
         Me.TxtBGWokerPath.Name = "TxtBGWokerPath"
         Me.TxtBGWokerPath.Size = New System.Drawing.Size(335, 21)
         Me.TxtBGWokerPath.TabIndex = 27
@@ -164,7 +169,7 @@ Partial Class FrmSettings
         'BtnBGWokerPath
         '
         Me.BtnBGWokerPath.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.BtnBGWokerPath.Location = New System.Drawing.Point(482, 168)
+        Me.BtnBGWokerPath.Location = New System.Drawing.Point(477, 139)
         Me.BtnBGWokerPath.Name = "BtnBGWokerPath"
         Me.BtnBGWokerPath.Size = New System.Drawing.Size(25, 21)
         Me.BtnBGWokerPath.TabIndex = 26
@@ -174,7 +179,7 @@ Partial Class FrmSettings
         'Label11
         '
         Me.Label11.AutoSize = True
-        Me.Label11.Location = New System.Drawing.Point(9, 171)
+        Me.Label11.Location = New System.Drawing.Point(4, 142)
         Me.Label11.Name = "Label11"
         Me.Label11.Size = New System.Drawing.Size(126, 13)
         Me.Label11.TabIndex = 25
@@ -191,14 +196,14 @@ Partial Class FrmSettings
         Me.GroupBox4.ForeColor = System.Drawing.Color.FromArgb(CType(CType(125, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(149, Byte), Integer))
         Me.GroupBox4.Location = New System.Drawing.Point(377, 7)
         Me.GroupBox4.Name = "GroupBox4"
-        Me.GroupBox4.Size = New System.Drawing.Size(322, 155)
+        Me.GroupBox4.Size = New System.Drawing.Size(322, 127)
         Me.GroupBox4.TabIndex = 22
         Me.GroupBox4.TabStop = False
         Me.GroupBox4.Text = "Barcode Scanner Info"
         '
         'txtBSBaudRate
         '
-        Me.txtBSBaudRate.Location = New System.Drawing.Point(85, 103)
+        Me.txtBSBaudRate.Location = New System.Drawing.Point(80, 83)
         Me.txtBSBaudRate.Name = "txtBSBaudRate"
         Me.txtBSBaudRate.Size = New System.Drawing.Size(81, 23)
         Me.txtBSBaudRate.TabIndex = 4
@@ -207,7 +212,7 @@ Partial Class FrmSettings
         '
         Me.cmbBSCOMPort.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cmbBSCOMPort.FormattingEnabled = True
-        Me.cmbBSCOMPort.Location = New System.Drawing.Point(60, 74)
+        Me.cmbBSCOMPort.Location = New System.Drawing.Point(55, 54)
         Me.cmbBSCOMPort.Name = "cmbBSCOMPort"
         Me.cmbBSCOMPort.Size = New System.Drawing.Size(106, 23)
         Me.cmbBSCOMPort.TabIndex = 3
@@ -215,7 +220,7 @@ Partial Class FrmSettings
         'Label6
         '
         Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(16, 106)
+        Me.Label6.Location = New System.Drawing.Point(11, 86)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(63, 15)
         Me.Label6.TabIndex = 2
@@ -224,7 +229,7 @@ Partial Class FrmSettings
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(13, 77)
+        Me.Label2.Location = New System.Drawing.Point(8, 57)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(35, 15)
         Me.Label2.TabIndex = 1
@@ -233,7 +238,7 @@ Partial Class FrmSettings
         'chkBSCOMMode
         '
         Me.chkBSCOMMode.AutoSize = True
-        Me.chkBSCOMMode.Location = New System.Drawing.Point(11, 45)
+        Me.chkBSCOMMode.Location = New System.Drawing.Point(6, 25)
         Me.chkBSCOMMode.Name = "chkBSCOMMode"
         Me.chkBSCOMMode.Size = New System.Drawing.Size(88, 19)
         Me.chkBSCOMMode.TabIndex = 0
@@ -250,14 +255,14 @@ Partial Class FrmSettings
         Me.GroupBox3.ForeColor = System.Drawing.Color.FromArgb(CType(CType(125, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(149, Byte), Integer))
         Me.GroupBox3.Location = New System.Drawing.Point(6, 6)
         Me.GroupBox3.Name = "GroupBox3"
-        Me.GroupBox3.Size = New System.Drawing.Size(365, 157)
+        Me.GroupBox3.Size = New System.Drawing.Size(365, 128)
         Me.GroupBox3.TabIndex = 21
         Me.GroupBox3.TabStop = False
         Me.GroupBox3.Text = "Email Info"
         '
         'txtMAdminEmail
         '
-        Me.txtMAdminEmail.Location = New System.Drawing.Point(94, 48)
+        Me.txtMAdminEmail.Location = New System.Drawing.Point(96, 22)
         Me.txtMAdminEmail.Name = "txtMAdminEmail"
         Me.txtMAdminEmail.Size = New System.Drawing.Size(263, 23)
         Me.txtMAdminEmail.TabIndex = 36
@@ -265,7 +270,7 @@ Partial Class FrmSettings
         'Label15
         '
         Me.Label15.AutoSize = True
-        Me.Label15.Location = New System.Drawing.Point(10, 51)
+        Me.Label15.Location = New System.Drawing.Point(12, 25)
         Me.Label15.Name = "Label15"
         Me.Label15.Size = New System.Drawing.Size(78, 15)
         Me.Label15.TabIndex = 35
@@ -273,7 +278,7 @@ Partial Class FrmSettings
         '
         'chkDeliveredEmailtoT
         '
-        Me.chkDeliveredEmailtoT.Location = New System.Drawing.Point(7, 115)
+        Me.chkDeliveredEmailtoT.Location = New System.Drawing.Point(9, 89)
         Me.chkDeliveredEmailtoT.Name = "chkDeliveredEmailtoT"
         Me.chkDeliveredEmailtoT.Size = New System.Drawing.Size(340, 34)
         Me.chkDeliveredEmailtoT.TabIndex = 34
@@ -282,7 +287,7 @@ Partial Class FrmSettings
         '
         'chkMSetEmail
         '
-        Me.chkMSetEmail.Location = New System.Drawing.Point(7, 75)
+        Me.chkMSetEmail.Location = New System.Drawing.Point(9, 49)
         Me.chkMSetEmail.Name = "chkMSetEmail"
         Me.chkMSetEmail.Size = New System.Drawing.Size(350, 34)
         Me.chkMSetEmail.TabIndex = 30
@@ -844,6 +849,22 @@ Partial Class FrmSettings
         Me.cmdOK.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.cmdOK.UseVisualStyleBackColor = True
         '
+        'Label13
+        '
+        Me.Label13.AutoSize = True
+        Me.Label13.Location = New System.Drawing.Point(6, 167)
+        Me.Label13.Name = "Label13"
+        Me.Label13.Size = New System.Drawing.Size(124, 13)
+        Me.Label13.TabIndex = 29
+        Me.Label13.Text = "Commission Precentage:"
+        '
+        'TextCommissionPrecentage
+        '
+        Me.TextCommissionPrecentage.Location = New System.Drawing.Point(139, 166)
+        Me.TextCommissionPrecentage.Name = "TextCommissionPrecentage"
+        Me.TextCommissionPrecentage.Size = New System.Drawing.Size(55, 21)
+        Me.TextCommissionPrecentage.TabIndex = 30
+        '
         'FrmSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -879,6 +900,7 @@ Partial Class FrmSettings
         Me.grpUAUser.PerformLayout()
         Me.grpUAAdmin.ResumeLayout(False)
         Me.grpUAAdmin.PerformLayout()
+        CType(Me.TextCommissionPrecentage, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -956,4 +978,6 @@ Partial Class FrmSettings
     Friend WithEvents Label12 As Label
     Friend WithEvents TextDBUserName As TextBox
     Friend WithEvents TextDBPort As TextBox
+    Friend WithEvents Label13 As Label
+    Friend WithEvents TextCommissionPrecentage As NumericUpDown
 End Class

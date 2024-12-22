@@ -453,29 +453,29 @@ Public Class frmSale
                 'If IsNumeric(grdSale.Item(0, e.RowIndex).Value) = False Then grdSale.Rows.RemoveAt(e.RowIndex)
                 If grdSale.Item(0, e.RowIndex).Value Is Nothing Then Exit Sub
                 Dim DR = Db.GetDataDictionary("Select * from Stock where SNo =" & grdSale.Item(0, e.RowIndex).Value.ToString)
-                If DR.Count Then
-
-                    grdSale.Item(1, e.RowIndex).Value = DR("SCategory").ToString
-                    grdSale.Item(2, e.RowIndex).Value = DR("SName").ToString
-                    grdSale.Item(3, e.RowIndex).Value = "Sale"
-                    grdSale.Item(4, e.RowIndex).Value = DR("SSalePrice").ToString
-                    grdSale.Item(5, e.RowIndex).Value = "1"
-                    grdSale.Item(6, e.RowIndex).Value = Int(grdSale.Item(4, e.RowIndex).Value.ToString) * Int(grdSale.Item(5, e.RowIndex).Value.ToString)
-                    For Each row As DataGridViewRow In grdSale.Rows
-                        If row.Index = e.RowIndex Or row.Index = grdSale.Rows.Count - 1 Then Continue For
-                        If row.Cells(0).Value = grdSale.Item(0, e.RowIndex).Value Then
-                            row.Cells(5).Value += Int(grdSale.Item(5, e.RowIndex).Value)
-                            Dim E1 As New DataGridViewCellEventArgs(4, row.Index)
-                            grdSale_CellEndEdit(sender, E1)
-                            BeginInvoke(New MethodInvoker(Sub()
-                                                              grdSale.Rows.RemoveAt(e.RowIndex)
-                                                          End Sub))
-
-                        End If
-                    Next
-                Else
+                If DR Is Nothing Then
                     grdSale.Rows.RemoveAt(e.RowIndex)
+                    Exit Select
                 End If
+
+                grdSale.Item(1, e.RowIndex).Value = DR("SCategory").ToString
+                grdSale.Item(2, e.RowIndex).Value = DR("SName").ToString
+                grdSale.Item(3, e.RowIndex).Value = "Sale"
+                grdSale.Item(4, e.RowIndex).Value = DR("SSalePrice").ToString
+                grdSale.Item(5, e.RowIndex).Value = "1"
+                grdSale.Item(6, e.RowIndex).Value = Int(grdSale.Item(4, e.RowIndex).Value.ToString) * Int(grdSale.Item(5, e.RowIndex).Value.ToString)
+                For Each row As DataGridViewRow In grdSale.Rows
+                    If row.Index = e.RowIndex Or row.Index = grdSale.Rows.Count - 1 Then Continue For
+                    If row.Cells(0).Value = grdSale.Item(0, e.RowIndex).Value Then
+                        row.Cells(5).Value += Int(grdSale.Item(5, e.RowIndex).Value)
+                        Dim E1 As New DataGridViewCellEventArgs(4, row.Index)
+                        grdSale_CellEndEdit(sender, E1)
+                        BeginInvoke(New MethodInvoker(Sub()
+                                                          grdSale.Rows.RemoveAt(e.RowIndex)
+                                                      End Sub))
+
+                    End If
+                Next
             Case 1, 2
                 frmSearchDropDown.frm_Close()
                 Dim DR = Db.GetDataDictionary("Select * from Stock where SCategory=@CATEGORY and SName=@NAME", {
