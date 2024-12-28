@@ -4,58 +4,58 @@
     Private grddt As New DataTable
 
     Private Sub frm_Load(sender As Object, e As EventArgs) Handles Me.Load
-        Me.Left = grdParent.PointToScreen(grdParent.GetCellDisplayRectangle(grdParent.CurrentCell.ColumnIndex, grdParent.CurrentCell.RowIndex, False).Location).X
-        Me.Top = grdParent.PointToScreen(grdParent.GetCellDisplayRectangle(grdParent.CurrentCell.ColumnIndex, grdParent.CurrentCell.RowIndex, False).Location).Y + grdParent.CurrentRow.Height
-        If (Me.Left + Me.Width) > (frmParent.Width + frmParent.Left) Then
-            Me.Left = Me.Left - (Me.Width - grdParent.CurrentCell.Size.Width)
+        Left = grdParent.PointToScreen(grdParent.GetCellDisplayRectangle(grdParent.CurrentCell.ColumnIndex, grdParent.CurrentCell.RowIndex, False).Location).X
+        Top = grdParent.PointToScreen(grdParent.GetCellDisplayRectangle(grdParent.CurrentCell.ColumnIndex, grdParent.CurrentCell.RowIndex, False).Location).Y + grdParent.CurrentRow.Height
+        If (Left + Width) > (frmParent.Width + frmParent.Left) Then
+            Left = Left - (Width - grdParent.CurrentCell.Size.Width)
         End If
-        Me.Font = grdParent.Font
+        Font = grdParent.Font
         grd.DataSource = grddt
         If grd.Rows.Count = 0 Then
-            Me.Visible = False
+            Visible = False
         End If
-        If Me.Tag = "RepRem" Then
+        If Tag = "RepRem" Then
             grd.Columns.Item(0).AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader
             grd.Columns.Item(1).AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
             grd.Columns.Item(2).AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader
         End If
-        Me.Height = (grd.ColumnHeadersHeight * 2) + grd.Rows.GetRowsHeight(DataGridViewElementStates.None)
-        Me.BringToFront()
+        Height = (grd.ColumnHeadersHeight * 2) + grd.Rows.GetRowsHeight(DataGridViewElementStates.None)
+        BringToFront()
     End Sub
 
     Public Sub frm_Open(grdParentParent As DataGridView, frmParentForm As Form, parentDT As DataTable)
         grdParent = grdParentParent
         frmParent = frmParentForm
         grddt = parentDT
-        If Me.Visible = False Then
-            Me.Show(Me.ParentForm)
+        If Visible = False Then
+            Show(ParentForm)
         Else
             frm_Load(Nothing, Nothing)
-            Me.Visible = True
+            Visible = True
         End If
         AddHandler grdParent.Scroll, AddressOf frm_Scroll
     End Sub
 
     Private Sub frm_Scroll(sender As Object, e As ScrollEventArgs)
-        If Me.Visible = True Then
+        If Visible = True Then
             frm_Move()
         End If
     End Sub
 
     Public Sub frm_Close()
-        Me.Close()
+        Close()
     End Sub
 
     Private Sub frm_LostFocus(sender As Object, e As EventArgs) Handles Me.LostFocus
-        Me.Close()
+        Close()
     End Sub
 
     Public Sub frm_Move()
-        If Me.Visible = True Then
-            Me.Left = grdParent.PointToScreen(grdParent.GetCellDisplayRectangle(grdParent.CurrentCell.ColumnIndex, grdParent.CurrentCell.RowIndex, False).Location).X
-            Me.Top = grdParent.PointToScreen(grdParent.GetCellDisplayRectangle(grdParent.CurrentCell.ColumnIndex, grdParent.CurrentCell.RowIndex, False).Location).Y + grdParent.CurrentRow.Height
-            If (Me.Left + Me.Width) > (frmParent.Width + frmParent.Left) Then
-                Me.Left = Me.Left - (Me.Width - grdParent.CurrentCell.Size.Width)
+        If Visible = True Then
+            Left = grdParent.PointToScreen(grdParent.GetCellDisplayRectangle(grdParent.CurrentCell.ColumnIndex, grdParent.CurrentCell.RowIndex, False).Location).X
+            Top = grdParent.PointToScreen(grdParent.GetCellDisplayRectangle(grdParent.CurrentCell.ColumnIndex, grdParent.CurrentCell.RowIndex, False).Location).Y + grdParent.CurrentRow.Height
+            If (Left + Width) > (frmParent.Width + frmParent.Left) Then
+                Left = Left - (Width - grdParent.CurrentCell.Size.Width)
             End If
         End If
     End Sub

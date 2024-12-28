@@ -118,7 +118,7 @@ Public Class FormRepairAdvance
             {RepairAdvanced.Remarks, grdRepAdvanced(RepairAdvanced.Remarks, e.RowIndex).Value}
         })
         ControlRepairAdvanceInfo.Mode = UpdateMode.Edit
-        Me.Controls.Add(ControlRepairAdvanceInfo)
+        Controls.Add(ControlRepairAdvanceInfo)
         ControlRepairAdvanceInfo.BringToFront()
 
         AddHandler ControlRepairAdvanceInfo.SubmitEvent, AddressOf ControlRepairAdvanceInfo_Submit
@@ -129,7 +129,7 @@ Public Class FormRepairAdvance
             .Dock = DockStyle.Fill
         }
         ControlRepairAdvanceInfo.SetDatabase(Db)
-        Me.Controls.Add(ControlRepairAdvanceInfo)
+        Controls.Add(ControlRepairAdvanceInfo)
         ControlRepairAdvanceInfo.BringToFront()
 
         AddHandler ControlRepairAdvanceInfo.SubmitEvent, AddressOf ControlRepairAdvanceInfo_Submit

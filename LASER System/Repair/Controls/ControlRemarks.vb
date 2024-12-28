@@ -9,7 +9,7 @@ Public Class ControlRemarks
     Public Sub New(DB As Database, ParentForm As FormRepair)
         InitializeComponent()
         Me.DB = DB
-        Me.FormParent = ParentForm
+        FormParent = ParentForm
     End Sub
 
     Public Sub InitForRepair(RepNo As Integer)

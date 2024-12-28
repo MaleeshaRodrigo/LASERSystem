@@ -55,7 +55,7 @@ Partial Class ControlCommandInfo
         Me.cmdCancel.Location = New System.Drawing.Point(482, 6)
         Me.cmdCancel.Name = "cmdCancel"
         Me.cmdCancel.Size = New System.Drawing.Size(34, 30)
-        Me.cmdCancel.TabIndex = 105
+        Me.cmdCancel.TabIndex = 4
         Me.cmdCancel.UseVisualStyleBackColor = True
         '
         'cmdSaveOnly
@@ -64,7 +64,7 @@ Partial Class ControlCommandInfo
         Me.cmdSaveOnly.Location = New System.Drawing.Point(408, 23)
         Me.cmdSaveOnly.Name = "cmdSaveOnly"
         Me.cmdSaveOnly.Size = New System.Drawing.Size(68, 65)
-        Me.cmdSaveOnly.TabIndex = 106
+        Me.cmdSaveOnly.TabIndex = 3
         Me.cmdSaveOnly.Text = "Save Only"
         Me.cmdSaveOnly.UseVisualStyleBackColor = True
         '
@@ -74,7 +74,7 @@ Partial Class ControlCommandInfo
         Me.cmdReceiptSticker.Location = New System.Drawing.Point(6, 23)
         Me.cmdReceiptSticker.Name = "cmdReceiptSticker"
         Me.cmdReceiptSticker.Size = New System.Drawing.Size(142, 65)
-        Me.cmdReceiptSticker.TabIndex = 103
+        Me.cmdReceiptSticker.TabIndex = 0
         Me.cmdReceiptSticker.Text = "බිල්පතක් සහ  Repair Sticker එකක් අවශ්‍යයි."
         Me.cmdReceiptSticker.UseVisualStyleBackColor = True
         '
@@ -84,7 +84,7 @@ Partial Class ControlCommandInfo
         Me.cmdSticker.Location = New System.Drawing.Point(281, 23)
         Me.cmdSticker.Name = "cmdSticker"
         Me.cmdSticker.Size = New System.Drawing.Size(121, 65)
-        Me.cmdSticker.TabIndex = 105
+        Me.cmdSticker.TabIndex = 2
         Me.cmdSticker.Text = "Repair Sticker එකක් පමණක් අවශ්‍යයි."
         Me.cmdSticker.UseVisualStyleBackColor = True
         '
@@ -94,7 +94,7 @@ Partial Class ControlCommandInfo
         Me.cmdReceipt.Location = New System.Drawing.Point(154, 23)
         Me.cmdReceipt.Name = "cmdReceipt"
         Me.cmdReceipt.Size = New System.Drawing.Size(121, 65)
-        Me.cmdReceipt.TabIndex = 104
+        Me.cmdReceipt.TabIndex = 1
         Me.cmdReceipt.Text = "බිල්පතක් පමණක් අවශ්‍යයි."
         Me.cmdReceipt.UseVisualStyleBackColor = True
         '

@@ -12,36 +12,36 @@ Public Class frmSearchDropDown
         frmParent = frmParentForm
         SQL = ParentSQL
         ColumnName = ParentColumnName
-        If Me.Visible = False Then
-            Me.Show(Me.ParentForm)
+        If Visible = False Then
+            Show(ParentForm)
         Else
             frm_Load(Nothing, Nothing)
-            Me.Visible = True
+            Visible = True
         End If
         frm_Move()
-        Me.Activate()
+        Activate()
         txtType.Text = txt.Text
         txtType.DeselectAll()
         txtType.Focus()
     End Sub
     Public Sub frm_Move()
-        If Me.Visible = True Then
-            Me.Left = grd.PointToScreen(grd.GetCellDisplayRectangle(grd.CurrentCell.ColumnIndex, grd.CurrentCell.RowIndex, False).Location).X
-            Me.Top = grd.PointToScreen(grd.GetCellDisplayRectangle(grd.CurrentCell.ColumnIndex, grd.CurrentCell.RowIndex, False).Location).Y +
+        If Visible = True Then
+            Left = grd.PointToScreen(grd.GetCellDisplayRectangle(grd.CurrentCell.ColumnIndex, grd.CurrentCell.RowIndex, False).Location).X
+            Top = grd.PointToScreen(grd.GetCellDisplayRectangle(grd.CurrentCell.ColumnIndex, grd.CurrentCell.RowIndex, False).Location).Y +
                 grd.CurrentRow.Height
 
-            If (Me.Left + Me.Width) > My.Computer.Screen.Bounds.Size.Width Then
-                Me.Left = My.Computer.Screen.Bounds.Size.Width - Me.Width
+            If (Left + Width) > My.Computer.Screen.Bounds.Size.Width Then
+                Left = My.Computer.Screen.Bounds.Size.Width - Width
             End If
-            If (Me.Top + Me.Height) > My.Computer.Screen.Bounds.Size.Height Then
-                Me.Top = grd.PointToScreen(grd.GetCellDisplayRectangle(grd.CurrentCell.ColumnIndex, grd.CurrentCell.RowIndex, False).Location).Y -
-                    Me.Height
+            If (Top + Height) > My.Computer.Screen.Bounds.Size.Height Then
+                Top = grd.PointToScreen(grd.GetCellDisplayRectangle(grd.CurrentCell.ColumnIndex, grd.CurrentCell.RowIndex, False).Location).Y -
+                    Height
             End If
         End If
     End Sub
 
     Public Sub frm_Close()
-        Me.Close()
+        Close()
     End Sub
 
     Public Sub passtext(txtValue As TextBox)
@@ -50,7 +50,7 @@ Public Class frmSearchDropDown
     End Sub
 
     Private Sub frm_Load(sender As Object, e As EventArgs) Handles Me.Load
-        Me.Font = grd.Font
+        Font = grd.Font
         lst.Items.Clear()
         Dim DR = Db.GetDataList(SQL)
         For Each Item In DR
@@ -59,16 +59,16 @@ Public Class frmSearchDropDown
             End If
         Next
         If lst.Items.Count > 10 Then
-            Me.Height = lst.ItemHeight * 11
+            Height = lst.ItemHeight * 11
         ElseIf lst.Items.Count <= 10 Then
-            Me.Height = lst.ItemHeight * (lst.Items.Count + 1)
+            Height = lst.ItemHeight * (lst.Items.Count + 1)
         ElseIf lst.Items.Count = 0 Then
-            Me.Visible = False
+            Visible = False
         End If
-        Me.Width = grd.Columns.Item(grd.CurrentCell.ColumnIndex).Width
-        Me.Height = lst.Height
+        Width = grd.Columns.Item(grd.CurrentCell.ColumnIndex).Width
+        Height = lst.Height
         lst.Cursor = Cursors.Hand
-        Me.BringToFront()
+        BringToFront()
         txtType.Focus()
         txtType.DeselectAll()
     End Sub
@@ -87,11 +87,11 @@ Public Class frmSearchDropDown
     End Sub
 
     Private Sub frm_LostFocus(sender As Object, e As EventArgs) Handles Me.LostFocus
-        Me.Close()
+        Close()
     End Sub
 
     Private Sub txtType_TextChanged(sender As Object, e As EventArgs) Handles txtType.TextChanged
-        If Me.Visible = True Then
+        If Visible = True Then
             lst.Items.Clear()
             Dim DR = Db.GetDataList(SQL)
             For Each Item In DR
@@ -106,15 +106,15 @@ Public Class frmSearchDropDown
                 'Next
             Next
             If lst.Items.Count > 10 Then
-                Me.Height = lst.ItemHeight * 11
+                Height = lst.ItemHeight * 11
             ElseIf lst.Items.Count <= 10 Then
-                Me.Height = lst.ItemHeight * (lst.Items.Count + 1)
+                Height = lst.ItemHeight * (lst.Items.Count + 1)
             ElseIf lst.Items.Count = 0 Then
-                Me.Visible = False
+                Visible = False
             End If
-            Me.Width = grd.Columns.Item(grd.CurrentCell.ColumnIndex).Width
-            Me.Height = lst.Height
-            Me.Activate()
+            Width = grd.Columns.Item(grd.CurrentCell.ColumnIndex).Width
+            Height = lst.Height
+            Activate()
             txt.Text = txtType.Text
             frm_Move()
         End If
@@ -129,7 +129,7 @@ Public Class frmSearchDropDown
     End Sub
 
     Private Sub frmSearchDropDown_Resize(sender As Object, e As EventArgs) Handles Me.Resize
-        txtType.Top = Me.Height
+        txtType.Top = Height
         txtType.Left = 0
         txtType.Width = 0
     End Sub
@@ -140,7 +140,7 @@ Public Class frmSearchDropDown
     End Sub
 
     Private Sub txtType_KeyDown(sender As Object, e As KeyEventArgs) Handles txtType.KeyDown
-        If Me.Visible = False Then Exit Sub
+        If Visible = False Then Exit Sub
         If (e.KeyCode = System.Windows.Forms.Keys.Up) Then
             If lst.SelectedIndex > -1 Then
                 lst.SelectedIndex = lst.SelectedIndex - 1
@@ -162,7 +162,7 @@ Public Class frmSearchDropDown
             Else
                 grd.CurrentCell.Value = txt.Text
                 grd.EndEdit()
-                Me.Visible = False
+                Visible = False
                 grd.Focus()
             End If
             e.Handled = True

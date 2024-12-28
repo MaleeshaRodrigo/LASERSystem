@@ -15,7 +15,7 @@ Public Class frmProduct
         txtPDetails.Text = ""
         cmdSave.Text = "Save"
         SaveToolStripMenuItem.Text = cmdSave.Text
-        If Me.Tag = "" Then
+        If Tag = "" Then
             cmdDone.Enabled = False
             DoneSaveToolStripMenuItem.Enabled = False
         Else
@@ -50,7 +50,7 @@ Public Class frmProduct
         Else
             x = "Order by PNo"
         End If
-        Me.grdProduct.DataSource = Db.GetDataTable("SELECT PNO as No,PCategory as Category,PName as Name,PModelNo as Model No,PDetails as Details from Product " & x & ";")
+        grdProduct.DataSource = Db.GetDataTable("SELECT PNO as No,PCategory as Category,PName as Name,PModelNo as Model No,PDetails as Details from Product " & x & ";")
         grdProduct.Refresh()
     End Sub
 
@@ -74,7 +74,7 @@ Public Class frmProduct
         cmdNew_Click(sender, e)
         Call cmbPCategory_DropDown(sender, e)
         Call cmbPName_DropDown(sender, e)
-        Select Case Me.Tag
+        Select Case Tag
             Case "Receive"
                 cmbPCategory.Text = FormReceive.grdRepair.Item(1, FormReceive.grdRepair.CurrentCell.RowIndex).Value
                 cmbPName.Text = FormReceive.grdRepair.Item(2, FormReceive.grdRepair.CurrentCell.RowIndex).Value
@@ -214,11 +214,11 @@ Public Class frmProduct
     End Sub
 
     Private Sub cmdDone_Click(sender As Object, e As EventArgs) Handles cmdDone.Click
-        If Me.Tag = "" Then Exit Sub
+        If Tag = "" Then Exit Sub
         If cmdDone.Text = "Done + Save" Then
             Call cmdSave_Click(sender, e)
         End If
-        Select Case Me.Tag
+        Select Case Tag
             Case "Receive"
                 With FormReceive
                     .grdRepair.Item(1, .grdRepair.CurrentCell.RowIndex).Value = cmbPCategory.Text
@@ -257,9 +257,9 @@ Public Class frmProduct
     End Sub
 
     Private Sub frmProduct_Resize(sender As Object, e As EventArgs) Handles Me.Resize
-        grpSearch.Width = Me.Width - grpSearch.Left - 20
+        grpSearch.Width = Width - grpSearch.Left - 20
         grdProduct.Width = grpSearch.Width - grdProduct.Left - 5
-        grpSearch.Height = Me.Height - grpSearch.Top - 40
+        grpSearch.Height = Height - grpSearch.Top - 40
         grdProduct.Height = grpSearch.Height - grdProduct.Top - 5
     End Sub
 End Class

@@ -43,7 +43,7 @@ Public Class ControlPopUp
     End Sub
 
     Private Sub cmdCancel_Click(sender As Object, e As EventArgs) Handles cmdCancel.Click
-        Me.Dispose()
+        Dispose()
     End Sub
 
     Private Sub TextBoxPrice_keyPress(ByVal sender As Object, ByVal e As KeyPressEventArgs) Handles txtCAmount.KeyPress, txtCReceived.KeyPress
@@ -60,7 +60,7 @@ Public Class ControlPopUp
 
     Private Sub ControlPopUp_Leave(sender As Object, e As EventArgs) Handles Me.Leave
         FormParent.MenuStrip.Enabled = True
-        AcceptButton = FormParent.cmdSave
+        FormParent.AcceptButton = FormParent.cmdSave
         FormParent.grdRepair.Focus()
         FormParent.grdRepair.CurrentCell = FormParent.grdRepair.Item(0, FormParent.grdRepair.Rows.Count - 1)
     End Sub

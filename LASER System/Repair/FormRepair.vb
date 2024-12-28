@@ -27,13 +27,13 @@ Public Class FormRepair
         CmbRetNo_DropDown(sender, e)
         CmbRepNo_SelectedIndexChanged(Nothing, Nothing)
         CmbRetNo_SelectedIndexChanged(Nothing, Nothing)
-        If Me.Tag = "" Then
+        If Tag = "" Then
             cmdDone.Enabled = False
         Else
             cmdDone.Enabled = True
         End If
 
-        Me.Enabled = True
+        Enabled = True
         If tabRepair.SelectedIndex = 0 Then
             Mode = RepairMode.Repair
             cmbRepNo.Focus()
@@ -388,7 +388,7 @@ Public Class FormRepair
                                   cmbRepNo.Text & ",NOW(),'Repaired Date -> " & ControlRepairDeliverInfo.txtRepDate.Value.ToString & "'," & User.Instance.UserNo & ")")
                     End If
 
-                    If Me.Tag = "" Then MsgBox("Update successful!", vbInformation + vbOKOnly)
+                    If Tag = "" Then MsgBox("Update successful!", vbInformation + vbOKOnly)
 
                     Exit Sub
                 Case RepairMode.ReRepair
@@ -465,7 +465,7 @@ Public Class FormRepair
                         })
                         Db.Execute($"INSERT INTO RepairActivity(RepANo,RetNo,RepADate,Activity,UNo) VALUES({Db.GetNextKey("RepairActivity", "RepANo")},{cmbRetNo.Text},NOW(),'Repaired Date -> {ControlRepairDeliverInfo.txtRepDate.Value}',{User.Instance.UserNo})")
                     End If
-                    If Me.Tag = "" Then
+                    If Tag = "" Then
                         MsgBox("Update Successful!", vbInformation + vbOKOnly)
                     End If
                     If tabRepair.SelectedTab.TabIndex = 0 Then
@@ -533,7 +533,7 @@ Public Class FormRepair
     End Sub
 
     Private Sub CmdDone_Click(sender As Object, e As EventArgs) Handles cmdDone.Click, DoneToolStripMenuItem.Click
-        Select Case Me.Tag
+        Select Case Tag
             Case "DeliverRepair"
                 With FormDeliver
                     Call CmdSave_Click(sender, e)

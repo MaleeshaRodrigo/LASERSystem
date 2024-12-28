@@ -12,7 +12,7 @@ Public Class frmSale
     End Sub
 
     Private Sub frmSale_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Me.AcceptButton = cmdSave
+        AcceptButton = cmdSave
 
         Call cmdNew_Click(Nothing, Nothing)
         txtSaDate.Value = Now
@@ -422,7 +422,7 @@ Public Class frmSale
         Dim frmNewCustomer As New frmCustomer
         With frmNewCustomer
             .Name = "frmCustomer" + NextfrmNo(frmCustomer).ToString
-            .Caller = Me.Name
+            .Caller = Name
             .Tag = "Sale"
             .Show(Me)
         End With
@@ -443,7 +443,7 @@ Public Class frmSale
 
     Private Sub frmSale_Resize(sender As Object, e As EventArgs) Handles Me.Resize
         grdSale.Width = cmdClose.Left - grdSale.Left - 5
-        grdSale.Height = Me.Height - grdSale.Top - 40
+        grdSale.Height = Height - grdSale.Top - 40
     End Sub
 
     Public Sub grdSale_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs) Handles grdSale.CellEndEdit
@@ -588,7 +588,7 @@ Public Class frmSale
     Private Sub StockDetailsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles StockDetailsToolStripMenuItem.Click
         Dim frm As New FormStock
         With frm
-            .Caller = Me.Name.ToString
+            .Caller = Name.ToString
             .Name = "frmStock" + NextfrmNo(FormStock).ToString
             .Tag = "Sale"
             .Show(Me)
@@ -655,7 +655,7 @@ Public Class frmSale
             Dim frmNewSearch As New frmSearch
             With frmNewSearch
                 .Name = "frmSearch" + NextfrmNo(frmSearch).ToString
-                .Key = Me.Name
+                .Key = Name
                 .Tag = "Sale"
                 .Show(Me)
             End With

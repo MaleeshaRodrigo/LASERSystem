@@ -2,7 +2,7 @@
     Private _Validators As New ArrayList
 
     Public Sub AddValidator(Validator As IValidator)
-        Me._Validators.Add(Validator)
+        _Validators.Add(Validator)
     End Sub
 
     Public Function Execute() As Boolean

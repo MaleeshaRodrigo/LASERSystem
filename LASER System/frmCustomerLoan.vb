@@ -75,7 +75,7 @@ Public Class frmCustomerLoan
     End Sub
 
     Private Sub cmdClose_Click(sender As Object, e As EventArgs) Handles cmdClose.Click
-        Me.Close()
+        Close()
     End Sub
 
     Private Sub cmdSave_Click(sender As Object, e As EventArgs) Handles cmdSave.Click
@@ -208,7 +208,7 @@ Public Class frmCustomerLoan
         Else
             x = " Order by CUL.CuLNo"
         End If
-        Me.grdCustomerLoan.DataSource = Db.GetDataTable("SELECT CuL.CuLNo as 'Customer Loan No',CuLDate as 'Customer Loan Date',CuL.CuNo as 'No',CuName as 'Name',CuTelNo1 as 'Telephone No 1',CuTelNo2 as 'Telephone No 2',CuTelNo3 as 'Telephone No 3',CuL.SaNo as 'Sale No',SaDate as 'Sale Date', CuL.DNo as 'Deliver No', DDate as 'Deliver Date', Status,CuLRemarks as 'Remarks' from (((CustomerLoan CUL INNER JOIN CUSTOMER CU ON CU.CUNO = CUL.CUNO) LEFT JOIN SALE SA ON SA.SANO = CUL.SANO) LEFT JOIN DELIVER D ON D.DNO = CUL.DNO) " & x & ";")
+        grdCustomerLoan.DataSource = Db.GetDataTable("SELECT CuL.CuLNo as 'Customer Loan No',CuLDate as 'Customer Loan Date',CuL.CuNo as 'No',CuName as 'Name',CuTelNo1 as 'Telephone No 1',CuTelNo2 as 'Telephone No 2',CuTelNo3 as 'Telephone No 3',CuL.SaNo as 'Sale No',SaDate as 'Sale Date', CuL.DNo as 'Deliver No', DDate as 'Deliver Date', Status,CuLRemarks as 'Remarks' from (((CustomerLoan CUL INNER JOIN CUSTOMER CU ON CU.CUNO = CUL.CUNO) LEFT JOIN SALE SA ON SA.SANO = CUL.SANO) LEFT JOIN DELIVER D ON D.DNO = CUL.DNO) " & x & ";")
         For Each Row As DataGridViewRow In grdCustomerLoan.Rows
             If Row.Cells("Status").Value = "Paid" Then
                 Row.DefaultCellStyle.BackColor = Color.LightGreen
@@ -222,8 +222,8 @@ Public Class frmCustomerLoan
     End Sub
 
     Private Sub frmCustomerLoan_Resize(sender As Object, e As EventArgs) Handles Me.Resize
-        grdCustomerLoan.Width = Int(Me.Width) - Int(grdCustomerLoan.Left) - 30
-        grdCustomerLoan.Height = Int(Me.Height) - Int(grdCustomerLoan.Top) - 50
+        grdCustomerLoan.Width = Int(Width) - Int(grdCustomerLoan.Left) - 30
+        grdCustomerLoan.Height = Int(Height) - Int(grdCustomerLoan.Top) - 50
     End Sub
 
     Private Sub NewToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NewToolStripMenuItem.Click

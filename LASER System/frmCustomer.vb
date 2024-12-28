@@ -66,7 +66,7 @@ Public Class frmCustomer
         Call txtSearch_TextChanged(Nothing, Nothing)   'refresh grdstock
         Call cmdNew_Click(Nothing, Nothing)
 
-        If Me.Tag = "" Then
+        If Tag = "" Then
             cmdDone.Enabled = False
         Else
             cmdDone.Enabled = True
@@ -93,7 +93,7 @@ Public Class frmCustomer
         Else
             x = "Order by CuNo"
         End If
-        Me.grdCustomer.DataSource = Db.GetDataTable("SELECT CuNo as No,CuName as Name,CuTelNo1 as `Telephone No 1`,CuTelNo2 as `Telephone No 2`,CuTelNo3 as `Telephone No 3` from Customer " & x & ";")
+        grdCustomer.DataSource = Db.GetDataTable("SELECT CuNo as No,CuName as Name,CuTelNo1 as `Telephone No 1`,CuTelNo2 as `Telephone No 2`,CuTelNo3 as `Telephone No 3` from Customer " & x & ";")
         grdCustomer.Refresh()
     End Sub
 
@@ -122,15 +122,15 @@ Public Class frmCustomer
         If cmdDone.Tag = "0" Then
             Exit Sub
         End If
-        Select Case Me.Tag
+        Select Case Tag
             Case "Sale"
                 For Each oForm As frmSale In Application.OpenForms().OfType(Of frmSale)()
-                    If oForm.Name = Me.Caller Then
+                    If oForm.Name = Caller Then
                         With oForm
-                            .cmbCuName.Text = Me.TextCuName.Text
-                            .txtCuTelNo1.Text = Me.txtCuTelNo1.Text
-                            .txtCuTelNo2.Text = Me.txtCuTelNo2.Text
-                            .txtCuTelNo3.Text = Me.txtCuTelNo3.Text
+                            .cmbCuName.Text = TextCuName.Text
+                            .txtCuTelNo1.Text = txtCuTelNo1.Text
+                            .txtCuTelNo2.Text = txtCuTelNo2.Text
+                            .txtCuTelNo3.Text = txtCuTelNo3.Text
                             .txtCuTelNo1.Tag = ""
                         End With
                         Exit For
@@ -138,12 +138,12 @@ Public Class frmCustomer
                 Next
             Case "Receive"
                 For Each oForm As FormReceive In Application.OpenForms().OfType(Of FormReceive)()
-                    If oForm.Name = Me.Caller Then
+                    If oForm.Name = Caller Then
                         With oForm
-                            .txtCuTelNo1.Text = Me.txtCuTelNo1.Text
-                            .txtCuTelNo2.Text = Me.txtCuTelNo2.Text
-                            .txtCuTelNo3.Text = Me.txtCuTelNo3.Text
-                            .cmbCuName_Text(Me.TextCuName.Text)
+                            .txtCuTelNo1.Text = txtCuTelNo1.Text
+                            .txtCuTelNo2.Text = txtCuTelNo2.Text
+                            .txtCuTelNo3.Text = txtCuTelNo3.Text
+                            .cmbCuName_Text(TextCuName.Text)
                             .grdRepair.CurrentCell = .grdRepair.Item(1, .grdRepair.Rows.Count - 1)
                             .grdRepair.Focus()
                         End With
@@ -159,7 +159,7 @@ Public Class frmCustomer
                     .txtCuTelNo3.Text = txtCuTelNo3.Text
                 End With
         End Select
-        Me.Close()
+        Close()
     End Sub
 
     Private Sub cmdSave_Click(sender As Object, e As EventArgs) Handles cmdSave.Click, SaveToolStripMenuItem.Click
@@ -263,7 +263,7 @@ Public Class frmCustomer
     End Sub
 
     Private Sub frmCustomer_Resize(sender As Object, e As EventArgs) Handles Me.Resize
-        If Me.WindowState = FormWindowState.Maximized AndAlso cmdSave.Text = "Edit" Then
+        If WindowState = FormWindowState.Maximized AndAlso cmdSave.Text = "Edit" Then
             tlpanelMain.ColumnStyles(2).SizeType = SizeType.Percent
             tlpanelMain.ColumnStyles(2).Width = 50
             tlpanelDetails.Visible = True
@@ -276,7 +276,7 @@ Public Class frmCustomer
     End Sub
 
     Private Sub TxtCuNo_TextChanged(sender As Object, e As EventArgs) Handles txtCuNo.TextChanged
-        If Me.WindowState = FormWindowState.Maximized AndAlso Db.CheckDataExists("Customer", "CuNo", txtCuNo.Text) = True Then
+        If WindowState = FormWindowState.Maximized AndAlso Db.CheckDataExists("Customer", "CuNo", txtCuNo.Text) = True Then
             Dim task1 As Task = Task.Run(Sub()
                                              grdRepair.DataSource = Db.GetDataTable("SELECT RepNo as [Repair No],RDate as [Received Date],PCategory as [Product Category],PName as [Product Name], PModelNo as [Product Model No], PSerialNo as [Product Serial No],Problem,Location,Qty,Status,TName as [Technician Name],RepDate as [Repaired Date],Charge, DDate as [Delivered Date], PaidPrice as [Paid Charge]from (((((Repair REP INNER JOIN RECEIVE R ON R.RNO = REP.RNO) INNER JOIN PRODUCT  P ON P.PNO = REP.PNO) INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = REP.TNO) LEFT JOIN DELIVER D ON D.DNO = REP.DNO) WHERE R.CuNo=" & txtCuNo.Text)
                                              grdRepair.ScrollBars = ScrollBars.None

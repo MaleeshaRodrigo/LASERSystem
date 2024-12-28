@@ -4,7 +4,7 @@ Public Class frmTechnician
     Private Db As New Database
 
     Private Sub cmdClose_Click(sender As Object, e As EventArgs) Handles cmdClose.Click, CloseToolStripMenuItem.Click
-        Me.Close()
+        Close()
     End Sub
 
     Private Sub cmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click
@@ -101,7 +101,7 @@ Public Class frmTechnician
             Case Else
                 x = "Where TNo like '%" & txtSearch.Text & "%' or TName like '%" & txtSearch.Text & "%' or TFullName like '%" & txtSearch.Text & "%' or TAddress like '%" & txtSearch.Text & "%' or TNICNo like '%" & txtSearch.Text & "%' or TEmail like '%" & txtSearch.Text & "%' or TTelNo1 like '%" & txtSearch.Text & "%' or TTElNo2 like '%" & txtSearch.Text & "%' or TTelNo3 like '%" & txtSearch.Text & "%'"
         End Select
-        Me.grdTechnician.DataSource = Db.GetDataTable("Select * from Technician " & x)
+        grdTechnician.DataSource = Db.GetDataTable("Select * from Technician " & x)
         grdTechnician.Refresh()
     End Sub
 
@@ -110,7 +110,7 @@ Public Class frmTechnician
         Call txtSearch_TextChanged(sender, e)
         Call cmdNew_Click(sender, e)
         cmbFilter.Text = "All"
-        If Me.Tag = "" Then
+        If Tag = "" Then
             cmdDone.Enabled = False
         End If
     End Sub
@@ -143,13 +143,13 @@ Public Class frmTechnician
         If cmdDone.Text = "Done + Save" Then
             Call cmdSave_Click(sender, e)
         End If
-        Select Case Me.Tag
+        Select Case Tag
             Case "TechnicianCost"
                 With frmTechnicianCost
-                    .cmbTName.Text = Me.cmbTName.Text
+                    .cmbTName.Text = cmbTName.Text
                 End With
         End Select
-        Me.Close()
+        Close()
     End Sub
 
     Private Sub grdTechnician_CellContentDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles grdTechnician.CellContentDoubleClick

@@ -16,7 +16,7 @@
             FrmSettings.tcSettings.TabPages.Add(FrmSettings.tpDatabase)
             FrmSettings.Tag = "Login"
             FrmSettings.Show()
-            Me.Close()
+            Close()
             Exit Sub
             Exit Sub
         End If
@@ -32,8 +32,8 @@
     End Sub
 
     Private Sub FormLogin_Resize(sender As Object, e As EventArgs) Handles Me.Resize
-        Me.Width = 350
-        Me.Height = 350
+        Width = 350
+        Height = 350
     End Sub
 
     Private Sub tmrWrongLoginTime_Tick(sender As Object, e As EventArgs) Handles tmrWrongLoginTime.Tick
@@ -48,8 +48,8 @@
     End Sub
 
     Private Sub FormLogin_MouseDown(sender As Object, e As MouseEventArgs) Handles Me.MouseDown, lblVersion.MouseDown
-        frmMoveX = Control.MousePosition.X - Me.Location.X
-        frmMoveY = Control.MousePosition.Y - Me.Location.Y
+        frmMoveX = Control.MousePosition.X - Location.X
+        frmMoveY = Control.MousePosition.Y - Location.Y
     End Sub
 
     Private Sub FormLogin_MouseMove(sender As Object, e As MouseEventArgs) Handles Me.MouseMove, lblVersion.MouseMove
@@ -57,7 +57,7 @@
             newpoint = Control.MousePosition
             newpoint.X -= frmMoveX
             newpoint.Y -= frmMoveY
-            Me.Location = newpoint
+            Location = newpoint
             Application.DoEvents()
         End If
     End Sub
@@ -71,7 +71,7 @@
             User.Instance.UserName = SuccessUser("UserName").ToString
             User.Instance.UserType = SuccessUser("Type").ToString
             User.Instance.Email = SuccessUser("Email").ToString
-            Select Case Me.Tag
+            Select Case Tag
                 Case "MainMenu"
                     With FormMain
                         .Tag = SuccessUser("UNo").ToString
@@ -87,8 +87,8 @@
                     End With
             End Select
             My.Settings.CountwrongLogins = 0
-            Me.Tag = ""
-            Me.Close()
+            Tag = ""
+            Close()
         Else
             MsgBox("Incorrect User Name or Password!" & vbCrLf & vbCrLf & "You can try another " & Str(4 - (My.Settings.CountwrongLogins Mod 5)) & " chance.", vbCritical + vbOKOnly, "Incorrect User Name Or Password!")
             My.Settings.CountwrongLogins = My.Settings.CountwrongLogins + 1

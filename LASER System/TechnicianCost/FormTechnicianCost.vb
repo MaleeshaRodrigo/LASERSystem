@@ -47,14 +47,14 @@ Public Class FormTechnicianCost
     End Sub
 
     Private Sub CloseToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CloseToolStripMenuItem.Click
-        Me.Close()
+        Close()
     End Sub
 
     Private Sub ButtonNew_Click(sender As Object, e As EventArgs) Handles ButtonNew.Click
         ControlTechnicianCostInfo = New ControlTechnicianCostInfo
         ControlTechnicianCostInfo.SetDatabase(Db).Init(UpdateMode.New).SetTechnician(cmbTName.Text)
         AddHandler ControlTechnicianCostInfo.SubmitEvent, AddressOf ControlTechnicianCostInfo_Submit
-        Me.Controls.Add(ControlTechnicianCostInfo)
+        Controls.Add(ControlTechnicianCostInfo)
         ControlTechnicianCostInfo.Dock = DockStyle.Fill
         ControlTechnicianCostInfo.BringToFront()
     End Sub
@@ -69,7 +69,7 @@ Public Class FormTechnicianCost
         Next
         ControlTechnicianCostInfo.SetDatabase(Db).Init(UpdateMode.Edit, Data).SetTechnician(cmbTName.Text)
         AddHandler ControlTechnicianCostInfo.SubmitEvent, AddressOf ControlTechnicianCostInfo_Submit
-        Me.Controls.Add(ControlTechnicianCostInfo)
+        Controls.Add(ControlTechnicianCostInfo)
         ControlTechnicianCostInfo.Dock = DockStyle.Fill
         ControlTechnicianCostInfo.BringToFront()
     End Sub
@@ -82,7 +82,7 @@ Public Class FormTechnicianCost
         Dim ControlBulkInsert As New ControlTechnicianCostBulkInsert
         ControlBulkInsert.Init(Db).SetTechnician(cmbTName.Text)
         AddHandler ControlBulkInsert.SubmitEvent, AddressOf ControlTechnicianCostInfo_Submit
-        Me.Controls.Add(ControlBulkInsert)
+        Controls.Add(ControlBulkInsert)
         ControlBulkInsert.BringToFront()
         ControlBulkInsert.Dock = DockStyle.Fill
     End Sub

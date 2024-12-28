@@ -19,7 +19,7 @@ Public Class frmTechnicianLoan
     End Sub
 
     Private Sub cmdClose_Click(sender As Object, e As EventArgs)
-        Me.Close()
+        Close()
     End Sub
 
     Private Sub cmdTLSearch_Click(sender As Object, e As EventArgs) Handles cmdTLSearch.Click
@@ -28,7 +28,7 @@ Public Class frmTechnicianLoan
             grdTLSearch.Rows.Clear()
             Exit Sub
         End If
-        Me.grdTLSearch.DataSource = Db.GetDataTable("Select TLNo as `Technician Loan No`,TLDate as `Date`,SCategory as `Stock Category`,SName as `Stock Name`,TLReason as Reason,Rate,Qty,Total from (TechnicianLoan Inner Join Technician On Technician.TNO = TechnicianLoan.TNo) where TName='" & cmbTName.Text & "' and TLDate BETWEEN '" & txtTLFrom.Value.Date & " 00:00:00' AND '" &
+        grdTLSearch.DataSource = Db.GetDataTable("Select TLNo as `Technician Loan No`,TLDate as `Date`,SCategory as `Stock Category`,SName as `Stock Name`,TLReason as Reason,Rate,Qty,Total from (TechnicianLoan Inner Join Technician On Technician.TNO = TechnicianLoan.TNo) where TName='" & cmbTName.Text & "' and TLDate BETWEEN '" & txtTLFrom.Value.Date & " 00:00:00' AND '" &
                                              txtTLTo.Value.Date & " 23:59:59'")
         grdTLSearch.Refresh()
         txtTLSubTotal.Text = "0"
@@ -249,7 +249,7 @@ Public Class frmTechnicianLoan
 
     Private Sub cmdTLDelete_Click(sender As Object, e As EventArgs) Handles cmdTLDelete.Click
         If CheckEmptyControl(txtTLNo, "Technician Loan No එක හිස්ව පවතියි. ඔබට Technician Loan පොරමය Closed කර නැවත Open කල යුතුයි.") = False Then
-            Me.Close()
+            Close()
             FormMain.cmdTechnicianLoan.PerformClick()
             Exit Sub
         End If

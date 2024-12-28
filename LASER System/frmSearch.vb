@@ -14,12 +14,12 @@ Public Class frmSearch
         
         MenuStrip1.Items.Add(mnustrpMENU)
         CheckForIllegalCrossThreadCalls = False
-        Me.AcceptButton = cmdTSSearch
+        AcceptButton = cmdTSSearch
         txtTSSearch.Text = ""
         x = ""
-        Me.Text = "LASER System - Search Management [Prepairing Sheet....]"
+        Text = "LASER System - Search Management [Prepairing Sheet....]"
         grdSearch.Columns.Clear()
-        Select Case Me.Tag
+        Select Case Tag
             Case "Sale"
                 grdSearch.Columns.Add("SaNo", "Sale No")
                 grdSearch.Columns.Add("SaDate", "Sale Date")
@@ -306,7 +306,7 @@ Public Class frmSearch
             ProgressBar.Visible = True
             grdSearch.ScrollBars = ScrollBars.None
             ManageFilter()
-            Me.Text = "LASER System - Search Management [Setting Data....]"
+            Text = "LASER System - Search Management [Setting Data....]"
             grdSearch.Rows.Clear()
             bgwSearch.RunWorkerAsync()
             txtTSSearch.Text = ""
@@ -322,7 +322,7 @@ Public Class frmSearch
             Dim Count As Integer = 0
             x = ""
             y = ""
-            Me.Text = "LASER System - Search Management [Please Wait....]"
+            Text = "LASER System - Search Management [Please Wait....]"
             For i As Integer = 1 To _SearchPanelsAddedCount
                 For Each c As Control In flpSearch.Controls.Find("txtSearch" & i.ToString, True)
                     If TypeOf c IsNot Label Then Exit For
@@ -342,7 +342,7 @@ Public Class frmSearch
                         Search = tmplst(1)
                         Symbol = ""
                     End If
-                    Select Case Me.Tag
+                    Select Case Tag
                         Case "Sale"
                             Select Case Filter
                                 Case "Sale No"
@@ -653,7 +653,7 @@ Public Class frmSearch
 
     Private Sub bgwSearch_DoWork(sender As Object, e As DoWorkEventArgs) Handles bgwSearch.DoWork
         Dim Query As String = ""
-        Select Case Me.Tag
+        Select Case Tag
             Case "Sale"
                 Query = "SELECT Sale.SaNo,Sale.SaDate,Sale.CuNo,Customer.CuName,Customer.CuTelNo1,Customer.CuTelNo2,Customer.CuTelNo3,Sale.SaSubTotal,Sale.SaLess,Sale.SaDue,Sale.CReceived,Sale.CBalance,Sale.CAmount,Sale.CPInvoiceNo,Sale.CPAmount,Sale.CuLNo,Sale.CuLAmount,Sale.SaRemarks from Sale,Customer where Customer.CuNo=Sale.CuNo " & x & " Order by SaDate Desc;"
             Case "Supply"
@@ -680,7 +680,7 @@ Public Class frmSearch
                 e.Cancel = True
                 Exit For
             End If
-            Select Case Me.Tag
+            Select Case Tag
                 Case "Sale"
                     grdSearch.Rows.Add(Item("SaNo").ToString, Item("SaDate").ToString, Item("CuNo").ToString, Item("CuName").ToString,
                                            Item("CuTelNo1").ToString, Item("CuTelNo2").ToString, Item("CuTelNo3").ToString,
@@ -730,12 +730,12 @@ Public Class frmSearch
     End Sub
 
     Private Sub BgwSearch_ProgressChanged(sender As Object, e As ProgressChangedEventArgs) Handles bgwSearch.ProgressChanged
-        Me.Text = $"LASER System - Search Management [{e.UserState}]"
+        Text = $"LASER System - Search Management [{e.UserState}]"
         ProgressBar.Value = e.ProgressPercentage
     End Sub
 
     Private Sub bgwSearch_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles bgwSearch.RunWorkerCompleted
-        Me.Text = "LASER System - Search Management"
+        Text = "LASER System - Search Management"
         If cmdTSSearch.Tag = "Restart" Then
             cmdTSSearch.Tag = ""
             CmdTSSearch_Click(sender, e)
@@ -747,7 +747,7 @@ Public Class frmSearch
     End Sub
 
     Private Sub FrmSearch_Resize(sender As Object, e As EventArgs) Handles Me.Resize
-        If Me.Tag = "Repair" Then
+        If Tag = "Repair" Then
             frmDatagridviewTool.frm_Move()
         End If
     End Sub
@@ -872,7 +872,7 @@ end_for_loop:
     Private Sub frmSearch_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
         bgwSearch.CancelAsync()
         e.Cancel = False
-        Me.Tag = ""
+        Tag = ""
     End Sub
 
     Private Sub cmdLeftBracket_Click(sender As Object, e As EventArgs) Handles cmdLeftBracket.Click
@@ -895,7 +895,7 @@ end_for_loop:
     End Sub
 
     Private Sub grdSearch_SelectionChanged(sender As Object, e As EventArgs) Handles grdSearch.SelectionChanged
-        Select Case Me.Tag
+        Select Case Tag
             Case "Repair"
                 frmDatagridviewTool.frm_Close()
                 If grdSearch.CurrentCell.ColumnIndex = 13 Then
@@ -930,7 +930,7 @@ end_for_loop:
 
     Private Sub grdSearch_CellBeginEdit(sender As Object, e As DataGridViewCellCancelEventArgs) Handles grdSearch.CellBeginEdit
         If e.RowIndex < 0 Then Exit Sub
-        If Me.Tag = "Repair" Then
+        If Tag = "Repair" Then
             If e.ColumnIndex = 17 Then
                 grdSearch.Controls.Add(dtpDate)
                 dtpDate.Location = grdSearch.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, False).Location
@@ -950,7 +950,7 @@ end_for_loop:
 
     Private Sub grdSearch_RowValidating(sender As Object, e As DataGridViewCellCancelEventArgs) Handles grdSearch.RowValidating
         If e.RowIndex < 0 Then Exit Sub
-        Select Case Me.Tag
+        Select Case Tag
             Case "Repair"
                 If e.RowIndex < 0 Or e.RowIndex >= grdSearch.Rows.Count Then Exit Sub
                 grdSearch.Item("Charge", e.RowIndex).ErrorText = ""
@@ -975,7 +975,7 @@ end_for_loop:
     End Sub
 
     Private Sub grdSearch_EditingControlShowing(sender As Object, e As DataGridViewEditingControlShowingEventArgs) Handles grdSearch.EditingControlShowing
-        If Me.Tag = "Repair" Then
+        If Tag = "Repair" Then
             If grdSearch.CurrentCell.ColumnIndex = 17 Then
                 dtpDate.Location = grdSearch.GetCellDisplayRectangle(grdSearch.CurrentCell.ColumnIndex, grdSearch.CurrentCell.RowIndex, True).Location
                 dtpDate.Size = New Size(grdSearch.Columns.Item(grdSearch.CurrentCell.ColumnIndex).Width, grdSearch.Rows.Item(grdSearch.CurrentCell.RowIndex).Height)
@@ -989,14 +989,14 @@ end_for_loop:
     End Sub
 
     Private Sub GrdSearch_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles grdSearch.CellDoubleClick
-        If Me.Tag = "" Or e.RowIndex < 0 Then
+        If Tag = "" Or e.RowIndex < 0 Then
             Exit Sub
         End If
-        If Me.Tag <> "Repair" Then Me.Enabled = False
-        Select Case Me.Tag
+        If Tag <> "Repair" Then Enabled = False
+        Select Case Tag
             Case "Sale"
                 For Each oForm As frmSale In Application.OpenForms().OfType(Of frmSale)()
-                    If oForm.Name = Me.Key Then
+                    If oForm.Name = Key Then
                         With oForm
                             Dim index As Integer
                             index = e.RowIndex
@@ -1127,14 +1127,14 @@ end_for_loop:
                     Call .GrdRepair_CellEndEdit(sender, E1)
                 End With
         End Select
-        If Me.Tag <> "Repair" Then
-            Me.Enabled = True
-            Me.Close()
+        If Tag <> "Repair" Then
+            Enabled = True
+            Close()
         End If
     End Sub
 
     Private Sub frmSearch_Move(sender As Object, e As EventArgs) Handles Me.Move
-        If Me.Tag = "Repair" Then
+        If Tag = "Repair" Then
             frmDatagridviewTool.frm_Move()
             frmSearchDropDown.frm_Move()
         End If
@@ -1146,7 +1146,7 @@ end_for_loop:
         If grdSearch.Item(e.ColumnIndex, e.RowIndex).Value IsNot Nothing Then currentvalue = grdSearch.Item(e.ColumnIndex, e.RowIndex).Value
         If grdSearch.Item(e.ColumnIndex, e.RowIndex).Tag IsNot Nothing Then previousvalue = grdSearch.Item(e.ColumnIndex, e.RowIndex).Tag
         Dim UNo As Integer = User.Instance.UserNo
-        If Me.Tag = "Repair" Then
+        If Tag = "Repair" Then
             If e.ColumnIndex = 11 Then frmSearchDropDown.frm_Close()
             If e.ColumnIndex = 13 Or e.ColumnIndex = 16 Then frmDatagridviewTool.frm_Close()
             Task.Run(Sub()

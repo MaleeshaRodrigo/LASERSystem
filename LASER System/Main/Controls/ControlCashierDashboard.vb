@@ -26,7 +26,19 @@ Public Class ControlCashierDashboard
     Private Sub FillStockInfo(UserName As String)
         Dim TotalProfit As Double
         Dim Precentage As Double = My.Settings.SaleCommissionPrecentage / 100
-        Dim DataTable = Db.GetDataTable($"SELECT date(SaDate) AS 'Date', sas.SNo, CONCAT(Sas.SCategory, ' ', Sas.SName) as 'Stock', sas.SaType AS 'Type', SaRate AS 'Rate', SaUnits AS 'Qty',	SaTotal AS 'Total',	SLowestPrice AS 'LowestPrice',	(SLowestPrice * SaUnits) AS 'TotalLowestPrice', SaTotal - (SLowestPrice * SaUnits) AS 'Profit' FROM {Tables.StockSale} sas LEFT JOIN {Tables.Sale} sa ON sa.SaNo = sas.SaNo LEFT JOIN `{Tables.User}` u ON u.UNo = sa.UNo LEFT JOIN {Tables.Stock} s ON s.sno = sas.SNo WHERE u.UserName = @USERNAME AND DATE(SaDate) BETWEEN DATE(@FROMDATE) AND DATE(@TODATE);", {
+        Dim DataTable = Db.GetDataTable($"SELECT 
+            DATE(SaDate) as 'Date',
+	        sas.SNo,
+	        CONCAT(Sas.SCategory, ' ', Sas.SName) as 'Stock',
+	        sas.SaType as 'Type',
+	        if(sas.SaType = 'Sale', SaRate, -SaRate)  as 'Rate',
+	        SaUnits as 'Qty',
+	        if(sas.SaType = 'Sale', SaTotal, -SaTotal) as 'Total',
+	        if(sas.SaType = 'Sale', SLowestPrice, -SLowestPrice) as 'LowestPrice',
+	        if(sas.SaType = 'Sale', (SLowestPrice * SaUnits), -(SLowestPrice * SaUnits)) as 'TotalLowestPrice',
+	        if(sas.SaType = 'Sale', SaTotal - (SLowestPrice * SaUnits), -(SaTotal - (SLowestPrice * SaUnits))) as 'Profit'
+            FROM {Tables.StockSale} sas LEFT JOIN {Tables.Sale} sa ON sa.SaNo = sas.SaNo LEFT JOIN `{Tables.User}` u ON u.UNo = sa.UNo LEFT JOIN {Tables.Stock} s ON s.sno = sas.SNo 
+            WHERE u.UserName = @USERNAME AND DATE(SaDate) BETWEEN DATE(@FROMDATE) AND DATE(@TODATE);", {
             New MySqlParameter("USERNAME", UserName),
             New MySqlParameter("FROMDATE", PickerFrom.Value.Date),
             New MySqlParameter("TODATE", PickerTo.Value.Date)
