@@ -101,7 +101,7 @@ Public Class FormReceive
     End Sub
 
     Private Sub cmdClose_Click(sender As Object, e As EventArgs) Handles cmdClose.Click, CloseToolStripMenuItem.Click
-        Me.Close()
+        Close()
     End Sub
 
     Private Sub cmdSave_Click(sender As Object, e As EventArgs) Handles cmdSave.Click, SaveToolStripMenuItem.Click
@@ -429,7 +429,7 @@ Public Class FormReceive
             Dim frm As New frmCustomer
             With frm
                 frm.Name = "frmCustomer" + NextfrmNo(frmCustomer).ToString
-                frm.Caller = Me.Name
+                frm.Caller = Name
                 frm.Tag = "Receive"
                 frm.Show(Me)
                 frm.SelectCustomer(SaDR("CuNo"), SaDR("CuName"), SaDR("CuTelNo1"), SaDR("CuTelNo2"), SaDR("CuTelNo3"))

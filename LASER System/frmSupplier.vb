@@ -9,7 +9,7 @@ Public Class frmSupplier
         txtSuTelNo1.Text = ""
         cmdSave.Text = "Save"
         cmdDelete.Enabled = False
-        If Me.Tag <> "" Then cmdDone.Text = "Done + Save"
+        If Tag <> "" Then cmdDone.Text = "Done + Save"
     End Sub
 
     Private Sub frmSupplier_Leave(sender As Object, e As EventArgs) Handles Me.Leave
@@ -19,7 +19,7 @@ Public Class frmSupplier
     Private Sub frmSupplier_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         
         MenuStrip1.Items.Add(mnustrpMENU)
-        If Me.Tag = "" Then
+        If Tag = "" Then
             cmdDone.Enabled = False
             DoneSaveToolStripMenuItem.Enabled = False
         Else
@@ -160,7 +160,7 @@ Public Class frmSupplier
         Else
             x = "Order by SuNo"
         End If
-        Me.grdSupplier.DataSource = Db.GetDataTable("SELECT SuNo as `No`,SuName as `Name`,SuAddress as `Address`,SuEmail as `Email`, SuTelNo1 as `Telephone No1`,SuTelNo2 as `Telephone No2`,SuTelNo3 as `Telephone No3`, SuRemarks as Remarks from Supplier " & x & ";")
+        grdSupplier.DataSource = Db.GetDataTable("SELECT SuNo as `No`,SuName as `Name`,SuAddress as `Address`,SuEmail as `Email`, SuTelNo1 as `Telephone No1`,SuTelNo2 as `Telephone No2`,SuTelNo3 as `Telephone No3`, SuRemarks as Remarks from Supplier " & x & ";")
         grdSupplier.Refresh()
     End Sub
 
@@ -174,13 +174,13 @@ Public Class frmSupplier
             Call cmbSuName_SelectedIndexChanged(sender, e)
             cmdSave.Text = "Edit"   'Change edit mode
             cmdDelete.Enabled = True
-            If Me.Tag <> "" Then cmdDone.Text = "Done"
+            If Tag <> "" Then cmdDone.Text = "Done"
         End If
     End Sub
 
     Private Sub frmSupplier_Resize(sender As Object, e As EventArgs) Handles Me.Resize
-        grpSearch.Width = Me.Width - grpSearch.Left - 20
-        grpSearch.Height = Me.Height - grpSearch.Top - 40
+        grpSearch.Width = Width - grpSearch.Left - 20
+        grpSearch.Height = Height - grpSearch.Top - 40
         grdSupplier.Width = grpSearch.Width - 10
         grdSupplier.Height = grpSearch.Height - grdSupplier.Top - 5
     End Sub
@@ -196,13 +196,13 @@ Public Class frmSupplier
         If cmdDone.Tag = "0" Then
             Exit Sub
         End If
-        Select Case Me.Tag
+        Select Case Tag
             Case "Supply"
                 With frmSupply
                     .cmbSuName_DropDown(sender, e)
                     .cmbSuName.Text = cmbSuName.Text
                     frmSupply.Show()
-                    Me.Close()
+                    Close()
                 End With
         End Select
     End Sub

@@ -12,13 +12,13 @@ Public Class frmReport
     End Sub
 
     Private Sub CloseToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CloseToolStripMenuItem.Click
-        Me.Close()
+        Close()
     End Sub
 
     Private Sub PrintToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PrintToolStripMenuItem.Click
-        Select Case Me.Tag
+        Select Case Tag
             Case "RepairReceivedReceipt"
-                Dim RPT = Me.ReportViewer.ReportSource
+                Dim RPT = ReportViewer.ReportSource
                 Dim rawKind1 As Integer
                 Dim c1 As Integer
                 Dim doctoprint1 As New Printing.PrintDocument()
@@ -41,36 +41,36 @@ Public Class frmReport
 
     Private Sub tmrInterval_Tick(sender As Object, e As EventArgs) Handles tmrInterval.Tick
         ClosedCount -= 1
-        Me.Text = FormName + " - Closed at " + ClosedCount.ToString + " sec"
+        Text = FormName + " - Closed at " + ClosedCount.ToString + " sec"
         If ClosedCount <= 0 Then
-            Me.Close()
+            Close()
         End If
     End Sub
 
     Private Sub FrmReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         If boolClosed Then
             ClosedCount = 60
-            FormName = Me.Text
+            FormName = Text
             tmrInterval.Enabled = True
             tmrInterval.Start()
         End If
-        Select Case Me.Tag
+        Select Case Tag
             Case "ReceivedReceipt"
-                Me.Top = Screen.PrimaryScreen.WorkingArea.Height / 2
-                Me.Height = Screen.PrimaryScreen.WorkingArea.Height - Me.Top - 5
-                Me.Width = Screen.PrimaryScreen.WorkingArea.Width / 2
-                Me.Left = 0
+                Top = Screen.PrimaryScreen.WorkingArea.Height / 2
+                Height = Screen.PrimaryScreen.WorkingArea.Height - Top - 5
+                Width = Screen.PrimaryScreen.WorkingArea.Width / 2
+                Left = 0
             Case "ReceivedSticker"
-                Me.Top = Screen.PrimaryScreen.WorkingArea.Height / 2
-                Me.Height = Screen.PrimaryScreen.WorkingArea.Height - Me.Top - 5
-                Me.Width = Screen.PrimaryScreen.WorkingArea.Width / 2
-                Me.Left = Screen.PrimaryScreen.WorkingArea.Width / 2 - 10
+                Top = Screen.PrimaryScreen.WorkingArea.Height / 2
+                Height = Screen.PrimaryScreen.WorkingArea.Height - Top - 5
+                Width = Screen.PrimaryScreen.WorkingArea.Width / 2
+                Left = Screen.PrimaryScreen.WorkingArea.Width / 2 - 10
         End Select
     End Sub
 
     Private Sub frmReport_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         If (e.KeyCode = System.Windows.Forms.Keys.Escape) Then
-            Me.Close()
+            Close()
         End If
     End Sub
 End Class

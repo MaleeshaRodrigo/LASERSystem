@@ -44,19 +44,19 @@ Public Class frmSalesRepair
     Private Sub cmdSaRepSearch_Click(sender As Object, e As EventArgs) Handles cmdSaRepSearch.Click
         If txtTNo.Text = "" Then Exit Sub
         Dim DT As DataTable = Db.GetDataTable("Select SaRepNo,SaRepDate,SNo,Charge,Qty,Total from SalesREpair where TNo = " & txtTNo.Text & " and '" & txtSaRepFrom.Value.ToString & "' <= SaRepDate and SaRepDate <= '" & txtSaRepTo.Value.ToString & "';")
-        Me.grdSalesRepair.DataSource = DT
+        grdSalesRepair.DataSource = DT
         grdSalesRepair.Refresh()
     End Sub
 
     Private Sub frmSalesRepair_Resize(sender As Object, e As EventArgs) Handles Me.Resize
-        cmdSaRepNew.Left = Int(Me.Width) - Int(cmdSaRepNew.Width) - 30
+        cmdSaRepNew.Left = Int(Width) - Int(cmdSaRepNew.Width) - 30
         cmdSaRepClose.Left = cmdSaRepNew.Left
         cmdSaRepSave.Left = cmdSaRepNew.Left
         cmdSaRepDelete.Left = cmdSaRepNew.Left
-        grdSalesRepair.Width = Int(Me.Width) - 42
-        txtSaRepTotal.Top = Int(Me.Height) - Int(txtSaRepTotal.Height) - 50
+        grdSalesRepair.Width = Int(Width) - 42
+        txtSaRepTotal.Top = Int(Height) - Int(txtSaRepTotal.Height) - 50
         lblSaRepTotal.Top = txtSaRepTotal.Top
-        grdSalesRepair.Height = Int(Me.Height) - Int(grdSalesRepair.Top) - Int(txtSaRepTotal.Height) - 60
+        grdSalesRepair.Height = Int(Height) - Int(grdSalesRepair.Top) - Int(txtSaRepTotal.Height) - 60
     End Sub
 
     Private Sub cmdSaRepClose_Click(sender As Object, e As EventArgs) Handles cmdSaRepClose.Click

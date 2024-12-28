@@ -34,10 +34,10 @@ Public Class FormStock
 
     Private Sub grdStock_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles grdStock.CellDoubleClick
         Dim CurrentRow = grdStock.Rows.Item(e.RowIndex)
-        Select Case Me.Tag
+        Select Case Tag
             Case "Sale"
                 For Each oForm As frmSale In Application.OpenForms().OfType(Of frmSale)()
-                    If oForm.Name = Me.Caller Then
+                    If oForm.Name = Caller Then
                         With oForm
                             .grdSale.Rows.Add(grdStock.Item(0, grdStock.CurrentRow.Index).Value, grdStock.Item(1, grdStock.CurrentRow.Index).Value,
                                              grdStock.Item(2, grdStock.CurrentRow.Index).Value, "Sale", grdStock.Item(6, grdStock.CurrentRow.Index).Value,
@@ -46,7 +46,7 @@ Public Class FormStock
                         Exit For
                     End If
                 Next
-                Me.Close()
+                Close()
             Case "Supply"
                 With frmSupply
                     .grdSupply.Rows.Add(grdStock.Item(0, e.RowIndex).Value, grdStock.Item(1, e.RowIndex).Value,
@@ -55,14 +55,14 @@ Public Class FormStock
                                         grdStock.Item(9, e.RowIndex).Value, "Supply", grdStock.Item(5, e.RowIndex).Value,
                                         "1", Int(grdStock.Item(5, e.RowIndex).Value) * 1, grdStock.Item(10, e.RowIndex).Value)
                 End With
-                Me.Close()
+                Close()
             Case "TechnicianCost"
                 With frmTechnicianCost
                     .grdTechnicianCost.Item("SNo", .grdTechnicianCost.Rows.Count - 1).Value = grdStock.Item(0, grdStock.CurrentRow.Index).Value
                     Dim E1 As New DataGridViewCellEventArgs("SNo", .grdTechnicianCost.Rows.Count - 1)
                     .grdTechnicianCost_CellEndEdit(sender, E1)
                 End With
-                Me.Close()
+                Close()
             Case Else
                 Dim ControlStockInfo As New ControlStockInfo(DB)
                 With ControlStockInfo
@@ -89,7 +89,7 @@ Public Class FormStock
     End Sub
 
     Private Sub CloseToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CloseToolStripMenuItem.Click
-        Me.Close()
+        Close()
     End Sub
 
     Private Sub ViewStockTransactionDetailsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ViewStockTransactionDetailsToolStripMenuItem.Click
@@ -152,7 +152,7 @@ Public Class FormStock
     Private Sub CmdNew_Click(sender As Object, e As EventArgs) Handles cmdNew.Click
         Dim ControlStockInfo As New ControlStockInfo(DB)
         AddHandler ControlStockInfo.UpdateEvent, AddressOf ControlStockInfo_Submit
-        Me.Controls.Add(ControlStockInfo)
+        Controls.Add(ControlStockInfo)
         ControlStockInfo.ClearControls()
         ControlStockInfo.FormParent = Me
         ControlStockInfo.Dock = DockStyle.Fill

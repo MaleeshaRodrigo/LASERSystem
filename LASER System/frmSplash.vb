@@ -21,7 +21,7 @@ Public NotInheritable Class FrmSplash
     Private Sub TmrSplash_Tick(sender As Object, e As EventArgs) Handles tmrSplash.Tick
         C += 1
         If C = 100 Then
-            Me.Close()
+            Close()
             tmrSplash.Stop()
         Else
             LoadingBar.Value = C

@@ -39,14 +39,14 @@ Public Class FrmSettings
         End With
         cmbBSCOMPort1_DropDown(sender, e)
         chkBSCOMMode_CheckedChanged(sender, e)
-        Me.AcceptButton = cmdOK
+        AcceptButton = cmdOK
     End Sub
 
     Private Sub FrmSettings_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-        If Me.Tag = "Login" Then
+        If Tag = "Login" Then
             End
         Else
-            Me.Close()
+            Close()
         End If
     End Sub
 

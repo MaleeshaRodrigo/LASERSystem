@@ -295,7 +295,7 @@ Public Class FormMain
     Public Sub txtIncomevsDateCustom_TextChanged(sender As Object, e As EventArgs)
         Dim cmd0 As New MySqlCommand
         Dim DR0
-        If Me.Tag = "Cashier" Then Exit Sub
+        If Tag = "Cashier" Then Exit Sub
         tsProBar.Visible = True
         tsProBar.Value = 0
         tslblLoad.Text = "Getting Data to Chart..."
@@ -386,13 +386,13 @@ Public Class FormMain
             If CurrentForm.Name.StartsWith(frmSearch.Name) And CurrentForm.Tag = "Repair" Then
                 Dim frmSearch_Repair As frmSearch = CurrentForm
                 frmSearch_Repair.txtTSSearch.Text = str
-                Me.BeginInvoke(New EventHandler(Sub()
+                BeginInvoke(New EventHandler(Sub()
                                                     frmSearch_Repair.cmdTSSearch.PerformClick()
                                                 End Sub))
                 Exit Sub
             End If
             If Application.OpenForms().OfType(Of frmSale)().Count < 1 Then
-                Me.BeginInvoke(New EventHandler(Sub()
+                BeginInvoke(New EventHandler(Sub()
                                                     cmdSale.PerformClick()
                                                 End Sub))
                 Threading.Thread.Sleep(3000)

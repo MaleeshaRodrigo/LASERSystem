@@ -50,12 +50,12 @@ Public Class ControlStockInfo
     End Sub
 
     Private Sub CmdClose_Click(sender As Object, e As EventArgs) Handles CmdClose.Click
-        Me.Dispose()
+        Dispose()
     End Sub
 
     Private Sub ControlStockInfo_Resize(sender As Object, e As EventArgs) Handles Me.Resize
-        GrpInfo.Top = (Me.Height - GrpInfo.Height) / 2
-        GrpInfo.Left = (Me.Width - GrpInfo.Width) / 2
+        GrpInfo.Top = (Height - GrpInfo.Height) / 2
+        GrpInfo.Left = (Width - GrpInfo.Width) / 2
     End Sub
 
     Private Sub CmdSave_Click(sender As Object, e As EventArgs) Handles CmdSave.Click
@@ -221,7 +221,7 @@ Public Class ControlStockInfo
             Db.Execute($"DELETE FROM {Tables.Stock} WHERE {Stock.Code}=@SNO", {
                     New MySqlParameter("@SNO", TxtSNo.Text)
                 })
-            Me.Dispose()
+            Dispose()
         End If
     End Sub
 

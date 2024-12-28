@@ -4,9 +4,9 @@
     Private _Details As String
 
     Public Sub New(Category As String, Name As String, Details As String)
-        Me._Category = Category
-        Me._Name = Name
-        Me._Details = Details
+        _Category = Category
+        _Name = Name
+        _Details = Details
     End Sub
 
     Public Property Category

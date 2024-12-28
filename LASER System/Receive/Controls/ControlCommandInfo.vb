@@ -41,7 +41,7 @@ Public Class ControlCommandInfo
     End Sub
 
     Private Sub cmdCancel_Click(sender As Object, e As EventArgs) Handles cmdCancel.Click
-        Me.Dispose()
+        Dispose()
         RaiseEvent CancelEvent()
     End Sub
 
@@ -58,7 +58,7 @@ Public Class ControlCommandInfo
         Catch ex As Exception
             MessageBox.Error("Received Repair Save and Print Section එකෙහි දෝෂයක් පවතියි." + vbCrLf + "Message: " + ex.Message)
         Finally
-            Me.Dispose()
+            Dispose()
             RaiseEvent SubmitEvent()
         End Try
     End Sub

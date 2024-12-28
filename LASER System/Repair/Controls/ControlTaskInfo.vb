@@ -9,7 +9,7 @@ Public Class ControlTaskInfo
         InitializeComponent()
 
         Me.DB = DB
-        Me.FormParent = RepairForm
+        FormParent = RepairForm
     End Sub
 
     Public Sub InitForRepair(RepNo As Integer)

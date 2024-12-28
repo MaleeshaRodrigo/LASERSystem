@@ -47,12 +47,12 @@ Public Class ControlTechnicianCostBulkInsert
                 Dim tb As TextBox = TryCast(e.Control, TextBox)
                 frmSearchDropDown.passtext(tb)
                 AddHandler tb.KeyUp, AddressOf frmSearchDropDown.dgv_KeyUp
-                frmSearchDropDown.frm_Open(Db, GridView, Me.ParentForm, "Select SCategory from Stock group by SCategory;", "SCategory")
+                frmSearchDropDown.frm_Open(Db, GridView, ParentForm, "Select SCategory from Stock group by SCategory;", "SCategory")
             Case 3
                 Dim tb As TextBox = TryCast(e.Control, TextBox)
                 frmSearchDropDown.passtext(tb)
                 AddHandler tb.KeyUp, AddressOf frmSearchDropDown.dgv_KeyUp
-                frmSearchDropDown.frm_Open(Db, GridView, Me.ParentForm, "Select SCategory,SName from Stock where SCategory='" &
+                frmSearchDropDown.frm_Open(Db, GridView, ParentForm, "Select SCategory,SName from Stock where SCategory='" &
                 GridView.Item(2, GridView.CurrentCell.RowIndex).Value & "';", "SName")
         End Select
     End Sub

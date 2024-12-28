@@ -139,12 +139,12 @@ Public Class frmStockSticker
     End Sub
 
     Private Sub frmStockSticker_Resize(sender As Object, e As EventArgs) Handles Me.Resize
-        grdStock.Width = (Me.Width - (grdStock.Left * 2)) / 2
+        grdStock.Width = (Width - (grdStock.Left * 2)) / 2
         rptViewer.Left = (grdStock.Width + grdStock.Left) + 5
-        rptViewer.Width = Me.Width - rptViewer.Left - 20
+        rptViewer.Width = Width - rptViewer.Left - 20
         btnShow.Left = rptViewer.Left - btnShow.Width - 5
-        grdStock.Height = Me.Height - grdStock.Top - 50
-        rptViewer.Height = Me.Height - rptViewer.Top - 50
+        grdStock.Height = Height - grdStock.Top - 50
+        rptViewer.Height = Height - rptViewer.Top - 50
     End Sub
 
     Private Sub ClearToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ClearToolStripMenuItem.Click

@@ -54,7 +54,7 @@ Public Class ControlTechnicianCostInfo
     End Sub
 
     Private Sub CmdClose_Click(sender As Object, e As EventArgs) Handles ButtonClose.Click
-        Me.Dispose()
+        Dispose()
     End Sub
 
     Private Sub CmdSave_Click(sender As Object, e As EventArgs) Handles ButtonSave.Click

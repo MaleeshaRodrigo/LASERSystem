@@ -8,7 +8,7 @@ Public Class ControlTechnicianCostListInfo
         InitializeComponent()
 
         Me.Db = Db
-        Me.ParentRepairForm = ParentForm
+        ParentRepairForm = ParentForm
     End Sub
 
     Public Sub InitForRepair(RepNo As Integer)

@@ -116,16 +116,16 @@ Public Class FormDeliver
         CalculateGrandTotal()
 
         If txtDDate.Value.Date <> Today.Date And User.Instance.UserType <> User.Type.Admin Then
-            Me.AcceptButton = ControlPopUp.cmdNotReceipt
+            AcceptButton = ControlPopUp.cmdNotReceipt
             ControlPopUp.chkCashDrawer.Checked = False
             ControlPopUp.chkCashDrawer.Enabled = False
             ControlPopUp.cmdReceipt.Enabled = False
         Else
-            Me.AcceptButton = ControlPopUp.cmdReceipt
+            AcceptButton = ControlPopUp.cmdReceipt
             ControlPopUp.cmdReceipt.Enabled = True
             ControlPopUp.chkCashDrawer.Enabled = False
         End If
-        Me.Controls.Add(ControlPopUp)
+        Controls.Add(ControlPopUp)
         MenuStrip.Enabled = False
     End Sub
 
@@ -401,7 +401,7 @@ Public Class FormDeliver
                     If MsgBox("එම Repair එක සඳහා RERepair එකක් විවෘත කර නොමැත. ඔබට මෙය ඇතුලත් කිරිමට අවශ්‍ය ද?", vbYesNo + vbInformation) = vbYes Then
                         Dim frm As New FormReceive
                         frm.Name = "frmReceive" + NextfrmNo(FormReceive).ToString
-                        frm.Caller = Me.Name
+                        frm.Caller = Name
                         frm.Show(Me)
                         frm.grdReRepair.Rows.Add("", grdRERepair.Item(1, e.RowIndex).Value)
                         frm.grdReRepair_UserAddedRow(sender, Nothing)
@@ -415,13 +415,13 @@ Public Class FormDeliver
 
     Private Sub SearchRepairsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SearchRepairsToolStripMenuItem.Click
         Dim frm As New FormRepair
-        If Me.ActiveControl Is grdRepair Then
+        If ActiveControl Is grdRepair Then
             frm.Tag = "DeliverRepair"
             frm.tabRepair.SelectTab(0)
             frm.cmbRepNo.Text = grdRepair.Item(0, grdRepair.CurrentCell.RowIndex).Value
             frm.CmbRepNo_SelectedIndexChanged(sender, e)
             frm.cmbRepNo.Focus()
-        ElseIf Me.ActiveControl Is grdRERepair Then
+        ElseIf ActiveControl Is grdRERepair Then
             frm.Tag = "DeliverReRepair"
             frm.tabRepair.SelectTab(1)
             frm.cmbRetNo.Text = grdRERepair.Item(0, grdRERepair.CurrentCell.RowIndex).Value
@@ -459,7 +459,7 @@ Public Class FormDeliver
         Dim frmNewReceive As New FormReceive
         With frmNewReceive
             .Name = "frmReceive" + NextfrmNo(FormReceive).ToString
-            .Caller = Me.Name
+            .Caller = Name
             .Show(Me)
             .Tag = "Deliver"
         End With
@@ -477,7 +477,7 @@ Public Class FormDeliver
         Dim frmNewSearch As New frmSearch
         With frmNewSearch
             .Name = "frmSearch" + NextfrmNo(frmSearch).ToString
-            .Key = Me.Name
+            .Key = Name
             .Tag = "Deliver"
             .Show(Me)
         End With

@@ -43,7 +43,7 @@ Public Class ControlPopUp
     End Sub
 
     Private Sub cmdCancel_Click(sender As Object, e As EventArgs) Handles cmdCancel.Click
-        Me.Dispose()
+        Dispose()
     End Sub
 
     Private Sub TextBoxPrice_keyPress(ByVal sender As Object, ByVal e As KeyPressEventArgs) Handles txtCAmount.KeyPress, txtCReceived.KeyPress
