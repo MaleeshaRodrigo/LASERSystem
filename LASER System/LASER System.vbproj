@@ -749,6 +749,9 @@
     <EmbeddedResource Include="Shared Controls\ControlGridDatePicker.resx">
       <DependentUpon>ControlGridDatePicker.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Shared Controls\ControlLogin.resx">
+      <DependentUpon>ControlLogin.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Shared Controls\ControlPrice.resx">
       <DependentUpon>ControlPrice.vb</DependentUpon>
     </EmbeddedResource>

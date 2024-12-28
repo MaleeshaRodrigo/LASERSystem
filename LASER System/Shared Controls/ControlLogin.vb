@@ -97,4 +97,16 @@ Public Class ControlLogin
             txtOTPUserName.Focus()
         End If
     End Sub
+
+    Private Sub txtPassword_KeyDown(sender As Object, e As KeyEventArgs) Handles txtPassword.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            cmdLogin.PerformClick()
+        End If
+    End Sub
+
+    Private Sub txtOTPCode_KeyDown(sender As Object, e As KeyEventArgs) Handles txtOTPCode.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            cmdOTPLogin.PerformClick()
+        End If
+    End Sub
 End Class

@@ -37,7 +37,7 @@ Public Class ControlCommandInfo
     End Sub
 
     Private Sub ControlCommandInfo_Load(sender As Object, e As EventArgs) Handles Me.Load
-        AcceptButton = cmdReceiptSticker
+        cmdReceiptSticker.Focus()
     End Sub
 
     Private Sub cmdCancel_Click(sender As Object, e As EventArgs) Handles cmdCancel.Click

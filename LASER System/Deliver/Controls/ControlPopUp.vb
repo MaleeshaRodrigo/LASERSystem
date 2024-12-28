@@ -60,7 +60,7 @@ Public Class ControlPopUp
 
     Private Sub ControlPopUp_Leave(sender As Object, e As EventArgs) Handles Me.Leave
         FormParent.MenuStrip.Enabled = True
-        AcceptButton = FormParent.cmdSave
+        FormParent.AcceptButton = FormParent.cmdSave
         FormParent.grdRepair.Focus()
         FormParent.grdRepair.CurrentCell = FormParent.grdRepair.Item(0, FormParent.grdRepair.Rows.Count - 1)
     End Sub
