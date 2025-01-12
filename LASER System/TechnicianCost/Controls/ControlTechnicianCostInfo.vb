@@ -64,54 +64,62 @@ Public Class ControlTechnicianCostInfo
             Exit Sub
         End If
 
-        Dim Values As New List(Of MySqlParameter) From {
-            New MySqlParameter("TCDATE", PickerDate.Value),
-            New MySqlParameter("TNO", ControlTechnicianSelection.GetTechnicianNo),
-            New MySqlParameter("SNO", ControlStockSelection.SCode),
-            New MySqlParameter("SCATEGORY", ControlStockSelection.SCategory),
-            New MySqlParameter("SNAME", ControlStockSelection.SName),
-            New MySqlParameter("RATE", TextRate.Value),
-            New MySqlParameter("QTY", TextQty.Value),
-            New MySqlParameter("TOTAL", TextTotal.Value),
-            New MySqlParameter("REMARKS", TextRemarks.Text),
-            New MySqlParameter("UNO", User.Instance.UserNo)
-        }
-        If ControlRepairReRepairSelection.RepairMode = RepairMode.Repair And ControlRepairReRepairSelection.Value <> 0 Then
-            Values.AddRange({
-                New MySqlParameter("REPNO", ControlRepairReRepairSelection.Value),
-                New MySqlParameter("RETNO", Nothing)
-            })
-        ElseIf ControlRepairReRepairSelection.RepairMode = RepairMode.ReRepair And ControlRepairReRepairSelection.Value <> 0 Then
-            Values.AddRange({
-                New MySqlParameter("REPNO", Nothing),
-                New MySqlParameter("RETNO", ControlRepairReRepairSelection.Value)
-            })
-        Else
-            Values.AddRange({
-                New MySqlParameter("REPNO", Nothing),
-                New MySqlParameter("RETNO", Nothing)
-            })
-        End If
-        Dim QueriesWithValues As New List(Of (Query As String, Parameters As MySqlParameter()))
-        If UpdateMode = UpdateMode.New Then
-            QueriesWithValues.Add((
-                "INSERT INTO TechnicianCost(TCDate, TNo, RepNo, RetNo, SNo, SCategory, SName, Rate, Qty, Total, TCRemarks, UNo) VALUES(@TCDATE, @TNO, @REPNO, @RETNO, @SNO, @SCATEGORY, @SNAME, @RATE, @QTY, @TOTAL, @REMARKS, @UNO);", Values.ToArray
-            ))
-        Else
-            ' TODO: Implement stock update for edit mode
-            Values.Add(New MySqlParameter("TCNO", TextTechnicianCostNo.Text))
-            Db.Execute("UPDATE TechnicianCost SET TCDate=@TCDATE, TNo=@TNO, RepNo=@REPNO, RetNo=@RETNO, SNo=@SNO, SCategory=@SCATEGORY, SName=@SNAME, Rate=@RATE, Qty=@QTY, Total=@TOTAL, TCRemarks=@REMARKS, UNo=@UNO WHERE TCNo=@TCNO;", Values.ToArray)
-        End If
-        If ControlStockSelection.SCode <> Nothing Then
-            QueriesWithValues.Add(($"UPDATE {Tables.Stock} SET {Stock.AvailableUnits}=({Stock.AvailableUnits}-@UNITS) WHERE {Stock.Code}=@CODE;", {
-                New MySqlParameter("UNITS", TextQty.Value),
-                New MySqlParameter("CODE", ControlStockSelection.SCode)
-            }))
-        End If
+        Try
+            Dim Values As New List(Of MySqlParameter) From {
+                New MySqlParameter("TCDATE", PickerDate.Value),
+                New MySqlParameter("TNO", ControlTechnicianSelection.GetTechnicianNo),
+                New MySqlParameter("SCATEGORY", ControlStockSelection.SCategory),
+                New MySqlParameter("SNAME", ControlStockSelection.SName),
+                New MySqlParameter("RATE", TextRate.Value),
+                New MySqlParameter("QTY", TextQty.Value),
+                New MySqlParameter("TOTAL", TextTotal.Value),
+                New MySqlParameter("REMARKS", TextRemarks.Text),
+                New MySqlParameter("UNO", User.Instance.UserNo)
+            }
+            If ControlStockSelection.SCode > 0 Then
+                Values.Add(New MySqlParameter("SNO", ControlStockSelection.SCode))
+            Else
+                Values.Add(New MySqlParameter("SNO", Nothing))
+            End If
+            If ControlRepairReRepairSelection.RepairMode = RepairMode.Repair And ControlRepairReRepairSelection.Value <> 0 Then
+                Values.AddRange({
+                    New MySqlParameter("REPNO", ControlRepairReRepairSelection.Value),
+                    New MySqlParameter("RETNO", Nothing)
+                })
+            ElseIf ControlRepairReRepairSelection.RepairMode = RepairMode.ReRepair And ControlRepairReRepairSelection.Value <> 0 Then
+                Values.AddRange({
+                    New MySqlParameter("REPNO", Nothing),
+                    New MySqlParameter("RETNO", ControlRepairReRepairSelection.Value)
+                })
+            Else
+                Values.AddRange({
+                    New MySqlParameter("REPNO", Nothing),
+                    New MySqlParameter("RETNO", Nothing)
+                })
+            End If
+            Dim QueriesWithValues As New List(Of (Query As String, Parameters As MySqlParameter()))
+            If UpdateMode = UpdateMode.New Then
+                QueriesWithValues.Add((
+                    "INSERT INTO TechnicianCost(TCDate, TNo, RepNo, RetNo, SNo, SCategory, SName, Rate, Qty, Total, TCRemarks, UNo) VALUES(@TCDATE, @TNO, @REPNO, @RETNO, @SNO, @SCATEGORY, @SNAME, @RATE, @QTY, @TOTAL, @REMARKS, @UNO);", Values.ToArray
+                ))
+            Else
+                ' TODO: Implement stock update for edit mode
+                Values.Add(New MySqlParameter("TCNO", TextTechnicianCostNo.Text))
+                Db.Execute("UPDATE TechnicianCost SET TCDate=@TCDATE, TNo=@TNO, RepNo=@REPNO, RetNo=@RETNO, SNo=@SNO, SCategory=@SCATEGORY, SName=@SNAME, Rate=@RATE, Qty=@QTY, Total=@TOTAL, TCRemarks=@REMARKS, UNo=@UNO WHERE TCNo=@TCNO;", Values.ToArray)
+            End If
+            If ControlStockSelection.SCode <> Nothing Then
+                QueriesWithValues.Add(($"UPDATE {Tables.Stock} SET {Stock.AvailableUnits}=({Stock.AvailableUnits}-@UNITS) WHERE {Stock.Code}=@CODE;", {
+                    New MySqlParameter("UNITS", TextQty.Value),
+                    New MySqlParameter("CODE", ControlStockSelection.SCode)
+                }))
+            End If
 
-        Db.ExecuteBatches(QueriesWithValues.ToArray)
-        RaiseEvent SubmitEvent()
-        ButtonClose.PerformClick()
+            Db.ExecuteBatches(QueriesWithValues.ToArray)
+            RaiseEvent SubmitEvent()
+            ButtonClose.PerformClick()
+        Catch Ex As Exception
+            MessageBox.Error(Ex.Message)
+        End Try
     End Sub
 
     Private Function SaveValidation() As (Status As Boolean, Message As String)

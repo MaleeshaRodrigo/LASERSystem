@@ -194,7 +194,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationEvents.vb" />
-    <Compile Include="Classes\Activity.vb" />
+    <Compile Include="Classes\QueryLogMananger.vb" />
     <Compile Include="Classes\AdminPermission.vb" />
     <Compile Include="Classes\CashDrawer.vb" />
     <Compile Include="Classes\Controllers\AbstractRepairController.vb" />

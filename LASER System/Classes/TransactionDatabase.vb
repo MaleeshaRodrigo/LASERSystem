@@ -52,10 +52,10 @@ Public Class TransactionDatabase
                     CommandUpdate.Parameters.AddRange(Parameters)
                 End If
                 CommandUpdate.ExecuteNonQuery()
+                QueryLogMananger.Instance.Log(CommandUpdate)
+
                 Return CommandUpdate.LastInsertedId
             End Using
-
-            Activity.Write(Query)
         Catch ex As Exception
             Throw ex
         End Try
