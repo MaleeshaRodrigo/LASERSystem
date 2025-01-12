@@ -52,7 +52,7 @@ Public Class TransactionDatabase
                     CommandUpdate.Parameters.AddRange(Parameters)
                 End If
                 CommandUpdate.ExecuteNonQuery()
-                QueryLogMananger.Instance.Log(CommandUpdate)
+                QueryLogManager.Instance.Log(CommandUpdate)
 
                 Return CommandUpdate.LastInsertedId
             End Using

@@ -64,7 +64,7 @@ Public Class Database
                     CommandUpdate.Parameters.AddRange(Parameters)
                 End If
                 CommandUpdate.ExecuteNonQuery()
-                QueryLogMananger.Instance.Log(CommandUpdate)
+                QueryLogManager.Instance.Log(CommandUpdate)
 
                 Return CommandUpdate.LastInsertedId
             End Using
@@ -133,7 +133,7 @@ Public Class Database
             End Using
 
             Transaction.Commit()
-            QueryLogMananger.Instance.Log(QueriesWithValues)
+            QueryLogManager.Instance.Log(QueriesWithValues)
         Catch ex As Exception
             Transaction.Rollback()
             Throw ex

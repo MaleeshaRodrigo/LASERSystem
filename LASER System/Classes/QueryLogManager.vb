@@ -2,8 +2,8 @@
 Imports MySqlConnector
 Imports Newtonsoft.Json
 
-Public NotInheritable Class QueryLogMananger
-    Private Shared _Instance As QueryLogMananger
+Public NotInheritable Class QueryLogManager
+    Private Shared _Instance As QueryLogManager
     Private Shared ReadOnly Queue As New Queue(Of MySqlCommand)
     Private Shared TaskInstance As Task
 
@@ -11,10 +11,10 @@ Public NotInheritable Class QueryLogMananger
         TaskInstance = New Task(AddressOf PerformQueryLog)
     End Sub
 
-    Public Shared ReadOnly Property Instance As QueryLogMananger
+    Public Shared ReadOnly Property Instance As QueryLogManager
         Get
             If _Instance Is Nothing Then
-                _Instance = New QueryLogMananger()
+                _Instance = New QueryLogManager()
             End If
             Return _Instance
         End Get
