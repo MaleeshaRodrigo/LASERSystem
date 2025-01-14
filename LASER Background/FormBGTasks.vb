@@ -420,4 +420,13 @@ Public Class FormBGTasks
                 Return False
         End Select
     End Function
+
+    Private Sub ButtonRunFullSynchronization_Click(sender As Object, e As EventArgs) Handles ButtonRunFullSynchronization.Click
+        Dim Process As New DatabaseSynchronizationProcess()
+        Try
+            Process.PerformFullSyncroniationLocalToRemote()
+        Catch Ex As Exception
+            CreateMessagePanel("Database Synchronization Process එක ගැටලුවක් පවතියි.", Ex.Message)
+        End Try
+    End Sub
 End Class

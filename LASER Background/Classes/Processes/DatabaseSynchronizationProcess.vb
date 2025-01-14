@@ -56,6 +56,15 @@ Public Class DatabaseSynchronizationProcess
         End If
     End Sub
 
+    Public Sub PerformFullSyncroniationLocalToRemote()
+        Dim DatabasesValidation = VerifyDatabases()
+        If DatabasesValidation.Valid = False Then
+            Throw New Exception(DatabasesValidation.Message)
+        End If
+
+        FullSynchronizeLocalToRemote()
+    End Sub
+
     Public Function CanPerformable() As Boolean Implements IProcess.CanPerformable
         Return (My.Settings.RemoteDatabaseActive And CheckForInternetConnection())
     End Function
@@ -153,7 +162,7 @@ Public Class DatabaseSynchronizationProcess
     Private Sub MarkSyncronizedLocalQueryLog()
         Try
             LocalDatabase.BeginTransaction()
-            LocalDatabase.Execute("UPDATE `query_log` SET `Synchronized` = 1, `Error` = NULL WHERE `Synchronized` = 0 AND Location = @LOCATION;", {
+            LocalDatabase.Execute("UPDATE `query_log` SET `Synchronized` = 1 WHERE `Synchronized` = 0 AND Location = @LOCATION;", {
                 New MySqlParameter("LOCATION", DatabaseLocation.LOCAL)
             })
             LocalDatabase.CommitTransaction()

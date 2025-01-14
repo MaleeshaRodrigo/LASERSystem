@@ -99,6 +99,7 @@ Partial Class FormBGTasks
         Me.cmdApply = New MaterialSkin.Controls.MaterialButton()
         Me.flpMessage = New System.Windows.Forms.FlowLayoutPanel()
         Me.WorkerDatabaseSyncronize = New System.ComponentModel.BackgroundWorker()
+        Me.ButtonRunFullSynchronization = New MaterialSkin.Controls.MaterialButton()
         Me.Guna2GroupBox1.SuspendLayout()
         Me.Guna2GroupBox2.SuspendLayout()
         Me.pnlMain.SuspendLayout()
@@ -162,9 +163,9 @@ Partial Class FormBGTasks
         Me.CheckRemoteDb.Name = "CheckRemoteDb"
         Me.CheckRemoteDb.ReadOnly = False
         Me.CheckRemoteDb.Ripple = True
-        Me.CheckRemoteDb.Size = New System.Drawing.Size(199, 37)
+        Me.CheckRemoteDb.Size = New System.Drawing.Size(197, 37)
         Me.CheckRemoteDb.TabIndex = 28
-        Me.CheckRemoteDb.Text = "Active Online Database"
+        Me.CheckRemoteDb.Text = "Active Synchronization"
         Me.CheckRemoteDb.UseVisualStyleBackColor = True
         '
         'Guna2GroupBox1
@@ -1089,6 +1090,7 @@ Partial Class FormBGTasks
         'GroupBox3
         '
         Me.GroupBox3.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.GroupBox3.Controls.Add(Me.ButtonRunFullSynchronization)
         Me.GroupBox3.Controls.Add(Me.MaterialLabel6)
         Me.GroupBox3.Controls.Add(Me.MaterialLabel7)
         Me.GroupBox3.Controls.Add(Me.MaterialLabel8)
@@ -1524,6 +1526,26 @@ Partial Class FormBGTasks
         Me.WorkerDatabaseSyncronize.WorkerReportsProgress = True
         Me.WorkerDatabaseSyncronize.WorkerSupportsCancellation = True
         '
+        'ButtonRunFullSynchronization
+        '
+        Me.ButtonRunFullSynchronization.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ButtonRunFullSynchronization.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.ButtonRunFullSynchronization.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.[Default]
+        Me.ButtonRunFullSynchronization.Depth = 0
+        Me.ButtonRunFullSynchronization.HighEmphasis = True
+        Me.ButtonRunFullSynchronization.Icon = Nothing
+        Me.ButtonRunFullSynchronization.Location = New System.Drawing.Point(394, 6)
+        Me.ButtonRunFullSynchronization.Margin = New System.Windows.Forms.Padding(4, 6, 4, 6)
+        Me.ButtonRunFullSynchronization.MouseState = MaterialSkin.MouseState.HOVER
+        Me.ButtonRunFullSynchronization.Name = "ButtonRunFullSynchronization"
+        Me.ButtonRunFullSynchronization.NoAccentTextColor = System.Drawing.Color.Empty
+        Me.ButtonRunFullSynchronization.Size = New System.Drawing.Size(192, 36)
+        Me.ButtonRunFullSynchronization.TabIndex = 84
+        Me.ButtonRunFullSynchronization.Text = "Run Full Synchronize"
+        Me.ButtonRunFullSynchronization.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained
+        Me.ButtonRunFullSynchronization.UseAccentColor = False
+        Me.ButtonRunFullSynchronization.UseVisualStyleBackColor = True
+        '
         'FormBGTasks
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1644,4 +1666,5 @@ Partial Class FormBGTasks
     Friend WithEvents TextRemoteDbPort As MaterialSkin.Controls.MaterialTextBox2
     Friend WithEvents TextRemoteDbPassword As MaterialSkin.Controls.MaterialTextBox2
     Friend WithEvents TextRemoteDbServer As MaterialSkin.Controls.MaterialTextBox2
+    Friend WithEvents ButtonRunFullSynchronization As MaterialSkin.Controls.MaterialButton
 End Class
