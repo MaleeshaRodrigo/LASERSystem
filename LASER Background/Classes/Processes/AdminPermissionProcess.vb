@@ -70,4 +70,8 @@ Public Class AdminPermissionProcess
         '    Database.Execute("Update AdminPermission set `Status`='Completed' Where APNo=" & DataReader("APNo").ToString)
         'End While
     End Sub
+
+    Public Function CanPerformable() As Boolean Implements IProcess.CanPerformable
+        Throw New NotImplementedException()
+    End Function
 End Class

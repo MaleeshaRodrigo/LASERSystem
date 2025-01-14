@@ -13,10 +13,6 @@ Public Class SendSmsProcess
     End Sub
 
     Public Sub Perform() Implements IProcess.Perform
-        If My.Settings.SendSMS = False Then
-            Exit Sub
-        End If
-
         Dim DataReaderMessage = Database.GetDataList("Select * from Message Where Status='Waiting' or Status='Confirmed'")
         For Each Message In DataReaderMessage
             If Worker.CancellationPending = True Then
@@ -31,4 +27,8 @@ Public Class SendSmsProcess
             End If
         Next
     End Sub
+
+    Public Function CanPerformable() As Boolean Implements IProcess.CanPerformable
+        Return Not (Worker.CancellationPending Or Not My.Settings.SendSMS)
+    End Function
 End Class

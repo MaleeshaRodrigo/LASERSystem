@@ -1,9 +1,9 @@
 ﻿Imports System.Data.SqlClient
 Imports LASER_System.My
 Imports MySqlConnector
+Imports Newtonsoft.Json
 
 Public Class Database
-
     Public Function GetConenction() As MySqlConnection
         Dim Encoder As New Encoder()
         Dim DbPassword As String = If(Settings.DBPassword <> "",
@@ -63,10 +63,10 @@ Public Class Database
                     CommandUpdate.Parameters.AddRange(Parameters)
                 End If
                 CommandUpdate.ExecuteNonQuery()
+                QueryLogManager.Instance.Log(CommandUpdate)
+
                 Return CommandUpdate.LastInsertedId
             End Using
-
-            Activity.Write(Query)
         Catch ex As Exception
             Throw ex
         Finally
@@ -74,13 +74,15 @@ Public Class Database
         End Try
     End Function
 
-    Public Sub DirectExecute(Query As String)
+    Public Sub DirectExecute(Query As String, Optional Parameters As MySqlParameter() = Nothing)
         Dim Connection As MySqlConnection = GetConenction()
         Try
             Connection.Open()
             Using Command As New MySqlCommand(Query, Connection)
+                If Parameters IsNot Nothing Then
+                    Command.Parameters.AddRange(Parameters)
+                End If
                 Command.ExecuteNonQuery()
-                Command.Cancel()
             End Using
         Catch ex As Exception
             Throw ex
@@ -128,7 +130,9 @@ Public Class Database
                 Next
                 Batch.ExecuteNonQuery()
             End Using
+
             Transaction.Commit()
+            QueryLogManager.Instance.Log(QueriesWithValues)
         Catch ex As Exception
             Transaction.Rollback()
             Throw ex

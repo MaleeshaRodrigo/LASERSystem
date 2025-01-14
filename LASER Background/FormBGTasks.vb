@@ -48,12 +48,11 @@ Public Class FormBGTasks
             txtBackUpDB2.Text = .BackUpDB2
             txtBackUpDB3.Text = .BackUpDB3
 
-            chkOnlineDB.Checked = .ODBActive
-            If .ODBActive Then
-                txtOPath.Text = .OnlineDatabasePath
-                txtOUser.Text = My.Settings.OnlineDatabaseUser
-            End If
-            chkOnlineDB_CheckedChanged(Nothing, Nothing)
+            CheckRemoteDb.Checked = .RemoteDatabaseActive
+            TextRemoteDbServer.Text = .RemoteDatabaseServer
+            TextRemoteDbPort.Text = .RemoteDatabasePort
+            TextRemoteDbUserName.Text = .RemoteDatabaseUserName
+            TextRemoteDbName.Text = .RemoteDatabaseName
         End With
         Dim FilePath As String = Path.Combine(SpecialDirectories.MyDocuments, "LASER System Data")
         If Not Directory.Exists(FilePath) Then
@@ -61,15 +60,6 @@ Public Class FormBGTasks
         End If
         FilePath = Path.Combine(FilePath, "LASER Background")
         If Not Directory.Exists(FilePath) Then My.Computer.FileSystem.CreateDirectory(FilePath)
-
-        If Not File.Exists(Activity.FilePath) Then
-            Dim d As FileStream
-            d = File.Create(Activity.FilePath)
-            d.Close()
-        End If
-        Activity.Init()
-        GridActivity.DataSource = Activity.GetDataTable()
-
         Dim ShutDownFilePath As String = Path.Combine(FilePath, "Shutdown.txt")
         If File.Exists(ShutDownFilePath) Then
             File.Delete(ShutDownFilePath)
@@ -93,13 +83,12 @@ Public Class FormBGTasks
 
     Private Sub FrmBGTasks_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
         bgworker.CancelAsync()
-        bgworkerOnline.CancelAsync()
+        WorkerDatabaseSyncronize.CancelAsync()
         tmrRefresh.Stop()
         Me.Hide()
         Me.Tag = "Close"
-        Activity.Save()
 
-        If bgworker.IsBusy = True Or bgworkerOnline.IsBusy = True Then
+        If bgworker.IsBusy = True Or WorkerDatabaseSyncronize.IsBusy = True Then
             e.Cancel = True
         End If
     End Sub
@@ -119,9 +108,9 @@ Public Class FormBGTasks
         If bgworker.IsBusy = False And PicBGStop.Tag = "Stop" Then
             bgworker.RunWorkerAsync()
         End If
-        'If My.Settings.ODBActive And bgworkerOnline.IsBusy = False And PicBGOStop.Tag = "Stop" Then
-        '    bgworkerOnline.RunWorkerAsync()
-        'End If
+        If WorkerDatabaseSyncronize.IsBusy = False And PicBGOStop.Tag = "Stop" Then
+            WorkerDatabaseSyncronize.RunWorkerAsync()
+        End If
     End Sub
 
     Private Sub BgWorker_DoWork(sender As Object, e As DoWorkEventArgs) Handles bgworker.DoWork
@@ -138,7 +127,7 @@ Public Class FormBGTasks
             End If
 
             For Each Process In Processes
-                If ErrorExist(Process.ToString) Then
+                If ErrorExist(Process.ToString) Or Process.CanPerformable = False Then
                     Continue For
                 End If
 
@@ -158,7 +147,7 @@ Public Class FormBGTasks
         lblLoad.Text = "Checking Error..."
         tsProBar.Value = 65
 
-        If e.Cancelled And bgworkerOnline.IsBusy = False And Me.Tag = "Close" Then
+        If e.Cancelled And WorkerDatabaseSyncronize.IsBusy = False And Me.Tag = "Close" Then
             End
         ElseIf e.Cancelled Then
             Exit Sub
@@ -195,183 +184,24 @@ Public Class FormBGTasks
         tsProBar.Value = 100
     End Sub
 
-    Private Sub bgworkerOnline_DoWork(sender As Object, e As DoWorkEventArgs) Handles bgworkerOnline.DoWork
-        'bgworkerOnline.ReportProgress(0, "Loading...")
-        'Dim CMDODB As New OleDbCommand
-        'Dim DRODB As OleDbDataReader = Nothing
-        'Dim RowsCount, CurrentIndex As Integer
-        'Dim OConfig As String = $"user={HashPassword(My.Settings.OnlineDatabaseUser, Simple.Decode(My.Settings.ODBToken))}&password={HashPassword(Simple.Decode(My.Settings.OnlineDatabasePassword) + Format(Now(), "yyyy-MM-dd"), Simple.Decode(My.Settings.ODBToken))}"
-        ''Check Internet Connection
-        'If CheckForInternetConnection() = False Then Exit Sub
+    Private Sub bgworkerOnline_DoWork(sender As Object, e As DoWorkEventArgs) Handles WorkerDatabaseSyncronize.DoWork
+        Dim Process As New DatabaseSynchronizationProcess()
+        Try
+            If ErrorExist(Process.ToString) Or Process.CanPerformable = False Then
+                Return
+            End If
 
-        ''Get the IP Address
-        'lblIPAddress.Text = GetIpAddress()
-
-        'If Not My.Settings.ODBActive Then Exit Sub
-
-        'bgworkerOnline.ReportProgress(0, "Updating Local Database...")
-        'Try
-        '    For Each controlObject As Control In flpMessage.Controls
-        '        If controlObject.Tag = "ODBDownloadError" Then
-        '            Exit Try
-        '        End If
-        '    Next
-
-        '    Dim JSONResponse As String = GetResponse(My.Settings.OnlineDatabasePath + "/view", $"{OConfig}&sql=SELECT * FROM `LocalDB` WHERE `Status`='Waiting' ORDER BY `Date`")
-        '    If JSONResponse.StartsWith("Error:") Then
-        '        e.Result = New String() {"ODBDownloadError", JSONResponse}
-        '        Exit Try
-        '    End If
-
-        '    Dim DicResult As Dictionary(Of String, Object) = JsonConvert.DeserializeObject(Of Dictionary(Of String, Object))(JSONResponse)
-        '    If DicResult.Item("status") = True Then
-        '        Dim BGDT As DataTable = JsonConvert.DeserializeObject(Of DataTable)(DicResult.Item("result").ToString)
-        '        RowsCount = BGDT.Rows.Count
-        '        CurrentIndex = 0
-        '        For Each DataRow As DataRow In BGDT.Rows
-        '            'Check whether user needs to cancel the operation
-        '            If bgworkerOnline.CancellationPending Then e.Cancel = True : Exit Try
-        '            'Applying the changes online users has made to the local db
-        '            Dim Command As String = DataRow("Command").ToString.Trim
-        '            If Command.StartsWith("Insert Into", True, Nothing) Then
-        '                CMDUPDATE(Command)
-        '            Else
-        '                Dim CMDBGOnline As New OleDbCommand(Command, CNNBG)
-        '                CMDBGOnline.ExecuteNonQuery()
-        '                CMDBGOnline.Dispose()
-        '            End If
-        '            'Mark online db that the changes has done
-        '            JSONResponse = GetResponse(My.Settings.OnlineDatabasePath + "/update",
-        '                                   $"{OConfig}&sql=UPDATE `LocalDB` Set `Status`='Done' WHERE ID={DataRow("ID").ToString}")
-
-        '            If JSONResponse.Trim = "" Then
-        '                e.Result = New String() {"ODBUploadError", "Response is empty."}
-        '                Exit Try
-        '            End If
-        '            If JSONResponse.StartsWith("Error:") Then
-        '                e.Result = New String() {"ODBDownloadError", JSONResponse}
-        '                Exit Try
-        '            End If
-        '            DicResult = JsonConvert.DeserializeObject(Of Dictionary(Of String, Object))(JSONResponse)
-        '            If DicResult.Item("status") = False Then
-        '                Dim ErrorMsg As String = ""
-        '                For Each KeyPair As KeyValuePair(Of String, Object) In DicResult
-        '                    ErrorMsg += KeyPair.Key + ": " + KeyPair.Value.ToString + vbNewLine
-        '                Next
-        '                e.Result = New String() {"ODBDownloadError", ErrorMsg}
-        '                Exit Try
-        '            End If
-        '            'For updating UI
-        '            CurrentIndex += 1
-        '            bgworkerOnline.ReportProgress(Int((CurrentIndex / RowsCount) * 100),
-        '                                      $"Updating Local Database ({CurrentIndex}/{RowsCount})...")
-        '        Next
-        '    Else
-        '        Dim ErrorMsg As String = ""
-        '        For Each KeyPair As KeyValuePair(Of String, Object) In DicResult
-        '            ErrorMsg += KeyPair.Key + ": " + KeyPair.Value.ToString + vbNewLine
-        '        Next
-        '        e.Result = New String() {"ODBDownloadError", ErrorMsg}
-        '    End If
-        'Catch ex As Exception
-        '    e.Result = New String() {"ODBDownloadError", ex.Message}
-        '    Exit Try
-        'End Try
-
-        'bgworkerOnline.ReportProgress(0, "Updating Online Database...")
-        'Try
-        '    CMDODB = New OleDbCommand("Select * from OnlineDB order by ID", CNNBG)
-        '    'For get the count of rows 
-        '    Dim CMDODB1 As New OleDbCommand("Select Count(*) From OnlineDB", CNNBG)
-        '    RowsCount = CMDODB1.ExecuteScalar      'For updating the value of progressbar
-        '    CMDODB1.Cancel()
-        '    CurrentIndex = 0
-        '    DRODB = CMDODB.ExecuteReader()
-        '    While DRODB.Read
-        '        'Check whether user needs to cancel the operation
-        '        If bgworkerOnline.CancellationPending = True Then e.Cancel = True : Exit Try
-        '        If DRODB("Error").ToString <> "" Then Continue While
-
-        '        Dim Command As String = DRODB("Command").ToString
-        '        'Replace the # to ' symbol without in double or single quotes
-        '        Dim bool As Boolean = False
-        '        For i = 0 To Command.Length - 1
-        '            Dim c As Char = Command(i)
-        '            If c = """" Or c = "'" Then
-        '                bool = Not bool
-        '                Continue For
-        '            End If
-        '            If c = "#" And bool = False Then
-        '                Command = Command.Substring(0, i) + "'" + Command.Substring(i + 1, Command.Length - i - 1)
-        '            End If
-        '        Next
-        '        Command = HttpUtility.UrlEncode(Command)
-
-        '        Dim OJSONResponse As String = GetResponse(My.Settings.OnlineDatabasePath + "/update",
-        '                                   $"{OConfig}&sql={Command}")
-        '        If String.IsNullOrEmpty(OJSONResponse) Then
-        '            e.Result = New String() {"ODBUploadError", "Response is empty."}
-        '            Exit Try
-        '        End If
-        '        If OJSONResponse.StartsWith("Error:") Then
-        '            e.Result = New String() {"ODBUploadError", OJSONResponse}
-        '            Exit Try
-        '        End If
-        '        Dim ODicResult As Dictionary(Of String, Object) = JsonConvert.DeserializeObject(Of Dictionary(Of String, Object))(OJSONResponse)
-        '        If ODicResult.Item("status") = True Then
-        '            Dim CMDOnlineDB1 As New OleDbCommand("Delete from OnlineDB Where ID=" & DRODB("ID").ToString, CNNBG)
-        '            CMDOnlineDB1.ExecuteNonQuery()
-        '            CMDOnlineDB1.Cancel()
-        '        Else
-        '            Dim ErrorMsg As String = ""
-        '            For Each KeyPair As KeyValuePair(Of String, Object) In ODicResult
-        '                ErrorMsg += KeyPair.Key + ": " + KeyPair.Value.ToString + vbNewLine
-        '            Next
-        '            e.Result = New String() {"ODBUploadError", ErrorMsg}
-        '            Dim CMDBGOnline As New OleDbCommand($"UPDATE OnlineDB SET Error=""{ErrorMsg.Replace("""", """""")}"" WHERE ID={DRODB("ID")};", CNNBG)
-        '            CMDBGOnline.ExecuteNonQuery()
-        '            CMDBGOnline.Cancel()
-        '            Continue While
-        '        End If
-        '        'Update the value of progress bar
-        '        CurrentIndex += 1
-        '        bgworkerOnline.ReportProgress(Int((CurrentIndex / RowsCount) * 100),
-        '                             $"Updating Online Database ({CurrentIndex}/{RowsCount})...")
-        '    End While
-        'Catch ex As Exception
-        '    e.Result = New String() {"ODBUploadError", ex.Message}
-        '    Exit Sub
-        'End Try
-        'If Not IsNothing(DRODB) AndAlso DRODB.IsClosed = False Then
-        '    DRODB.Close()
-        '    CMDODB.Cancel()
-        'End If
-        'bgworkerOnline.ReportProgress(100, "Completed")
+            bgworker.ReportProgress(0, $"Initialized {FormatMessage(Process.ToString)}")
+            Process.Perform()
+            bgworker.ReportProgress(100, $"Completed {FormatMessage(Process.ToString)}")
+        Catch Ex As Exception
+            e.Result = New String() {Process.ToString, Ex.Message}
+            Exit Sub
+        End Try
     End Sub
 
-    Private Sub bgworkerOnline_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles bgworkerOnline.RunWorkerCompleted
-        'lblBGLoad.Text = "Checking Errors..."
-        'If e.Cancelled And bgworker.IsBusy = False And Me.Tag = "Close" Then
-        '    End
-        'ElseIf e.Cancelled Then
-        '    Exit Sub
-        'End If
-        'If e.Result IsNot Nothing Then
-        '    lblBGLoad.Text = "Freezed"
-        '    Select Case e.Result(0)
-        '        Case "ODBDownloadError"
-        '            CreateMessagePanel("Local Database එක Update කිරීමේදී ගැටලුවක් පැන නැගී ඇත.",
-        '                               e.Result(1) + vbCrLf + "මේ පිළිබඳව Software Developer හට දැනුම් දෙන්න.", "ODBDownloadError")
-        '        Case "ODBUploadError"
-        '            For Each controlObject As Control In flpMessage.Controls
-        '                If controlObject.Tag = "ODBUploadError" Then
-        '                    Exit Sub
-        '                End If
-        '            Next
-        '            CreateMessagePanel("Online Database එක Update කිරීමේදී ගැටලුවක් පැන නැගී ඇත.",
-        '                               e.Result(1) + vbCrLf + "මේ පිළිබඳව Software Developer හට දැනුම් දෙන්න.", "ODBUploadError")
-        '    End Select
-        'End If
+    Private Sub bgworkerOnline_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles WorkerDatabaseSyncronize.RunWorkerCompleted
+
     End Sub
 
     Public Function FormatMessage(Text As String) As String
@@ -423,6 +253,7 @@ Public Class FormBGTasks
             CheckEmptyfield(TextDbName, "Database Name Field එක හිස්ව පවතියි. කරුණාකර එය සම්පූර්ණ කරන්න.") = False Then
             Exit Sub
         End If
+
         If Me.Tag <> "Login" Then
             If chkMSendEmail.Checked = True AndAlso CheckEmptyfield(txtMAdminEmail,
                 "Admin Email එක හිස්ව පවතියි. කරුණාකර එය සම්පූර්ණ කර උත්සහ කරන්න.") = False Then
@@ -442,45 +273,36 @@ Public Class FormBGTasks
             .DbPort = TextDbPort.Text
             .DbUserName = TextDbUserName.Text
             .DbName = TextDbName.Text
-            If TextDbPassword.Text.Trim <> "" Then .DbPassword = Encoder.Encode(TextDbPassword.Text)
+            If TextDbPassword.Text.Trim <> "default" Then
+                .DbPassword = Encoder.Encode(TextDbPassword.Text)
+            End If
 
             .APIKey = txtMApiKey.Text
             .APIToken = txtMApiToken.Text
             .SendSMS = RadioActivate.Checked
+
             .SendEmail = chkMSendEmail.CheckState
             .SystemEmail = txtMAdminEmail.Text
-            If txtMAdminPass.Text.Trim <> "" Then .SystemEmailPassword = Encoder.Encode(txtMAdminPass.Text)
+            If txtMAdminPass.Text.Trim <> "default" Then
+                .SystemEmailPassword = Encoder.Encode(txtMAdminPass.Text)
+            End If
+
             .BackUpDB1 = txtBackUpDB1.Text
             .BackUpDB2 = txtBackUpDB2.Text
             .BackUpDB3 = txtBackUpDB3.Text
-            .ODBActive = chkOnlineDB.Checked
-            If chkOnlineDB.CheckState Then
-                .OnlineDatabasePath = txtOPath.Text
-                .OnlineDatabaseUser = txtOUser.Text
-                If txtOPassword.Text.Trim <> "" Then .OnlineDatabasePassword = Encoder.Encode(txtOPassword.Text)
-                If TxtOToken.Text.Trim <> "" Then .ODBToken = Encoder.Encode(TxtOToken.Text)
-            Else
-                .OnlineDatabasePath = ""
-                .OnlineDatabaseUser = ""
-                .OnlineDatabasePassword = ""
-                .ODBToken = ""
+
+            .RemoteDatabaseActive = CheckRemoteDb.Checked
+            .RemoteDatabaseServer = TextRemoteDbServer.Text
+            .RemoteDatabasePort = TextRemoteDbPort.Text
+            .RemoteDatabaseUserName = TextRemoteDbUserName.Text
+            .RemoteDatabaseName = TextRemoteDbName.Text
+            If TextRemoteDbPassword.Text.Trim <> "default" Then
+                .RemoteDatabasePassword = Encoder.Encode(TextRemoteDbPassword.Text)
             End If
             .Save()
         End With
         MsgBox("Settings were updated successfully.")
         tmrRefresh.Start()
-    End Sub
-
-    Private Sub chkOnlineDB_CheckedChanged(sender As Object, e As EventArgs) Handles chkOnlineDB.CheckedChanged
-        If chkOnlineDB.Checked = True Then
-            txtOPath.Enabled = True
-            txtOPassword.Enabled = True
-            txtOUser.Enabled = True
-        Else
-            txtOPath.Enabled = False
-            txtOPassword.Enabled = False
-            txtOUser.Enabled = False
-        End If
     End Sub
 
     Private Sub btnAdminEmailVerify_Click(sender As Object, e As EventArgs) Handles btnAdminEmailVerify.Click
@@ -553,7 +375,7 @@ Public Class FormBGTasks
         tsProBar.Value = e.ProgressPercentage
     End Sub
 
-    Private Sub bgworkerOnline_ProgressChanged(sender As Object, e As ProgressChangedEventArgs) Handles bgworkerOnline.ProgressChanged
+    Private Sub bgworkerOnline_ProgressChanged(sender As Object, e As ProgressChangedEventArgs) Handles WorkerDatabaseSyncronize.ProgressChanged
         lblBGLoad.Text = e.UserState
         tsBGProBar.Value = e.ProgressPercentage
     End Sub
@@ -563,7 +385,7 @@ Public Class FormBGTasks
             If PicBGStop.Tag = "Stop" Then bgworker.CancelAsync()
             lblLoad.Text = "Stoped"
         Else
-            If PicBGOStop.Tag = "Stop" Then bgworkerOnline.CancelAsync()
+            If PicBGOStop.Tag = "Stop" Then WorkerDatabaseSyncronize.CancelAsync()
             lblBGLoad.Text = "Stoped"
         End If
         If sender.Tag = "Stop" Then
@@ -598,4 +420,13 @@ Public Class FormBGTasks
                 Return False
         End Select
     End Function
+
+    Private Sub ButtonRunFullSynchronization_Click(sender As Object, e As EventArgs) Handles ButtonRunFullSynchronization.Click
+        Dim Process As New DatabaseSynchronizationProcess()
+        Try
+            Process.PerformFullSyncroniationLocalToRemote()
+        Catch Ex As Exception
+            CreateMessagePanel("Database Synchronization Process එක ගැටලුවක් පවතියි.", Ex.Message)
+        End Try
+    End Sub
 End Class
