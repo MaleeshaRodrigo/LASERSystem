@@ -2,22 +2,26 @@
 Imports MySqlConnector
 
 Public Class Database
+    Private Server As String = Settings.DbServer
+    Private Port As String = Settings.DbPort
+    Private UserName As String = Settings.DbUserName
+    Private Password As String = Settings.DbPassword
+    Private Database As String = Settings.DbName
+
     Public Function GetConenction() As MySqlConnection
         Dim Encoder As New Encoder()
-        Dim DbPassword As String = If(Settings.DbPassword <> "",
-            Encoder.Decode(Settings.DbPassword),
-            "")
-        Return New MySqlConnection($"server={Settings.DBServer};port={Settings.DBPort};user={Settings.DBUserName};password={DbPassword};database={Settings.DBName};")
+        Dim DbPassword As String = If(Password <> "", Encoder.Decode(Password), "")
+        Return New MySqlConnection($"server={Server};port={Port};user={UserName};password={DbPassword};database={Database};")
     End Function
 
     Public Function CheckConnection() As (Valid As Boolean, Message As String)
-        If Settings.DBServer = "" Then
+        If Settings.DbServer = "" Then
             Return (False, "Database Server එක ඇතුලත් කර නොමැත.")
         End If
-        If Settings.DBUserName = "" Then
+        If Settings.DbUserName = "" Then
             Return (False, "Database User Name එක ඇතුලත් කර නොමැත.")
         End If
-        If Settings.DBName = "" Then
+        If Settings.DbName = "" Then
             Return (False, "Database Name එක ඇතුලත් කර නොමැත.")
         End If
         Dim Connection As MySqlConnection = GetConenction()
@@ -48,7 +52,15 @@ Public Class Database
         End Try
     End Function
 
-    Public Sub Execute(Query As String, Optional Parameters As MySqlParameter() = Nothing)
+    Public Sub SetConfiguration(Server As String, Port As String, UserName As String, Password As String, Database As String)
+        Me.Server = Server
+        Me.Port = Port
+        Me.UserName = UserName
+        Me.Password = Password
+        Me.Database = Database
+    End Sub
+
+    Public Overridable Sub Execute(Query As String, Optional Parameters As MySqlParameter() = Nothing)
         Dim Connection As MySqlConnection = GetConenction()
         Try
             Connection.Open()
@@ -58,8 +70,6 @@ Public Class Database
                 End If
                 CommandUpdate.ExecuteNonQuery()
             End Using
-
-            Activity.Write(Query)
         Catch ex As Exception
             Throw ex
         Finally
@@ -158,7 +168,7 @@ Public Class Database
         End Try
     End Function
 
-    Public Function GetDataDictionary(Sql As String, Optional Values As MySqlParameter() = Nothing) As Dictionary(Of String, Object)
+    Public Overridable Function GetDataDictionary(Sql As String, Optional Values As MySqlParameter() = Nothing) As Dictionary(Of String, Object)
         Dim Connection As MySqlConnection = GetConenction()
         Try
             Connection.Open()
@@ -217,7 +227,7 @@ Public Class Database
         Return DA
     End Function
 
-    Public Function GetData(Query As String, Optional Values As MySqlParameter() = Nothing) As Object
+    Public Overridable Function GetData(Query As String, Optional Values As MySqlParameter() = Nothing) As Object
         Dim Connection As MySqlConnection = GetConenction()
         Try
             Connection.Open()

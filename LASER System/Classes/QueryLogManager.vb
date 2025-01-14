@@ -42,7 +42,7 @@ Public NotInheritable Class QueryLogManager
         While Queue.Count > 0
             Dim QueueCommand As MySqlCommand = Queue.Dequeue()
             Dim ParameterDictionary As Dictionary(Of String, Object) = QueueCommand.Parameters.ToDictionary(Function(Parameter) Parameter.ParameterName, Function(Parameter) Parameter.Value)
-            Database.DirectExecute("INSERT INTO `query_log` (location, query, parameters, created_at) VALUES ('local', @QUERY, @PARAMETERS, NOW());", {
+            Database.DirectExecute("INSERT INTO `query_log` (Location, Query, Parameters, created_at) VALUES ('local', @QUERY, @PARAMETERS, NOW());", {
                 New MySqlParameter("QUERY", QueueCommand.CommandText),
                 New MySqlParameter("PARAMETERS", JsonConvert.SerializeObject(ParameterDictionary))
             })

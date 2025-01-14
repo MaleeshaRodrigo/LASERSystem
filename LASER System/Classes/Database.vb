@@ -4,7 +4,6 @@ Imports MySqlConnector
 Imports Newtonsoft.Json
 
 Public Class Database
-
     Public Function GetConenction() As MySqlConnection
         Dim Encoder As New Encoder()
         Dim DbPassword As String = If(Settings.DBPassword <> "",
