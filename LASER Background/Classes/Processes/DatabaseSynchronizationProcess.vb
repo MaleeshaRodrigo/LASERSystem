@@ -50,7 +50,7 @@ Public Class DatabaseSynchronizationProcess
             End Try
         Next
 
-        If Date.Now.DayOfWeek = DayOfWeek.Sunday And Now.Hour > 14 And Date.Parse(My.Settings.DatabaseLastSynchronizedAt).Day < Now.Day Then
+        If Date.Now.DayOfWeek = DayOfWeek.Sunday And Now.Hour > 15 And Date.Parse(My.Settings.DatabaseLastSynchronizedAt).Day < Now.Day Then
             FullSynchronizeLocalToRemote()
             My.Settings.DatabaseLastSynchronizedAt = Now
         End If
@@ -150,6 +150,19 @@ Public Class DatabaseSynchronizationProcess
         })
     End Sub
 
+    Private Sub MarkSyncronizedLocalQueryLog()
+        Try
+            LocalDatabase.BeginTransaction()
+            LocalDatabase.Execute("UPDATE `query_log` SET `Synchronized` = 1, `Error` = NULL WHERE `Synchronized` = 0 AND Location = @LOCATION;", {
+                New MySqlParameter("LOCATION", DatabaseLocation.LOCAL)
+            })
+            LocalDatabase.CommitTransaction()
+        Catch ex As Exception
+            LocalDatabase.RollbackTransaction()
+            Throw ex
+        End Try
+    End Sub
+
     Private Sub FullSynchronizeLocalToRemote()
         Dim LocalDatabaseConnection As MySqlConnection = LocalDatabase.GetConenction()
         Dim RemoteDatabaseConnection As MySqlConnection = RemoteDatabase.GetConenction()
@@ -157,6 +170,7 @@ Public Class DatabaseSynchronizationProcess
             LocalDatabaseConnection.Open()
             RemoteDatabaseConnection.Open()
 
+            MarkSyncronizedLocalQueryLog()
             Dim LocalBackup As New MySqlBackup(New MySqlCommand With {.Connection = LocalDatabaseConnection})
             LocalBackup.ExportToFile(Path.Combine(SpecialDirectories.MyDocuments, "LASER System Data", "LASER Background", "Database Back Up.sql"))
 
