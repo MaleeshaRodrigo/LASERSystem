@@ -35,23 +35,20 @@
     <Setting Name="DbServer" Type="System.String" Scope="User">
       <Value Profile="(Default)">localhost</Value>
     </Setting>
-    <Setting Name="OnlineDatabasePath" Type="System.String" Scope="User">
+    <Setting Name="RemoteDatabaseServer" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="OnlineDatabasePassword" Type="System.String" Scope="User">
+    <Setting Name="RemoteDatabasePassword" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="OnlineDatabaseUser" Type="System.String" Scope="User">
+    <Setting Name="RemoteDatabaseUserName" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="SendEmail" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="ODBActive" Type="System.Boolean" Scope="User">
+    <Setting Name="RemoteDatabaseActive" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="ODBToken" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="MailServer" Type="System.String" Scope="User">
       <Value Profile="(Default)">mail.lasertec.lk</Value>
@@ -64,6 +61,15 @@
     </Setting>
     <Setting Name="DbName" Type="System.String" Scope="User">
       <Value Profile="(Default)">lasertec</Value>
+    </Setting>
+    <Setting Name="RemoteDatabasePort" Type="System.String" Scope="User">
+      <Value Profile="(Default)">3306</Value>
+    </Setting>
+    <Setting Name="RemoteDatabaseName" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="DatabaseLastSynchronizedAt" Type="System.String" Scope="User">
+      <Value Profile="(Default)">#1/13/2025 00:00:00 AM#</Value>
     </Setting>
   </Settings>
 </SettingsFile>

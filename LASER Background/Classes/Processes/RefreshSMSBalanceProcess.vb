@@ -12,9 +12,6 @@ Public Class RefreshSmsBalanceProcess
     End Sub
 
     Public Sub Perform() Implements IProcess.Perform
-        If Not My.Settings.SendSMS Then
-            Exit Sub
-        End If
         Try
             ParentForm.lblBalance.Text = "Balance : Rs. " + SmsController.GetBalance()
         Catch ex As Exception
@@ -22,4 +19,8 @@ Public Class RefreshSmsBalanceProcess
             Exit Sub
         End Try
     End Sub
+
+    Public Function CanPerformable() As Boolean Implements IProcess.CanPerformable
+        Return My.Settings.SendSMS
+    End Function
 End Class

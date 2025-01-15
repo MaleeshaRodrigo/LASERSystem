@@ -18,10 +18,6 @@ Public Class DatabaseBackupProcess
     Public Sub Perform() Implements IProcess.Perform
         Dim Connection As MySqlConnection = Database.GetConenction
         Try
-            If Worker.CancellationPending Or NextRunTime > Now Then
-                Exit Sub
-            End If
-
             Connection.Open()
             Dim Backup As New MySqlBackup(New MySqlCommand With {.Connection = Connection})
             If CheckValidation(My.Settings.BackUpDB1) Then
@@ -42,6 +38,10 @@ Public Class DatabaseBackupProcess
             Connection.Close()
         End Try
     End Sub
+
+    Public Function CanPerformable() As Boolean Implements IProcess.CanPerformable
+        Return Not (Worker.CancellationPending Or NextRunTime > Now)
+    End Function
 
     Private Function CheckValidation(FolderPath As String) As Boolean
         If My.Settings.BackUpDB1.Trim() = "" Then

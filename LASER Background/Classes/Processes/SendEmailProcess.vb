@@ -34,6 +34,10 @@ Public Class SendEmailProcess
         Next
     End Sub
 
+    Public Function CanPerformable() As Boolean Implements IProcess.CanPerformable
+        Return Not Worker.CancellationPending
+    End Function
+
     Private Function Validation(Email As String) As Boolean
         If String.IsNullOrWhiteSpace(Email) Then
             Return False

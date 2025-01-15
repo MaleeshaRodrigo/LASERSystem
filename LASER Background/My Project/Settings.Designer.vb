@@ -15,7 +15,7 @@ Option Explicit On
 Namespace My
     
     <Global.System.Runtime.CompilerServices.CompilerGeneratedAttribute(),  _
-     Global.System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.10.0.0"),  _
+     Global.System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.12.0.0"),  _
      Global.System.ComponentModel.EditorBrowsableAttribute(Global.System.ComponentModel.EditorBrowsableState.Advanced)>  _
     Partial Friend NotInheritable Class MySettings
         Inherits Global.System.Configuration.ApplicationSettingsBase
@@ -189,36 +189,36 @@ Namespace My
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("")>  _
-        Public Property OnlineDatabasePath() As String
+        Public Property RemoteDatabaseServer() As String
             Get
-                Return CType(Me("OnlineDatabasePath"),String)
+                Return CType(Me("RemoteDatabaseServer"),String)
             End Get
             Set
-                Me("OnlineDatabasePath") = value
+                Me("RemoteDatabaseServer") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("")>  _
-        Public Property OnlineDatabasePassword() As String
+        Public Property RemoteDatabasePassword() As String
             Get
-                Return CType(Me("OnlineDatabasePassword"),String)
+                Return CType(Me("RemoteDatabasePassword"),String)
             End Get
             Set
-                Me("OnlineDatabasePassword") = value
+                Me("RemoteDatabasePassword") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("")>  _
-        Public Property OnlineDatabaseUser() As String
+        Public Property RemoteDatabaseUserName() As String
             Get
-                Return CType(Me("OnlineDatabaseUser"),String)
+                Return CType(Me("RemoteDatabaseUserName"),String)
             End Get
             Set
-                Me("OnlineDatabaseUser") = value
+                Me("RemoteDatabaseUserName") = value
             End Set
         End Property
         
@@ -237,24 +237,12 @@ Namespace My
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
-        Public Property ODBActive() As Boolean
+        Public Property RemoteDatabaseActive() As Boolean
             Get
-                Return CType(Me("ODBActive"),Boolean)
+                Return CType(Me("RemoteDatabaseActive"),Boolean)
             End Get
             Set
-                Me("ODBActive") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
-        Public Property ODBToken() As String
-            Get
-                Return CType(Me("ODBToken"),String)
-            End Get
-            Set
-                Me("ODBToken") = value
+                Me("RemoteDatabaseActive") = value
             End Set
         End Property
         
@@ -303,6 +291,42 @@ Namespace My
             End Get
             Set
                 Me("DbName") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("3306")>  _
+        Public Property RemoteDatabasePort() As String
+            Get
+                Return CType(Me("RemoteDatabasePort"),String)
+            End Get
+            Set
+                Me("RemoteDatabasePort") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property RemoteDatabaseName() As String
+            Get
+                Return CType(Me("RemoteDatabaseName"),String)
+            End Get
+            Set
+                Me("RemoteDatabaseName") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("#1/13/2025 00:00:00 AM#")>  _
+        Public Property DatabaseLastSynchronizedAt() As String
+            Get
+                Return CType(Me("DatabaseLastSynchronizedAt"),String)
+            End Get
+            Set
+                Me("DatabaseLastSynchronizedAt") = value
             End Set
         End Property
     End Class

@@ -30,9 +30,7 @@ Partial Class FormBGTasks
         Me.NotifyIcon = New System.Windows.Forms.NotifyIcon(Me.components)
         Me.dlgFolder = New System.Windows.Forms.FolderBrowserDialog()
         Me.lblLoad = New MaterialSkin.Controls.MaterialLabel()
-        Me.chkOnlineDB = New MaterialSkin.Controls.MaterialCheckbox()
-        Me.txtOUser = New MaterialSkin.Controls.MaterialTextBox2()
-        Me.txtOPassword = New MaterialSkin.Controls.MaterialTextBox2()
+        Me.CheckRemoteDb = New MaterialSkin.Controls.MaterialCheckbox()
         Me.Guna2GroupBox1 = New MaterialSkin.Controls.MaterialCard()
         Me.TextPort = New MaterialSkin.Controls.MaterialTextBox2()
         Me.TextHost = New MaterialSkin.Controls.MaterialTextBox2()
@@ -51,7 +49,6 @@ Partial Class FormBGTasks
         Me.tsProBar = New MaterialSkin.Controls.MaterialProgressBar()
         Me.lblBGLoad = New MaterialSkin.Controls.MaterialLabel()
         Me.tsBGProBar = New MaterialSkin.Controls.MaterialProgressBar()
-        Me.txtOPath = New MaterialSkin.Controls.MaterialTextBox2()
         Me.txtBackUpDB1 = New MaterialSkin.Controls.MaterialTextBox2()
         Me.txtBackUpDB2 = New MaterialSkin.Controls.MaterialTextBox2()
         Me.txtBackUpDB3 = New MaterialSkin.Controls.MaterialTextBox2()
@@ -78,7 +75,15 @@ Partial Class FormBGTasks
         Me.TextDbPort = New MaterialSkin.Controls.MaterialTextBox2()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
         Me.GroupBox3 = New MaterialSkin.Controls.MaterialCard()
-        Me.TxtOToken = New MaterialSkin.Controls.MaterialTextBox2()
+        Me.MaterialLabel6 = New MaterialSkin.Controls.MaterialLabel()
+        Me.MaterialLabel7 = New MaterialSkin.Controls.MaterialLabel()
+        Me.MaterialLabel8 = New MaterialSkin.Controls.MaterialLabel()
+        Me.MaterialLabel9 = New MaterialSkin.Controls.MaterialLabel()
+        Me.TextRemoteDbName = New MaterialSkin.Controls.MaterialTextBox2()
+        Me.TextRemoteDbUserName = New MaterialSkin.Controls.MaterialTextBox2()
+        Me.TextRemoteDbPort = New MaterialSkin.Controls.MaterialTextBox2()
+        Me.TextRemoteDbPassword = New MaterialSkin.Controls.MaterialTextBox2()
+        Me.TextRemoteDbServer = New MaterialSkin.Controls.MaterialTextBox2()
         Me.TabPage3 = New System.Windows.Forms.TabPage()
         Me.GroupBox2 = New MaterialSkin.Controls.MaterialCard()
         Me.TabPage4 = New System.Windows.Forms.TabPage()
@@ -93,7 +98,8 @@ Partial Class FormBGTasks
         Me.GroupBox4 = New MaterialSkin.Controls.MaterialCard()
         Me.cmdApply = New MaterialSkin.Controls.MaterialButton()
         Me.flpMessage = New System.Windows.Forms.FlowLayoutPanel()
-        Me.bgworkerOnline = New System.ComponentModel.BackgroundWorker()
+        Me.WorkerDatabaseSyncronize = New System.ComponentModel.BackgroundWorker()
+        Me.ButtonRunFullSynchronization = New MaterialSkin.Controls.MaterialButton()
         Me.Guna2GroupBox1.SuspendLayout()
         Me.Guna2GroupBox2.SuspendLayout()
         Me.pnlMain.SuspendLayout()
@@ -145,80 +151,22 @@ Partial Class FormBGTasks
         Me.lblLoad.TabIndex = 1
         Me.lblLoad.Text = "Please Wait..."
         '
-        'chkOnlineDB
+        'CheckRemoteDb
         '
-        Me.chkOnlineDB.AutoSize = True
-        Me.chkOnlineDB.Depth = 0
-        Me.chkOnlineDB.ForeColor = System.Drawing.Color.White
-        Me.chkOnlineDB.Location = New System.Drawing.Point(14, 14)
-        Me.chkOnlineDB.Margin = New System.Windows.Forms.Padding(0)
-        Me.chkOnlineDB.MouseLocation = New System.Drawing.Point(-1, -1)
-        Me.chkOnlineDB.MouseState = MaterialSkin.MouseState.HOVER
-        Me.chkOnlineDB.Name = "chkOnlineDB"
-        Me.chkOnlineDB.ReadOnly = False
-        Me.chkOnlineDB.Ripple = True
-        Me.chkOnlineDB.Size = New System.Drawing.Size(199, 37)
-        Me.chkOnlineDB.TabIndex = 28
-        Me.chkOnlineDB.Text = "Active Online Database"
-        Me.chkOnlineDB.UseVisualStyleBackColor = True
-        '
-        'txtOUser
-        '
-        Me.txtOUser.AnimateReadOnly = False
-        Me.txtOUser.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
-        Me.txtOUser.CharacterCasing = System.Windows.Forms.CharacterCasing.Normal
-        Me.txtOUser.Depth = 0
-        Me.txtOUser.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel)
-        Me.txtOUser.HideSelection = True
-        Me.txtOUser.Hint = "User Name"
-        Me.txtOUser.LeadingIcon = Nothing
-        Me.txtOUser.Location = New System.Drawing.Point(17, 68)
-        Me.txtOUser.MaxLength = 32767
-        Me.txtOUser.MouseState = MaterialSkin.MouseState.OUT
-        Me.txtOUser.Name = "txtOUser"
-        Me.txtOUser.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
-        Me.txtOUser.PrefixSuffixText = Nothing
-        Me.txtOUser.ReadOnly = False
-        Me.txtOUser.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.txtOUser.SelectedText = ""
-        Me.txtOUser.SelectionLength = 0
-        Me.txtOUser.SelectionStart = 0
-        Me.txtOUser.ShortcutsEnabled = True
-        Me.txtOUser.Size = New System.Drawing.Size(314, 48)
-        Me.txtOUser.TabIndex = 30
-        Me.txtOUser.TabStop = False
-        Me.txtOUser.TextAlign = System.Windows.Forms.HorizontalAlignment.Left
-        Me.txtOUser.TrailingIcon = Nothing
-        Me.txtOUser.UseSystemPasswordChar = False
-        '
-        'txtOPassword
-        '
-        Me.txtOPassword.AnimateReadOnly = False
-        Me.txtOPassword.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
-        Me.txtOPassword.CharacterCasing = System.Windows.Forms.CharacterCasing.Normal
-        Me.txtOPassword.Depth = 0
-        Me.txtOPassword.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel)
-        Me.txtOPassword.HideSelection = True
-        Me.txtOPassword.Hint = "Password"
-        Me.txtOPassword.LeadingIcon = Nothing
-        Me.txtOPassword.Location = New System.Drawing.Point(337, 68)
-        Me.txtOPassword.MaxLength = 32767
-        Me.txtOPassword.MouseState = MaterialSkin.MouseState.OUT
-        Me.txtOPassword.Name = "txtOPassword"
-        Me.txtOPassword.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
-        Me.txtOPassword.PrefixSuffixText = Nothing
-        Me.txtOPassword.ReadOnly = False
-        Me.txtOPassword.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.txtOPassword.SelectedText = ""
-        Me.txtOPassword.SelectionLength = 0
-        Me.txtOPassword.SelectionStart = 0
-        Me.txtOPassword.ShortcutsEnabled = True
-        Me.txtOPassword.Size = New System.Drawing.Size(236, 48)
-        Me.txtOPassword.TabIndex = 32
-        Me.txtOPassword.TabStop = False
-        Me.txtOPassword.TextAlign = System.Windows.Forms.HorizontalAlignment.Left
-        Me.txtOPassword.TrailingIcon = Nothing
-        Me.txtOPassword.UseSystemPasswordChar = False
+        Me.CheckRemoteDb.AutoSize = True
+        Me.CheckRemoteDb.Depth = 0
+        Me.CheckRemoteDb.ForeColor = System.Drawing.Color.White
+        Me.CheckRemoteDb.Location = New System.Drawing.Point(14, 14)
+        Me.CheckRemoteDb.Margin = New System.Windows.Forms.Padding(0)
+        Me.CheckRemoteDb.MouseLocation = New System.Drawing.Point(-1, -1)
+        Me.CheckRemoteDb.MouseState = MaterialSkin.MouseState.HOVER
+        Me.CheckRemoteDb.Name = "CheckRemoteDb"
+        Me.CheckRemoteDb.ReadOnly = False
+        Me.CheckRemoteDb.Ripple = True
+        Me.CheckRemoteDb.Size = New System.Drawing.Size(197, 37)
+        Me.CheckRemoteDb.TabIndex = 28
+        Me.CheckRemoteDb.Text = "Active Synchronization"
+        Me.CheckRemoteDb.UseVisualStyleBackColor = True
         '
         'Guna2GroupBox1
         '
@@ -239,7 +187,7 @@ Partial Class FormBGTasks
         Me.Guna2GroupBox1.MouseState = MaterialSkin.MouseState.HOVER
         Me.Guna2GroupBox1.Name = "Guna2GroupBox1"
         Me.Guna2GroupBox1.Padding = New System.Windows.Forms.Padding(14)
-        Me.Guna2GroupBox1.Size = New System.Drawing.Size(590, 230)
+        Me.Guna2GroupBox1.Size = New System.Drawing.Size(590, 275)
         Me.Guna2GroupBox1.TabIndex = 35
         Me.Guna2GroupBox1.Text = "Emails"
         '
@@ -378,6 +326,7 @@ Partial Class FormBGTasks
         Me.txtMAdminPass.Size = New System.Drawing.Size(265, 48)
         Me.txtMAdminPass.TabIndex = 41
         Me.txtMAdminPass.TabStop = False
+        Me.txtMAdminPass.Text = "default"
         Me.txtMAdminPass.TextAlign = System.Windows.Forms.HorizontalAlignment.Left
         Me.txtMAdminPass.TrailingIcon = Nothing
         Me.txtMAdminPass.UseSystemPasswordChar = False
@@ -444,7 +393,7 @@ Partial Class FormBGTasks
         Me.Guna2GroupBox2.MouseState = MaterialSkin.MouseState.HOVER
         Me.Guna2GroupBox2.Name = "Guna2GroupBox2"
         Me.Guna2GroupBox2.Padding = New System.Windows.Forms.Padding(14)
-        Me.Guna2GroupBox2.Size = New System.Drawing.Size(590, 230)
+        Me.Guna2GroupBox2.Size = New System.Drawing.Size(590, 275)
         Me.Guna2GroupBox2.TabIndex = 36
         Me.Guna2GroupBox2.Text = "SMS"
         '
@@ -500,7 +449,7 @@ Partial Class FormBGTasks
         Me.lblBalance.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.lblBalance.Font = New System.Drawing.Font("Roboto", 14.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel)
         Me.lblBalance.ForeColor = System.Drawing.Color.Black
-        Me.lblBalance.Location = New System.Drawing.Point(14, 183)
+        Me.lblBalance.Location = New System.Drawing.Point(14, 228)
         Me.lblBalance.MouseState = MaterialSkin.MouseState.HOVER
         Me.lblBalance.Name = "lblBalance"
         Me.lblBalance.Size = New System.Drawing.Size(562, 33)
@@ -606,39 +555,6 @@ Partial Class FormBGTasks
         Me.tsBGProBar.Name = "tsBGProBar"
         Me.tsBGProBar.Size = New System.Drawing.Size(262, 5)
         Me.tsBGProBar.TabIndex = 41
-        '
-        'txtOPath
-        '
-        Me.txtOPath.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txtOPath.AnimateReadOnly = False
-        Me.txtOPath.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
-        Me.txtOPath.CharacterCasing = System.Windows.Forms.CharacterCasing.Normal
-        Me.txtOPath.Cursor = System.Windows.Forms.Cursors.IBeam
-        Me.txtOPath.Depth = 0
-        Me.txtOPath.Font = New System.Drawing.Font("Segoe UI", 9.0!)
-        Me.txtOPath.HelperText = "Make sure add https:// or http:// to the begining of the path"
-        Me.txtOPath.HideSelection = True
-        Me.txtOPath.Hint = "API Path"
-        Me.txtOPath.LeadingIcon = Nothing
-        Me.txtOPath.Location = New System.Drawing.Point(227, 14)
-        Me.txtOPath.MaxLength = 32767
-        Me.txtOPath.MouseState = MaterialSkin.MouseState.OUT
-        Me.txtOPath.Name = "txtOPath"
-        Me.txtOPath.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
-        Me.txtOPath.PrefixSuffixText = Nothing
-        Me.txtOPath.ReadOnly = False
-        Me.txtOPath.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.txtOPath.SelectedText = ""
-        Me.txtOPath.SelectionLength = 0
-        Me.txtOPath.SelectionStart = 0
-        Me.txtOPath.ShortcutsEnabled = True
-        Me.txtOPath.Size = New System.Drawing.Size(346, 48)
-        Me.txtOPath.TabIndex = 45
-        Me.txtOPath.TabStop = False
-        Me.txtOPath.TextAlign = System.Windows.Forms.HorizontalAlignment.Left
-        Me.txtOPath.TrailingIcon = Nothing
-        Me.txtOPath.UseSystemPasswordChar = False
         '
         'txtBackUpDB1
         '
@@ -891,6 +807,7 @@ Partial Class FormBGTasks
         Me.TextDbPassword.Size = New System.Drawing.Size(438, 48)
         Me.TextDbPassword.TabIndex = 67
         Me.TextDbPassword.TabStop = False
+        Me.TextDbPassword.Text = "default"
         Me.TextDbPassword.TextAlign = System.Windows.Forms.HorizontalAlignment.Left
         Me.TextDbPassword.TrailingIcon = Nothing
         Me.TextDbPassword.UseSystemPasswordChar = False
@@ -923,7 +840,7 @@ Partial Class FormBGTasks
         Me.pnlMain.Dock = System.Windows.Forms.DockStyle.Fill
         Me.pnlMain.Location = New System.Drawing.Point(3, 64)
         Me.pnlMain.Name = "pnlMain"
-        Me.pnlMain.Size = New System.Drawing.Size(636, 607)
+        Me.pnlMain.Size = New System.Drawing.Size(636, 733)
         Me.pnlMain.TabIndex = 1
         '
         'GridActivity
@@ -935,12 +852,12 @@ Partial Class FormBGTasks
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.GridActivity.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.GridActivity.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically
-        Me.GridActivity.Location = New System.Drawing.Point(14, 516)
+        Me.GridActivity.Location = New System.Drawing.Point(14, 565)
         Me.GridActivity.Name = "GridActivity"
         Me.GridActivity.ReadOnly = True
         Me.GridActivity.RowHeadersWidth = 51
         Me.GridActivity.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.GridActivity.Size = New System.Drawing.Size(602, 71)
+        Me.GridActivity.Size = New System.Drawing.Size(602, 148)
         Me.GridActivity.TabIndex = 79
         '
         'BtnOpenAdvDB
@@ -951,7 +868,7 @@ Partial Class FormBGTasks
         Me.BtnOpenAdvDB.Depth = 0
         Me.BtnOpenAdvDB.HighEmphasis = True
         Me.BtnOpenAdvDB.Icon = Nothing
-        Me.BtnOpenAdvDB.Location = New System.Drawing.Point(321, 471)
+        Me.BtnOpenAdvDB.Location = New System.Drawing.Point(325, 520)
         Me.BtnOpenAdvDB.Margin = New System.Windows.Forms.Padding(4, 6, 4, 6)
         Me.BtnOpenAdvDB.MouseState = MaterialSkin.MouseState.HOVER
         Me.BtnOpenAdvDB.Name = "BtnOpenAdvDB"
@@ -980,7 +897,7 @@ Partial Class FormBGTasks
         Me.MaterialTabControl.Multiline = True
         Me.MaterialTabControl.Name = "MaterialTabControl"
         Me.MaterialTabControl.SelectedIndex = 0
-        Me.MaterialTabControl.Size = New System.Drawing.Size(604, 279)
+        Me.MaterialTabControl.Size = New System.Drawing.Size(604, 324)
         Me.MaterialTabControl.TabIndex = 77
         '
         'TabPage1
@@ -991,7 +908,7 @@ Partial Class FormBGTasks
         Me.TabPage1.Location = New System.Drawing.Point(4, 39)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(596, 236)
+        Me.TabPage1.Size = New System.Drawing.Size(596, 281)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Local Database"
         '
@@ -1015,7 +932,7 @@ Partial Class FormBGTasks
         Me.GroupBox1.MouseState = MaterialSkin.MouseState.HOVER
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Padding = New System.Windows.Forms.Padding(14)
-        Me.GroupBox1.Size = New System.Drawing.Size(590, 230)
+        Me.GroupBox1.Size = New System.Drawing.Size(590, 275)
         Me.GroupBox1.TabIndex = 69
         Me.GroupBox1.Text = "Local Database Info"
         '
@@ -1166,18 +1083,24 @@ Partial Class FormBGTasks
         Me.TabPage2.Location = New System.Drawing.Point(4, 39)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(596, 236)
+        Me.TabPage2.Size = New System.Drawing.Size(596, 281)
         Me.TabPage2.TabIndex = 1
-        Me.TabPage2.Text = "Online Database"
+        Me.TabPage2.Text = "Remote Database"
         '
         'GroupBox3
         '
         Me.GroupBox3.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.GroupBox3.Controls.Add(Me.TxtOToken)
-        Me.GroupBox3.Controls.Add(Me.chkOnlineDB)
-        Me.GroupBox3.Controls.Add(Me.txtOUser)
-        Me.GroupBox3.Controls.Add(Me.txtOPassword)
-        Me.GroupBox3.Controls.Add(Me.txtOPath)
+        Me.GroupBox3.Controls.Add(Me.ButtonRunFullSynchronization)
+        Me.GroupBox3.Controls.Add(Me.MaterialLabel6)
+        Me.GroupBox3.Controls.Add(Me.MaterialLabel7)
+        Me.GroupBox3.Controls.Add(Me.MaterialLabel8)
+        Me.GroupBox3.Controls.Add(Me.MaterialLabel9)
+        Me.GroupBox3.Controls.Add(Me.TextRemoteDbName)
+        Me.GroupBox3.Controls.Add(Me.TextRemoteDbUserName)
+        Me.GroupBox3.Controls.Add(Me.TextRemoteDbPort)
+        Me.GroupBox3.Controls.Add(Me.TextRemoteDbPassword)
+        Me.GroupBox3.Controls.Add(Me.TextRemoteDbServer)
+        Me.GroupBox3.Controls.Add(Me.CheckRemoteDb)
         Me.GroupBox3.Depth = 0
         Me.GroupBox3.Dock = System.Windows.Forms.DockStyle.Fill
         Me.GroupBox3.ForeColor = System.Drawing.Color.FromArgb(CType(CType(222, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
@@ -1186,41 +1109,209 @@ Partial Class FormBGTasks
         Me.GroupBox3.MouseState = MaterialSkin.MouseState.HOVER
         Me.GroupBox3.Name = "GroupBox3"
         Me.GroupBox3.Padding = New System.Windows.Forms.Padding(14)
-        Me.GroupBox3.Size = New System.Drawing.Size(590, 230)
+        Me.GroupBox3.Size = New System.Drawing.Size(590, 275)
         Me.GroupBox3.TabIndex = 71
         Me.GroupBox3.Text = "Online Database Info"
         '
-        'TxtOToken
+        'MaterialLabel6
         '
-        Me.TxtOToken.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.MaterialLabel6.AutoSize = True
+        Me.MaterialLabel6.Depth = 0
+        Me.MaterialLabel6.Font = New System.Drawing.Font("Roboto", 14.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel)
+        Me.MaterialLabel6.Location = New System.Drawing.Point(10, 234)
+        Me.MaterialLabel6.MouseState = MaterialSkin.MouseState.HOVER
+        Me.MaterialLabel6.Name = "MaterialLabel6"
+        Me.MaterialLabel6.Size = New System.Drawing.Size(69, 19)
+        Me.MaterialLabel6.TabIndex = 83
+        Me.MaterialLabel6.Text = "Database"
+        '
+        'MaterialLabel7
+        '
+        Me.MaterialLabel7.AutoSize = True
+        Me.MaterialLabel7.Depth = 0
+        Me.MaterialLabel7.Font = New System.Drawing.Font("Roboto", 14.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel)
+        Me.MaterialLabel7.Location = New System.Drawing.Point(10, 178)
+        Me.MaterialLabel7.MouseState = MaterialSkin.MouseState.HOVER
+        Me.MaterialLabel7.Name = "MaterialLabel7"
+        Me.MaterialLabel7.Size = New System.Drawing.Size(71, 19)
+        Me.MaterialLabel7.TabIndex = 82
+        Me.MaterialLabel7.Text = "Password"
+        '
+        'MaterialLabel8
+        '
+        Me.MaterialLabel8.AutoSize = True
+        Me.MaterialLabel8.Depth = 0
+        Me.MaterialLabel8.Font = New System.Drawing.Font("Roboto", 14.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel)
+        Me.MaterialLabel8.Location = New System.Drawing.Point(10, 121)
+        Me.MaterialLabel8.MouseState = MaterialSkin.MouseState.HOVER
+        Me.MaterialLabel8.Name = "MaterialLabel8"
+        Me.MaterialLabel8.Size = New System.Drawing.Size(78, 19)
+        Me.MaterialLabel8.TabIndex = 81
+        Me.MaterialLabel8.Text = "User Name"
+        '
+        'MaterialLabel9
+        '
+        Me.MaterialLabel9.AutoSize = True
+        Me.MaterialLabel9.Depth = 0
+        Me.MaterialLabel9.Font = New System.Drawing.Font("Roboto", 14.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel)
+        Me.MaterialLabel9.Location = New System.Drawing.Point(10, 67)
+        Me.MaterialLabel9.MouseState = MaterialSkin.MouseState.HOVER
+        Me.MaterialLabel9.Name = "MaterialLabel9"
+        Me.MaterialLabel9.Size = New System.Drawing.Size(45, 19)
+        Me.MaterialLabel9.TabIndex = 80
+        Me.MaterialLabel9.Text = "Server"
+        '
+        'TextRemoteDbName
+        '
+        Me.TextRemoteDbName.AnimateReadOnly = False
+        Me.TextRemoteDbName.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
+        Me.TextRemoteDbName.CharacterCasing = System.Windows.Forms.CharacterCasing.Normal
+        Me.TextRemoteDbName.Depth = 0
+        Me.TextRemoteDbName.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel)
+        Me.TextRemoteDbName.HideSelection = True
+        Me.TextRemoteDbName.Hint = "Database"
+        Me.TextRemoteDbName.LeadingIcon = Nothing
+        Me.TextRemoteDbName.Location = New System.Drawing.Point(149, 218)
+        Me.TextRemoteDbName.MaxLength = 32767
+        Me.TextRemoteDbName.MouseState = MaterialSkin.MouseState.OUT
+        Me.TextRemoteDbName.Name = "TextRemoteDbName"
+        Me.TextRemoteDbName.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
+        Me.TextRemoteDbName.PrefixSuffixText = Nothing
+        Me.TextRemoteDbName.ReadOnly = False
+        Me.TextRemoteDbName.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.TextRemoteDbName.SelectedText = ""
+        Me.TextRemoteDbName.SelectionLength = 0
+        Me.TextRemoteDbName.SelectionStart = 0
+        Me.TextRemoteDbName.ShortcutsEnabled = True
+        Me.TextRemoteDbName.Size = New System.Drawing.Size(438, 48)
+        Me.TextRemoteDbName.TabIndex = 79
+        Me.TextRemoteDbName.TabStop = False
+        Me.TextRemoteDbName.TextAlign = System.Windows.Forms.HorizontalAlignment.Left
+        Me.TextRemoteDbName.TrailingIcon = Nothing
+        Me.TextRemoteDbName.UseSystemPasswordChar = False
+        '
+        'TextRemoteDbUserName
+        '
+        Me.TextRemoteDbUserName.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TxtOToken.AnimateReadOnly = False
-        Me.TxtOToken.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
-        Me.TxtOToken.CharacterCasing = System.Windows.Forms.CharacterCasing.Normal
-        Me.TxtOToken.Cursor = System.Windows.Forms.Cursors.IBeam
-        Me.TxtOToken.Depth = 0
-        Me.TxtOToken.Font = New System.Drawing.Font("Segoe UI", 9.0!)
-        Me.TxtOToken.HideSelection = True
-        Me.TxtOToken.Hint = "API Token"
-        Me.TxtOToken.LeadingIcon = Nothing
-        Me.TxtOToken.Location = New System.Drawing.Point(17, 122)
-        Me.TxtOToken.MaxLength = 32767
-        Me.TxtOToken.MouseState = MaterialSkin.MouseState.OUT
-        Me.TxtOToken.Name = "TxtOToken"
-        Me.TxtOToken.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
-        Me.TxtOToken.PrefixSuffixText = Nothing
-        Me.TxtOToken.ReadOnly = False
-        Me.TxtOToken.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.TxtOToken.SelectedText = ""
-        Me.TxtOToken.SelectionLength = 0
-        Me.TxtOToken.SelectionStart = 0
-        Me.TxtOToken.ShortcutsEnabled = True
-        Me.TxtOToken.Size = New System.Drawing.Size(314, 48)
-        Me.TxtOToken.TabIndex = 46
-        Me.TxtOToken.TabStop = False
-        Me.TxtOToken.TextAlign = System.Windows.Forms.HorizontalAlignment.Left
-        Me.TxtOToken.TrailingIcon = Nothing
-        Me.TxtOToken.UseSystemPasswordChar = False
+        Me.TextRemoteDbUserName.AnimateReadOnly = False
+        Me.TextRemoteDbUserName.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
+        Me.TextRemoteDbUserName.CharacterCasing = System.Windows.Forms.CharacterCasing.Normal
+        Me.TextRemoteDbUserName.Depth = 0
+        Me.TextRemoteDbUserName.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel)
+        Me.TextRemoteDbUserName.HideSelection = True
+        Me.TextRemoteDbUserName.Hint = "User Name"
+        Me.TextRemoteDbUserName.LeadingIcon = Nothing
+        Me.TextRemoteDbUserName.Location = New System.Drawing.Point(149, 110)
+        Me.TextRemoteDbUserName.MaxLength = 32767
+        Me.TextRemoteDbUserName.MouseState = MaterialSkin.MouseState.OUT
+        Me.TextRemoteDbUserName.Name = "TextRemoteDbUserName"
+        Me.TextRemoteDbUserName.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
+        Me.TextRemoteDbUserName.PrefixSuffixText = Nothing
+        Me.TextRemoteDbUserName.ReadOnly = False
+        Me.TextRemoteDbUserName.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.TextRemoteDbUserName.SelectedText = ""
+        Me.TextRemoteDbUserName.SelectionLength = 0
+        Me.TextRemoteDbUserName.SelectionStart = 0
+        Me.TextRemoteDbUserName.ShortcutsEnabled = True
+        Me.TextRemoteDbUserName.Size = New System.Drawing.Size(438, 48)
+        Me.TextRemoteDbUserName.TabIndex = 78
+        Me.TextRemoteDbUserName.TabStop = False
+        Me.TextRemoteDbUserName.TextAlign = System.Windows.Forms.HorizontalAlignment.Left
+        Me.TextRemoteDbUserName.TrailingIcon = Nothing
+        Me.TextRemoteDbUserName.UseSystemPasswordChar = False
+        '
+        'TextRemoteDbPort
+        '
+        Me.TextRemoteDbPort.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TextRemoteDbPort.AnimateReadOnly = False
+        Me.TextRemoteDbPort.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
+        Me.TextRemoteDbPort.CharacterCasing = System.Windows.Forms.CharacterCasing.Normal
+        Me.TextRemoteDbPort.Depth = 0
+        Me.TextRemoteDbPort.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel)
+        Me.TextRemoteDbPort.HideSelection = True
+        Me.TextRemoteDbPort.Hint = "Port"
+        Me.TextRemoteDbPort.LeadingIcon = Nothing
+        Me.TextRemoteDbPort.Location = New System.Drawing.Point(469, 56)
+        Me.TextRemoteDbPort.MaxLength = 32767
+        Me.TextRemoteDbPort.MouseState = MaterialSkin.MouseState.OUT
+        Me.TextRemoteDbPort.Name = "TextRemoteDbPort"
+        Me.TextRemoteDbPort.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
+        Me.TextRemoteDbPort.PrefixSuffixText = Nothing
+        Me.TextRemoteDbPort.ReadOnly = False
+        Me.TextRemoteDbPort.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.TextRemoteDbPort.SelectedText = ""
+        Me.TextRemoteDbPort.SelectionLength = 0
+        Me.TextRemoteDbPort.SelectionStart = 0
+        Me.TextRemoteDbPort.ShortcutsEnabled = True
+        Me.TextRemoteDbPort.Size = New System.Drawing.Size(118, 48)
+        Me.TextRemoteDbPort.TabIndex = 77
+        Me.TextRemoteDbPort.TabStop = False
+        Me.TextRemoteDbPort.TextAlign = System.Windows.Forms.HorizontalAlignment.Left
+        Me.TextRemoteDbPort.TrailingIcon = Nothing
+        Me.TextRemoteDbPort.UseSystemPasswordChar = False
+        '
+        'TextRemoteDbPassword
+        '
+        Me.TextRemoteDbPassword.AnimateReadOnly = False
+        Me.TextRemoteDbPassword.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
+        Me.TextRemoteDbPassword.CharacterCasing = System.Windows.Forms.CharacterCasing.Normal
+        Me.TextRemoteDbPassword.Depth = 0
+        Me.TextRemoteDbPassword.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel)
+        Me.TextRemoteDbPassword.HideSelection = True
+        Me.TextRemoteDbPassword.Hint = " Password"
+        Me.TextRemoteDbPassword.LeadingIcon = Nothing
+        Me.TextRemoteDbPassword.Location = New System.Drawing.Point(149, 164)
+        Me.TextRemoteDbPassword.MaxLength = 32767
+        Me.TextRemoteDbPassword.MouseState = MaterialSkin.MouseState.OUT
+        Me.TextRemoteDbPassword.Name = "TextRemoteDbPassword"
+        Me.TextRemoteDbPassword.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
+        Me.TextRemoteDbPassword.PrefixSuffixText = Nothing
+        Me.TextRemoteDbPassword.ReadOnly = False
+        Me.TextRemoteDbPassword.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.TextRemoteDbPassword.SelectedText = ""
+        Me.TextRemoteDbPassword.SelectionLength = 0
+        Me.TextRemoteDbPassword.SelectionStart = 0
+        Me.TextRemoteDbPassword.ShortcutsEnabled = True
+        Me.TextRemoteDbPassword.Size = New System.Drawing.Size(438, 48)
+        Me.TextRemoteDbPassword.TabIndex = 76
+        Me.TextRemoteDbPassword.TabStop = False
+        Me.TextRemoteDbPassword.Text = "default"
+        Me.TextRemoteDbPassword.TextAlign = System.Windows.Forms.HorizontalAlignment.Left
+        Me.TextRemoteDbPassword.TrailingIcon = Nothing
+        Me.TextRemoteDbPassword.UseSystemPasswordChar = False
+        '
+        'TextRemoteDbServer
+        '
+        Me.TextRemoteDbServer.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TextRemoteDbServer.AnimateReadOnly = False
+        Me.TextRemoteDbServer.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
+        Me.TextRemoteDbServer.CharacterCasing = System.Windows.Forms.CharacterCasing.Normal
+        Me.TextRemoteDbServer.Depth = 0
+        Me.TextRemoteDbServer.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel)
+        Me.TextRemoteDbServer.HideSelection = True
+        Me.TextRemoteDbServer.Hint = "Server"
+        Me.TextRemoteDbServer.LeadingIcon = Nothing
+        Me.TextRemoteDbServer.Location = New System.Drawing.Point(149, 56)
+        Me.TextRemoteDbServer.MaxLength = 32767
+        Me.TextRemoteDbServer.MouseState = MaterialSkin.MouseState.OUT
+        Me.TextRemoteDbServer.Name = "TextRemoteDbServer"
+        Me.TextRemoteDbServer.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
+        Me.TextRemoteDbServer.PrefixSuffixText = Nothing
+        Me.TextRemoteDbServer.ReadOnly = False
+        Me.TextRemoteDbServer.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.TextRemoteDbServer.SelectedText = ""
+        Me.TextRemoteDbServer.SelectionLength = 0
+        Me.TextRemoteDbServer.SelectionStart = 0
+        Me.TextRemoteDbServer.ShortcutsEnabled = True
+        Me.TextRemoteDbServer.Size = New System.Drawing.Size(314, 48)
+        Me.TextRemoteDbServer.TabIndex = 75
+        Me.TextRemoteDbServer.TabStop = False
+        Me.TextRemoteDbServer.TextAlign = System.Windows.Forms.HorizontalAlignment.Left
+        Me.TextRemoteDbServer.TrailingIcon = Nothing
+        Me.TextRemoteDbServer.UseSystemPasswordChar = False
         '
         'TabPage3
         '
@@ -1229,7 +1320,7 @@ Partial Class FormBGTasks
         Me.TabPage3.Location = New System.Drawing.Point(4, 39)
         Me.TabPage3.Name = "TabPage3"
         Me.TabPage3.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage3.Size = New System.Drawing.Size(596, 236)
+        Me.TabPage3.Size = New System.Drawing.Size(596, 281)
         Me.TabPage3.TabIndex = 2
         Me.TabPage3.Text = "Backup"
         Me.TabPage3.UseVisualStyleBackColor = True
@@ -1252,7 +1343,7 @@ Partial Class FormBGTasks
         Me.GroupBox2.MouseState = MaterialSkin.MouseState.HOVER
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.Padding = New System.Windows.Forms.Padding(14)
-        Me.GroupBox2.Size = New System.Drawing.Size(590, 230)
+        Me.GroupBox2.Size = New System.Drawing.Size(590, 275)
         Me.GroupBox2.TabIndex = 70
         Me.GroupBox2.Text = "Back Up Info"
         '
@@ -1263,7 +1354,7 @@ Partial Class FormBGTasks
         Me.TabPage4.Location = New System.Drawing.Point(4, 39)
         Me.TabPage4.Name = "TabPage4"
         Me.TabPage4.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage4.Size = New System.Drawing.Size(596, 236)
+        Me.TabPage4.Size = New System.Drawing.Size(596, 281)
         Me.TabPage4.TabIndex = 3
         Me.TabPage4.Text = "Email"
         Me.TabPage4.UseVisualStyleBackColor = True
@@ -1275,7 +1366,7 @@ Partial Class FormBGTasks
         Me.TabPage5.Location = New System.Drawing.Point(4, 39)
         Me.TabPage5.Name = "TabPage5"
         Me.TabPage5.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage5.Size = New System.Drawing.Size(596, 236)
+        Me.TabPage5.Size = New System.Drawing.Size(596, 281)
         Me.TabPage5.TabIndex = 4
         Me.TabPage5.Text = "SMS"
         Me.TabPage5.UseVisualStyleBackColor = True
@@ -1402,7 +1493,7 @@ Partial Class FormBGTasks
         Me.cmdApply.Depth = 0
         Me.cmdApply.HighEmphasis = True
         Me.cmdApply.Icon = Nothing
-        Me.cmdApply.Location = New System.Drawing.Point(547, 471)
+        Me.cmdApply.Location = New System.Drawing.Point(551, 520)
         Me.cmdApply.Margin = New System.Windows.Forms.Padding(4, 6, 4, 6)
         Me.cmdApply.MouseState = MaterialSkin.MouseState.HOVER
         Me.cmdApply.Name = "cmdApply"
@@ -1426,27 +1517,47 @@ Partial Class FormBGTasks
         Me.flpMessage.Location = New System.Drawing.Point(639, 64)
         Me.flpMessage.Name = "flpMessage"
         Me.flpMessage.Padding = New System.Windows.Forms.Padding(0, 0, 20, 0)
-        Me.flpMessage.Size = New System.Drawing.Size(455, 607)
+        Me.flpMessage.Size = New System.Drawing.Size(455, 733)
         Me.flpMessage.TabIndex = 0
         Me.flpMessage.WrapContents = False
         '
-        'bgworkerOnline
+        'WorkerDatabaseSyncronize
         '
-        Me.bgworkerOnline.WorkerReportsProgress = True
-        Me.bgworkerOnline.WorkerSupportsCancellation = True
+        Me.WorkerDatabaseSyncronize.WorkerReportsProgress = True
+        Me.WorkerDatabaseSyncronize.WorkerSupportsCancellation = True
         '
-        'frmBGTasks
+        'ButtonRunFullSynchronization
+        '
+        Me.ButtonRunFullSynchronization.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ButtonRunFullSynchronization.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.ButtonRunFullSynchronization.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.[Default]
+        Me.ButtonRunFullSynchronization.Depth = 0
+        Me.ButtonRunFullSynchronization.HighEmphasis = True
+        Me.ButtonRunFullSynchronization.Icon = Nothing
+        Me.ButtonRunFullSynchronization.Location = New System.Drawing.Point(394, 6)
+        Me.ButtonRunFullSynchronization.Margin = New System.Windows.Forms.Padding(4, 6, 4, 6)
+        Me.ButtonRunFullSynchronization.MouseState = MaterialSkin.MouseState.HOVER
+        Me.ButtonRunFullSynchronization.Name = "ButtonRunFullSynchronization"
+        Me.ButtonRunFullSynchronization.NoAccentTextColor = System.Drawing.Color.Empty
+        Me.ButtonRunFullSynchronization.Size = New System.Drawing.Size(192, 36)
+        Me.ButtonRunFullSynchronization.TabIndex = 84
+        Me.ButtonRunFullSynchronization.Text = "Run Full Synchronize"
+        Me.ButtonRunFullSynchronization.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained
+        Me.ButtonRunFullSynchronization.UseAccentColor = False
+        Me.ButtonRunFullSynchronization.UseVisualStyleBackColor = True
+        '
+        'FormBGTasks
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1097, 674)
+        Me.ClientSize = New System.Drawing.Size(1097, 800)
         Me.Controls.Add(Me.pnlMain)
         Me.Controls.Add(Me.flpMessage)
         Me.DrawerShowIconsWhenHidden = True
         Me.DrawerTabControl = Me.MaterialTabControl
         Me.Font = New System.Drawing.Font("Calibri", 8.25!)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
-        Me.Name = "frmBGTasks"
+        Me.Name = "FormBGTasks"
         Me.Text = "LASER System - Background Worker"
         Me.WindowState = System.Windows.Forms.FormWindowState.Minimized
         Me.Guna2GroupBox1.ResumeLayout(False)
@@ -1485,8 +1596,6 @@ Partial Class FormBGTasks
     Friend WithEvents ofdDatabase As OpenFileDialog
     Friend WithEvents NotifyIcon As NotifyIcon
     Friend WithEvents dlgFolder As FolderBrowserDialog
-    Friend WithEvents txtOUser As MaterialSkin.Controls.MaterialTextBox2
-    Friend WithEvents txtOPassword As MaterialSkin.Controls.MaterialTextBox2
     Friend WithEvents Guna2GroupBox1 As MaterialSkin.Controls.MaterialCard
     Friend WithEvents txtMAdminEmailVerify As MaterialSkin.Controls.MaterialTextBox2
     Friend WithEvents txtMAdminPass As MaterialSkin.Controls.MaterialTextBox2
@@ -1494,7 +1603,6 @@ Partial Class FormBGTasks
     Friend WithEvents Guna2GroupBox2 As MaterialSkin.Controls.MaterialCard
     Friend WithEvents txtMApiToken As MaterialSkin.Controls.MaterialTextBox2
     Friend WithEvents txtMApiKey As MaterialSkin.Controls.MaterialTextBox2
-    Friend WithEvents txtOPath As MaterialSkin.Controls.MaterialTextBox2
     Friend WithEvents txtBackUpDB1 As MaterialSkin.Controls.MaterialTextBox2
     Friend WithEvents txtBackUpDB2 As MaterialSkin.Controls.MaterialTextBox2
     Friend WithEvents txtBackUpDB3 As MaterialSkin.Controls.MaterialTextBox2
@@ -1517,7 +1625,7 @@ Partial Class FormBGTasks
     Friend WithEvents MaterialCard2 As MaterialSkin.Controls.MaterialCard
     Friend WithEvents MaterialCard1 As MaterialSkin.Controls.MaterialCard
     Friend WithEvents lblLoad As MaterialSkin.Controls.MaterialLabel
-    Friend WithEvents chkOnlineDB As MaterialSkin.Controls.MaterialCheckbox
+    Friend WithEvents CheckRemoteDb As MaterialSkin.Controls.MaterialCheckbox
     Friend WithEvents btnAdminEmailVerify As MaterialSkin.Controls.MaterialButton
     Friend WithEvents chkMSendEmail As MaterialSkin.Controls.MaterialCheckbox
     Friend WithEvents lblBalance As MaterialSkin.Controls.MaterialLabel
@@ -1532,12 +1640,11 @@ Partial Class FormBGTasks
     Friend WithEvents lblIPAddress As MaterialSkin.Controls.MaterialLabel
     Friend WithEvents Label12 As MaterialSkin.Controls.MaterialLabel
     Private WithEvents ImageList As ImageList
-    Friend WithEvents bgworkerOnline As System.ComponentModel.BackgroundWorker
+    Friend WithEvents WorkerDatabaseSyncronize As System.ComponentModel.BackgroundWorker
     Friend WithEvents PicBGOStop As PictureBox
     Friend WithEvents PicBGStop As PictureBox
     Friend WithEvents BtnOpenAdvDB As MaterialSkin.Controls.MaterialButton
     Friend WithEvents GridActivity As DataGridView
-    Friend WithEvents TxtOToken As MaterialSkin.Controls.MaterialTextBox2
     Friend WithEvents TextPort As MaterialSkin.Controls.MaterialTextBox2
     Friend WithEvents TextHost As MaterialSkin.Controls.MaterialTextBox2
     Friend WithEvents TextDbPort As MaterialSkin.Controls.MaterialTextBox2
@@ -1550,4 +1657,14 @@ Partial Class FormBGTasks
     Friend WithEvents MaterialLabel5 As MaterialSkin.Controls.MaterialLabel
     Friend WithEvents RadioDeactivate As MaterialSkin.Controls.MaterialRadioButton
     Friend WithEvents RadioActivate As MaterialSkin.Controls.MaterialRadioButton
+    Friend WithEvents MaterialLabel6 As MaterialSkin.Controls.MaterialLabel
+    Friend WithEvents MaterialLabel7 As MaterialSkin.Controls.MaterialLabel
+    Friend WithEvents MaterialLabel8 As MaterialSkin.Controls.MaterialLabel
+    Friend WithEvents MaterialLabel9 As MaterialSkin.Controls.MaterialLabel
+    Friend WithEvents TextRemoteDbName As MaterialSkin.Controls.MaterialTextBox2
+    Friend WithEvents TextRemoteDbUserName As MaterialSkin.Controls.MaterialTextBox2
+    Friend WithEvents TextRemoteDbPort As MaterialSkin.Controls.MaterialTextBox2
+    Friend WithEvents TextRemoteDbPassword As MaterialSkin.Controls.MaterialTextBox2
+    Friend WithEvents TextRemoteDbServer As MaterialSkin.Controls.MaterialTextBox2
+    Friend WithEvents ButtonRunFullSynchronization As MaterialSkin.Controls.MaterialButton
 End Class
