@@ -1,5 +1,6 @@
 ﻿Imports LASER_System.My
 Imports MySqlConnector
+Imports Newtonsoft.Json
 
 Public Class Database
     Public Function GetConenction() As MySqlConnection
