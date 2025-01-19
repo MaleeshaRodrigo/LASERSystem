@@ -242,7 +242,7 @@ Public Class frmSale
             CuNo = DR("CuNo").ToString
         Else
             CuNo = Db.GetNextKey("Customer", "CuNo")
-            Db.Execute("Insert into Customer(CuNo,CuName,CuTelNo1,CuTelNo2,CutelNo3) Values(" & CuNo & ",'" & cmbCuName.Text & "','" & txtCuTelNo1.Text & "','" &
+            Db.Execute($"INSERT INTO {Tables.Customer}(CuNo,CuName,CuTelNo1,CuTelNo2,CutelNo3) Values(" & CuNo & ",'" & cmbCuName.Text & "','" & txtCuTelNo1.Text & "','" &
                       txtCuTelNo2.Text & "','" & txtCuTelNo3.Text & "');")
         End If
         Dim UserNo As Integer = Db.GetData("SELECT UNo FROM User WHERE UserName=@USERNAME;", {
@@ -251,7 +251,7 @@ Public Class frmSale
         Select Case cmdSave.Text
             Case "Save"
                 SetNextKey(Db, txtSaNo, "SELECT SaNo from Sale ORDER BY SaNo Desc LIMIT 1;", "SaNo")
-                Db.Execute("INSERT INTO Sale(SaNo,SaDate,CuNo,SaSubTotal,SaLess,SaDue,CAmount,CReceived,CBalance,CPInvoiceNo,CPAmount,CuLNo,CuLAmount,SaRemarks,UNo)Values(?NewKey?Sale?SaNo?, @SADATE, @CUNO, @SUBTOTAL, @LESS, @DUE, @CAMOUNT, @CRECEIVED, @CBALANCE, @CPINVOICENO, @CPAMOUNT, @CULNO, @CULAMOUNT, @SAREMARKS, @UNO);", {
+                Db.Execute($"INSERT INTO {Tables.Sale}(SaNo,SaDate,CuNo,SaSubTotal,SaLess,SaDue,CAmount,CReceived,CBalance,CPInvoiceNo,CPAmount,CuLNo,CuLAmount,SaRemarks,UNo)Values(?NewKey?Sale?SaNo?, @SADATE, @CUNO, @SUBTOTAL, @LESS, @DUE, @CAMOUNT, @CRECEIVED, @CBALANCE, @CPINVOICENO, @CPAMOUNT, @CULNO, @CULAMOUNT, @SAREMARKS, @UNO);", {
                     New MySqlParameter("SADATE", txtSaDate.Value),
                     New MySqlParameter("CUNO", CuNo),
                     New MySqlParameter("SUBTOTAL", txtSubTotal.Text),
@@ -269,7 +269,7 @@ Public Class frmSale
                 })
                 If txtCuLAmount.Text <> "0" Then
                     SetNextKey(Db, txtCuLNo, "Select CuLNo from CustomerLoan Order by CuLNo Desc LIMIT 1", "CuLNo")
-                    Db.Execute("Insert into CustomerLoan(CuLNo,CuLDate,CuNo,CuLAmount,SaNo,Status) Values(@CULNO, @CULDATE, @CUNO, @CULAMOUNT, @SANO, 'Not Paid')", {
+                    Db.Execute($"INSERT INTO {Tables.CustomerLoan}(CuLNo,CuLDate,CuNo,CuLAmount,SaNo,Status) Values(@CULNO, @CULDATE, @CUNO, @CULAMOUNT, @SANO, 'Not Paid')", {
                               New MySqlParameter("CULNO", txtCuLNo.Text),
                         New MySqlParameter("CULDATE", txtSaDate.Value),
                         New MySqlParameter("CUNO", CuNo),
@@ -281,7 +281,7 @@ Public Class frmSale
                 For Each row As DataGridViewRow In grdSale.Rows
                     If row.Index = Int(grdSale.Rows.Count) - 1 Then Exit For
                     If row.Cells.Item(0).Value <> "" Then
-                        Db.Execute("Insert into StockSale(SSaNo,SaNo,SNo,SCategory,SName,SaType,SaRate,SaUnits,SaTotal) Values(" &
+                        Db.Execute($"INSERT INTO {Tables.StockSale}(SSaNo,SaNo,SNo,SCategory,SName,SaType,SaRate,SaUnits,SaTotal) Values(" &
                                   Db.GetNextKey("StockSale", "SSaNo") & "," &
                                   txtSaNo.Text & "," &
                                   row.Cells(0).Value.ToString() & ",'" & row.Cells(1).Value.ToString & "','" & row.Cells(2).Value.ToString &
@@ -289,17 +289,17 @@ Public Class frmSale
                                   row.Cells(6).Value.ToString() & ");")
                         'Update Store
                         If row.Cells(3).Value.ToString = "Sale" Then
-                            Db.Execute("Update Stock set SAvailablestocks=(SAvailableStocks - " & row.Cells("Qty").Value.ToString &
+                            Db.Execute($"UPDATE {Tables.Stock} SET SAvailablestocks=(SAvailableStocks - " & row.Cells("Qty").Value.ToString &
                                                          ") where SNo=" & row.Cells(0).Value.ToString & "")
                         ElseIf row.Cells(3).Value.ToString = "Return to Damaged Units" Then
-                            Db.Execute("Update Stock set Soutofstocks=(SOutofstocks + " & row.Cells("Qty").Value.ToString &
+                            Db.Execute($"UPDATE {Tables.Stock} SET Soutofstocks=(SOutofstocks + " & row.Cells("Qty").Value.ToString &
                                                                                 ") where SNo=" & row.Cells(0).Value.ToString & "")
                         ElseIf row.Cells(3).Value.ToString = "Return to Available Units" Then
-                            Db.Execute("Update Stock set SAvailablestocks=(SAvailablestocks + " & row.Cells("Qty").Value.ToString &
+                            Db.Execute($"UPDATE {Tables.Stock} SET SAvailablestocks=(SAvailablestocks + " & row.Cells("Qty").Value.ToString &
                                                                                 ") where SNo=" & row.Cells(0).Value.ToString & "")
                         End If
                     Else
-                        Db.Execute("Insert into StockSale(SSaNo,SaNo,SCategory,SName,SaType,SaRate,SaUnits,SaTotal) Values(" &
+                        Db.Execute($"INSERT INTO {Tables.StockSale}(SSaNo,SaNo,SCategory,SName,SaType,SaRate,SaUnits,SaTotal) Values(" &
                                   Db.GetNextKey("StockSale", "SSaNo") & "," & txtSaNo.Text & ",'" &
                                  row.Cells(1).Value.ToString & "','" & row.Cells(2).Value.ToString &
                                   "','" & row.Cells(3).Value.ToString() & "'," & row.Cells(4).Value.ToString() & "," & row.Cells(5).Value.ToString() & "," &
@@ -313,7 +313,7 @@ Public Class frmSale
                     If DR("CuLNo").ToString <> "0" And txtCuLNo.Text = "0" Then
                         Db.Execute("DELETE from CustomerLoan where CuLNo=" & DR("CuLNO").ToString)
                     ElseIf DR("CuLNo").ToString <> "0" And txtCuLNo.Text <> "0" Then
-                        Db.Execute("Update CustomerLoan set CuLNo = " & DR("CuLNo").ToString &
+                        Db.Execute($"UPDATE {Tables.CustomerLoan} SET CuLNo = " & DR("CuLNo").ToString &
                                                       "CuNo = " & CuNo &
                                                       ",CuLAmount = " & txtCuLAmount.Text &
                                                       ",SaNo = " & txtSaNo.Text &
@@ -321,7 +321,7 @@ Public Class frmSale
                                                       "where CuLNo=" & DR("CuLNo").ToString)
                         txtCuLNo.Text = DR("CuLNo").ToString
                     ElseIf DR("CuLNo").ToString = "0" And txtCuLNo.Text <> "0" Then
-                        Db.Execute("Insert into CustomerLoan(CuLNO,CuLAmount,CuNo,SaNO,CulDate,Status) values(" & txtCuLNo.Text & "," & txtCuLAmount.Text & "," & CuNo & "," & txtSaNo.Text & "," & txtSaDate.Text & ",'Not Paid')")
+                        Db.Execute($"INSERT INTO {Tables.CustomerLoan}(CuLNO,CuLAmount,CuNo,SaNO,CulDate,Status) values(" & txtCuLNo.Text & "," & txtCuLAmount.Text & "," & CuNo & "," & txtSaNo.Text & "," & txtSaDate.Text & ",'Not Paid')")
                     End If
                 End If
                 'Delete old Customer if there is no records about that customer
@@ -334,7 +334,7 @@ Public Class frmSale
                         Db.Execute("Delete from Customer where CuNo=" & DR("CuNo").ToString)
                     End If
                 End If
-                Db.Execute("Update Sale set SaNo= " & txtSaNo.Text &
+                Db.Execute($"UPDATE {Tables.Sale} SET SaNo= " & txtSaNo.Text &
                                         ",SaDate = '" & txtSaDate.Value &
                                         "',CuNo = " & CuNo &
                                         ",SaSubTotal = " & txtSubTotal.Text &
@@ -352,13 +352,13 @@ Public Class frmSale
                 Dim DRStockSale = Db.GetDataList("Select * from StockSale where SaNo = " & txtSaNo.Text & "")
                 For Each Item In DRStockSale
                     If Item("SaType").ToString = "Sale" Then
-                        Db.Execute("Update Stock set SAvailablestocks=(SAvailableStocks + " & Item("SaUnits").ToString &
+                        Db.Execute($"UPDATE {Tables.Stock} SET SAvailablestocks=(SAvailableStocks + " & Item("SaUnits").ToString &
                                                      ") where SNo=" & Item("SNo").ToString & "")
                     ElseIf Item("SaType").ToString = "Return to Damaged Units" Then
-                        Db.Execute("Update Stock set SOutofstocks=(SOutofstocks - " & Item("SaUnits").ToString &
+                        Db.Execute($"UPDATE {Tables.Stock} SET SOutofstocks=(SOutofstocks - " & Item("SaUnits").ToString &
                                                                             ") where SNo=" & Item("SNo").ToString & "")
                     ElseIf Item("SaType").ToString = "Return to Available Units" Then
-                        Db.Execute("Update Stock set SAvailablestocks=(SAvailablestocks - " & Item("SaUnits").ToString &
+                        Db.Execute($"UPDATE {Tables.Stock} SET SAvailablestocks=(SAvailablestocks - " & Item("SaUnits").ToString &
                                                                                 ") where SNo=" & Item("SNo").ToString & "")
                     End If
                 Next
@@ -367,23 +367,23 @@ Public Class frmSale
                 For Each row As DataGridViewRow In grdSale.Rows
                     If row.Index = grdSale.Rows.Count - 1 Then Continue For
                     If row.Cells.Item(0).Value <> "" Then
-                        Db.Execute("Insert into StockSale(SSaNo,SaNo,SNo,SCategory,SName,SaType,SaRate,SaUnits,SaTotal) Values(" &
+                        Db.Execute($"INSERT INTO {Tables.StockSale}(SSaNo,SaNo,SNo,SCategory,SName,SaType,SaRate,SaUnits,SaTotal) Values(" &
                                   Db.GetNextKey("StockSale", "SSaNo") & "," & txtSaNo.Text & "," &
                                       row.Cells(0).Value.ToString() & ",'" & row.Cells(1).Value.ToString & "','" & row.Cells(2).Value.ToString &
                                       "','" & row.Cells(3).Value.ToString() & "'," & row.Cells(4).Value.ToString() & "," & row.Cells(5).Value.ToString() & "," &
                                       row.Cells(6).Value.ToString() & ");")
                         If row.Cells(3).Value.ToString = "Sale" Then
-                            Db.Execute("Update Stock set SAvailablestocks=(SAvailableStocks - " & row.Cells(5).Value.ToString &
+                            Db.Execute($"UPDATE {Tables.Stock} SET SAvailablestocks=(SAvailableStocks - " & row.Cells(5).Value.ToString &
                                                          ") where SNo=" & row.Cells(0).Value.ToString & "")
                         ElseIf row.Cells(3).Value.ToString = "Return to Damaged Units" Then
-                            Db.Execute("Update Stock set Soutofstocks=(SOutofstocks + " & row.Cells("Qty").Value.ToString &
+                            Db.Execute($"UPDATE {Tables.Stock} SET Soutofstocks=(SOutofstocks + " & row.Cells("Qty").Value.ToString &
                                                                                 ") where SNo=" & row.Cells(0).Value.ToString & "")
                         ElseIf row.Cells(3).Value.ToString = "Return to Available Units" Then
-                            Db.Execute("Update Stock set SAvailablestocks=(SAvailablestocks + " & row.Cells("Qty").Value.ToString &
+                            Db.Execute($"UPDATE {Tables.Stock} SET SAvailablestocks=(SAvailablestocks + " & row.Cells("Qty").Value.ToString &
                                                                                 ") where SNo=" & row.Cells(0).Value.ToString & "")
                         End If
                     Else
-                        Db.Execute("Insert into StockSale(SSaNo,SaNo,SCategory,SName,SaType,SaRate,SaUnits,SaTotal) Values(" &
+                        Db.Execute($"INSERT INTO {Tables.StockSale}(SSaNo,SaNo,SCategory,SName,SaType,SaRate,SaUnits,SaTotal) Values(" &
                                   Db.GetNextKey("StockSale", "SSaNo") & "," & txtSaNo.Text & ",'" &
                                  row.Cells(1).Value.ToString & "','" & row.Cells(2).Value.ToString &
                                   "','" & row.Cells(3).Value.ToString() & "'," & row.Cells(4).Value.ToString() & "," & row.Cells(5).Value.ToString() & "," &

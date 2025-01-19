@@ -1,4 +1,5 @@
 ﻿Imports System.IO
+Imports System.Text.RegularExpressions
 Imports MySqlConnector
 Imports Newtonsoft.Json
 
@@ -40,12 +41,14 @@ Public NotInheritable Class QueryLogManager
     Private Sub PerformQueryLog()
         Dim Database As New Database()
         While Queue.Count > 0
+            'Dim RegEx As New Regex("[\s|\t|\r|\n]+", RegexOptions.Multiline)
             Dim QueueCommand As MySqlCommand = Queue.Dequeue()
             Dim ParameterDictionary As Dictionary(Of String, Object) = QueueCommand.Parameters.ToDictionary(Function(Parameter) Parameter.ParameterName, Function(Parameter) Parameter.Value)
             Database.DirectExecute("INSERT INTO `query_log` (Location, Query, Parameters, created_at) VALUES ('local', @QUERY, @PARAMETERS, NOW());", {
                 New MySqlParameter("QUERY", QueueCommand.CommandText),
                 New MySqlParameter("PARAMETERS", JsonConvert.SerializeObject(ParameterDictionary))
             })
+            'New MySqlParameter("QUERY", RegEx.Replace(QueueCommand.CommandText, " ")),
         End While
     End Sub
 

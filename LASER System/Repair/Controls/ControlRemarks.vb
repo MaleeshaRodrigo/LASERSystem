@@ -1,4 +1,5 @@
-﻿Imports MySqlConnector
+﻿Imports LASER_System.StructureDatabase
+Imports MySqlConnector
 Imports System.IO
 
 Public Class ControlRemarks
@@ -49,7 +50,7 @@ Public Class ControlRemarks
     End Sub
 
     Public Sub SaveData(RepNo As Integer)
-        DB.Execute($"UPDATE Repair SET Location= '{cmbLocation.Text}' WHERE repno ={RepNo}")
+        DB.Execute($"UPDATE {Tables.Repair} SET Location= '{cmbLocation.Text}' WHERE repno ={RepNo}")
         DB.Execute($"INSERT INTO RepairActivity(RepANo,RepNo,RepADate,Activity,UNo) VALUES({DB.GetNextKey("RepairActivity", "RepANo")},{RepNo},'{DateAndTime.Now}','Location -> {cmbLocation.Text}',{User.Instance.UserNo})")
     End Sub
 
@@ -124,7 +125,7 @@ Public Class ControlRemarks
         If e.RowIndex <> (grdRepRemarks1.Rows.Count - 1) And
             grdRepRemarks1.Item(e.ColumnIndex, e.RowIndex).Tag <> grdRepRemarks1.Item(e.ColumnIndex, e.RowIndex).Value Then
             If DB.CheckDataExists("RepairRemarks1", "Rem1No", grdRepRemarks1.Item(0, e.RowIndex).Value) = True Then
-                DB.Execute("Update RepairRemarks1 set " &
+                DB.Execute($"UPDATE {Tables.RepairRemarks1} SET " &
                           If(FormParent.Mode = RepairMode.Repair, "RepNo=" & FormParent.cmbRepNo.Text, "RetNo=" & FormParent.cmbRetNo.Text) &
                           ",Rem1Date=@REM1DATE,Remarks=@REMARKS,UNo=@UNO Where Rem1No=@REM1NO;", {
                     New MySqlParameter("REM1DATE", grdRepRemarks1.Item(1, e.RowIndex).Value),
@@ -133,7 +134,7 @@ Public Class ControlRemarks
                     New MySqlParameter("REM1NO", grdRepRemarks1.Item(0, e.RowIndex).Value)
                 }, AdminPer)
             Else
-                DB.Execute("Insert into RepairRemarks1(Rem1No," & If(FormParent.Mode = RepairMode.Repair, "RepNo", "RetNo") &
+                DB.Execute($"INSERT INTO {Tables.RepairRemarks1}(Rem1No," & If(FormParent.Mode = RepairMode.Repair, "RepNo", "RetNo") &
                           ", Rem1Date, Remarks, UNo) Values(@REM1NO," &
                           If(FormParent.Mode = RepairMode.Repair, FormParent.cmbRepNo.Text, FormParent.cmbRetNo.Text) &
                           ", @REM1DATE, @REMARKS, @UNO);", {

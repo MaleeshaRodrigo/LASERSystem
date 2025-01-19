@@ -1,4 +1,5 @@
-﻿Imports MySqlConnector
+﻿Imports LASER_System.StructureDatabase
+Imports MySqlConnector
 
 Public Class frmTechnician
     Private Db As New Database
@@ -36,7 +37,7 @@ Public Class frmTechnician
                 ElseIf CheckExistData(Db, txtTNo, "Select TNo from Technician where TNo =" & txtTNo.Text & ";", "This data couldn't be saved to database because Technicino No which you added has already located in the database. You have to change that to save.", True) = True Then
                     Exit Sub
                 End If
-                Db.Execute("INSERT INTO Technician(TNo,TName,TFullName,TAddress,TEmail,TNicNo,TTelNo1,TTelno2,TTelno3,TRemarks,TActive,TBlockEmails) VALUES(@TNO, @TNAME, @TFULLNAME, TADDRESS, TEMAIL, TNICNO, TTELNO1, TTELNO2, TTELNO3, TREMARKS, TACTIVE, TBLOCKEMAILS)", {
+                Db.Execute($"INSERT INTO {Tables.Technician}(TNo,TName,TFullName,TAddress,TEmail,TNicNo,TTelNo1,TTelno2,TTelno3,TRemarks,TActive,TBlockEmails) VALUES(@TNO, @TNAME, @TFULLNAME, TADDRESS, TEMAIL, TNICNO, TTELNO1, TTELNO2, TTELNO3, TREMARKS, TACTIVE, TBLOCKEMAILS)", {
                       New MySqlParameter("TNO", txtTNo.Text),
                       New MySqlParameter("TNAME", cmbTName.Text),
                       New MySqlParameter("TFULLNAME", txtTFullName.Text),
@@ -55,7 +56,7 @@ Public Class frmTechnician
                 cmdDelete.Enabled = True
             Case "Edit"
                 If MsgBox("Are you sure edit?", vbYesNo + vbInformation) = vbYes Then
-                    Db.Execute("Update Technician Set TName=@TNAME, TFullName=@TFULLNAME, TAddress=@TADDRESS, TEmail=@TEMAIL, TNicNo=@TNICNO, TTelNo1=@TTELNO1, TTelno2=@TTELNO2, TTelno3=@TTELNO3, TRemarks=@TREMARKS, TActive=@TACTIVE, TBlockEmails=@TBLOCKEMAILS WHERE TNo=@TNO;", {
+                    Db.Execute($"UPDATE {Tables.Technician} SET TName=@TNAME, TFullName=@TFULLNAME, TAddress=@TADDRESS, TEmail=@TEMAIL, TNicNo=@TNICNO, TTelNo1=@TTELNO1, TTelno2=@TTELNO2, TTelno3=@TTELNO3, TRemarks=@TREMARKS, TActive=@TACTIVE, TBlockEmails=@TBLOCKEMAILS WHERE TNo=@TNO;", {
                           New MySqlParameter("TNAME", cmbTName.Text),
                           New MySqlParameter("TFULLNAME", txtTFullName.Text),
                           New MySqlParameter("TADDRESS", txtTAddress.Text),
@@ -122,7 +123,7 @@ Public Class frmTechnician
     Private Sub cmbTName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbTName.SelectedIndexChanged
         Dim DR = Db.GetDataDictionary("Select * from Technician where TName ='" & cmbTName.Text & "';")
         If DR.Count Then
-            
+
             txtTNo.Text = DR("TNo").ToString
             txtTAddress.Text = DR("TAddress").ToString
             txtTFullName.Text = DR("TFullName").ToString

@@ -5,7 +5,7 @@ Imports MySqlConnector
 Public Class RepairController : Inherits AbstractRepairController
 
     Public Sub InsertRepair(Data As Dictionary(Of String, Object))
-        Db.Execute("INSERT INTO Repair(RepNo,RNo,PNo,PSerialNo,Qty,Problem,Status,TNo) VALUES(@REPNO, @RNO, @PNO, @PSERIALNO, @QTY, @PROBLEM, @STATUS, @TNO);", {
+        Db.Execute($"INSERT INTO {Tables.Repair}(RepNo,RNo,PNo,PSerialNo,Qty,Problem,Status,TNo) VALUES(@REPNO, @RNO, @PNO, @PSERIALNO, @QTY, @PROBLEM, @STATUS, @TNO);", {
             New MySqlParameter("REPNO", Data(Repair.RepNo)),
             New MySqlParameter("RNO", Data(Repair.RNo)),
             New MySqlParameter("PNO", Data(Repair.PNo)),
