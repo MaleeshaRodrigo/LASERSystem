@@ -1,4 +1,5 @@
-﻿Imports MySqlConnector
+﻿Imports LASER_System.StructureDatabase
+Imports MySqlConnector
 
 Public Class frmCustomer
     Private Db As New Database
@@ -53,7 +54,7 @@ Public Class frmCustomer
     End Sub
 
     Private Sub frmCustomer_Load(sender As Object, e As EventArgs) Handles Me.Load
-        
+
 
         cmbFilter.Items.Clear()     'add values of cmdFilters
         cmbFilter.Items.Add("by Customer Name")
@@ -182,7 +183,7 @@ Public Class frmCustomer
                 If Db.CheckDataExists("Customer", "CuNo", txtCuNo.Text) Then
                     txtCuNo.Text = Db.GetNextKey("Customer", "CuNo")
                 End If
-                Db.Execute("Insert into Customer(CuNo,CuName,CuTelNo1,CuTelNo2,CuTelNo3) Values(@NO, @NAME, @TELNO1, @TELNO2, @TELNO3);", {
+                Db.Execute($"Insert into {Tables.Customer}(CuNo,CuName,CuTelNo1,CuTelNo2,CuTelNo3) Values(@NO, @NAME, @TELNO1, @TELNO2, @TELNO3);", {
                         New MySqlParameter("@NO", txtCuNo.Text),
                         New MySqlParameter("@NAME", TextCuName.Text),
                         New MySqlParameter("@TELNO1", txtCuTelNo1.Text),
@@ -196,7 +197,7 @@ Public Class frmCustomer
                 DeleteToolStripMenuItem.Enabled = True
                 MsgBox("Save Successful", vbExclamation + vbOKOnly)
             Case "Edit"
-                Db.Execute("Update Customer set CuName = '" & TextCuName.Text & "',CuTelNo1 =  '" & txtCuTelNo1.Text & "',CuTelNo2 =  '" & txtCuTelNo2.Text & "',CuTelNo3 =  '" & txtCuTelNo3.Text & "' where CuNo=" & txtCuNo.Text)
+                Db.Execute($"Update {Tables.Customer} set CuName = '" & TextCuName.Text & "',CuTelNo1 =  '" & txtCuTelNo1.Text & "',CuTelNo2 =  '" & txtCuTelNo2.Text & "',CuTelNo3 =  '" & txtCuTelNo3.Text & "' where CuNo=" & txtCuNo.Text)
                 Call txtSearch_TextChanged(sender, e)
         End Select
         For Each Row As DataGridViewRow In grdCustomer.Rows
@@ -241,7 +242,7 @@ Public Class frmCustomer
             Exit Sub
         End If
         If MsgBox("Are you sure delete?", vbYesNo + vbInformation) = vbYes Then
-            Db.Execute("DELETE from Customer where CuNo=" & txtCuNo.Text)
+            Db.Execute($"DELETE from {Tables.Customer} where CuNo=" & txtCuNo.Text)
             Call txtSearch_TextChanged(sender, e)
             Call cmdNew_Click(sender, e)
         End If
@@ -303,6 +304,6 @@ Public Class frmCustomer
     End Sub
 
     Private Sub frmCustomer_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-        
+
     End Sub
 End Class

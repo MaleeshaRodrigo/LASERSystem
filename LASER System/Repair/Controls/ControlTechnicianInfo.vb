@@ -1,4 +1,5 @@
-﻿Imports MySqlConnector
+﻿Imports LASER_System.StructureDatabase
+Imports MySqlConnector
 
 Public Class ControlTechnicianInfo
     Private DB As Database
@@ -102,7 +103,7 @@ Public Class ControlTechnicianInfo
         End If
         If e.RowIndex <> (grdRepRemarks2.Rows.Count - 1) Then
             If DB.CheckDataExists("RepairRemarks2", "Rem2No", grdRepRemarks2.Item(0, e.RowIndex).Value) = True Then
-                DB.Execute($"Update RepairRemarks2 set RepNo=@REPNO, RetNo=@RETNO, Rem2Date=@DATE, Remarks =@REMARKS,UNo=@UNO Where Rem2No=@NO;", {
+                DB.Execute($"UPDATE {Tables.RepairRemarks2} SET RepNo=@REPNO, RetNo=@RETNO, Rem2Date=@DATE, Remarks =@REMARKS,UNo=@UNO Where Rem2No=@NO;", {
                     New MySqlParameter("REPNO", If(FormParent.Mode = RepairMode.Repair, FormParent.cmbRepNo.Text, Nothing)),
                     New MySqlParameter("RETNO", If(FormParent.Mode = RepairMode.ReRepair, FormParent.cmbRetNo.Text, Nothing)),
                     New MySqlParameter("DATE", Convert.ToDateTime(grdRepRemarks2.Item(1, e.RowIndex).Value)),
@@ -111,7 +112,7 @@ Public Class ControlTechnicianInfo
                     New MySqlParameter("NO", grdRepRemarks2.Item(0, e.RowIndex).Value)
                 }, AdminPer)
             Else
-                DB.Execute("Insert into RepairRemarks2(RepNo, RetNo, Rem2Date, Remarks, UNo) Values(@REPNO, @RETNO, @DATE, @REMARKS, @UNO);", {
+                DB.Execute($"INSERT INTO {Tables.RepairRemarks2}(RepNo, RetNo, Rem2Date, Remarks, UNo) Values(@REPNO, @RETNO, @DATE, @REMARKS, @UNO);", {
                     New MySqlParameter("REPNO", If(FormParent.Mode = RepairMode.Repair, FormParent.cmbRepNo.Text, Nothing)),
                     New MySqlParameter("RETNO", If(FormParent.Mode = RepairMode.ReRepair, FormParent.cmbRetNo.Text, Nothing)),
                     New MySqlParameter("DATE", Convert.ToDateTime(grdRepRemarks2.Item(1, e.RowIndex).Value)),

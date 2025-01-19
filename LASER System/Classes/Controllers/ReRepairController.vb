@@ -5,7 +5,7 @@ Public Class ReRepairController
     Inherits AbstractRepairController
 
     Public Sub InsertReRepair(Data As Dictionary(Of String, Object))
-        Db.Execute("INSERT INTO `Return`(RetNo, RepNo, RNo, PNo, PSerialNo, Qty, Problem, Status) VALUES(@RETNO, @REPNO, @RNO, @PNO, @PSERIALNO, @QTY, @PROBLEM, @STATUS)", {
+        Db.Execute($"INSERT INTO {Tables.ReRepair}(RetNo, RepNo, RNo, PNo, PSerialNo, Qty, Problem, Status) VALUES(@RETNO, @REPNO, @RNO, @PNO, @PSERIALNO, @QTY, @PROBLEM, @STATUS)", {
             New MySqlParameter("RETNO", Data(ReRepair.RetNo)),
             New MySqlParameter("REPNO", Data(ReRepair.RepNo)),
             New MySqlParameter("RNO", Data(ReRepair.RNo)),

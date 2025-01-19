@@ -184,24 +184,21 @@ Public Class FormBGTasks
         tsProBar.Value = 100
     End Sub
 
-    Private Sub bgworkerOnline_DoWork(sender As Object, e As DoWorkEventArgs) Handles WorkerDatabaseSyncronize.DoWork
-        Dim Process As New DatabaseSynchronizationProcess()
+    Private Sub WorkerDatabaseSyncronize_DoWork(sender As Object, e As DoWorkEventArgs) Handles WorkerDatabaseSyncronize.DoWork
+        Dim Process As New DatabaseSynchronizationProcess(WorkerDatabaseSyncronize)
         Try
             If ErrorExist(Process.ToString) Or Process.CanPerformable = False Then
                 Return
             End If
 
-            bgworker.ReportProgress(0, $"Initialized {FormatMessage(Process.ToString)}")
+            WorkerDatabaseSyncronize.ReportProgress(0, $"Initalized Synchronization")
             Process.Perform()
-            bgworker.ReportProgress(100, $"Completed {FormatMessage(Process.ToString)}")
         Catch Ex As Exception
             e.Result = New String() {Process.ToString, Ex.Message}
             Exit Sub
         End Try
-    End Sub
 
-    Private Sub bgworkerOnline_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles WorkerDatabaseSyncronize.RunWorkerCompleted
-
+        WorkerDatabaseSyncronize.ReportProgress(100, $"Completed Synchronization")
     End Sub
 
     Public Function FormatMessage(Text As String) As String
@@ -372,12 +369,12 @@ Public Class FormBGTasks
 
     Private Sub bgworker_ProgressChanged(sender As Object, e As ProgressChangedEventArgs) Handles bgworker.ProgressChanged
         lblLoad.Text = e.UserState
-        tsProBar.Value = e.ProgressPercentage
+        tsProBar.Value = If(e.ProgressPercentage > 100, 100, e.ProgressPercentage)
     End Sub
 
     Private Sub bgworkerOnline_ProgressChanged(sender As Object, e As ProgressChangedEventArgs) Handles WorkerDatabaseSyncronize.ProgressChanged
         lblBGLoad.Text = e.UserState
-        tsBGProBar.Value = e.ProgressPercentage
+        tsBGProBar.Value = If(e.ProgressPercentage > 100, 100, e.ProgressPercentage)
     End Sub
 
     Private Sub PicStop_Click(sender As Object, e As EventArgs) Handles PicBGOStop.Click, PicBGStop.Click

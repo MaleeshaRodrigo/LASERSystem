@@ -1,4 +1,5 @@
-﻿Imports MySqlConnector
+﻿Imports LASER_System.StructureDatabase
+Imports MySqlConnector
 
 Public Class frmSupplier
     Private Db As New Database
@@ -13,11 +14,11 @@ Public Class frmSupplier
     End Sub
 
     Private Sub frmSupplier_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-        
+
     End Sub
 
     Private Sub frmSupplier_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        
+
         MenuStrip1.Items.Add(mnustrpMENU)
         If Tag = "" Then
             cmdDone.Enabled = False
@@ -90,7 +91,7 @@ Public Class frmSupplier
                 ElseIf CheckExistData(Db, cmbSuName, "Select SuName from Supplier where SuName ='" & cmbSuName.Text & "';", "Supplier Name is exist", True) = True Then
                     Exit Sub
                 End If
-                Db.Execute("Insert into Supplier(SuNo,SuName,SuAddress, SuEmail, SuTelNo1, SuTelNo2, SuTelNo3,SuRemarks)Values(" & txtSuNo.Text & ",'" & cmbSuName.Text & "','" & txtSuAddress.Text & "','" & txtSuEmail.Text & "','" & txtSuTelNo1.Text & "','" & txtSuTelNo2.Text & "','" & txtSuTelNo3.Text & "','" & txtSuRemarks.Text & "');")
+                Db.Execute($"INSERT INTO {Tables.Supplier}(SuNo,SuName,SuAddress, SuEmail, SuTelNo1, SuTelNo2, SuTelNo3,SuRemarks)Values(" & txtSuNo.Text & ",'" & cmbSuName.Text & "','" & txtSuAddress.Text & "','" & txtSuEmail.Text & "','" & txtSuTelNo1.Text & "','" & txtSuTelNo2.Text & "','" & txtSuTelNo3.Text & "','" & txtSuRemarks.Text & "');")
                 Call txtSearch_TextChanged(sender, e)
                 cmdSave.Text = "Edit"
                 SaveToolStripMenuItem.Text = "Edit"
@@ -102,7 +103,7 @@ Public Class frmSupplier
                     Exit Sub
                 End If
                 If MsgBox("Are you sure edit?", vbYesNo + vbInformation) = vbYes Then
-                    Db.Execute("Update Supplier set SuNo=" & txtSuNo.Text &
+                    Db.Execute($"UPDATE {Tables.Supplier} SET SuNo=" & txtSuNo.Text &
                                                  ",SuName = '" & cmbSuName.Text & "',SuAddress = '" & txtSuAddress.Text & "',SuEmail = '" & txtSuEmail.Text & "',SuTelNo1 =  '" & txtSuTelNo1.Text & "',SuTelNo2 =  '" & txtSuTelNo2.Text & "',SuTelNo3 =  '" & txtSuTelNo3.Text & "',SuRemarks =  '" & txtSuRemarks.Text & "' where SuNo=" & txtSuNo.Text)
                     Call txtSearch_TextChanged(sender, e)
                 End If

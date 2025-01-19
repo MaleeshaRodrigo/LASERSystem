@@ -1,8 +1,8 @@
-﻿Imports CrystalDecisions.CrystalReports.Engine
-Imports CrystalDecisions.Shared
-Imports System.Net.Mail
+﻿Imports Str
 Imports System.IO
 Imports MySqlConnector
+Imports LASER_System.StructureDatabase
+Imports CrystalDecisions.Shared
 
 Public Class frmTechnicianSalary
     Private Db As New Database
@@ -126,18 +126,18 @@ Public Class frmTechnicianSalary
         If DR.Count Then
             TSalaryTNo = DR("TNo").ToString
         End If
-        Db.Execute("Insert into TechnicianSalary(TSalNo, TNo, TSDate, TotalRepair, TotalReRepair, TotalSalesRepair, TotalCost, TotalLoan, Earned, AddedLoan, Salary) Values(" & txtTSNo.Text & "," & TSalaryTNo.ToString & ",'" & txtTSDate.Value.Date & "'," & txtTotalRepair.Text & "," & txtTotalReRepair.Text & "," & txtTotalSalesRepair.Text & "," & txtTotalCost.Text & "," & txtTotalLoan.Text & "," & ControlTotalEarned.Value & "," & ControlTechnicianLoan.Value & "," & ControlTechnicianEarnedSalary.Value & ");")
+        Db.Execute($"INSERT INTO {Tables.TechnicianSalary}(TSalNo, TNo, TSDate, TotalRepair, TotalReRepair, TotalSalesRepair, TotalCost, TotalLoan, Earned, AddedLoan, Salary) Values(" & txtTSNo.Text & "," & TSalaryTNo.ToString & ",'" & txtTSDate.Value.Date & "'," & txtTotalRepair.Text & "," & txtTotalReRepair.Text & "," & txtTotalSalesRepair.Text & "," & txtTotalCost.Text & "," & txtTotalLoan.Text & "," & ControlTotalEarned.Value & "," & ControlTechnicianLoan.Value & "," & ControlTechnicianEarnedSalary.Value & ");")
         For Each Row As DataGridViewRow In grdRepair.Rows
-            Db.Execute("Update Repair set TSalNo =" & txtTSNo.Text & " where RepNo=" & Row.Cells(0).Value.ToString)
+            Db.Execute($"UPDATE {Tables.Repair} SET TSalNo =" & txtTSNo.Text & " where RepNo=" & Row.Cells(0).Value.ToString)
         Next
         For Each Row As DataGridViewRow In grdReRepair.Rows
             Db.Execute("Update `Return` set TSalNo =" & txtTSNo.Text & " where RetNO=" & Row.Cells(0).Value.ToString)
         Next
         For Each Row As DataGridViewRow In grdSalesRepair.Rows
-            Db.Execute("Update SalesRepair set TSalNo =" & txtTSNo.Text & " where SaRepNo=" & Row.Cells(0).Value.ToString)
+            Db.Execute($"UPDATE {Tables.SalesRepair} SET TSalNo =" & txtTSNo.Text & " where SaRepNo=" & Row.Cells(0).Value.ToString)
         Next
         For Each Row As DataGridViewRow In grdCost.Rows
-            Db.Execute("Update TechnicianCost set TSalNo = " & txtTSNo.Text & " where TCNo=" & Row.Cells(1).Value.ToString)
+            Db.Execute($"UPDATE {Tables.TechnicianCost} SET TSalNo = " & txtTSNo.Text & " where TCNo=" & Row.Cells(1).Value.ToString)
         Next
         Dim TLNo As String
         DR = Db.GetDataDictionary("Select TLNo from TechnicianLoan order by TLNo desc LIMIT 1;")
@@ -147,7 +147,7 @@ Public Class frmTechnicianSalary
         Else
             TLNo = "1"
         End If
-        Db.Execute("Insert Into TechnicianLoan(TLNo,TNo,TLDate,TLReason,Total) Values(" & TLNo & "," & TSalaryTNo.ToString & ",'" & txtTSDate.Value & "', 'This Loan was paid from Technician Salary No called " & txtTSNo.Text & "',-" & ControlTechnicianLoan.Value & ");")
+        Db.Execute($"INSERT INTO {Tables.TechnicianLoan}(TLNo,TNo,TLDate,TLReason,Total) Values(" & TLNo & "," & TSalaryTNo.ToString & ",'" & txtTSDate.Value & "', 'This Loan was paid from Technician Salary No called " & txtTSNo.Text & "',-" & ControlTechnicianLoan.Value & ");")
         MsgBox("Salary Submit Successful!", vbExclamation + vbOKOnly)
         SetNextKey(Db, txtTSNo, "Select TSalNo from TechnicianSalary order by TSalNo desc LIMIT 1;", "TSalNo")
         Call CmdTSSearch_Click(sender, e)
@@ -291,7 +291,7 @@ Public Class frmTechnicianSalary
             .FormatOptions = CrFormatTypeOptions
         End With
         RPT.Export()
-        Db.Execute("Insert Into Mail(MailNo,MailDate,EmailTo,Subject,Body,Status,Attachment1) Values(" &
+        Db.Execute($"INSERT INTO {Tables.Mail}(MailNo,MailDate,EmailTo,Subject,Body,Status,Attachment1) Values(" &
                 Db.GetNextKey("Mail", "MailNo") & ",'" & DateAndTime.Now &
                 "','" & DR("TEmail").ToString & "','Technician Salary (from " & txtTSFrom.Value.Date.ToString & " To " & txtTSTo.Value.Date.ToString &
                   ")','LASER System " + Application.ProductVersion + vbCrLf + vbCrLf +

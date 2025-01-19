@@ -12,7 +12,7 @@ Public Class ProductController
     End Function
 
     Public Function InsertProduct(Data As Dictionary(Of String, Object)) As Integer
-        Return Db.Execute("INSERT INTO Product(PCATEGORY, PNAME, PDETAILS) VALUES(@PCATEGORY, @PNAME, @PDETAILS);", {
+        Return Db.Execute($"INSERT INTO {Tables.Product}(PCATEGORY, PNAME, PDETAILS) VALUES(@PCATEGORY, @PNAME, @PDETAILS);", {
             New MySqlParameter("PCATEGORY", Data(Product.PCategory)),
             New MySqlParameter("PNAME", Data(Product.PName)),
             New MySqlParameter("PDETAILS", Data(Product.PDetails))
@@ -20,7 +20,7 @@ Public Class ProductController
     End Function
 
     Public Sub InsertProduct(ProductModel As ProductModel)
-        Db.Execute("INSERT INTO Product(PCATEGORY, PNAME, PDETAILS) VALUES(@PCATEGORY, @PNAME, @PDETAILS);", {
+        Db.Execute($"INSERT INTO {Tables.Product}(PCATEGORY, PNAME, PDETAILS) VALUES(@PCATEGORY, @PNAME, @PDETAILS);", {
             New MySqlParameter("PCATEGORY", ProductModel.Category),
             New MySqlParameter("PNAME", ProductModel.Name),
             New MySqlParameter("PDETAILS", ProductModel.Details)

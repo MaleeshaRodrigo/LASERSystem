@@ -1,5 +1,4 @@
-﻿Imports System.Data.SqlClient
-Imports LASER_System.My
+﻿Imports LASER_System.My
 Imports MySqlConnector
 Imports Newtonsoft.Json
 

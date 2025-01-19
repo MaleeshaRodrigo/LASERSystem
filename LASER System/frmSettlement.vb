@@ -1,6 +1,7 @@
 ﻿Imports MySqlConnector
 Imports System.IO
 Imports CrystalDecisions.Shared
+Imports LASER_System.StructureDatabase
 Public Class frmSettlement
     Private Db As New Database
     Private ReportFolderPath As String
@@ -29,14 +30,14 @@ Public Class frmSettlement
         Cursor = Cursors.WaitCursor
         Dim DR = Db.GetDataDictionary("Select * from Settlement where SetDate='" & txtFrom.Value.Date & "'")
         If DR IsNot Nothing Then
-            Db.Execute("Update Settlement Set SaTotal =" & txtTotalofSales.Text & ", RepTotal = " & txtTotalofRepairs.Text & ",TATotal=" & txtTotalofTransactions.Text &
+            Db.Execute($"UPDATE {Tables.Settlement} SET SaTotal =" & txtTotalofSales.Text & ", RepTotal = " & txtTotalofRepairs.Text & ",TATotal=" & txtTotalofTransactions.Text &
                                               ",SetGrandTotal=" & txtIncome.Text & ",CTotal=" & txtCTotal.Text & ",CPTotal =" & txtCPTotal.Text & ",CuLTotal =" & txtCuLTotal.Text &
                                               ",CPReceiptQty=" & txtCPQtyInvoice.Text & ",CashinLocker=" & txtLockerCash.Text & ",SetChange = " & txtChange.Text &
                                               ",LKR5000=" & txtLKR5000.Text & ",LKR1000=" & txtLKR1000.Text & ",LKR500=" & txtLKR500.Text & ",LKR100=" & txtLKR100.Text &
                                               ",LKR50=" & txtLKR50.Text & ",LKR20=" & txtLKR20.Text & ",LKR10=" & txtLKR10.Text & ",LKR5=" & txtLKR5.Text & ",LKR2=" & txtLKR2.Text &
                                               ",LKR1=" & txtLKR1.Text & " Where SetDate ='" & txtFrom.Value.Date & "';")
         Else
-            Db.Execute("Insert into Settlement(SetDate,SaTotal,RepTotal,TATotal,SetGrandTotal,CTotal,CPTotal,CuLTotal,CPReceiptQty,CashinLocker,SetChange,LKR5000,LKR1000,LKR500,LKR100,LKR50,LKR20,LKR10,LKR5,LKR2,LKR1) Values('" & txtFrom.Value.Date & "'," & txtTotalofSales.Text & "," & txtTotalofRepairs.Text & "," & txtTotalofTransactions.Text & "," & txtIncome.Text & "," & txtCTotal.Text & "," & txtCPTotal.Text & "," & txtCuLTotal.Text & "," & txtCPQtyInvoice.Text & "," & txtLockerCash.Text & "," & txtChange.Text & "," & txtLKR5000.Text & "," & txtLKR1000.Text & "," & txtLKR500.Text & "," & txtLKR100.Text & "," & txtLKR50.Text & "," & txtLKR20.Text & "," & txtLKR10.Text & "," & txtLKR5.Text & "," & txtLKR2.Text & "," & txtLKR1.Text & ");")
+            Db.Execute($"INSERT INTO {Tables.Settlement}(SetDate,SaTotal,RepTotal,TATotal,SetGrandTotal,CTotal,CPTotal,CuLTotal,CPReceiptQty,CashinLocker,SetChange,LKR5000,LKR1000,LKR500,LKR100,LKR50,LKR20,LKR10,LKR5,LKR2,LKR1) Values('" & txtFrom.Value.Date & "'," & txtTotalofSales.Text & "," & txtTotalofRepairs.Text & "," & txtTotalofTransactions.Text & "," & txtIncome.Text & "," & txtCTotal.Text & "," & txtCPTotal.Text & "," & txtCuLTotal.Text & "," & txtCPQtyInvoice.Text & "," & txtLockerCash.Text & "," & txtChange.Text & "," & txtLKR5000.Text & "," & txtLKR1000.Text & "," & txtLKR500.Text & "," & txtLKR100.Text & "," & txtLKR50.Text & "," & txtLKR20.Text & "," & txtLKR10.Text & "," & txtLKR5.Text & "," & txtLKR2.Text & "," & txtLKR1.Text & ");")
         End If
         Dim Connection = Db.GetConenction()
         Try

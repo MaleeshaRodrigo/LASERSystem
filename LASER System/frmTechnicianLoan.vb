@@ -1,4 +1,5 @@
-﻿Imports MySqlConnector
+﻿Imports LASER_System.StructureDatabase
+Imports MySqlConnector
 
 Public Class frmTechnicianLoan
     Private Db As New Database
@@ -64,16 +65,16 @@ Public Class frmTechnicianLoan
                                                         cmbTName.Text & "'"))
         If cmdTLSave.Text = "Save" Then
             If txtSNo.Text <> "" Then
-                Db.Execute("Insert Into TechnicianLoan(TLNo,TNo,TLDate,SNo,SCategory,SName,TLReason,Rate,Qty,Total,UNo) Values(" & txtTLNo.Text & "," & TNo & ",'" & txtTLDate.Value & "'," & txtSNo.Text & ",'" &
+                Db.Execute($"INSERT INTO {Tables.TechnicianLoan}(TLNo,TNo,TLDate,SNo,SCategory,SName,TLReason,Rate,Qty,Total,UNo) Values(" & txtTLNo.Text & "," & TNo & ",'" & txtTLDate.Value & "'," & txtSNo.Text & ",'" &
                         cmbSCategory.Text & "','" & cmbSName.Text & "','" & txtTLReason.Text &
                         "'," & txtSUnitPrice.Text & "," & txtSQty.Text & "," & txtTLAmount.Text & ",'" & User.Instance.UserNo & "')", {}, AdminPer)
             Else
-                Db.Execute("Insert Into TechnicianLoan(TLNo,TNo,TLDate,TLReason,Total,UNo) Values(" & txtTLNo.Text & "," & TNo & ",'" & txtTLDate.Value & "','" & txtTLReason.Text & "'," &
+                Db.Execute($"INSERT INTO {Tables.TechnicianLoan}(TLNo,TNo,TLDate,TLReason,Total,UNo) Values(" & txtTLNo.Text & "," & TNo & ",'" & txtTLDate.Value & "','" & txtTLReason.Text & "'," &
                         txtTLAmount.Text & ",'" & User.Instance.UserNo & "')", {}, AdminPer)
             End If
             MsgBox("Save Successfull!", vbExclamation + vbOKOnly)
         ElseIf cmdTLSave.Text = "Edit" Then
-            Db.Execute("Update TechnicianCost Set TNo=" & TNo &
+            Db.Execute($"UPDATE {Tables.TechnicianCost} SET TNo=" & TNo &
                       ",TLDate='" & txtTLDate.Value &
                       "',SNo=" & txtSNo.Text &
                       ",SCategory='" & cmbSCategory.Text &
@@ -124,7 +125,7 @@ Public Class frmTechnicianLoan
             DR = Db.GetDataDictionary("SElect * from Stock Where Scategory='" & cmbSCategory.Text & "' and SName ='" & cmbSName.Text & "'")
         End If
         If DR.Count Then
-            
+
             txtSNo.Text = DR("SNo").ToString
             txtSUnitPrice.Text = Val(DR("SSAlePRice").ToString)
             txtSQty.Text = "1"
@@ -260,18 +261,18 @@ Public Class frmTechnicianLoan
         End If
         Dim DR = Db.GetDataDictionary("Select * from TechnicianLoan Where TLNo=" & txtTLNo.Text)
         If DR.Count Then
-            
+
             If DR("SNo").ToString <> "" And DR("SNo").ToString <> "0" Then
                 Dim Response = MsgBox("ඔබට මෙම Item එක Technician Cost තුලින් ඉවත් කිරිමට අවශ්‍ය බැවින්, එම Item එක නැවත Available Units තුලට පිරවීමට අවශ්‍යද? " +
                                       vbCr + vbCr + "Yes - එසෙ නම් ඔබ 'Yes' යන Button එක Click කරන්න. " + vbCr + vbCr +
                                       "No - නැතහොත්, ඔබට මෙම item එක Damaged Units වලට add කිරිමට අවශ්‍ය නම්, 'No' යන Button එක Click කරන්න." +
                                       vbCr + vbCr + "Cancel - ඔබට ඉවත් වීමට අවශ්‍ය නම් 'Cancel' යන Button එක Click කරන්න.", vbYesNoCancel + vbExclamation)
                 If Response = vbYes Then
-                    Db.Execute("Update Stock set SAvailablestocks=(SAvailableStocks + " & txtSQty.Text &
+                    Db.Execute($"UPDATE {Tables.Stock} SET SAvailablestocks=(SAvailableStocks + " & txtSQty.Text &
                                                              ") where SNo=" & txtSNo.Text & "", {}, AdminPer)
                     Db.Execute("DELETE from TechnicianCost where TCNo=" & txtTLNo.Text, {}, AdminPer)       'decrease unit from stock table 
                 ElseIf Response = vbNo Then
-                    Db.Execute("Update Stock set SOutofStocks=(SOutofStocks + " & txtSQty.Text &
+                    Db.Execute($"UPDATE {Tables.Stock} SET SOutofStocks=(SOutofStocks + " & txtSQty.Text &
                                                              ") where SNo=" & txtSNo.Text & "", {}, AdminPer)
                     Db.Execute("DELETE from TechnicianCost where TCNo=" & txtTLNo.Text, {}, AdminPer)       'delete data from technician loan 
                 Else
