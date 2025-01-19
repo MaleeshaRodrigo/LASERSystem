@@ -1,4 +1,5 @@
-﻿Imports MySqlConnector
+﻿Imports LASER_System.StructureDatabase
+Imports MySqlConnector
 
 Public Class ControlTechnicianCostListInfo
     Private Db As Database
@@ -96,11 +97,11 @@ Public Class ControlTechnicianCostListInfo
             grdTechnicianCost.Item(e.ColumnIndex, e.RowIndex).Value <> grdTechnicianCost.Item(e.ColumnIndex, e.RowIndex).Tag Then grdTechnicianCost.Item(9, e.RowIndex).Value = User.Instance.UserName
         If grdTechnicianCost.Item(0, e.RowIndex).Value Is Nothing Then
             grdTechnicianCost.Item(0, e.RowIndex).Value = Db.GetNextKey("TechnicianCost", "TCNo")
-            Db.Execute("Insert into TechnicianCost(TCNo) Values(" & grdTechnicianCost.Item(0, e.RowIndex).Value & ")",
+            Db.Execute($"INSERT INTO {Tables.TechnicianCost}(TCNo) Values(" & grdTechnicianCost.Item(0, e.RowIndex).Value & ")",
                       {}, AdminPer)
         End If
         If Db.CheckDataExists("TechnicianCost", "TCNo", grdTechnicianCost.Item(0, e.RowIndex).Value) = True Then
-            Db.Execute("Update TechnicianCost set TCDate='" & grdTechnicianCost.Item("TCDate", e.RowIndex).Value &
+            Db.Execute($"UPDATE {Tables.TechnicianCost} SET TCDate='" & grdTechnicianCost.Item("TCDate", e.RowIndex).Value &
                       "',TNo" = Db.GetData($"SELECT TNo from Technician WHERE TName='{ParentRepairForm.ControlTechnicianInfo.cmbTName.Text}'") &
                       ",SNo=" & grdTechnicianCost.Item("SNo", e.RowIndex).Value &
                       ",SCategory='" & grdTechnicianCost.Item("SCategory", e.RowIndex).Value &

@@ -1,4 +1,5 @@
-﻿Imports MySqlConnector
+﻿Imports LASER_System.StructureDatabase
+Imports MySqlConnector
 
 Public Class frmProduct
     Private Db As New Database
@@ -55,11 +56,11 @@ Public Class frmProduct
     End Sub
 
     Private Sub frmProduct_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-        
+
     End Sub
 
     Private Sub frmProduct_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        
+
         MenuStrip.Items.Add(mnustrpMENU)
         cmbFilter.Items.Clear()
         cmbFilter.Items.Add("by Product No")
@@ -114,11 +115,11 @@ Public Class frmProduct
                     cmbPCategory.Focus()
                     Exit Sub
                 End If
-                Db.Execute("Insert into Product(PNo,PCategory,PName,PModelNo,PDetails) Values(" & txtPNo.Text & ",'" & cmbPCategory.Text & "','" & cmbPName.Text & "','" & txtPModelNo.Text & "','" & txtPDetails.Text & "');")
+                Db.Execute($"Insert into {Tables.Product}(PNo,PCategory,PName,PModelNo,PDetails) Values(" & txtPNo.Text & ",'" & cmbPCategory.Text & "','" & cmbPName.Text & "','" & txtPModelNo.Text & "','" & txtPDetails.Text & "');")
                 Call txtSearch_TextChanged(sender, e)
                 MsgBox("Save Successful", vbExclamation + vbOKOnly)
             Case "Edit"
-                Db.Execute("Update Product set PNo=" & txtPNo.Text &
+                Db.Execute($"Update {Tables.Product} set PNo=" & txtPNo.Text &
                                                  ",PCategory = '" & cmbPCategory.Text & "',PName = '" & cmbPName.Text & "',PModelNo =  '" & txtPModelNo.Text & "',PDetails =  '" & txtPDetails.Text & "' where PNo=" & txtPNo.Text)
                 Call txtSearch_TextChanged(sender, e)
         End Select
@@ -150,7 +151,7 @@ Public Class frmProduct
             Exit Sub
         End If
         If MsgBox("Are you sure delete?", vbYesNo + vbInformation) = vbYes Then
-            Db.Execute("DELETE from Product where PNo=" & txtPNo.Text)
+            Db.Execute($"DELETE from {Tables.Product} where PNo=" & txtPNo.Text)
             Call txtSearch_TextChanged(sender, e)
             Call cmdNew_Click(sender, e)
         End If

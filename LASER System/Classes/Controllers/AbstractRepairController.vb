@@ -94,14 +94,14 @@ Public MustInherit Class AbstractRepairController : Inherits AbstractController
     End Sub
 
     Private Function InsertReceiveRepair(Data As Dictionary(Of String, Object)) As Integer
-        Return Db.Execute("INSERT INTO Receive(RDate,CuNo,UNo) VALUES(NOW(), @CUNO, @UNO);", {
+        Return Db.Execute($"INSERT INTO {Tables.Receive}(RDate,CuNo,UNo) VALUES(NOW(), @CUNO, @UNO);", {
             New MySqlParameter("CUNO", Data(Receive.CuNo)),
             New MySqlParameter("UNO", User.Instance.UserNo)
         })
     End Function
 
     Private Sub InsertRepairRemarks1(RepairNo As Object, ReRepairNo As Object, Remarks As String)
-        Db.Execute("INSERT INTO RepairRemarks1(Rem1Date, RepNo, RetNo, Remarks, UNo) Values(@DATE, @REPNO, @RETNO, @REMARKS, @UNO);", {
+        Db.Execute($"INSERT INTO {Tables.RepairRemarks1}(Rem1Date, RepNo, RetNo, Remarks, UNo) Values(@DATE, @REPNO, @RETNO, @REMARKS, @UNO);", {
             New MySqlParameter("DATE", Now),
             New MySqlParameter("REPNO", RepairNo),
             New MySqlParameter("RETNO", ReRepairNo),

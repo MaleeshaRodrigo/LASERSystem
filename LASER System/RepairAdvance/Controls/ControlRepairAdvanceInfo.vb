@@ -74,10 +74,10 @@ Public Class ControlRepairAdvanceInfo
 
         Select Case Mode
             Case UpdateMode.New
-                Db.Execute("INSERT INTO RepairAdvanced(ADDate,RepNo,RetNo,Amount,Remarks,UNo) VALUES(@DATE, @REPNO, @RETNO, @AMOUNT, @REMARKS, @UNO);", Values.ToArray)
+                Db.Execute($"INSERT INTO {Tables.RepairAdvanced}(ADDate,RepNo,RetNo,Amount,Remarks,UNo) VALUES(@DATE, @REPNO, @RETNO, @AMOUNT, @REMARKS, @UNO);", Values.ToArray)
             Case UpdateMode.Edit
                 Values.Add(New MySqlParameter("ADNO", txtAdNo.Text))
-                Db.Execute("Update RepairAdvanced set ADDate=@DATE, RetNo=@RETNO, RepNo=@REPNO, Amount=@AMOUNT, Remarks=@REMARKS, UNo=@UNO Where AdNo=@ADNO;", Values.ToArray)
+                Db.Execute($"UPDATE {Tables.RepairAdvanced} SET ADDate=@DATE, RetNo=@RETNO, RepNo=@REPNO, Amount=@AMOUNT, Remarks=@REMARKS, UNo=@UNO Where AdNo=@ADNO;", Values.ToArray)
         End Select
         If MsgBox("Repair Advanced Invoice එක print කිරීමට අවශ්‍යද?", vbYesNo) = vbYes Then
             Print(txtAdNo.Text)

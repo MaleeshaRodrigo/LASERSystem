@@ -1,4 +1,5 @@
-﻿Imports System.IO
+﻿Imports System.ComponentModel
+Imports System.IO
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.FileIO
 Imports MySqlConnector
@@ -9,6 +10,11 @@ Public Class DatabaseSynchronizationProcess
     Implements IProcess
     Private LocalDatabase As New TransactionDatabase()
     Private RemoteDatabase As New TransactionDatabase()
+    Private WorkerControl As BackgroundWorker
+
+    Public Sub New(Optional WorkerControl As BackgroundWorker = Nothing)
+        Me.WorkerControl = WorkerControl
+    End Sub
 
     Public Sub Perform() Implements IProcess.Perform
         Dim DatabasesValidation = VerifyDatabases()
@@ -21,7 +27,12 @@ Public Class DatabaseSynchronizationProcess
         LocalQueryLog.Merge(RemoteQueryLog, False)
         LocalQueryLog.DefaultView.Sort = "created_at ASC"
         LocalQueryLog = LocalQueryLog.DefaultView.ToTable
+        WorkerControl.ReportProgress(10, $"Retrieved Logs From Database")
+        Dim RowsCount As Integer = LocalQueryLog.Rows.Count
         For Each Row As DataRow In LocalQueryLog.Rows
+            If WorkerControl.CancellationPending Then
+                Return
+            End If
             Dim TargetDatabase, CurrentDatabase As TransactionDatabase
             If Row("Location") = DatabaseLocation.CLOUD Then
                 TargetDatabase = LocalDatabase
@@ -33,7 +44,11 @@ Public Class DatabaseSynchronizationProcess
                 Continue For
             End If
 
+            Dim Index As Integer = LocalQueryLog.Rows.IndexOf(Row)
+            Dim ProgressInitPrecentage As Integer = ((Index / RowsCount) * 80) + 10
+            Dim ProgressEndPrecentage As Integer = (((Index + 1) / RowsCount) * 80) + 10
             Try
+                WorkerControl.ReportProgress(ProgressInitPrecentage, $"Executing Log... ({Index + 1} / {RowsCount})")
                 CurrentDatabase.BeginTransaction()
                 TargetDatabase.BeginTransaction()
 
@@ -43,10 +58,12 @@ Public Class DatabaseSynchronizationProcess
 
                 CurrentDatabase.CommitTransaction()
                 TargetDatabase.CommitTransaction()
+                WorkerControl.ReportProgress(ProgressEndPrecentage, $"Executed Log... ({Index + 1} / {RowsCount})")
             Catch Ex As Exception
                 CurrentDatabase.RollbackTransaction()
                 TargetDatabase.RollbackTransaction()
                 MarkError(CurrentDatabase, Row, Ex.Message)
+                WorkerControl.ReportProgress(ProgressEndPrecentage, $"Threw Error... ({Index + 1} / {RowsCount})")
             End Try
         Next
 
