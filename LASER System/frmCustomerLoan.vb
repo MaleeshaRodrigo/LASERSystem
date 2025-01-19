@@ -1,4 +1,5 @@
-﻿Imports MySqlConnector
+﻿Imports LASER_System.StructureDatabase
+Imports MySqlConnector
 
 Public Class frmCustomerLoan
     Private Db As New Database
@@ -94,25 +95,25 @@ Public Class frmCustomerLoan
                 If CheckExistData(Db, txtCuLNo, "SELECT CULNO FROM CUSTOMERLOAN WHERE CULNO = " & txtCuLNo.Text & ";", "Something was wrong. This Customer Loan No is already exist in the database. Please Check it and try again. Otherwise you can contact a software developer.", True) = True Then
                     Exit Sub
                 End If
-                Db.Execute("Insert into CustomerLoan(CuLNo,CuLDate,CuNo,CuLAmount,Status,CuLRemarks) Values(" & txtCuLNo.Text & ",'" & txtCuLDate.Value.Date & "'," & CuNo.ToString & "," & txtCuLAmount.Text & ",'" & cmbCuLStatus.Text & "','" & txtCuLRemarks.Text & "');")
+                Db.Execute($"Insert into {Tables.CustomerLoan}(CuLNo,CuLDate,CuNo,CuLAmount,Status,CuLRemarks) Values(" & txtCuLNo.Text & ",'" & txtCuLDate.Value.Date & "'," & CuNo.ToString & "," & txtCuLAmount.Text & ",'" & cmbCuLStatus.Text & "','" & txtCuLRemarks.Text & "');")
                 If txtDNo.Text <> "" Then
-                    Db.Execute("Update CustomerLoan set DNo = " & txtDNo.Text & " where CuLNO = " & txtCuLNo.Text)
+                    Db.Execute($"Update {Tables.CustomerLoan} set DNo = " & txtDNo.Text & " where CuLNO = " & txtCuLNo.Text)
                     If MsgBox("Will the Deliver Section be updated ? ", vbInformation + vbYesNo) = vbYes Then
-                        Db.Execute("Update Deliver set CuLNO = " & txtCuLNo.Text &
+                        Db.Execute($"Update {Tables.Deliver} set CuLNO = " & txtCuLNo.Text &
                                                      ", CuLAmount = " & txtCuLAmount.Text &
                                                      " Where DNo = " & txtDNo.Text)
                     End If
                 End If
                 If txtSaNo.Text <> "" Then
-                    Db.Execute("Update CustomerLoan set SANo = " & txtSaNo.Text & " where CuLNO = " & txtCuLNo.Text)
+                    Db.Execute($"Update {Tables.CustomerLoan} set SANo = " & txtSaNo.Text & " where CuLNO = " & txtCuLNo.Text)
                     If MsgBox("Will the Sale Section be updated ? ", vbInformation + vbYesNo) = vbYes Then
-                        Db.Execute("Update Sale set CuLNo = " & txtCuLNo.Text &
+                        Db.Execute($"Update {Tables.Sale} set CuLNo = " & txtCuLNo.Text &
                                                      ", CuLAmount = " & txtCuLAmount.Text &
                                                      " Where SaNo = " & txtSaNo.Text)
                     End If
                 End If
             Case "Edit"
-                Db.Execute("Update CustomerLoan set CuLDate = '" & txtCuLDate.Text &
+                Db.Execute($"Update {Tables.CustomerLoan} set CuLDate = '" & txtCuLDate.Text &
                                              "',CuNo = " & CuNo &
                                              If(txtSaNo.Text <> "", ",SaNo = " & txtSaNo.Text, "") &
                                              If(txtDNo.Text <> "", ",DNo = " & txtDNo.Text, "") &
@@ -122,14 +123,14 @@ Public Class frmCustomerLoan
                                              "' Where CuLNO = " & txtCuLNo.Text)
                 If txtDNo.Text = "" Then
                     If MsgBox("Will the Deliver Section be changed ? ", vbInformation + vbYesNo) = vbYes Then
-                        Db.Execute("Update Deliver set CuLNO = " & txtCuLNo.Text &
+                        Db.Execute($"Update {Tables.Deliver} set CuLNO = " & txtCuLNo.Text &
                                                      ", CuLAmount = " & txtCuLAmount.Text &
                                                      " Where DNo = " & txtDNo.Text)
                     End If
                 End If
                 If txtSaNo.Text = "" Then
                     If MsgBox("Will the Sale Section be changed ? ", vbInformation + vbYesNo) = vbYes Then
-                        Db.Execute("Update Sale set CuLNo = " & txtCuLNo.Text &
+                        Db.Execute($"Update {Tables.Sale} set CuLNo = " & txtCuLNo.Text &
                                                      ", CuLAmount = " & txtCuLAmount.Text &
                                                      " Where SaNo = " & txtSaNo.Text)
                     End If
@@ -147,20 +148,20 @@ Public Class frmCustomerLoan
             Dim Dr = Db.GetDataDictionary("Select CUL.CuLNo,CuLDate,CuL.CuNo,CuName,CuTelNo1,CuTelNo2,CuTelNo3,Sa.SaNo,Sa.SaDate,D.DNo,D.DDate,CuL.CuLAmount,Status,CuLRemarks from (((CustomerLoan CUL INNER JOIN Customer CU ON CU.CUNO = CUL.CUNO) LEFT JOIN DELIVER D ON D.DNO = CUL.DNO) LEFT JOIN SALE SA ON SA.SANO = CUL.SANO) WHERE CuL.CuLNO =" & txtCuLNo.Text)
             If Dr.Count Then
 
-                txtCuLDate.Value = DR("CuLDate").ToString
-                cmbCuLStatus.Text = DR("Status").ToString
-                txtCuLAmount.Text = DR("CuLAmount").ToString
-                cmbCuName.Text = DR("CuName").ToString
-                txtCuTelNo1.Text = DR("CuTelNo1").ToString
-                txtCuTelNo2.Text = DR("CuTelNo2").ToString
-                txtCuTelNo3.Text = DR("CuTelNo3").ToString
-                If DR("DNo").ToString <> "" Then
-                    txtDNo.Text = DR("DNo").ToString
-                    txtDDate.Value = DR("DDate").ToString
+                txtCuLDate.Value = Dr("CuLDate").ToString
+                cmbCuLStatus.Text = Dr("Status").ToString
+                txtCuLAmount.Text = Dr("CuLAmount").ToString
+                cmbCuName.Text = Dr("CuName").ToString
+                txtCuTelNo1.Text = Dr("CuTelNo1").ToString
+                txtCuTelNo2.Text = Dr("CuTelNo2").ToString
+                txtCuTelNo3.Text = Dr("CuTelNo3").ToString
+                If Dr("DNo").ToString <> "" Then
+                    txtDNo.Text = Dr("DNo").ToString
+                    txtDDate.Value = Dr("DDate").ToString
                 End If
-                If DR("SaNo").ToString <> "" Then
-                    txtSaNo.Text = DR("SaNo").ToString
-                    txtSaDate.Text = DR("SaDate").ToString
+                If Dr("SaNo").ToString <> "" Then
+                    txtSaNo.Text = Dr("SaNo").ToString
+                    txtSaDate.Text = Dr("SaDate").ToString
                 End If
             End If
         End If

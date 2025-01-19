@@ -106,7 +106,7 @@ Public Class frmSupply
     End Sub
 
     Private Sub SaveSupplyInformation(SuNo As Integer)
-        Db.Execute("Insert into Supply(SupNo,SupDate,SuNo,SupRemarks,SupStatus,SupPaidDate,UNo) Values(@SUPNO,@SUPDATE,@SUNO, @SUPREMARKS, @SUPSTATUS, @SUPPAIDDATE, @UNO)", {
+        Db.Execute($"INSERT INTO {Tables.Supply}(SupNo,SupDate,SuNo,SupRemarks,SupStatus,SupPaidDate,UNo) Values(@SUPNO,@SUPDATE,@SUNO, @SUPREMARKS, @SUPSTATUS, @SUPPAIDDATE, @UNO)", {
                 New MySqlParameter("SUPNO", txtSupNo.Text),
                 New MySqlParameter("SUPDATE", txtSupDate.Value),
                 New MySqlParameter("SUNO", SuNo),
@@ -146,7 +146,7 @@ Public Class frmSupply
                 })
             End If
 
-            Db.Execute("INSERT INTO StockSupply(SupNo,SNo,SCategory,SName,SupType,SupUnits,SupCostPrice,SupTotal) VALUES(@SUPNO,@SNO,@SCATEGORY,@SNAME,@SUPTYPE,@SUPUNITS,@COSTPRICE,@SUPTOTAL)", {
+            Db.Execute($"INSERT INTO {Tables.StockSupply}(SupNo,SNo,SCategory,SName,SupType,SupUnits,SupCostPrice,SupTotal) VALUES(@SUPNO,@SNO,@SCATEGORY,@SNAME,@SUPTYPE,@SUPUNITS,@COSTPRICE,@SUPTOTAL)", {
                 New MySqlParameter("SUPNO", txtSupNo.Text),
                 New MySqlParameter("SNO", Row.Cells(Stock.Code).Value),
                 New MySqlParameter("SCATEGORY", Row.Cells(Stock.Category).Value),
