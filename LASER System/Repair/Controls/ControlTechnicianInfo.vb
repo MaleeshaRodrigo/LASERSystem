@@ -135,7 +135,7 @@ Public Class ControlTechnicianInfo
             AdminPer.Remarks = "Repair Remarks 2 හි Field එකක් Delete කෙරුණි."
             e.Cancel = True
         End If
-        DB.Execute("Delete from RepairRemarks2 Where Rem2No=" & grdRepRemarks2.Item(0, e.Row.Index).Value, {}, AdminPer)
+        DB.Execute($"Delete from {Tables.RepairRemarks2} Where Rem2No=" & grdRepRemarks2.Item(0, e.Row.Index).Value, {}, AdminPer)
     End Sub
 
     Private Sub grdRepRemarks2_RowValidating(sender As Object, e As DataGridViewCellCancelEventArgs) Handles grdRepRemarks2.RowValidating

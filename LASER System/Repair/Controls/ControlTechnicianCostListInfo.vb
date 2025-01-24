@@ -169,7 +169,7 @@ Public Class ControlTechnicianCostListInfo
             AdminPer.Remarks = "Repair හි Technician Cost හි Field එකක් Delete කෙරුණි."
             e.Cancel = True
         End If
-        Db.Execute("Delete from TechnicianCost Where TCNo=" & grdTechnicianCost.Item(0, e.Row.Index).Value, {}, AdminPer)
+        Db.Execute($"Delete from {Tables.TechnicianCost} Where TCNo=" & grdTechnicianCost.Item(0, e.Row.Index).Value, {}, AdminPer)
     End Sub
 
     Private Sub grdTechnicianCost_RowValidating(sender As Object, e As DataGridViewCellCancelEventArgs)
