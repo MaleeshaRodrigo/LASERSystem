@@ -152,7 +152,7 @@ Public Class ControlPopUp
                         }, AdminPer)
                 End If
             End If
-            Db.Execute($"UPDATE {Tables.Repair} SET PaidPrice = @PAIDPRICE,TNo = (SELECT TNo FROM Technician WHERE TName = @TNAME),Status=@STATUS,DNo = @DNO WHERE RepNo=@REPNO;", {
+            Db.Execute($"UPDATE {Tables.Repair} SET PaidPrice = @PAIDPRICE,TNo = (SELECT TNo FROM {Tables.Technician} WHERE TName = @TNAME),Status=@STATUS,DNo = @DNO WHERE RepNo=@REPNO;", {
                            New MySqlParameter("PAIDPRICE", Row1.Cells(4).Value),
                            New MySqlParameter("TNAME", Row1.Cells(5).Value),
                            New MySqlParameter("STATUS", Row1.Cells(6).Value.ToString),
@@ -165,14 +165,14 @@ Public Class ControlPopUp
             Dim DrRetStatus = Db.GetDataDictionary("Select Status,RetNo from `Return` where RetNo=" & Row.Cells(0).Value)
             If DrRetStatus IsNot Nothing Then
                 If DrRetStatus("Status").ToString = "Received" Or DrRetStatus("Status").ToString = "Hand Over to Technician" Or DrRetStatus("Status").ToString = "Repairing" Then
-                    Db.Execute($"UPDATE {Tables.ReRepair} SET RepDate = @REPDATE,Charge= @CHARGE where RetNo= @RETNO;", {
+                    Db.Execute($"UPDATE `{Tables.ReRepair}` SET RepDate = @REPDATE,Charge= @CHARGE where RetNo= @RETNO;", {
                             New MySqlParameter("REPDATE", FormParent.txtDDate.Value),
                             New MySqlParameter("CHARGE", Row.Cells(5).Value.ToString),
                             New MySqlParameter("RETNO", Row.Cells(0).Value.ToString)
                         }, AdminPer)
                 End If
             End If
-            Db.Execute($"Update {Tables.ReRepair} set PaidPrice = @PAIDPRICE,TNo = (SELECT TNo FROM Technician WHERE TName = @TNAME),Status= @STATUS,DNo = @DNO where RetNo= @RETNO", {
+            Db.Execute($"Update `{Tables.ReRepair}` set PaidPrice = @PAIDPRICE,TNo = (SELECT TNo FROM {Tables.Technician} WHERE TName = @TNAME),Status= @STATUS,DNo = @DNO where RetNo= @RETNO", {
                             New MySqlParameter("PAIDPRICE", Row.Cells(5).Value.ToString),
                             New MySqlParameter("TNAME", Row.Cells(6).Value.ToString),
                             New MySqlParameter("STATUS", Row.Cells(7).Value.ToString),
@@ -249,7 +249,7 @@ Public Class ControlPopUp
 
                 Dim DRReturn = Db.GetDataDictionary("SELECT RetNo,RepNo,RET.PNo,PCategory,PName,Qty,Status,RET.TNo, TName,PaidPrice from (( `RETURN` RET INNER JOIN PRODUCT  P ON P.PNO = RET.PNO) LEFT JOIN Technician T ON T.TNO = RET.TNO) LEFT JOIN DELIVER D ON D.DNO = RET.DNO) Where D.DNo=" & FormParent.txtDNo.Text)
                 For Each Item In DR1
-                    Db.Execute($"Update {Tables.ReRepair} Set {If(Item("Status").ToString = "Repaired Delivered", "Status='Repaired Not Delivered'",
+                    Db.Execute($"Update `{Tables.ReRepair}` Set {If(Item("Status").ToString = "Repaired Delivered", "Status='Repaired Not Delivered'",
                               "Status='Returned Not Delivered'")},PaidPrice=0,DNo=0 Where DNo={FormParent.txtDNo.Text}", {}, AdminPer)
                 Next
                 Db.Execute($"DELETE FROM {Tables.Deliver} WHERE DNo={FormParent.txtDNo.Text}", {}, AdminPer)
