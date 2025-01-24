@@ -413,4 +413,8 @@ Public Class FormMain
             controlObj.Width = flpMessage.Width - 30
         Next
     End Sub
+
+    Private Sub SalesmanCommissionToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SalesmanCommissionToolStripMenuItem.Click
+        FormCommission.Show()
+    End Sub
 End Class

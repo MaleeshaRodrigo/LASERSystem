@@ -38,6 +38,12 @@ Partial Class FormStock
         Me.ControlSearchEngine = New LASER_System.ControlSearchEngine()
         Me.cmdNew = New System.Windows.Forms.Button()
         Me.grdStock = New System.Windows.Forms.DataGridView()
+        Me.OpenFileDialog = New System.Windows.Forms.OpenFileDialog()
+        Me.MenuStrip = New System.Windows.Forms.MenuStrip()
+        Me.OPTIONToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CloseToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.VIEWToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ViewStockTransactionDetailsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.SCategory = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.SName = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -50,12 +56,6 @@ Partial Class FormStock
         Me.SOutofstocks = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.SMinStocks = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.SDetails = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.OpenFileDialog = New System.Windows.Forms.OpenFileDialog()
-        Me.MenuStrip = New System.Windows.Forms.MenuStrip()
-        Me.OPTIONToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.CloseToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.VIEWToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ViewStockTransactionDetailsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.GrpSearch.SuspendLayout()
         CType(Me.grdStock, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.MenuStrip.SuspendLayout()
@@ -153,6 +153,48 @@ Partial Class FormStock
         Me.grdStock.Size = New System.Drawing.Size(790, 209)
         Me.grdStock.TabIndex = 18
         '
+        'OpenFileDialog
+        '
+        Me.OpenFileDialog.Filter = "(*.jpg)|*.jpg|(*.png)|*.png|(*.jpg)|*.jpg|All files|*.*"
+        '
+        'MenuStrip
+        '
+        Me.MenuStrip.BackColor = System.Drawing.SystemColors.ActiveCaption
+        Me.MenuStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
+        Me.MenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OPTIONToolStripMenuItem, Me.VIEWToolStripMenuItem})
+        Me.MenuStrip.Location = New System.Drawing.Point(0, 0)
+        Me.MenuStrip.Name = "MenuStrip"
+        Me.MenuStrip.Size = New System.Drawing.Size(802, 24)
+        Me.MenuStrip.TabIndex = 22
+        Me.MenuStrip.Text = "MenuStrip"
+        '
+        'OPTIONToolStripMenuItem
+        '
+        Me.OPTIONToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CloseToolStripMenuItem})
+        Me.OPTIONToolStripMenuItem.Name = "OPTIONToolStripMenuItem"
+        Me.OPTIONToolStripMenuItem.Size = New System.Drawing.Size(62, 20)
+        Me.OPTIONToolStripMenuItem.Text = "OPTION"
+        '
+        'CloseToolStripMenuItem
+        '
+        Me.CloseToolStripMenuItem.Name = "CloseToolStripMenuItem"
+        Me.CloseToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.F4), System.Windows.Forms.Keys)
+        Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(145, 22)
+        Me.CloseToolStripMenuItem.Text = "Close"
+        '
+        'VIEWToolStripMenuItem
+        '
+        Me.VIEWToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ViewStockTransactionDetailsToolStripMenuItem})
+        Me.VIEWToolStripMenuItem.Name = "VIEWToolStripMenuItem"
+        Me.VIEWToolStripMenuItem.Size = New System.Drawing.Size(46, 20)
+        Me.VIEWToolStripMenuItem.Text = "VIEW"
+        '
+        'ViewStockTransactionDetailsToolStripMenuItem
+        '
+        Me.ViewStockTransactionDetailsToolStripMenuItem.Name = "ViewStockTransactionDetailsToolStripMenuItem"
+        Me.ViewStockTransactionDetailsToolStripMenuItem.Size = New System.Drawing.Size(232, 22)
+        Me.ViewStockTransactionDetailsToolStripMenuItem.Text = "View Stock Transaction Details"
+        '
         'SNo
         '
         Me.SNo.DataPropertyName = "Sno"
@@ -187,7 +229,7 @@ Partial Class FormStock
         Me.SModelNo.MinimumWidth = 6
         Me.SModelNo.Name = "SModelNo"
         Me.SModelNo.ReadOnly = True
-        Me.SModelNo.Width = 79
+        Me.SModelNo.Width = 85
         '
         'SLocation
         '
@@ -205,23 +247,23 @@ Partial Class FormStock
         Me.SCostPrice.DataPropertyName = "SCostPrice"
         DataGridViewCellStyle2.NullValue = "0"
         Me.SCostPrice.DefaultCellStyle = DataGridViewCellStyle2
-        Me.SCostPrice.HeaderText = "Cost Price"
+        Me.SCostPrice.HeaderText = "Bill Price"
         Me.SCostPrice.MinimumWidth = 6
         Me.SCostPrice.Name = "SCostPrice"
         Me.SCostPrice.ReadOnly = True
         Me.SCostPrice.Visible = False
-        Me.SCostPrice.Width = 108
+        Me.SCostPrice.Width = 82
         '
         'SLowestPrice
         '
         Me.SLowestPrice.DataPropertyName = "SLowestPrice"
         DataGridViewCellStyle3.NullValue = "0"
         Me.SLowestPrice.DefaultCellStyle = DataGridViewCellStyle3
-        Me.SLowestPrice.HeaderText = "Lowest Price"
+        Me.SLowestPrice.HeaderText = "Cost Price"
         Me.SLowestPrice.MinimumWidth = 6
         Me.SLowestPrice.Name = "SLowestPrice"
         Me.SLowestPrice.ReadOnly = True
-        Me.SLowestPrice.Width = 92
+        Me.SLowestPrice.Width = 87
         '
         'SSalePrice
         '
@@ -232,7 +274,7 @@ Partial Class FormStock
         Me.SSalePrice.MinimumWidth = 6
         Me.SSalePrice.Name = "SSalePrice"
         Me.SSalePrice.ReadOnly = True
-        Me.SSalePrice.Width = 79
+        Me.SSalePrice.Width = 86
         '
         'SAvailableStocks
         '
@@ -278,48 +320,6 @@ Partial Class FormStock
         Me.SDetails.ReadOnly = True
         Me.SDetails.Width = 71
         '
-        'OpenFileDialog
-        '
-        Me.OpenFileDialog.Filter = "(*.jpg)|*.jpg|(*.png)|*.png|(*.jpg)|*.jpg|All files|*.*"
-        '
-        'MenuStrip
-        '
-        Me.MenuStrip.BackColor = System.Drawing.SystemColors.ActiveCaption
-        Me.MenuStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
-        Me.MenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OPTIONToolStripMenuItem, Me.VIEWToolStripMenuItem})
-        Me.MenuStrip.Location = New System.Drawing.Point(0, 0)
-        Me.MenuStrip.Name = "MenuStrip"
-        Me.MenuStrip.Size = New System.Drawing.Size(802, 24)
-        Me.MenuStrip.TabIndex = 22
-        Me.MenuStrip.Text = "MenuStrip"
-        '
-        'OPTIONToolStripMenuItem
-        '
-        Me.OPTIONToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CloseToolStripMenuItem})
-        Me.OPTIONToolStripMenuItem.Name = "OPTIONToolStripMenuItem"
-        Me.OPTIONToolStripMenuItem.Size = New System.Drawing.Size(62, 20)
-        Me.OPTIONToolStripMenuItem.Text = "OPTION"
-        '
-        'CloseToolStripMenuItem
-        '
-        Me.CloseToolStripMenuItem.Name = "CloseToolStripMenuItem"
-        Me.CloseToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.F4), System.Windows.Forms.Keys)
-        Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(145, 22)
-        Me.CloseToolStripMenuItem.Text = "Close"
-        '
-        'VIEWToolStripMenuItem
-        '
-        Me.VIEWToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ViewStockTransactionDetailsToolStripMenuItem})
-        Me.VIEWToolStripMenuItem.Name = "VIEWToolStripMenuItem"
-        Me.VIEWToolStripMenuItem.Size = New System.Drawing.Size(46, 20)
-        Me.VIEWToolStripMenuItem.Text = "VIEW"
-        '
-        'ViewStockTransactionDetailsToolStripMenuItem
-        '
-        Me.ViewStockTransactionDetailsToolStripMenuItem.Name = "ViewStockTransactionDetailsToolStripMenuItem"
-        Me.ViewStockTransactionDetailsToolStripMenuItem.Size = New System.Drawing.Size(232, 22)
-        Me.ViewStockTransactionDetailsToolStripMenuItem.Text = "View Stock Transaction Details"
-        '
         'FormStock
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
@@ -352,6 +352,7 @@ Partial Class FormStock
     Friend WithEvents ViewStockTransactionDetailsToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents grdStock As DataGridView
     Friend WithEvents cmdNew As Button
+    Friend WithEvents ControlSearchEngine As ControlSearchEngine
     Friend WithEvents SNo As DataGridViewTextBoxColumn
     Friend WithEvents SCategory As DataGridViewTextBoxColumn
     Friend WithEvents SName As DataGridViewTextBoxColumn
@@ -364,5 +365,4 @@ Partial Class FormStock
     Friend WithEvents SOutofstocks As DataGridViewTextBoxColumn
     Friend WithEvents SMinStocks As DataGridViewTextBoxColumn
     Friend WithEvents SDetails As DataGridViewTextBoxColumn
-    Friend WithEvents ControlSearchEngine As ControlSearchEngine
 End Class

@@ -75,6 +75,7 @@ Partial Class FormBGTasks
         Me.TextDbPort = New MaterialSkin.Controls.MaterialTextBox2()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
         Me.GroupBox3 = New MaterialSkin.Controls.MaterialCard()
+        Me.ButtonRunFullSynchronization = New MaterialSkin.Controls.MaterialButton()
         Me.MaterialLabel6 = New MaterialSkin.Controls.MaterialLabel()
         Me.MaterialLabel7 = New MaterialSkin.Controls.MaterialLabel()
         Me.MaterialLabel8 = New MaterialSkin.Controls.MaterialLabel()
@@ -99,7 +100,6 @@ Partial Class FormBGTasks
         Me.cmdApply = New MaterialSkin.Controls.MaterialButton()
         Me.flpMessage = New System.Windows.Forms.FlowLayoutPanel()
         Me.WorkerDatabaseSyncronize = New System.ComponentModel.BackgroundWorker()
-        Me.ButtonRunFullSynchronization = New MaterialSkin.Controls.MaterialButton()
         Me.Guna2GroupBox1.SuspendLayout()
         Me.Guna2GroupBox2.SuspendLayout()
         Me.pnlMain.SuspendLayout()
@@ -473,7 +473,7 @@ Partial Class FormBGTasks
         Me.txtMApiToken.MaxLength = 32767
         Me.txtMApiToken.MouseState = MaterialSkin.MouseState.OUT
         Me.txtMApiToken.Name = "txtMApiToken"
-        Me.txtMApiToken.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
+        Me.txtMApiToken.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
         Me.txtMApiToken.PrefixSuffixText = Nothing
         Me.txtMApiToken.ReadOnly = False
         Me.txtMApiToken.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -504,7 +504,7 @@ Partial Class FormBGTasks
         Me.txtMApiKey.MaxLength = 32767
         Me.txtMApiKey.MouseState = MaterialSkin.MouseState.OUT
         Me.txtMApiKey.Name = "txtMApiKey"
-        Me.txtMApiKey.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
+        Me.txtMApiKey.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
         Me.txtMApiKey.PrefixSuffixText = Nothing
         Me.txtMApiKey.ReadOnly = False
         Me.txtMApiKey.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1113,6 +1113,26 @@ Partial Class FormBGTasks
         Me.GroupBox3.TabIndex = 71
         Me.GroupBox3.Text = "Online Database Info"
         '
+        'ButtonRunFullSynchronization
+        '
+        Me.ButtonRunFullSynchronization.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ButtonRunFullSynchronization.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.ButtonRunFullSynchronization.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.[Default]
+        Me.ButtonRunFullSynchronization.Depth = 0
+        Me.ButtonRunFullSynchronization.HighEmphasis = True
+        Me.ButtonRunFullSynchronization.Icon = Nothing
+        Me.ButtonRunFullSynchronization.Location = New System.Drawing.Point(394, 6)
+        Me.ButtonRunFullSynchronization.Margin = New System.Windows.Forms.Padding(4, 6, 4, 6)
+        Me.ButtonRunFullSynchronization.MouseState = MaterialSkin.MouseState.HOVER
+        Me.ButtonRunFullSynchronization.Name = "ButtonRunFullSynchronization"
+        Me.ButtonRunFullSynchronization.NoAccentTextColor = System.Drawing.Color.Empty
+        Me.ButtonRunFullSynchronization.Size = New System.Drawing.Size(192, 36)
+        Me.ButtonRunFullSynchronization.TabIndex = 84
+        Me.ButtonRunFullSynchronization.Text = "Run Full Synchronize"
+        Me.ButtonRunFullSynchronization.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained
+        Me.ButtonRunFullSynchronization.UseAccentColor = False
+        Me.ButtonRunFullSynchronization.UseVisualStyleBackColor = True
+        '
         'MaterialLabel6
         '
         Me.MaterialLabel6.AutoSize = True
@@ -1525,26 +1545,6 @@ Partial Class FormBGTasks
         '
         Me.WorkerDatabaseSyncronize.WorkerReportsProgress = True
         Me.WorkerDatabaseSyncronize.WorkerSupportsCancellation = True
-        '
-        'ButtonRunFullSynchronization
-        '
-        Me.ButtonRunFullSynchronization.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ButtonRunFullSynchronization.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
-        Me.ButtonRunFullSynchronization.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.[Default]
-        Me.ButtonRunFullSynchronization.Depth = 0
-        Me.ButtonRunFullSynchronization.HighEmphasis = True
-        Me.ButtonRunFullSynchronization.Icon = Nothing
-        Me.ButtonRunFullSynchronization.Location = New System.Drawing.Point(394, 6)
-        Me.ButtonRunFullSynchronization.Margin = New System.Windows.Forms.Padding(4, 6, 4, 6)
-        Me.ButtonRunFullSynchronization.MouseState = MaterialSkin.MouseState.HOVER
-        Me.ButtonRunFullSynchronization.Name = "ButtonRunFullSynchronization"
-        Me.ButtonRunFullSynchronization.NoAccentTextColor = System.Drawing.Color.Empty
-        Me.ButtonRunFullSynchronization.Size = New System.Drawing.Size(192, 36)
-        Me.ButtonRunFullSynchronization.TabIndex = 84
-        Me.ButtonRunFullSynchronization.Text = "Run Full Synchronize"
-        Me.ButtonRunFullSynchronization.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained
-        Me.ButtonRunFullSynchronization.UseAccentColor = False
-        Me.ButtonRunFullSynchronization.UseVisualStyleBackColor = True
         '
         'FormBGTasks
         '

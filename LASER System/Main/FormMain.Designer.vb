@@ -99,6 +99,7 @@ Partial Class FormMain
         Me.chtReceivedRepvsDate = New System.Windows.Forms.DataVisualization.Charting.Chart()
         Me.pageCashier = New System.Windows.Forms.TabPage()
         Me.ControlCashierDashboard = New LASER_System.ControlCashierDashboard()
+        Me.SalesmanCommissionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.StatusStrip.SuspendLayout()
         Me.ToolStrip.SuspendLayout()
         Me.MenuStrip.SuspendLayout()
@@ -388,7 +389,7 @@ Partial Class FormMain
         'ToolStripDropDownButton3
         '
         Me.ToolStripDropDownButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripDropDownButton3.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.cmdTechnicianSalary})
+        Me.ToolStripDropDownButton3.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.cmdTechnicianSalary, Me.SalesmanCommissionToolStripMenuItem})
         Me.ToolStripDropDownButton3.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripDropDownButton3.Name = "ToolStripDropDownButton3"
         Me.ToolStripDropDownButton3.Size = New System.Drawing.Size(13, 86)
@@ -398,7 +399,7 @@ Partial Class FormMain
         '
         Me.cmdTechnicianSalary.Image = CType(resources.GetObject("cmdTechnicianSalary.Image"), System.Drawing.Image)
         Me.cmdTechnicianSalary.Name = "cmdTechnicianSalary"
-        Me.cmdTechnicianSalary.Size = New System.Drawing.Size(176, 26)
+        Me.cmdTechnicianSalary.Size = New System.Drawing.Size(202, 26)
         Me.cmdTechnicianSalary.Text = "Technician Salary"
         '
         'MenuStrip
@@ -740,6 +741,12 @@ Partial Class FormMain
         Me.ControlCashierDashboard.Size = New System.Drawing.Size(927, 339)
         Me.ControlCashierDashboard.TabIndex = 0
         '
+        'SalesmanCommissionToolStripMenuItem
+        '
+        Me.SalesmanCommissionToolStripMenuItem.Name = "SalesmanCommissionToolStripMenuItem"
+        Me.SalesmanCommissionToolStripMenuItem.Size = New System.Drawing.Size(202, 26)
+        Me.SalesmanCommissionToolStripMenuItem.Text = "Salesman Commission"
+        '
         'FormMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -843,4 +850,5 @@ Partial Class FormMain
     Friend WithEvents ADate As DataGridViewTextBoxColumn
     Friend WithEvents ACommand As DataGridViewTextBoxColumn
     Friend WithEvents ControlCashierDashboard As ControlCashierDashboard
+    Friend WithEvents SalesmanCommissionToolStripMenuItem As ToolStripMenuItem
 End Class

@@ -217,6 +217,12 @@
     <Compile Include="Classes\Validators\ExecuteValidators.vb" />
     <Compile Include="Classes\Validators\NumberValidator.vb" />
     <Compile Include="Classes\Validators\RequiredValidator.vb" />
+    <Compile Include="Commission\FormCommission.Designer.vb">
+      <DependentUpon>FormCommission.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Commission\FormCommission.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Enums\RepairMode.vb" />
     <Compile Include="Deliver\Controls\ControlPopUp.Designer.vb">
       <DependentUpon>ControlPopUp.vb</DependentUpon>
@@ -634,6 +640,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Commission\FormCommission.resx">
+      <DependentUpon>FormCommission.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Deliver\Controls\ControlPopUp.resx">
       <DependentUpon>ControlPopUp.vb</DependentUpon>
     </EmbeddedResource>
