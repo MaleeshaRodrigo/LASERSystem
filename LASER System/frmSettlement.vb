@@ -373,14 +373,14 @@ Public Class frmSettlement
 
         Select Case cmdTASave.Text
             Case "Save"
-                Db.Execute("INSERT INTO `Transaction`(TADate,TADetails, TAAmount, UNo) VALUES(@TADATE, @TADETAILS, @TAAMOUNT, @UNO);", {
+                Db.Execute($"INSERT INTO `{Tables.Transaction}`(TADate,TADetails, TAAmount, UNo) VALUES(@TADATE, @TADETAILS, @TAAMOUNT, @UNO);", {
                     New MySqlParameter("TADATE", dtpTADate.Value),
                     New MySqlParameter("TADETAILS", txtTADetails.Text),
                     New MySqlParameter("TAAMOUNT", txtTAAmount.Text),
                     New MySqlParameter("UNO", User.Instance.UserNo)
                 })
             Case "Edit"
-                Db.Execute("UPDATE `Transaction` SET TADate = @TADATE, TADetails = @TADETAILS, TAAmount = @TAAMOUNT, UNo = @UNO WHERE TANO = @TANO;", {
+                Db.Execute($"UPDATE `{Tables.Transaction}` SET TADate = @TADATE, TADetails = @TADETAILS, TAAmount = @TAAMOUNT, UNo = @UNO WHERE TANO = @TANO;", {
                     New MySqlParameter("TADATE", dtpTADate.Value),
                     New MySqlParameter("TADETAILS", txtTADetails.Text),
                     New MySqlParameter("TAAMOUNT", txtTAAmount.Text),
@@ -402,7 +402,7 @@ Public Class frmSettlement
             Exit Sub
         End If
         If MsgBox("ගණුදෙනුව ඉවත් කිරීමට ඔබ එකඟද?", vbInformation + vbYesNo) = vbYes Then
-            Db.Execute("DELETE from `Transaction` where TANO = @TANO", {
+            Db.Execute($"DELETE from `{Tables.Transaction}` where TANO = @TANO", {
                 New MySqlParameter("TANO", txtTANo.Text)
             })
         End If

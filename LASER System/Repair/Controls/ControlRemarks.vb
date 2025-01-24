@@ -51,7 +51,7 @@ Public Class ControlRemarks
 
     Public Sub SaveData(RepNo As Integer)
         DB.Execute($"UPDATE {Tables.Repair} SET Location= '{cmbLocation.Text}' WHERE repno ={RepNo}")
-        DB.Execute($"INSERT INTO RepairActivity(RepANo,RepNo,RepADate,Activity,UNo) VALUES({DB.GetNextKey("RepairActivity", "RepANo")},{RepNo},'{DateAndTime.Now}','Location -> {cmbLocation.Text}',{User.Instance.UserNo})")
+        DB.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RepNo,RepADate,Activity,UNo) VALUES({DB.GetNextKey("RepairActivity", "RepANo")},{RepNo},'{DateAndTime.Now}','Location -> {cmbLocation.Text}',{User.Instance.UserNo})")
     End Sub
 
     Public Sub Clear()
@@ -159,7 +159,7 @@ Public Class ControlRemarks
             AdminPer.Remarks = "Repair Remarks 1 හි Field එකක් Delete කෙරුණි."
             e.Cancel = True
         End If
-        DB.Execute("Delete from RepairRemarks1 Where Rem1No=@REM1NO", {
+        DB.Execute($"Delete from {Tables.RepairRemarks1} Where Rem1No=@REM1NO", {
                    New MySqlParameter("REM1NO", grdRepRemarks1.Item(0, e.Row.Index).Value)
         }, AdminPer)
     End Sub

@@ -93,7 +93,7 @@ Public Class ControlRepairAdvanceInfo
             Exit Sub
         End If
 
-        Db.Execute("DELETE FROM RepairAdvanced WHERE AdNo=@ADNO;", {
+        Db.Execute($"DELETE FROM {Tables.RepairAdvanced} WHERE AdNo=@ADNO;", {
             New MySqlParameter("ADNO", txtAdNo.Text)
         })
     End Sub

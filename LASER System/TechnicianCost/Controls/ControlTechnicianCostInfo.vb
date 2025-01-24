@@ -152,7 +152,7 @@ Public Class ControlTechnicianCostInfo
             Exit Sub
         End If
 
-        Db.Execute("DELETE FROM TechnicianCost WHERE TCNo = @TCNO;", {
+        Db.Execute($"DELETE FROM {Tables.TechnicianCost} WHERE TCNo = @TCNO;", {
             New MySqlParameter("TCNO", TextTechnicianCostNo.Text)
         })
     End Sub

@@ -75,7 +75,7 @@ Public Class FormReceive
         grdRepair.CurrentCell = grdRepair.Rows(grdRepair.Rows.Count - 1).Cells(0)
         ComboBoxDropDown(Db, cmbCuName, "SELECT CuName FROM Customer GROUP BY CuName;")
 
-        Dim DataTableTechnician As DataTable = Db.GetDataTable("SELECT TName FROM Technician WHERE TActive=1 GROUP BY TName;")
+        Dim DataTableTechnician As DataTable = Db.GetDataTable($"SELECT TName FROM {Tables.Technician} WHERE TActive=1 GROUP BY TName;")
         Dim newRow As DataRow = DataTableTechnician.NewRow()
         newRow("TName") = "None"
         DataTableTechnician.Rows.InsertAt(newRow, 0)

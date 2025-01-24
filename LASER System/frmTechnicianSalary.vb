@@ -131,7 +131,7 @@ Public Class frmTechnicianSalary
             Db.Execute($"UPDATE {Tables.Repair} SET TSalNo =" & txtTSNo.Text & " where RepNo=" & Row.Cells(0).Value.ToString)
         Next
         For Each Row As DataGridViewRow In grdReRepair.Rows
-            Db.Execute("Update `Return` set TSalNo =" & txtTSNo.Text & " where RetNO=" & Row.Cells(0).Value.ToString)
+            Db.Execute($"Update `{Tables.ReRepair}` set TSalNo =" & txtTSNo.Text & " where RetNO=" & Row.Cells(0).Value.ToString)
         Next
         For Each Row As DataGridViewRow In grdSalesRepair.Rows
             Db.Execute($"UPDATE {Tables.SalesRepair} SET TSalNo =" & txtTSNo.Text & " where SaRepNo=" & Row.Cells(0).Value.ToString)
