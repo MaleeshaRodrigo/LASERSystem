@@ -72,7 +72,7 @@ Public MustInherit Class AbstractRepairController : Inherits AbstractController
         If Not IsDBNull(TableRow(Technician.TName)) Then
             TNo = TechnicianController.GetTechnicianNo(TableRow(Technician.TName))
         End If
-        RepairData.Add(Repair.Status, If(TNo, RepairStatus.HandOverToTechnician, RepairStatus.Received))
+        RepairData.Add(Repair.Status, If(TNo, RepairStatus.HandedOverTo, RepairStatus.Received))
         RepairData.Add(Repair.TNo, TNo)
         Dim RepairController As New RepairController
         Dim ReRepairController As New ReRepairController

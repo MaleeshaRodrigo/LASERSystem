@@ -489,7 +489,7 @@ Partial Class FormRepair
         '
         Me.cmbRepStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cmbRepStatus.FormattingEnabled = True
-        Me.cmbRepStatus.Items.AddRange(New Object() {"Received", "Hand Over to Technician", "Repairing", "Repaired Not Delivered", "Repaired Delivered", "Returned Not Delivered", "Returned Delivered", "Canceled"})
+        Me.cmbRepStatus.Items.AddRange(New Object() {"Received", "Assigned To", "Hand Over To", "Pending", "Repaired", "Repaired Delivered", "Returned", "Returned Delivered", "Canceled"})
         Me.cmbRepStatus.Location = New System.Drawing.Point(76, 34)
         Me.cmbRepStatus.Name = "cmbRepStatus"
         Me.cmbRepStatus.Size = New System.Drawing.Size(228, 22)

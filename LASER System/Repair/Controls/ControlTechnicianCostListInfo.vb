@@ -33,7 +33,7 @@ Public Class ControlTechnicianCostListInfo
 
     Private Sub grdTechnicianCost_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs)
         If e.RowIndex < 0 Then Exit Sub
-        If CheckEmptyControl(ParentRepairForm.ControlTechnicianInfo.cmbTName, "Technician Name යන field එක හිස්ව පවතියි. කරුණාකර එය සම්පුර්ණ කරන්න.") = False Then
+        If CheckEmptyControl(ParentRepairForm.ControlTechnicianInfo.ComboHandOverTo, "Technician Name යන field එක හිස්ව පවතියි. කරුණාකර එය සම්පුර්ණ කරන්න.") = False Then
             If (grdTechnicianCost.Rows.Count - 1) <> e.RowIndex Then
                 grdTechnicianCost.Rows.RemoveAt(e.RowIndex)
             End If
@@ -102,7 +102,7 @@ Public Class ControlTechnicianCostListInfo
         End If
         If Db.CheckDataExists("TechnicianCost", "TCNo", grdTechnicianCost.Item(0, e.RowIndex).Value) = True Then
             Db.Execute($"UPDATE {Tables.TechnicianCost} SET TCDate='" & grdTechnicianCost.Item("TCDate", e.RowIndex).Value &
-                      "',TNo" = Db.GetData($"SELECT TNo from Technician WHERE TName='{ParentRepairForm.ControlTechnicianInfo.cmbTName.Text}'") &
+                      "',TNo" = Db.GetData($"SELECT TNo from Technician WHERE TName='{ParentRepairForm.ControlTechnicianInfo.ComboHandOverTo.Text}'") &
                       ",SNo=" & grdTechnicianCost.Item("SNo", e.RowIndex).Value &
                       ",SCategory='" & grdTechnicianCost.Item("SCategory", e.RowIndex).Value &
                       "',SName='" & grdTechnicianCost.Item("SName", e.RowIndex).Value &

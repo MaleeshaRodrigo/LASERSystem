@@ -14,7 +14,7 @@ Public Class ControlTechnicianInfo
     End Sub
 
     Public Sub Init()
-        cmbTName.Text = FormParent.DataReaderRepair("TName").ToString()
+        ComboHandOverTo.Text = FormParent.DataReaderRepair("TName").ToString()
         Dim DataReader As List(Of Dictionary(Of String, Object))
         If FormParent.Mode = RepairMode.Repair Then
             DataReader = DB.GetDataList("Select Rem2No, Rem2Date, Remarks, UserName from RepairRemarks2 RepRem2 LEFT JOIN `User` U ON U.UNo=RepRem2.UNo Where RepNo=@REPNO;", {New MySqlParameter("REPNO", FormParent.DataReaderRepair("RepNo").ToString())})
@@ -28,7 +28,7 @@ Public Class ControlTechnicianInfo
             grdRepRemarks2.Rows.Add(Item("Rem2No").ToString, Item("Rem2Date").ToString, Item("Remarks").ToString, Item("UserName").ToString)
         Next
 
-        Call ComboBoxDropDown(DB, cmbTName, "Select TName from Technician Where TActive = True group by TName;")
+        Call ComboBoxDropDown(DB, ComboHandOverTo, "Select TName from Technician Where TActive = True group by TName;")
     End Sub
 
     Public Sub Clear()

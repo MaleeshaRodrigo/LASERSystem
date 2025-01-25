@@ -112,7 +112,7 @@ Public Class FormRepair
             ControlActivityInfo = New ControlActivityInfo(Db)
             ControlActivityInfo.InitForRepair(cmbRepNo.Text)
             PanelMain.Controls.Add(ControlActivityInfo)
-            If cmbRepStatus.Text = "Received" Then
+            If cmbRepStatus.Text = RepairStatus.Received Then
                 Exit Try
             End If
 
@@ -120,7 +120,7 @@ Public Class FormRepair
             ControlTechnicianInfo.Init()
             PanelMain.Controls.Add(ControlTechnicianInfo)
             PanelMain.Controls.SetChildIndex(ControlTechnicianInfo, 2)
-            If cmbRepStatus.Text = "Hand Over to Technician" Then
+            If {RepairStatus.HandedOverTo, RepairStatus.AssignedTo}.Contains(cmbRepStatus.Text) Then
                 Exit Try
             End If
 
@@ -128,7 +128,7 @@ Public Class FormRepair
             ControlTechnicianCostListInfo.InitForRepair(cmbRepNo.Text)
             PanelMain.Controls.Add(ControlTechnicianCostListInfo)
             PanelMain.Controls.SetChildIndex(ControlTechnicianCostListInfo, 3)
-            If cmbRepStatus.Text = "Repairing" Then
+            If cmbRepStatus.Text = RepairStatus.Pending Then
                 Exit Try
             End If
 
@@ -139,7 +139,7 @@ Public Class FormRepair
                 ).SetDeliverInfoVisibility(False)
             PanelMain.Controls.Add(ControlRepairDeliverInfo)
             PanelMain.Controls.SetChildIndex(ControlRepairDeliverInfo, 4)
-            If cmbRepStatus.Text = "Repaired Not Delivered" Or cmbRepStatus.Text = "Returnd Then Not Delivered" Then
+            If {RepairStatus.Repaired, RepairStatus.Returned}.Contains(cmbRepStatus.Text) Then
                 Exit Try
             End If
 
@@ -148,7 +148,7 @@ Public Class FormRepair
                 DataReaderRepair("PaidPrice").ToString,
                 DataReaderRepair("DDate").ToString
                 ).SetDeliverInfoVisibility(True)
-            If (cmbRepStatus.Text = "Repaired Delivered" Or cmbRepStatus.Text = "Returned Delivered") And User.Instance.UserType <> User.Type.Admin And DateValue(DataReaderRepair("DDate").ToString).Month <> Today.Month Then
+            If ({RepairStatus.RepairedDelivered, RepairStatus.ReturnedDelivered}.Contains(cmbRepStatus.Text)) And User.Instance.UserType <> User.Type.Admin And DateValue(DataReaderRepair("DDate").ToString).Month <> Today.Month Then
                 For Each Item As Control In {boxReceive, boxProduct, boxCustomer, txtPProblem, ControlActivityInfo, ControlAdvancePayInfo, ControlRemarks, ControlRepairDeliverInfo, ControlReRepairView, ControlTaskInfo, ControlTechnicianCostListInfo, ControlTechnicianInfo}
                     If Item Is Nothing Then
                         Continue For
@@ -239,7 +239,7 @@ Public Class FormRepair
             ControlActivityInfo = New ControlActivityInfo(Db)
             ControlActivityInfo.InitForReRepair(cmbRetNo.Text)
             PanelMain.Controls.Add(ControlActivityInfo)
-            If cmbRetStatus.Text = "Received" Then
+            If cmbRetStatus.Text = RepairStatus.Received Then
                 Exit Try
             End If
 
@@ -247,7 +247,7 @@ Public Class FormRepair
             ControlTechnicianInfo.Init()
             PanelMain.Controls.Add(ControlTechnicianInfo)
             PanelMain.Controls.SetChildIndex(ControlTechnicianInfo, 1)
-            If cmbRetStatus.Text = "Hand Over To Technician" Then
+            If {RepairStatus.HandedOverTo, RepairStatus.AssignedTo}.Contains(cmbRetStatus.Text) Then
                 Exit Try
             End If
 
@@ -255,7 +255,7 @@ Public Class FormRepair
             ControlTechnicianCostListInfo.InitForReRepair(cmbRetRepNo.Text)
             PanelMain.Controls.Add(ControlTechnicianCostListInfo)
             PanelMain.Controls.SetChildIndex(ControlTechnicianCostListInfo, 2)
-            If cmbRetStatus.Text = "Repairing" Then
+            If cmbRetStatus.Text = RepairStatus.Pending Then
                 Exit Try
             End If
 
@@ -266,7 +266,7 @@ Public Class FormRepair
                 ).SetDeliverInfoVisibility(False)
             PanelMain.Controls.Add(ControlRepairDeliverInfo)
             PanelMain.Controls.SetChildIndex(ControlRepairDeliverInfo, 3)
-            If cmbRetStatus.Text = "Repaired Not Delivered" Or cmbRetStatus.Text = "Returned Not Delivered" Then
+            If {RepairStatus.Repaired, RepairStatus.Returned}.Contains(cmbRetStatus.Text) Then
                 Exit Try
             End If
 
@@ -275,7 +275,7 @@ Public Class FormRepair
                 DataReaderRepair("PaidPrice"),
                 DataReaderRepair("DDate")
                 ).SetDeliverInfoVisibility(True)
-            If (cmbRepStatus.Text = "Repaired Delivered" Or cmbRepStatus.Text = "Returned Delivered") And User.Instance.UserType <> User.Type.Admin And DateValue(DataReaderRepair("DDate").ToString).Month <> Today.Month Then
+            If ({RepairStatus.RepairedDelivered, RepairStatus.ReturnedDelivered}.Contains(cmbRepStatus.Text)) And User.Instance.UserType <> User.Type.Admin And DateValue(DataReaderRepair("DDate").ToString).Month <> Today.Month Then
                 For Each Item As Control In {boxReceive, boxProduct, boxCustomer, txtPProblem, ControlActivityInfo, ControlAdvancePayInfo, ControlRemarks, ControlRepairDeliverInfo, ControlReRepairView, ControlTaskInfo, ControlTechnicianCostListInfo, ControlTechnicianInfo}
                     If Item Is Nothing Then
                         Continue For
@@ -296,8 +296,10 @@ Public Class FormRepair
                 Return
             End If
             Dim ControlRepStatus As ComboBox = If(Mode = RepairMode.Repair, cmbRepStatus, cmbRetStatus)
-            Dim TechnicianMustStatuses = New String() {"Hand Over To Technician", "Repairing", "Repaired Not Delivered", "Repaired Delivered"}
-            If TechnicianMustStatuses.Contains(ControlRepStatus.Text) AndAlso CheckEmptyControl(ControlTechnicianInfo.cmbTName, "Technician කෙනෙකු තොරා නොමැත. කරුණාකර අදාළ Technician ව තෝරා දෙන්න.") = False Then
+            Dim TechnicianMustStatuses = New String() {
+                RepairStatus.HandedOverTo, RepairStatus.Pending, RepairStatus.Repaired, RepairStatus.Returned, RepairStatus.RepairedDelivered, RepairStatus.ReturnedDelivered
+            }
+            If TechnicianMustStatuses.Contains(ControlRepStatus.Text) AndAlso CheckEmptyControl(ControlTechnicianInfo.ComboHandOverTo, "Technician කෙනෙකු තොරා නොමැත. කරුණාකර අදාළ Technician ව තෝරා දෙන්න.") = False Then
                 Return
             End If
 
@@ -362,11 +364,11 @@ Public Class FormRepair
                         MsgBox("Update successful!", vbInformation + vbOKOnly)
                         Return
                     End If
-                    Dim TNo As Integer = Db.GetData("SELECT TNo FROM Technician WHERE TName='" & ControlTechnicianInfo.cmbTName.Text & "'")
+                    Dim TNo As Integer = Db.GetData("SELECT TNo FROM Technician WHERE TName='" & ControlTechnicianInfo.ComboHandOverTo.Text & "'")
                     If DataReaderRepair("TNo").ToString <> TNo.ToString Then
                         Db.Execute($"UPDATE {Tables.Repair} SET tno =" & TNo & " where repno=" & cmbRepNo.Text & ";")
                         Db.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RepNo,RepADate,Activity,UNo) Values(" & Db.GetNextKey("RepairActivity", "RepANo") & "," &
-                                  cmbRepNo.Text & ",NOW(),'Technician -> " & ControlTechnicianInfo.cmbTName.Text & "'," & User.Instance.UserNo & ")")
+                                  cmbRepNo.Text & ",NOW(),'Technician -> " & ControlTechnicianInfo.ComboHandOverTo.Text & "'," & User.Instance.UserNo & ")")
                     End If
 
                     If cmbRepStatus.Text.ToString = "Hand Over to Technician" Or cmbRepStatus.Text = "Repairing" Then
@@ -441,11 +443,11 @@ Public Class FormRepair
                         Return
                     End If
 
-                    Dim TNo As Integer = Db.GetData("SELECT TNo FROM Technician WHERE TName='" & ControlTechnicianInfo.cmbTName.Text & "'")
-                    If DataReaderRepair("TName").ToString <> ControlTechnicianInfo.cmbTName.Text Then
+                    Dim TNo As Integer = Db.GetData("SELECT TNo FROM Technician WHERE TName='" & ControlTechnicianInfo.ComboHandOverTo.Text & "'")
+                    If DataReaderRepair("TName").ToString <> ControlTechnicianInfo.ComboHandOverTo.Text Then
                         Db.Execute($"update `{Tables.ReRepair}` set tno =" & TNo & " where retno=" & cmbRetNo.Text & ";")
                         Db.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RetNo,RepADate,Activity,UNo) Values(" & Db.GetNextKey("RepairActivity", "RepANo") & "," &
-                                  cmbRetNo.Text & ",NOW(),'Technician -> " & ControlTechnicianInfo.cmbTName.Text & "'," & User.Instance.UserNo & ")")
+                                  cmbRetNo.Text & ",NOW(),'Technician -> " & ControlTechnicianInfo.ComboHandOverTo.Text & "'," & User.Instance.UserNo & ")")
                     End If
 
                     If cmbRetStatus.Text = "Hand Over to Technician" Or cmbRetStatus.Text = "Repairing" Then
@@ -506,7 +508,7 @@ Public Class FormRepair
             ControlTechnicianCostListInfo.InitForReRepair(cmbRetNo.Text)
         End If
         If sender.Text = "Hand Over to Technician" Or sender.Text = "Repairing" Then
-            ControlTechnicianInfo.cmbTName.Focus()
+            ControlTechnicianInfo.ComboHandOverTo.Focus()
             Exit Sub
         End If
 
