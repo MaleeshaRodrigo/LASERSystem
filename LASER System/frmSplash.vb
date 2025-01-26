@@ -72,8 +72,6 @@ Public NotInheritable Class FrmSplash
                     .tabChart.TabPages.Remove(.pageReceivedRepvsDate)
                     .tabChart.TabPages.Remove(.pageCashier)
                     .tabChart.TabPages.Add(.pageCashier)
-                    .GrdActivity.Width = .tabChart.Width
-                    .GrdActivity.Left = .tabChart.Left
                 End With
             Case 70
                 With FormMain

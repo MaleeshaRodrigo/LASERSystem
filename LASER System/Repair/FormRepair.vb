@@ -1,6 +1,7 @@
 ﻿Imports System.Threading
 Imports LASER_System.StructureDatabase
 Imports MySqlConnector
+Imports Newtonsoft.Json
 
 Public Class FormRepair
     Public DataReaderRepair As Dictionary(Of String, Object)
@@ -16,6 +17,7 @@ Public Class FormRepair
 
     Private Db As New Database
     Private ReportPrintManager As New ReportPrintManager
+    Private RepairController As New RepairController
 
     Public Sub New()
         InitializeComponent()
@@ -24,6 +26,7 @@ Public Class FormRepair
     End Sub
 
     Private Sub FrmRepair_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        RepairController.SetDatabase(Db)
         CmbRepNo_DropDown(sender, e)
         CmbRetNo_DropDown(sender, e)
         CmbRepNo_SelectedIndexChanged(Nothing, Nothing)
@@ -83,12 +86,12 @@ Public Class FormRepair
             ClearControls()
 
             If cmbRepNo.Text = "" Then Exit Try
-            DataReaderRepair = Db.GetDataDictionary("SELECT RepNo,REP.RNo,RDate, R.CuNo, CuName, CuTelNo1,CuTelNo2, CuTelNo3, REP.PNo,PCategory,PName, PModelNo, PDetails, PSerialNo,Problem,Qty,Charge, PaidPrice,REP.TNo, TName, Status, RepDate,REP.DNo, DDate, Location from (((((Repair REP INNER JOIN RECEIVE R ON R.RNO = REP.RNO) INNER JOIN PRODUCT  P ON P.PNO = REP.PNO) INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = REP.TNO) LEFT JOIN DELIVER D ON D.DNO = REP.DNO) Where Rep.Repno = " & cmbRepNo.Text)
+            DataReaderRepair = Db.GetDataDictionary("SELECT RepNo, REP.RNo, RDate,  R.CuNo, CuName, CuTelNo1, CuTelNo2, CuTelNo3, REP.PNo, PCategory, PName, PModelNo, PDetails, PSerialNo, Problem, Qty, Charge, PaidPrice, REP.AssignedToTNo, REP.HandedOverToTNo, T1.TName AS 'AssignedToTechnician', T2.TName AS 'HandedOverToTechnician', Status, RepDate,REP.DNo, DDate, Location from Repair REP INNER JOIN RECEIVE R ON R.RNO = REP.RNO INNER JOIN PRODUCT  P ON P.PNO = REP.PNO INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO LEFT JOIN Technician T1 ON T1.TNO = REP.AssignedToTNo LEFT JOIN Technician T2 ON T2.TNo = REP.HandedOverToTNo LEFT JOIN DELIVER D ON D.DNO = REP.DNO Where Rep.Repno = " & cmbRepNo.Text)
             If DataReaderRepair Is Nothing Then
                 MsgBox("මෙම Repair No එක Database එක තුල නොපවතියි.", vbCritical + vbOKOnly)
                 Exit Sub
             End If
-            For Each ctrl As Control In {boxReceive, boxCustomer, boxProduct, lblPProblem, txtPProblem}
+            For Each ctrl As Control In {boxReceive, boxCustomer, boxProduct, lblPProblem, txtPProblem, BoxReRepairView}
                 ctrl.Visible = True
             Next
             For Each ctrl As Control In {boxReceive, boxProduct, boxCustomer, txtPProblem}
@@ -97,9 +100,8 @@ Public Class FormRepair
             cmbRepStatus.Text = DataReaderRepair("Status").ToString
             SetBasicInfo()
 
-            ControlReRepairView = New ControlReRepairView(Db)
+            ControlReRepairView = New ControlReRepairView().SetDatabase(Db)
             ControlReRepairView.Init(cmbRepNo.Text)
-            PanelMain.Controls.Add(ControlReRepairView)
 
             ControlRemarks = New ControlRemarks(Db, Me)
             ControlRemarks.InitForRepair(cmbRepNo.Text)
@@ -117,7 +119,7 @@ Public Class FormRepair
             End If
 
             ControlTechnicianInfo = New ControlTechnicianInfo(Db, Me)
-            ControlTechnicianInfo.Init()
+            ControlTechnicianInfo.Init(DataReaderRepair(Repair.Status))
             PanelMain.Controls.Add(ControlTechnicianInfo)
             PanelMain.Controls.SetChildIndex(ControlTechnicianInfo, 2)
             If {RepairStatus.HandedOverTo, RepairStatus.AssignedTo}.Contains(cmbRepStatus.Text) Then
@@ -191,6 +193,7 @@ Public Class FormRepair
         For Each Item As Control In {cmbRetRepNo, cmbRetStatus, cmbRepStatus, txtRNo, txtRDate, txtCuNo, TextCuName, txtCuTelNo1, txtCuTelNo2, txtCuTelNo3, txtPNo, cmbPCategory, cmbPName, txtPModelNo, txtPSerialNo, txtPDetails, txtPQty, txtPProblem}
             Item.Text = ""
         Next
+        ControlReRepairView?.Clear()
         ControlActivityInfo?.Clear()
         ControlAdvancePayInfo?.Clear()
         ControlRemarks?.Clear()
@@ -212,7 +215,7 @@ Public Class FormRepair
             ClearControls()
 
             If cmbRetNo.Text = "" Then Exit Try
-            DataReaderRepair = Db.GetDataDictionary($"Select Ret.RetNo, RepNo, Ret.RNo, RDate,  R.CuNo, CuName, CuTelNo1, CuTelNo2, CuTelNo3, CuRemarks,  Ret.PNo, PCategory, PName, PModelNo, PDetails, PSerialNo, Problem, Location, Qty, Ret.TNo, TName, Status, Charge, PaidPrice, RepDate, Ret.DNo, DDate FROM `Return` Ret inner join Receive R On Ret.RNo = R.RNo INNER JOIN Customer Cu On R.CuNo = Cu.CuNo INNER JOIN Product P On Ret.PNo = P.PNo LEFT JOIN Technician T On Ret.TNo = T.TNo LEFT JOIN Deliver D On D.DNo=Ret.DNo WHERE Ret.RetNo = @RETNO", {
+            DataReaderRepair = Db.GetDataDictionary($"Select Ret.RetNo, RepNo, Ret.RNo, RDate,  R.CuNo, CuName, CuTelNo1, CuTelNo2, CuTelNo3, CuRemarks,  Ret.PNo, PCategory, PName, PModelNo, PDetails, PSerialNo, Problem, Location, Qty, Ret.AssignedToTNo, Ret.HandedOverToTNo, T1.TName AS 'AssignedToTechnician', T2.TName AS 'HandedOverToTechnician', TName, Status, Charge, PaidPrice, RepDate, Ret.DNo, DDate FROM `Return` Ret inner join Receive R On Ret.RNo = R.RNo INNER JOIN Customer Cu On R.CuNo = Cu.CuNo INNER JOIN Product P On Ret.PNo = P.PNo LEFT JOIN Technician T1 On Ret.AssignedToTNo = T1.TNo LEFT JOIN Technician T2 ON Ret.HandedOverToTNo = T2.TNo LEFT JOIN Deliver D On D.DNo=Ret.DNo WHERE Ret.RetNo = @RETNO", {
                 New MySqlParameter("RETNO", cmbRetNo.Text)
             })
             If DataReaderRepair Is Nothing Then
@@ -244,7 +247,7 @@ Public Class FormRepair
             End If
 
             ControlTechnicianInfo = New ControlTechnicianInfo(Db, Me)
-            ControlTechnicianInfo.Init()
+            ControlTechnicianInfo.Init(DataReaderRepair(ReRepair.Status))
             PanelMain.Controls.Add(ControlTechnicianInfo)
             PanelMain.Controls.SetChildIndex(ControlTechnicianInfo, 1)
             If {RepairStatus.HandedOverTo, RepairStatus.AssignedTo}.Contains(cmbRetStatus.Text) Then
@@ -289,6 +292,7 @@ Public Class FormRepair
     End Sub
 
     Private Sub CmdSave_Click(sender As Object, e As EventArgs) Handles cmdSave.Click, UpdateToolStripMenuItem.Click
+        Dim Database As New TransactionDatabase
         Try
             If CheckEmptyControl(txtCuNo, "මෙම Repair එක සඳහා ඔබ Customer කෙනෙකු තෝරා නොමැත. කරුණාකර එය ඇතුලත් කර නැවත උත්සහ කරන්න!") = False Then
                 Return
@@ -299,7 +303,7 @@ Public Class FormRepair
             Dim TechnicianMustStatuses = New String() {
                 RepairStatus.HandedOverTo, RepairStatus.Pending, RepairStatus.Repaired, RepairStatus.Returned, RepairStatus.RepairedDelivered, RepairStatus.ReturnedDelivered
             }
-            If TechnicianMustStatuses.Contains(ControlRepStatus.Text) AndAlso CheckEmptyControl(ControlTechnicianInfo.ComboHandOverTo, "Technician කෙනෙකු තොරා නොමැත. කරුණාකර අදාළ Technician ව තෝරා දෙන්න.") = False Then
+            If TechnicianMustStatuses.Contains(ControlRepStatus.Text) AndAlso CheckEmptyControl(ControlTechnicianInfo.ComboHandOverToTechnician, "Technician කෙනෙකු තොරා නොමැත. කරුණාකර අදාළ Technician ව තෝරා දෙන්න.") = False Then
                 Return
             End If
 
@@ -319,56 +323,68 @@ Public Class FormRepair
                 MessageBox.Error("Delivered හෝ  Canceled Product එකක් නැවත Status එක වෙනස් කිරීමට ඔබ්ට Permission නොමැත.")
                 Return
             End If
+
+            Database.BeginTransaction()
             Select Case Mode
                 Case RepairMode.Repair
                     If DataReaderRepair("Status").ToString <> cmbRepStatus.Text Then
-                        Db.Execute($"UPDATE {Tables.Repair} SET status ='" & cmbRepStatus.Text & "' where repno=" & cmbRepNo.Text & ";")
-                        Db.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RepNo,RepADate,Activity,UNo) Values(" & Db.GetNextKey("RepairActivity", "RepANo") & "," &
-                                  cmbRepNo.Text & ",NOW(),'Status -> " & cmbRepStatus.Text & "'," & User.Instance.UserNo & ")")
+                        Database.Execute($"UPDATE {Tables.Repair} SET Status = @STATUS WHERE RepNo = @REPNO;", {
+                            New MySqlParameter("STATUS", cmbRepStatus.Text),
+                            New MySqlParameter("REPNO", cmbRepNo.Text)
+                        })
+                        RepairController.InsertRepairActivity(Mode, cmbRepNo.Text, "UPDATE: " + JsonConvert.SerializeObject({
+                           {"Status", cmbRepStatus.Text}
+                        }))
                     End If
 
                     If DataReaderRepair("CuNo").ToString <> txtCuNo.Text Then
-                        Db.Execute($"UPDATE {Tables.Receive} SET cuno =" & txtCuNo.Text & " where rno = " & txtRNo.Text)
-                        Db.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RepNo,RepADate,Activity,UNo) Values(" & Db.GetNextKey("RepairActivity", "RepANo") & "," &
-                                  cmbRepNo.Text & ",NOW(),'Customer -> Name= " & TextCuName.Text & ", Telephone No 1= " & txtCuTelNo1.Text &
-                                  ", Telephone No 2= " & txtCuTelNo2.Text & ", Telephone No 3= " & txtCuTelNo3.Text & "'," & User.Instance.UserNo & ")")
+                        Database.Execute($"UPDATE {Tables.Receive} SET CuNo = @CUNO WHERE RNo = @RNO;", {
+                            New MySqlParameter("CUNO", txtCuNo.Text),
+                            New MySqlParameter("RNO", txtRNo.Text)
+                        })
+                        RepairController.InsertRepairActivity(Mode, cmbRepNo.Text, "UPDATE: " + JsonConvert.SerializeObject({
+                           {"Customer Name", TextCuName.Text},
+                           {"Telephone No 1", txtCuTelNo1.Text},
+                           {"Telephone No 2", txtCuTelNo2.Text},
+                           {"Telephone No 3", txtCuTelNo3.Text}
+                        }))
                     End If
 
                     If DataReaderRepair("RDate").ToString <> txtRDate.Value.ToString Then
-                        Db.Execute($"UPDATE {Tables.Receive} SET RDate='" & txtRDate.Value.Date.ToString & "' where rno = " & txtRNo.Text)
-                        Db.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RepNo,RepADate,Activity,UNo) Values(" & Db.GetNextKey("RepairActivity", "RepANo") & "," &
+                        Database.Execute($"UPDATE {Tables.Receive} SET RDate='" & txtRDate.Value.Date.ToString & "' where rno = " & txtRNo.Text)
+                        Database.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RepNo,RepADate,Activity,UNo) Values(" & Database.GetNextKey("RepairActivity", "RepANo") & "," &
                                   cmbRepNo.Text & ",NOW(),'Received Date -> " & txtRDate.Value.ToString & "'," & User.Instance.UserNo & ")")
                     End If
                     If DataReaderRepair("PNo").ToString <> txtPNo.Text Then
-                        Db.Execute($"UPDATE {Tables.Repair} SET pno = " & txtPNo.Text & " where repno = " & cmbRepNo.Text)
-                        Db.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RepNo,RepADate,Activity,UNo) Values(" & Db.GetNextKey("RepairActivity", "RepANo") & "," &
+                        Database.Execute($"UPDATE {Tables.Repair} SET pno = " & txtPNo.Text & " where repno = " & cmbRepNo.Text)
+                        Database.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RepNo,RepADate,Activity,UNo) Values(" & Database.GetNextKey("RepairActivity", "RepANo") & "," &
                                   cmbRepNo.Text & ",NOW(),'Product -> Category= " & cmbPCategory.Text & ", Name= " & cmbPName.Text &
                                   ", Model No= " & txtPModelNo.Text & ", Qty= " & txtPQty.Text & "'," & User.Instance.UserNo & ")")
                     End If
                     If DataReaderRepair("PSerialNo").ToString <> txtPSerialNo.Text Then
-                        Db.Execute($"UPDATE {Tables.Repair} SET pserialno ='" & txtPSerialNo.Text & "' where repno = " & cmbRepNo.Text)
-                        Db.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RepNo,RepADate,Activity,UNo) Values(" & Db.GetNextKey("RepairActivity", "RepANo") & "," &
+                        Database.Execute($"UPDATE {Tables.Repair} SET pserialno ='" & txtPSerialNo.Text & "' where repno = " & cmbRepNo.Text)
+                        Database.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RepNo,RepADate,Activity,UNo) Values(" & Database.GetNextKey("RepairActivity", "RepANo") & "," &
                                   cmbRepNo.Text & ",NOW(),'Product Serial No -> " & txtPSerialNo.Text & "'," & User.Instance.UserNo & ")")
                     End If
                     If DataReaderRepair("Problem").ToString <> txtPProblem.Text Then
-                        Db.Execute($"UPDATE {Tables.Repair} SET Problem ='" & txtPProblem.Text & "' where repno = " & cmbRepNo.Text)
-                        Db.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RepNo,RepADate,Activity,UNo) Values(" & Db.GetNextKey("RepairActivity", "RepANo") & "," &
+                        Database.Execute($"UPDATE {Tables.Repair} SET Problem ='" & txtPProblem.Text & "' where repno = " & cmbRepNo.Text)
+                        Database.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RepNo,RepADate,Activity,UNo) Values(" & Database.GetNextKey("RepairActivity", "RepANo") & "," &
                                   cmbRepNo.Text & ",NOW(),'Problem -> " & txtPProblem.Text & "'," & User.Instance.UserNo & ")")
                     End If
                     If DataReaderRepair("Location").ToString <> ControlRemarks.cmbLocation.Text Then
-                        Db.Execute($"UPDATE {Tables.Repair} SET Location= '" & ControlRemarks.cmbLocation.Text & "' where repno = " & cmbRepNo.Text)
-                        Db.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RepNo,RepADate,Activity,UNo) Values(" & Db.GetNextKey("RepairActivity", "RepANo") & "," &
+                        Database.Execute($"UPDATE {Tables.Repair} SET Location= '" & ControlRemarks.cmbLocation.Text & "' where repno = " & cmbRepNo.Text)
+                        Database.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RepNo,RepADate,Activity,UNo) Values(" & Database.GetNextKey("RepairActivity", "RepANo") & "," &
                                   cmbRepNo.Text & ",NOW(),'Location -> " & ControlRemarks.cmbLocation.Text & "'," & User.Instance.UserNo & ")")
                     End If
                     If cmbRepStatus.Text = "Received" Or cmbRepStatus.Text = "Canceled" Then
                         MsgBox("Update successful!", vbInformation + vbOKOnly)
                         Return
                     End If
-                    Dim TNo As Integer = Db.GetData("SELECT TNo FROM Technician WHERE TName='" & ControlTechnicianInfo.ComboHandOverTo.Text & "'")
-                    If DataReaderRepair("TNo").ToString <> TNo.ToString Then
-                        Db.Execute($"UPDATE {Tables.Repair} SET tno =" & TNo & " where repno=" & cmbRepNo.Text & ";")
-                        Db.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RepNo,RepADate,Activity,UNo) Values(" & Db.GetNextKey("RepairActivity", "RepANo") & "," &
-                                  cmbRepNo.Text & ",NOW(),'Technician -> " & ControlTechnicianInfo.ComboHandOverTo.Text & "'," & User.Instance.UserNo & ")")
+                    Dim TNo As Integer = Database.GetData("SELECT TNo FROM Technician WHERE TName='" & ControlTechnicianInfo.ComboHandOverToTechnician.Text & "'")
+                    If DataReaderRepair("HandedOverToTNo").ToString <> TNo.ToString Then
+                        Database.Execute($"UPDATE {Tables.Repair} SET tno =" & TNo & " where repno=" & cmbRepNo.Text & ";")
+                        Database.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RepNo,RepADate,Activity,UNo) Values(" & Database.GetNextKey("RepairActivity", "RepANo") & "," &
+                                  cmbRepNo.Text & ",NOW(),'Technician -> " & ControlTechnicianInfo.ComboHandOverToTechnician.Text & "'," & User.Instance.UserNo & ")")
                     End If
 
                     If cmbRepStatus.Text.ToString = "Hand Over to Technician" Or cmbRepStatus.Text = "Repairing" Then
@@ -377,16 +393,16 @@ Public Class FormRepair
                     End If
 
                     If DataReaderRepair("Charge").ToString <> ControlRepairDeliverInfo.txtRepPrice.Text Then
-                        Db.Execute($"UPDATE {Tables.Repair} SET charge=" & ControlRepairDeliverInfo.txtRepPrice.Text & " where repno=" & cmbRepNo.Text & ";")
-                        Db.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RepNo,RepADate,Activity,UNo) Values(" & Db.GetNextKey("RepairActivity", "RepANo") & "," &
+                        Database.Execute($"UPDATE {Tables.Repair} SET charge=" & ControlRepairDeliverInfo.txtRepPrice.Text & " where repno=" & cmbRepNo.Text & ";")
+                        Database.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RepNo,RepADate,Activity,UNo) Values(" & Database.GetNextKey("RepairActivity", "RepANo") & "," &
                                   cmbRepNo.Text & ",NOW(),'Repair Charge -> " & ControlRepairDeliverInfo.txtRepPrice.Text & "'," & User.Instance.UserNo & ")")
                     End If
                     If DataReaderRepair("RepDate").ToString <> ControlRepairDeliverInfo.txtRepDate.Value.ToString Then
-                        Db.Execute($"UPDATE {Tables.Repair} SET RepDate=@REPDATE WHERE RepNo=@REPNO;", {
+                        Database.Execute($"UPDATE {Tables.Repair} SET RepDate=@REPDATE WHERE RepNo=@REPNO;", {
                             New MySqlParameter("REPDATE", ControlRepairDeliverInfo.txtRepDate.Value),
                             New MySqlParameter("REPNO", cmbRepNo.Text)
                         })
-                        Db.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RepNo,RepADate,Activity,UNo) Values(" & Db.GetNextKey("RepairActivity", "RepANo") & "," &
+                        Database.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RepNo,RepADate,Activity,UNo) Values(" & Database.GetNextKey("RepairActivity", "RepANo") & "," &
                                   cmbRepNo.Text & ",NOW(),'Repaired Date -> " & ControlRepairDeliverInfo.txtRepDate.Value.ToString & "'," & User.Instance.UserNo & ")")
                     End If
 
@@ -395,46 +411,46 @@ Public Class FormRepair
                     Return
                 Case RepairMode.ReRepair
                     If DataReaderRepair("Status").ToString <> cmbRetStatus.Text Then
-                        Db.Execute($"update `{Tables.ReRepair}` set status ='" & cmbRetStatus.Text & "' where retno=" & cmbRetNo.Text & ";")
-                        Db.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RetNo,RepADate,Activity,UNo) Values(" & Db.GetNextKey("RepairActivity", "RepANo") & "," &
+                        Database.Execute($"update `{Tables.ReRepair}` set status ='" & cmbRetStatus.Text & "' where retno=" & cmbRetNo.Text & ";")
+                        Database.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RetNo,RepADate,Activity,UNo) Values(" & Database.GetNextKey("RepairActivity", "RepANo") & "," &
                                   cmbRetNo.Text & ",NOW(),'Status -> " & cmbRetStatus.Text & "'," & User.Instance.UserNo & ")")
                     End If
 
                     If DataReaderRepair("CuNo").ToString <> txtCuNo.Text Then
-                        Db.Execute($"UPDATE {Tables.Receive} SET Cuno =" & txtCuNo.Text & " where rno = " & txtRNo.Text)
-                        Db.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RetNo,RepADate,Activity,UNo) Values(" & Db.GetNextKey("RepairActivity", "RepANo") & "," &
+                        Database.Execute($"UPDATE {Tables.Receive} SET Cuno =" & txtCuNo.Text & " where rno = " & txtRNo.Text)
+                        Database.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RetNo,RepADate,Activity,UNo) Values(" & Database.GetNextKey("RepairActivity", "RepANo") & "," &
                                   cmbRetNo.Text & ",NOW(),'Customer -> Name= " & TextCuName.Text & ", Telephone No 1= " & txtCuTelNo1.Text &
                                   ", Telephone No 2= " & txtCuTelNo2.Text & ", Telephone No 3= " & txtCuTelNo3.Text & "'," & User.Instance.UserNo & ")")
                     End If
 
                     If DataReaderRepair("RDate").ToString <> txtRDate.Value.ToString Then
-                        Db.Execute($"UPDATE {Tables.Receive} SET RDate='" & txtRDate.Value.Date.ToString & "' where rno = " & txtRNo.Text)
-                        Db.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RetNo,RepADate,Activity,UNo) Values(" & Db.GetNextKey("RepairActivity", "RepANo") & "," &
+                        Database.Execute($"UPDATE {Tables.Receive} SET RDate='" & txtRDate.Value.Date.ToString & "' where rno = " & txtRNo.Text)
+                        Database.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RetNo,RepADate,Activity,UNo) Values(" & Database.GetNextKey("RepairActivity", "RepANo") & "," &
                                   cmbRetNo.Text & ",NOW(),'Received Date -> " & txtRDate.Value.ToString & "'," & User.Instance.UserNo & ")")
                     End If
 
                     If DataReaderRepair("PNo").ToString <> txtPNo.Text Then
-                        Db.Execute($"update `{Tables.ReRepair}` set pno = " & txtPNo.Text & " where RetNo = " & cmbRetNo.Text)
-                        Db.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RetNo,RepADate,Activity,UNo) Values(" & Db.GetNextKey("RepairActivity", "RepANo") & "," &
+                        Database.Execute($"update `{Tables.ReRepair}` set pno = " & txtPNo.Text & " where RetNo = " & cmbRetNo.Text)
+                        Database.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RetNo,RepADate,Activity,UNo) Values(" & Database.GetNextKey("RepairActivity", "RepANo") & "," &
                                   cmbRetNo.Text & ",NOW(),'Product -> Category= " & cmbPCategory.Text & ", Name= " & cmbPName.Text &
                                   ", Model No= " & txtPModelNo.Text & ", Qty= " & txtPQty.Text & "'," & User.Instance.UserNo & ")")
                     End If
 
                     If DataReaderRepair("PSerialNo").ToString <> txtPSerialNo.Text Then
-                        Db.Execute($"update `{Tables.ReRepair}` set pserialno ='" & txtPSerialNo.Text & "' where retno = " & cmbRetNo.Text)
-                        Db.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RetNo,RepADate,Activity,UNo) Values(" & Db.GetNextKey("RepairActivity", "RepANo") & "," &
+                        Database.Execute($"update `{Tables.ReRepair}` set pserialno ='" & txtPSerialNo.Text & "' where retno = " & cmbRetNo.Text)
+                        Database.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RetNo,RepADate,Activity,UNo) Values(" & Database.GetNextKey("RepairActivity", "RepANo") & "," &
                                   cmbRetNo.Text & ",NOW(),'Product Serial No -> " & txtPSerialNo.Text & "'," & User.Instance.UserNo & ")")
                     End If
 
                     If DataReaderRepair("Problem").ToString <> txtPProblem.Text Then
-                        Db.Execute($"update `{Tables.ReRepair}` set problem ='" & txtPProblem.Text & "' where retno = " & cmbRetNo.Text)
-                        Db.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RetNo,RepADate,Activity,UNo) Values(" & Db.GetNextKey("RepairActivity", "RepANo") & "," &
+                        Database.Execute($"update `{Tables.ReRepair}` set problem ='" & txtPProblem.Text & "' where retno = " & cmbRetNo.Text)
+                        Database.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RetNo,RepADate,Activity,UNo) Values(" & Database.GetNextKey("RepairActivity", "RepANo") & "," &
                                   cmbRetNo.Text & ",NOW(),'Problem -> " & txtPProblem.Text & "'," & User.Instance.UserNo & ")")
                     End If
 
                     If DataReaderRepair("Location").ToString <> ControlRemarks.cmbLocation.Text Then
-                        Db.Execute($"update `{Tables.ReRepair}` set Location= '" & ControlRemarks.cmbLocation.Text & "' where RetNo = " & cmbRetNo.Text)
-                        Db.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RetNo,RepADate,Activity,UNo) Values(" & Db.GetNextKey("RepairActivity", "RepANo") & "," &
+                        Database.Execute($"update `{Tables.ReRepair}` set Location= '" & ControlRemarks.cmbLocation.Text & "' where RetNo = " & cmbRetNo.Text)
+                        Database.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RetNo,RepADate,Activity,UNo) Values(" & Database.GetNextKey("RepairActivity", "RepANo") & "," &
                                   cmbRetNo.Text & ",NOW(),'Location -> " & ControlRemarks.cmbLocation.Text & "'," & User.Instance.UserNo & ")")
                     End If
 
@@ -443,11 +459,11 @@ Public Class FormRepair
                         Return
                     End If
 
-                    Dim TNo As Integer = Db.GetData("SELECT TNo FROM Technician WHERE TName='" & ControlTechnicianInfo.ComboHandOverTo.Text & "'")
-                    If DataReaderRepair("TName").ToString <> ControlTechnicianInfo.ComboHandOverTo.Text Then
-                        Db.Execute($"update `{Tables.ReRepair}` set tno =" & TNo & " where retno=" & cmbRetNo.Text & ";")
-                        Db.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RetNo,RepADate,Activity,UNo) Values(" & Db.GetNextKey("RepairActivity", "RepANo") & "," &
-                                  cmbRetNo.Text & ",NOW(),'Technician -> " & ControlTechnicianInfo.ComboHandOverTo.Text & "'," & User.Instance.UserNo & ")")
+                    Dim TNo As Integer = Database.GetData("SELECT TNo FROM Technician WHERE TName='" & ControlTechnicianInfo.ComboHandOverToTechnician.Text & "'")
+                    If DataReaderRepair("TName").ToString <> ControlTechnicianInfo.ComboHandOverToTechnician.Text Then
+                        Database.Execute($"update `{Tables.ReRepair}` set tno =" & TNo & " where retno=" & cmbRetNo.Text & ";")
+                        Database.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RetNo,RepADate,Activity,UNo) Values(" & Database.GetNextKey("RepairActivity", "RepANo") & "," &
+                                  cmbRetNo.Text & ",NOW(),'Technician -> " & ControlTechnicianInfo.ComboHandOverToTechnician.Text & "'," & User.Instance.UserNo & ")")
                     End If
 
                     If cmbRetStatus.Text = "Hand Over to Technician" Or cmbRetStatus.Text = "Repairing" Then
@@ -456,16 +472,16 @@ Public Class FormRepair
                     End If
 
                     If DataReaderRepair("Charge").ToString <> ControlRepairDeliverInfo.txtRepPrice.Text Then
-                        Db.Execute($"update `{Tables.ReRepair}` set charge=" & ControlRepairDeliverInfo.txtRepPrice.Text & " where retno=" & cmbRetNo.Text & ";")
-                        Db.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RetNo,RepADate,Activity,UNo) Values(" & Db.GetNextKey("RepairActivity", "RepANo") & "," &
+                        Database.Execute($"update `{Tables.ReRepair}` set charge=" & ControlRepairDeliverInfo.txtRepPrice.Text & " where retno=" & cmbRetNo.Text & ";")
+                        Database.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RetNo,RepADate,Activity,UNo) Values(" & Database.GetNextKey("RepairActivity", "RepANo") & "," &
                                   cmbRetNo.Text & ",NOW(),'Repair Charge -> " & ControlRepairDeliverInfo.txtRepPrice.Text & "'," & User.Instance.UserNo & ")")
                     End If
                     If DataReaderRepair("RepDate").ToString <> ControlRepairDeliverInfo.txtRepDate.Value.ToString Then
-                        Db.Execute($"UPDATE `{Tables.ReRepair}` SET RepDate=@REPDATE WHERE RetNo=@RETNO;", {
+                        Database.Execute($"UPDATE `{Tables.ReRepair}` SET RepDate=@REPDATE WHERE RetNo=@RETNO;", {
                             New MySqlParameter("REPDATE", ControlRepairDeliverInfo.txtRepDate.Value),
                             New MySqlParameter("RETNO", cmbRetNo.Text)
                         })
-                        Db.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RetNo,RepADate,Activity,UNo) VALUES({Db.GetNextKey("RepairActivity", "RepANo")},{cmbRetNo.Text},NOW(),'Repaired Date -> {ControlRepairDeliverInfo.txtRepDate.Value}',{User.Instance.UserNo})")
+                        Database.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RetNo,RepADate,Activity,UNo) VALUES({Database.GetNextKey("RepairActivity", "RepANo")},{cmbRetNo.Text},NOW(),'Repaired Date -> {ControlRepairDeliverInfo.txtRepDate.Value}',{User.Instance.UserNo})")
                     End If
                     If Tag = "" Then
                         MsgBox("Update Successful!", vbInformation + vbOKOnly)
@@ -476,6 +492,8 @@ Public Class FormRepair
             End Select
         Catch Exception As Exception
             MessageBox.Error(Exception.Message)
+            Database.RollbackTransaction()
+        Finally
         End Try
     End Sub
 
@@ -497,7 +515,7 @@ Public Class FormRepair
         ControlTechnicianInfo = New ControlTechnicianInfo(Db, Me)
         PanelMain.Controls.Add(ControlTechnicianInfo)
         PanelMain.Controls.SetChildIndex(ControlTechnicianInfo, 2)
-        ControlTechnicianInfo.Init()
+        ControlTechnicianInfo.Init(cmbRepStatus.Text)
 
         ControlTechnicianCostListInfo = New ControlTechnicianCostListInfo(Db, Me)
         PanelMain.Controls.Add(ControlTechnicianCostListInfo)
@@ -508,7 +526,7 @@ Public Class FormRepair
             ControlTechnicianCostListInfo.InitForReRepair(cmbRetNo.Text)
         End If
         If sender.Text = "Hand Over to Technician" Or sender.Text = "Repairing" Then
-            ControlTechnicianInfo.ComboHandOverTo.Focus()
+            ControlTechnicianInfo.ComboHandOverToTechnician.Focus()
             Exit Sub
         End If
 

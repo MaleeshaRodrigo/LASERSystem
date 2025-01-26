@@ -9,6 +9,7 @@ Public Class FormMain
         CheckForIllegalCrossThreadCalls = False
         ControlCashierDashboard.Init(Db)
         MenuStrip.Items.Add(mnustrpMENU)
+        ControlRepairDashboard.Init()
     End Sub
 
     Private Sub MdifrmMain_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing

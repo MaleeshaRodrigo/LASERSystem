@@ -73,7 +73,7 @@ Public MustInherit Class AbstractRepairController : Inherits AbstractController
             TNo = TechnicianController.GetTechnicianNo(TableRow(Technician.TName))
         End If
         RepairData.Add(Repair.Status, If(TNo, RepairStatus.HandedOverTo, RepairStatus.Received))
-        RepairData.Add(Repair.TNo, TNo)
+        RepairData.Add(Repair.HandedOverToTNo, TNo)
         Dim RepairController As New RepairController
         Dim ReRepairController As New ReRepairController
         RepairController.SetDatabase(Db)
@@ -106,6 +106,15 @@ Public MustInherit Class AbstractRepairController : Inherits AbstractController
             New MySqlParameter("REPNO", RepairNo),
             New MySqlParameter("RETNO", ReRepairNo),
             New MySqlParameter("REMARKS", Remarks),
+            New MySqlParameter("UNO", User.Instance.UserNo)
+        })
+    End Sub
+
+    Public Sub InsertRepairActivity(Mode As RepairMode, RepairNo As String, Activity As String)
+        Db.Execute($"INSERT INTO {Tables.RepairActivity}(RepADate, RepNo, RetNo, Activity, UNo) VALUES(NOW(), @REPNO, @RETNO, @ACTIVITY, @UNO);", {
+            New MySqlParameter("REPNO", If(Mode = RepairMode.Repair, RepairNo, Nothing)),
+            New MySqlParameter("RETNO", If(Mode = RepairMode.ReRepair, RepairNo, Nothing)),
+            New MySqlParameter("ACTIVITY", Activity),
             New MySqlParameter("UNO", User.Instance.UserNo)
         })
     End Sub

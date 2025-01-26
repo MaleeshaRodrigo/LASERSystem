@@ -25,15 +25,14 @@ Partial Class FormMain
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormMain))
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim ChartArea1 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend1 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series1 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim Series2 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim Series3 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim ChartArea2 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend2 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series4 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea5 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend5 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series9 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim Series10 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim Series11 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea6 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend6 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series12 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
         Me.StatusStrip = New System.Windows.Forms.StatusStrip()
         Me.ToolStripStatusLabel2 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.tslblUserName = New System.Windows.Forms.ToolStripStatusLabel()
@@ -78,12 +77,6 @@ Partial Class FormMain
         Me.SettingsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.BarCodePort = New System.IO.Ports.SerialPort(Me.components)
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
-        Me.flpMessage = New System.Windows.Forms.FlowLayoutPanel()
-        Me.pnlLeft = New System.Windows.Forms.Panel()
-        Me.GrdActivity = New System.Windows.Forms.DataGridView()
-        Me.AID = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.ADate = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.ACommand = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.tabChart = New System.Windows.Forms.TabControl()
         Me.pageIncomevsDate = New System.Windows.Forms.TabPage()
         Me.lblIncomevsDateCustom = New System.Windows.Forms.Label()
@@ -99,18 +92,20 @@ Partial Class FormMain
         Me.chtReceivedRepvsDate = New System.Windows.Forms.DataVisualization.Charting.Chart()
         Me.pageCashier = New System.Windows.Forms.TabPage()
         Me.ControlCashierDashboard = New LASER_System.ControlCashierDashboard()
+        Me.ControlRepairDashboard = New LASER_System.ControlRepairDashboard()
+        Me.flpMessage = New System.Windows.Forms.FlowLayoutPanel()
+        Me.Panel1 = New System.Windows.Forms.Panel()
         Me.StatusStrip.SuspendLayout()
         Me.ToolStrip.SuspendLayout()
         Me.MenuStrip.SuspendLayout()
         Me.TableLayoutPanel1.SuspendLayout()
-        Me.pnlLeft.SuspendLayout()
-        CType(Me.GrdActivity, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tabChart.SuspendLayout()
         Me.pageIncomevsDate.SuspendLayout()
         CType(Me.chtIncomevsDate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pageReceivedRepvsDate.SuspendLayout()
         CType(Me.chtReceivedRepvsDate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pageCashier.SuspendLayout()
+        Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
         '
         'StatusStrip
@@ -457,8 +452,8 @@ Partial Class FormMain
         Me.TableLayoutPanel1.ColumnCount = 2
         Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70.0!))
         Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30.0!))
-        Me.TableLayoutPanel1.Controls.Add(Me.flpMessage, 0, 0)
-        Me.TableLayoutPanel1.Controls.Add(Me.pnlLeft, 0, 0)
+        Me.TableLayoutPanel1.Controls.Add(Me.flpMessage, 1, 0)
+        Me.TableLayoutPanel1.Controls.Add(Me.Panel1, 0, 0)
         Me.TableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TableLayoutPanel1.Location = New System.Drawing.Point(0, 113)
         Me.TableLayoutPanel1.Name = "TableLayoutPanel1"
@@ -467,97 +462,16 @@ Partial Class FormMain
         Me.TableLayoutPanel1.Size = New System.Drawing.Size(1364, 604)
         Me.TableLayoutPanel1.TabIndex = 22
         '
-        'flpMessage
-        '
-        Me.flpMessage.AutoScroll = True
-        Me.flpMessage.AutoSize = True
-        Me.flpMessage.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
-        Me.flpMessage.BackColor = System.Drawing.Color.Black
-        Me.flpMessage.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.flpMessage.FlowDirection = System.Windows.Forms.FlowDirection.TopDown
-        Me.flpMessage.Location = New System.Drawing.Point(957, 3)
-        Me.flpMessage.Name = "flpMessage"
-        Me.flpMessage.Padding = New System.Windows.Forms.Padding(5, 5, 0, 0)
-        Me.flpMessage.Size = New System.Drawing.Size(404, 598)
-        Me.flpMessage.TabIndex = 24
-        Me.flpMessage.WrapContents = False
-        '
-        'pnlLeft
-        '
-        Me.pnlLeft.AutoScroll = True
-        Me.pnlLeft.BackColor = System.Drawing.Color.Transparent
-        Me.pnlLeft.Controls.Add(Me.GrdActivity)
-        Me.pnlLeft.Controls.Add(Me.tabChart)
-        Me.pnlLeft.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.pnlLeft.Location = New System.Drawing.Point(3, 3)
-        Me.pnlLeft.Name = "pnlLeft"
-        Me.pnlLeft.Size = New System.Drawing.Size(948, 598)
-        Me.pnlLeft.TabIndex = 23
-        '
-        'GrdActivity
-        '
-        Me.GrdActivity.AllowUserToAddRows = False
-        Me.GrdActivity.AllowUserToDeleteRows = False
-        Me.GrdActivity.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.GrdActivity.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders
-        Me.GrdActivity.BackgroundColor = System.Drawing.Color.Black
-        Me.GrdActivity.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.GrdActivity.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.AID, Me.ADate, Me.ACommand})
-        Me.GrdActivity.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically
-        Me.GrdActivity.GridColor = System.Drawing.Color.White
-        Me.GrdActivity.Location = New System.Drawing.Point(10, 375)
-        Me.GrdActivity.Name = "GrdActivity"
-        Me.GrdActivity.ReadOnly = True
-        Me.GrdActivity.RowHeadersVisible = False
-        Me.GrdActivity.RowHeadersWidth = 51
-        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.GrdActivity.RowsDefaultCellStyle = DataGridViewCellStyle1
-        Me.GrdActivity.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.GrdActivity.Size = New System.Drawing.Size(931, 220)
-        Me.GrdActivity.TabIndex = 23
-        '
-        'AID
-        '
-        Me.AID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
-        Me.AID.DataPropertyName = "ID"
-        Me.AID.HeaderText = "ID"
-        Me.AID.MinimumWidth = 6
-        Me.AID.Name = "AID"
-        Me.AID.ReadOnly = True
-        Me.AID.Width = 42
-        '
-        'ADate
-        '
-        Me.ADate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
-        Me.ADate.DataPropertyName = "Date"
-        Me.ADate.HeaderText = "Date"
-        Me.ADate.MinimumWidth = 6
-        Me.ADate.Name = "ADate"
-        Me.ADate.ReadOnly = True
-        Me.ADate.Width = 55
-        '
-        'ACommand
-        '
-        Me.ACommand.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.ACommand.DataPropertyName = "Command"
-        Me.ACommand.HeaderText = "Command"
-        Me.ACommand.MinimumWidth = 6
-        Me.ACommand.Name = "ACommand"
-        Me.ACommand.ReadOnly = True
-        '
         'tabChart
         '
-        Me.tabChart.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.tabChart.Controls.Add(Me.pageIncomevsDate)
         Me.tabChart.Controls.Add(Me.pageReceivedRepvsDate)
         Me.tabChart.Controls.Add(Me.pageCashier)
-        Me.tabChart.Location = New System.Drawing.Point(10, 5)
+        Me.tabChart.Dock = System.Windows.Forms.DockStyle.Top
+        Me.tabChart.Location = New System.Drawing.Point(0, 433)
         Me.tabChart.Name = "tabChart"
         Me.tabChart.SelectedIndex = 0
-        Me.tabChart.Size = New System.Drawing.Size(935, 365)
+        Me.tabChart.Size = New System.Drawing.Size(931, 365)
         Me.tabChart.TabIndex = 10
         '
         'pageIncomevsDate
@@ -570,7 +484,7 @@ Partial Class FormMain
         Me.pageIncomevsDate.Location = New System.Drawing.Point(4, 22)
         Me.pageIncomevsDate.Name = "pageIncomevsDate"
         Me.pageIncomevsDate.Padding = New System.Windows.Forms.Padding(3)
-        Me.pageIncomevsDate.Size = New System.Drawing.Size(927, 339)
+        Me.pageIncomevsDate.Size = New System.Drawing.Size(923, 339)
         Me.pageIncomevsDate.TabIndex = 0
         Me.pageIncomevsDate.Text = "Total Income vs Date"
         Me.pageIncomevsDate.UseVisualStyleBackColor = True
@@ -620,29 +534,29 @@ Partial Class FormMain
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.chtIncomevsDate.BackColor = System.Drawing.SystemColors.ButtonFace
         Me.chtIncomevsDate.BorderlineColor = System.Drawing.SystemColors.ButtonFace
-        ChartArea1.AxisX.Interval = 1.0R
-        ChartArea1.Name = "ChartArea1"
-        Me.chtIncomevsDate.ChartAreas.Add(ChartArea1)
-        Legend1.Name = "Legend1"
-        Me.chtIncomevsDate.Legends.Add(Legend1)
+        ChartArea5.AxisX.Interval = 1.0R
+        ChartArea5.Name = "ChartArea1"
+        Me.chtIncomevsDate.ChartAreas.Add(ChartArea5)
+        Legend5.Name = "Legend1"
+        Me.chtIncomevsDate.Legends.Add(Legend5)
         Me.chtIncomevsDate.Location = New System.Drawing.Point(6, 33)
         Me.chtIncomevsDate.Name = "chtIncomevsDate"
-        Series1.ChartArea = "ChartArea1"
-        Series1.Color = System.Drawing.Color.Blue
-        Series1.Legend = "Legend1"
-        Series1.Name = "Total Income vs Date"
-        Series2.ChartArea = "ChartArea1"
-        Series2.Color = System.Drawing.Color.Red
-        Series2.Legend = "Legend1"
-        Series2.Name = "Total Income by Repairs vs Date"
-        Series3.ChartArea = "ChartArea1"
-        Series3.Color = System.Drawing.Color.Lime
-        Series3.Legend = "Legend1"
-        Series3.Name = "Total Income by Sales vs Date"
-        Me.chtIncomevsDate.Series.Add(Series1)
-        Me.chtIncomevsDate.Series.Add(Series2)
-        Me.chtIncomevsDate.Series.Add(Series3)
-        Me.chtIncomevsDate.Size = New System.Drawing.Size(908, 300)
+        Series9.ChartArea = "ChartArea1"
+        Series9.Color = System.Drawing.Color.Blue
+        Series9.Legend = "Legend1"
+        Series9.Name = "Total Income vs Date"
+        Series10.ChartArea = "ChartArea1"
+        Series10.Color = System.Drawing.Color.Red
+        Series10.Legend = "Legend1"
+        Series10.Name = "Total Income by Repairs vs Date"
+        Series11.ChartArea = "ChartArea1"
+        Series11.Color = System.Drawing.Color.Lime
+        Series11.Legend = "Legend1"
+        Series11.Name = "Total Income by Sales vs Date"
+        Me.chtIncomevsDate.Series.Add(Series9)
+        Me.chtIncomevsDate.Series.Add(Series10)
+        Me.chtIncomevsDate.Series.Add(Series11)
+        Me.chtIncomevsDate.Size = New System.Drawing.Size(904, 300)
         Me.chtIncomevsDate.TabIndex = 9
         Me.chtIncomevsDate.Text = "Date vs Income"
         '
@@ -655,7 +569,7 @@ Partial Class FormMain
         Me.pageReceivedRepvsDate.Controls.Add(Me.chtReceivedRepvsDate)
         Me.pageReceivedRepvsDate.Location = New System.Drawing.Point(4, 22)
         Me.pageReceivedRepvsDate.Name = "pageReceivedRepvsDate"
-        Me.pageReceivedRepvsDate.Size = New System.Drawing.Size(927, 339)
+        Me.pageReceivedRepvsDate.Size = New System.Drawing.Size(906, 339)
         Me.pageReceivedRepvsDate.TabIndex = 1
         Me.pageReceivedRepvsDate.Text = "Qty of Received Repairs vs Date"
         Me.pageReceivedRepvsDate.UseVisualStyleBackColor = True
@@ -705,19 +619,19 @@ Partial Class FormMain
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.chtReceivedRepvsDate.BackColor = System.Drawing.SystemColors.ButtonFace
         Me.chtReceivedRepvsDate.BorderlineColor = System.Drawing.SystemColors.ButtonFace
-        ChartArea2.AxisX.Interval = 1.0R
-        ChartArea2.Name = "ChartArea1"
-        Me.chtReceivedRepvsDate.ChartAreas.Add(ChartArea2)
-        Legend2.Name = "Legend1"
-        Me.chtReceivedRepvsDate.Legends.Add(Legend2)
+        ChartArea6.AxisX.Interval = 1.0R
+        ChartArea6.Name = "ChartArea1"
+        Me.chtReceivedRepvsDate.ChartAreas.Add(ChartArea6)
+        Legend6.Name = "Legend1"
+        Me.chtReceivedRepvsDate.Legends.Add(Legend6)
         Me.chtReceivedRepvsDate.Location = New System.Drawing.Point(6, 33)
         Me.chtReceivedRepvsDate.Name = "chtReceivedRepvsDate"
-        Series4.ChartArea = "ChartArea1"
-        Series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line
-        Series4.Legend = "Legend1"
-        Series4.Name = "Qty of Received Repairs vs Date"
-        Me.chtReceivedRepvsDate.Series.Add(Series4)
-        Me.chtReceivedRepvsDate.Size = New System.Drawing.Size(844, 300)
+        Series12.ChartArea = "ChartArea1"
+        Series12.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line
+        Series12.Legend = "Legend1"
+        Series12.Name = "Qty of Received Repairs vs Date"
+        Me.chtReceivedRepvsDate.Series.Add(Series12)
+        Me.chtReceivedRepvsDate.Size = New System.Drawing.Size(823, 300)
         Me.chtReceivedRepvsDate.TabIndex = 19
         Me.chtReceivedRepvsDate.Text = "Qty of Received Repairs vs Date"
         '
@@ -726,7 +640,7 @@ Partial Class FormMain
         Me.pageCashier.Controls.Add(Me.ControlCashierDashboard)
         Me.pageCashier.Location = New System.Drawing.Point(4, 22)
         Me.pageCashier.Name = "pageCashier"
-        Me.pageCashier.Size = New System.Drawing.Size(927, 339)
+        Me.pageCashier.Size = New System.Drawing.Size(906, 339)
         Me.pageCashier.TabIndex = 2
         Me.pageCashier.Text = "Cashier"
         Me.pageCashier.UseVisualStyleBackColor = True
@@ -737,8 +651,46 @@ Partial Class FormMain
         Me.ControlCashierDashboard.Font = New System.Drawing.Font("Calibri", 9.0!)
         Me.ControlCashierDashboard.Location = New System.Drawing.Point(0, 0)
         Me.ControlCashierDashboard.Name = "ControlCashierDashboard"
-        Me.ControlCashierDashboard.Size = New System.Drawing.Size(927, 339)
+        Me.ControlCashierDashboard.Size = New System.Drawing.Size(906, 339)
         Me.ControlCashierDashboard.TabIndex = 0
+        '
+        'ControlRepairDashboard
+        '
+        Me.ControlRepairDashboard.Dock = System.Windows.Forms.DockStyle.Top
+        Me.ControlRepairDashboard.Font = New System.Drawing.Font("Calibri", 9.0!)
+        Me.ControlRepairDashboard.Location = New System.Drawing.Point(0, 0)
+        Me.ControlRepairDashboard.Margin = New System.Windows.Forms.Padding(3, 3, 3, 10)
+        Me.ControlRepairDashboard.MinimumSize = New System.Drawing.Size(660, 0)
+        Me.ControlRepairDashboard.Name = "ControlRepairDashboard"
+        Me.ControlRepairDashboard.Padding = New System.Windows.Forms.Padding(0, 0, 0, 10)
+        Me.ControlRepairDashboard.Size = New System.Drawing.Size(931, 433)
+        Me.ControlRepairDashboard.TabIndex = 11
+        '
+        'flpMessage
+        '
+        Me.flpMessage.AutoScroll = True
+        Me.flpMessage.AutoSize = True
+        Me.flpMessage.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.flpMessage.BackColor = System.Drawing.Color.Black
+        Me.flpMessage.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.flpMessage.FlowDirection = System.Windows.Forms.FlowDirection.TopDown
+        Me.flpMessage.Location = New System.Drawing.Point(957, 3)
+        Me.flpMessage.Name = "flpMessage"
+        Me.flpMessage.Padding = New System.Windows.Forms.Padding(5, 5, 0, 0)
+        Me.flpMessage.Size = New System.Drawing.Size(404, 598)
+        Me.flpMessage.TabIndex = 24
+        Me.flpMessage.WrapContents = False
+        '
+        'Panel1
+        '
+        Me.Panel1.AutoScroll = True
+        Me.Panel1.Controls.Add(Me.tabChart)
+        Me.Panel1.Controls.Add(Me.ControlRepairDashboard)
+        Me.Panel1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Panel1.Location = New System.Drawing.Point(3, 3)
+        Me.Panel1.Name = "Panel1"
+        Me.Panel1.Size = New System.Drawing.Size(948, 598)
+        Me.Panel1.TabIndex = 25
         '
         'FormMain
         '
@@ -764,8 +716,6 @@ Partial Class FormMain
         Me.MenuStrip.PerformLayout()
         Me.TableLayoutPanel1.ResumeLayout(False)
         Me.TableLayoutPanel1.PerformLayout()
-        Me.pnlLeft.ResumeLayout(False)
-        CType(Me.GrdActivity, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tabChart.ResumeLayout(False)
         Me.pageIncomevsDate.ResumeLayout(False)
         Me.pageIncomevsDate.PerformLayout()
@@ -774,6 +724,7 @@ Partial Class FormMain
         Me.pageReceivedRepvsDate.PerformLayout()
         CType(Me.chtReceivedRepvsDate, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pageCashier.ResumeLayout(False)
+        Me.Panel1.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -823,7 +774,6 @@ Partial Class FormMain
     Friend WithEvents BarCodePort As IO.Ports.SerialPort
     Friend WithEvents TableLayoutPanel1 As TableLayoutPanel
     Friend WithEvents flpMessage As FlowLayoutPanel
-    Friend WithEvents pnlLeft As Panel
     Friend WithEvents tabChart As TabControl
     Friend WithEvents pageIncomevsDate As TabPage
     Friend WithEvents lblIncomevsDateCustom As Label
@@ -838,9 +788,7 @@ Partial Class FormMain
     Friend WithEvents cmbReceivedRepvsDateView As ComboBox
     Friend WithEvents chtReceivedRepvsDate As DataVisualization.Charting.Chart
     Friend WithEvents pageCashier As TabPage
-    Friend WithEvents GrdActivity As DataGridView
-    Friend WithEvents AID As DataGridViewTextBoxColumn
-    Friend WithEvents ADate As DataGridViewTextBoxColumn
-    Friend WithEvents ACommand As DataGridViewTextBoxColumn
     Friend WithEvents ControlCashierDashboard As ControlCashierDashboard
+    Friend WithEvents ControlRepairDashboard As ControlRepairDashboard
+    Friend WithEvents Panel1 As Panel
 End Class

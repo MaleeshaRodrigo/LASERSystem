@@ -6,29 +6,40 @@ Public Class ControlTechnicianInfo
     Private ReadOnly DtpDate As New DateTimePicker
     Private FormParent As FormRepair
 
-    Public Sub New(DB As Database, ParentForm As FormRepair)
+    Public Sub New(DB As Database, ByRef ParentForm As FormRepair)
         InitializeComponent()
 
         Me.DB = DB
         FormParent = ParentForm
     End Sub
 
-    Public Sub Init()
-        ComboHandOverTo.Text = FormParent.DataReaderRepair("TName").ToString()
+    Public Sub Init(Status As String)
+        If (FormParent.Mode = RepairMode.Repair AndAlso Status = RepairStatus.AssignedTo) Or (FormParent.Mode = RepairMode.ReRepair AndAlso Status = RepairStatus.AssignedTo) Then
+            ComboAssignedToTechnician.Text = FormParent.DataReaderRepair("AssignedToTechnician").ToString()
+            PanelHandOverTo.Visible = False
+        Else
+            ComboAssignedToTechnician.Text = FormParent.DataReaderRepair("AssignedToTechnician").ToString()
+            ComboHandOverToTechnician.Text = FormParent.DataReaderRepair("HandedOverToTechnician").ToString()
+            PanelHandOverTo.Visible = True
+        End If
+
         Dim DataReader As List(Of Dictionary(Of String, Object))
         If FormParent.Mode = RepairMode.Repair Then
             DataReader = DB.GetDataList("Select Rem2No, Rem2Date, Remarks, UserName from RepairRemarks2 RepRem2 LEFT JOIN `User` U ON U.UNo=RepRem2.UNo Where RepNo=@REPNO;", {New MySqlParameter("REPNO", FormParent.DataReaderRepair("RepNo").ToString())})
         Else
-            DataReader = DB.GetDataList("Select Rem2No, Rem2Date, Remarks, UserName from RepairRemarks2 RepRem2 LEFT JOIN `User` U ON U.UNo=RepRem2.UNo Where RetNo=@REREPNO;", {
-                                        New MySqlParameter("REREPNO", FormParent.DataReaderRepair("RetNo").ToString())
-                                    })
+            DataReader = DB.GetDataList("Select Rem2No, Rem2Date, Remarks, UserName from RepairRemarks2 RepRem2 LEFT JOIN `User` U ON U.UNo=RepRem2.UNo Where RetNo=@REREPNO;", {New MySqlParameter("REREPNO", FormParent.DataReaderRepair("RetNo").ToString())})
         End If
+
         grdRepRemarks2.Rows.Clear()
         For Each Item In DataReader
             grdRepRemarks2.Rows.Add(Item("Rem2No").ToString, Item("Rem2Date").ToString, Item("Remarks").ToString, Item("UserName").ToString)
         Next
 
-        Call ComboBoxDropDown(DB, ComboHandOverTo, "Select TName from Technician Where TActive = True group by TName;")
+        Dim DataList = DB.GetDataList("Select TName from Technician Where TActive = True group by TName;")
+        For Each Data As Dictionary(Of String, Object) In DataList
+            ComboHandOverToTechnician.Items.Add(Data(Technician.TName))
+            ComboAssignedToTechnician.Items.Add(Data(Technician.TName))
+        Next
     End Sub
 
     Public Sub Clear()
@@ -149,6 +160,12 @@ Public Class ControlTechnicianInfo
                 DB.GetData("Select UserName from `User` where Uno=" & DR1("UNo").ToString), "")
         Else
             grdRepRemarks2.Rows.RemoveAt(e.RowIndex)
+        End If
+    End Sub
+
+    Private Sub ComboHandOverToTechnician_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboHandOverToTechnician.SelectedIndexChanged
+        If ComboAssignedToTechnician.Text.Trim() = "" Then
+            ComboAssignedToTechnician.Text = ComboHandOverToTechnician.Text
         End If
     End Sub
 End Class
