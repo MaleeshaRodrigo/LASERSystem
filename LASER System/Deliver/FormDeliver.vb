@@ -134,10 +134,10 @@ Public Class FormDeliver
             Dim RPT As New rptDeliver
             Dim Form As New frmReport
             Dim DT1 As New DataTable
-            Dim TableRepair As DataTable = Db.GetDataTable("SELECT Repair.RepNo,Repair.PNo,Product.PCategory,Product.PName,Repair.Qty,Repair.PaidPrice,Repair.TNo from Repair,Product,Deliver where Deliver.DNO = Repair.DNo And Repair.PNo = Product.PNo And Deliver.DNo = " & DNo & ";")
+            Dim TableRepair As DataTable = Db.GetDataTable("SELECT Repair.RepNo,Repair.PNo,Product.PCategory,Product.PName,Repair.Qty,Repair.PaidPrice,Repair.HandedOverToTNo from Repair,Product,Deliver where Deliver.DNO = Repair.DNo And Repair.PNo = Product.PNo And Deliver.DNo = " & DNo & ";")
             RPT.Subreports.Item("rptDeliverRepair.rpt").SetDataSource(TableRepair)
             Dim DT2 As New DataTable
-            Dim TableReReapir = Db.GetDataTable("Select Return.RetNo,Return.RepNo,Return.PNo,Product.PCategory,Product.Pname,Return.Qty,Return.PaidPrice,Return.TNo from `Return`,Product,Deliver where Deliver.DNO = Return.DNo And Return.PNo = Product.PNo And Deliver.DNO  = " & DNo & ";")
+            Dim TableReReapir = Db.GetDataTable("Select Return.RetNo,Return.RepNo,Return.PNo,Product.PCategory,Product.Pname,Return.Qty,Return.PaidPrice,Return.HandedOverToTNo from `Return`,Product,Deliver where Deliver.DNO = Return.DNo And Return.PNo = Product.PNo And Deliver.DNO  = " & DNo & ";")
             RPT.Subreports.Item("rptDeliverReturn.rpt").SetDataSource(TableReReapir)
             Dim TableDeliver As DataTable = Db.GetDataTable("SELECT Deliver.DNo, Deliver.DDate,Deliver.CuNo,Customer.CuName,Customer.CuTelNo1,Customer.CuTelNo2,Customer.CuTelNo3,Deliver.DGrandTotal,Deliver.CReceived,Deliver.CBalance,Deliver.CAmount,Deliver.CPInvoiceNO,Deliver.CPAmount,Deliver.CuLNo,Deliver.CuLAmount,Deliver.DRemarks from Deliver,Customer where Deliver.CuNo = Customer.CuNo And Deliver.DNo = " & DNo & ";")
             RPT.SetDataSource(TableDeliver)
@@ -172,7 +172,7 @@ Public Class FormDeliver
                     grdRepair.Rows.RemoveAt(grdRepair.CurrentCell.RowIndex)
                     Exit Sub
                 End If
-                Dim DRD = Db.GetDataDictionary("Select RepNo,PCategory,PName,PMOdelNO,PSerialNo,PDetails,Qty,Charge,TName,Status,CuName,CuTelNo1,CuTelNo2,CuTelNo3 from ((((Repair REP INNER JOIN RECEIVE R ON R.RNO = REP.RNO) INNER JOIN PRODUCT P ON P.PNO = REP.PNO) INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = REP.TNO AND TActive=1) Where RepNo = " & grdRepair.Item(0, grdRepair.CurrentCell.RowIndex).Value)
+                Dim DRD = Db.GetDataDictionary("Select RepNo,PCategory,PName,PMOdelNO,PSerialNo,PDetails,Qty,Charge,TName,Status,CuName,CuTelNo1,CuTelNo2,CuTelNo3 from ((((Repair REP INNER JOIN RECEIVE R ON R.RNO = REP.RNO) INNER JOIN PRODUCT P ON P.PNO = REP.PNO) INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = REP.HanderedOverToTNo AND TActive=1) Where RepNo = " & grdRepair.Item(0, grdRepair.CurrentCell.RowIndex).Value)
                 If DRD IsNot Nothing Then
                     If DRD("Status").ToString = "Repaired Delivered" Or DRD("Status").ToString = "Returned Delivered" Then
                         If MsgBox("මෙම Repair එක දැනටමත් Customer විසින් රැගෙන ගොස් ඇත." + vbCrLf + "ඔබට එම Repair එක විවෘත කිරිමට අවශ්‍යද?",
@@ -341,7 +341,7 @@ Public Class FormDeliver
                     grdRERepair.Rows.RemoveAt(grdRERepair.CurrentCell.RowIndex)
                     Exit Sub
                 End If
-                Dim DataReader = Db.GetDataDictionary("Select RetNo,RepNo,PCategory,PName,PModelNo,PSerialNo,PDetails,Qty,Charge,TName,Status,CuName,CuTelNo1,CuTelNo2,CuTelNo3 from ((((`Return` RET INNER JOIN RECEIVE R ON R.RNO = RET.RNO) INNER JOIN PRODUCT  P ON P.PNO = RET.PNO) INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = RET.TNO) Where RetNo = " & grdRERepair.Item(0, grdRERepair.CurrentCell.RowIndex).Value)
+                Dim DataReader = Db.GetDataDictionary("Select RetNo,RepNo,PCategory,PName,PModelNo,PSerialNo,PDetails,Qty,Charge,TName,Status,CuName,CuTelNo1,CuTelNo2,CuTelNo3 from ((((`Return` RET INNER JOIN RECEIVE R ON R.RNO = RET.RNO) INNER JOIN PRODUCT  P ON P.PNO = RET.PNO) INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = RET.HandedOverToTNo) Where RetNo = " & grdRERepair.Item(0, grdRERepair.CurrentCell.RowIndex).Value)
                 If DataReader IsNot Nothing Then
                     If DataReader("Status").ToString = "Repaired Delivered" Or DataReader("Status").ToString = "Returned Delivered" Then
                         If MsgBox("මෙම RERepair එක දැනටමත් Customer විසින් රැගෙන ගොස් ඇත." + vbCrLf + "ඔබට එම RERepair එක විවෘත කිරිමට අවශ්‍යද?", vbInformation + vbYesNo) = vbYes Then
