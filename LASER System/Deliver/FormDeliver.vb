@@ -172,7 +172,7 @@ Public Class FormDeliver
                     grdRepair.Rows.RemoveAt(grdRepair.CurrentCell.RowIndex)
                     Exit Sub
                 End If
-                Dim DRD = Db.GetDataDictionary("Select RepNo,PCategory,PName,PMOdelNO,PSerialNo,PDetails,Qty,Charge,TName,Status,CuName,CuTelNo1,CuTelNo2,CuTelNo3 from ((((Repair REP INNER JOIN RECEIVE R ON R.RNO = REP.RNO) INNER JOIN PRODUCT P ON P.PNO = REP.PNO) INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = REP.HanderedOverToTNo AND TActive=1) Where RepNo = " & grdRepair.Item(0, grdRepair.CurrentCell.RowIndex).Value)
+                Dim DRD = Db.GetDataDictionary("Select RepNo,PCategory,PName,PMOdelNO,PSerialNo,PDetails,Qty,Charge,TName,Status,CuName,CuTelNo1,CuTelNo2,CuTelNo3 from ((((Repair REP INNER JOIN RECEIVE R ON R.RNO = REP.RNO) INNER JOIN PRODUCT P ON P.PNO = REP.PNO) INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = REP.HandedOverToTNo AND TActive=1) Where RepNo = " & grdRepair.Item(0, grdRepair.CurrentCell.RowIndex).Value)
                 If DRD IsNot Nothing Then
                     If DRD("Status").ToString = "Repaired Delivered" Or DRD("Status").ToString = "Returned Delivered" Then
                         If MsgBox("මෙම Repair එක දැනටමත් Customer විසින් රැගෙන ගොස් ඇත." + vbCrLf + "ඔබට එම Repair එක විවෘත කිරිමට අවශ්‍යද?",

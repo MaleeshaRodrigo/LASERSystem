@@ -59,7 +59,6 @@ Partial Class FormRepair
         Me.cmdSave = New System.Windows.Forms.Button()
         Me.tabRepair = New System.Windows.Forms.TabControl()
         Me.RepInfo = New System.Windows.Forms.TabPage()
-        Me.ControlReRepairView = New LASER_System.ControlReRepairView()
         Me.cmdRepView = New System.Windows.Forms.Button()
         Me.cmbRepNo = New System.Windows.Forms.ComboBox()
         Me.cmbRepStatus = New System.Windows.Forms.ComboBox()
@@ -91,6 +90,7 @@ Partial Class FormRepair
         Me.cmdDone = New System.Windows.Forms.Button()
         Me.bgPrintReport = New System.ComponentModel.BackgroundWorker()
         Me.PanelMain = New System.Windows.Forms.FlowLayoutPanel()
+        Me.ControlReRepairView = New LASER_System.ControlReRepairView()
         Me.boxReceive.SuspendLayout()
         Me.boxCustomer.SuspendLayout()
         Me.boxProduct.SuspendLayout()
@@ -470,14 +470,6 @@ Partial Class FormRepair
         Me.RepInfo.Text = "Repair Info"
         Me.RepInfo.UseVisualStyleBackColor = True
         '
-        'ControlReRepairView
-        '
-        Me.ControlReRepairView.Font = New System.Drawing.Font("Calibri", 9.0!)
-        Me.ControlReRepairView.Location = New System.Drawing.Point(6, 62)
-        Me.ControlReRepairView.Name = "ControlReRepairView"
-        Me.ControlReRepairView.Size = New System.Drawing.Size(346, 92)
-        Me.ControlReRepairView.TabIndex = 69
-        '
         'cmdRepView
         '
         Me.cmdRepView.Location = New System.Drawing.Point(198, 6)
@@ -501,7 +493,7 @@ Partial Class FormRepair
         '
         Me.cmbRepStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cmbRepStatus.FormattingEnabled = True
-        Me.cmbRepStatus.Items.AddRange(New Object() {"Handed Over To", "Assigned To", "Handed Over To", "Pending", "Repaired", "Repaired Delivered", "Returned", "Returned Delivered", "Canceled"})
+        Me.cmbRepStatus.Items.AddRange(New Object() {"Received", "Assigned To", "Handed Over To", "Pending", "Repaired", "Repaired Delivered", "Returned", "Returned Delivered", "Canceled"})
         Me.cmbRepStatus.Location = New System.Drawing.Point(76, 34)
         Me.cmbRepStatus.Name = "cmbRepStatus"
         Me.cmbRepStatus.Size = New System.Drawing.Size(228, 22)
@@ -580,7 +572,7 @@ Partial Class FormRepair
         '
         Me.cmbRetStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cmbRetStatus.FormattingEnabled = True
-        Me.cmbRetStatus.Items.AddRange(New Object() {"Handed Over To", "Handed Over To", "Pending", "Repaired", "Repaired Delivered", "Returned", "Returned Delivered"})
+        Me.cmbRetStatus.Items.AddRange(New Object() {"Received", "Assigned To", "Handed Over To", "Pending", "Repaired", "Repaired Delivered", "Returned", "Returned Delivered", "Canceled"})
         Me.cmbRetStatus.Location = New System.Drawing.Point(90, 62)
         Me.cmbRetStatus.Name = "cmbRetStatus"
         Me.cmbRetStatus.Size = New System.Drawing.Size(228, 22)
@@ -734,6 +726,14 @@ Partial Class FormRepair
         Me.PanelMain.Size = New System.Drawing.Size(863, 687)
         Me.PanelMain.TabIndex = 68
         Me.PanelMain.WrapContents = False
+        '
+        'ControlReRepairView
+        '
+        Me.ControlReRepairView.Font = New System.Drawing.Font("Calibri", 9.0!)
+        Me.ControlReRepairView.Location = New System.Drawing.Point(6, 62)
+        Me.ControlReRepairView.Name = "ControlReRepairView"
+        Me.ControlReRepairView.Size = New System.Drawing.Size(346, 92)
+        Me.ControlReRepairView.TabIndex = 69
         '
         'FormRepair
         '

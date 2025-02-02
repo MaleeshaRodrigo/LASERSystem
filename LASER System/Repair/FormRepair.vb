@@ -15,7 +15,7 @@ Public Class FormRepair
     Public ControlTechnicianInfo As ControlTechnicianInfo
 
     Private Db As New Database
-    Private TransactionDataBase As New TransactionDatabase()
+    Private TransactionDatabase As TransactionDatabase
     Private ReportPrintManager As New ReportPrintManager
     Private RepairController As New RepairController
 
@@ -217,7 +217,7 @@ Public Class FormRepair
             ClearControls()
 
             If cmbRetNo.Text = "" Then Exit Try
-            DataReaderRepair = Db.GetDataDictionary($"Select Ret.RetNo, RepNo, Ret.RNo, RDate,  R.CuNo, CuName, CuTelNo1, CuTelNo2, CuTelNo3, CuRemarks,  Ret.PNo, PCategory, PName, PModelNo, PDetails, PSerialNo, Problem, Location, Qty, Ret.AssignedToTNo, Ret.HandedOverToTNo, T1.TName AS 'AssignedToTechnician', T2.TName AS 'HandedOverToTechnician', TName, Status, Charge, PaidPrice, RepDate, Ret.DNo, DDate FROM `Return` Ret inner join Receive R On Ret.RNo = R.RNo INNER JOIN Customer Cu On R.CuNo = Cu.CuNo INNER JOIN Product P On Ret.PNo = P.PNo LEFT JOIN Technician T1 On Ret.AssignedToTNo = T1.TNo LEFT JOIN Technician T2 ON Ret.HandedOverToTNo = T2.TNo LEFT JOIN Deliver D On D.DNo=Ret.DNo WHERE Ret.RetNo = @RETNO", {
+            DataReaderRepair = Db.GetDataDictionary($"Select Ret.RetNo, RepNo, Ret.RNo, RDate,  R.CuNo, CuName, CuTelNo1, CuTelNo2, CuTelNo3, CuRemarks,  Ret.PNo, PCategory, PName, PModelNo, PDetails, PSerialNo, Problem, Location, Qty, Ret.AssignedToTNo, Ret.HandedOverToTNo, T1.TName AS 'AssignedToTechnician', T2.TName AS 'HandedOverToTechnician', Status, Charge, PaidPrice, RepDate, Ret.DNo, DDate FROM `Return` Ret inner join Receive R On Ret.RNo = R.RNo INNER JOIN Customer Cu On R.CuNo = Cu.CuNo INNER JOIN Product P On Ret.PNo = P.PNo LEFT JOIN Technician T1 On Ret.AssignedToTNo = T1.TNo LEFT JOIN Technician T2 ON Ret.HandedOverToTNo = T2.TNo LEFT JOIN Deliver D On D.DNo=Ret.DNo WHERE Ret.RetNo = @RETNO", {
                 New MySqlParameter("RETNO", cmbRetNo.Text)
             })
             If DataReaderRepair Is Nothing Then
@@ -230,7 +230,7 @@ Public Class FormRepair
                 ctrl.Enabled = True
             Next
             cmbRetRepNo.Text = DataReaderRepair("RepNo").ToString
-            cmbRetStatus.Text = DataReaderRepair("Status").ToString
+            cmbRetStatus.Text = DataReaderRepair(ReRepair.Status).ToString
             SetBasicInfo()
 
             ControlRemarks = New ControlRemarks(Db, Me)
@@ -299,40 +299,47 @@ Public Class FormRepair
                 Return
             End If
 
-            TransactionDataBase.BeginTransaction()
+            TransactionDatabase = New TransactionDatabase()
+            TransactionDatabase.BeginTransaction()
             Select Case Mode
                 Case RepairMode.Repair
                     UpdateRepair()
                 Case RepairMode.ReRepair
                     UpdateReRepair()
             End Select
-            TransactionDataBase.CommitTransaction()
+            TransactionDatabase.CommitTransaction()
             MsgBox("Update successful!", vbInformation + vbOKOnly)
         Catch Exception As Exception
             MessageBox.Error(Exception.Message)
-            TransactionDataBase.RollbackTransaction()
+            TransactionDatabase.RollbackTransaction()
+        Finally
+            TransactionDatabase = Nothing
         End Try
     End Sub
 
     Public Sub CmbRepStatus_SelectionChangeCommitted(sender As Object, e As EventArgs) Handles cmbRepStatus.SelectionChangeCommitted, cmbRetStatus.SelectionChangeCommitted
         If sender Is cmbRepStatus And (cmbRepNo.Text = "" Or cmbRepStatus.Text = "") Then
-            Exit Sub
+            Return
         End If
         If sender Is cmbRetStatus And (cmbRetNo.Text = "" Or cmbRetStatus.Text = "") Then
-            Exit Sub
+            Return
         End If
 
         PanelMain.Controls.Remove(ControlTechnicianInfo)
         PanelMain.Controls.Remove(ControlTechnicianCostListInfo)
         PanelMain.Controls.Remove(ControlRepairDeliverInfo)
-        If sender.Text = RepairStatus.Received Or sender.Text = "Canceled" Then
-            Exit Sub
+        If sender.Text = RepairStatus.Received Or sender.Text = RepairStatus.Canceled Then
+            Return
         End If
 
         ControlTechnicianInfo = New ControlTechnicianInfo(Db, Me)
         PanelMain.Controls.Add(ControlTechnicianInfo)
         PanelMain.Controls.SetChildIndex(ControlTechnicianInfo, 2)
-        ControlTechnicianInfo.Init(cmbRepStatus.Text)
+        ControlTechnicianInfo.Init(If(sender Is cmbRepStatus, cmbRepStatus.Text, cmbRetStatus.Text))
+
+        If sender.text = RepairStatus.AssignedTo Then
+            Return
+        End If
 
         ControlTechnicianCostListInfo = New ControlTechnicianCostListInfo(Db, Me)
         PanelMain.Controls.Add(ControlTechnicianCostListInfo)
@@ -344,7 +351,7 @@ Public Class FormRepair
         End If
         If sender.Text = RepairStatus.HandedOverTo Or sender.Text = RepairStatus.Pending Then
             ControlTechnicianInfo.ComboHandOverToTechnician.Focus()
-            Exit Sub
+            Return
         End If
 
         ControlRepairDeliverInfo = New ControlRepairDeliverInfo(Db)
@@ -368,7 +375,7 @@ Public Class FormRepair
             Return False
         End If
 
-        If TechnicianMustStatuses.Contains(ControlRepStatus.Text) AndAlso CheckEmptyControl(ControlTechnicianInfo.ComboHandOverToTechnician, "Handed Over Technician කෙනෙකු තොරා නොමැත. කරුණාකර අදාළ Technician ව තෝරා දෙන්න.") = False Then
+        If TechnicianMustStatuses.Except({RepairStatus.AssignedTo}).Contains(ControlRepStatus.Text) AndAlso CheckEmptyControl(ControlTechnicianInfo.ComboHandOverToTechnician, "Handed Over Technician කෙනෙකු තොරා නොමැත. කරුණාකර අදාළ Technician ව තෝරා දෙන්න.") = False Then
             Return False
         End If
 
@@ -445,37 +452,26 @@ Public Class FormRepair
             Return
         End If
 
-        UpdateRepairField(Repair.Charge, ControlRepairDeliverInfo.txtRepPrice.Text)
-        UpdateRepairField(Repair.RepDate, ControlRepairDeliverInfo.txtRepDate.Value)
+        If UpdateRepairField(Repair.Charge, ControlRepairDeliverInfo.txtRepPrice.Text) Then
+            Activity.Add("Repair Charge", ControlRepairDeliverInfo.txtRepPrice.Text)
+        End If
 
+        If UpdateRepairField(Repair.RepDate, ControlRepairDeliverInfo.txtRepDate.Value) Then
+            Activity.Add("Repaired Date", ControlRepairDeliverInfo.txtRepDate.Value)
+        End If
+
+        If Activity.Count < 1 Then
+            Return
+        End If
+
+        RepairController.SetDatabase(TransactionDatabase)
         RepairController.InsertRepairActivity(Mode, cmbRepNo.Text, "UPDATE: " + JsonConvert.SerializeObject(Activity))
     End Sub
 
     Private Sub UpdateReRepair()
         Dim Activity As New Dictionary(Of String, Object)
-        'UpdateField("Status", cmbRetStatus.Text, "Status")
-        'UpdateField("CuNo", txtCuNo.Text, "Customer Name", TextCuName.Text, "Telephone No 1", txtCuTelNo1.Text, "Telephone No 2", txtCuTelNo2.Text, "Telephone No 3", txtCuTelNo3.Text)
-        'UpdateField("RDate", txtRDate.Value.Date, "Received Date")
-        'UpdateField("PNo", txtPNo.Text, "Product", $"Category= {cmbPCategory.Text}, Name= {cmbPName.Text}, Model No= {txtPModelNo.Text}, Qty= {txtPQty.Text}")
-        'UpdateField("PSerialNo", txtPSerialNo.Text, "Product Serial No")
-        'UpdateField("Problem", txtPProblem.Text, "Problem")
-        'UpdateField("Location", ControlRemarks.cmbLocation.Text, "Location")
-
-        'If cmbRetStatus.Text = RepairStatus.Received Or cmbRetStatus.Text = "Canceled" Then
-        '    Return
-        'End If
-
-        'Dim TNo As Integer = GetData("SELECT TNo FROM Technician WHERE TName=@TNAME;", {New MySqlParameter("TNAME", ControlTechnicianInfo.ComboHandOverToTechnician.Text)})
-        'UpdateField("HandedOverToTNo", TNo, "Technician", ControlTechnicianInfo.ComboHandOverToTechnician.Text)
-
-        'If cmbRetStatus.Text = RepairSTatus.HandedOverTo Or cmbRetStatus.Text = RepairStatus.Returned Then
-        '    Return
-        'End If
-
-        'UpdateField("Charge", ControlRepairDeliverInfo.txtRepPrice.Text, "Repair Charge")
-        'UpdateField("RepDate", ControlRepairDeliverInfo.txtRepDate.Value, "Repaired Date")
         If UpdateRepairField(ReRepair.Status, cmbRetStatus.Text) Then
-            Activity.Add("Status", cmbRepStatus.Text)
+            Activity.Add("Status", cmbRetStatus.Text)
         End If
 
         If UpdateOtherField(Receive.RDate, txtRDate.Value.Date, Tables.Receive, Receive.RNo, txtRNo.Text) Then
@@ -507,28 +503,42 @@ Public Class FormRepair
             Activity.Add("Location", ControlRemarks.cmbLocation.Text)
         End If
 
-        If {RepairStatus.Received, RepairStatus.Canceled}.Contains(cmbRepStatus.Text) Then
+        If {RepairStatus.Received, RepairStatus.Canceled}.Contains(cmbRetStatus.Text) Then
             Return
         End If
 
         Dim AssignedTechnician = ControlTechnicianInfo.GetAssignedTechnician()
         If IsNothing(AssignedTechnician) = False AndAlso UpdateRepairField(Repair.AssignedToTNo, AssignedTechnician.No) Then
-            Activity.Add("Technician", AssignedTechnician.Name)
+            Activity.Add("Assigned To Technician", AssignedTechnician.Name)
+        End If
+
+        If {RepairStatus.AssignedTo}.Contains(cmbRetStatus.Text) Then
+            Return
         End If
 
         Dim HandedOverTechnician = ControlTechnicianInfo.GetHandedOverTechnician()
         If IsNothing(HandedOverTechnician) = False AndAlso UpdateRepairField(Repair.HandedOverToTNo, HandedOverTechnician.No) Then
-            Activity.Add("Technician", HandedOverTechnician.Name)
+            Activity.Add("Handed Over To Technician", HandedOverTechnician.Name)
         End If
 
-        If {RepairStatus.AssignedTo, RepairStatus.HandedOverTo, RepairStatus.Pending}.Contains(cmbRepStatus.Text) Then
+        If {RepairStatus.HandedOverTo, RepairStatus.Pending}.Contains(cmbRetStatus.Text) Then
             Return
         End If
 
-        UpdateRepairField(ReRepair.Charge, ControlRepairDeliverInfo.txtRepPrice.Text)
-        UpdateRepairField(ReRepair.RepDate, ControlRepairDeliverInfo.txtRepDate.Value)
+        If UpdateRepairField(ReRepair.Charge, ControlRepairDeliverInfo.txtRepPrice.Text) Then
+            Activity.Add("Repair Charge", ControlRepairDeliverInfo.txtRepPrice.Text)
+        End If
 
-        RepairController.InsertRepairActivity(Mode, cmbRepNo.Text, "UPDATE: " + JsonConvert.SerializeObject(Activity))
+        If UpdateRepairField(ReRepair.RepDate, ControlRepairDeliverInfo.txtRepDate.Value) Then
+            Activity.Add("Repaired Date", ControlRepairDeliverInfo.txtRepDate.Value)
+        End If
+
+        If Activity.Count < 1 Then
+            Return
+        End If
+
+        RepairController.SetDatabase(TransactionDatabase)
+        RepairController.InsertRepairActivity(Mode, cmbRetNo.Text, "UPDATE: " + JsonConvert.SerializeObject(Activity))
     End Sub
 
     Private Function UpdateRepairField(FieldName As String, NewValue As Object) As Boolean
@@ -537,7 +547,7 @@ Public Class FormRepair
         Dim IdValue As String = If(Mode = RepairMode.Repair, cmbRepNo.Text, cmbRetNo.Text)
 
         If DataReaderRepair(FieldName).ToString <> NewValue.ToString Then
-            TransactionDataBase.Execute($"UPDATE {TableName} SET {FieldName} = @NEWVALUE WHERE {IdField} = @ID;", {
+            TransactionDatabase.Execute($"UPDATE `{TableName}` SET `{FieldName}` = @NEWVALUE WHERE `{IdField}` = @ID;", {
                 New MySqlParameter("NEWVALUE", NewValue),
                 New MySqlParameter("ID", IdValue)
             })
@@ -549,7 +559,7 @@ Public Class FormRepair
 
     Private Function UpdateOtherField(FieldName As String, NewValue As Object, TableName As String, IdField As String, IdValue As Integer) As Boolean
         If DataReaderRepair(FieldName).ToString <> NewValue.ToString Then
-            TransactionDataBase.Execute($"UPDATE {TableName} SET {FieldName} = @NEWVALUE WHERE {IdField} = @ID;", {
+            TransactionDatabase.Execute($"UPDATE {TableName} SET {FieldName} = @NEWVALUE WHERE {IdField} = @ID;", {
                 New MySqlParameter("NEWVALUE", NewValue),
                 New MySqlParameter("ID", IdValue)
             })
