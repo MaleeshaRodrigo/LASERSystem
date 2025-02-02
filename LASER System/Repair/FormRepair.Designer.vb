@@ -59,6 +59,7 @@ Partial Class FormRepair
         Me.cmdSave = New System.Windows.Forms.Button()
         Me.tabRepair = New System.Windows.Forms.TabControl()
         Me.RepInfo = New System.Windows.Forms.TabPage()
+        Me.ControlReRepairView = New LASER_System.ControlReRepairView()
         Me.cmdRepView = New System.Windows.Forms.Button()
         Me.cmbRepNo = New System.Windows.Forms.ComboBox()
         Me.cmbRepStatus = New System.Windows.Forms.ComboBox()
@@ -90,7 +91,6 @@ Partial Class FormRepair
         Me.cmdDone = New System.Windows.Forms.Button()
         Me.bgPrintReport = New System.ComponentModel.BackgroundWorker()
         Me.PanelMain = New System.Windows.Forms.FlowLayoutPanel()
-        Me.BoxReRepairView = New LASER_System.ControlReRepairView()
         Me.boxReceive.SuspendLayout()
         Me.boxCustomer.SuspendLayout()
         Me.boxProduct.SuspendLayout()
@@ -456,7 +456,7 @@ Partial Class FormRepair
         '
         'RepInfo
         '
-        Me.RepInfo.Controls.Add(Me.BoxReRepairView)
+        Me.RepInfo.Controls.Add(Me.ControlReRepairView)
         Me.RepInfo.Controls.Add(Me.cmdRepView)
         Me.RepInfo.Controls.Add(Me.cmbRepNo)
         Me.RepInfo.Controls.Add(Me.cmbRepStatus)
@@ -469,6 +469,14 @@ Partial Class FormRepair
         Me.RepInfo.TabIndex = 0
         Me.RepInfo.Text = "Repair Info"
         Me.RepInfo.UseVisualStyleBackColor = True
+        '
+        'ControlReRepairView
+        '
+        Me.ControlReRepairView.Font = New System.Drawing.Font("Calibri", 9.0!)
+        Me.ControlReRepairView.Location = New System.Drawing.Point(6, 62)
+        Me.ControlReRepairView.Name = "ControlReRepairView"
+        Me.ControlReRepairView.Size = New System.Drawing.Size(346, 92)
+        Me.ControlReRepairView.TabIndex = 69
         '
         'cmdRepView
         '
@@ -493,7 +501,7 @@ Partial Class FormRepair
         '
         Me.cmbRepStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cmbRepStatus.FormattingEnabled = True
-        Me.cmbRepStatus.Items.AddRange(New Object() {"Received", "Assigned To", "Handed Over To", "Pending", "Repaired", "Repaired Delivered", "Returned", "Returned Delivered", "Canceled"})
+        Me.cmbRepStatus.Items.AddRange(New Object() {"Handed Over To", "Assigned To", "Handed Over To", "Pending", "Repaired", "Repaired Delivered", "Returned", "Returned Delivered", "Canceled"})
         Me.cmbRepStatus.Location = New System.Drawing.Point(76, 34)
         Me.cmbRepStatus.Name = "cmbRepStatus"
         Me.cmbRepStatus.Size = New System.Drawing.Size(228, 22)
@@ -529,7 +537,7 @@ Partial Class FormRepair
         Me.RetInfo.Location = New System.Drawing.Point(4, 23)
         Me.RetInfo.Name = "RetInfo"
         Me.RetInfo.Padding = New System.Windows.Forms.Padding(3)
-        Me.RetInfo.Size = New System.Drawing.Size(358, 163)
+        Me.RetInfo.Size = New System.Drawing.Size(358, 160)
         Me.RetInfo.TabIndex = 1
         Me.RetInfo.Text = "ReRepair Info"
         Me.RetInfo.UseVisualStyleBackColor = True
@@ -572,7 +580,7 @@ Partial Class FormRepair
         '
         Me.cmbRetStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cmbRetStatus.FormattingEnabled = True
-        Me.cmbRetStatus.Items.AddRange(New Object() {"Received", "Hand Over to Technician", "Repairing", "Repaired Not Delivered", "Repaired Delivered", "Returned Not Delivered", "Returned Delivered"})
+        Me.cmbRetStatus.Items.AddRange(New Object() {"Handed Over To", "Handed Over To", "Pending", "Repaired", "Repaired Delivered", "Returned", "Returned Delivered"})
         Me.cmbRetStatus.Location = New System.Drawing.Point(90, 62)
         Me.cmbRetStatus.Name = "cmbRetStatus"
         Me.cmbRetStatus.Size = New System.Drawing.Size(228, 22)
@@ -727,14 +735,6 @@ Partial Class FormRepair
         Me.PanelMain.TabIndex = 68
         Me.PanelMain.WrapContents = False
         '
-        'BoxReRepairView
-        '
-        Me.BoxReRepairView.Font = New System.Drawing.Font("Calibri", 9.0!)
-        Me.BoxReRepairView.Location = New System.Drawing.Point(6, 62)
-        Me.BoxReRepairView.Name = "BoxReRepairView"
-        Me.BoxReRepairView.Size = New System.Drawing.Size(346, 92)
-        Me.BoxReRepairView.TabIndex = 69
-        '
         'FormRepair
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 14.0!)
@@ -842,5 +842,5 @@ Partial Class FormRepair
     Friend WithEvents cmbRetRepNo As ComboBox
     Friend WithEvents PanelMain As FlowLayoutPanel
     Friend WithEvents TextCuName As TextBox
-    Friend WithEvents BoxReRepairView As ControlReRepairView
+    Friend WithEvents ControlReRepairView As ControlReRepairView
 End Class

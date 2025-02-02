@@ -54,7 +54,7 @@ Partial Class ControlTechnicianInfo
         Me.grdRepRemarks2.Location = New System.Drawing.Point(3, 18)
         Me.grdRepRemarks2.Name = "grdRepRemarks2"
         Me.grdRepRemarks2.RowHeadersWidth = 51
-        Me.grdRepRemarks2.Size = New System.Drawing.Size(516, 110)
+        Me.grdRepRemarks2.Size = New System.Drawing.Size(695, 110)
         Me.grdRepRemarks2.TabIndex = 66
         '
         'Rem2No
@@ -102,7 +102,7 @@ Partial Class ControlTechnicianInfo
         Me.boxTechnician.Cursor = System.Windows.Forms.Cursors.Default
         Me.boxTechnician.Location = New System.Drawing.Point(3, 3)
         Me.boxTechnician.Name = "boxTechnician"
-        Me.boxTechnician.Size = New System.Drawing.Size(522, 55)
+        Me.boxTechnician.Size = New System.Drawing.Size(701, 55)
         Me.boxTechnician.TabIndex = 67
         Me.boxTechnician.TabStop = False
         Me.boxTechnician.Text = "Technician Info"
@@ -116,11 +116,12 @@ Partial Class ControlTechnicianInfo
         Me.TableLayoutPanel1.Controls.Add(Me.PanelHandOverTo, 1, 0)
         Me.TableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TableLayoutPanel1.Location = New System.Drawing.Point(3, 18)
+        Me.TableLayoutPanel1.MaximumSize = New System.Drawing.Size(700, 0)
         Me.TableLayoutPanel1.Name = "TableLayoutPanel1"
         Me.TableLayoutPanel1.RowCount = 1
         Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle())
         Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 36.0!))
-        Me.TableLayoutPanel1.Size = New System.Drawing.Size(516, 34)
+        Me.TableLayoutPanel1.Size = New System.Drawing.Size(695, 34)
         Me.TableLayoutPanel1.TabIndex = 27
         '
         'PanelAssignedTo
@@ -130,7 +131,7 @@ Partial Class ControlTechnicianInfo
         Me.PanelAssignedTo.Dock = System.Windows.Forms.DockStyle.Fill
         Me.PanelAssignedTo.Location = New System.Drawing.Point(3, 3)
         Me.PanelAssignedTo.Name = "PanelAssignedTo"
-        Me.PanelAssignedTo.Size = New System.Drawing.Size(252, 28)
+        Me.PanelAssignedTo.Size = New System.Drawing.Size(341, 28)
         Me.PanelAssignedTo.TabIndex = 0
         '
         'ComboAssignedToTechnician
@@ -143,7 +144,7 @@ Partial Class ControlTechnicianInfo
         Me.ComboAssignedToTechnician.Location = New System.Drawing.Point(87, 3)
         Me.ComboAssignedToTechnician.MaximumSize = New System.Drawing.Size(250, 0)
         Me.ComboAssignedToTechnician.Name = "ComboAssignedToTechnician"
-        Me.ComboAssignedToTechnician.Size = New System.Drawing.Size(161, 22)
+        Me.ComboAssignedToTechnician.Size = New System.Drawing.Size(250, 22)
         Me.ComboAssignedToTechnician.TabIndex = 26
         '
         'Label1
@@ -161,9 +162,9 @@ Partial Class ControlTechnicianInfo
         Me.PanelHandOverTo.Controls.Add(Me.ComboHandOverToTechnician)
         Me.PanelHandOverTo.Controls.Add(Me.Label19)
         Me.PanelHandOverTo.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.PanelHandOverTo.Location = New System.Drawing.Point(261, 3)
+        Me.PanelHandOverTo.Location = New System.Drawing.Point(350, 3)
         Me.PanelHandOverTo.Name = "PanelHandOverTo"
-        Me.PanelHandOverTo.Size = New System.Drawing.Size(252, 28)
+        Me.PanelHandOverTo.Size = New System.Drawing.Size(342, 28)
         Me.PanelHandOverTo.TabIndex = 1
         '
         'ComboHandOverToTechnician
@@ -176,7 +177,7 @@ Partial Class ControlTechnicianInfo
         Me.ComboHandOverToTechnician.Location = New System.Drawing.Point(107, 3)
         Me.ComboHandOverToTechnician.MaximumSize = New System.Drawing.Size(250, 0)
         Me.ComboHandOverToTechnician.Name = "ComboHandOverToTechnician"
-        Me.ComboHandOverToTechnician.Size = New System.Drawing.Size(145, 22)
+        Me.ComboHandOverToTechnician.Size = New System.Drawing.Size(235, 22)
         Me.ComboHandOverToTechnician.TabIndex = 24
         '
         'Label19
@@ -196,7 +197,7 @@ Partial Class ControlTechnicianInfo
         Me.GroupBox1.Controls.Add(Me.grdRepRemarks2)
         Me.GroupBox1.Location = New System.Drawing.Point(3, 64)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(522, 131)
+        Me.GroupBox1.Size = New System.Drawing.Size(701, 131)
         Me.GroupBox1.TabIndex = 69
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Remarks(by Technician):"
@@ -209,7 +210,7 @@ Partial Class ControlTechnicianInfo
         Me.Controls.Add(Me.boxTechnician)
         Me.Font = New System.Drawing.Font("Calibri", 9.0!)
         Me.Name = "ControlTechnicianInfo"
-        Me.Size = New System.Drawing.Size(528, 198)
+        Me.Size = New System.Drawing.Size(707, 198)
         CType(Me.grdRepRemarks2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.boxTechnician.ResumeLayout(False)
         Me.TableLayoutPanel1.ResumeLayout(False)

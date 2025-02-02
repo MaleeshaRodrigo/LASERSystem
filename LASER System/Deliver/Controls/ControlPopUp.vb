@@ -143,8 +143,8 @@ Public Class ControlPopUp
             If Row1.Index = FormParent.grdRepair.Rows.Count - 1 Then Continue For
             Dim DrRepStatus = Db.GetDataDictionary("Select Status,RepNo from Repair where RepNo=" & Row1.Cells(0).Value)
             If DrRepStatus IsNot Nothing Then
-                If DrRepStatus("Status").ToString = "Received" Or DrRepStatus("Status").ToString = "Hand Over to Technician" Or
-                        DrRepStatus("Status").ToString = "Repairing" Then
+                If DrRepStatus("Status").ToString = RepairStatus.Received Or DrRepStatus("Status").ToString = RepairStatus.HandedOverTo Or
+                        DrRepStatus("Status").ToString = RepairStatus.Pending Then
                     Db.Execute($"Update {Tables.Repair} set RepDate = @REPDATE,Charge=@CHARGE where RepNo=@REPNO;", {
                             New MySqlParameter("REPDATE", FormParent.txtDDate.Value),
                             New MySqlParameter("CHARGE", Row1.Cells(4).Value),
@@ -164,7 +164,7 @@ Public Class ControlPopUp
             If Row.Index = FormParent.grdRERepair.Rows.Count - 1 Then Continue For
             Dim DrRetStatus = Db.GetDataDictionary("Select Status,RetNo from `Return` where RetNo=" & Row.Cells(0).Value)
             If DrRetStatus IsNot Nothing Then
-                If DrRetStatus("Status").ToString = "Received" Or DrRetStatus("Status").ToString = "Hand Over to Technician" Or DrRetStatus("Status").ToString = "Repairing" Then
+                If DrRetStatus("Status").ToString = RepairStatus.Received Or DrRetStatus("Status").ToString = RepairStatus.HandedOverTo Or DrRetStatus("Status").ToString = RepairStatus.Pending Then
                     Db.Execute($"UPDATE `{Tables.ReRepair}` SET RepDate = @REPDATE,Charge= @CHARGE where RetNo= @RETNO;", {
                             New MySqlParameter("REPDATE", FormParent.txtDDate.Value),
                             New MySqlParameter("CHARGE", Row.Cells(5).Value.ToString),

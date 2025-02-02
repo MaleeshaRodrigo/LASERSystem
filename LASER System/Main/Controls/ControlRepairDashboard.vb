@@ -15,7 +15,7 @@
                         (SELECT COUNT(RepNo) FROM repair rep WHERE status='Pending' AND rep.HandedOverToTNo = t.TNo) AS 'Pending',
                         (SELECT COUNT(RepNo) FROM repair rep WHERE status='Repaired' AND rep.HandedOverToTNo = t.TNo) AS 'Repaired',
                         (SELECT COUNT(RepNo) FROM repair rep WHERE status='Returned' AND rep.HandedOverToTNo = t.TNo) AS 'Returned'
-                        FROM technician t WHERE t.TActive = 1;")
+                        FROM technician t WHERE t.TActive = 1 ORDER BY TName;")
             Invoke(Sub() GridTechnicianOverall.DataSource = DataTable)
             Dim DataReader = Db.GetDataDictionary("SELECT  
                         (SELECT COUNT(RepNo) FROM repair rep WHERE status='Received') AS 'Received',

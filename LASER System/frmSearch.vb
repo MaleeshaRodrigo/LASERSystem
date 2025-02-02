@@ -138,12 +138,12 @@ Public Class frmSearch
                     .HeaderText = "Status"
                 }   '-----------Status Combo Box
                 grdSearchStatus.Items.Clear()
-                grdSearchStatus.Items.Add("Received")
-                grdSearchStatus.Items.Add("Hand Over to Technician")
-                grdSearchStatus.Items.Add("Repairing")
-                grdSearchStatus.Items.Add("Repaired Not Delivered")
+                grdSearchStatus.Items.Add(RepairStatus.Received)
+                grdSearchStatus.Items.Add(RepairSTatus.HandedOverTo)
+                grdSearchStatus.Items.Add(RepairStatus.Pending)
+                grdSearchStatus.Items.Add(RepairStatus.Repaired)
                 grdSearchStatus.Items.Add("Repaired Delivered")
-                grdSearchStatus.Items.Add("Returned Not Delivered")
+                grdSearchStatus.Items.Add(RepairStatus.Returned)
                 grdSearchStatus.Items.Add("Returned Delivered")
                 grdSearchStatus.Items.Add("Canceled")
                 grdSearch.Columns.Insert(grdSearch.Columns("RepRemarks1").Index + 1, grdSearchStatus)
@@ -201,12 +201,12 @@ Public Class frmSearch
                 grdSearchStatus.Name = "Status"
                 grdSearchStatus.HeaderText = "Status"
                 grdSearchStatus.Items.Clear()
-                grdSearchStatus.Items.Add("Received")
-                grdSearchStatus.Items.Add("Hand Over to Technician")
-                grdSearchStatus.Items.Add("Repairing")
-                grdSearchStatus.Items.Add("Repaired Not Delivered")
+                grdSearchStatus.Items.Add(RepairStatus.Received)
+                grdSearchStatus.Items.Add(RepairStatus.HandedOverTo)
+                grdSearchStatus.Items.Add(RepairStatus.Pending)
+                grdSearchStatus.Items.Add(RepairStatus.Repaired)
                 grdSearchStatus.Items.Add("Repaired Delivered")
-                grdSearchStatus.Items.Add("Returned Not Delivered")
+                grdSearchStatus.Items.Add(RepairStatus.Returned)
                 grdSearchStatus.Items.Add("Returned Delivered")
                 grdSearchStatus.Items.Add("Canceled")
                 grdSearch.Columns.Add(grdSearchStatus)
@@ -359,8 +359,8 @@ Public Class frmSearch
                                     x += " and Sale.SaLess like '%" & Search & "%'"
                                 Case "Due"
                                     x += " and Sale.SaDue like '%" & Search & "%'"
-                                Case "Received"
                                     x += " and Sale.CReceived like '%" & Search & "%'"
+                                Case "Received"
                                 Case "Balance"
                                     x += " and Sale.CBalance like '%" & Search & "%'"
                                 Case "Card Payment Invoice No"
@@ -956,14 +956,14 @@ end_for_loop:
                 grdSearch.Item("Charge", e.RowIndex).ErrorText = ""
                 grdSearch.Item("Status", e.RowIndex).ErrorText = ""
 
-                If grdSearch.Item("Status", e.RowIndex).Value.ToString <> "Received" AndAlso
+                If grdSearch.Item("Status", e.RowIndex).Value.ToString <> RepairStatus.Received AndAlso
                 grdSearch.Item("TName", e.RowIndex).Value = "" Then
                     grdSearch.Item("Status", e.RowIndex).ErrorText = "Technician Name යන Cell එක හිස්ව පවතියි. කරුණාකර එය සම්පුර්ණ කරන්න."
                     Exit Sub
                 End If
 
-                If grdSearch.Item("Status", e.RowIndex).Value = "Repaired Not Delivered" Or grdSearch.Item("Status", e.RowIndex).Value.ToString =
-                                "Returned Not Delivered" Or grdSearch.Item("Status", e.RowIndex).Value.ToString = "Repaired Delivered" Or
+                If grdSearch.Item("Status", e.RowIndex).Value = RepairStatus.Repaired Or grdSearch.Item("Status", e.RowIndex).Value.ToString =
+                                RepairStatus.Returned Or grdSearch.Item("Status", e.RowIndex).Value.ToString = "Repaired Delivered" Or
                                 grdSearch.Item("Status", e.RowIndex).Value.ToString = "Returned Delivered" Then
                     If grdSearch.Item("RepDate", e.RowIndex).Value.ToString = "" Then grdSearch.Item("RepDate", e.RowIndex).Value = DateAndTime.Now
                     If grdSearch.Item("Charge", e.RowIndex).Value = "" Then
@@ -1169,8 +1169,8 @@ end_for_loop:
                                  End If
                              Case 15    'Technician Name
                                  Dim tmp As String = ""
-                                 If currentvalue <> "" And grdSearch.Item("Status", e.RowIndex).Value = "Received" Then
-                                     grdSearch.Item("Status", e.RowIndex).Value = "Hand Over to Technician"
+                                 If currentvalue <> "" And grdSearch.Item("Status", e.RowIndex).Value = RepairStatus.Received Then
+                                     grdSearch.Item("Status", e.RowIndex).Value = RepairStatus.HandedOverTo
                                      tmp = ",Status = 'Hand Over to Technician'"
                                  End If
                                  If previousvalue <> currentvalue Then
@@ -1204,9 +1204,9 @@ end_for_loop:
                                  If currentvalue <> previousvalue Then
                                      grdSearch.Item(17, e.RowIndex).Value = DateAndTime.Now
                                      If currentvalue = "0" Then
-                                         grdSearch.Item(14, e.RowIndex).Value = "Returned Not Delivered"
+                                         grdSearch.Item(14, e.RowIndex).Value = RepairStatus.Returned
                                      Else
-                                         grdSearch.Item(14, e.RowIndex).Value = "Repaired Not Delivered"
+                                         grdSearch.Item(14, e.RowIndex).Value = RepairStatus.Repaired
                                      End If
                                      Db.Execute($"UPDATE {Tables.Repair} SET Status ='" & grdSearch.Item(14, e.RowIndex).Value &
                               "',RepDate='" & grdSearch.Item(17, e.RowIndex).Value &
@@ -1249,7 +1249,7 @@ End Class
 '        cmbFilter.Items.Add("SubTotal")
 '        cmbFilter.Items.Add("Less")
 '        cmbFilter.Items.Add("Due")
-'        cmbFilter.Items.Add("Received")
+'        cmbFilter.Items.Add(RepairStatus.Received)
 '        cmbFilter.Items.Add("Balance")
 '        cmbFilter.Items.Add("Card Payment Invoice No")
 '        cmbFilter.Items.Add("Card Payment Amount")
@@ -1295,7 +1295,7 @@ End Class
 '        cmbFilter.Items.Add("Customer Telephone No 2")
 '        cmbFilter.Items.Add("Customer Telephone No 3")
 '        cmbFilter.Items.Add("Grand Total")
-'        cmbFilter.Items.Add("Received")
+'        cmbFilter.Items.Add(RepairStatus.Received)
 '        cmbFilter.Items.Add("Balance")
 '        cmbFilter.Items.Add("Cash Amount")
 '        cmbFilter.Items.Add("Card Payment Invoice No")

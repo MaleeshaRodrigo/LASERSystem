@@ -220,7 +220,7 @@ Public Class FormDeliver
                         'Else
                         grdRepair.Item(5, grdRepair.CurrentCell.RowIndex).Value = DRD("TName").ToString
                         'End If
-                        If DRD("Status").ToString = "Returned Not Delivered" Then
+                        If DRD("Status").ToString = RepairStatus.Returned Then
                             grdRepair.Item(6, grdRepair.CurrentCell.RowIndex).Value = "Returned Delivered"
                         Else
                             grdRepair.Item(6, grdRepair.CurrentCell.RowIndex).Value = "Repaired Delivered"
@@ -376,7 +376,7 @@ Public Class FormDeliver
                         grdRERepair.Item(4, grdRERepair.CurrentCell.RowIndex).Value = DataReader("Qty").ToString
                         grdRERepair.Item(5, grdRERepair.CurrentCell.RowIndex).Value = DataReader("Charge").ToString
                         grdRERepair.Item(6, grdRERepair.CurrentCell.RowIndex).Value = DataReader("TName").ToString
-                        If DataReader("Status").ToString = "Returned Not Delivered" Then
+                        If DataReader("Status").ToString = RepairStatus.Returned Then
                             grdRERepair.Item(7, grdRERepair.CurrentCell.RowIndex).Value = "Returned Delivered"
                         Else
                             grdRERepair.Item(7, grdRERepair.CurrentCell.RowIndex).Value = "Repaired Delivered"

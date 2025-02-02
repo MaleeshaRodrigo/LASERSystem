@@ -5,6 +5,11 @@ Public Class ControlTechnicianInfo
     Private DB As Database
     Private ReadOnly DtpDate As New DateTimePicker
     Private FormParent As FormRepair
+    Private TechnicianList As Dictionary(Of String, Object)()
+
+    Public Sub New()
+        InitializeComponent()
+    End Sub
 
     Public Sub New(DB As Database, ByRef ParentForm As FormRepair)
         InitializeComponent()
@@ -35,8 +40,8 @@ Public Class ControlTechnicianInfo
             grdRepRemarks2.Rows.Add(Item("Rem2No").ToString, Item("Rem2Date").ToString, Item("Remarks").ToString, Item("UserName").ToString)
         Next
 
-        Dim DataList = DB.GetDataList("Select TName from Technician Where TActive = True group by TName;")
-        For Each Data As Dictionary(Of String, Object) In DataList
+        TechnicianList = DB.GetDataList("SELECT TNo, TName FROM Technician WHERE TActive = True ORDER BY TName;").ToArray()
+        For Each Data As Dictionary(Of String, Object) In TechnicianList
             ComboHandOverToTechnician.Items.Add(Data(Technician.TName))
             ComboAssignedToTechnician.Items.Add(Data(Technician.TName))
         Next
@@ -46,6 +51,32 @@ Public Class ControlTechnicianInfo
         grdRepRemarks2.DataSource = Nothing
         grdRepRemarks2.Rows.Clear()
     End Sub
+
+    Public Function GetHandedOverTechnician() As (No As Integer, Name As String)
+        If ComboHandOverToTechnician.Text Is Nothing Then
+            Return Nothing
+        End If
+
+        Dim SelectedTechnician As Dictionary(Of String, Object) = TechnicianList.FirstOrDefault(Function(T) T(Technician.TName) = ComboHandOverToTechnician.Text)
+        If SelectedTechnician Is Nothing Then
+            Return Nothing
+        End If
+
+        Return (SelectedTechnician(Technician.TNo), SelectedTechnician(Technician.TName))
+    End Function
+
+    Public Function GetAssignedTechnician() As (No As Integer, Name As String)
+        If ComboHandOverToTechnician.Text Is Nothing Then
+            Return Nothing
+        End If
+
+        Dim SelectedTechnician As Dictionary(Of String, Object) = TechnicianList.FirstOrDefault(Function(T) T(Technician.TName) = ComboAssignedToTechnician.Text)
+        If SelectedTechnician Is Nothing Then
+            Return Nothing
+        End If
+
+        Return (SelectedTechnician(Technician.TNo), SelectedTechnician(Technician.TName))
+    End Function
 
     Private Sub grdRepRemarks2_CellBeginEdit(sender As Object, e As DataGridViewCellCancelEventArgs) Handles grdRepRemarks2.CellBeginEdit
         If grdRepRemarks2.Focused And e.ColumnIndex = 1 And e.RowIndex > -1 Then
