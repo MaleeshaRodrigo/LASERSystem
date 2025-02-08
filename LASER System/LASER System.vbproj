@@ -210,6 +210,9 @@
     <Compile Include="Classes\Controllers\RepairController.vb" />
     <Compile Include="Classes\Models\ProductModel.vb" />
     <Compile Include="Classes\Controllers\TechnicianController.vb" />
+    <Compile Include="Classes\ReportPrinter\ReceivedInvoiceReport.vb" />
+    <Compile Include="Classes\ReportPrinter\AbstractReportManager.vb" />
+    <Compile Include="Classes\ReportPrinter\RepairStickerReport.vb" />
     <Compile Include="Classes\ReportPrintManager.vb" />
     <Compile Include="Classes\TransactionDatabase.vb" />
     <Compile Include="Classes\User.vb" />
@@ -225,6 +228,7 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Enums\UpdateMode.vb" />
+    <Compile Include="Interfaces\ReportPrint.vb" />
     <Compile Include="Main\Controls\ControlCashierDashboard.Designer.vb">
       <DependentUpon>ControlCashierDashboard.vb</DependentUpon>
     </Compile>
@@ -318,11 +322,10 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Interfaces\Validator.vb" />
-    <Compile Include="Reports\rptReceive.vb">
+    <Compile Include="Reports\rptReceive1.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>rptReceive.rpt</DependentUpon>
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Shared Controls\ControlCustomer.Designer.vb">
       <DependentUpon>ControlCustomer.vb</DependentUpon>
@@ -444,10 +447,10 @@
     <Compile Include="RepairAdvance\FormRepairAdvance.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmReport.Designer.vb">
-      <DependentUpon>frmReport.vb</DependentUpon>
+    <Compile Include="FormReport.Designer.vb">
+      <DependentUpon>FormReport.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmReport.vb">
+    <Compile Include="FormReport.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmSale.Designer.vb">
@@ -716,8 +719,8 @@
     <EmbeddedResource Include="RepairAdvance\FormRepairAdvance.resx">
       <DependentUpon>FormRepairAdvance.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmReport.resx">
-      <DependentUpon>frmReport.vb</DependentUpon>
+    <EmbeddedResource Include="FormReport.resx">
+      <DependentUpon>FormReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmSale.resx">
       <DependentUpon>frmSale.vb</DependentUpon>
@@ -751,6 +754,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmTechnician.resx">
       <DependentUpon>frmTechnician.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\rptReceive.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptReceive1.vb</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Shared Controls\ControlCustomer.resx">
       <DependentUpon>ControlCustomer.vb</DependentUpon>
@@ -803,10 +810,6 @@
     <EmbeddedResource Include="Reports\rptDeliver.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>rptDeliver.vb</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\rptReceive.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>rptReceive.vb</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\rptRepairAdvanced.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

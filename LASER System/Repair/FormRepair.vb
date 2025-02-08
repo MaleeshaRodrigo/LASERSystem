@@ -16,7 +16,7 @@ Public Class FormRepair
 
     Private Db As New Database
     Private TransactionDatabase As TransactionDatabase
-    Private ReportPrintManager As New ReportPrintManager
+    'Private ReportPrintManager As New AbstractReportPrint
     Private RepairController As New RepairController
 
     Public Sub New()
@@ -572,7 +572,7 @@ Public Class FormRepair
     Private Sub CmdRepView_Click(sender As Object, e As EventArgs) Handles cmdRepView.Click
         Dim frmSearchRepair As New frmSearch With {
             .Tag = "Repair",
-            .Name = "frmSearch" + NextfrmNo(frmSearch).ToString
+            .Name = "frmSearch" + NextFormNo(frmSearch).ToString
         }
         frmSearchRepair.Show()
     End Sub
@@ -580,7 +580,7 @@ Public Class FormRepair
     Private Sub CmdReRepView_Click(sender As Object, e As EventArgs) Handles cmdReRepView.Click
         Dim frmSearchReRepair As New frmSearch With {
             .Tag = "ReRepair",
-            .Name = "frmSearch" + NextfrmNo(frmSearch).ToString
+            .Name = "frmSearch" + NextFormNo(frmSearch).ToString
         }
         frmSearchReRepair.Show()
     End Sub
@@ -667,11 +667,29 @@ Public Class FormRepair
     End Sub
 
     Private Sub PrintRepairStickerToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PrintRepairStickerToolStripMenuItem.Click
-        ReportPrintManager.PrintRepairSticker(txtRNo.Text, False, False, "RepairStickerReceipt")
+        Dim Form As New FormReport
+        Try
+            Dim ReportManager As New RepairStickerReport()
+            ReportManager.SetPrinterName(My.Settings.StickerPrinterName).SetPaperName(My.Settings.RepairStickerPrinterPaperName)
+            Dim Report = ReportManager.GenerateReport(txtRNo.Text)
+            Dim FormReport = ReportManager.GetFormReport(Report, "Report - Repair Sticker", True)
+            FormReport.Show()
+        Catch ex As Exception
+            MessageBox.Error("Receipt Sticker එක print කර ගැනීමට අපොහොසත් විය." + vbCrLf + "Error: " + ex.Message)
+        End Try
     End Sub
 
     Private Sub PrintReceivedReceiptToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PrintReceivedReceiptToolStripMenuItem.Click
-        ReportPrintManager.PrintReceivedReceipt(txtRNo.Text, False, False, "RepairReceivedReceipt")
+        Dim Form As New FormReport
+        Try
+            Dim ReportManager As New ReceivedInvoiceReport()
+            ReportManager.SetPrinterName(My.Settings.BillPrinterName).SetPaperName(My.Settings.BillPrinterPaperName)
+            Dim Report = ReportManager.GenerateReport(txtRNo.Text)
+            Dim FormReport = ReportManager.GetFormReport(Report, "Report - Received Receipt", True)
+            FormReport.Show()
+        Catch ex As Exception
+            MessageBox.Error("Receipt Invoice එක print කර ගැනීමට අපොහොසත් විය." + vbCrLf + "Error: " + ex.Message)
+        End Try
     End Sub
 
     Private Sub PrintDeliverReceiptToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PrintDeliverReceiptToolStripMenuItem.Click

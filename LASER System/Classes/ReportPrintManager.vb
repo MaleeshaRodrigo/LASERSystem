@@ -1,5 +1,6 @@
 ﻿Imports System.IO
 Imports System.Threading
+Imports CrystalDecisions.CrystalReports.Engine
 Imports ZXing
 
 Public Class ReportPrintManager
@@ -9,30 +10,30 @@ Public Class ReportPrintManager
             Exit Sub
         End If
         Dim UserName As String = User.Instance.UserName
-        Dim threadInvoice As New Thread(Sub() PrintReceivedReceiptThread(RNo, boolPrint, boolClosed)) With {
+        Dim ThreadInvoice As New Thread(Sub() PrintReceivedReceiptThread(RNo, boolPrint, boolClosed)) With {
                 .Name = "showInvoiceReport",
                 .IsBackground = False
         }
-        threadInvoice.SetApartmentState(ApartmentState.STA)
-        threadInvoice.Priority = ThreadPriority.Highest
-        threadInvoice.Start()
+        ThreadInvoice.SetApartmentState(ApartmentState.STA)
+        ThreadInvoice.Priority = ThreadPriority.Highest
+        ThreadInvoice.Start()
     End Sub
 
     Public Sub PrintRepairSticker(RNo As String, Optional boolPrint As Boolean = False, Optional boolClosed As Boolean = False, Optional formTag As String = "")
         If IsNumeric(RNo) = False Or RNo = "" Then Exit Sub
-        Dim threadSticker As New Thread(Sub() PrintRepairStickerThread(RNo, boolPrint, boolClosed)) With {
+        Dim ThreadSticker As New Thread(Sub() PrintRepairStickerThread(RNo, boolPrint, boolClosed)) With {
             .Name = "showStickerReport",
             .IsBackground = False
         }
-        threadSticker.SetApartmentState(ApartmentState.STA)
-        threadSticker.Priority = ThreadPriority.Highest
-        threadSticker.Start()
+        ThreadSticker.SetApartmentState(ApartmentState.STA)
+        ThreadSticker.Priority = ThreadPriority.Highest
+        ThreadSticker.Start()
     End Sub
 
-    Private Sub PrintReceivedReceiptThread(RNo As String, boolPrint As Boolean, boolClosed As Boolean)
+    Private Sub PrintReceivedReceiptThread(RNo As String, BooleanPrint As Boolean, BooleanClosed As Boolean)
         Dim ThreadDb As New Database()
-        Dim frm1 As New frmReport
-        Dim RPT As New rptReceive
+        Dim Form As New FormReport
+        Dim RPT As New ReportReceive
         Try
             Dim DTRepair As DataTable = ThreadDb.GetDataTable($"SELECT RDate,CuName,CuTelNo1,CuTelNo2,CuTelNo3,'' as RetNo, RepNo, PCategory, PName, PModelNo, PSerialNo, Qty, Problem, '' as RepRemarks1 from (((Repair Inner Join Receive On Receive.RNo =Repair.RNo) Left Join Product On Product.PNo=Repair.PNo) Left Join Customer On Customer.CuNo=Receive.CuNo) Where Receive.RNo = {RNo} Union Select RDate,CuName,CuTelNo1,CuTelNo2,CuTelNo3, RetNo, RepNo, PCategory, PName, PModelNo, PSerialNo, Qty, Problem, '' as RepRemarks1 from (((`Return` Inner Join Receive On Receive.RNo =Return.RNo) Left Join Product On Product.PNo=Return.PNo) Left Join Customer On Customer.CuNo=Receive.CuNo) Where Receive.RNo = {RNo}")
             DTRepair.Columns.Add(New DataColumn("Barcode", GetType(Byte())))
@@ -63,16 +64,20 @@ Public Class ReportPrintManager
                 RPT.PrintOptions.PaperSize = CType(rawKind1, CrystalDecisions.Shared.PaperSize)
                 RPT.PrintOptions.PaperOrientation = CrystalDecisions.Shared.PaperOrientation.Portrait
             End If
-            If boolPrint Then   'Choose the printer and paper size. Then, print the report
+
+            If BooleanPrint Then   'Choose the printer and paper size. Then, print the report
                 RPT.PrintToPrinter(1, False, 0, 0)
             End If
-            With frm1
+
+            With Form
+                .PrinterName = My.Settings.BillPrinterName
+                .PrinterName = My.Settings.BillPrinterPaperName
                 .ReportViewer.ReportSource = RPT
-                .Name = "frmReport" + NextfrmNo(frmReport).ToString
-                .boolClosed = boolClosed
+                .Name = "FormReport" + NextFormNo(Form).ToString
+                .ActiviteTimelyClosed = BooleanClosed
                 .WindowState = FormWindowState.Normal
                 .Text = "Report - Received Receipt"
-                Application.Run(frm1)
+                Application.Run(Form)
             End With
         Catch ex As Exception
             MsgBox("Receipt Invoice එක print කර ගැනීමට අපොහොසත් විය." + vbCrLf + "Error: " + ex.Message, vbCritical, "Print Receipt Invoice Error")
@@ -84,7 +89,7 @@ Public Class ReportPrintManager
     Private Sub PrintRepairStickerThread(RNo As String, boolPrint As Boolean, boolClosed As Boolean)
         Dim ThreadDb As New Database()
         Try
-            Dim rpt3 As New rptRepairSticker
+            Dim Report As New rptRepairSticker
             Dim DT, DT1 As New DataTable
             DT.Clear()
             DT.Columns.Add("RepNo")
@@ -96,17 +101,16 @@ Public Class ReportPrintManager
             DT.Columns.Add("PName")
             DT.Columns.Add("RDate")
             DT.Columns.Add(New DataColumn("Barcode", GetType(Byte())))
-            DT1 = ThreadDb.GetDataTable("SELECT Repair.RepNo,RDate,CuName,CuTelNo1,CuTelNo2,CuTelNo3,PCategory,PName,Qty from Repair,Product,Receive,Customer where Receive.RNO = Repair.RNo and Repair.PNo = Product.PNo and Customer.CuNo = Receive.CuNo and Receive.RNo=" &
-                                                  RNo & ";")
+            DT1 = ThreadDb.GetDataTable("SELECT Repair.RepNo,RDate,CuName,CuTelNo1,CuTelNo2,CuTelNo3,PCategory,PName,Qty from Repair,Product,Receive,Customer where Receive.RNO = Repair.RNo and Repair.PNo = Product.PNo and Customer.CuNo = Receive.CuNo and Receive.RNo=" & RNo & ";")
             For Each row As DataRow In DT1.Rows
                 For i As Integer = 1 To row.Item("Qty")
                     DT.Rows.Add("R" & row.Item("RepNo"), row.Item("CuName"), row.Item("CuTelNo1"), row.Item("CuTelNo2"), row.Item("CuTelNo3"), row.Item("PCategory"), row.Item("PName"), row.Item("RDate"), GetBarcode(row.Item("RepNo")))
                 Next
             Next
-            rpt3.SetDataSource(DT)
+            Report.SetDataSource(DT)
             If DT.Rows.Count < 1 Then Exit Sub
-            Dim FormReport As New frmReport
-            FormReport.ReportViewer.ReportSource = rpt3
+            Dim FormReport As New FormReport
+            FormReport.ReportViewer.ReportSource = Report
             Dim c2 As Integer
             Dim doctoprint2 As New System.Drawing.Printing.PrintDocument()
             doctoprint2.PrinterSettings.PrinterName = My.Settings.StickerPrinterName
@@ -117,33 +121,24 @@ Public Class ReportPrintManager
                     Exit For
                 End If
             Next
-            rpt3.PrintOptions.PaperOrientation = CrystalDecisions.Shared.PaperOrientation.Portrait
-            rpt3.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
+            Report.PrintOptions.PaperOrientation = CrystalDecisions.Shared.PaperOrientation.Portrait
+            Report.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
             If boolPrint Then
-                rpt3.PrintToPrinter(1, False, 0, 0)
+                Report.PrintToPrinter(1, False, 0, 0)
             End If
             With FormReport
-                .Name = "frmReport" + NextfrmNo(frmReport).ToString
-                .boolClosed = boolClosed
+                .PrinterName = My.Settings.StickerPrinterName
+                .PaperName = My.Settings.RepairStickerPrinterPaperName
+                .Name = "FormReport" + NextFormNo(FormReport).ToString
+                .ActiviteTimelyClosed = boolClosed
                 .WindowState = FormWindowState.Normal
                 .Text = "Report - Received Sticker/s"
-                Application.Run(FormReport)
             End With
-            rpt3.Close()
+            Application.Run(FormReport)
+            Report.Close()
         Catch ex As Exception
             MsgBox("Receipt Sticker එක print කර ගැනීමට අපොහොසත් විය." + vbCrLf + "Error: " + ex.Message, vbCritical, "Print Receipt Sticker Error")
         End Try
     End Sub
 
-    Private Function GetBarcode(Value As String) As Byte()
-        Dim Writer As New BarcodeWriter With {
-            .Format = BarcodeFormat.CODE_128
-        }
-        Writer.Options.PureBarcode = True
-        Using ImgStream As New MemoryStream()
-            Dim img As Image = Writer.Write(Value)
-            img.Save(ImgStream, Imaging.ImageFormat.Png)
-            Return ImgStream.ToArray()
-        End Using
-    End Function
 End Class

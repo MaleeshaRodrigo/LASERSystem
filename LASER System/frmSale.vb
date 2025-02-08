@@ -184,7 +184,7 @@ Public Class frmSale
                                              INNER JOIN Customer ON Sale.CuNo = Customer.CuNo) where StockSale.SaNo={SaNo}")
                     rpt.SetDataSource(DT)
                     rpt.SetParameterValue("Cashier Name", UserName) 'Set Cashier Name to Parameter Value
-                    frmReport.ReportViewer.ReportSource = rpt
+                    FormReport.ReportViewer.ReportSource = rpt
 
                     Dim rawKind1 As Integer = -1
                     Dim c1 As Integer
@@ -204,7 +204,7 @@ Public Class frmSale
 
                     rpt.PrintOptions.PaperOrientation = CrystalDecisions.Shared.PaperOrientation.Portrait
                     rpt.PrintToPrinter(1, False, 1, 1)
-                    frmReport.Show(Me)
+                    FormReport.Show(Me)
                 Catch ex As Exception
                     MsgBox("Sale Bill එක print කිරීමට අපොහොසත් විය​.", vbExclamation)
                 End Try
@@ -421,7 +421,7 @@ Public Class frmSale
     Private Sub cmdCuView_Click(sender As Object, e As EventArgs) Handles cmdCuView.Click
         Dim frmNewCustomer As New frmCustomer
         With frmNewCustomer
-            .Name = "frmCustomer" + NextfrmNo(frmCustomer).ToString
+            .Name = "frmCustomer" + NextFormNo(frmCustomer).ToString
             .Caller = Name
             .Tag = "Sale"
             .Show(Me)
@@ -587,7 +587,7 @@ Public Class frmSale
         Dim frm As New FormStock
         With frm
             .Caller = Name.ToString
-            .Name = "frmStock" + NextfrmNo(FormStock).ToString
+            .Name = "frmStock" + NextFormNo(FormStock).ToString
             .Tag = "Sale"
             .Show(Me)
         End With
@@ -652,7 +652,7 @@ Public Class frmSale
         If User.Instance.UserType = User.Type.Admin Then
             Dim frmNewSearch As New frmSearch
             With frmNewSearch
-                .Name = "frmSearch" + NextfrmNo(frmSearch).ToString
+                .Name = "frmSearch" + NextFormNo(frmSearch).ToString
                 .Key = Name
                 .Tag = "Sale"
                 .Show(Me)

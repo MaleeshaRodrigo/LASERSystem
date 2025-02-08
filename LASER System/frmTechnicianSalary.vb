@@ -154,7 +154,7 @@ Public Class frmTechnicianSalary
     End Sub
 
     Private Sub cmdTSPrint_Click(sender As Object, e As EventArgs) Handles cmdTSPrint.Click
-        Dim FormTechnicianSalaryReport, FormTechnicianCostReport As New frmReport
+        Dim FormTechnicianSalaryReport, FormTechnicianCostReport As New FormReport
         FormTechnicianSalaryReport.ReportViewer.ReportSource = TechnicianSalaryReport()
         FormTechnicianSalaryReport.Show(Me)
 
@@ -266,7 +266,7 @@ Public Class frmTechnicianSalary
     End Sub
 
     Private Sub SendTechnicianSalaryToTechnicianToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SendTechnicianSalaryToTechnicianToolStripMenuItem.Click
-        Dim frm As New frmReport
+        Dim frm As New FormReport
         Dim RPT As rptTechnicianSalary = TechnicianSalaryReport()
         frm.ReportViewer.ReportSource = RPT
         Dim DR = Db.GetDataDictionary("Select * from Technician Where TNAME ='" & cmbTName.Text & "';")

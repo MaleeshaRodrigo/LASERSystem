@@ -98,7 +98,7 @@ Module Utils
         'End If
     End Function
 
-    Public Function NextfrmNo(frmNew As Form) As Integer
+    Public Function NextFormNo(frmNew As Form) As Integer
         Dim i As Integer = 0
         For Each oForm As Form In Application.OpenForms().OfType(Of Form)()
             If oForm.Name.ToString.StartsWith(frmNew.Name) = True Then

@@ -131,7 +131,7 @@ Public Class FormMain
     Private Sub CmdSale_Click(sender As Object, e As EventArgs) Handles cmdSale.Click
         Dim frmNewSale As New frmSale
         With frmNewSale
-            .Name = "frmSale" + NextfrmNo(frmSale).ToString
+            .Name = "frmSale" + NextFormNo(frmSale).ToString
             .Tag = ""
             .Show()
         End With
@@ -150,7 +150,7 @@ Public Class FormMain
         For Each oForm As frmSale In Application.OpenForms().OfType(Of frmSale)()
             If oForm.Name.ToString.StartsWith("frmSale") = True Then
                 If ActiveForm.Name.ToString.StartsWith("frmSale") = True Then
-                    If Int(ActiveForm.Name.ToString.Replace("frmSale", "")) = NextfrmNo(frmSale) - 1 Then
+                    If Int(ActiveForm.Name.ToString.Replace("frmSale", "")) = NextFormNo(frmSale) - 1 Then
                         oForm.Show()
                         oForm.BringToFront()
                         If oForm.WindowState = FormWindowState.Minimized Then oForm.WindowState = FormWindowState.Maximized

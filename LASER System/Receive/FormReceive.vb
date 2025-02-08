@@ -428,7 +428,7 @@ Public Class FormReceive
             If cmbCuMr.Text + cmbCuName.Text = SaDR("CuName").ToString Then Exit Sub
             Dim frm As New frmCustomer
             With frm
-                frm.Name = "frmCustomer" + NextfrmNo(frmCustomer).ToString
+                frm.Name = "frmCustomer" + NextFormNo(frmCustomer).ToString
                 frm.Caller = Name
                 frm.Tag = "Receive"
                 frm.Show(Me)

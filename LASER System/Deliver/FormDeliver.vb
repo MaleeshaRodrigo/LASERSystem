@@ -132,7 +132,7 @@ Public Class FormDeliver
     Public Sub PrintDeliveryReceipt(DNo As Integer, Optional boolPrint As Boolean = False)
         Try
             Dim RPT As New rptDeliver
-            Dim Form As New frmReport
+            Dim Form As New FormReport
             Dim DT1 As New DataTable
             Dim TableRepair As DataTable = Db.GetDataTable("SELECT Repair.RepNo,Repair.PNo,Product.PCategory,Product.PName,Repair.Qty,Repair.PaidPrice,Repair.HandedOverToTNo from Repair,Product,Deliver where Deliver.DNO = Repair.DNo And Repair.PNo = Product.PNo And Deliver.DNo = " & DNo & ";")
             RPT.Subreports.Item("rptDeliverRepair.rpt").SetDataSource(TableRepair)
@@ -400,7 +400,7 @@ Public Class FormDeliver
                 Else
                     If MsgBox("එම Repair එක සඳහා RERepair එකක් විවෘත කර නොමැත. ඔබට මෙය ඇතුලත් කිරිමට අවශ්‍ය ද?", vbYesNo + vbInformation) = vbYes Then
                         Dim frm As New FormReceive
-                        frm.Name = "frmReceive" + NextfrmNo(FormReceive).ToString
+                        frm.Name = "frmReceive" + NextFormNo(FormReceive).ToString
                         frm.Caller = Name
                         frm.Show(Me)
                         frm.grdReRepair.Rows.Add("", grdRERepair.Item(1, e.RowIndex).Value)
@@ -458,7 +458,7 @@ Public Class FormDeliver
     Private Sub ReceiveInfoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ReceiveInfoToolStripMenuItem.Click
         Dim frmNewReceive As New FormReceive
         With frmNewReceive
-            .Name = "frmReceive" + NextfrmNo(FormReceive).ToString
+            .Name = "frmReceive" + NextFormNo(FormReceive).ToString
             .Caller = Name
             .Show(Me)
             .Tag = "Deliver"
@@ -476,7 +476,7 @@ Public Class FormDeliver
     Private Sub GetDataToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles GetDataToolStripMenuItem.Click
         Dim frmNewSearch As New frmSearch
         With frmNewSearch
-            .Name = "frmSearch" + NextfrmNo(frmSearch).ToString
+            .Name = "frmSearch" + NextFormNo(frmSearch).ToString
             .Key = Name
             .Tag = "Deliver"
             .Show(Me)
