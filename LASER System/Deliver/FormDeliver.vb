@@ -474,7 +474,7 @@ Public Class FormDeliver
     End Sub
 
     Private Sub GetDataToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles GetDataToolStripMenuItem.Click
-        Dim frmNewSearch As New frmSearch
+        Dim frmNewSearch As New FormSearch
         With frmNewSearch
             .Name = "frmSearch" + NextFormNo(frmSearch).ToString
             .Key = Name

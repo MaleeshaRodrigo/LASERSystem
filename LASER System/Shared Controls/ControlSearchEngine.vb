@@ -7,7 +7,7 @@ Public Class ControlSearchEngine
 
     Private Filters As Dictionary(Of String, String)
     Private PoistionList As New List(Of Object)
-    Private Operators As New List(Of String) From {"AND", "OR", ")", "("}
+    Private Operators As New List(Of String) From {"AND", "OR", ")", "(", "=", "LIKE"}
 
     Public Sub Init(Filters As Dictionary(Of String, String))
         Me.Filters = Filters

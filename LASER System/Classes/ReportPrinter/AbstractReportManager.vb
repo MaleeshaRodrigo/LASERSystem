@@ -13,7 +13,7 @@ Public MustInherit Class AbstractReportManager
     End Function
 
     Public Function SetPaperName(PaperName As String) As AbstractReportManager
-        Me.PaperName = Me.PaperName
+        Me.PaperName = PaperName
         Return Me
     End Function
 
@@ -22,15 +22,16 @@ Public MustInherit Class AbstractReportManager
             Throw New Exception("Report is not set")
         End If
 
+        SetConfiguration(Report)
         Dim Form As New FormReport
         With Form
             .ReportViewer.ReportSource = Report
+            .ReportViewer.PrintMode = CrystalDecisions.Windows.Forms.PrintMode.PrintOutputController
             .Name = "FormReport" + NextFormNo(FormReport).ToString
             .ActiviteTimelyClosed = ActivateTimelyClosed
             .WindowState = FormWindowState.Normal
             .Text = ReportName
         End With
-        SetConfiguration(Report)
         Return Form
     End Function
 

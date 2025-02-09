@@ -650,7 +650,7 @@ Public Class frmSale
 
     Private Sub GetDataToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles GetDataToolStripMenuItem.Click
         If User.Instance.UserType = User.Type.Admin Then
-            Dim frmNewSearch As New frmSearch
+            Dim frmNewSearch As New FormSearch
             With frmNewSearch
                 .Name = "frmSearch" + NextFormNo(frmSearch).ToString
                 .Key = Name

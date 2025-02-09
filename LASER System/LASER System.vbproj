@@ -213,7 +213,6 @@
     <Compile Include="Classes\ReportPrinter\ReceivedInvoiceReport.vb" />
     <Compile Include="Classes\ReportPrinter\AbstractReportManager.vb" />
     <Compile Include="Classes\ReportPrinter\RepairStickerReport.vb" />
-    <Compile Include="Classes\ReportPrintManager.vb" />
     <Compile Include="Classes\TransactionDatabase.vb" />
     <Compile Include="Classes\User.vb" />
     <Compile Include="Classes\Validators\CustomValidator.vb" />
@@ -322,10 +321,11 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Interfaces\Validator.vb" />
-    <Compile Include="Reports\rptReceive1.vb">
+    <Compile Include="Reports\rptReceive.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>rptReceive.rpt</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Shared Controls\ControlCustomer.Designer.vb">
       <DependentUpon>ControlCustomer.vb</DependentUpon>
@@ -465,10 +465,10 @@
     <Compile Include="frmSalesRepair.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmSearch.Designer.vb">
-      <DependentUpon>frmSearch.vb</DependentUpon>
+    <Compile Include="FormSearch.Designer.vb">
+      <DependentUpon>FormSearch.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmSearch.vb">
+    <Compile Include="FormSearch.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmSettings.Designer.vb">
@@ -728,8 +728,8 @@
     <EmbeddedResource Include="frmSalesRepair.resx">
       <DependentUpon>frmSalesRepair.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmSearch.resx">
-      <DependentUpon>frmSearch.vb</DependentUpon>
+    <EmbeddedResource Include="FormSearch.resx">
+      <DependentUpon>FormSearch.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmSettings.resx">
       <DependentUpon>frmSettings.vb</DependentUpon>

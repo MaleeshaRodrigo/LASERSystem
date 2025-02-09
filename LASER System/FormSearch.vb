@@ -2,21 +2,18 @@
 Imports MySqlConnector
 Imports LASER_System.StructureDatabase
 
-Public Class frmSearch
-    Private Db As New Database
+Public Class FormSearch
     Dim x, y As String
     Public Property Key As String
+    Private Db As New Database
     Private ReadOnly grdsubsearch1 As New DataGridView
     Private ReadOnly grdsubsearch2 As New DataGridView
     Private ReadOnly dtpDate As New DateTimePicker
 
     Private Sub frmSearch_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        
-        MenuStrip1.Items.Add(mnustrpMENU)
         CheckForIllegalCrossThreadCalls = False
-        AcceptButton = cmdTSSearch
-        txtTSSearch.Text = ""
-        x = ""
+        MenuStrip1.Items.Add(mnustrpMENU)
+        ControlSearchEngine.Init()
         Text = "LASER System - Search Management [Prepairing Sheet....]"
         grdSearch.Columns.Clear()
         Select Case Tag
@@ -109,27 +106,7 @@ Public Class frmSearch
                 grdSearch.Columns.Add("DDate", "Delivered Date")
                 grdSearch.Columns.Add("PaidPrice", "Paid Repair Charge")
             Case "Repair"
-                Dim dic As New Dictionary(Of String, String) From {
-                    {"RepNo", "Repair No"},
-                    {"RDate", "Received Date"},
-                    {"CuName", "Customer Name"},
-                    {"CuTelNo1", "Customer Telephone No 1"},
-                    {"CuTelNo2", "Customer Telephone No 2"},
-                    {"CuTelNo3", "Customer Telephone No 3"},
-                    {"PCategory", "Product Category"},
-                    {"PName", "Product Name"},
-                    {"PModelNo", "Product Model No"},
-                    {"PSerialNo", "Product Serial No"},
-                    {"Problem", "Problem"},
-                    {"Location", "Location"},
-                    {"Qty", "Qty"},
-                    {"RepRemarks1", "Remarks by Customer"},
-                    {"RepRemarks2", "Remarks by Technician"},
-                    {"RepDate", "Repaired Date"},
-                    {"Charge", "Repair Charge"},
-                    {"DDate", "Delivered Date"},
-                    {"PaidPrice", "Paid Repair Charge"}
-                }
+                Dim dic As New Dictionary(Of String, String) From 
                 For Each pair As KeyValuePair(Of String, String) In dic
                     grdSearch.Columns.Add(pair.Key, pair.Value)
                 Next
@@ -139,7 +116,7 @@ Public Class frmSearch
                 }   '-----------Status Combo Box
                 grdSearchStatus.Items.Clear()
                 grdSearchStatus.Items.Add(RepairStatus.Received)
-                grdSearchStatus.Items.Add(RepairSTatus.HandedOverTo)
+                grdSearchStatus.Items.Add(RepairStatus.HandedOverTo)
                 grdSearchStatus.Items.Add(RepairStatus.Pending)
                 grdSearchStatus.Items.Add(RepairStatus.Repaired)
                 grdSearchStatus.Items.Add("Repaired Delivered")
@@ -275,7 +252,7 @@ Public Class frmSearch
         txtTSSearch.Focus()
     End Sub
 
-    Private Sub CmdTSSearch_Click(sender As Object, e As EventArgs) Handles cmdTSSearch.Click
+    Private Sub CmdTSSearch_Click(sender As Object, e As EventArgs)
         Try
             If bgwSearch.IsBusy = True Then
                 bgwSearch.CancelAsync()
@@ -752,146 +729,14 @@ Public Class frmSearch
         End If
     End Sub
 
-    'Used to give unique control names such as label1, label2 etc
-    Private _SearchPanelsAddedCount As Integer = 0
-
-    'Add Message panel to flow layout panel
-    Private Sub CreateSearchPanel(txt As String)
-
-        Dim SearchPanel As New Panel()
-        _SearchPanelsAddedCount += 1
-
-        'Set panel properties
-        With SearchPanel
-            .Name = "pnlSearch" + (_SearchPanelsAddedCount).ToString
-            If txt = "AND" Or txt = "OR" Then
-                .BackColor = Color.DodgerBlue
-            Else
-                .BackColor = Color.Gray
-            End If
-        End With
-
-        'Add panel to flow layout panel
-        flpSearch.Controls.Add(SearchPanel)
-
-        Dim SearchText As New Label
-        'Set button properties
-        With SearchText
-            .AutoSize = True
-            .Size = New Size(0, 19)
-            .Location = New Point(0, 0)
-            .Font = New Font("Calibri", 12)
-            .Name = "txtSearch" + (_SearchPanelsAddedCount).ToString
-            .Text = txt
-        End With
-
-        'Add button to panel 
-        For Each controlObject As Control In flpSearch.Controls
-            If controlObject.Name = SearchPanel.Name Then
-                controlObject.Controls.Add(SearchText)
-            End If
-        Next
-
-        Dim SearchDeleteButton As New PictureBox
-        'Set button properties
-        With SearchDeleteButton
-            .Size = New Size(19, 19)
-            .Location = New Point(SearchText.Width + SearchText.Left, 3)
-            .Image = My.Resources.close
-            .Name = "btnSearchDelete" + (_SearchPanelsAddedCount).ToString
-            .Cursor = Cursors.Hand
-        End With
-
-        'Add button to panel 
-        For Each controlObject As Control In flpSearch.Controls
-            If controlObject.Name = SearchPanel.Name Then
-                controlObject.Controls.Add(SearchDeleteButton)
-            End If
-        Next
-
-        SearchPanel.Size = New Size(SearchText.Width + SearchDeleteButton.Width + 5, 22)
-        'Add handler for click events
-        AddHandler SearchDeleteButton.Click, AddressOf DynamicButton_Click
-    End Sub
-
-    'Remove handlers and Message panel 
-    Private Sub DynamicButton_Click(ByVal sender As Object, ByVal e As EventArgs)
-        'Remove handler from sender
-        For Each controlObj As Control In flpSearch.Controls
-            For Each childControlObj As Control In controlObj.Controls
-                If childControlObj.Name = sender.name Then
-                    RemoveHandler childControlObj.Click, AddressOf DynamicButton_Click
-                    flpSearch.Controls.Remove(controlObj)
-                    controlObj.Dispose()
-                    GoTo end_for_loop
-                End If
-            Next
-        Next
-end_for_loop:
-        Task.Run(
-        Sub()
-            Dim PanelAddedCount As Integer = 0
-            For Each controlObj As Control In flpSearch.Controls
-                PanelAddedCount += 1
-                controlObj.Name = "pnlSearch" + PanelAddedCount.ToString
-                For Each childControlObj As Control In controlObj.Controls
-                    If childControlObj.Name.StartsWith("txtSearch") = True Then
-                        childControlObj.Name = "txtSearch" + PanelAddedCount.ToString
-                    ElseIf childControlObj.Name.StartsWith("btnSearchDelete") = True Then
-                        childControlObj.Name = "btnSearchDelete" + PanelAddedCount.ToString
-                    End If
-                Next
-            Next
-
-            _SearchPanelsAddedCount = PanelAddedCount
-        End Sub)
-    End Sub
-
     Private Sub ClearToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ClearToolStripMenuItem.Click
-        If flpSearch.Controls.Count < 1 Then Exit Sub
-        'Remove Message panel
-        flpSearch.Controls.RemoveAt(0)
-        'Dim PanelAddedCount As Integer = 0
-        'For Each controlObj As Control In flpSearch.Controls
-        '    If IsNumeric(controlObj.Name.Replace("pnlSearch", "")) AndAlso PanelAddedCount < Int(controlObj.Name.Replace("pnlSearch", "")) Then
-        '        PanelAddedCount = controlObj.Name.Replace("pnlSearch", "")
-        '    End If
-        'Next
-        '_SearchPanelsAddedCount = PanelAddedCount
-        CmdTSSearch_Click(sender, e)
-    End Sub
 
-    Private Sub FlpSearch_Resize(sender As Object, e As EventArgs) Handles flpSearch.Resize
-        flpSearch.Width = cmdTSSearch.Left - flpSearch.Left - 10
-    End Sub
-
-    Private Sub cmbFilter_SelectedIndexChanged(sender As Object, e As EventArgs)
-        txtTSSearch.Focus()
     End Sub
 
     Private Sub frmSearch_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
         bgwSearch.CancelAsync()
         e.Cancel = False
         Tag = ""
-    End Sub
-
-    Private Sub cmdLeftBracket_Click(sender As Object, e As EventArgs) Handles cmdLeftBracket.Click
-        CreateSearchPanel(" ( ")
-    End Sub
-
-    Private Sub cmdRightBracket_Click(sender As Object, e As EventArgs) Handles cmdRightBracket.Click
-        CreateSearchPanel(" ) ")
-        CmdTSSearch_Click(sender, e)
-    End Sub
-
-    Private Sub cmdAND_Click(sender As Object, e As EventArgs) Handles cmdAND.Click
-        cmdAND.BackColor = Color.DodgerBlue
-        cmdOR.BackColor = Color.DarkBlue
-    End Sub
-
-    Private Sub cmdOR_Click(sender As Object, e As EventArgs) Handles cmdOR.Click
-        cmdOR.BackColor = Color.DodgerBlue
-        cmdAND.BackColor = Color.DarkBlue
     End Sub
 
     Private Sub grdSearch_SelectionChanged(sender As Object, e As EventArgs) Handles grdSearch.SelectionChanged
@@ -1223,155 +1068,37 @@ end_for_loop:
         End If
     End Sub
 
-    Private Sub cmdLIKE_Click(sender As Object, e As EventArgs) Handles cmdLIKE.Click
-        If cmdLIKE.Text = "LIKE" Then
-            cmdLIKE.Text = "="
-        Else
-            cmdLIKE.Text = "LIKE"
-        End If
+    Private Sub SearchSubmission(WhereQuery As String, Values As MySqlParameter()) Handles ControlSearchEngine.SearchSubmissionEvent
+        Dim Columns As String() = {
+            Stock.Code,
+            Stock.Category,
+            Stock.Name,
+            Stock.ModelNo,
+            Stock.Location,
+            Stock.CostPrice,
+            Stock.LowestPrice,
+            Stock.SalePrice,
+            Stock.AvailableUnits,
+            Stock.DamagedUnits,
+            Stock.ReorderPoint,
+            Stock.Details
+        }
+        WhereQuery = If(WhereQuery.Trim() = "", "1", WhereQuery)
+        Dim FilterQuery As String = $"SELECT {String.Join(", ", Columns) } FROM {Tables.Repair} WHERE {WhereQuery} ORDER BY {Stock.Code};"
+        Dim DT As DataTable
+        Try
+            DT = Db.GetDataTable(FilterQuery, Values)
+            ControlSearchEngine.QueryValidator(True)
+            grdSearch.DataSource = DT
+        Catch ex As Exception
+            ControlSearchEngine.QueryValidator(False)
+        End Try
     End Sub
 
-    Private Sub txtTSSearch_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtTSSearch.KeyPress
+    Private Sub txtTSSearch_KeyPress(sender As Object, e As KeyPressEventArgs)
         If Asc(e.KeyChar) = 58 Or Asc(e.KeyChar) = 61 Then
             e.Handled = True
         End If
     End Sub
+
 End Class
-
-'Fill cmbFilter in form load ------------------------------
-'Select Case Me.Tag
-'    Case "Sale"
-'        cmbFilter.Items.Add("Sale No")
-'        cmbFilter.Items.Add("Sale Date")
-'        cmbFilter.Items.Add("Customer No")
-'        cmbFilter.Items.Add("Customer Name")
-'        cmbFilter.Items.Add("Customer Telephone No")
-'        cmbFilter.Items.Add("SubTotal")
-'        cmbFilter.Items.Add("Less")
-'        cmbFilter.Items.Add("Due")
-'        cmbFilter.Items.Add(RepairStatus.Received)
-'        cmbFilter.Items.Add("Balance")
-'        cmbFilter.Items.Add("Card Payment Invoice No")
-'        cmbFilter.Items.Add("Card Payment Amount")
-'        cmbFilter.Items.Add("Customer Loan No")
-'        cmbFilter.Items.Add("Customer Loan Amount")
-'        cmbFilter.Items.Add("Remarks")
-'        cmbFilter.Items.Add("All")
-'        cmbFilter.Text = "All"
-'    Case "Supply"
-'        cmbFilter.Items.Add("Supply No")
-'        cmbFilter.Items.Add("Supply Date")
-'        cmbFilter.Items.Add("Supplier No")
-'        cmbFilter.Items.Add("Supplier Name")
-'        cmbFilter.Items.Add("Status")
-'        cmbFilter.Items.Add("Paid Date")
-'        cmbFilter.Items.Add("Remarks")
-'        cmbFilter.Items.Add("All")
-'        cmbFilter.Text = "All"
-'    Case "Receive"
-'        cmbFilter.Items.Add("Repair No")
-'        cmbFilter.Items.Add("Received Date")
-'        cmbFilter.Items.Add("Customer Name")
-'        cmbFilter.Items.Add("Customer Telephone No 1")
-'        cmbFilter.Items.Add("Customer Telephone No 2")
-'        cmbFilter.Items.Add("Customer Telephone No 3")
-'        cmbFilter.Items.Add("Product Category")
-'        cmbFilter.Items.Add("Product Name")
-'        cmbFilter.Items.Add("Product Model No")
-'        cmbFilter.Items.Add("Product Serial No")
-'        cmbFilter.Items.Add("Problem")
-'        cmbFilter.Items.Add("Remarks for Customer")
-'        cmbFilter.Items.Add("Status")
-'        cmbFilter.Items.Add("Technician Name")
-'        cmbFilter.Items.Add("Remarks for Technician")
-'        cmbFilter.Items.Add("Repaired Date")
-'        cmbFilter.Items.Add("Paid Repair Charge")
-'        cmbFilter.Items.Add("All")
-'    Case "Deliver"
-'        cmbFilter.Items.Add("Deliver No")
-'        cmbFilter.Items.Add("Delivered Date")
-'        cmbFilter.Items.Add("Customer Name")
-'        cmbFilter.Items.Add("Customer Telephone No 1")
-'        cmbFilter.Items.Add("Customer Telephone No 2")
-'        cmbFilter.Items.Add("Customer Telephone No 3")
-'        cmbFilter.Items.Add("Grand Total")
-'        cmbFilter.Items.Add(RepairStatus.Received)
-'        cmbFilter.Items.Add("Balance")
-'        cmbFilter.Items.Add("Cash Amount")
-'        cmbFilter.Items.Add("Card Payment Invoice No")
-'        cmbFilter.Items.Add("Card Payment Amount")
-'        cmbFilter.Items.Add("Customer Loan No")
-'        cmbFilter.Items.Add("Customer Loan Amount")
-'        cmbFilter.Items.Add("Remarks")
-'        cmbFilter.Items.Add("All")
-'        cmbFilter.Text = "All"
-'        grdsubsearch1.Left = grdSearch.Left
-'        grdsubsearch1.Width = grdSearch.Width / 2
-'        grdsubsearch2.Left = grdsubsearch1.Left + grdsubsearch1.Width + 5
-'        grdsubsearch2.Width = grdSearch.Width - grdsubsearch1.Left - grdsubsearch1.Width + 5
-'        grdSearch.Height = Me.Height / 2
-'        grdsubsearch1.Top = grdSearch.Top + grdSearch.Height + 5
-'        grdsubsearch2.Top = grdsubsearch1.Top
-'        grdsubsearch1.Height = Me.Height - grdsubsearch1.Top - 50
-'        grdsubsearch2.Height = Me.Height - grdsubsearch2.Top - 50
-'        grdsubsearch1.AllowUserToAddRows = False
-'        grdsubsearch1.AllowUserToDeleteRows = False
-'        grdsubsearch1.EditMode = DataGridViewEditMode.EditProgrammatically
-'        grdsubsearch2.AllowUserToAddRows = False
-'        grdsubsearch2.AllowUserToDeleteRows = False
-'        grdsubsearch2.EditMode = DataGridViewEditMode.EditProgrammatically
-'        Me.Controls.Add(grdsubsearch1)
-'        Me.Controls.Add(grdsubsearch2)
-'    Case "Repair", "DeliverRepair"
-'        cmbFilter.Items.Add("Repair No")
-'        cmbFilter.Items.Add("Received Date")
-'        cmbFilter.Items.Add("Customer Name")
-'        cmbFilter.Items.Add("Customer Telephone No 1")
-'        cmbFilter.Items.Add("Customer Telephone No 2")
-'        cmbFilter.Items.Add("Customer Telephone No 3")
-'        cmbFilter.Items.Add("Product Category")
-'        cmbFilter.Items.Add("Product Name")
-'        cmbFilter.Items.Add("Product Model No")
-'        cmbFilter.Items.Add("Product Serial No")
-'        cmbFilter.Items.Add("Problem")
-'        cmbFilter.Items.Add("Location")
-'        cmbFilter.Items.Add("Remarks by Customer")
-'        cmbFilter.Items.Add("Status")
-'        cmbFilter.Items.Add("Technician Name")
-'        cmbFilter.Items.Add("Remarks by Technician")
-'        cmbFilter.Items.Add("Repaired Date")
-'        cmbFilter.Items.Add("Repair Charge")
-'        cmbFilter.Items.Add("Delivered Date")
-'        cmbFilter.Items.Add("Paid Repair Charge")
-'        cmbFilter.Items.Add("All")
-'    Case "ReRepair", "DeliverReRepair"
-'        cmbFilter.Items.Add("Re-Repair No")
-'        cmbFilter.Items.Add("Repair No")
-'        cmbFilter.Items.Add("Received Date")
-'        cmbFilter.Items.Add("Customer Name")
-'        cmbFilter.Items.Add("Customer Telephone No 1")
-'        cmbFilter.Items.Add("Customer Telephone No 2")
-'        cmbFilter.Items.Add("Customer Telephone No 3")
-'        cmbFilter.Items.Add("Product Category")
-'        cmbFilter.Items.Add("Product Name")
-'        cmbFilter.Items.Add("Product Model No")
-'        cmbFilter.Items.Add("Product Serial No")
-'        cmbFilter.Items.Add("Problem")
-'        cmbFilter.Items.Add("Remarks for Customer")
-'        cmbFilter.Items.Add("Status")
-'        cmbFilter.Items.Add("Technician Name")
-'        cmbFilter.Items.Add("Remarks for Technician")
-'        cmbFilter.Items.Add("Repaired Date")
-'        cmbFilter.Items.Add("Repair Charge")
-'        cmbFilter.Items.Add("Delivered Date")
-'        cmbFilter.Items.Add("Paid Repair Charge")
-'        cmbFilter.Items.Add("All")
-'End Select
-
-'x += " (REP.RepNo like '%" & Search & "%' or R.RDate like '%" & Search & "%' " &
-'    "or CU.CuName like '%" & Search & "%' or CU.CuTelNo1 like '%" & Search & "%' " &
-'    "or CU.CuTelNo2 like '%" & Search & "%' or CU.CuTelNo3 like '%" & Search & "%' " &
-'    "or P.PCategory like '%" & Search & "%' or P.PName like '%" & Search & "%' or P.PModelNo like '%" & Search & "%' " &
-'    "or REP.PSerialNo like '%" & Search & "%' or REP.Problem like '%" & Search & "%' or REP.Charge like '%" & Search & "%' " &
-'    "or REP.Location like '%" & Search & "%' or REP.PaidPrice Like '%" & Search & "%' or T.TName like '%" & Search & "%' " &
-'    "or REP.Status like '%" & Search & "%' or REP.RepDate like '%" & Search & "%' or D.DDate like '%" & Search & "%'"

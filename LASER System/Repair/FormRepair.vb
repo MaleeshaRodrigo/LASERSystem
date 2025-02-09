@@ -570,7 +570,7 @@ Public Class FormRepair
     End Function
 
     Private Sub CmdRepView_Click(sender As Object, e As EventArgs) Handles cmdRepView.Click
-        Dim frmSearchRepair As New frmSearch With {
+        Dim frmSearchRepair As New FormSearch With {
             .Tag = "Repair",
             .Name = "frmSearch" + NextFormNo(frmSearch).ToString
         }
@@ -578,7 +578,7 @@ Public Class FormRepair
     End Sub
 
     Private Sub CmdReRepView_Click(sender As Object, e As EventArgs) Handles cmdReRepView.Click
-        Dim frmSearchReRepair As New frmSearch With {
+        Dim frmSearchReRepair As New FormSearch With {
             .Tag = "ReRepair",
             .Name = "frmSearch" + NextFormNo(frmSearch).ToString
         }
@@ -672,8 +672,8 @@ Public Class FormRepair
             Dim ReportManager As New RepairStickerReport()
             ReportManager.SetPrinterName(My.Settings.StickerPrinterName).SetPaperName(My.Settings.RepairStickerPrinterPaperName)
             Dim Report = ReportManager.GenerateReport(txtRNo.Text)
-            Dim FormReport = ReportManager.GetFormReport(Report, "Report - Repair Sticker", True)
-            FormReport.Show()
+            Dim FormReport = ReportManager.GetFormReport(Report, "Report - Repair Sticker", False)
+            FormReport.Show(Me)
         Catch ex As Exception
             MessageBox.Error("Receipt Sticker එක print කර ගැනීමට අපොහොසත් විය." + vbCrLf + "Error: " + ex.Message)
         End Try
@@ -685,8 +685,8 @@ Public Class FormRepair
             Dim ReportManager As New ReceivedInvoiceReport()
             ReportManager.SetPrinterName(My.Settings.BillPrinterName).SetPaperName(My.Settings.BillPrinterPaperName)
             Dim Report = ReportManager.GenerateReport(txtRNo.Text)
-            Dim FormReport = ReportManager.GetFormReport(Report, "Report - Received Receipt", True)
-            FormReport.Show()
+            Dim FormReport = ReportManager.GetFormReport(Report, "Report - Received Receipt", False)
+            FormReport.Show(Me)
         Catch ex As Exception
             MessageBox.Error("Receipt Invoice එක print කර ගැනීමට අපොහොසත් විය." + vbCrLf + "Error: " + ex.Message)
         End Try

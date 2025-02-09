@@ -196,7 +196,7 @@ Public Class frmSupply
     End Sub
 
     Private Sub cmdGetData_Click(sender As Object, e As EventArgs) Handles cmdGetData.Click, GetDataToolStripMenuItem.Click
-        Dim frmSearchSupply As New frmSearch With {
+        Dim frmSearchSupply As New FormSearch With {
             .Tag = "Supply"
         }
         frmSearchSupply.Show(Me)
