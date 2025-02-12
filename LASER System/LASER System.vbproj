@@ -227,6 +227,7 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Enums\UpdateMode.vb" />
+    <Compile Include="Interfaces\GridSearchControl.vb" />
     <Compile Include="Interfaces\ReportPrint.vb" />
     <Compile Include="Main\Controls\ControlCashierDashboard.Designer.vb">
       <DependentUpon>ControlCashierDashboard.vb</DependentUpon>
@@ -326,6 +327,18 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>rptReceive.rpt</DependentUpon>
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Search\Controls\GridRepairSearchControl.Designer.vb">
+      <DependentUpon>GridRepairSearchControl.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Search\Controls\GridRepairSearchControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Search\FormSearch.Designer.vb">
+      <DependentUpon>FormSearch.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Search\FormSearch.vb">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Shared Controls\ControlCustomer.Designer.vb">
       <DependentUpon>ControlCustomer.vb</DependentUpon>
@@ -463,12 +476,6 @@
       <DependentUpon>frmSalesRepair.vb</DependentUpon>
     </Compile>
     <Compile Include="frmSalesRepair.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormSearch.Designer.vb">
-      <DependentUpon>FormSearch.vb</DependentUpon>
-    </Compile>
-    <Compile Include="FormSearch.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmSettings.Designer.vb">
@@ -728,9 +735,6 @@
     <EmbeddedResource Include="frmSalesRepair.resx">
       <DependentUpon>frmSalesRepair.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormSearch.resx">
-      <DependentUpon>FormSearch.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="frmSettings.resx">
       <DependentUpon>frmSettings.vb</DependentUpon>
     </EmbeddedResource>
@@ -758,6 +762,12 @@
     <EmbeddedResource Include="Reports\rptReceive.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>rptReceive1.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Search\Controls\GridRepairSearchControl.resx">
+      <DependentUpon>GridRepairSearchControl.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Search\FormSearch.resx">
+      <DependentUpon>FormSearch.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Shared Controls\ControlCustomer.resx">
       <DependentUpon>ControlCustomer.vb</DependentUpon>

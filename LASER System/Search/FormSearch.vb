@@ -3,177 +3,54 @@ Imports MySqlConnector
 Imports LASER_System.StructureDatabase
 
 Public Class FormSearch
-    Dim x, y As String
+    Public RequestSource As FormSearchRequestSource
     Public Property Key As String
+
     Private Db As New Database
-    Private ReadOnly grdsubsearch1 As New DataGridView
-    Private ReadOnly grdsubsearch2 As New DataGridView
+    Private x, y As String
+    Private GridControl As GridSearchControl
     Private ReadOnly dtpDate As New DateTimePicker
 
     Private Sub frmSearch_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         CheckForIllegalCrossThreadCalls = False
         MenuStrip1.Items.Add(mnustrpMENU)
-        ControlSearchEngine.Init()
         Text = "LASER System - Search Management [Prepairing Sheet....]"
-        grdSearch.Columns.Clear()
-        Select Case Tag
-            Case "Sale"
-                grdSearch.Columns.Add("SaNo", "Sale No")
-                grdSearch.Columns.Add("SaDate", "Sale Date")
-                grdSearch.Columns.Add("CuNo", "Customer No")
-                grdSearch.Columns.Add("CuName", "Customer Name")
-                grdSearch.Columns.Add("CuTelNo1", "Customer Telephone No 1")
-                grdSearch.Columns.Add("CuTelNo2", "Customer Telephone No 2")
-                grdSearch.Columns.Add("CuTelNo3", "Customer Telephone No 3")
-                grdSearch.Columns.Add("SubTotal", "Sub Total")
-                grdSearch.Columns.Add("Less", "Less")
-                grdSearch.Columns.Add("Due", "Due")
-                grdSearch.Columns.Add("Received", "Received")
-                grdSearch.Columns.Add("Balance", "Balance")
-                grdSearch.Columns.Add("CashAmount", "Cash Amount")
-                grdSearch.Columns.Add("CPInvoiceNo", "Card Payment Invoice No")
-                grdSearch.Columns.Add("CPAmount", "Card Payment Amount")
-                grdSearch.Columns.Add("CuLNo", "Customer Loan No")
-                grdSearch.Columns.Add("CuLAmount", "Customer Loan Amount")
-                grdSearch.Columns.Add("Remarks", "Remarks")
-            Case "Supply"
-                grdSearch.Columns.Add("SupNo", "Supply No")
-                grdSearch.Columns.Add("SupDate", "Supply Date")
-                grdSearch.Columns.Add("SuNo", "Supplier No")
-                grdSearch.Columns.Add("SuName", "Supplier Name")
-                grdSearch.Columns.Add("SupStatus", "Status")
-                grdSearch.Columns.Add("SupPaidDate", "Paid Date")
-                grdSearch.Columns.Add("SupRemarks", "Remarks")
-            Case "Deliver"
-                grdSearch.Columns.Add("DNo", "Deliver No")
-                'If User.Instance.UserType <> User.Type.Admin Then grdSearch.Columns.Item("DNo").Visible = False
-                grdSearch.Columns.Add("DDate", "Delivered Date")
-                grdSearch.Columns.Add("CuName", "Customer Name")
-                grdSearch.Columns.Add("CuTelNo1", "Customer Telephone No 1")
-                grdSearch.Columns.Add("CuTelNo2", "Customer Telephone No 2")
-                grdSearch.Columns.Add("CuTelNo3", "Customer Telephone No 3")
-                grdSearch.Columns.Add("DGrandTotal", "Grand Total")
-                grdSearch.Columns.Add("CReceived", "Received")
-                grdSearch.Columns.Add("CBalance", "Balance")
-                grdSearch.Columns.Add("CAmount", "Cash Amount")
-                grdSearch.Columns.Add("CPInvoiceNo", "Card Payment Invoice No")
-                grdSearch.Columns.Add("CPAmount", "Card Payment Amount")
-                grdSearch.Columns.Add("CuLNo", "Customer Loan No")
-                grdSearch.Columns.Add("CuLAmount", "Customer Loan Amount")
-                grdSearch.Columns.Add("DRemarks", "Remarks")
+        Select Case RequestSource
+            Case FormSearchRequestSource.Deliver
+                GridSubSearchLeft.Columns.Clear()
+                GridSubSearchLeft.Columns.Add("RepNo", "Repair No")
+                GridSubSearchLeft.Columns.Add("PCategory", "Product Category")
+                GridSubSearchLeft.Columns.Add("PName", "Product Name")
+                GridSubSearchLeft.Columns.Add("Qty", "Qty")
+                GridSubSearchLeft.Columns.Add("PaidPrice", "Paid Charge")
+                GridSubSearchLeft.Columns.Add("TName", "Technician Name")
+                GridSubSearchLeft.Columns.Add("Status", "Status")
+                GridSubSearchLeft.Rows.Clear()
+                GridSubSearchLeft.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
 
-                grdsubsearch1.Columns.Clear()
-                grdsubsearch1.Columns.Add("RepNo", "Repair No")
-                grdsubsearch1.Columns.Add("PCategory", "Product Category")
-                grdsubsearch1.Columns.Add("PName", "Product Name")
-                grdsubsearch1.Columns.Add("Qty", "Qty")
-                grdsubsearch1.Columns.Add("PaidPrice", "Paid Charge")
-                grdsubsearch1.Columns.Add("TName", "Technician Name")
-                grdsubsearch1.Columns.Add("Status", "Status")
-                grdsubsearch1.Rows.Clear()
-                grdsubsearch1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
-
-                grdsubsearch2.Columns.Clear()
-                grdsubsearch2.Columns.Add("REREpNo", "RE-Repair No")
-                grdsubsearch2.Columns.Add("RepNo", "Repair No")
-                grdsubsearch2.Columns.Add("PCategory", "Product Category")
-                grdsubsearch2.Columns.Add("PName", "Product Name")
-                grdsubsearch2.Columns.Add("Qty", "Qty")
-                grdsubsearch2.Columns.Add("PaidPrice", "Paid Charge")
-                grdsubsearch2.Columns.Add("TName", "Technician Name")
-                grdsubsearch2.Columns.Add("Status", "Status")
-                grdsubsearch1.Rows.Clear()
-                grdsubsearch2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
-            Case "Receive", "DeliverRepair"
-                grdSearch.Columns.Add("RepNo", "Repair No")
-                grdSearch.Columns.Add("RDate", "Received Date")
-                grdSearch.Columns.Add("CuName", "Customer Name")
-                grdSearch.Columns.Add("CuTelNo1", "Customer Telephone No 1")
-                grdSearch.Columns.Add("CuTelNo2", "Customer Telephone No 2")
-                grdSearch.Columns.Add("CuTelNo3", "Customer Telephone No 3")
-                grdSearch.Columns.Add("PCategory", "Product Category")
-                grdSearch.Columns.Add("PName", "Product Name")
-                grdSearch.Columns.Add("PModelNo", "Product Model No")
-                grdSearch.Columns.Add("PSerialNo", "Product Serial No")
-                grdSearch.Columns.Add("Problem", "Problem")
-                grdSearch.Columns.Add("Qty", "Qty")
-                grdSearch.Columns.Add("RepRemarks1", "Remarks for Customer")
-                grdSearch.Columns.Add("Status", "Status")
-                grdSearch.Columns.Add("TName", "Technician Name")
-                grdSearch.Columns.Add("RepRemarks2", "Remarks for Technician")
-                grdSearch.Columns.Add("RepDate", "Repaired Date")
-                grdSearch.Columns.Add("RepCharge", "Repair Charge")
-                grdSearch.Columns.Add("DDate", "Delivered Date")
-                grdSearch.Columns.Add("PaidPrice", "Paid Repair Charge")
-            Case "Repair"
-                Dim dic As New Dictionary(Of String, String) From 
-                For Each pair As KeyValuePair(Of String, String) In dic
-                    grdSearch.Columns.Add(pair.Key, pair.Value)
-                Next
-                Dim grdSearchStatus As New DataGridViewComboBoxColumn With {
-                    .Name = "Status",
-                    .HeaderText = "Status"
-                }   '-----------Status Combo Box
-                grdSearchStatus.Items.Clear()
-                grdSearchStatus.Items.Add(RepairStatus.Received)
-                grdSearchStatus.Items.Add(RepairStatus.HandedOverTo)
-                grdSearchStatus.Items.Add(RepairStatus.Pending)
-                grdSearchStatus.Items.Add(RepairStatus.Repaired)
-                grdSearchStatus.Items.Add("Repaired Delivered")
-                grdSearchStatus.Items.Add(RepairStatus.Returned)
-                grdSearchStatus.Items.Add("Returned Delivered")
-                grdSearchStatus.Items.Add("Canceled")
-                grdSearch.Columns.Insert(grdSearch.Columns("RepRemarks1").Index + 1, grdSearchStatus)
-                Dim grdSearchTName As New DataGridViewComboBoxColumn With {
-                    .Name = "TName",
-                    .HeaderText = "Technician Name"
-                }    '-----------TName Combo Box
-                Dim DrTName = Db.GetDataList("Select TName from Technician group by TName;")
-                grdSearchTName.Items.Clear()
-                grdSearchTName.Items.Add("")
-                For Each Item In DrTName
-                    grdSearchTName.Items.Add(Item("TName").ToString)
-                Next
-                grdSearch.Columns.Insert(grdSearch.Columns("RepRemarks1").Index + 2, grdSearchTName)
-                'Edit properties of the columns
-                grdSearch.EditMode = DataGridViewEditMode.EditOnKeystrokeOrF2
-                grdSearch.SelectionMode = DataGridViewSelectionMode.CellSelect
-                grdSearch.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None
-                grdSearch.Columns.Item(0).Frozen = True
-                grdSearch.Columns.Item("RepNo").ReadOnly = True
-                grdSearch.Columns.Item("RDate").ReadOnly = True
-                grdSearch.Columns.Item("CuName").ReadOnly = True
-                grdSearch.Columns.Item("CuTelNo1").ReadOnly = True
-                grdSearch.Columns.Item("CuTelNo2").ReadOnly = True
-                grdSearch.Columns.Item("CuTelNo3").ReadOnly = True
-                grdSearch.Columns.Item("PCategory").ReadOnly = True
-                grdSearch.Columns.Item("PName").ReadOnly = True
-                grdSearch.Columns.Item("PModelNo").ReadOnly = True
-                grdSearch.Columns.Item("Qty").ReadOnly = True
-                grdSearch.Columns.Item("DDate").ReadOnly = True
-                grdSearch.Columns.Item("PaidPrice").ReadOnly = True
-                grdSearch.Columns.Item("RepRemarks1").DefaultCellStyle.WrapMode = DataGridViewTriState.True
-                grdSearch.Columns.Item("RepRemarks2").DefaultCellStyle.WrapMode = DataGridViewTriState.True
-                grdSearch.Columns.Item("Problem").DefaultCellStyle.WrapMode = DataGridViewTriState.True
-            Case "ReRepair"
+                GridSubSearchRight.Columns.Clear()
+                GridSubSearchRight.Columns.Add("REREpNo", "RE-Repair No")
+                GridSubSearchRight.Columns.Add("RepNo", "Repair No")
+                GridSubSearchRight.Columns.Add("PCategory", "Product Category")
+                GridSubSearchRight.Columns.Add("PName", "Product Name")
+                GridSubSearchRight.Columns.Add("Qty", "Qty")
+                GridSubSearchRight.Columns.Add("PaidPrice", "Paid Charge")
+                GridSubSearchRight.Columns.Add("TName", "Technician Name")
+                GridSubSearchRight.Columns.Add("Status", "Status")
+                GridSubSearchLeft.Rows.Clear()
+                GridSubSearchRight.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
+            Case FormSearchRequestSource.Repair
+                GridControl = New GridRepairSearchControl()
+                GridControl.Init(Db)
+                Controls.Add(GridControl)
+                GridControl.Control.Dock = DockStyle.Fill
+            Case FormSearchRequestSource.ReRepair
                 grdSearch.EditMode = DataGridViewEditMode.EditOnKeystrokeOrF2
                 grdSearch.SelectionMode = DataGridViewSelectionMode.CellSelect
                 grdSearch.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None
                 grdSearch.Columns.Add("ReRepNo", "Re-Repair No")
-                grdSearch.Columns.Add("RepNo", "Repair No")
                 grdSearch.Columns.Item(1).Frozen = True
-                grdSearch.Columns.Add("RDate", "Receive Date")
-                grdSearch.Columns.Add("CuName", "Customer Name")
-                grdSearch.Columns.Add("CuTelNo1", "Customer Telephone No 1")
-                grdSearch.Columns.Add("CuTelNo2", "Customer Telephone No 2")
-                grdSearch.Columns.Add("CuTelNo3", "Customer Telephone No 3")
-                grdSearch.Columns.Add("PCategory", "Product Category")
-                grdSearch.Columns.Add("PName", "Product Name")
-                grdSearch.Columns.Add("PModelNo", "Product Model No")
-                grdSearch.Columns.Add("PSerialNo", "Product Serial No")
-                grdSearch.Columns.Add("Problem", "Problem")
-                grdSearch.Columns.Add("Qty", "Qty")
-                grdSearch.Columns.Add("RepRemarks1", "Remarks for Customer")
+
                 Dim grdSearchStatus As New DataGridViewComboBoxColumn   '-----------Status Combo Box
                 grdSearchStatus.Name = "Status"
                 grdSearchStatus.HeaderText = "Status"
@@ -197,12 +74,12 @@ Public Class FormSearch
                     grdSearchTName.Items.Add(Item("TName").ToString)
                 Next
                 grdSearch.Columns.Add(grdSearchTName)
-                grdSearch.Columns.Add("RepRemarks2", "Remarks for Technician")
-                grdSearch.Columns.Add("RepDate", "Repaired Date")
-                grdSearch.Columns.Add("RepCharge", "Repair Charge")
-                grdSearch.Columns.Add("DNo", "Deliver No")
-                grdSearch.Columns.Add("DDate", "Delivered Date")
-                grdSearch.Columns.Add("PaidPrice", "Paid Repair Charge")
+                {"RepRemarks2", "Remarks for Technician"},
+                {"RepDate", "Repaired Date"},
+                {"RepCharge", "Repair Charge"},
+                {"DNo", "Deliver No"},
+                {"DDate", "Delivered Date"},
+                {"PaidPrice", "Paid Repair Charge"},
                 grdSearch.Columns.Item("ReRepNo").ReadOnly = True
                 grdSearch.Columns.Item("RepNo").ReadOnly = True
                 grdSearch.Columns.Item("RDate").ReadOnly = True
@@ -219,38 +96,129 @@ Public Class FormSearch
                 grdSearch.Columns.Item("RepRemarks1").DefaultCellStyle.WrapMode = DataGridViewTriState.True
                 grdSearch.Columns.Item("RepRemarks2").DefaultCellStyle.WrapMode = DataGridViewTriState.True
                 grdSearch.Columns.Item("Problem").DefaultCellStyle.WrapMode = DataGridViewTriState.True
-            Case "DeliverReRepair"
-                grdSearch.Columns.Add("ReRepNo", "Re-Repair No")
-                grdSearch.Columns.Add("RepNo", "Repair No")
-                grdSearch.Columns.Add("RDate", "Receive Date")
-                grdSearch.Columns.Add("CuName", "Customer Name")
-                grdSearch.Columns.Add("CuTelNo1", "Customer Telephone No 1")
-                grdSearch.Columns.Add("CuTelNo2", "Customer Telephone No 2")
-                grdSearch.Columns.Add("CuTelNo3", "Customer Telephone No 3")
-                grdSearch.Columns.Add("PCategory", "Product Category")
-                grdSearch.Columns.Add("PName", "Product Name")
-                grdSearch.Columns.Add("PModelNo", "Product Model No")
-                grdSearch.Columns.Add("PSerialNo", "Product Serial No")
-                grdSearch.Columns.Add("Problem", "Problem")
-                grdSearch.Columns.Add("Qty", "Qty")
-                grdSearch.Columns.Add("RepRemarks1", "Remarks for Customer")
-                grdSearch.Columns.Add("Status", "Status")
-                grdSearch.Columns.Add("TName", "Technician Name")
-                grdSearch.Columns.Add("RepRemarks2", "Remarks for Technician")
-                grdSearch.Columns.Add("RepDate", "Repaired Date")
-                grdSearch.Columns.Add("RepCharge", "Repair Charge")
-                grdSearch.Columns.Add("DNo", "Deliver No")
-                grdSearch.Columns.Add("DDate", "Delivered Date")
-                grdSearch.Columns.Add("PaidPrice", "Paid Repair Charge")
         End Select
-        For Each column As DataGridViewColumn In grdSearch.Columns
-            cmbFilter.Items.Add(column.HeaderText)
-        Next
-        cmbFilter.Items.Add("All")
-        cmbFilter.SelectedIndex = Int(cmbFilter.Items.Count) - 1
-        CmdTSSearch_Click(sender, e)
-        txtTSSearch.Focus()
+        ControlSearchEngine.Init(GridControl.GetFilterDictionary())
     End Sub
+
+    Private Function GetControlSeachInitDictionary() As Dictionary(Of String, String)
+        Select Case Tag
+            Case FormSearchRequestSource.ReRepair
+                Return New Dictionary(Of String, String) From {
+                    {"RepNo", "Repair No"},
+                    {"RDate", "Receive Date"},
+                    {"CuName", "Customer Name"},
+                    {"CuTelNo1", "Customer Telephone No 1"},
+                    {"CuTelNo2", "Customer Telephone No 2"},
+                    {"CuTelNo3", "Customer Telephone No 3"},
+                    {"PCategory", "Product Category"},
+                    {"PName", "Product Name"},
+                    {"PModelNo", "Product Model No"},
+                    {"PSerialNo", "Product Serial No"},
+                    {"Problem", "Problem"},
+                    {"Qty", "Qty"},
+                    {"RepRemarks1", "Remarks for Customer"},
+                }
+            Case FormSearchRequestSource.DeliverReRepair
+                Return New Dictionary(Of String, String) From {
+                    {"ReRepNo", "Re-Repair No"},
+                    {"RepNo", "Repair No"},
+                    {"RDate", "Receive Date"},
+                    {"CuName", "Customer Name"},
+                    {"CuTelNo1", "Customer Telephone No 1"},
+                    {"CuTelNo2", "Customer Telephone No 2"},
+                    {"CuTelNo3", "Customer Telephone No 3"},
+                    {"PCategory", "Product Category"},
+                    {"PName", "Product Name"},
+                    {"PModelNo", "Product Model No"},
+                    {"PSerialNo", "Product Serial No"},
+                    {"Problem", "Problem"},
+                    {"Qty", "Qty"},
+                    {"RepRemarks1", "Remarks for Customer"},
+                    {"Status", "Status"},
+                    {"TName", "Technician Name"},
+                    {"RepRemarks2", "Remarks for Technician"},
+                    {"RepDate", "Repaired Date"},
+                    {"RepCharge", "Repair Charge"},
+                    {"DNo", "Deliver No"},
+                    {"DDate", "Delivered Date"},
+                    {"PaidPrice", "Paid Repair Charge"}
+                }
+            Case FormSearchRequestSource.Sale
+                Return New Dictionary(Of String, String) From {
+                    {"SaNo", "Sale No"},
+                    {"SaDate", "Sale Date"},
+                    {"CuNo", "Customer No"},
+                    {"CuName", "Customer Name"},
+                    {"CuTelNo1", "Customer Telephone No 1"},
+                    {"CuTelNo2", "Customer Telephone No 2"},
+                    {"CuTelNo3", "Customer Telephone No 3"},
+                    {"SubTotal", "Sub Total"},
+                    {"Less", "Less"},
+                    {"Due", "Due"},
+                    {"Received", "Received"},
+                    {"Balance", "Balance"},
+                    {"CashAmount", "Cash Amount"},
+                    {"CPInvoiceNo", "Card Payment Invoice No"},
+                    {"CPAmount", "Card Payment Amount"},
+                    {"CuLNo", "Customer Loan No"},
+                    {"CuLAmount", "Customer Loan Amount"},
+                    {"Remarks", "Remarks"}
+                }
+            Case FormSearchRequestSource.Supply
+                Return New Dictionary(Of String, String) From {
+                    {"SupNo", "Supply No"},
+                    {"SupDate", "Supply Date"},
+                    {"SuNo", "Supplier No"},
+                    {"SuName", "Supplier Name"},
+                    {"SupStatus", "Status"},
+                    {"SupPaidDate", "Paid Date"},
+                    {"SupRemarks", "Remarks"}
+                }
+            Case FormSearchRequestSource.Receive, FormSearchRequestSource.DeliverRepair
+                Return New Dictionary(Of String, String) From {
+                    {"RepNo", "Repair No"},
+                    {"RDate", "Received Date"},
+                    {"CuName", "Customer Name"},
+                    {"CuTelNo1", "Customer Telephone No 1"},
+                    {"CuTelNo2", "Customer Telephone No 2"},
+                    {"CuTelNo3", "Customer Telephone No 3"},
+                    {"PCategory", "Product Category"},
+                    {"PName", "Product Name"},
+                    {"PModelNo", "Product Model No"},
+                    {"PSerialNo", "Product Serial No"},
+                    {"Problem", "Problem"},
+                    {"Qty", "Qty"},
+                    {"RepRemarks1", "Remarks for Customer"},
+                    {"Status", "Status"},
+                    {"TName", "Technician Name"},
+                    {"RepRemarks2", "Remarks for Technician"},
+                    {"RepDate", "Repaired Date"},
+                    {"RepCharge", "Repair Charge"},
+                    {"DDate", "Delivered Date"},
+                    {"PaidPrice", "Paid Repair Charge"}
+                }
+            Case FormSearchRequestSource.Deliver
+                Return New Dictionary(Of String, String) From {
+                    {"DNo", "Deliver No"},
+                    {"DDate", "Delivered Date"},
+                    {"CuName", "Customer Name"},
+                    {"CuTelNo1", "Customer Telephone No 1"},
+                    {"CuTelNo2", "Customer Telephone No 2"},
+                    {"CuTelNo3", "Customer Telephone No 3"},
+                    {"DGrandTotal", "Grand Total"},
+                    {"CReceived", "Received"},
+                    {"CBalance", "Balance"},
+                    {"CAmount", "Cash Amount"},
+                    {"CPInvoiceNo", "Card Payment Invoice No"},
+                    {"CPAmount", "Card Payment Amount"},
+                    {"CuLNo", "Customer Loan No"},
+                    {"CuLAmount", "Customer Loan Amount"},
+                    {"DRemarks", "Remarks"}
+                }
+            Case Else
+                Throw New Exception("Invalid Request Source")
+        End Select
+    End Function
 
     Private Sub CmdTSSearch_Click(sender As Object, e As EventArgs)
         Try
@@ -320,7 +288,7 @@ Public Class FormSearch
                         Symbol = ""
                     End If
                     Select Case Tag
-                        Case "Sale"
+                        Case FormSearchRequestSource.Sale
                             Select Case Filter
                                 Case "Sale No"
                                     x += " and Sale.SaNo Like '%" & Search & "%'"
@@ -450,58 +418,6 @@ Public Class FormSearch
                                     x += " and RepRemarks2 like '%" & Search & "%'"
                                 Case "All"
                                     x += " and (REP.RepNo like '%" & Search & "%' or R.RNo like '%" & Search & "%' or RDate like '%" & Search & "%' or CU.CuNo like '%" & Search & "%' or CuName like '%" & Search & "%' or CuTelNo1 like '%" & Search & "%' or CuTelNo2 like '%" & Search & "%' or CuTelNo3 like '%" & Search & "%' or P.PNo like '%" & Search & "%' or PCategory like '%" & Search & "%' or PName like '%" & Search & "%' or PModelNo like '%" & Search & "%' or PSerialNo like '%" & Search & "%' or Problem like '%" & Search & "%' or PaidPrice like '%" & Search & "%' or T.TNo like '%" & Search & "%' or TName like '%" & Search & "%' or Status like '%" & Search & "%' or RepDate like '%" & Search & "%' or RepRemarks1 like '%" & Search & "%' or RepRemarks2 like '%" & Search & "%')"
-                            End Select
-                        Case "Repair"
-                            If x = "" Then x = " Where "
-                            Select Case Filter
-                                Case "Repair No"
-                                    Count += 1
-                                    x += " REP.RepNo =" + Search
-                                    If y <> "" Then y += ","
-                                    y += "IIF(REP.RepNo=" & Search & "," & Count
-                                Case "Remarks by Customer"
-                                    Dim CMDSearch2 As New OleDb.OleDbCommand
-                                    Dim DRSearch2 = Db.GetDataList("Select RepNo,Remarks from RepairRemarks1 Where Remarks like '%" & Search & "%' ")
-                                    x += " RepNo IN ("
-                                    For Each Item In DRSearch2
-                                        x += Item("RepNo").ToString + ","
-                                    Next
-                                    If DRSearch2.Count Then x = x.Remove(x.Length - 1, 1)
-                                    x += ") "
-                                Case "Remarks by Technician"
-                                    Dim DRSearch2 = Db.GetDataList("Select RepNo,Remarks from RepairRemarks2 Where Remarks like '%" & Search &
-                                                                        "%' ")
-                                    x += " RepNo IN ( "
-                                    For Each Item In DRSearch2
-                                        x += Item("RepNo").ToString + ","
-                                    Next
-                                    If DRSearch2.Count Then x = x.Remove(x.Length - 1, 1)
-                                    x += ") "
-                                Case "All"
-                                    x += " ("
-                                    For Each clm As DataGridViewColumn In grdSearch.Columns
-                                        If clm.Name = "RepRemarks1" Or clm.Name = "RepRemarks2" Then Continue For
-                                        If clm.Index <> 0 Then x += " OR "
-                                        x += $"{clm.Name} {cmdLIKE.Text} '{Symbol}{Search}{Symbol}'"
-                                    Next
-                                    Dim CMDSearch2 As New OleDb.OleDbCommand
-                                    Dim DRSearch2 = Db.GetDataList($"Select RepNo,Remarks from RepairRemarks1 Where Remarks {cmdLIKE.Text} '{Symbol}{Search}{Symbol}' Union Select RepNo,Remarks from RepairRemarks2 Where Remarks like '{Symbol}{Search}{Symbol}'")
-                                    If DRSearch2.Count Then
-                                        x += " Or RepNo IN ("
-                                        For Each Item In DRSearch2
-                                            x += Item("RepNo").ToString + ","
-                                        Next
-                                        x = x.Remove(x.Length - 1, 1)
-                                        x += ")"
-                                    End If
-                                    x += ") "
-                                Case Else
-                                    For Each clm As DataGridViewColumn In grdSearch.Columns
-                                        If clm.HeaderText = Filter Then
-                                            x += $" {clm.Name} {cmdLIKE.Text} '{Symbol}{Search}{Symbol}' "
-                                            Exit For
-                                        End If
-                                    Next
                             End Select
                         Case "ReRepair"
                             If x = "" Then
@@ -639,8 +555,6 @@ Public Class FormSearch
                 Query = "SELECT RepNo,REP.RNo,RDate, R.CuNo, CuName, CuTelNo1,CuTelNo2, CuTelNo3, REP.PNo,PCategory,PName, PModelNo, PSerialNo,Problem,Qty,RepRemarks1,Status,REP.TNo, TName,RepRemarks2,RepDate,Charge,REP.DNo, DDate, PaidPrice from (((((Repair REP INNER JOIN RECEIVE R ON R.RNO = REP.RNO) INNER JOIN PRODUCT  P ON P.PNO = REP.PNO) INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = REP.TNO) LEFT JOIN DELIVER D ON D.DNO = REP.DNO) Where (Status='Repaired Delivered' or Status='Returned Delivered') " & x & ";"
             Case "Deliver"
                 Query = "SELECT Deliver.DNo,DDate,Customer.CuNo,CuName,CuTelNo1,CuTelNo2,CuTelNo3,DGrandTotal,CReceived,CBalance,CAmount,CPInvoiceNo,CPAmount,CuLNo,CuLAmount,DRemarks from Deliver,Customer where Customer.CuNo=Deliver.CuNo " & x & " Order by DDate Desc;"
-            Case "Repair"
-                Query = "SELECT RepNo,REP.RNo,RDate, R.CuNo, CuName, CuTelNo1,CuTelNo2, CuTelNo3, REP.PNo,PCategory,PName, PModelNo, PSerialNo,Problem,Location,Qty,Status,REP.TNo, TName,RepDate,Charge,REP.DNo, DDate, PaidPrice from (((((Repair REP INNER JOIN RECEIVE R ON R.RNO = REP.RNO) INNER JOIN PRODUCT  P ON P.PNO = REP.PNO) INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = REP.TNO) LEFT JOIN DELIVER D ON D.DNO = REP.DNO)" & x
             Case "ReRepair"
                 Query = "SELECT RetNo, RepNo,Ret.RNo,RDate, R.CuNo, CuName, CuTelNo1,CuTelNo2, CuTelNo3, Ret.PNo,PCategory,PName, PModelNo, PSerialNo,Problem,Qty,Status, TName,RetREpDate,Charge,Ret.DNo, DDate, PaidPrice from (((((Return RET INNER JOIN RECEIVE R ON R.RNO = Ret.RNO) INNER JOIN PRODUCT  P ON P.PNO = Ret.PNO) INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = Ret.TNO) LEFT JOIN DELIVER D ON D.DNO = Ret.DNO) " & x & ";"
             Case "DeliverRepair"
@@ -681,7 +595,7 @@ Public Class FormSearch
                                                Item("Qty").ToString, Item("RepRemarks1").ToString,
                                                Item("Status").ToString, Item("TName").ToString, Item("RepRemarks2").ToString, Item("RepDate").ToString,
                                                Item("Charge").ToString, Item("DDate").ToString, Item("PaidPrice").ToString)
-                Case "Repair", "DeliverRepair"
+                Case "DeliverRepair"
                     grdSearch.Rows.Add(Item("RepNo").ToString(), Item("RDate").ToString(), Item("CuName").ToString(), Item("CuTelNo1").ToString(),
                             Item("CuTelNo2").ToString(), Item("CuTelNo3").ToString(), Item("PCategory").ToString(), Item("PName").ToString(),
                             Item("PModelNo").ToString(), Item("PSerialNo").ToString(), Item("Problem").ToString(), Item("Location").ToString(),
@@ -739,7 +653,7 @@ Public Class FormSearch
         Tag = ""
     End Sub
 
-    Private Sub grdSearch_SelectionChanged(sender As Object, e As EventArgs) Handles grdSearch.SelectionChanged
+    Private Sub grdSearch_SelectionChanged(sender As Object, e As EventArgs)
         Select Case Tag
             Case "Repair"
                 frmDatagridviewTool.frm_Close()
@@ -759,21 +673,21 @@ Public Class FormSearch
             Case "Deliver"
                 Dim DR = Db.GetDataList("Select RepNo,PCategory,PName,Qty,PaidPrice,TName,Status from (((Repair Rep Inner Join Deliver D On D.DNo=Rep.DNo) Inner Join Product P On p.pno = Rep.pno) Inner Join Technician T On T.TNo = Rep.TNo) Where D.DNo = " &
                                              grdSearch.Item(0, grdSearch.CurrentRow.Index).Value.ToString)
-                grdsubsearch1.Rows.Clear()
+                GridSubSearchLeft.Rows.Clear()
                 For Each Item In DR
-                    grdsubsearch1.Rows.Add(Item("RepNo").ToString, Item("PCategory").ToString, Item("PName").ToString, Item("Qty").ToString,
+                    GridSubSearchLeft.Rows.Add(Item("RepNo").ToString, Item("PCategory").ToString, Item("PName").ToString, Item("Qty").ToString,
                                             Item("PaidPrice").ToString, Item("TName").ToString, Item("Status").ToString)
                 Next
                 DR = Db.GetDataList("Select RetNo, RepNo, PCategory, PName, Qty, PaidPrice, TName, Status from (((`Return` Ret Inner Join Deliver D On D.DNo = Ret.DNo) Inner Join Product P On p.pno = Ret.pno) Inner Join Technician T On T.TNo = Ret.TNo) Where D.DNo = " & grdSearch.Item(0, grdSearch.CurrentRow.Index).Value.ToString)
-                grdsubsearch2.Rows.Clear()
+                GridSubSearchRight.Rows.Clear()
                 For Each Item In DR
-                    grdsubsearch2.Rows.Add(Item("RetNo").ToString, Item("RepNo").ToString, Item("PCategory").ToString, Item("PName").ToString, Item("Qty").ToString,
+                    GridSubSearchRight.Rows.Add(Item("RetNo").ToString, Item("RepNo").ToString, Item("PCategory").ToString, Item("PName").ToString, Item("Qty").ToString,
                                         Item("PaidPrice").ToString, Item("TName").ToString, Item("Status").ToString)
                 Next
         End Select
     End Sub
 
-    Private Sub grdSearch_CellBeginEdit(sender As Object, e As DataGridViewCellCancelEventArgs) Handles grdSearch.CellBeginEdit
+    Private Sub grdSearch_CellBeginEdit(sender As Object, e As DataGridViewCellCancelEventArgs)
         If e.RowIndex < 0 Then Exit Sub
         If Tag = "Repair" Then
             If e.ColumnIndex = 17 Then
@@ -793,7 +707,7 @@ Public Class FormSearch
         End If
     End Sub
 
-    Private Sub grdSearch_RowValidating(sender As Object, e As DataGridViewCellCancelEventArgs) Handles grdSearch.RowValidating
+    Private Sub grdSearch_RowValidating(sender As Object, e As DataGridViewCellCancelEventArgs)
         If e.RowIndex < 0 Then Exit Sub
         Select Case Tag
             Case "Repair"
@@ -819,7 +733,7 @@ Public Class FormSearch
         End Select
     End Sub
 
-    Private Sub grdSearch_EditingControlShowing(sender As Object, e As DataGridViewEditingControlShowingEventArgs) Handles grdSearch.EditingControlShowing
+    Private Sub grdSearch_EditingControlShowing(sender As Object, e As DataGridViewEditingControlShowingEventArgs)
         If Tag = "Repair" Then
             If grdSearch.CurrentCell.ColumnIndex = 17 Then
                 dtpDate.Location = grdSearch.GetCellDisplayRectangle(grdSearch.CurrentCell.ColumnIndex, grdSearch.CurrentCell.RowIndex, True).Location
@@ -833,7 +747,7 @@ Public Class FormSearch
         End If
     End Sub
 
-    Private Sub GrdSearch_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles grdSearch.CellDoubleClick
+    Private Sub GrdSearch_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs)
         If Tag = "" Or e.RowIndex < 0 Then
             Exit Sub
         End If
@@ -985,7 +899,7 @@ Public Class FormSearch
         End If
     End Sub
 
-    Private Sub GrdSearch_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs) Handles grdSearch.CellEndEdit
+    Private Sub GrdSearch_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs)
         If e.RowIndex < 0 Then Exit Sub
         Dim currentvalue As String = "", previousvalue As String = ""
         If grdSearch.Item(e.ColumnIndex, e.RowIndex).Value IsNot Nothing Then currentvalue = grdSearch.Item(e.ColumnIndex, e.RowIndex).Value
@@ -1069,30 +983,7 @@ Public Class FormSearch
     End Sub
 
     Private Sub SearchSubmission(WhereQuery As String, Values As MySqlParameter()) Handles ControlSearchEngine.SearchSubmissionEvent
-        Dim Columns As String() = {
-            Stock.Code,
-            Stock.Category,
-            Stock.Name,
-            Stock.ModelNo,
-            Stock.Location,
-            Stock.CostPrice,
-            Stock.LowestPrice,
-            Stock.SalePrice,
-            Stock.AvailableUnits,
-            Stock.DamagedUnits,
-            Stock.ReorderPoint,
-            Stock.Details
-        }
-        WhereQuery = If(WhereQuery.Trim() = "", "1", WhereQuery)
-        Dim FilterQuery As String = $"SELECT {String.Join(", ", Columns) } FROM {Tables.Repair} WHERE {WhereQuery} ORDER BY {Stock.Code};"
-        Dim DT As DataTable
-        Try
-            DT = Db.GetDataTable(FilterQuery, Values)
-            ControlSearchEngine.QueryValidator(True)
-            grdSearch.DataSource = DT
-        Catch ex As Exception
-            ControlSearchEngine.QueryValidator(False)
-        End Try
+        GridControl.SearchSubmission(WhereQuery, Values)
     End Sub
 
     Private Sub txtTSSearch_KeyPress(sender As Object, e As KeyPressEventArgs)
@@ -1102,3 +993,14 @@ Public Class FormSearch
     End Sub
 
 End Class
+
+Public Enum FormSearchRequestSource
+    Repair
+    ReRepair
+    Sale
+    Supply
+    Deliver
+    Receive
+    DeliverRepair
+    DeliverReRepair
+End Enum
