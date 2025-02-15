@@ -328,10 +328,28 @@
       <DependentUpon>rptReceive.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Search\Controls\GridDeliverSearchControl.Designer.vb">
+      <DependentUpon>GridDeliverSearchControl.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Search\Controls\GridDeliverSearchControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Search\Controls\GridRepairSearchControl.Designer.vb">
       <DependentUpon>GridRepairSearchControl.vb</DependentUpon>
     </Compile>
     <Compile Include="Search\Controls\GridRepairSearchControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Search\Controls\GridSaleSearchControl.Designer.vb">
+      <DependentUpon>GridSaleSearchControl.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Search\Controls\GridSaleSearchControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Search\Controls\GridSupplySearchControl.Designer.vb">
+      <DependentUpon>GridSupplySearchControl.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Search\Controls\GridSupplySearchControl.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Search\FormSearch.Designer.vb">
@@ -763,8 +781,17 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>rptReceive1.vb</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Search\Controls\GridDeliverSearchControl.resx">
+      <DependentUpon>GridDeliverSearchControl.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Search\Controls\GridRepairSearchControl.resx">
       <DependentUpon>GridRepairSearchControl.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Search\Controls\GridSaleSearchControl.resx">
+      <DependentUpon>GridSaleSearchControl.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Search\Controls\GridSupplySearchControl.resx">
+      <DependentUpon>GridSupplySearchControl.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Search\FormSearch.resx">
       <DependentUpon>FormSearch.vb</DependentUpon>

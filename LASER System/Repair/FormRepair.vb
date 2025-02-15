@@ -16,7 +16,6 @@ Public Class FormRepair
 
     Private Db As New Database
     Private TransactionDatabase As TransactionDatabase
-    'Private ReportPrintManager As New AbstractReportPrint
     Private RepairController As New RepairController
 
     Public Sub New()

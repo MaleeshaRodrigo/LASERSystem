@@ -26,14 +26,13 @@ Partial Class FormSearch
         Me.tabcontrol = New System.Windows.Forms.TabControl()
         Me.tabpageTextSearch = New System.Windows.Forms.TabPage()
         Me.ControlSearchEngine = New LASER_System.ControlSearchEngine()
-        Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
+        Me.MenuStrip = New System.Windows.Forms.MenuStrip()
         Me.OPTIONToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ClearToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ProgressBar = New System.Windows.Forms.ProgressBar()
-        Me.bgwSearch = New System.ComponentModel.BackgroundWorker()
         Me.tabcontrol.SuspendLayout()
         Me.tabpageTextSearch.SuspendLayout()
-        Me.MenuStrip1.SuspendLayout()
+        Me.MenuStrip.SuspendLayout()
         Me.SuspendLayout()
         '
         'tabcontrol
@@ -66,15 +65,15 @@ Partial Class FormSearch
         Me.ControlSearchEngine.Size = New System.Drawing.Size(966, 65)
         Me.ControlSearchEngine.TabIndex = 0
         '
-        'MenuStrip1
+        'MenuStrip
         '
-        Me.MenuStrip1.ImageScalingSize = New System.Drawing.Size(20, 20)
-        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OPTIONToolStripMenuItem})
-        Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
-        Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(980, 24)
-        Me.MenuStrip1.TabIndex = 2
-        Me.MenuStrip1.Text = "MenuStrip"
+        Me.MenuStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
+        Me.MenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OPTIONToolStripMenuItem})
+        Me.MenuStrip.Location = New System.Drawing.Point(0, 0)
+        Me.MenuStrip.Name = "MenuStrip"
+        Me.MenuStrip.Size = New System.Drawing.Size(980, 24)
+        Me.MenuStrip.TabIndex = 2
+        Me.MenuStrip.Text = "MenuStrip"
         '
         'OPTIONToolStripMenuItem
         '
@@ -99,11 +98,6 @@ Partial Class FormSearch
         Me.ProgressBar.Size = New System.Drawing.Size(980, 10)
         Me.ProgressBar.TabIndex = 5
         '
-        'bgwSearch
-        '
-        Me.bgwSearch.WorkerReportsProgress = True
-        Me.bgwSearch.WorkerSupportsCancellation = True
-        '
         'FormSearch
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 14.0!)
@@ -111,28 +105,27 @@ Partial Class FormSearch
         Me.ClientSize = New System.Drawing.Size(980, 499)
         Me.Controls.Add(Me.ProgressBar)
         Me.Controls.Add(Me.tabcontrol)
-        Me.Controls.Add(Me.MenuStrip1)
+        Me.Controls.Add(Me.MenuStrip)
         Me.Font = New System.Drawing.Font("Calibri", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
-        Me.MainMenuStrip = Me.MenuStrip1
+        Me.MainMenuStrip = Me.MenuStrip
         Me.Name = "FormSearch"
         Me.Tag = "Repair"
         Me.Text = "LASER System - Search Management"
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         Me.tabcontrol.ResumeLayout(False)
         Me.tabpageTextSearch.ResumeLayout(False)
-        Me.MenuStrip1.ResumeLayout(False)
-        Me.MenuStrip1.PerformLayout()
+        Me.MenuStrip.ResumeLayout(False)
+        Me.MenuStrip.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
     End Sub
     Friend WithEvents tabcontrol As System.Windows.Forms.TabControl
-    Friend WithEvents MenuStrip1 As MenuStrip
+    Friend WithEvents MenuStrip As MenuStrip
     Friend WithEvents ProgressBar As ProgressBar
     Friend WithEvents OPTIONToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ClearToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents bgwSearch As System.ComponentModel.BackgroundWorker
     Friend WithEvents tabpageTextSearch As TabPage
     Friend WithEvents ControlSearchEngine As ControlSearchEngine
 End Class
