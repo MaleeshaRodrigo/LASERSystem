@@ -70,7 +70,7 @@ Public Class ReportPrintManager
                 .ReportViewer.ReportSource = RPT
                 .Name = "frmReport" + NextfrmNo(frmReport).ToString
                 .boolClosed = boolClosed
-                .ReportViewer.PrintMode = CrystalDecisions.Windows.Forms.PrintMode.PrintToPrinter
+                .ReportViewer.PrintMode = CrystalDecisions.Windows.Forms.PrintMode.PrintOutputController
                 .WindowState = FormWindowState.Normal
                 .Text = "Report - Received Receipt"
                 Application.Run(frm1)
@@ -127,7 +127,7 @@ Public Class ReportPrintManager
                 .Name = "frmReport" + NextfrmNo(frmReport).ToString
                 .boolClosed = boolClosed
                 .WindowState = FormWindowState.Normal
-                .ReportViewer.PrintMode = CrystalDecisions.Windows.Forms.PrintMode.PrintToPrinter
+                .ReportViewer.PrintMode = CrystalDecisions.Windows.Forms.PrintMode.PrintOutputController
                 .Text = "Report - Received Sticker/s"
                 Application.Run(FormReport)
             End With
