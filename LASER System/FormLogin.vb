@@ -23,7 +23,8 @@
         ControlLogin.Init(Db)
         ' Developer Mode
         If My.Settings.DeveloperMode = True Then
-            ControlLogin.txtPassword.Text = "admin"
+            ControlLogin.txtPassword.Text = "1999"
+            ControlLogin.cmdLogin.PerformClick()
         End If
     End Sub
 

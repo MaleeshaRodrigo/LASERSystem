@@ -384,12 +384,12 @@ Public Class FormMain
         Dim str As String = BarCodePort.ReadExisting
         If BarCodePort.IsOpen = True AndAlso str <> "" Then
             Dim CurrentForm As Form = My.Application.OpenForms.Item(My.Application.OpenForms.Count - 1)
-            If CurrentForm.Name.StartsWith(frmSearch.Name) And CurrentForm.Tag = "Repair" Then
-                Dim frmSearch_Repair As FormSearch = CurrentForm
-                frmSearch_Repair.txtTSSearch.Text = str
-                BeginInvoke(New EventHandler(Sub()
-                                                    frmSearch_Repair.cmdTSSearch.PerformClick()
-                                                End Sub))
+            If CurrentForm.Name.StartsWith(FormSearch.Name) And CurrentForm.Tag = "Repair" Then
+                'Dim frmSearch_Repair As FormSearch = CurrentForm
+                'frmSearch_Repair.txtTSSearch.Text = str
+                'BeginInvoke(New EventHandler(Sub()
+                '                                 frmSearch_Repair.cmdTSSearch.PerformClick()
+                '                             End Sub))
                 Exit Sub
             End If
             If Application.OpenForms().OfType(Of frmSale)().Count < 1 Then

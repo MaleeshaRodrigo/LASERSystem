@@ -7,10 +7,10 @@ Public Class GridRepairSearchControl
     Implements GridSearchControl
 
     Private Db As Database
-    Private TechnicianController As New TechnicianController()
     Private FormParent As FormSearch
     Private Mode As RepairMode
     Private DatePicker As New DateTimePicker
+    Private TechnicianController As New TechnicianController()
     Private RepairController As New RepairController
     Private GridCellPreviousValue As Object
 
@@ -20,9 +20,10 @@ Public Class GridRepairSearchControl
         End Get
     End Property
 
-    Public Sub Init(Db As Database, ParentForm As FormSearch) Implements GridSearchControl.Init
+    Public Function Init(Db As Database, ParentForm As FormSearch) As GridSearchControl Implements GridSearchControl.Init
         Me.Db = Db
         TechnicianController.SetDatabase(Db)
+        RepairController.SetDatabase(Db)
         FormParent = ParentForm
         ' Fill the technician datagridview combobox
         Dim Technicians As String() = TechnicianController.GetTechnicianNames()
@@ -31,7 +32,10 @@ Public Class GridRepairSearchControl
             AssignedTechnicianColumn.Items.Clear()
             AssignedTechnicianColumn.Items.AddRange(Technicians)
         Next
-    End Sub
+
+        SearchSubmission("", {})
+        Return Me
+    End Function
 
     Public Function SetMode(Mode As RepairMode) As GridRepairSearchControl
         Me.Mode = Mode
@@ -45,6 +49,7 @@ Public Class GridRepairSearchControl
 
     Public Function GetFilterDictionary() As Dictionary(Of String, String) Implements GridSearchControl.GetFilterDictionary
         Return New Dictionary(Of String, String) From {
+            {"All", "All"},
             {"RepNo", "Repair No"},
             {"RDate", "Received Date"},
             {"CuName", "Customer Name"},
@@ -79,39 +84,43 @@ Public Class GridRepairSearchControl
         End Try
     End Sub
 
+    Public Sub PerformQueryMapping(ByRef PoistionList As List(Of Object))
+        Dim UpdatedPoistionList As New List(Of Object)(PoistionList)
+        For Each Poistion As Object In PoistionList
+            If Poistion.GetType.Name = "String[]" AndAlso Poistion(0) = "CuTelNo" Then
+                Dim NewPoistionList As New List(Of Object)
+                NewPoistionList.Append("(")
+                NewPoistionList.Append(New List(Of Object) From {"CuTelNo1", Poistion(1)})
+                NewPoistionList.Append("OR")
+                NewPoistionList.Append(New List(Of Object) From {"CuTelNo2", Poistion(1)})
+                NewPoistionList.Append("OR")
+                NewPoistionList.Append(New List(Of Object) From {"CuTelNo3", Poistion(1)})
+                NewPoistionList.Append(")")
+                Dim PoistionIndex = UpdatedPoistionList.IndexOf(Poistion)
+                UpdatedPoistionList.Remove(Poistion)
+                UpdatedPoistionList.InsertRange(PoistionIndex, NewPoistionList)
+            End If
+        Next
+        PoistionList = UpdatedPoistionList
+    End Sub
+
     Private Function GetFilterQuery(WhereQuery As String) As String
         If Mode = RepairMode.Repair Then
-            Return $"SELECT RepNo, RDate, R.CuNo, CuName, CONCAT_WS(' | ', NULLIF(CuTelNo1, ''), NULLIF(CuTelNo2, ''), NULLIF(CuTelNo3, '')) AS 'CuTelNo', PCategory, PName, PSerialNo, Problem, Location, Qty, Status, AT.TName AS 'AssignedTechnician', HT.TName AS 'HandedOverTechnician', RepDate, Charge, DDate, PaidPrice FROM `{Tables.Repair}` REP INNER JOIN {Tables.Receive} R ON R.RNO = REP.RNO INNER JOIN {Tables.Product} P ON P.PNO = REP.PNO INNER JOIN {Tables.Customer} CU ON CU.CUNO = R.CUNO LEFT JOIN {Tables.Technician} AT ON AT.TNO = REP.AssignedToTNo LEFT JOIN {Tables.Technician} HT ON HT.TNO = REP.HandedOverToTNo LEFT JOIN {Tables.Deliver} D ON D.DNO = REP.DNO) WHERE {WhereQuery}"
+            Return $"SELECT RepNo, RDate, CuName, CONCAT_WS(' | ', NULLIF(CuTelNo1, ''), NULLIF(CuTelNo2, ''), NULLIF(CuTelNo3, '')) AS 'CuTelNo', CONCAT(PCategory, ' ', PName) AS 'Product', PSerialNo, Problem, Location, Qty, Status, AT.TName AS 'AssignedTechnician', HT.TName AS 'HandedOverTechnician', RepDate, Charge, DDate, PaidPrice FROM `{Tables.Repair}` REP INNER JOIN {Tables.Receive} R ON R.RNO = REP.RNO INNER JOIN {Tables.Product} P ON P.PNO = REP.PNO INNER JOIN {Tables.Customer} CU ON CU.CUNO = R.CUNO LEFT JOIN {Tables.Technician} AT ON AT.TNO = REP.AssignedToTNo LEFT JOIN {Tables.Technician} HT ON HT.TNO = REP.HandedOverToTNo LEFT JOIN {Tables.Deliver} D ON D.DNO = REP.DNO WHERE {WhereQuery}"
         ElseIf Mode = RepairMode.ReRepair Then
-            Return $"SELECT RetNo, RepNo,Ret.RNo,RDate, R.CuNo, CuName, CONCAT_WS(' | ', NULLIF(CuTelNo1, ''), NULLIF(CuTelNo2, ''), NULLIF(CuTelNo3, '')) AS 'CuTelNo', PCategory, PName, PModelNo, PSerialNo, Problem, Qty, Status, TName, RetREpDate, Charge, Ret.DNo, DDate, PaidPrice FROM (((((Return RET INNER JOIN RECEIVE R ON R.RNO = Ret.RNO) INNER JOIN PRODUCT  P ON P.PNO = Ret.PNO) INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = Ret.TNO) LEFT JOIN DELIVER D ON D.DNO = Ret.DNO) WHERE {WhereQuery};"
+            Return $"SELECT RetNo, RepNo,Ret.RNo,RDate, R.CuNo, CuName, CONCAT_WS(' | ', NULLIF(CuTelNo1, ''), NULLIF(CuTelNo2, ''), NULLIF(CuTelNo3, '')) AS 'CuTelNo', PCategory, PName, PModelNo, PSerialNo, Problem, Qty, Status, TName, RetREpDate, Charge, Ret.DNo, DDate, PaidPrice FROM `return` Ret INNER JOIN RECEIVE R ON R.RNo = Ret.RNo INNER JOIN PRODUCT  P ON P.PNO = Ret.PNO INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO LEFT JOIN Technician T ON T.TNO = Ret.TNO LEFT JOIN DELIVER D ON D.DNO = Ret.DNO WHERE {WhereQuery};"
         Else
             Throw New Exception("Invalid Repair Mode")
         End If
     End Function
 
-    Private Sub Grid_SelectionChanged(sender As Object, e As EventArgs) Handles Grid.SelectionChanged
-        frmDatagridviewTool.frm_Close()
-        If Grid.CurrentCell.OwningColumn.Name = GridColumns.RemarksByCustomer Then
-            Dim DT As DataTable = Db.GetDataTable("Select Rem1Date as `Date`,Remarks,UserName as `User` from (RepairRemarks1 RepRem1 Left join `User` U on U.Uno= RepRem1.UNo) Where RepNo=" & Grid.Item(0, Grid.CurrentRow.Index).Value)
-            If DT.Rows.Count < 1 Then
-                Return
-            End If
-
-            frmDatagridviewTool.Tag = "RepRem"
-            frmDatagridviewTool.frm_Open(Grid, FormParent, DT)
-        ElseIf Grid.CurrentCell.OwningColumn.Name = GridColumns.RemarksByTechnician Then
-            Dim DT As DataTable = Db.GetDataTable("Select Rem2Date as `Date`,Remarks,UserName as `User` from (RepairRemarks2 RepRem2 Left join `User` U on U.Uno= RepRem2.UNo) Where RepNo=" & Grid.Item(0, Grid.CurrentRow.Index).Value)
-            If DT.Rows.Count < 1 Then
-                Return
-            End If
-
-            frmDatagridviewTool.Tag = "RepRem"
-            frmDatagridviewTool.frm_Open(Grid, FormParent, DT)
-        End If
-    End Sub
-
     Private Sub Grid_CellBeginEdit(sender As Object, e As DataGridViewCellCancelEventArgs) Handles Grid.CellBeginEdit
         If e.RowIndex < 0 Then
+            Return
+        End If
+
+        If {RepairStatus.RepairedDelivered, RepairStatus.ReturnedDelivered, RepairStatus.Canceled}.Contains(Grid.Item(GridColumns.Status, e.RowIndex).Value) Then
+            e.Cancel = True
             Return
         End If
 
@@ -133,22 +142,21 @@ Public Class GridRepairSearchControl
     End Sub
 
     Private Sub Grid_RowValidating(sender As Object, e As DataGridViewCellCancelEventArgs) Handles Grid.RowValidating
-        If e.RowIndex < 0 Or e.RowIndex >= Grid.Rows.Count Then
+        If e.RowIndex < 1 Or e.RowIndex >= Grid.Rows.Count Then
             Return
         End If
 
         Dim RowIndex As Integer = e.RowIndex
-        Grid.Item(GridColumns.RepairCharge, RowIndex).ErrorText = ""
-        Grid.Item(GridColumns.Status, RowIndex).ErrorText = ""
-        Dim Status As String = Grid.Item(GridColumns.Status, RowIndex).Value.ToString
+        Grid.Rows(RowIndex).ErrorText = ""
+        Dim Status As String = Grid.Item(GridColumns.Status, RowIndex).Value
 
-        If Status <> RepairStatus.Received AndAlso Grid.Item(GridColumns.AssignedTechnician, RowIndex).Value = "" Then
-            Grid.Item(GridColumns.Status, RowIndex).ErrorText = "Assigned Technician Cell එක හිස්ව පවතියි. කරුණාකර එය සම්පුර්ණ කරන්න."
+        If (Not {RepairStatus.Received, RepairStatus.Canceled}.Contains(Status)) AndAlso IsDBNull(Grid.Item(GridColumns.AssignedTechnician, RowIndex).Value) Then
+            Grid.Rows(RowIndex).ErrorText = "Assigned Technician Cell එක හිස්ව පවතියි. කරුණාකර එය සම්පුර්ණ කරන්න."
             Return
         End If
 
-        If (Not {RepairStatus.Received, RepairStatus.AssignedTo}.Contains(Status)) AndAlso Grid.Item(GridColumns.AssignedTechnician, RowIndex).Value = "" Then
-            Grid.Item(GridColumns.Status, RowIndex).ErrorText = "Handed Over Technician Cell එක හිස්ව පවතියි. කරුණාකර එය සම්පුර්ණ කරන්න."
+        If (Not {RepairStatus.Received, RepairStatus.AssignedTo, RepairStatus.Canceled}.Contains(Status)) AndAlso IsDBNull(Grid.Item(GridColumns.AssignedTechnician, RowIndex).Value) Then
+            Grid.Rows(RowIndex).ErrorText = "Handed Over Technician Cell එක හිස්ව පවතියි. කරුණාකර එය සම්පුර්ණ කරන්න."
             Return
         End If
 
@@ -161,7 +169,7 @@ Public Class GridRepairSearchControl
         End If
 
         If String.IsNullOrWhiteSpace(Grid.Item(GridColumns.RepairCharge, RowIndex).Value) Then
-            Grid.Item(GridColumns.RepairCharge, RowIndex).ErrorText = "Repair Charge යන Cell එක හිස්ව පවතියි. කරුණාකර එය සම්පූර්ණ කරන්න."
+            Grid.Rows(RowIndex).ErrorText = "Repair Charge යන Cell එක හිස්ව පවතියි. කරුණාකර එය සම්පූර්ණ කරන්න."
         End If
     End Sub
 
@@ -182,72 +190,81 @@ Public Class GridRepairSearchControl
             Return
         End If
 
-        Dim CurrentValue As String = "", PreviousValue As String = ""
-        Dim UNo As Integer = User.Instance.UserNo, RepairNo As Integer = Grid.Item(GridColumns.RepairNo, e.RowIndex).Value
-        ' Dispose the DatePicker for RepairedDate field
-        If Grid.Columns(GridColumns.RepairedDate).Index = e.ColumnIndex Then
-            Grid.CurrentCell.Value = DatePicker.Value.ToString
-            DatePicker.Dispose()
-        End If
+        Try
+            Dim RepairNo As Integer = Grid.Item(GridColumns.RepairNo, e.RowIndex).Value
+            ' Dispose the DatePicker for RepairedDate field
+            If Grid.Columns(GridColumns.RepairedDate).Index = e.ColumnIndex Then
+                Grid.CurrentCell.Value = DatePicker.Value.ToString
+                DatePicker.Dispose()
+            End If
 
-        If Grid.Item(e.ColumnIndex, e.RowIndex).Value IsNot Nothing Then
-            CurrentValue = Grid.Item(e.ColumnIndex, e.RowIndex).Value
-        End If
+            Dim CurrentValue As Object = Grid.Item(e.ColumnIndex, e.RowIndex).Value
+            If e.ColumnIndex = Grid.Columns.Item(GridColumns.Location).Index Then
+                frmSearchDropDown.frm_Close()
+            End If
 
-        If GridCellPreviousValue IsNot Nothing Then
-            PreviousValue = GridCellPreviousValue
-        End If
+            If GridCellEndEditValidation(CurrentValue, e.RowIndex) = False Then
+                Return
+            End If
 
-        If e.ColumnIndex = Grid.Columns.Item(GridColumns.Location).Index Then
-            frmSearchDropDown.frm_Close()
-        End If
+            Dim QueryProperties As New Dictionary(Of String, Object)
+            Select Case e.ColumnIndex
+                Case Grid.Columns(GridColumns.AssignedTechnician).Index
+                    Dim ActivityDictionary As New Dictionary(Of String, Object)
+                    If Grid.Item(GridColumns.Status, e.RowIndex).Value = RepairStatus.Received Then
+                        Grid.Item(GridColumns.Status, e.RowIndex).Value = RepairStatus.AssignedTo
+                        QueryProperties.Add(Repair.Status, RepairStatus.AssignedTo)
+                        ActivityDictionary.Add(Repair.Status, RepairStatus.AssignedTo)
+                    End If
 
-        If PreviousValue = CurrentValue Then
-            Return
-        End If
+                    QueryProperties.Add(Repair.AssignedToTNo, TechnicianController.GetTechnicianNo(CurrentValue))
+                    ActivityDictionary.Add(Grid.Columns(e.ColumnIndex).DataPropertyName, CurrentValue)
+                    PerformRepairUpdate(RepairNo, QueryProperties, ActivityDictionary)
+                Case Grid.Columns(GridColumns.HandedOverTechnician).Index
+                    Dim ActivityDictionary As New Dictionary(Of String, Object)
+                    If {RepairStatus.Received, RepairStatus.AssignedTo}.Contains(Grid.Item(GridColumns.Status, e.RowIndex).Value) Then
+                        Grid.Item(GridColumns.Status, e.RowIndex).Value = RepairStatus.HandedOverTo
+                        QueryProperties.Add(Repair.Status, RepairStatus.HandedOverTo)
+                        ActivityDictionary.Add(Repair.Status, RepairStatus.HandedOverTo)
+                    End If
 
-        Dim QueryProperties As New Dictionary(Of String, Object)
-        Select Case e.ColumnIndex
-            Case Grid.Columns(GridColumns.AssignedTechnician).Index
-                Dim ActivityDictionary As New Dictionary(Of String, Object)
-                If Grid.Item(GridColumns.Status, e.RowIndex).Value = RepairStatus.Received Then
-                    Grid.Item(GridColumns.Status, e.RowIndex).Value = RepairStatus.AssignedTo
-                    QueryProperties.Add(Repair.Status, RepairStatus.AssignedTo)
-                    ActivityDictionary.Add(Repair.Status, RepairStatus.AssignedTo)
-                End If
+                    QueryProperties.Add(Repair.HandedOverToTNo, TechnicianController.GetTechnicianNo(CurrentValue))
+                    ActivityDictionary.Add(Grid.Columns(e.ColumnIndex).DataPropertyName, CurrentValue)
+                    PerformRepairUpdate(RepairNo, QueryProperties, ActivityDictionary)
+                Case Grid.Columns(GridColumns.RepairCharge).Index
+                    If Int(CurrentValue) = 0 Then
+                        Grid.Item(GridColumns.Status, e.RowIndex).Value = RepairStatus.Returned
+                        QueryProperties.Add(Repair.Status, RepairStatus.Returned)
+                    Else
+                        Grid.Item(GridColumns.Status, e.RowIndex).Value = RepairStatus.Repaired
+                        QueryProperties.Add(Repair.Status, RepairStatus.Repaired)
+                    End If
 
-                QueryProperties.Add(Repair.AssignedToTNo, TechnicianController.GetTechnicianNo(CurrentValue))
-                ActivityDictionary.Add(Grid.Columns(e.ColumnIndex).DataPropertyName, CurrentValue)
-                PerformRepairUpdate(RepairNo, QueryProperties, ActivityDictionary)
-            Case Grid.Columns(GridColumns.HandedOverTechnician).Index
-                Dim ActivityDictionary As New Dictionary(Of String, Object)
-                If {RepairStatus.Received, RepairStatus.AssignedTo}.Contains(Grid.Item(GridColumns.Status, e.RowIndex).Value) Then
-                    Grid.Item(GridColumns.Status, e.RowIndex).Value = RepairStatus.HandedOverTo
-                    QueryProperties.Add(Repair.Status, RepairStatus.HandedOverTo)
-                    ActivityDictionary.Add(Repair.Status, RepairStatus.HandedOverTo)
-                End If
-
-                QueryProperties.Add(Repair.HandedOverToTNo, TechnicianController.GetTechnicianNo(CurrentValue))
-                ActivityDictionary.Add(Grid.Columns(e.ColumnIndex).DataPropertyName, CurrentValue)
-                PerformRepairUpdate(RepairNo, QueryProperties, ActivityDictionary)
-            Case Grid.Columns(GridColumns.RepairCharge).Index
-                If CurrentValue = "0" Then
-                    Grid.Item(GridColumns.Status, e.RowIndex).Value = RepairStatus.Returned
-                    QueryProperties.Add(Repair.Status, RepairStatus.Returned)
-                Else
-                    Grid.Item(GridColumns.Status, e.RowIndex).Value = RepairStatus.Repaired
-                    QueryProperties.Add(Repair.Status, RepairStatus.Repaired)
-                End If
-
-                Grid.Item(GridColumns.RepairedDate, e.RowIndex).Value = Now
-                QueryProperties.Add(Repair.RepDate, Grid.Item(GridColumns.RepairedDate, e.RowIndex).Value)
-                QueryProperties.Add(Repair.Charge, CurrentValue)
-                PerformRepairUpdate(RepairNo, QueryProperties)
-            Case Else
-                QueryProperties.Add(Grid.Columns(e.ColumnIndex).DataPropertyName, CurrentValue)
-                PerformRepairUpdate(RepairNo, QueryProperties)
-        End Select
+                    Grid.Item(GridColumns.RepairedDate, e.RowIndex).Value = Now
+                    QueryProperties.Add(Repair.RepDate, Grid.Item(GridColumns.RepairedDate, e.RowIndex).Value)
+                    QueryProperties.Add(Repair.Charge, CurrentValue)
+                    PerformRepairUpdate(RepairNo, QueryProperties)
+                Case Else
+                    QueryProperties.Add(Grid.Columns(e.ColumnIndex).DataPropertyName, CurrentValue)
+                    PerformRepairUpdate(RepairNo, QueryProperties)
+            End Select
+        Catch Ex As Exception
+            Grid.Item(e.ColumnIndex, e.RowIndex).Value = GridCellPreviousValue
+            MessageBox.Error($"මෙම Record එක Update කිරිමෙදී ගැටලුවක් ඇතිවිය.{vbCrLf + Ex.Message}")
+        End Try
     End Sub
+
+    Private Function GridCellEndEditValidation(CurrentValue As Object, RowIndex As Integer) As Boolean
+        If GridCellPreviousValue.Equals(CurrentValue) Then
+            Return False
+        End If
+
+        If {RepairStatus.RepairedDelivered, RepairStatus.ReturnedDelivered, RepairStatus.Canceled}.Contains(Grid.Item(GridColumns.Status, RowIndex).Value) Then
+            Return False
+        End If
+
+        Return True
+    End Function
 
     Private Sub PerformRepairUpdate(RepairNo As Integer, QueryProperties As Dictionary(Of String, Object), Optional Activity As Dictionary(Of String, Object) = Nothing)
         Dim SetClauses As New List(Of String), Parameters As New List(Of MySqlParameter)
@@ -257,8 +274,20 @@ Public Class GridRepairSearchControl
             Parameters.Add(New MySqlParameter(KeyUpper, QueryProperty.Value))
         Next
 
+        Parameters.Add(New MySqlParameter("REPNO", RepairNo))
         Db.Execute($"UPDATE {Tables.Repair} SET {String.Join(", ", SetClauses)} WHERE {Repair.RepNo} = @REPNO;", Parameters.ToArray)
         RepairController.InsertRepairActivity(Mode, RepairNo, $"UPDATE: {JsonConvert.SerializeObject(If(Activity, QueryProperties))}")
+    End Sub
+
+    Private Sub Grid_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles Grid.CellContentClick
+        If TypeOf Grid.Columns(e.ColumnIndex) IsNot DataGridViewButtonColumn OrElse e.RowIndex < 0 Then
+            Return
+        End If
+
+        Select Case e.ColumnIndex
+            Case Grid.Columns(GridColumns.RemarksByCustomer).Index
+
+        End Select
     End Sub
 
     Private Structure GridColumns

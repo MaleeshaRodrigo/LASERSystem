@@ -11,6 +11,7 @@ Public Class TechnicianController
     End Function
 
     Public Function GetTechnicianNames() As String()
-        Return Db.GetDataList($"Select DISTINCT({Technician.TName}) from {Tables.Technician};").Select(Function(Item) Item(Technician.TName).ToString)
+        Dim Technicians = Db.GetDataList($"SELECT DISTINCT({Technician.TName}) FROM {Tables.Technician};").ToArray()
+        Return (From EachTechnician In Technicians Select New String(EachTechnician(Technician.TName))).ToArray()
     End Function
 End Class

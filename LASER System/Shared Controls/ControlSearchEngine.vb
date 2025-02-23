@@ -4,6 +4,7 @@ Imports Newtonsoft.Json.Linq
 
 Public Class ControlSearchEngine
     Public Event SearchSubmissionEvent(Query As String, Values As MySqlParameter())
+    Public Event PerformQueryMapping(ByRef PoistionList As List(Of Object))
 
     Private Filters As Dictionary(Of String, String)
     Private PoistionList As New List(Of Object)
@@ -30,17 +31,20 @@ Public Class ControlSearchEngine
         Dim Query As String = ""
         Dim Values As New List(Of MySqlParameter)()
         Dim Random As New Random
+        RaiseEvent PerformQueryMapping(PoistionList)
         For Each Poistion As Object In PoistionList
             If Poistion.GetType.Name = "String" AndAlso Operators.Contains(Poistion) Then
                 Query += $" {Poistion} "
                 Continue For
             End If
+
             If Poistion(0) = "All" Then
                 Dim Result = PerformFilterAll(Random, Poistion(1))
                 Query += Result.Query
                 Values.Add(Result.Value)
                 Continue For
             End If
+
             Dim RandomNumber As Integer = Random.Next()
             Query += $" {Poistion(0)} LIKE @VALUE{RandomNumber} "
             Values.Add(New MySqlParameter($"VALUE{RandomNumber}", $"%{Poistion(1)}%"))

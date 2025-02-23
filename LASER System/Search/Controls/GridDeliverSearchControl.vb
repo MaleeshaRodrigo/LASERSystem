@@ -12,10 +12,11 @@ Public Class GridDeliverSearchControl
         End Get
     End Property
 
-    Public Sub Init(Db As Database, ParentForm As FormSearch) Implements GridSearchControl.Init
+    Public Function Init(Db As Database, ParentForm As FormSearch) As GridSearchControl Implements GridSearchControl.Init
         Me.Db = Db
-        Me.FormParent = ParentForm
-    End Sub
+        FormParent = ParentForm
+        Return Me
+    End Function
 
     Public Sub SearchSubmission(WhereQuery As String, Values() As MySqlParameter) Implements GridSearchControl.SearchSubmission
         WhereQuery = If(WhereQuery.Trim() = "", "1", WhereQuery)

@@ -1,5 +1,4 @@
-﻿Imports Str
-Imports System.IO
+﻿Imports System.IO
 Imports MySqlConnector
 Imports LASER_System.StructureDatabase
 Imports CrystalDecisions.Shared

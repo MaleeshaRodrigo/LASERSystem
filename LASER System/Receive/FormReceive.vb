@@ -413,8 +413,8 @@ Public Class FormReceive
     End Sub
 
     Private Sub RepairInfoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RepairInfoToolStripMenuItem.Click
-        frmSearch.Tag = "Receive"
-        frmSearch.Show()
+        FormSearch.Tag = "Receive"
+        FormSearch.Show()
     End Sub
 
     Private Sub txtCuTelNo1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtCuTelNo1.KeyPress, txtCuTelNo2.KeyPress, txtCuTelNo3.KeyPress

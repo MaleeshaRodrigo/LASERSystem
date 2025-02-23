@@ -30,6 +30,7 @@ Partial Class FormSearch
         Me.OPTIONToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ClearToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ProgressBar = New System.Windows.Forms.ProgressBar()
+        Me.PanelGrid = New System.Windows.Forms.Panel()
         Me.tabcontrol.SuspendLayout()
         Me.tabpageTextSearch.SuspendLayout()
         Me.MenuStrip.SuspendLayout()
@@ -98,11 +99,20 @@ Partial Class FormSearch
         Me.ProgressBar.Size = New System.Drawing.Size(980, 10)
         Me.ProgressBar.TabIndex = 5
         '
+        'PanelGrid
+        '
+        Me.PanelGrid.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.PanelGrid.Location = New System.Drawing.Point(0, 129)
+        Me.PanelGrid.Name = "PanelGrid"
+        Me.PanelGrid.Size = New System.Drawing.Size(980, 370)
+        Me.PanelGrid.TabIndex = 6
+        '
         'FormSearch
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 14.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(980, 499)
+        Me.Controls.Add(Me.PanelGrid)
         Me.Controls.Add(Me.ProgressBar)
         Me.Controls.Add(Me.tabcontrol)
         Me.Controls.Add(Me.MenuStrip)
@@ -128,4 +138,5 @@ Partial Class FormSearch
     Friend WithEvents ClearToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents tabpageTextSearch As TabPage
     Friend WithEvents ControlSearchEngine As ControlSearchEngine
+    Friend WithEvents PanelGrid As Panel
 End Class

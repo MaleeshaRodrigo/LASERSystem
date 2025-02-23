@@ -36,7 +36,6 @@ Public Class FormRepair
             cmdDone.Enabled = True
         End If
 
-        Enabled = True
         If tabRepair.SelectedIndex = 0 Then
             Mode = RepairMode.Repair
             cmbRepNo.Focus()
@@ -44,6 +43,8 @@ Public Class FormRepair
             Mode = RepairMode.ReRepair
             cmbRetNo.Focus()
         End If
+
+        Enabled = True
     End Sub
 
     Private Sub frmRepair_Move(sender As Object, e As EventArgs) Handles Me.Move
@@ -570,16 +571,16 @@ Public Class FormRepair
 
     Private Sub CmdRepView_Click(sender As Object, e As EventArgs) Handles cmdRepView.Click
         Dim frmSearchRepair As New FormSearch With {
-            .Tag = "Repair",
-            .Name = "frmSearch" + NextFormNo(frmSearch).ToString
+            .Name = "FormSearch" + NextFormNo(FormSearch).ToString,
+            .RequestSource = FormSearchRequestSource.Repair
         }
         frmSearchRepair.Show()
     End Sub
 
     Private Sub CmdReRepView_Click(sender As Object, e As EventArgs) Handles cmdReRepView.Click
         Dim frmSearchReRepair As New FormSearch With {
-            .Tag = "ReRepair",
-            .Name = "frmSearch" + NextFormNo(frmSearch).ToString
+            .Name = "FormSearch" + NextFormNo(FormSearch).ToString,
+            .RequestSource = FormSearchRequestSource.ReRepair
         }
         frmSearchReRepair.Show()
     End Sub
@@ -600,14 +601,14 @@ Public Class FormRepair
                     Call .grdRERepair_CellEndEdit(sender, E1)
                 End With
             Case "RepairAdvanced"
-                With frmRepairAdvanced
-                    .cmbRepNo.Text = cmbRepNo.Text
-                    If tabRepair.SelectedTab.TabIndex = 0 Then
-                        .rbRep.Checked = True
-                    Else
-                        .rbRERep.Checked = True
-                    End If
-                End With
+                'With FormRepairAdvance
+                '    .cmbRepNo.Text = cmbRepNo.Text
+                '    If tabRepair.SelectedTab.TabIndex = 0 Then
+                '        .rbRep.Checked = True
+                '    Else
+                '        .rbRERep.Checked = True
+                '    End If
+                'End With
         End Select
         Call FrmRepair_Leave(sender, e)
     End Sub
