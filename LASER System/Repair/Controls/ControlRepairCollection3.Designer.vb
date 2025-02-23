@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class ControlActivityInfo
+Partial Class ControlRepairCollection3
     Inherits System.Windows.Forms.UserControl
 
     'UserControl overrides dispose to clean up the component list.
@@ -71,7 +71,6 @@ Partial Class ControlActivityInfo
         Me.ANo.Name = "ANo"
         Me.ANo.ReadOnly = True
         Me.ANo.Visible = False
-        Me.ANo.Width = 5
         '
         'ActivityDate
         '
@@ -102,13 +101,13 @@ Partial Class ControlActivityInfo
         Me.AUserName.ReadOnly = True
         Me.AUserName.Width = 57
         '
-        'ControlActivityInfo
+        'ControlRepairCollection3
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 14.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.Controls.Add(Me.grpActivity)
         Me.Font = New System.Drawing.Font("Calibri", 9.0!)
-        Me.Name = "ControlActivityInfo"
+        Me.Name = "ControlRepairCollection3"
         Me.Size = New System.Drawing.Size(559, 164)
         Me.grpActivity.ResumeLayout(False)
         CType(Me.grdActivity, System.ComponentModel.ISupportInitialize).EndInit()

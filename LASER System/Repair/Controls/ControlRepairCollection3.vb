@@ -1,6 +1,6 @@
 ﻿Imports MySqlConnector
 
-Public Class ControlActivityInfo
+Public Class ControlRepairCollection3
     Private DB As Database
 
     Public Sub New(DB As Database)

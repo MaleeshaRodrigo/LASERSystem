@@ -6,13 +6,13 @@ Imports Newtonsoft.Json
 Public Class FormRepair
     Public DataReaderRepair As Dictionary(Of String, Object)
     Public Mode As RepairMode
-    Public ControlActivityInfo As ControlActivityInfo
+    Public ControlActivityInfo As ControlRepairCollection3
     Public ControlAdvancePayInfo As ControlAdvancePayInfo
-    Public ControlRemarks As ControlRemarks
-    Public ControlRepairDeliverInfo As ControlRepairDeliverInfo
-    Public ControlTaskInfo As ControlTaskInfo
-    Public ControlTechnicianCostListInfo As ControlTechnicianCostListInfo
-    Public ControlTechnicianInfo As ControlTechnicianInfo
+    Public ControlRemarks As ControlRepairCollection1
+    Public ControlRepairDeliverInfo As ControlRepairCollection6
+    Public ControlTaskInfo As ControlRepairCollection2
+    Public ControlTechnicianCostListInfo As ControlRepairCollection5
+    Public ControlTechnicianInfo As ControlRepairCollection4
 
     Private Db As New Database
     Private TransactionDatabase As TransactionDatabase
@@ -106,22 +106,22 @@ Public Class FormRepair
             ControlReRepairView = New ControlReRepairView().SetDatabase(Db)
             ControlReRepairView.Init(cmbRepNo.Text)
 
-            ControlRemarks = New ControlRemarks(Db, Me)
+            ControlRemarks = New ControlRepairCollection1(Db, Me)
             ControlRemarks.InitForRepair(cmbRepNo.Text)
             PanelMain.Controls.Add(ControlRemarks)
 
-            ControlTaskInfo = New ControlTaskInfo(Db, Me)
+            ControlTaskInfo = New ControlRepairCollection2(Db, Me)
             ControlTaskInfo.InitForRepair(cmbRepNo.Text)
             PanelMain.Controls.Add(ControlTaskInfo)
 
-            ControlActivityInfo = New ControlActivityInfo(Db)
+            ControlActivityInfo = New ControlRepairCollection3(Db)
             ControlActivityInfo.InitForRepair(cmbRepNo.Text)
             PanelMain.Controls.Add(ControlActivityInfo)
             If cmbRepStatus.Text = RepairStatus.Received Then
                 Return
             End If
 
-            ControlTechnicianInfo = New ControlTechnicianInfo(Db, Me)
+            ControlTechnicianInfo = New ControlRepairCollection4(Db, Me)
             ControlTechnicianInfo.Init(DataReaderRepair(Repair.Status))
             PanelMain.Controls.Add(ControlTechnicianInfo)
             PanelMain.Controls.SetChildIndex(ControlTechnicianInfo, 2)
@@ -129,7 +129,7 @@ Public Class FormRepair
                 Return
             End If
 
-            ControlTechnicianCostListInfo = New ControlTechnicianCostListInfo(Db, Me)
+            ControlTechnicianCostListInfo = New ControlRepairCollection5(Db, Me)
             ControlTechnicianCostListInfo.InitForRepair(cmbRepNo.Text)
             PanelMain.Controls.Add(ControlTechnicianCostListInfo)
             PanelMain.Controls.SetChildIndex(ControlTechnicianCostListInfo, 3)
@@ -137,7 +137,7 @@ Public Class FormRepair
                 Return
             End If
 
-            ControlRepairDeliverInfo = New ControlRepairDeliverInfo(Db)
+            ControlRepairDeliverInfo = New ControlRepairCollection6(Db)
             ControlRepairDeliverInfo.SetRepDetails(
                 DataReaderRepair("Charge").ToString,
                 DataReaderRepair("RepDate").ToString
@@ -233,22 +233,22 @@ Public Class FormRepair
             cmbRetStatus.Text = DataReaderRepair(ReRepair.Status).ToString
             SetBasicInfo()
 
-            ControlRemarks = New ControlRemarks(Db, Me)
+            ControlRemarks = New ControlRepairCollection1(Db, Me)
             ControlRemarks.InitForReRepair(cmbRetNo.Text)
             PanelMain.Controls.Add(ControlRemarks)
 
-            ControlTaskInfo = New ControlTaskInfo(Db, Me)
+            ControlTaskInfo = New ControlRepairCollection2(Db, Me)
             ControlTaskInfo.InitForReRepair(cmbRetNo.Text)
             PanelMain.Controls.Add(ControlTaskInfo)
 
-            ControlActivityInfo = New ControlActivityInfo(Db)
+            ControlActivityInfo = New ControlRepairCollection3(Db)
             ControlActivityInfo.InitForReRepair(cmbRetNo.Text)
             PanelMain.Controls.Add(ControlActivityInfo)
             If cmbRetStatus.Text = RepairStatus.Received Then
                 Exit Try
             End If
 
-            ControlTechnicianInfo = New ControlTechnicianInfo(Db, Me)
+            ControlTechnicianInfo = New ControlRepairCollection4(Db, Me)
             ControlTechnicianInfo.Init(DataReaderRepair(ReRepair.Status))
             PanelMain.Controls.Add(ControlTechnicianInfo)
             PanelMain.Controls.SetChildIndex(ControlTechnicianInfo, 1)
@@ -256,7 +256,7 @@ Public Class FormRepair
                 Exit Try
             End If
 
-            ControlTechnicianCostListInfo = New ControlTechnicianCostListInfo(Db, Me)
+            ControlTechnicianCostListInfo = New ControlRepairCollection5(Db, Me)
             ControlTechnicianCostListInfo.InitForReRepair(cmbRetRepNo.Text)
             PanelMain.Controls.Add(ControlTechnicianCostListInfo)
             PanelMain.Controls.SetChildIndex(ControlTechnicianCostListInfo, 2)
@@ -264,7 +264,7 @@ Public Class FormRepair
                 Exit Try
             End If
 
-            ControlRepairDeliverInfo = New ControlRepairDeliverInfo(Db)
+            ControlRepairDeliverInfo = New ControlRepairCollection6(Db)
             ControlRepairDeliverInfo.SetRepDetails(
                 DataReaderRepair("Charge"),
                 DataReaderRepair("RepDate")
@@ -332,7 +332,7 @@ Public Class FormRepair
             Return
         End If
 
-        ControlTechnicianInfo = New ControlTechnicianInfo(Db, Me)
+        ControlTechnicianInfo = New ControlRepairCollection4(Db, Me)
         PanelMain.Controls.Add(ControlTechnicianInfo)
         PanelMain.Controls.SetChildIndex(ControlTechnicianInfo, 2)
         ControlTechnicianInfo.Init(If(sender Is cmbRepStatus, cmbRepStatus.Text, cmbRetStatus.Text))
@@ -341,7 +341,7 @@ Public Class FormRepair
             Return
         End If
 
-        ControlTechnicianCostListInfo = New ControlTechnicianCostListInfo(Db, Me)
+        ControlTechnicianCostListInfo = New ControlRepairCollection5(Db, Me)
         PanelMain.Controls.Add(ControlTechnicianCostListInfo)
         PanelMain.Controls.SetChildIndex(ControlTechnicianCostListInfo, 3)
         If sender Is cmbRepStatus Then
@@ -354,7 +354,7 @@ Public Class FormRepair
             Return
         End If
 
-        ControlRepairDeliverInfo = New ControlRepairDeliverInfo(Db)
+        ControlRepairDeliverInfo = New ControlRepairCollection6(Db)
         PanelMain.Controls.Add(ControlRepairDeliverInfo)
         PanelMain.Controls.SetChildIndex(ControlRepairDeliverInfo, 4)
         ControlRepairDeliverInfo.SetDeliverInfoVisibility(False)

@@ -273,10 +273,10 @@
     <Compile Include="RepairAdvance\Controls\ControlRepairAdvanceInfo.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Repair\Controls\ControlActivityInfo.Designer.vb">
-      <DependentUpon>ControlActivityInfo.vb</DependentUpon>
+    <Compile Include="Repair\Controls\ControlRepairCollection3.Designer.vb">
+      <DependentUpon>ControlRepairCollection3.vb</DependentUpon>
     </Compile>
-    <Compile Include="Repair\Controls\ControlActivityInfo.vb">
+    <Compile Include="Repair\Controls\ControlRepairCollection3.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Repair\Controls\ControlAdvancePayInfo.Designer.vb">
@@ -285,16 +285,16 @@
     <Compile Include="Repair\Controls\ControlAdvancePayInfo.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Repair\Controls\ControlRemarks.Designer.vb">
-      <DependentUpon>ControlRemarks.vb</DependentUpon>
+    <Compile Include="Repair\Controls\ControlRepairCollection1.Designer.vb">
+      <DependentUpon>ControlRepairCollection1.vb</DependentUpon>
     </Compile>
-    <Compile Include="Repair\Controls\ControlRemarks.vb">
+    <Compile Include="Repair\Controls\ControlRepairCollection1.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Repair\Controls\ControlRepairDeliverInfo.Designer.vb">
-      <DependentUpon>ControlRepairDeliverInfo.vb</DependentUpon>
+    <Compile Include="Repair\Controls\ControlRepairCollection6.Designer.vb">
+      <DependentUpon>ControlRepairCollection6.vb</DependentUpon>
     </Compile>
-    <Compile Include="Repair\Controls\ControlRepairDeliverInfo.vb">
+    <Compile Include="Repair\Controls\ControlRepairCollection6.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Repair\Controls\ControlReRepairView.Designer.vb">
@@ -303,22 +303,22 @@
     <Compile Include="Repair\Controls\ControlReRepairView.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Repair\Controls\ControlTaskInfo.Designer.vb">
-      <DependentUpon>ControlTaskInfo.vb</DependentUpon>
+    <Compile Include="Repair\Controls\ControlRepairCollection2.Designer.vb">
+      <DependentUpon>ControlRepairCollection2.vb</DependentUpon>
     </Compile>
-    <Compile Include="Repair\Controls\ControlTaskInfo.vb">
+    <Compile Include="Repair\Controls\ControlRepairCollection2.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Repair\Controls\ControlTechnicianCostListInfo.Designer.vb">
-      <DependentUpon>ControlTechnicianCostListInfo.vb</DependentUpon>
+    <Compile Include="Repair\Controls\ControlRepairCollection5.Designer.vb">
+      <DependentUpon>ControlRepairCollection5.vb</DependentUpon>
     </Compile>
-    <Compile Include="Repair\Controls\ControlTechnicianCostListInfo.vb">
+    <Compile Include="Repair\Controls\ControlRepairCollection5.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Repair\Controls\ControlTechnicianInfo.Designer.vb">
-      <DependentUpon>ControlTechnicianInfo.vb</DependentUpon>
+    <Compile Include="Repair\Controls\ControlRepairCollection4.Designer.vb">
+      <DependentUpon>ControlRepairCollection4.vb</DependentUpon>
     </Compile>
-    <Compile Include="Repair\Controls\ControlTechnicianInfo.vb">
+    <Compile Include="Repair\Controls\ControlRepairCollection4.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Interfaces\Validator.vb" />
@@ -693,29 +693,29 @@
     <EmbeddedResource Include="RepairAdvance\Controls\ControlRepairAdvanceInfo.resx">
       <DependentUpon>ControlRepairAdvanceInfo.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Repair\Controls\ControlActivityInfo.resx">
-      <DependentUpon>ControlActivityInfo.vb</DependentUpon>
+    <EmbeddedResource Include="Repair\Controls\ControlRepairCollection3.resx">
+      <DependentUpon>ControlRepairCollection3.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Repair\Controls\ControlAdvancePayInfo.resx">
       <DependentUpon>ControlAdvancePayInfo.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Repair\Controls\ControlRemarks.resx">
-      <DependentUpon>ControlRemarks.vb</DependentUpon>
+    <EmbeddedResource Include="Repair\Controls\ControlRepairCollection1.resx">
+      <DependentUpon>ControlRepairCollection1.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Repair\Controls\ControlRepairDeliverInfo.resx">
-      <DependentUpon>ControlRepairDeliverInfo.vb</DependentUpon>
+    <EmbeddedResource Include="Repair\Controls\ControlRepairCollection6.resx">
+      <DependentUpon>ControlRepairCollection6.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Repair\Controls\ControlReRepairView.resx">
       <DependentUpon>ControlReRepairView.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Repair\Controls\ControlTaskInfo.resx">
-      <DependentUpon>ControlTaskInfo.vb</DependentUpon>
+    <EmbeddedResource Include="Repair\Controls\ControlRepairCollection2.resx">
+      <DependentUpon>ControlRepairCollection2.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Repair\Controls\ControlTechnicianCostListInfo.resx">
-      <DependentUpon>ControlTechnicianCostListInfo.vb</DependentUpon>
+    <EmbeddedResource Include="Repair\Controls\ControlRepairCollection5.resx">
+      <DependentUpon>ControlRepairCollection5.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Repair\Controls\ControlTechnicianInfo.resx">
-      <DependentUpon>ControlTechnicianInfo.vb</DependentUpon>
+    <EmbeddedResource Include="Repair\Controls\ControlRepairCollection4.resx">
+      <DependentUpon>ControlRepairCollection4.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmCustomer.resx">
       <DependentUpon>frmCustomer.vb</DependentUpon>

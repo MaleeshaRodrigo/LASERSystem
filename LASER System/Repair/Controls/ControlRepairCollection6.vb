@@ -1,4 +1,4 @@
-﻿Public Class ControlRepairDeliverInfo
+﻿Public Class ControlRepairCollection6
     Private Db As Database
 
     Public Sub New(Db As Database)
@@ -10,20 +10,20 @@
         End If
     End Sub
 
-    Public Function SetRepDetails(RepairCharge As Decimal, RepairedDate As String) As ControlRepairDeliverInfo
+    Public Function SetRepDetails(RepairCharge As Decimal, RepairedDate As String) As ControlRepairCollection6
         txtRepPrice.Text = RepairCharge
         txtRepDate.Text = RepairedDate
         Return Me
     End Function
 
-    Public Function SetDeliverDetails(DNo As Integer, PaidPrice As Decimal, DeliveredDate As String) As ControlRepairDeliverInfo
+    Public Function SetDeliverDetails(DNo As Integer, PaidPrice As Decimal, DeliveredDate As String) As ControlRepairCollection6
         txtDNo.Text = DNo
         txtDPaidPrice.Text = PaidPrice
         txtDDate.Text = DeliveredDate
         Return Me
     End Function
 
-    Public Function SetDeliverInfoVisibility(Visible As Boolean) As ControlRepairDeliverInfo
+    Public Function SetDeliverInfoVisibility(Visible As Boolean) As ControlRepairCollection6
         boxDeliver.Visible = Visible
         Return Me
     End Function

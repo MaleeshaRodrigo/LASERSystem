@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class ControlTaskInfo
+Partial Class ControlRepairCollection2
     Inherits System.Windows.Forms.UserControl
 
     'UserControl overrides dispose to clean up the component list.
@@ -117,13 +117,13 @@ Partial Class ControlTaskInfo
         Me.TStatus.Name = "TStatus"
         Me.TStatus.ReadOnly = True
         '
-        'ControlTaskInfo
+        'ControlRepairCollection2
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 14.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.Controls.Add(Me.grpRepTask)
         Me.Font = New System.Drawing.Font("Calibri", 9.0!)
-        Me.Name = "ControlTaskInfo"
+        Me.Name = "ControlRepairCollection2"
         Me.Size = New System.Drawing.Size(612, 144)
         Me.grpRepTask.ResumeLayout(False)
         CType(Me.grdRepTask, System.ComponentModel.ISupportInitialize).EndInit()

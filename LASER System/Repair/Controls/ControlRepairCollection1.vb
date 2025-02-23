@@ -2,7 +2,7 @@
 Imports MySqlConnector
 Imports System.IO
 
-Public Class ControlRemarks
+Public Class ControlRepairCollection1
     Private DB As Database
     Private ReadOnly DtpDate As New DateTimePicker
     Private FormParent As FormRepair

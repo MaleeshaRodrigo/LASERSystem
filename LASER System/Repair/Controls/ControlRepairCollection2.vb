@@ -1,7 +1,7 @@
 ﻿Imports System.Web.Configuration
 Imports MySqlConnector
 
-Public Class ControlTaskInfo
+Public Class ControlRepairCollection2
     Private DB As Database
     Private FormParent As FormRepair
 

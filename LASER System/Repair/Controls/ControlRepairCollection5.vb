@@ -1,7 +1,7 @@
 ﻿Imports LASER_System.StructureDatabase
 Imports MySqlConnector
 
-Public Class ControlTechnicianCostListInfo
+Public Class ControlRepairCollection5
     Private Db As Database
     Private ReadOnly DtpDate As New DateTimePicker
     Private ParentRepairForm As FormRepair

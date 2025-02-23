@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class ControlRemarks
+Partial Class ControlRepairCollection1
     Inherits System.Windows.Forms.UserControl
 
     'UserControl overrides dispose to clean up the component list.
@@ -125,7 +125,7 @@ Partial Class ControlRemarks
         Me.imgRepair.TabIndex = 82
         Me.imgRepair.TabStop = False
         '
-        'ControlRemarks
+        'ControlRepairCollection1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 14.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -134,7 +134,7 @@ Partial Class ControlRemarks
         Me.Controls.Add(Me.lblLocation)
         Me.Controls.Add(Me.imgRepair)
         Me.Font = New System.Drawing.Font("Calibri", 9.0!)
-        Me.Name = "ControlRemarks"
+        Me.Name = "ControlRepairCollection1"
         Me.Size = New System.Drawing.Size(645, 184)
         Me.GroupRepRem1.ResumeLayout(False)
         CType(Me.grdRepRemarks1, System.ComponentModel.ISupportInitialize).EndInit()
