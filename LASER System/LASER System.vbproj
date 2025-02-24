@@ -382,6 +382,12 @@
     <Compile Include="Shared Controls\ControlPrice.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Shared Controls\ControlRemarks.Designer.vb">
+      <DependentUpon>ControlRemarks.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Shared Controls\ControlRemarks.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Shared Controls\ControlRepairReRepairSelection.Designer.vb">
       <DependentUpon>ControlRepairReRepairSelection.vb</DependentUpon>
     </Compile>
@@ -807,6 +813,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Shared Controls\ControlPrice.resx">
       <DependentUpon>ControlPrice.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Shared Controls\ControlRemarks.resx">
+      <DependentUpon>ControlRemarks.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Shared Controls\ControlRepairReRepairSelection.resx">
       <DependentUpon>ControlRepairReRepairSelection.vb</DependentUpon>
