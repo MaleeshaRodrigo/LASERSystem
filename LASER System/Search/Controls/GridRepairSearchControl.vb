@@ -13,6 +13,7 @@ Public Class GridRepairSearchControl
     Private TechnicianController As New TechnicianController()
     Private RepairController As New RepairController
     Private GridCellPreviousValue As Object
+    Private RemarksContol As ControlGridRemarks
 
     Public ReadOnly Property Control As UserControl Implements GridSearchControl.Control
         Get
@@ -286,7 +287,12 @@ Public Class GridRepairSearchControl
 
         Select Case e.ColumnIndex
             Case Grid.Columns(GridColumns.RemarksByCustomer).Index
-
+                RemarksContol = New ControlGridRemarks() With {
+                    .Left = (Width - RemarksContol.Width) / 2,
+                    .Top = (Height - RemarksContol.Height) / 2
+                }
+                RemarksContol.Init(Db, Mode, ControlRemarksOption.RemarksByCustomer, Grid.Item(GridColumns.RepairNo, e.RowIndex).Value)
+                Controls.Add(RemarksContol)
         End Select
     End Sub
 

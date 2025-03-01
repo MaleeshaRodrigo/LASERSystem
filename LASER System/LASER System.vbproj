@@ -328,6 +328,12 @@
       <DependentUpon>rptReceive.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Search\Controls\ControlGridRemarks.Designer.vb">
+      <DependentUpon>ControlGridRemarks.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Search\Controls\ControlGridRemarks.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Search\Controls\GridDeliverSearchControl.Designer.vb">
       <DependentUpon>GridDeliverSearchControl.vb</DependentUpon>
     </Compile>
@@ -786,6 +792,9 @@
     <EmbeddedResource Include="Reports\rptReceive.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>rptReceive1.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Search\Controls\ControlGridRemarks.resx">
+      <DependentUpon>ControlGridRemarks.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Search\Controls\GridDeliverSearchControl.resx">
       <DependentUpon>GridDeliverSearchControl.vb</DependentUpon>

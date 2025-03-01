@@ -125,19 +125,37 @@ Public Class ControlRemarks
     End Sub
 
     Private Sub GridRemarks_UserDeletingRow(sender As Object, e As DataGridViewRowCancelEventArgs) Handles GridRemarks.UserDeletingRow
-        If e.Row.Index < 0 Or e.Row.Index = (grdRepRemarks1.Rows.Count - 1) Then
+        If e.Row.Index < 0 Or e.Row.IsNewRow Then
             Exit Sub
         End If
 
-        Dim AdminPer As New AdminPermission(Db)
-        If Convert.ToDateTime(grdRepRemarks1.Item(1, e.Row.Index).Value).Date <> DateTime.Today.Date Then
-            AdminPer.AdminSend = True
-            AdminPer.Remarks = "Repair Remarks 1 හි Field එකක් Delete කෙරුණි."
+        If Convert.ToDateTime(GridRemarks.Item(1, e.Row.Index).Value).Date <> Date.Today.Date And User.Instance.UserType <> User.Type.Admin Then
             e.Cancel = True
+            Return
         End If
+
         Db.Execute($"Delete from {Tables.RepairRemarks1} Where Rem1No=@REM1NO", {
-                   New MySqlParameter("REM1NO", grdRepRemarks1.Item(0, e.Row.Index).Value)
-        }, AdminPer)
+            New MySqlParameter("REM1NO", GridRemarks.Item(GridRemarksColumns.No, e.Row.Index).Value)
+        })
+    End Sub
+
+    Private Sub GridRemarks_RowValidating(sender As Object, e As DataGridViewCellCancelEventArgs) Handles GridRemarks.RowValidating
+        If e.RowIndex < 0 Then
+            Return
+        End If
+
+        If GridRemarks.Item(GridRemarksColumns.No, e.RowIndex).Value Is Nothing Then
+            Return
+        End If
+
+        Dim DR1 = Db.GetDataDictionary($"SELECT Rem1No,Rem1Date,Remarks,UserName from RepairRemarks1 RepRem1 LEFT JOIN `User` U ON U.UNo=RepRem1.UNo WHERE Rem1No={GridRemarks.Item(GridRemarksColumns.No, e.RowIndex).Value};")
+        If DR1 IsNot Nothing Then
+            GridRemarks.Item(GridRemarksColumns.Date, e.RowIndex).Value = DR1("Rem1Date").ToString
+            GridRemarks.Item(GridRemarksColumns.Remarks, e.RowIndex).Value = DR1("Remarks").ToString
+            GridRemarks.Item(GridRemarksColumns.UserName, e.RowIndex).Value = DR1("UserName").ToString
+        Else
+            GridRemarks.Rows.RemoveAt(e.RowIndex)
+        End If
     End Sub
 
     Private Structure GridRemarksColumns
