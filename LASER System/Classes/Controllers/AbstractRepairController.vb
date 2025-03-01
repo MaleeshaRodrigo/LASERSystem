@@ -109,4 +109,13 @@ Public MustInherit Class AbstractRepairController : Inherits AbstractController
             New MySqlParameter("UNO", User.Instance.UserNo)
         })
     End Sub
+
+    Private Sub NotifyTechnicianOnReRepairReceived(Row As DataRow)
+        Dim MailController As New MailController()
+        Dim RepairController As New RepairController()
+        RepairController.SetDatabase(Db)
+        MailController.SetDatabase(Db)
+        MailController.InsertToEmailQueue(
+    End Sub
+
 End Class

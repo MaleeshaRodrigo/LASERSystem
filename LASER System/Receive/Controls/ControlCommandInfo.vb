@@ -74,5 +74,4 @@ Public Class ControlCommandInfo
             Throw ex
         End Try
     End Function
-
 End Class
