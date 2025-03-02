@@ -10,7 +10,7 @@ Public Class GridRepairSearchControl
     Private FormParent As FormSearch
     Private Mode As RepairMode
     Private DatePicker As New DateTimePicker
-    Private TechnicianController As New TechnicianController()
+    Private TechnicianController As New TechnicianController
     Private RepairController As New RepairController
     Private GridCellPreviousValue As Object
     Private RemarksContol As ControlGridRemarks
@@ -88,26 +88,72 @@ Public Class GridRepairSearchControl
     Public Sub PerformQueryMapping(ByRef PoistionList As List(Of Object))
         Dim UpdatedPoistionList As New List(Of Object)(PoistionList)
         For Each Poistion As Object In PoistionList
-            If Poistion.GetType.Name = "String[]" AndAlso Poistion(0) = "CuTelNo" Then
-                Dim NewPoistionList As New List(Of Object)
-                NewPoistionList.Append("(")
-                NewPoistionList.Append(New List(Of Object) From {"CuTelNo1", Poistion(1)})
-                NewPoistionList.Append("OR")
-                NewPoistionList.Append(New List(Of Object) From {"CuTelNo2", Poistion(1)})
-                NewPoistionList.Append("OR")
-                NewPoistionList.Append(New List(Of Object) From {"CuTelNo3", Poistion(1)})
-                NewPoistionList.Append(")")
-                Dim PoistionIndex = UpdatedPoistionList.IndexOf(Poistion)
-                UpdatedPoistionList.Remove(Poistion)
-                UpdatedPoistionList.InsertRange(PoistionIndex, NewPoistionList)
-            End If
+            Select Case True
+                Case Poistion.GetType.Name = "String[]" AndAlso {"CuTelNo"}.Contains(Poistion(0))
+                    Dim Value As String = Poistion(1)
+                    Dim NewPoistionList As New List(Of Object) From {
+                        "(",
+                        New List(Of Object) From {"CuTelNo1", Value},
+                        "OR",
+                        New List(Of Object) From {"CuTelNo2", Value},
+                        "OR",
+                        New List(Of Object) From {"CuTelNo3", Value},
+                        ")"
+                    }
+                    Dim PoistionIndex = UpdatedPoistionList.IndexOf(Poistion)
+                    UpdatedPoistionList.Remove(Poistion)
+                    UpdatedPoistionList.InsertRange(PoistionIndex, NewPoistionList)
+            End Select
         Next
         PoistionList = UpdatedPoistionList
     End Sub
 
+    Public Function FormatValue(Field As String, Value As String) As String
+        Dim OperatorCodes As String() = {"070", "071", "072", "074", "075", "076", "077", "078", "011"}
+        If {"CuTelNo", "All"}.Contains(Field) And OperatorCodes.Any(Function(Code As String) Value.StartsWith(Code)) And Value.Length = 10 Then
+            Return $"{Value.Substring(0, 3)} {Value.Substring(3, 1)} {Value.Substring(4, 3)} {Value.Substring(7)}"
+        End If
+
+        Return Value
+    End Function
+
+    Public Function PerformFilterAll(Random As Random, SearchText As String) As (Query As String, Value As MySqlParameter)
+        Dim QueryArray As New List(Of String)
+        Dim RandomNumber As Integer = Random.Next()
+        Dim ParameterValue As New MySqlParameter($"VALUE{RandomNumber}", $"%{SearchText}%")
+        Dim Filters As Dictionary(Of String, String) = GetFilterDictionary()
+        For Each Key In Filters.Keys
+            If Key = "All" Then
+                Continue For
+            End If
+
+            Select Case Key
+                Case "CuTelNo"
+                    Dim CustomerTelephoneFields As String() = {Customer.CuTelNo1, Customer.CuTelNo2, Customer.CuTelNo3}
+                    For Each CustomerTelephoneField As String In CustomerTelephoneFields
+                        QueryArray.Add($"{CustomerTelephoneField} LIKE @VALUE{RandomNumber}")
+                    Next
+                Case "RepRemarks1"
+                    Dim WhereQuery As String = If(Mode = RepairMode.Repair, "REP.RepNo = REPREM1.RepNo", "RET.RetNo = REPREM1.RetNo")
+                    QueryArray.Add($"EXISTS (Select Rem1No FROM {Tables.RepairRemarks1} REPREM1 WHERE {WhereQuery} And (Remarks Like @VALUE{RandomNumber}))")
+                Case "RepRemarks2"
+                    Dim WhereQuery As String = If(Mode = RepairMode.Repair, "REP.RepNo = REPREM2.RepNo", "RET.RetNo = REPREM2.RetNo")
+                    QueryArray.Add($"EXISTS (Select Rem2No FROM {Tables.RepairRemarks2} REPREM2 WHERE {WhereQuery} And (Remarks Like @VALUE{RandomNumber}))")
+                Case "AssignedTechnician"
+                    QueryArray.Add($"AT.TName Like @VALUE{RandomNumber}")
+                Case "HandedOverTechnician"
+                    QueryArray.Add($"HT.TName Like @VALUE{RandomNumber}")
+                Case Else
+                    QueryArray.Add($"{Key} Like @VALUE{RandomNumber}")
+            End Select
+        Next
+
+        Return ($" ({String.Join(" OR ", QueryArray)}) ", ParameterValue)
+    End Function
+
     Private Function GetFilterQuery(WhereQuery As String) As String
         If Mode = RepairMode.Repair Then
-            Return $"SELECT RepNo, RDate, CuName, CONCAT_WS(' | ', NULLIF(CuTelNo1, ''), NULLIF(CuTelNo2, ''), NULLIF(CuTelNo3, '')) AS 'CuTelNo', CONCAT(PCategory, ' ', PName) AS 'Product', PSerialNo, Problem, Location, Qty, Status, AT.TName AS 'AssignedTechnician', HT.TName AS 'HandedOverTechnician', RepDate, Charge, DDate, PaidPrice FROM `{Tables.Repair}` REP INNER JOIN {Tables.Receive} R ON R.RNO = REP.RNO INNER JOIN {Tables.Product} P ON P.PNO = REP.PNO INNER JOIN {Tables.Customer} CU ON CU.CUNO = R.CUNO LEFT JOIN {Tables.Technician} AT ON AT.TNO = REP.AssignedToTNo LEFT JOIN {Tables.Technician} HT ON HT.TNO = REP.HandedOverToTNo LEFT JOIN {Tables.Deliver} D ON D.DNO = REP.DNO WHERE {WhereQuery}"
+            Return $"Select RepNo, RDate, CuName, CONCAT_WS(' | ', NULLIF(CuTelNo1, ''), NULLIF(CuTelNo2, ''), NULLIF(CuTelNo3, '')) AS 'CuTelNo', CONCAT(PCategory, ' ', PName) AS 'Product', PSerialNo, Problem, Location, Qty, Status, AT.TName AS 'AssignedTechnician', HT.TName AS 'HandedOverTechnician', RepDate, Charge, DDate, PaidPrice FROM `{Tables.Repair}` REP INNER JOIN {Tables.Receive} R ON R.RNO = REP.RNO INNER JOIN {Tables.Product} P ON P.PNO = REP.PNO INNER JOIN {Tables.Customer} CU ON CU.CUNO = R.CUNO LEFT JOIN {Tables.Technician} AT ON AT.TNO = REP.AssignedToTNo LEFT JOIN {Tables.Technician} HT ON HT.TNO = REP.HandedOverToTNo LEFT JOIN {Tables.Deliver} D ON D.DNO = REP.DNO WHERE {WhereQuery}"
         ElseIf Mode = RepairMode.ReRepair Then
             Return $"SELECT RetNo, RepNo,Ret.RNo,RDate, R.CuNo, CuName, CONCAT_WS(' | ', NULLIF(CuTelNo1, ''), NULLIF(CuTelNo2, ''), NULLIF(CuTelNo3, '')) AS 'CuTelNo', PCategory, PName, PModelNo, PSerialNo, Problem, Qty, Status, TName, RetREpDate, Charge, Ret.DNo, DDate, PaidPrice FROM `return` Ret INNER JOIN RECEIVE R ON R.RNo = Ret.RNo INNER JOIN PRODUCT  P ON P.PNO = Ret.PNO INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO LEFT JOIN Technician T ON T.TNO = Ret.TNO LEFT JOIN DELIVER D ON D.DNO = Ret.DNO WHERE {WhereQuery};"
         Else
@@ -287,13 +333,33 @@ Public Class GridRepairSearchControl
 
         Select Case e.ColumnIndex
             Case Grid.Columns(GridColumns.RemarksByCustomer).Index
-                RemarksContol = New ControlGridRemarks() With {
-                    .Left = (Width - RemarksContol.Width) / 2,
-                    .Top = (Height - RemarksContol.Height) / 2
-                }
+                RemarksContol = New ControlGridRemarks()
                 RemarksContol.Init(Db, Mode, ControlRemarksOption.RemarksByCustomer, Grid.Item(GridColumns.RepairNo, e.RowIndex).Value)
                 Controls.Add(RemarksContol)
+                RemarksContol.Left = (Width - RemarksContol.Width) / 2
+                RemarksContol.Top = (Height - RemarksContol.Height) / 2
+                RemarksContol.BringToFront()
+            Case Grid.Columns(GridColumns.RemarksByTechnician).Index
+                If Grid.Item(GridColumns.Status, e.RowIndex).Value = RepairStatus.Received Then
+                    Return
+                End If
+
+                RemarksContol = New ControlGridRemarks()
+                RemarksContol.Init(Db, Mode, ControlRemarksOption.RemarksByTechnician, Grid.Item(GridColumns.RepairNo, e.RowIndex).Value)
+                Controls.Add(RemarksContol)
+                RemarksContol.Left = (Width - RemarksContol.Width) / 2
+                RemarksContol.Top = (Height - RemarksContol.Height) / 2
+                RemarksContol.BringToFront()
         End Select
+    End Sub
+
+    Private Sub GridRepairSearchControl_Resize(sender As Object, e As EventArgs) Handles Me.Resize
+        If RemarksContol Is Nothing Then
+            Return
+        End If
+
+        RemarksContol.Left = (Width - RemarksContol.Width) / 2
+        RemarksContol.Top = (Height - RemarksContol.Height) / 2
     End Sub
 
     Private Structure GridColumns

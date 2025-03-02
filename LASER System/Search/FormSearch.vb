@@ -7,9 +7,8 @@ Public Class FormSearch
     Public Property Key As String
 
     Private Db As New Database
-    Private x, y As String
     Private GridControl As GridSearchControl
-    Private ReadOnly dtpDate As New DateTimePicker
+    Private ReadOnly DatePicker As New DateTimePicker
 
     Private Sub FormSearch_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         CheckForIllegalCrossThreadCalls = False
@@ -175,12 +174,6 @@ Public Class FormSearch
         '    bgwSearch.ReportProgress((i * 100) / Rows_Count, $"Transfering Data ({i}/{Rows_Count})....]")
         'Next
         'bgwSearch.ReportProgress(100, "Completed...")
-    End Sub
-
-    Private Sub FrmSearch_Resize(sender As Object, e As EventArgs) Handles Me.Resize
-        If Tag = "Repair" Then
-            frmDatagridviewTool.frm_Move()
-        End If
     End Sub
 
     Private Sub grdSearch_SelectionChanged(sender As Object, e As EventArgs)
@@ -349,7 +342,6 @@ Public Class FormSearch
 
     Private Sub frmSearch_Move(sender As Object, e As EventArgs) Handles Me.Move
         If Tag = "Repair" Then
-            frmDatagridviewTool.frm_Move()
             frmSearchDropDown.frm_Move()
         End If
     End Sub
@@ -358,11 +350,27 @@ Public Class FormSearch
         GridControl.SearchSubmission(WhereQuery, Values)
     End Sub
 
-    Private Sub ControlSearchEngine_PerformQueryMapping(ByRef PoistionList As List(Of Object)) Handles ControlSearchEngine.PerformQueryMapping
+    Private Sub ControlSearchEngine_PerformQueryMapping(ByRef PoistionList As List(Of Object)) Handles ControlSearchEngine.PerformQueryMappingEvent
         Select Case RequestSource
             Case FormSearchRequestSource.Repair
                 Dim Control As GridRepairSearchControl = GridControl
                 Control.PerformQueryMapping(PoistionList)
+        End Select
+    End Sub
+
+    Private Sub ControlSearchEngine_FormateValueEvent(ByRef Value As String, FieldName As String) Handles ControlSearchEngine.FormateValueEvent
+        Select Case RequestSource
+            Case FormSearchRequestSource.Repair
+                Dim Control As GridRepairSearchControl = GridControl
+                Value = Control.FormatValue(FieldName, Value)
+        End Select
+    End Sub
+
+    Private Sub ControlSearchEngine_PerformFilterAllEvent(Random As Random, SearchText As String, ByRef Output As (Query As String, Value As MySqlParameter)) Handles ControlSearchEngine.PerformFilterAllEvent
+        Select Case RequestSource
+            Case FormSearchRequestSource.Repair
+                Dim Control As GridRepairSearchControl = GridControl
+                Output = Control.PerformFilterAll(Random, SearchText)
         End Select
     End Sub
 End Class

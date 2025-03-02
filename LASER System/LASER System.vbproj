@@ -770,6 +770,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmSettlement.resx">
       <DependentUpon>frmSettlement.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="frmSplash.resx">
       <DependentUpon>frmSplash.vb</DependentUpon>

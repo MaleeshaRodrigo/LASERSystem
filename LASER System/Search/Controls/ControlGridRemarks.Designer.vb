@@ -24,6 +24,7 @@ Partial Class ControlGridRemarks
     Private Sub InitializeComponent()
         Me.ControlRemarks = New LASER_System.ControlRemarks()
         Me.ButtonClose = New System.Windows.Forms.Button()
+        Me.LabelRepairNo = New System.Windows.Forms.Label()
         Me.SuspendLayout()
         '
         'ControlRemarks
@@ -48,19 +49,32 @@ Partial Class ControlGridRemarks
         Me.ButtonClose.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.ButtonClose.UseVisualStyleBackColor = True
         '
+        'LabelRepairNo
+        '
+        Me.LabelRepairNo.AutoSize = True
+        Me.LabelRepairNo.Font = New System.Drawing.Font("Calibri", 12.0!)
+        Me.LabelRepairNo.Location = New System.Drawing.Point(3, 4)
+        Me.LabelRepairNo.Name = "LabelRepairNo"
+        Me.LabelRepairNo.Size = New System.Drawing.Size(77, 19)
+        Me.LabelRepairNo.TabIndex = 2
+        Me.LabelRepairNo.Text = "Repair No:"
+        '
         'ControlGridRemarks
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 14.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.Controls.Add(Me.LabelRepairNo)
         Me.Controls.Add(Me.ButtonClose)
         Me.Controls.Add(Me.ControlRemarks)
         Me.Font = New System.Drawing.Font("Calibri", 9.0!)
         Me.Name = "ControlGridRemarks"
         Me.Size = New System.Drawing.Size(502, 233)
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
 
     Friend WithEvents ControlRemarks As ControlRemarks
     Friend WithEvents ButtonClose As Button
+    Friend WithEvents LabelRepairNo As Label
 End Class

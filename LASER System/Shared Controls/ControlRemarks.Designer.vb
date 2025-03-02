@@ -59,7 +59,7 @@ Partial Class ControlRemarks
         'RemNo
         '
         Me.RemNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader
-        Me.RemNo.DataPropertyName = "No"
+        Me.RemNo.DataPropertyName = "RemNo"
         Me.RemNo.HeaderText = "No"
         Me.RemNo.MinimumWidth = 6
         Me.RemNo.Name = "RemNo"
@@ -70,7 +70,7 @@ Partial Class ControlRemarks
         'RemDate
         '
         Me.RemDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        Me.RemDate.DataPropertyName = "Date"
+        Me.RemDate.DataPropertyName = "RemDate"
         Me.RemDate.HeaderText = "Date"
         Me.RemDate.MinimumWidth = 6
         Me.RemDate.Name = "RemDate"

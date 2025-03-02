@@ -4,7 +4,9 @@ Imports Newtonsoft.Json.Linq
 
 Public Class ControlSearchEngine
     Public Event SearchSubmissionEvent(Query As String, Values As MySqlParameter())
-    Public Event PerformQueryMapping(ByRef PoistionList As List(Of Object))
+    Public Event PerformQueryMappingEvent(ByRef PoistionList As List(Of Object))
+    Public Event FormateValueEvent(ByRef Value As String, FieldName As String)
+    Public Event PerformFilterAllEvent(Random As Random, SearchText As String, ByRef Output As (Query As String, Value As MySqlParameter))
 
     Private Filters As Dictionary(Of String, String)
     Private PoistionList As New List(Of Object)
@@ -27,33 +29,7 @@ Public Class ControlSearchEngine
         RaiseEvent SearchSubmissionEvent(QueryResult.Query, QueryResult.Values.ToArray)
     End Sub
 
-    Private Function BuildQuery() As (Query As String, Values As List(Of MySqlParameter))
-        Dim Query As String = ""
-        Dim Values As New List(Of MySqlParameter)()
-        Dim Random As New Random
-        RaiseEvent PerformQueryMapping(PoistionList)
-        For Each Poistion As Object In PoistionList
-            If Poistion.GetType.Name = "String" AndAlso Operators.Contains(Poistion) Then
-                Query += $" {Poistion} "
-                Continue For
-            End If
-
-            If Poistion(0) = "All" Then
-                Dim Result = PerformFilterAll(Random, Poistion(1))
-                Query += Result.Query
-                Values.Add(Result.Value)
-                Continue For
-            End If
-
-            Dim RandomNumber As Integer = Random.Next()
-            Query += $" {Poistion(0)} LIKE @VALUE{RandomNumber} "
-            Values.Add(New MySqlParameter($"VALUE{RandomNumber}", $"%{Poistion(1)}%"))
-        Next
-
-        Return (Query, Values)
-    End Function
-
-    Private Function PerformFilterAll(Random As Random, SearchText As String) As (Query As String, Value As MySqlParameter)
+    Public Function PerformFilterAll(Random As Random, SearchText As String) As (Query As String, Value As MySqlParameter)
         Dim QueryArray As New List(Of String)
         Dim RandomNumber As Integer = Random.Next()
         Dim ParameterValue As New MySqlParameter($"VALUE{RandomNumber}", $"%{SearchText}%")
@@ -67,13 +43,42 @@ Public Class ControlSearchEngine
         Return ($" ({String.Join(" OR ", QueryArray)}) ", ParameterValue)
     End Function
 
+    Private Function BuildQuery() As (Query As String, Values As List(Of MySqlParameter))
+        Dim Query As String = ""
+        Dim Values As New List(Of MySqlParameter)()
+        Dim Random As New Random
+        RaiseEvent PerformQueryMappingEvent(PoistionList)
+        For Each Poistion As Object In PoistionList
+            If Poistion.GetType.Name = "String" AndAlso Operators.Contains(Poistion) Then
+                Query += $" {Poistion} "
+                Continue For
+            End If
+
+            If Poistion(0) = "All" Then
+                Dim Result As (Query As String, Value As MySqlParameter) = (Nothing, Nothing)
+                RaiseEvent PerformFilterAllEvent(Random, Poistion(1), Result)
+                Query += Result.Query
+                Values.Add(Result.Value)
+                Continue For
+            End If
+
+            Dim RandomNumber As Integer = Random.Next()
+            Query += $" {Poistion(0)} LIKE @VALUE{RandomNumber} "
+            Values.Add(New MySqlParameter($"VALUE{RandomNumber}", $"%{Poistion(1)}%"))
+        Next
+
+        Return (Query, Values)
+    End Function
+
     Private Sub ButtonSearch_Click(sender As Object, e As EventArgs) Handles ButtonSearch.Click
         If TextSearch.Text.Trim() = "" Then
             Return
         End If
 
+        Dim Value As String = TextSearch.Text, Field = GetKeyFromValue(Filters, ComboFilter.Text)
+        RaiseEvent FormateValueEvent(Value, Field)
         ApplyPrefixOperator()
-        AddPoistion(TextSearch.Text, GetKeyFromValue(Filters, ComboFilter.Text))
+        AddPoistion(Value, Field)
         Dim QueryResult = BuildQuery()
         TextSearch.Text = ""
 
