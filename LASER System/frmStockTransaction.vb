@@ -1,18 +1,15 @@
-﻿Imports MySqlConnector
+﻿Imports LASER_System.StructureDatabase
+Imports MySqlConnector
 
 Public Class frmStockTransaction
     Private Db As New Database
     Private Sub frmStockTransaction_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        
+
         MenuStrip.Items.Add(mnustrpMENU)
     End Sub
 
     Private Sub cmdClose_Click(sender As Object, e As EventArgs) Handles cmdClose.Click
-        frmStockTransaction_Leave(sender, e)
-    End Sub
-
-    Private Sub frmStockTransaction_Leave(sender As Object, e As EventArgs) Handles Me.Leave
-        
+        Me.Close()
     End Sub
 
     Private Sub cmbSName_DropDown(sender As Object, e As EventArgs) Handles cmbSName.DropDown
@@ -30,9 +27,8 @@ Public Class frmStockTransaction
 
     Private Sub cmbSName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbSName.SelectedIndexChanged
         Dim DR = Db.GetDataDictionary("SELECT * from Stock where Scategory='" & cmbSCategory.Text & "' and sname ='" & cmbSName.Text & "';")
-        If DR.Count Then
-            
-            txtSNo.Text = DR("SNO").ToString
+        If DR IsNot Nothing Then
+            txtSNo.Text = DR(Stock.Code).ToString
             grdSupply.DataSource = Db.GetDataTable("Select SupDate,SuName,SupType,SupUnits,SupCostPrice,SupTotal from (((Supply Sup Left Join Supplier Su On Su.SuNo = Sup.SuNo) Inner Join StockSupply SSup On SSup.SupNo = Sup.SupNo) Inner Join Stock S On S.SNo =SSup.SNo) Where S.SNo = " & txtSNo.Text & " Order by SupDate;")
 
             grdSale.DataSource = Db.GetDataTable("Select SaDate,CuName,SaType,SaUnits,SaRate,SaTotal from (((Sale Sa Left Join Customer Cu On Cu.CuNo = Sa.CuNo) Inner Join StockSale SSa On SSa.SaNo = Sa.SaNo) Inner Join Stock S On S.SNo =SSa.SNo) Where S.SNo = " & txtSNo.Text & " Order by SaDate;")
@@ -46,8 +42,7 @@ Public Class frmStockTransaction
     Public Sub txtSNo_TextChanged(sender As Object, e As EventArgs) Handles txtSNo.TextChanged
         If txtSNo.Text = "" Then Exit Sub
         Dim DR = Db.GetDataDictionary("Select SNo,SCategory,SName from `Stock` where SNO = " & txtSNo.Text)
-        If DR.Count Then
-            
+        If DR IsNot Nothing Then
             cmbSCategory.Text = DR("SCategory").ToString
             cmbSName.Text = DR("SName").ToString
             Call cmbSName_SelectedIndexChanged(sender, e)
