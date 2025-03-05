@@ -55,9 +55,9 @@ Partial Class ControlGridRemarks
         Me.LabelRepairNo.Font = New System.Drawing.Font("Calibri", 12.0!)
         Me.LabelRepairNo.Location = New System.Drawing.Point(3, 4)
         Me.LabelRepairNo.Name = "LabelRepairNo"
-        Me.LabelRepairNo.Size = New System.Drawing.Size(77, 19)
+        Me.LabelRepairNo.Size = New System.Drawing.Size(81, 19)
         Me.LabelRepairNo.TabIndex = 2
-        Me.LabelRepairNo.Text = "Repair No:"
+        Me.LabelRepairNo.Text = "Repair No: "
         '
         'ControlGridRemarks
         '

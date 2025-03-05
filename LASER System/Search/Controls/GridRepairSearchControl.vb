@@ -42,7 +42,7 @@ Public Class GridRepairSearchControl
         Me.Mode = Mode
         If Mode = RepairMode.ReRepair Then
             Grid.Columns(GridColumns.ReRepairNo).Visible = True
-            Grid.Columns(GridColumns.ReRepairNo).Frozen = True
+            'Grid.Columns(GridColumns.ReRepairNo).Frozen = True
         End If
 
         Return Me
@@ -155,7 +155,7 @@ Public Class GridRepairSearchControl
         If Mode = RepairMode.Repair Then
             Return $"Select RepNo, RDate, CuName, CONCAT_WS(' | ', NULLIF(CuTelNo1, ''), NULLIF(CuTelNo2, ''), NULLIF(CuTelNo3, '')) AS 'CuTelNo', CONCAT(PCategory, ' ', PName) AS 'Product', PSerialNo, Problem, Location, Qty, Status, AT.TName AS 'AssignedTechnician', HT.TName AS 'HandedOverTechnician', RepDate, Charge, DDate, PaidPrice FROM `{Tables.Repair}` REP INNER JOIN {Tables.Receive} R ON R.RNO = REP.RNO INNER JOIN {Tables.Product} P ON P.PNO = REP.PNO INNER JOIN {Tables.Customer} CU ON CU.CUNO = R.CUNO LEFT JOIN {Tables.Technician} AT ON AT.TNO = REP.AssignedToTNo LEFT JOIN {Tables.Technician} HT ON HT.TNO = REP.HandedOverToTNo LEFT JOIN {Tables.Deliver} D ON D.DNO = REP.DNO WHERE {WhereQuery}"
         ElseIf Mode = RepairMode.ReRepair Then
-            Return $"SELECT RetNo, RepNo,Ret.RNo,RDate, R.CuNo, CuName, CONCAT_WS(' | ', NULLIF(CuTelNo1, ''), NULLIF(CuTelNo2, ''), NULLIF(CuTelNo3, '')) AS 'CuTelNo', PCategory, PName, PModelNo, PSerialNo, Problem, Qty, Status, TName, RetREpDate, Charge, Ret.DNo, DDate, PaidPrice FROM `return` Ret INNER JOIN RECEIVE R ON R.RNo = Ret.RNo INNER JOIN PRODUCT  P ON P.PNO = Ret.PNO INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO LEFT JOIN Technician T ON T.TNO = Ret.TNO LEFT JOIN DELIVER D ON D.DNO = Ret.DNO WHERE {WhereQuery};"
+            Return $"SELECT RetNo, RepNo, Ret.RNo, RDate, R.CuNo, CuName, CONCAT_WS(' | ', NULLIF(CuTelNo1, ''), NULLIF(CuTelNo2, ''), NULLIF(CuTelNo3, '')) AS 'CuTelNo', PCategory, PName, PModelNo, PSerialNo, Problem, Qty, Status, TName, RepDate, Charge, Ret.DNo, DDate, PaidPrice FROM `return` Ret INNER JOIN RECEIVE R ON R.RNo = Ret.RNo INNER JOIN PRODUCT  P ON P.PNO = Ret.PNO INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO LEFT JOIN Technician T ON T.TNO = Ret.TNO LEFT JOIN DELIVER D ON D.DNO = Ret.DNO WHERE {WhereQuery};"
         Else
             Throw New Exception("Invalid Repair Mode")
         End If

@@ -26,6 +26,7 @@ Partial Class GridRepairSearchControl
         Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.Grid = New System.Windows.Forms.DataGridView()
+        Me.RetNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.RepNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.RDate = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.CuName = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -54,7 +55,7 @@ Partial Class GridRepairSearchControl
         Me.Grid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells
         Me.Grid.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells
         Me.Grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.Grid.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.RepNo, Me.RDate, Me.CuName, Me.CuTelNo, Me.Product, Me.PSerialNo, Me.Problem, Me.Location, Me.Qty, Me.RepRemarks1, Me.RepRemarks2, Me.Status, Me.AssignedTechnician, Me.HandedOverTechnician, Me.RepDate, Me.RepCharge, Me.DDate, Me.PaidPrice})
+        Me.Grid.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.RetNo, Me.RepNo, Me.RDate, Me.CuName, Me.CuTelNo, Me.Product, Me.PSerialNo, Me.Problem, Me.Location, Me.Qty, Me.RepRemarks1, Me.RepRemarks2, Me.Status, Me.AssignedTechnician, Me.HandedOverTechnician, Me.RepDate, Me.RepCharge, Me.DDate, Me.PaidPrice})
         Me.Grid.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Grid.Location = New System.Drawing.Point(0, 0)
         Me.Grid.Name = "Grid"
@@ -62,10 +63,16 @@ Partial Class GridRepairSearchControl
         Me.Grid.Size = New System.Drawing.Size(959, 464)
         Me.Grid.TabIndex = 0
         '
+        'RetNo
+        '
+        Me.RetNo.DataPropertyName = "RetNo"
+        Me.RetNo.HeaderText = "ReRepair No"
+        Me.RetNo.Name = "RetNo"
+        Me.RetNo.Visible = False
+        '
         'RepNo
         '
         Me.RepNo.DataPropertyName = "RepNo"
-        Me.RepNo.Frozen = True
         Me.RepNo.HeaderText = "RepNo"
         Me.RepNo.Name = "RepNo"
         Me.RepNo.ReadOnly = True
@@ -233,6 +240,7 @@ Partial Class GridRepairSearchControl
     End Sub
 
     Friend WithEvents Grid As DataGridView
+    Friend WithEvents RetNo As DataGridViewTextBoxColumn
     Friend WithEvents RepNo As DataGridViewTextBoxColumn
     Friend WithEvents RDate As DataGridViewTextBoxColumn
     Friend WithEvents CuName As DataGridViewTextBoxColumn
