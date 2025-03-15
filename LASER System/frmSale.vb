@@ -5,10 +5,8 @@ Imports System.Threading
 Public Class frmSale
     Private Db As New Database
     Public Sub New()
-        ' This call is required by the designer.
         InitializeComponent()
         MenuStrip.Items.Add(mnustrpMENU)
-        ' Add any initialization after the InitializeComponent() call.
     End Sub
 
     Private Sub frmSale_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -216,6 +214,40 @@ Public Class frmSale
         threadSaleInvoice.Priority = ThreadPriority.Highest
         threadSaleInvoice.Start()
         Cursor = Cursors.Default
+    End Sub
+
+    Public Sub SetEditMode(Data As Dictionary(Of String, Object))
+        cmdNew_Click(Nothing, Nothing)
+        txtSaNo.Text = Data(Sale.SaNo)
+        txtSaDate.Text = Data(Sale.SaDate)
+        cmbCuName.Text = Data(Customer.CuName)
+        txtCuTelNo1.Text = Data(Customer.CuTelNo1)
+        txtCuTelNo2.Text = Data(Customer.CuTelNo2)
+        txtCuTelNo3.Text = Data(Customer.CuTelNo3)
+        txtSubTotal.Text = Data(Sale.SaSubTotal)
+        txtLess.Text = Data(Sale.SaLess)
+        txtDue.Text = Data(Sale.SaDue)
+        txtCReceived.Text = Data(Sale.CReceived)
+        txtCBalance.Text = Data(Sale.CBalance)
+        txtCAmount.Text = Data(Sale.CAmount)
+        txtCPInvoiceNo.Text = Data(Sale.CPInvoiceNo)
+        txtCPAmount.Text = Data(Sale.CPAmount)
+        txtCuLNo.Text = Data(Sale.CuLNo)
+        txtCuLAmount.Text = Data(Sale.CuLAmount)
+        txtSaRemarks.Text = Data(Sale.SaRemarks)
+        Dim List = Db.GetDataList($"SELECT S.SNo, SSa.SCategory, SSa.SName, SaType, SaUnits, SaRate, SaTotal FROM StockSale SSa LEFT JOIN  Stock S ON SSa.SNo = S.SNo WHERE SaNo = {Data(Sale.SaNo)};")
+        For Each Item In List
+            grdSale.Rows.Add(
+                Item(Stock.Code).ToString(),
+                Item(Stock.Category).ToString(),
+                Item(Stock.Name).ToString(),
+                Item(StockSale.SaType).ToString(),
+                Item(StockSale.SaRate).ToString(),
+                Item(StockSale.SaUnits).ToString(),
+                Int(Item(StockSale.SaTotal)))
+        Next
+        cmdSave.Text = "Edit"
+        cmdDelete.Enabled = True
     End Sub
 
     Private Sub CmdNotReceipt_Click(sender As Object, e As EventArgs) Handles cmdNotReceipt.Click
@@ -649,17 +681,17 @@ Public Class frmSale
     End Sub
 
     Private Sub GetDataToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles GetDataToolStripMenuItem.Click
-        If User.Instance.UserType = User.Type.Admin Then
-            Dim frmNewSearch As New FormSearch
-            With frmNewSearch
-                .Name = "frmSearch" + NextFormNo(frmSearch).ToString
-                .Key = Name
-                .Tag = "Sale"
-                .Show(Me)
-            End With
-        Else
+        If User.Instance.UserType <> User.Type.Admin Then
             MsgBox("ඔබට මේ සඳහා Permission නොමැත.", vbExclamation + vbOKOnly)
         End If
+
+        Dim FormSaleSearch As New FormSearch
+        With FormSaleSearch
+            .Name = FormSearch.Name + NextFormNo(FormSearch).ToString
+            .RequestSource = FormSearchRequestSource.Sale
+            .Caller = Name
+            .Show(Me)
+        End With
     End Sub
 
     Private Sub CloseToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CloseToolStripMenuItem.Click

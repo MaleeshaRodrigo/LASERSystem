@@ -4,7 +4,7 @@ Imports LASER_System.StructureDatabase
 
 Public Class FormSearch
     Public Property RequestSource As FormSearchRequestSource
-    Public Property Key As String
+    Public Property Caller As String
 
     Private Db As New Database
     Private GridControl As GridSearchControl
@@ -38,16 +38,6 @@ Public Class FormSearch
         '        GridSubSearchRight.Columns.Add("Status", "Status")
         '        GridSubSearchLeft.Rows.Clear()
         '        GridSubSearchRight.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
-        '    Case FormSearchRequestSource.Repair
-        '        GridControl = New GridRepairSearchControl()
-        '        GridControl.Init(Db, Me)
-        '        Controls.Add(GridControl)
-        '        GridControl.Control.Dock = DockStyle.Fill
-        '    Case FormSearchRequestSource.ReRepair
-        '        GridControl = New GridRepairSearchControl().SetMode(RepairMode.ReRepair)
-        '        GridControl.Init(Db, Me)
-        '        Controls.Add(GridControl)
-        '        GridControl.Control.Dock = DockStyle.Fill
         'End Select
         Select Case RequestSource
             Case FormSearchRequestSource.Repair
@@ -63,6 +53,7 @@ Public Class FormSearch
             Case Else
                 Throw New Exception("Invalid Request Source")
         End Select
+
         GridControl.Init(Db, Me)
         PanelGrid.Controls.Add(GridControl)
         GridControl.Control.Dock = DockStyle.Fill
@@ -202,43 +193,7 @@ Public Class FormSearch
         'If Tag <> "Repair" Then Enabled = False
         'Select Case Tag
         '    Case "Sale"
-        '        For Each oForm As frmSale In Application.OpenForms().OfType(Of frmSale)()
-        '            If oForm.Name = Key Then
-        '                With oForm
-        '                    Dim index As Integer
-        '                    index = e.RowIndex
-        '                    Dim selectedrow As DataGridViewRow
-        '                    .cmdNew.PerformClick()
-        '                    If index >= 0 Then
-        '                        selectedrow = grdSearch.Rows(index)
-        '                        .txtSaNo.Text = selectedrow.Cells(0).Value.ToString
-        '                        .txtSaDate.Text = selectedrow.Cells(1).Value.ToString
-        '                        .cmbCuName.Text = selectedrow.Cells(3).Value.ToString
-        '                        .txtCuTelNo1.Text = selectedrow.Cells(4).Value.ToString
-        '                        .txtCuTelNo2.Text = selectedrow.Cells(5).Value.ToString
-        '                        .txtCuTelNo3.Text = selectedrow.Cells(6).Value.ToString
-        '                        .txtSubTotal.Text = selectedrow.Cells(7).Value.ToString
-        '                        .txtLess.Text = selectedrow.Cells(8).Value.ToString
-        '                        .txtDue.Text = selectedrow.Cells(9).Value.ToString
-        '                        .txtCReceived.Text = selectedrow.Cells(10).Value.ToString
-        '                        .txtCBalance.Text = selectedrow.Cells(11).Value.ToString
-        '                        .txtCAmount.Text = selectedrow.Cells(12).Value.ToString
-        '                        .txtCPInvoiceNo.Text = selectedrow.Cells(13).Value.ToString
-        '                        .txtCPAmount.Text = selectedrow.Cells(14).Value.ToString
-        '                        .txtCuLNo.Text = selectedrow.Cells(15).Value.ToString
-        '                        .txtCuLAmount.Text = selectedrow.Cells(16).Value.ToString
-        '                        .txtSaRemarks.Text = selectedrow.Cells(17).Value.ToString
-        '                        DR = Db.GetDataList("Select Stock.SNo,Stock.SCategory,Stock.SName,StockSale.SaType,StockSale.SaUnits,StockSale.SaRate,SaTotal from StockSale,Stock where StockSale.SNo = Stock.SNo And SaNo = " & .txtSaNo.Text & ";")
-        '                        For Each Item In DR
-        '                            .grdSale.Rows.Add(Item("SNo").ToString(), Item("SCategory").ToString(), Item("SName").ToString(), Item("SaType").ToString(), Item("SaRate").ToString(), Item("SaUnits").ToString(), Int(Item("SaTotal")))
-        '                        Next
-        '                    End If
-        '                    .cmdSave.Text = "Edit"
-        '                    .cmdDelete.Enabled = True
-        '                End With
-        '                Exit For
-        '            End If
-        '        Next
+        '        
         '    Case "Supply"
         '        With frmSupply
         '            Dim index As Integer
@@ -284,33 +239,7 @@ Public Class FormSearch
         '        '        End If
         '        '        .cmbRetRepNo.Focus()
         '        '    End If
-        '        'End With
-        '    Case "Deliver"
-        '        bgwSearch.CancelAsync()
-        '        With FormDeliver
-        '            .txtDNo.Text = grdSearch.Item(0, e.RowIndex).Value
-        '            .cmdSave.Text = "Edit"
-        '            DR = Db.GetDataDictionary("Select D.*,CuName,CuTelNo1,CuTelNo2,CuTelNo3 from (Deliver D Inner Join Customer Cu On Cu.CuNo = D.CuNo) Where DNo=" & .txtDNo.Text)
-        '            If DR IsNot Nothing Then
-
-        '                .txtDDate.Value = DR("DDate").ToString
-        '                .cmbCuName.Text = DR("CuName").ToString
-        '                .txtCuTelNo1.Text = DR("CuTelNo1").ToString
-        '                .txtCuTelNo2.Text = DR("CuTelNo2").ToString
-        '                .txtCuTelNo3.Text = DR("CuTelNo3").ToString
-        '                .txtDRemarks.Text = DR("DRemarks").ToString
-        '                Dim DR1 = Db.GetDataList("Select RepNo,REP.PNo,PCategory,PName,Qty,Status,REP.TNo, TName,PaidPrice from (((Repair REP INNER JOIN PRODUCT  P On P.PNO = REP.PNO) LEFT JOIN Technician T On T.TNO = REP.TNO) LEFT JOIN DELIVER D On D.DNO = REP.DNO) Where D.DNo=" & .txtDNo.Text)
-        '                .grdRepair.Rows.Clear()
-        '                For Each Item In DR1
-        '                    .grdRepair.Rows.Add(Item("RepNo").ToString, Item("PCategory").ToString, Item("PName").ToString, Item("Qty").ToString, Item("PaidPrice").ToString, Item("TName").ToString, Item("Status").ToString)
-        '                Next
-        '                DR1 = Db.GetDataList("Select RetNo, RepNo, RET.PNo, PCategory, PName, Qty, Status, RET.TNo, TName, PaidPrice from (((`Return` RET INNER JOIN PRODUCT  P On P.PNO = RET.PNO) LEFT JOIN Technician T On T.TNO = RET.TNO) LEFT JOIN DELIVER D On D.DNO = RET.DNO) Where D.DNo=" & .txtDNo.Text)
-        '                .grdRERepair.Rows.Clear()
-        '                For Each Item In DR1
-        '                    .grdRERepair.Rows.Add(Item("RetNo").ToString, Item("RepNo").ToString, Item("PCategory").ToString, Item("PName").ToString, Item("Qty").ToString, Item("PaidPrice").ToString, Item("TName").ToString, Item("Status").ToString)
-        '                Next
-        '            End If
-        '        End With
+        '        'End With        '        
         '    Case "ReRepair"
         '        With frmRepair
         '            Dim selectedrow As DataGridViewRow

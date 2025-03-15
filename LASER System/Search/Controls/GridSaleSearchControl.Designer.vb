@@ -45,6 +45,7 @@ Partial Class GridSaleSearchControl
         '
         Me.Grid.AllowUserToAddRows = False
         Me.Grid.AllowUserToDeleteRows = False
+        Me.Grid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells
         Me.Grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.Grid.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.SaNo, Me.SaDate, Me.CuName, Me.CuTelNo, Me.SaSubTotal, Me.SaLess, Me.SaDue, Me.CReceived, Me.CAmount, Me.CBalance, Me.CPInvoiceNo, Me.CPAmount, Me.CuLNo, Me.CuLAmount, Me.SaRemarks})
         Me.Grid.Dock = System.Windows.Forms.DockStyle.Fill
@@ -52,95 +53,130 @@ Partial Class GridSaleSearchControl
         Me.Grid.Location = New System.Drawing.Point(0, 0)
         Me.Grid.Name = "Grid"
         Me.Grid.ReadOnly = True
+        Me.Grid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.Grid.Size = New System.Drawing.Size(1214, 343)
         Me.Grid.TabIndex = 0
         '
         'SaNo
         '
+        Me.SaNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
+        Me.SaNo.DataPropertyName = "SaNo"
         Me.SaNo.HeaderText = "Sale No"
         Me.SaNo.Name = "SaNo"
         Me.SaNo.ReadOnly = True
+        Me.SaNo.Width = 69
         '
         'SaDate
         '
+        Me.SaDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
+        Me.SaDate.DataPropertyName = "SaDate"
         Me.SaDate.HeaderText = "Sold Date"
         Me.SaDate.Name = "SaDate"
         Me.SaDate.ReadOnly = True
+        Me.SaDate.Width = 79
         '
         'CuName
         '
+        Me.CuName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
+        Me.CuName.DataPropertyName = "CuName"
         Me.CuName.HeaderText = "Customer"
         Me.CuName.Name = "CuName"
         Me.CuName.ReadOnly = True
+        Me.CuName.Width = 83
         '
         'CuTelNo
         '
+        Me.CuTelNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
+        Me.CuTelNo.DataPropertyName = "CuTelNo"
         Me.CuTelNo.HeaderText = "Phone Numbers"
         Me.CuTelNo.Name = "CuTelNo"
         Me.CuTelNo.ReadOnly = True
+        Me.CuTelNo.Width = 108
         '
         'SaSubTotal
         '
+        Me.SaSubTotal.DataPropertyName = "SaSubTotal"
         Me.SaSubTotal.HeaderText = "Total"
         Me.SaSubTotal.Name = "SaSubTotal"
         Me.SaSubTotal.ReadOnly = True
+        Me.SaSubTotal.Width = 59
         '
         'SaLess
         '
+        Me.SaLess.DataPropertyName = "SaLess"
         Me.SaLess.HeaderText = "Less "
         Me.SaLess.Name = "SaLess"
         Me.SaLess.ReadOnly = True
+        Me.SaLess.Width = 59
         '
         'SaDue
         '
+        Me.SaDue.DataPropertyName = "SaDue"
         Me.SaDue.HeaderText = "Due"
         Me.SaDue.Name = "SaDue"
         Me.SaDue.ReadOnly = True
+        Me.SaDue.Width = 54
         '
         'CReceived
         '
+        Me.CReceived.DataPropertyName = "CReceived"
         Me.CReceived.HeaderText = "Received Amount"
         Me.CReceived.Name = "CReceived"
         Me.CReceived.ReadOnly = True
+        Me.CReceived.Width = 115
         '
         'CAmount
         '
+        Me.CAmount.DataPropertyName = "CAmount"
         Me.CAmount.HeaderText = "Cash Amount"
         Me.CAmount.Name = "CAmount"
         Me.CAmount.ReadOnly = True
+        Me.CAmount.Width = 95
         '
         'CBalance
         '
+        Me.CBalance.DataPropertyName = "CBalance"
         Me.CBalance.HeaderText = "Balance"
         Me.CBalance.Name = "CBalance"
         Me.CBalance.ReadOnly = True
+        Me.CBalance.Width = 76
         '
         'CPInvoiceNo
         '
+        Me.CPInvoiceNo.DataPropertyName = "CPInvoiceNo"
         Me.CPInvoiceNo.HeaderText = "Card Payment Invoice Number"
         Me.CPInvoiceNo.Name = "CPInvoiceNo"
         Me.CPInvoiceNo.ReadOnly = True
+        Me.CPInvoiceNo.Width = 97
         '
         'CPAmount
         '
+        Me.CPAmount.DataPropertyName = "CPAmount"
         Me.CPAmount.HeaderText = "Card Payment Amount"
         Me.CPAmount.Name = "CPAmount"
         Me.CPAmount.ReadOnly = True
+        Me.CPAmount.Width = 99
         '
         'CuLNo
         '
+        Me.CuLNo.DataPropertyName = "CuLNo"
         Me.CuLNo.HeaderText = "Customer Loan Number"
         Me.CuLNo.Name = "CuLNo"
         Me.CuLNo.ReadOnly = True
+        Me.CuLNo.Width = 96
         '
         'CuLAmount
         '
+        Me.CuLAmount.DataPropertyName = "CuLAmount"
         Me.CuLAmount.HeaderText = "Customer Loan Amount"
         Me.CuLAmount.Name = "CuLAmount"
         Me.CuLAmount.ReadOnly = True
+        Me.CuLAmount.Width = 95
         '
         'SaRemarks
         '
+        Me.SaRemarks.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.SaRemarks.DataPropertyName = "SaRemarks"
         Me.SaRemarks.HeaderText = "Remarks"
         Me.SaRemarks.Name = "SaRemarks"
         Me.SaRemarks.ReadOnly = True

@@ -37,6 +37,7 @@ Public Class ControlSearchEngine
             If Key = "All" Then
                 Continue For
             End If
+
             QueryArray.Add($"{Key} LIKE @VALUE{RandomNumber}")
         Next
 
@@ -55,8 +56,7 @@ Public Class ControlSearchEngine
             End If
 
             If Poistion(0) = "All" Then
-                Dim Result As (Query As String, Value As MySqlParameter) = (Nothing, Nothing)
-                RaiseEvent PerformFilterAllEvent(Random, Poistion(1), Result)
+                Dim Result As (Query As String, Value As MySqlParameter) = BuildQueryForFilterAll(Random, Poistion(1))
                 Query += Result.Query
                 Values.Add(Result.Value)
                 Continue For
@@ -84,6 +84,16 @@ Public Class ControlSearchEngine
 
         RaiseEvent SearchSubmissionEvent(QueryResult.Query, QueryResult.Values.ToArray)
     End Sub
+
+    Private Function BuildQueryForFilterAll(Random As Random, Text As String) As (Query As String, Value As MySqlParameter)
+        Dim Result As (Query As String, Value As MySqlParameter) = (Nothing, Nothing)
+        RaiseEvent PerformFilterAllEvent(Random, Text, Result)
+        If Result.Query Is Nothing And Result.Value Is Nothing Then
+            Result = PerformFilterAll(Random, Text)
+        End If
+
+        Return Result
+    End Function
 
     Private Sub AddPoistion(Text As String, Optional Field As String = Nothing)
         If Field Is Nothing Then

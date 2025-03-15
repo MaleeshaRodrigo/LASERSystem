@@ -245,6 +245,31 @@ Public Class FormDeliver
         End Select
     End Sub
 
+    Public Sub SetEditMode(DeliverNo As Integer)
+        txtDNo.Text = DeliverNo
+        cmdSave.Text = "Edit"
+        Dim DR = Db.GetDataDictionary($"Select D.*,CuName,CuTelNo1,CuTelNo2,CuTelNo3 from (Deliver D Inner Join Customer Cu On Cu.CuNo = D.CuNo) Where DNo={DeliverNo}")
+        If DR Is Nothing Then
+            Return
+        End If
+
+        txtDDate.Value = DR("DDate").ToString
+        cmbCuName.Text = DR("CuName").ToString
+        txtCuTelNo1.Text = DR("CuTelNo1").ToString
+        txtCuTelNo2.Text = DR("CuTelNo2").ToString
+        txtCuTelNo3.Text = DR("CuTelNo3").ToString
+        txtDRemarks.Text = DR("DRemarks").ToString
+        Dim DR1 = Db.GetDataList($"SELECT RepNo, REP.PNo, PCategory, PName, Qty, Status, REP.HandedOverToTNo, TName, PaidPrice FROM (((Repair REP INNER JOIN PRODUCT  P On P.PNO = REP.PNO) LEFT JOIN Technician T On T.TNO = REP.HandedOverToTNo) LEFT JOIN DELIVER D On D.DNO = REP.DNO) WHERE D.DNo={DeliverNo}")
+        grdRepair.Rows.Clear()
+        For Each Item In DR1
+            grdRepair.Rows.Add(Item("RepNo").ToString, Item("PCategory").ToString, Item("PName").ToString, Item("Qty").ToString, Item("PaidPrice").ToString, Item("TName").ToString, Item("Status").ToString)
+        Next
+        DR1 = Db.GetDataList("SELECT RetNo, RepNo, RET.PNo, PCategory, PName, Qty, Status, RET.HandedOverToTNo, TName, PaidPrice FROM (((`Return` RET INNER JOIN PRODUCT  P On P.PNO = RET.PNO) LEFT JOIN Technician T On T.TNO = RET.HandedOverToTNo) LEFT JOIN DELIVER D On D.DNO = RET.DNO) WHERE D.DNo=" & DeliverNo)
+        grdRERepair.Rows.Clear()
+        For Each Item In DR1
+            grdRERepair.Rows.Add(Item("RetNo").ToString, Item("RepNo").ToString, Item("PCategory").ToString, Item("PName").ToString, Item("Qty").ToString, Item("PaidPrice").ToString, Item("TName").ToString, Item("Status").ToString)
+        Next
+    End Sub
     Private Sub grdRepair_EditingControlShowing(sender As Object, e As DataGridViewEditingControlShowingEventArgs) Handles grdRepair.EditingControlShowing
         Dim autoText As TextBox
         Dim DataCollection As New AutoCompleteStringCollection()
@@ -474,11 +499,10 @@ Public Class FormDeliver
     End Sub
 
     Private Sub GetDataToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles GetDataToolStripMenuItem.Click
-        Dim frmNewSearch As New FormSearch
-        With frmNewSearch
-            .Name = "frmSearch" + NextFormNo(frmSearch).ToString
-            .Key = Name
-            .Tag = "Deliver"
+        Dim FormDeliverSearch As New FormSearch
+        With FormDeliverSearch
+            .Name = FormSearch.Name + NextFormNo(FormSearch).ToString
+            .RequestSource = FormSearchRequestSource.Deliver
             .Show(Me)
         End With
     End Sub

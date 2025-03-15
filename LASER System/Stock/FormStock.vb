@@ -183,8 +183,4 @@ Public Class FormStock
             Console.Error.Write(ex)
         End Try
     End Sub
-
-    Private Sub ControlSearchEngine_PerformFilterAllEvent(Random As Random, SearchText As String, ByRef Output As (Query As String, Value As MySqlParameter)) Handles ControlSearchEngine.PerformFilterAllEvent
-        Output = ControlSearchEngine.PerformFilterAll(Random, SearchText)
-    End Sub
 End Class
