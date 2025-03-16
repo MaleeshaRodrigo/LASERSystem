@@ -48,7 +48,7 @@ Public Class FormRepairAdvance
             Report.PrintOptions.PaperOrientation = CrystalDecisions.Shared.PaperOrientation.Portrait
             Report.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
 
-            Dim frm As New frmReport With {.Name = frmReport.Name + NextfrmNo(frmReport).ToString}
+            Dim frm As New FormReport With {.Name = FormReport.Name + NextFormNo(FormReport).ToString}
             frm.ReportViewer.ReportSource = Report
             frm.Show(Me)
         Catch ex As Exception

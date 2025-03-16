@@ -98,15 +98,13 @@ Module Utils
         'End If
     End Function
 
-    Public Function NextfrmNo(frmNew As Form) As Integer
+    Public Function NextFormNo(frmNew As Form) As Integer
         Dim i As Integer = 0
         For Each oForm As Form In Application.OpenForms().OfType(Of Form)()
-            If oForm.Name.ToString.StartsWith(frmNew.Name) = True Then
-                If IsNumeric(oForm.Name.ToString.Replace(frmNew.Name, "")) = True Then
-                    If i <= oForm.Name.ToString.Replace(frmNew.Name, "") Then
-                        i = oForm.Name.ToString.Replace(frmNew.Name, "")
-                    End If
-                End If
+            If oForm.Name.ToString.StartsWith(frmNew.Name) = True AndAlso
+                IsNumeric(oForm.Name.ToString.Replace(frmNew.Name, "")) = True AndAlso
+                i <= oForm.Name.ToString.Replace(frmNew.Name, "") Then
+                i = oForm.Name.ToString.Replace(frmNew.Name, "")
             End If
         Next
         Return (i + 1)

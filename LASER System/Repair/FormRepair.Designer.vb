@@ -59,6 +59,7 @@ Partial Class FormRepair
         Me.cmdSave = New System.Windows.Forms.Button()
         Me.tabRepair = New System.Windows.Forms.TabControl()
         Me.RepInfo = New System.Windows.Forms.TabPage()
+        Me.ControlReRepairView = New LASER_System.ControlReRepairView()
         Me.cmdRepView = New System.Windows.Forms.Button()
         Me.cmbRepNo = New System.Windows.Forms.ComboBox()
         Me.cmbRepStatus = New System.Windows.Forms.ComboBox()
@@ -104,9 +105,9 @@ Partial Class FormRepair
         Me.boxReceive.Controls.Add(Me.txtRNo)
         Me.boxReceive.Controls.Add(Me.txtRDate)
         Me.boxReceive.Controls.Add(Me.Label2)
-        Me.boxReceive.Location = New System.Drawing.Point(12, 149)
+        Me.boxReceive.Location = New System.Drawing.Point(12, 222)
         Me.boxReceive.Name = "boxReceive"
-        Me.boxReceive.Size = New System.Drawing.Size(366, 59)
+        Me.boxReceive.Size = New System.Drawing.Size(366, 53)
         Me.boxReceive.TabIndex = 4
         Me.boxReceive.TabStop = False
         Me.boxReceive.Text = "Receive Info"
@@ -115,9 +116,9 @@ Partial Class FormRepair
         'txtRNo
         '
         Me.txtRNo.Enabled = False
-        Me.txtRNo.Location = New System.Drawing.Point(314, 21)
+        Me.txtRNo.Location = New System.Drawing.Point(310, 21)
         Me.txtRNo.Name = "txtRNo"
-        Me.txtRNo.Size = New System.Drawing.Size(45, 22)
+        Me.txtRNo.Size = New System.Drawing.Size(49, 22)
         Me.txtRNo.TabIndex = 5
         Me.txtRNo.Visible = False
         '
@@ -125,7 +126,7 @@ Partial Class FormRepair
         '
         Me.txtRDate.CustomFormat = "yyyy-MM-dd hh:mm:ss tt"
         Me.txtRDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtRDate.Location = New System.Drawing.Point(104, 21)
+        Me.txtRDate.Location = New System.Drawing.Point(100, 21)
         Me.txtRDate.Name = "txtRDate"
         Me.txtRDate.Size = New System.Drawing.Size(204, 22)
         Me.txtRDate.TabIndex = 7
@@ -133,7 +134,7 @@ Partial Class FormRepair
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(6, 27)
+        Me.Label2.Location = New System.Drawing.Point(10, 24)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(88, 14)
         Me.Label2.TabIndex = 2
@@ -151,9 +152,9 @@ Partial Class FormRepair
         Me.boxCustomer.Controls.Add(Me.txtCuNo)
         Me.boxCustomer.Controls.Add(Me.Label4)
         Me.boxCustomer.Controls.Add(Me.Label5)
-        Me.boxCustomer.Location = New System.Drawing.Point(12, 214)
+        Me.boxCustomer.Location = New System.Drawing.Point(12, 281)
         Me.boxCustomer.Name = "boxCustomer"
-        Me.boxCustomer.Size = New System.Drawing.Size(366, 141)
+        Me.boxCustomer.Size = New System.Drawing.Size(366, 95)
         Me.boxCustomer.TabIndex = 29
         Me.boxCustomer.TabStop = False
         Me.boxCustomer.Text = "Customer Info"
@@ -162,14 +163,14 @@ Partial Class FormRepair
         'TextCuName
         '
         Me.TextCuName.Enabled = False
-        Me.TextCuName.Location = New System.Drawing.Point(70, 17)
+        Me.TextCuName.Location = New System.Drawing.Point(57, 19)
         Me.TextCuName.Name = "TextCuName"
-        Me.TextCuName.Size = New System.Drawing.Size(258, 22)
+        Me.TextCuName.Size = New System.Drawing.Size(271, 22)
         Me.TextCuName.TabIndex = 40
         '
         'cmdCuView
         '
-        Me.cmdCuView.Location = New System.Drawing.Point(334, 18)
+        Me.cmdCuView.Location = New System.Drawing.Point(333, 21)
         Me.cmdCuView.Name = "cmdCuView"
         Me.cmdCuView.Size = New System.Drawing.Size(26, 22)
         Me.cmdCuView.TabIndex = 9
@@ -179,16 +180,16 @@ Partial Class FormRepair
         'txtCuTelNo3
         '
         Me.txtCuTelNo3.Enabled = False
-        Me.txtCuTelNo3.Location = New System.Drawing.Point(112, 108)
+        Me.txtCuTelNo3.Location = New System.Drawing.Point(213, 66)
         Me.txtCuTelNo3.Mask = "999 0 000 000"
         Me.txtCuTelNo3.Name = "txtCuTelNo3"
-        Me.txtCuTelNo3.Size = New System.Drawing.Size(92, 22)
+        Me.txtCuTelNo3.Size = New System.Drawing.Size(95, 22)
         Me.txtCuTelNo3.TabIndex = 12
         '
         'Label12
         '
         Me.Label12.AutoSize = True
-        Me.Label12.Location = New System.Drawing.Point(10, 111)
+        Me.Label12.Location = New System.Drawing.Point(210, 49)
         Me.Label12.Name = "Label12"
         Me.Label12.Size = New System.Drawing.Size(98, 14)
         Me.Label12.TabIndex = 39
@@ -197,16 +198,16 @@ Partial Class FormRepair
         'txtCuTelNo2
         '
         Me.txtCuTelNo2.Enabled = False
-        Me.txtCuTelNo2.Location = New System.Drawing.Point(112, 78)
+        Me.txtCuTelNo2.Location = New System.Drawing.Point(110, 66)
         Me.txtCuTelNo2.Mask = "999 0 000 000"
         Me.txtCuTelNo2.Name = "txtCuTelNo2"
-        Me.txtCuTelNo2.Size = New System.Drawing.Size(92, 22)
+        Me.txtCuTelNo2.Size = New System.Drawing.Size(95, 22)
         Me.txtCuTelNo2.TabIndex = 11
         '
         'Label11
         '
         Me.Label11.AutoSize = True
-        Me.Label11.Location = New System.Drawing.Point(8, 80)
+        Me.Label11.Location = New System.Drawing.Point(107, 49)
         Me.Label11.Name = "Label11"
         Me.Label11.Size = New System.Drawing.Size(98, 14)
         Me.Label11.TabIndex = 37
@@ -215,16 +216,16 @@ Partial Class FormRepair
         'txtCuTelNo1
         '
         Me.txtCuTelNo1.Enabled = False
-        Me.txtCuTelNo1.Location = New System.Drawing.Point(112, 46)
+        Me.txtCuTelNo1.Location = New System.Drawing.Point(6, 66)
         Me.txtCuTelNo1.Mask = "999 0 000 000"
         Me.txtCuTelNo1.Name = "txtCuTelNo1"
-        Me.txtCuTelNo1.Size = New System.Drawing.Size(92, 22)
+        Me.txtCuTelNo1.Size = New System.Drawing.Size(98, 22)
         Me.txtCuTelNo1.TabIndex = 10
         '
         'txtCuNo
         '
         Me.txtCuNo.Enabled = False
-        Me.txtCuNo.Location = New System.Drawing.Point(314, 111)
+        Me.txtCuNo.Location = New System.Drawing.Point(314, 66)
         Me.txtCuNo.Name = "txtCuNo"
         Me.txtCuNo.Size = New System.Drawing.Size(46, 22)
         Me.txtCuNo.TabIndex = 35
@@ -233,7 +234,7 @@ Partial Class FormRepair
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(8, 49)
+        Me.Label4.Location = New System.Drawing.Point(6, 49)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(98, 14)
         Me.Label4.TabIndex = 21
@@ -242,7 +243,7 @@ Partial Class FormRepair
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(12, 18)
+        Me.Label5.Location = New System.Drawing.Point(6, 25)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(45, 14)
         Me.Label5.TabIndex = 19
@@ -264,7 +265,7 @@ Partial Class FormRepair
         Me.boxProduct.Controls.Add(Me.Label15)
         Me.boxProduct.Controls.Add(Me.Label17)
         Me.boxProduct.Controls.Add(Me.Label18)
-        Me.boxProduct.Location = New System.Drawing.Point(10, 361)
+        Me.boxProduct.Location = New System.Drawing.Point(10, 382)
         Me.boxProduct.Name = "boxProduct"
         Me.boxProduct.Size = New System.Drawing.Size(368, 198)
         Me.boxProduct.TabIndex = 31
@@ -401,18 +402,18 @@ Partial Class FormRepair
             Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.txtPProblem.BackColor = System.Drawing.SystemColors.Window
         Me.txtPProblem.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.txtPProblem.Location = New System.Drawing.Point(12, 584)
+        Me.txtPProblem.Location = New System.Drawing.Point(12, 600)
         Me.txtPProblem.Multiline = True
         Me.txtPProblem.Name = "txtPProblem"
         Me.txtPProblem.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.txtPProblem.Size = New System.Drawing.Size(366, 71)
+        Me.txtPProblem.Size = New System.Drawing.Size(366, 114)
         Me.txtPProblem.TabIndex = 21
         Me.txtPProblem.Visible = False
         '
         'lblPProblem
         '
         Me.lblPProblem.AutoSize = True
-        Me.lblPProblem.Location = New System.Drawing.Point(14, 567)
+        Me.lblPProblem.Location = New System.Drawing.Point(12, 583)
         Me.lblPProblem.Name = "lblPProblem"
         Me.lblPProblem.Size = New System.Drawing.Size(55, 14)
         Me.lblPProblem.TabIndex = 62
@@ -423,7 +424,7 @@ Partial Class FormRepair
         '
         Me.cmdClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.cmdClose.Image = Global.LASER_System.My.Resources.Resources.close
-        Me.cmdClose.Location = New System.Drawing.Point(863, 110)
+        Me.cmdClose.Location = New System.Drawing.Point(1253, 110)
         Me.cmdClose.Name = "cmdClose"
         Me.cmdClose.Size = New System.Drawing.Size(79, 33)
         Me.cmdClose.TabIndex = 38
@@ -435,7 +436,7 @@ Partial Class FormRepair
         '
         Me.cmdSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.cmdSave.Image = Global.LASER_System.My.Resources.Resources.Save
-        Me.cmdSave.Location = New System.Drawing.Point(863, 66)
+        Me.cmdSave.Location = New System.Drawing.Point(1253, 66)
         Me.cmdSave.Name = "cmdSave"
         Me.cmdSave.Size = New System.Drawing.Size(79, 33)
         Me.cmdSave.TabIndex = 36
@@ -450,11 +451,12 @@ Partial Class FormRepair
         Me.tabRepair.Location = New System.Drawing.Point(12, 29)
         Me.tabRepair.Name = "tabRepair"
         Me.tabRepair.SelectedIndex = 0
-        Me.tabRepair.Size = New System.Drawing.Size(366, 114)
+        Me.tabRepair.Size = New System.Drawing.Size(366, 187)
         Me.tabRepair.TabIndex = 58
         '
         'RepInfo
         '
+        Me.RepInfo.Controls.Add(Me.ControlReRepairView)
         Me.RepInfo.Controls.Add(Me.cmdRepView)
         Me.RepInfo.Controls.Add(Me.cmbRepNo)
         Me.RepInfo.Controls.Add(Me.cmbRepStatus)
@@ -463,10 +465,18 @@ Partial Class FormRepair
         Me.RepInfo.Location = New System.Drawing.Point(4, 23)
         Me.RepInfo.Name = "RepInfo"
         Me.RepInfo.Padding = New System.Windows.Forms.Padding(3)
-        Me.RepInfo.Size = New System.Drawing.Size(358, 87)
+        Me.RepInfo.Size = New System.Drawing.Size(358, 160)
         Me.RepInfo.TabIndex = 0
         Me.RepInfo.Text = "Repair Info"
         Me.RepInfo.UseVisualStyleBackColor = True
+        '
+        'ControlReRepairView
+        '
+        Me.ControlReRepairView.Font = New System.Drawing.Font("Calibri", 9.0!)
+        Me.ControlReRepairView.Location = New System.Drawing.Point(6, 62)
+        Me.ControlReRepairView.Name = "ControlReRepairView"
+        Me.ControlReRepairView.Size = New System.Drawing.Size(346, 92)
+        Me.ControlReRepairView.TabIndex = 69
         '
         'cmdRepView
         '
@@ -479,6 +489,8 @@ Partial Class FormRepair
         '
         'cmbRepNo
         '
+        Me.cmbRepNo.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Append
+        Me.cmbRepNo.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems
         Me.cmbRepNo.FormattingEnabled = True
         Me.cmbRepNo.Location = New System.Drawing.Point(76, 6)
         Me.cmbRepNo.Name = "cmbRepNo"
@@ -489,7 +501,7 @@ Partial Class FormRepair
         '
         Me.cmbRepStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cmbRepStatus.FormattingEnabled = True
-        Me.cmbRepStatus.Items.AddRange(New Object() {"Received", "Hand Over to Technician", "Repairing", "Repaired Not Delivered", "Repaired Delivered", "Returned Not Delivered", "Returned Delivered", "Canceled"})
+        Me.cmbRepStatus.Items.AddRange(New Object() {RepairStatus.Received, RepairStatus.AssignedTo, RepairStatus.HandedOverTo, RepairStatus.Pending, RepairStatus.Repaired, RepairStatus.Returned, RepairStatus.RepairedDelivered, RepairStatus.ReturnedDelivered, RepairStatus.Canceled})
         Me.cmbRepStatus.Location = New System.Drawing.Point(76, 34)
         Me.cmbRepStatus.Name = "cmbRepStatus"
         Me.cmbRepStatus.Size = New System.Drawing.Size(228, 22)
@@ -525,7 +537,7 @@ Partial Class FormRepair
         Me.RetInfo.Location = New System.Drawing.Point(4, 23)
         Me.RetInfo.Name = "RetInfo"
         Me.RetInfo.Padding = New System.Windows.Forms.Padding(3)
-        Me.RetInfo.Size = New System.Drawing.Size(358, 87)
+        Me.RetInfo.Size = New System.Drawing.Size(358, 160)
         Me.RetInfo.TabIndex = 1
         Me.RetInfo.Text = "ReRepair Info"
         Me.RetInfo.UseVisualStyleBackColor = True
@@ -568,7 +580,7 @@ Partial Class FormRepair
         '
         Me.cmbRetStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cmbRetStatus.FormattingEnabled = True
-        Me.cmbRetStatus.Items.AddRange(New Object() {"Received", "Hand Over to Technician", "Repairing", "Repaired Not Delivered", "Repaired Delivered", "Returned Not Delivered", "Returned Delivered"})
+        Me.cmbRetStatus.Items.AddRange(New Object() {RepairStatus.Received, RepairStatus.AssignedTo, RepairStatus.HandedOverTo, RepairStatus.Pending, RepairStatus.Repaired, RepairStatus.Returned, RepairStatus.RepairedDelivered, RepairStatus.ReturnedDelivered, RepairStatus.Canceled})
         Me.cmbRetStatus.Location = New System.Drawing.Point(90, 62)
         Me.cmbRetStatus.Name = "cmbRetStatus"
         Me.cmbRetStatus.Size = New System.Drawing.Size(228, 22)
@@ -599,7 +611,7 @@ Partial Class FormRepair
         Me.MenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OPTIONToolStripMenuItem, Me.VIEWToolStripMenuItem, Me.PRINTToolStripMenuItem})
         Me.MenuStrip.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip.Name = "MenuStrip"
-        Me.MenuStrip.Size = New System.Drawing.Size(954, 24)
+        Me.MenuStrip.Size = New System.Drawing.Size(1344, 24)
         Me.MenuStrip.TabIndex = 67
         Me.MenuStrip.Text = "MenuStrip1"
         '
@@ -702,7 +714,7 @@ Partial Class FormRepair
         '
         Me.cmdDone.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.cmdDone.Image = Global.LASER_System.My.Resources.Resources.Done
-        Me.cmdDone.Location = New System.Drawing.Point(863, 27)
+        Me.cmdDone.Location = New System.Drawing.Point(1253, 27)
         Me.cmdDone.Name = "cmdDone"
         Me.cmdDone.Size = New System.Drawing.Size(79, 33)
         Me.cmdDone.TabIndex = 35
@@ -719,7 +731,7 @@ Partial Class FormRepair
         Me.PanelMain.FlowDirection = System.Windows.Forms.FlowDirection.TopDown
         Me.PanelMain.Location = New System.Drawing.Point(384, 27)
         Me.PanelMain.Name = "PanelMain"
-        Me.PanelMain.Size = New System.Drawing.Size(473, 628)
+        Me.PanelMain.Size = New System.Drawing.Size(863, 687)
         Me.PanelMain.TabIndex = 68
         Me.PanelMain.WrapContents = False
         '
@@ -727,7 +739,7 @@ Partial Class FormRepair
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 14.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(954, 670)
+        Me.ClientSize = New System.Drawing.Size(1344, 729)
         Me.Controls.Add(Me.PanelMain)
         Me.Controls.Add(Me.cmdDone)
         Me.Controls.Add(Me.txtPProblem)
@@ -830,4 +842,5 @@ Partial Class FormRepair
     Friend WithEvents cmbRetRepNo As ComboBox
     Friend WithEvents PanelMain As FlowLayoutPanel
     Friend WithEvents TextCuName As TextBox
+    Friend WithEvents ControlReRepairView As ControlReRepairView
 End Class
