@@ -54,7 +54,7 @@
       <Value Profile="(Default)">root</Value>
     </Setting>
     <Setting Name="DeveloperMode" Type="System.Boolean" Scope="Application">
-      <Value Profile="(Default)">True</Value>
+      <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="BGWorkerPath" Type="System.String" Scope="User">
       <Value Profile="(Default)" />

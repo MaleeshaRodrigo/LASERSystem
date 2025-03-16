@@ -137,13 +137,13 @@ Public Class GridSaleSearchControl
         FormParent.Close()
     End Sub
 
-    Private Sub Grid_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles GridSale.CellContentClick
-        If e.RowIndex < 0 OrElse e.RowIndex >= GridSale.RowCount Then
+    Private Sub GridSale_SelectionChanged(sender As Object, e As EventArgs) Handles GridSale.SelectionChanged
+        If GridSale.CurrentRow.Index < 0 OrElse GridSale.CurrentRow.Index >= GridSale.RowCount Then
             Return
         End If
 
         Dim DataTable = Db.GetDataTable($"SELECT S.SNo, SSa.SCategory, SSa.SName, SaType, SaUnits, SaRate, SaTotal FROM StockSale SSa LEFT JOIN  Stock S ON SSa.SNo = S.SNo WHERE SaNo = @SANO;", {
-            New MySqlParameter("SANO", GridSale.Item(GridColumns.SaNo, e.RowIndex).Value)
+            New MySqlParameter("SANO", GridSale.Item(GridColumns.SaNo, GridSale.CurrentRow.Index).Value)
         })
         GridStock.DataSource = DataTable
     End Sub
