@@ -174,7 +174,7 @@ Public Class FormDeliver
                 End If
                 Dim DRD = Db.GetDataDictionary("Select RepNo,PCategory,PName,PMOdelNO,PSerialNo,PDetails,Qty,Charge,TName,Status,CuName,CuTelNo1,CuTelNo2,CuTelNo3 from ((((Repair REP INNER JOIN RECEIVE R ON R.RNO = REP.RNO) INNER JOIN PRODUCT P ON P.PNO = REP.PNO) INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = REP.HandedOverToTNo AND TActive=1) Where RepNo = " & grdRepair.Item(0, grdRepair.CurrentCell.RowIndex).Value)
                 If DRD IsNot Nothing Then
-                    If DRD("Status").ToString = "Repaired Delivered" Or DRD("Status").ToString = "Returned Delivered" Then
+                    If DRD("Status").ToString = RepairStatus.RepairedDelivered Or DRD("Status").ToString = RepairStatus.ReturnedDelivered Then
                         If MsgBox("මෙම Repair එක දැනටමත් Customer විසින් රැගෙන ගොස් ඇත." + vbCrLf + "ඔබට එම Repair එක විවෘත කිරිමට අවශ්‍යද?",
                                   vbInformation + vbYesNo) = vbYes Then
                             Dim frm As New FormRepair
@@ -221,9 +221,9 @@ Public Class FormDeliver
                         grdRepair.Item(5, grdRepair.CurrentCell.RowIndex).Value = DRD("TName").ToString
                         'End If
                         If DRD("Status").ToString = RepairStatus.Returned Then
-                            grdRepair.Item(6, grdRepair.CurrentCell.RowIndex).Value = "Returned Delivered"
+                            grdRepair.Item(6, grdRepair.CurrentCell.RowIndex).Value = RepairStatus.ReturnedDelivered
                         Else
-                            grdRepair.Item(6, grdRepair.CurrentCell.RowIndex).Value = "Repaired Delivered"
+                            grdRepair.Item(6, grdRepair.CurrentCell.RowIndex).Value = RepairStatus.RepairedDelivered
                         End If
                         For Each row As DataGridViewRow In grdRepair.Rows
                             If row.Index = grdRepair.CurrentCell.RowIndex Then Continue For
@@ -238,9 +238,9 @@ Public Class FormDeliver
                 If grdRepair.CurrentCell IsNot grdRepair.Item(0, grdRepair.Rows.Count - 1) Then grdRepair.CurrentCell = grdRepair.Item(0, grdRepair.Rows.Count - 1)
             Case 4
                 If grdRepair.Item(4, e.RowIndex).Value = "0" Then
-                    grdRepair.Item(6, grdRepair.CurrentCell.RowIndex).Value = "Returned Delivered"
+                    grdRepair.Item(6, grdRepair.CurrentCell.RowIndex).Value = RepairStatus.ReturnedDelivered
                 Else
-                    grdRepair.Item(6, grdRepair.CurrentCell.RowIndex).Value = "Repaired Delivered"
+                    grdRepair.Item(6, grdRepair.CurrentCell.RowIndex).Value = RepairStatus.RepairedDelivered
                 End If
         End Select
     End Sub
@@ -291,7 +291,7 @@ Public Class FormDeliver
                     autoText.AutoCompleteMode = AutoCompleteMode.Suggest
                     autoText.AutoCompleteSource = AutoCompleteSource.CustomSource
                     DataCollection.Clear()
-                    Dim DR = Db.GetDataList("Select RepNo from Repair where Status <> 'Repaired Delivered' and Status <> 'Returned Delivered' and Status <> 'Canceled' order by RepNo Desc;")
+                    Dim DR = Db.GetDataList($"Select RepNo from Repair where Status <> '{RepairStatus.RepairedDelivered}' and Status <> '{RepairStatus.ReturnedDelivered}' and Status <> '{RepairStatus.Canceled}' order by RepNo Desc;")
                     For Each Item In DR
                         DataCollection.Add(Item("RepNo").ToString)
                     Next
@@ -368,7 +368,7 @@ Public Class FormDeliver
                 End If
                 Dim DataReader = Db.GetDataDictionary("Select RetNo,RepNo,PCategory,PName,PModelNo,PSerialNo,PDetails,Qty,Charge,TName,Status,CuName,CuTelNo1,CuTelNo2,CuTelNo3 from ((((`Return` RET INNER JOIN RECEIVE R ON R.RNO = RET.RNO) INNER JOIN PRODUCT  P ON P.PNO = RET.PNO) INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = RET.HandedOverToTNo) Where RetNo = " & grdRERepair.Item(0, grdRERepair.CurrentCell.RowIndex).Value)
                 If DataReader IsNot Nothing Then
-                    If DataReader("Status").ToString = "Repaired Delivered" Or DataReader("Status").ToString = "Returned Delivered" Then
+                    If DataReader("Status").ToString = RepairStatus.RepairedDelivered Or DataReader("Status").ToString = RepairStatus.ReturnedDelivered Then
                         If MsgBox("මෙම RERepair එක දැනටමත් Customer විසින් රැගෙන ගොස් ඇත." + vbCrLf + "ඔබට එම RERepair එක විවෘත කිරිමට අවශ්‍යද?", vbInformation + vbYesNo) = vbYes Then
                             Dim frm As New FormRepair
                             With frm
@@ -404,7 +404,7 @@ Public Class FormDeliver
                         If DataReader("Status").ToString = RepairStatus.Returned Then
                             grdRERepair.Item(7, grdRERepair.CurrentCell.RowIndex).Value = "Returned Delivered"
                         Else
-                            grdRERepair.Item(7, grdRERepair.CurrentCell.RowIndex).Value = "Repaired Delivered"
+                            grdRERepair.Item(7, grdRERepair.CurrentCell.RowIndex).Value = " Delivered"
                         End If
                         For Each row As DataGridViewRow In grdRERepair.Rows
                             If row.Index = grdRERepair.CurrentCell.RowIndex Then Continue For

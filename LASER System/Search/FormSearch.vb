@@ -187,13 +187,7 @@ Public Class FormSearch
     End Sub
 
     Private Sub GrdSearch_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs)
-        'If Tag = "" Or e.RowIndex < 0 Then
-        '    Exit Sub
-        'End If
-        'If Tag <> "Repair" Then Enabled = False
         'Select Case Tag
-        '    Case "Sale"
-        '        
         '    Case "Supply"
         '        With frmSupply
         '            Dim index As Integer
@@ -263,10 +257,6 @@ Public Class FormSearch
         '            Call .GrdRepair_CellEndEdit(sender, E1)
         '        End With
         'End Select
-        'If Tag <> "Repair" Then
-        '    Enabled = True
-        '    Close()
-        'End If
     End Sub
 
     Private Sub frmSearch_Move(sender As Object, e As EventArgs) Handles Me.Move
@@ -284,6 +274,9 @@ Public Class FormSearch
             Case FormSearchRequestSource.Repair
                 Dim Control As GridRepairSearchControl = GridControl
                 Control.PerformQueryMapping(PoistionList)
+            Case FormSearchRequestSource.Sale
+                Dim Control As GridSaleSearchControl = GridControl
+                Control.PerformQueryMapping(PoistionList)
         End Select
     End Sub
 
@@ -299,6 +292,9 @@ Public Class FormSearch
         Select Case RequestSource
             Case FormSearchRequestSource.Repair
                 Dim Control As GridRepairSearchControl = GridControl
+                Output = Control.PerformFilterAll(Random, SearchText)
+            Case FormSearchRequestSource.Sale
+                Dim Control As GridSaleSearchControl = GridControl
                 Output = Control.PerformFilterAll(Random, SearchText)
         End Select
     End Sub

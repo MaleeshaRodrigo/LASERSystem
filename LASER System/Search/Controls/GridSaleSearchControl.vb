@@ -27,35 +27,82 @@ Public Class GridSaleSearchControl
         Try
             DT = Db.GetDataTable(FilterQuery, Values)
             FormParent.ControlSearchEngine.QueryValidator(True)
-            Grid.DataSource = DT
+            GridSale.DataSource = DT
         Catch ex As Exception
             FormParent.ControlSearchEngine.QueryValidator(False)
         End Try
     End Sub
 
+    Public Sub PerformQueryMapping(ByRef PoistionList As List(Of Object))
+        Dim UpdatedPoistionList As New List(Of Object)(PoistionList)
+        For Each Poistion As Object In PoistionList
+            Select Case True
+                Case Poistion.GetType.Name = "String[]" AndAlso {"CuTelNo"}.Contains(Poistion(0))
+                    Dim Value As String = Poistion(1)
+                    Dim NewPoistionList As New List(Of Object) From {
+                        "(",
+                        New List(Of Object) From {Customer.CuTelNo1, Value},
+                        "OR",
+                        New List(Of Object) From {Customer.CuTelNo2, Value},
+                        "OR",
+                        New List(Of Object) From {Customer.CuTelNo3, Value},
+                        ")"
+                    }
+                    Dim PoistionIndex = UpdatedPoistionList.IndexOf(Poistion)
+                    UpdatedPoistionList.Remove(Poistion)
+                    UpdatedPoistionList.InsertRange(PoistionIndex, NewPoistionList)
+            End Select
+        Next
+        PoistionList = UpdatedPoistionList
+    End Sub
+
     Public Function GetFilterDictionary() As Dictionary(Of String, String) Implements GridSearchControl.GetFilterDictionary
         Return New Dictionary(Of String, String) From {
             {"All", "All"},
-            {"SaNo", "Sale No"},
-            {"SaDate", "Sale Date"},
-            {"CuName", "Customer Name"},
+            {Sale.SaNo, "Sale No"},
+            {Sale.SaDate, "Sale Date"},
+            {Customer.CuName, "Customer Name"},
             {"CuTelNo", "Phone Numbers"},
-            {"SubTotal", "Total"},
-            {"Less", "Less"},
-            {"Due", "Due"},
-            {"Received", "Received"},
-            {"Balance", "Balance"},
-            {"CashAmount", "Cash Amount"},
-            {"CPInvoiceNo", "Card Payment Invoice No"},
-            {"CPAmount", "Card Payment Amount"},
-            {"CuLNo", "Customer Loan No"},
-            {"CuLAmount", "Customer Loan Amount"},
-            {"Remarks", "Remarks"}
+            {Sale.SaSubTotal, "Total"},
+            {Sale.SaLess, "Less"},
+            {Sale.SaDue, "Due"},
+            {Sale.CReceived, "Received"},
+            {Sale.CBalance, "Balance"},
+            {Sale.CAmount, "Cash Amount"},
+            {Sale.CPInvoiceNo, "Card Payment Invoice No"},
+            {Sale.CPAmount, "Card Payment Amount"},
+            {Sale.CuLNo, "Customer Loan No"},
+            {Sale.CuLAmount, "Customer Loan Amount"},
+            {Sale.SaRemarks, "Remarks"}
         }
     End Function
 
-    Private Sub Grid_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles Grid.CellDoubleClick
-        If e.RowIndex < 0 OrElse Grid.Rows(e.RowIndex).IsNewRow Then
+    Public Function PerformFilterAll(Random As Random, SearchText As String) As (Query As String, Value As MySqlParameter)
+        Dim QueryArray As New List(Of String)
+        Dim RandomNumber As Integer = Random.Next()
+        Dim ParameterValue As New MySqlParameter($"VALUE{RandomNumber}", $"%{SearchText}%")
+        Dim Filters = GetFilterDictionary()
+        For Each Key In Filters.Keys
+            If Key = "All" Then
+                Continue For
+            End If
+
+            Select Case Key
+                Case GridColumns.CuTelNo
+                    Dim CustomerTelephoneFields As String() = {Customer.CuTelNo1, Customer.CuTelNo2, Customer.CuTelNo3}
+                    For Each CustomerTelephoneField As String In CustomerTelephoneFields
+                        QueryArray.Add($"{CustomerTelephoneField} LIKE @VALUE{RandomNumber}")
+                    Next
+                Case Else
+                    QueryArray.Add($"{Key} LIKE @VALUE{RandomNumber}")
+            End Select
+        Next
+
+        Return ($" ({String.Join(" OR ", QueryArray)}) ", ParameterValue)
+    End Function
+
+    Private Sub Grid_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles GridSale.CellDoubleClick
+        If e.RowIndex < 0 OrElse GridSale.Rows(e.RowIndex).IsNewRow Then
             Return
         End If
 
@@ -64,30 +111,41 @@ Public Class GridSaleSearchControl
                 Continue For
             End If
 
-            Dim CustomerTelephoneNos As String() = Grid.Item(GridColumns.CuTelNo, e.RowIndex).Value.ToString().Split(" | ")
+            Dim CustomerTelephoneNos As String() = GridSale.Item(GridColumns.CuTelNo, e.RowIndex).Value.ToString().Split(" | ")
             oForm.SetEditMode(New Dictionary(Of String, Object) From {
-                {Sale.SaNo, Grid.Item(GridColumns.SaNo, e.RowIndex).Value},
-                {Sale.SaDate, Grid.Item(GridColumns.SaDate, e.RowIndex).Value},
-                {Customer.CuName, Grid.Item(GridColumns.CuName, e.RowIndex).Value},
+                {Sale.SaNo, GridSale.Item(GridColumns.SaNo, e.RowIndex).Value},
+                {Sale.SaDate, GridSale.Item(GridColumns.SaDate, e.RowIndex).Value},
+                {Customer.CuName, GridSale.Item(GridColumns.CuName, e.RowIndex).Value},
                 {Customer.CuTelNo1, If(CustomerTelephoneNos.Length > 0 AndAlso (Not String.IsNullOrWhiteSpace(CustomerTelephoneNos(0))), CustomerTelephoneNos(0), Nothing)},
                 {Customer.CuTelNo2, If(CustomerTelephoneNos.Length > 1 AndAlso (Not String.IsNullOrWhiteSpace(CustomerTelephoneNos(1))), CustomerTelephoneNos(1), Nothing)},
                 {Customer.CuTelNo3, If(CustomerTelephoneNos.Length > 2 AndAlso (Not String.IsNullOrWhiteSpace(CustomerTelephoneNos(2))), CustomerTelephoneNos(2), Nothing)},
-                {Sale.SaSubTotal, Grid.Item(GridColumns.SubTotal, e.RowIndex).Value},
-                {Sale.SaLess, Grid.Item(GridColumns.Less, e.RowIndex).Value},
-                {Sale.SaDue, Grid.Item(GridColumns.Due, e.RowIndex).Value},
-                {Sale.CReceived, Grid.Item(GridColumns.Received, e.RowIndex).Value},
-                {Sale.CBalance, Grid.Item(GridColumns.Balance, e.RowIndex).Value},
-                {Sale.CAmount, Grid.Item(GridColumns.CashAmount, e.RowIndex).Value},
-                {Sale.CPInvoiceNo, Grid.Item(GridColumns.CPInvoiceNo, e.RowIndex).Value},
-                {Sale.CPAmount, Grid.Item(GridColumns.CPAmount, e.RowIndex).Value},
-                {Sale.CuLNo, Grid.Item(GridColumns.CuLNo, e.RowIndex).Value},
-                {Sale.CuLAmount, Grid.Item(GridColumns.CuLAmount, e.RowIndex).Value},
-                {Sale.SaRemarks, Grid.Item(GridColumns.Remarks, e.RowIndex).Value}
+                {Sale.SaSubTotal, GridSale.Item(GridColumns.SubTotal, e.RowIndex).Value},
+                {Sale.SaLess, GridSale.Item(GridColumns.Less, e.RowIndex).Value},
+                {Sale.SaDue, GridSale.Item(GridColumns.Due, e.RowIndex).Value},
+                {Sale.CReceived, GridSale.Item(GridColumns.Received, e.RowIndex).Value},
+                {Sale.CBalance, GridSale.Item(GridColumns.Balance, e.RowIndex).Value},
+                {Sale.CAmount, GridSale.Item(GridColumns.CashAmount, e.RowIndex).Value},
+                {Sale.CPInvoiceNo, GridSale.Item(GridColumns.CPInvoiceNo, e.RowIndex).Value},
+                {Sale.CPAmount, GridSale.Item(GridColumns.CPAmount, e.RowIndex).Value},
+                {Sale.CuLNo, GridSale.Item(GridColumns.CuLNo, e.RowIndex).Value},
+                {Sale.CuLAmount, GridSale.Item(GridColumns.CuLAmount, e.RowIndex).Value},
+                {Sale.SaRemarks, GridSale.Item(GridColumns.Remarks, e.RowIndex).Value}
             })
             Exit For
         Next
 
         FormParent.Close()
+    End Sub
+
+    Private Sub Grid_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles GridSale.CellContentClick
+        If e.RowIndex < 0 OrElse e.RowIndex >= GridSale.RowCount Then
+            Return
+        End If
+
+        Dim DataTable = Db.GetDataTable($"SELECT S.SNo, SSa.SCategory, SSa.SName, SaType, SaUnits, SaRate, SaTotal FROM StockSale SSa LEFT JOIN  Stock S ON SSa.SNo = S.SNo WHERE SaNo = @SANO;", {
+            New MySqlParameter("SANO", GridSale.Item(GridColumns.SaNo, e.RowIndex).Value)
+        })
+        GridStock.DataSource = DataTable
     End Sub
 
     Private Structure GridColumns

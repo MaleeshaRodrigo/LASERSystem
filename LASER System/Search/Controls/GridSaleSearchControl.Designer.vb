@@ -22,7 +22,11 @@ Partial Class GridSaleSearchControl
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.Grid = New System.Windows.Forms.DataGridView()
+        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Me.GridSale = New System.Windows.Forms.DataGridView()
         Me.SaNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.SaDate = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.CuName = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -38,24 +42,35 @@ Partial Class GridSaleSearchControl
         Me.CuLNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.CuLAmount = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.SaRemarks = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        CType(Me.Grid, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Panel = New System.Windows.Forms.TableLayoutPanel()
+        Me.GridStock = New System.Windows.Forms.DataGridView()
+        Me.SNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.SCategory = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.SName = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Type = New System.Windows.Forms.DataGridViewComboBoxColumn()
+        Me.Rate = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Qty = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Total = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        CType(Me.GridSale, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Panel.SuspendLayout()
+        CType(Me.GridStock, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
-        'Grid
+        'GridSale
         '
-        Me.Grid.AllowUserToAddRows = False
-        Me.Grid.AllowUserToDeleteRows = False
-        Me.Grid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells
-        Me.Grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.Grid.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.SaNo, Me.SaDate, Me.CuName, Me.CuTelNo, Me.SaSubTotal, Me.SaLess, Me.SaDue, Me.CReceived, Me.CAmount, Me.CBalance, Me.CPInvoiceNo, Me.CPAmount, Me.CuLNo, Me.CuLAmount, Me.SaRemarks})
-        Me.Grid.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Grid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically
-        Me.Grid.Location = New System.Drawing.Point(0, 0)
-        Me.Grid.Name = "Grid"
-        Me.Grid.ReadOnly = True
-        Me.Grid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.Grid.Size = New System.Drawing.Size(1214, 343)
-        Me.Grid.TabIndex = 0
+        Me.GridSale.AllowUserToAddRows = False
+        Me.GridSale.AllowUserToDeleteRows = False
+        Me.GridSale.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells
+        Me.GridSale.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.GridSale.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.SaNo, Me.SaDate, Me.CuName, Me.CuTelNo, Me.SaSubTotal, Me.SaLess, Me.SaDue, Me.CReceived, Me.CAmount, Me.CBalance, Me.CPInvoiceNo, Me.CPAmount, Me.CuLNo, Me.CuLAmount, Me.SaRemarks})
+        Me.GridSale.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.GridSale.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically
+        Me.GridSale.Location = New System.Drawing.Point(3, 3)
+        Me.GridSale.Name = "GridSale"
+        Me.GridSale.ReadOnly = True
+        Me.GridSale.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
+        Me.GridSale.Size = New System.Drawing.Size(875, 234)
+        Me.GridSale.TabIndex = 0
         '
         'SaNo
         '
@@ -147,7 +162,7 @@ Partial Class GridSaleSearchControl
         Me.CPInvoiceNo.HeaderText = "Card Payment Invoice Number"
         Me.CPInvoiceNo.Name = "CPInvoiceNo"
         Me.CPInvoiceNo.ReadOnly = True
-        Me.CPInvoiceNo.Width = 97
+        Me.CPInvoiceNo.Width = 137
         '
         'CPAmount
         '
@@ -155,7 +170,7 @@ Partial Class GridSaleSearchControl
         Me.CPAmount.HeaderText = "Card Payment Amount"
         Me.CPAmount.Name = "CPAmount"
         Me.CPAmount.ReadOnly = True
-        Me.CPAmount.Width = 99
+        Me.CPAmount.Width = 137
         '
         'CuLNo
         '
@@ -163,7 +178,7 @@ Partial Class GridSaleSearchControl
         Me.CuLNo.HeaderText = "Customer Loan Number"
         Me.CuLNo.Name = "CuLNo"
         Me.CuLNo.ReadOnly = True
-        Me.CuLNo.Width = 96
+        Me.CuLNo.Width = 106
         '
         'CuLAmount
         '
@@ -171,7 +186,7 @@ Partial Class GridSaleSearchControl
         Me.CuLAmount.HeaderText = "Customer Loan Amount"
         Me.CuLAmount.Name = "CuLAmount"
         Me.CuLAmount.ReadOnly = True
-        Me.CuLAmount.Width = 95
+        Me.CuLAmount.Width = 106
         '
         'SaRemarks
         '
@@ -181,20 +196,120 @@ Partial Class GridSaleSearchControl
         Me.SaRemarks.Name = "SaRemarks"
         Me.SaRemarks.ReadOnly = True
         '
+        'Panel
+        '
+        Me.Panel.ColumnCount = 1
+        Me.Panel.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
+        Me.Panel.Controls.Add(Me.GridStock, 0, 1)
+        Me.Panel.Controls.Add(Me.GridSale, 0, 0)
+        Me.Panel.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Panel.Location = New System.Drawing.Point(0, 0)
+        Me.Panel.Name = "Panel"
+        Me.Panel.RowCount = 2
+        Me.Panel.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 70.0!))
+        Me.Panel.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 30.0!))
+        Me.Panel.Size = New System.Drawing.Size(881, 343)
+        Me.Panel.TabIndex = 1
+        '
+        'GridStock
+        '
+        Me.GridStock.AllowUserToAddRows = False
+        Me.GridStock.AllowUserToDeleteRows = False
+        Me.GridStock.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells
+        Me.GridStock.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.GridStock.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.SNo, Me.SCategory, Me.SName, Me.Type, Me.Rate, Me.Qty, Me.Total})
+        Me.GridStock.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.GridStock.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically
+        Me.GridStock.Location = New System.Drawing.Point(3, 243)
+        Me.GridStock.Name = "GridStock"
+        DataGridViewCellStyle4.Font = New System.Drawing.Font("Calibri", 10.0!)
+        Me.GridStock.RowsDefaultCellStyle = DataGridViewCellStyle4
+        Me.GridStock.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
+        Me.GridStock.Size = New System.Drawing.Size(875, 97)
+        Me.GridStock.TabIndex = 34
+        '
+        'SNo
+        '
+        Me.SNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
+        Me.SNo.DataPropertyName = "SNo"
+        Me.SNo.HeaderText = "Code"
+        Me.SNo.Name = "SNo"
+        Me.SNo.Width = 59
+        '
+        'SCategory
+        '
+        Me.SCategory.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.SCategory.DataPropertyName = "SCategory"
+        Me.SCategory.HeaderText = "Category"
+        Me.SCategory.Name = "SCategory"
+        '
+        'SName
+        '
+        Me.SName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.SName.DataPropertyName = "SName"
+        Me.SName.HeaderText = "Name"
+        Me.SName.Name = "SName"
+        '
+        'Type
+        '
+        Me.Type.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
+        Me.Type.DataPropertyName = "SaType"
+        Me.Type.HeaderText = "Type"
+        Me.Type.Items.AddRange(New Object() {"Sale", "Return to Available Units", "Return to Damaged Units"})
+        Me.Type.Name = "Type"
+        Me.Type.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.Type.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic
+        Me.Type.Width = 56
+        '
+        'Rate
+        '
+        Me.Rate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
+        Me.Rate.DataPropertyName = "SaRate"
+        DataGridViewCellStyle1.Format = "C2"
+        DataGridViewCellStyle1.NullValue = "0"
+        Me.Rate.DefaultCellStyle = DataGridViewCellStyle1
+        Me.Rate.HeaderText = "Rate"
+        Me.Rate.Name = "Rate"
+        Me.Rate.Width = 57
+        '
+        'Qty
+        '
+        Me.Qty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
+        Me.Qty.DataPropertyName = "SaUnits"
+        DataGridViewCellStyle2.Format = "N0"
+        Me.Qty.DefaultCellStyle = DataGridViewCellStyle2
+        Me.Qty.HeaderText = "Qty"
+        Me.Qty.Name = "Qty"
+        Me.Qty.Width = 49
+        '
+        'Total
+        '
+        Me.Total.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
+        Me.Total.DataPropertyName = "SaTotal"
+        DataGridViewCellStyle3.Format = "N2"
+        DataGridViewCellStyle3.NullValue = "0"
+        Me.Total.DefaultCellStyle = DataGridViewCellStyle3
+        Me.Total.HeaderText = "Total"
+        Me.Total.Name = "Total"
+        Me.Total.ReadOnly = True
+        Me.Total.Width = 59
+        '
         'GridSaleSearchControl
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 14.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.Controls.Add(Me.Grid)
+        Me.Controls.Add(Me.Panel)
         Me.Font = New System.Drawing.Font("Calibri", 9.0!)
         Me.Name = "GridSaleSearchControl"
-        Me.Size = New System.Drawing.Size(1214, 343)
-        CType(Me.Grid, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Size = New System.Drawing.Size(881, 343)
+        CType(Me.GridSale, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Panel.ResumeLayout(False)
+        CType(Me.GridStock, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
 
-    Friend WithEvents Grid As DataGridView
+    Friend WithEvents GridSale As DataGridView
     Friend WithEvents SaNo As DataGridViewTextBoxColumn
     Friend WithEvents SaDate As DataGridViewTextBoxColumn
     Friend WithEvents CuName As DataGridViewTextBoxColumn
@@ -210,4 +325,13 @@ Partial Class GridSaleSearchControl
     Friend WithEvents CuLNo As DataGridViewTextBoxColumn
     Friend WithEvents CuLAmount As DataGridViewTextBoxColumn
     Friend WithEvents SaRemarks As DataGridViewTextBoxColumn
+    Friend WithEvents Panel As TableLayoutPanel
+    Friend WithEvents GridStock As DataGridView
+    Friend WithEvents SNo As DataGridViewTextBoxColumn
+    Friend WithEvents SCategory As DataGridViewTextBoxColumn
+    Friend WithEvents SName As DataGridViewTextBoxColumn
+    Friend WithEvents Type As DataGridViewComboBoxColumn
+    Friend WithEvents Rate As DataGridViewTextBoxColumn
+    Friend WithEvents Qty As DataGridViewTextBoxColumn
+    Friend WithEvents Total As DataGridViewTextBoxColumn
 End Class

@@ -379,13 +379,13 @@ Public Class FormRepair
             Return False
         End If
 
-        Dim RepairPriceMushStatuses = New String() {RepairStatus.Repaired, "Repaired Delivered", RepairStatus.Returned, "Returned Delivered"}
+        Dim RepairPriceMushStatuses = New String() {RepairStatus.Repaired, RepairStatus.RepairedDelivered, RepairStatus.Returned, RepairStatus.ReturnedDelivered}
         If RepairPriceMushStatuses.Contains(ControlRepStatus.Text) AndAlso String.IsNullOrEmpty(ControlRepairDeliverInfo.txtRepPrice.Text) Then
             MessageBox.Error("Repair Price එකක් ඇතුලත් කර නොමැත කරුණාකර Repair Price එක ඇතුලත් කරන්න.")
             Return False
         End If
 
-        Dim DeliveredStatuses = New String() {"Repaired Delivered", "Returned Delivered", "Canceled"}
+        Dim DeliveredStatuses = New String() {RepairStatus.RepairedDelivered, RepairStatus.ReturnedDelivered, RepairStatus.Canceled}
         If (Not DeliveredStatuses.Contains(DataReaderRepair("Status").ToString)) And DeliveredStatuses.Contains(ControlRepStatus.Text) Then
             MessageBox.Error("මෙම Repair Form තුලින් මෙය සිදු කිරීමට නොහැකිය. Deliver Form එක භාවිතා කරන්න.")
             Return False

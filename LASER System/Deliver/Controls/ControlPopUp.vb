@@ -223,39 +223,44 @@ Public Class ControlPopUp
     End Function
 
     Private Sub EditDeliverRecord(AdminPer As AdminPermission)
-        If FormParent.cmdSave.Text = "Edit" Then
-            AdminPer.Keys.Item("DNo") = FormParent.txtDNo.Text
-            Dim DrDeliver = Db.GetDataDictionary("SELECT * from Deliver where DNo=" & FormParent.txtDNo.Text & ";")
-            If DrDeliver IsNot Nothing Then
-                If DrDeliver("CuLNo").ToString <> "0" And txtCuLNo.Text = "0" Then
-                    Db.Execute($"DELETE from {Tables.CustomerLoan} where CuLNo=" & DrDeliver("CuLNO").ToString, {}, AdminPer)
-                ElseIf DrDeliver("CuLNo").ToString <> "0" And txtCuLNo.Text <> "0" Then
-                    Db.Execute($"Update {Tables.CustomerLoan} set CuLNo = " & DrDeliver("CuLNO").ToString &
-                                                      "CuNo = " & CuNo &
-                                                      ",CuLAmount = " & txtCuLAmount.Text &
-                                                      ",DNo = " & FormParent.txtDNo.Text &
-                                                      ",CuLDate = '" & FormParent.txtDDate.Value &
-                                                      "' where CuLNo=" & DrDeliver("CuLNO").ToString, {}, AdminPer)
-                    txtCuLNo.Text = DrDeliver("CuLNo").ToString
-                ElseIf DrDeliver("CuLNo").ToString = "0" And txtCuLNo.Text <> "0" Then
-                    Db.Execute($"Insert into {Tables.CustomerLoan}(CuLNO,CuLAmount,CuNo,DNo,CulDate,Status) values(?NewKey?CustomerLoan?CuLNo?," &
-                              txtCuLAmount.Text & "," & CuNo & "," & FormParent.txtDNo.Text & ",'" & FormParent.txtDDate.Value & "','Not Paid')", {}, AdminPer)
-                End If
-                Dim DR1 = Db.GetDataList("SELECT RepNo,REP.PNo,PCategory,PName,Qty,Status,REP.HandedOverToTNo, TName,PaidPrice from (((Repair REP INNER JOIN PRODUCT  P ON P.PNO = REP.PNO) LEFT JOIN Technician T ON T.TNO = REP.HandedOverToTNo) LEFT JOIN DELIVER D ON D.DNO = REP.DNO) Where D.DNo=" & FormParent.txtDNo.Text)
-                For Each Item In DR1
-                    Db.Execute($"Update {Tables.Repair} Set " & If(Item("Status").ToString = "Repaired Delivered", "Status='Repaired Not Delivered'",
-                              "Status='Returned Not Delivered'") & ",PaidPrice=0,DNo=0 Where DNo=?Key?DNo?", {}, AdminPer)
-                Next
-
-                Dim DRReturn = Db.GetDataDictionary("SELECT RetNo,RepNo,RET.PNo,PCategory,PName,Qty,Status,RET.HandedOverToTNO, TName,PaidPrice from (( `RETURN` RET INNER JOIN PRODUCT  P ON P.PNO = RET.PNO) LEFT JOIN Technician T ON T.TNO = RET.HandedOverToTNO) LEFT JOIN DELIVER D ON D.DNO = RET.DNO) Where D.DNo=" & FormParent.txtDNo.Text)
-                For Each Item In DR1
-                    Db.Execute($"Update `{Tables.ReRepair}` Set {If(Item("Status").ToString = "Repaired Delivered", "Status='Repaired Not Delivered'",
-                              "Status='Returned Not Delivered'")},PaidPrice=0,DNo=0 Where DNo={FormParent.txtDNo.Text}", {}, AdminPer)
-                Next
-                Db.Execute($"DELETE FROM {Tables.Deliver} WHERE DNo={FormParent.txtDNo.Text}", {}, AdminPer)
-            End If
+        If FormParent.cmdSave.Text <> "Edit" Then
+            Return
         End If
 
+        AdminPer.Keys.Item("DNo") = FormParent.txtDNo.Text
+        Dim DrDeliver = Db.GetDataDictionary("SELECT * from Deliver where DNo=" & FormParent.txtDNo.Text & ";")
+        If DrDeliver Is Nothing Then
+            Return
+        End If
+
+        If DrDeliver("CuLNo").ToString <> "0" And txtCuLNo.Text = "0" Then
+            Db.Execute($"DELETE from {Tables.CustomerLoan} where CuLNo=" & DrDeliver("CuLNO").ToString, {}, AdminPer)
+        ElseIf DrDeliver("CuLNo").ToString <> "0" And txtCuLNo.Text <> "0" Then
+            Db.Execute($"Update {Tables.CustomerLoan} set CuLNo = " & DrDeliver("CuLNO").ToString &
+                                                  "CuNo = " & CuNo &
+                                                  ",CuLAmount = " & txtCuLAmount.Text &
+                                                  ",DNo = " & FormParent.txtDNo.Text &
+                                                  ",CuLDate = '" & FormParent.txtDDate.Value &
+                                                  "' where CuLNo=" & DrDeliver("CuLNO").ToString, {}, AdminPer)
+            txtCuLNo.Text = DrDeliver("CuLNo").ToString
+        ElseIf DrDeliver("CuLNo").ToString = "0" And txtCuLNo.Text <> "0" Then
+            Db.Execute($"Insert into {Tables.CustomerLoan}(CuLNO,CuLAmount,CuNo,DNo,CulDate,Status) values(?NewKey?CustomerLoan?CuLNo?," &
+                          txtCuLAmount.Text & "," & CuNo & "," & FormParent.txtDNo.Text & ",'" & FormParent.txtDDate.Value & "','Not Paid')", {}, AdminPer)
+        End If
+
+        Dim DR1 = Db.GetDataList("SELECT RepNo,REP.PNo,PCategory,PName,Qty,Status,REP.HandedOverToTNo, TName,PaidPrice from (((Repair REP INNER JOIN PRODUCT  P ON P.PNO = REP.PNO) LEFT JOIN Technician T ON T.TNO = REP.HandedOverToTNo) LEFT JOIN DELIVER D ON D.DNO = REP.DNO) Where D.DNo=" & FormParent.txtDNo.Text)
+        For Each Item In DR1
+            Db.Execute($"Update {Tables.Repair} Set " & If(Item("Status").ToString = RepairStatus.RepairedDelivered, $"Status='{RepairStatus.Repaired}'",
+                          $"Status='{RepairStatus.Returned}'") & ",PaidPrice=0,DNo=0 Where DNo=?Key?DNo?", {}, AdminPer)
+        Next
+
+        Dim DRReturn = Db.GetDataDictionary("SELECT RetNo,RepNo,RET.PNo,PCategory,PName,Qty,Status,RET.HandedOverToTNO, TName,PaidPrice from (( `RETURN` RET INNER JOIN PRODUCT  P ON P.PNO = RET.PNO) LEFT JOIN Technician T ON T.TNO = RET.HandedOverToTNO) LEFT JOIN DELIVER D ON D.DNO = RET.DNO) Where D.DNo=" & FormParent.txtDNo.Text)
+        For Each Item In DR1
+            Db.Execute($"Update `{Tables.ReRepair}` Set {If(Item("Status").ToString = RepairStatus.RepairedDelivered, $"Status='{RepairStatus.Repaired}'",
+                          $"Status='{RepairStatus.Returned}'")},PaidPrice=0,DNo=0 Where DNo={FormParent.txtDNo.Text}", {}, AdminPer)
+        Next
+
+        Db.Execute($"DELETE FROM {Tables.Deliver} WHERE DNo={FormParent.txtDNo.Text}", {}, AdminPer)
     End Sub
 
     Private Sub SendDeliverEmail(DNo As String)

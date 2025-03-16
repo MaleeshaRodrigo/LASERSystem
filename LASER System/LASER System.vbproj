@@ -692,6 +692,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Main\Controls\ControlRepairDashboard.resx">
       <DependentUpon>ControlRepairDashboard.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Main\FormMain.resx">
       <DependentUpon>FormMain.vb</DependentUpon>

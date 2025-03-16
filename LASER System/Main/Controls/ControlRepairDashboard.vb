@@ -9,21 +9,21 @@
 
     Private Sub LoadData()
         Try
-            Dim DataTable As DataTable = Db.GetDataTable("SELECT TName AS 'Technician', 
-                        (SELECT COUNT(RepNo) FROM repair rep WHERE status='Assigned To' AND rep.AssignedToTNo = t.TNo) AS 'AssignedTo',
-                        (SELECT COUNT(RepNo) FROM repair rep WHERE status='Handed Over To' AND rep.HandedOverToTNo = t.TNo) AS 'HandedOverTo',
-                        (SELECT COUNT(RepNo) FROM repair rep WHERE status='Pending' AND rep.HandedOverToTNo = t.TNo) AS 'Pending',
-                        (SELECT COUNT(RepNo) FROM repair rep WHERE status='Repaired' AND rep.HandedOverToTNo = t.TNo) AS 'Repaired',
-                        (SELECT COUNT(RepNo) FROM repair rep WHERE status='Returned' AND rep.HandedOverToTNo = t.TNo) AS 'Returned'
+            Dim DataTable As DataTable = Db.GetDataTable($"SELECT TName AS 'Technician', 
+                        (SELECT COUNT(RepNo) FROM repair rep WHERE Status='{RepairStatus.AssignedTo}' AND rep.AssignedToTNo = t.TNo) AS 'AssignedTo',
+                        (SELECT COUNT(RepNo) FROM repair rep WHERE Status='{RepairStatus.HandedOverTo}' AND rep.HandedOverToTNo = t.TNo) AS 'HandedOverTo',
+                        (SELECT COUNT(RepNo) FROM repair rep WHERE Status='{RepairStatus.Pending}' AND rep.HandedOverToTNo = t.TNo) AS 'Pending',
+                        (SELECT COUNT(RepNo) FROM repair rep WHERE Status='{RepairStatus.Repaired}' AND rep.HandedOverToTNo = t.TNo) AS 'Repaired',
+                        (SELECT COUNT(RepNo) FROM repair rep WHERE Status='{RepairStatus.Returned}' AND rep.HandedOverToTNo = t.TNo) AS 'Returned'
                         FROM technician t WHERE t.TActive = 1 ORDER BY TName;")
             Invoke(Sub() GridTechnicianOverall.DataSource = DataTable)
-            Dim DataReader = Db.GetDataDictionary("SELECT  
-                        (SELECT COUNT(RepNo) FROM repair rep WHERE status='Received') AS 'Received',
-                        (SELECT COUNT(RepNo) FROM repair rep WHERE status='Assigned To') AS 'AssignedTo',
-                        (SELECT COUNT(RepNo) FROM repair rep WHERE status='Handed Over To') AS 'HandedOverTo',
-                        (SELECT COUNT(RepNo) FROM repair rep WHERE status='Pending') AS 'Pending',
-                        (SELECT COUNT(RepNo) FROM repair rep WHERE status='Repaired') AS 'Repaired',
-                        (SELECT COUNT(RepNo) FROM repair rep WHERE status='Returned') AS 'Returned'")
+            Dim DataReader = Db.GetDataDictionary($"SELECT  
+                        (SELECT COUNT(RepNo) FROM repair rep WHERE Status='{RepairStatus.Received}') AS 'Received',
+                        (SELECT COUNT(RepNo) FROM repair rep WHERE Status='{RepairStatus.AssignedTo}') AS 'AssignedTo',
+                        (SELECT COUNT(RepNo) FROM repair rep WHERE Status='{RepairStatus.HandedOverTo}') AS 'HandedOverTo',
+                        (SELECT COUNT(RepNo) FROM repair rep WHERE Status='{RepairStatus.Pending}') AS 'Pending',
+                        (SELECT COUNT(RepNo) FROM repair rep WHERE Status='{RepairStatus.Repaired}') AS 'Repaired',
+                        (SELECT COUNT(RepNo) FROM repair rep WHERE Status='{RepairStatus.Returned}') AS 'Returned'")
             Invoke(Sub()
                        LabelReceived.Text = DataReader("Received")
                        LabelAssignedTo.Text = DataReader("AssignedTo")

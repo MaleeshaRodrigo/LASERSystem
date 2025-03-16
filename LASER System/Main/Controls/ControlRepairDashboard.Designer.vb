@@ -24,13 +24,11 @@ Partial Class ControlRepairDashboard
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle8 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle7 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.LabelAssignedTo = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
@@ -185,7 +183,7 @@ Partial Class ControlRepairDashboard
         Me.Label10.Name = "Label10"
         Me.Label10.Size = New System.Drawing.Size(103, 45)
         Me.Label10.TabIndex = 0
-        Me.Label10.Text = "Returned"
+        Me.Label10.Text = "Returned Undelivered"
         '
         'GroupBox4
         '
@@ -217,7 +215,7 @@ Partial Class ControlRepairDashboard
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(97, 45)
         Me.Label8.TabIndex = 0
-        Me.Label8.Text = "Repaired"
+        Me.Label8.Text = RepairStatus.Repaired
         '
         'GroupBox3
         '
@@ -288,24 +286,8 @@ Partial Class ControlRepairDashboard
         Me.GridTechnicianOverall.AllowUserToAddRows = False
         Me.GridTechnicianOverall.AllowUserToDeleteRows = False
         Me.GridTechnicianOverall.AllowUserToOrderColumns = True
-        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle1.Font = New System.Drawing.Font("Calibri", 9.0!)
-        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.GridTechnicianOverall.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         Me.GridTechnicianOverall.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.GridTechnicianOverall.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Technician, Me.AssignedTo, Me.HandedOverTo, Me.Pending, Me.Repaired, Me.Returned})
-        DataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle8.Font = New System.Drawing.Font("Calibri", 9.0!)
-        DataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText
-        DataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
-        Me.GridTechnicianOverall.DefaultCellStyle = DataGridViewCellStyle8
         Me.GridTechnicianOverall.Dock = System.Windows.Forms.DockStyle.Fill
         Me.GridTechnicianOverall.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically
         Me.GridTechnicianOverall.Location = New System.Drawing.Point(0, 120)
@@ -326,8 +308,8 @@ Partial Class ControlRepairDashboard
         '
         Me.Technician.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
         Me.Technician.DataPropertyName = "Technician"
-        DataGridViewCellStyle2.Font = New System.Drawing.Font("Calibri", 12.0!)
-        Me.Technician.DefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewCellStyle1.Font = New System.Drawing.Font("Calibri", 12.0!)
+        Me.Technician.DefaultCellStyle = DataGridViewCellStyle1
         Me.Technician.HeaderText = "Technician"
         Me.Technician.Name = "Technician"
         Me.Technician.ReadOnly = True
@@ -336,8 +318,8 @@ Partial Class ControlRepairDashboard
         '
         Me.AssignedTo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
         Me.AssignedTo.DataPropertyName = "AssignedTo"
-        DataGridViewCellStyle3.Font = New System.Drawing.Font("Calibri", 12.0!)
-        Me.AssignedTo.DefaultCellStyle = DataGridViewCellStyle3
+        DataGridViewCellStyle2.Font = New System.Drawing.Font("Calibri", 12.0!)
+        Me.AssignedTo.DefaultCellStyle = DataGridViewCellStyle2
         Me.AssignedTo.HeaderText = "Assigned To"
         Me.AssignedTo.Name = "AssignedTo"
         Me.AssignedTo.ReadOnly = True
@@ -347,8 +329,8 @@ Partial Class ControlRepairDashboard
         '
         Me.HandedOverTo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
         Me.HandedOverTo.DataPropertyName = "HandedOverTo"
-        DataGridViewCellStyle4.Font = New System.Drawing.Font("Calibri", 12.0!)
-        Me.HandedOverTo.DefaultCellStyle = DataGridViewCellStyle4
+        DataGridViewCellStyle3.Font = New System.Drawing.Font("Calibri", 12.0!)
+        Me.HandedOverTo.DefaultCellStyle = DataGridViewCellStyle3
         Me.HandedOverTo.HeaderText = "Handed Over To"
         Me.HandedOverTo.Name = "HandedOverTo"
         Me.HandedOverTo.ReadOnly = True
@@ -358,8 +340,8 @@ Partial Class ControlRepairDashboard
         '
         Me.Pending.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
         Me.Pending.DataPropertyName = "Pending"
-        DataGridViewCellStyle5.Font = New System.Drawing.Font("Calibri", 12.0!)
-        Me.Pending.DefaultCellStyle = DataGridViewCellStyle5
+        DataGridViewCellStyle4.Font = New System.Drawing.Font("Calibri", 12.0!)
+        Me.Pending.DefaultCellStyle = DataGridViewCellStyle4
         Me.Pending.HeaderText = "Pending"
         Me.Pending.Name = "Pending"
         Me.Pending.ReadOnly = True
@@ -369,23 +351,23 @@ Partial Class ControlRepairDashboard
         '
         Me.Repaired.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
         Me.Repaired.DataPropertyName = "Repaired"
-        DataGridViewCellStyle6.Font = New System.Drawing.Font("Calibri", 12.0!)
-        Me.Repaired.DefaultCellStyle = DataGridViewCellStyle6
-        Me.Repaired.HeaderText = "Repaired"
+        DataGridViewCellStyle5.Font = New System.Drawing.Font("Calibri", 12.0!)
+        Me.Repaired.DefaultCellStyle = DataGridViewCellStyle5
+        Me.Repaired.HeaderText = RepairStatus.Repaired
         Me.Repaired.Name = "Repaired"
         Me.Repaired.ReadOnly = True
-        Me.Repaired.Width = 82
+        Me.Repaired.Width = 139
         '
         'Returned
         '
         Me.Returned.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
         Me.Returned.DataPropertyName = "Returned"
-        DataGridViewCellStyle7.Font = New System.Drawing.Font("Calibri", 12.0!)
-        Me.Returned.DefaultCellStyle = DataGridViewCellStyle7
-        Me.Returned.HeaderText = "Returned"
+        DataGridViewCellStyle6.Font = New System.Drawing.Font("Calibri", 12.0!)
+        Me.Returned.DefaultCellStyle = DataGridViewCellStyle6
+        Me.Returned.HeaderText = "Returned Undelivered"
         Me.Returned.Name = "Returned"
         Me.Returned.ReadOnly = True
-        Me.Returned.Width = 82
+        Me.Returned.Width = 139
         '
         'ControlRepairDashboard
         '

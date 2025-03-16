@@ -176,7 +176,7 @@ Partial Class GridRepairSearchControl
         '
         Me.Status.DataPropertyName = "Status"
         Me.Status.HeaderText = "Status"
-        Me.Status.Items.AddRange(New Object() {"Received", "Assigned To", "Handed Over To", "Pending", "Repaired", "Returned", "Repaired Delivered", "Returned Delivered", "Canceled"})
+        Me.Status.Items.AddRange(New Object() {RepairStatus.Received, RepairStatus.AssignedTo, RepairStatus.HandedOverTo, RepairStatus.Pending, RepairStatus.Repaired, RepairStatus.Returned, RepairStatus.RepairedDelivered, RepairStatus.ReturnedDelivered, RepairStatus.Canceled})
         Me.Status.Name = "Status"
         Me.Status.Width = 47
         '
