@@ -121,7 +121,7 @@ Public Class frmSettlement
             Dim unused4 = DA5.Fill(DS1, "TECHNICIAN")
             RPT1.SetDataSource(DS1)
             Dim RPT2 As New rptTechnicianLoan
-            Dim frm2 As New frmReport
+            Dim frm2 As New FormReport
             Dim DS2 As New DataSet
             Dim DA6 As MySqlDataAdapter = Db.GetDataAdapter(Connection, "SELECT TLNO,TL.TNO,TNAME,TLDATE,SNO,SCATEGORY,SNAME,TLREASON,QTY,RATE,TOTAL FROM (TECHNICIANLOAN TL INNER JOIN TECHNICIAN T ON T.TNO = TL.TNO) WHERE TLDATE Between '" & Today.Date & " 00:00:00' and '" & Today.Date & " 23:59:59';")
             Dim unused3 = DA6.Fill(DS2, "TECHNICIANLOAN")
@@ -304,10 +304,10 @@ Public Class frmSettlement
             RPT.SetParameterValue("GrandTotal", txtIncome.Text)
             RPT.SetParameterValue("CashinLocker", txtLockerCash.Text)
             RPT.SetParameterValue("Change", txtChange.Text)
-            frmReport.ReportViewer.ReportSource = RPT
-            frmReport.Show(Me)
+            FormReport.ReportViewer.ReportSource = RPT
+            FormReport.Show(Me)
 
-            Dim frm1 As New frmReport
+            Dim frm1 As New FormReport
             Dim RPT1 As New rptTechnicianCost
             Dim DS1 As New DataSet
             Dim DA5 As MySqlDataAdapter = Db.GetDataAdapter(Connection, "SELECT TCNO,TCDATE,TECHNICIANCOST.TNO,TNAME,REPNO,RETNO,TECHNICIANCOST.SNO,SCATEGORY,SNAME, RATE,QTY,TOTAL,TCREMARKS FROM (TECHNICIANCOST INNER JOIN TECHNICIAN  ON TECHNICIAN.TNO = TECHNICIANCOST.TNO) WHERE TCDATE Between @FROMDATE and @TODATE;", {
@@ -322,7 +322,7 @@ Public Class frmSettlement
             frm1.Show(Me)
 
             Dim RPT2 As New rptTechnicianLoan
-            Dim frm2 As New frmReport
+            Dim frm2 As New FormReport
             Dim DS2 As New DataSet
             Dim DA6 As MySqlDataAdapter = Db.GetDataAdapter(Connection, "SELECT TLNo, TL.TNo, TName, TLDate, TL.SNO, Tl.SCategory, Tl.SName, TLReason, Qty, Rate, Total FROM ((TechnicianLoan TL INNER JOIN Technician T ON T.TNO = TL.TNO) LEFT JOIN Stock S ON S.SNO = TL.SNO) WHERE TlDate BETWEEN @FROMDATE AND @TODATE;", {
                 New MySqlParameter("FROMDATE", txtFrom.Value.Date & " 00:00:00"),

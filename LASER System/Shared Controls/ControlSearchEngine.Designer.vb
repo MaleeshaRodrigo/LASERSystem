@@ -60,7 +60,7 @@ Partial Class ControlSearchEngine
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(705, 65)
+        Me.Panel1.Size = New System.Drawing.Size(862, 65)
         Me.Panel1.TabIndex = 1
         '
         'LabelInvalidator
@@ -132,7 +132,7 @@ Partial Class ControlSearchEngine
         Me.FlowPanel.AutoScroll = True
         Me.FlowPanel.Location = New System.Drawing.Point(3, 31)
         Me.FlowPanel.Name = "FlowPanel"
-        Me.FlowPanel.Size = New System.Drawing.Size(699, 31)
+        Me.FlowPanel.Size = New System.Drawing.Size(856, 31)
         Me.FlowPanel.TabIndex = 3
         '
         'ButtonSearch
@@ -161,7 +161,7 @@ Partial Class ControlSearchEngine
         Me.Controls.Add(Me.Panel1)
         Me.Font = New System.Drawing.Font("Calibri", 9.0!)
         Me.Name = "ControlSearchEngine"
-        Me.Size = New System.Drawing.Size(705, 65)
+        Me.Size = New System.Drawing.Size(862, 65)
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
         Me.ResumeLayout(False)

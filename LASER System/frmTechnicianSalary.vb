@@ -1,5 +1,4 @@
-﻿Imports Str
-Imports System.IO
+﻿Imports System.IO
 Imports MySqlConnector
 Imports LASER_System.StructureDatabase
 Imports CrystalDecisions.Shared
@@ -154,7 +153,7 @@ Public Class frmTechnicianSalary
     End Sub
 
     Private Sub cmdTSPrint_Click(sender As Object, e As EventArgs) Handles cmdTSPrint.Click
-        Dim FormTechnicianSalaryReport, FormTechnicianCostReport As New frmReport
+        Dim FormTechnicianSalaryReport, FormTechnicianCostReport As New FormReport
         FormTechnicianSalaryReport.ReportViewer.ReportSource = TechnicianSalaryReport()
         FormTechnicianSalaryReport.Show(Me)
 
@@ -167,19 +166,19 @@ Public Class frmTechnicianSalary
         Dim Connection = Db.GetConenction
         Try
             Connection.Open()
-            Dim DT1 As DataTable = Db.GetDataTable("SELECT REPNO, DDATE, CUNAME, CUTELNO1, PCATEGORY, PNAME, PAIDPRICE, QTY FROM (((((Repair INNER JOIN Receive ON Receive.RNO = REPAIR.RNO) LEFT JOIN CUSTOMER ON CUSTOMER.CUNO=RECEIVE.CUNO) INNER JOIN DELIVER ON DELIVER.DNO=REPAIR.DNO) LEFT JOIN PRODUCT ON PRODUCT.PNO=REPAIR.PNO) INNER JOIN TECHNICIAN ON TECHNICIAN.TNO = REPAIR.TNO) WHERE TNAME = @TNAME And (DDate between @FROMDATE  And @TODATE) And Status='Repaired Delivered' and (TSalNo Is Null Or TSalNo = 0)" & If(chkRepair.Checked = False, " AND 0", "") & " ORDER BY DDate", {
+            Dim DT1 As DataTable = Db.GetDataTable($"SELECT REPNO, DDATE, CUNAME, CUTELNO1, PCATEGORY, PNAME, PAIDPRICE, QTY FROM (((((Repair INNER JOIN Receive ON Receive.RNO = REPAIR.RNO) LEFT JOIN CUSTOMER ON CUSTOMER.CUNO=RECEIVE.CUNO) INNER JOIN DELIVER ON DELIVER.DNO=REPAIR.DNO) LEFT JOIN PRODUCT ON PRODUCT.PNO=REPAIR.PNO) INNER JOIN TECHNICIAN ON TECHNICIAN.TNO = REPAIR.TNO) WHERE TNAME = @TNAME And (DDate between @FROMDATE  And @TODATE) And Status='{RepairStatus.RepairedDelivered}' and (TSalNo Is Null Or TSalNo = 0)" & If(chkRepair.Checked = False, " AND 0", "") & " ORDER BY DDate", {
                 New MySqlParameter("TNAME", cmbTName.Text),
                 New MySqlParameter("FROMDATE", txtTSFrom.Value.Date & " 00:00:00"),
                 New MySqlParameter("TODATE", txtTSTo.Value.Date & " 23:59:59")
             })
             ReportTechnicianSalary.Subreports("rptTechnicianSalaryRepair.rpt").SetDataSource(DT1)
-            Dim DT2 As DataTable = Db.GetDataTable("SELECT RETNO, REPNO, DDATE, CUNAME,CUTELNO1, PCATEGORY, PNAME, PAIDPRICE, QTY FROM 
+            Dim DT2 As DataTable = Db.GetDataTable($"SELECT RETNO, REPNO, DDATE, CUNAME,CUTELNO1, PCATEGORY, PNAME, PAIDPRICE, QTY FROM 
                                                 (((((`RETURN` INNER JOIN RECEIVE ON RECEIVE.RNO=RETURN.RNO) 
                                                 LEFT JOIN CUSTOMER ON CUSTOMER.CUNO = RECEIVE.CUNO)
                                                 INNER JOIN DELIVER ON DELIVER.DNO =RETURN.DNO)
                                                 LEFT JOIN PRODUCT ON PRODUCT.PNO=RETURN.PNO)
                                                 INNER JOIN TECHNICIAN ON TECHNICIAN.TNO=RETURN.TNO) 
-                                                WHERE TNAME = @TNAME And (DDate Between @FROMDATE And @TODATE) And Status='Repaired Delivered' and (TSalNo Is Null Or TSalNo = 0)" & If(chkReturn.Checked = False, " AND 0", "") & ";", {
+                                                WHERE TNAME = @TNAME And (DDate Between @FROMDATE And @TODATE) And Status='{RepairStatus.RepairedDelivered}' and (TSalNo Is Null Or TSalNo = 0)" & If(chkReturn.Checked = False, " AND 0", "") & ";", {
                 New MySqlParameter("TNAME", cmbTName.Text),
                 New MySqlParameter("FROMDATE", txtTSFrom.Value.Date & " 00:00:00"),
                 New MySqlParameter("TODATE", txtTSTo.Value.Date & " 23:59:59")
@@ -266,7 +265,7 @@ Public Class frmTechnicianSalary
     End Sub
 
     Private Sub SendTechnicianSalaryToTechnicianToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SendTechnicianSalaryToTechnicianToolStripMenuItem.Click
-        Dim frm As New frmReport
+        Dim frm As New FormReport
         Dim RPT As rptTechnicianSalary = TechnicianSalaryReport()
         frm.ReportViewer.ReportSource = RPT
         Dim DR = Db.GetDataDictionary("Select * from Technician Where TNAME ='" & cmbTName.Text & "';")

@@ -146,9 +146,7 @@ Public Class frmTechnician
         End If
         Select Case Tag
             Case "TechnicianCost"
-                With frmTechnicianCost
-                    .cmbTName.Text = cmbTName.Text
-                End With
+                FormTechnicianCost.cmbTName.Text = cmbTName.Text
         End Select
         Close()
     End Sub

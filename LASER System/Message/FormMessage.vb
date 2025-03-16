@@ -30,7 +30,7 @@ Public Class FormMessage
         '        grdMsgHistory.Item("TName", e.RowIndex).Value = DR("TName").ToString
         '        grdMsgHistory.Item("Status", e.RowIndex).Value = DR("Status").ToString
 
-        '        If DR("Status").ToString = "Hand Over to Technician" Then
+        '        If DR("Status").ToString = RepairSTatus.HandedOverTo Then
         '            grdMsgHistory.Item("BatchMessage", e.RowIndex).Value = DR("CuName").ToString + ", ඔබ LASER Electronics ආයතනයට ලබාදුන් " + DR("PName").ToString + " " + DR("PCategory").ToString + " අයිතමය Technician හට භාර දී ඇත."
         '        ElseIf DR("Status").ToString = "Repaired Not Delivered" Then
         '            grdMsgHistory.Item("BatchMessage", e.RowIndex).Value = DR("CuName").ToString + ", ඔබ LASER Electronics ආයතනයට ලබාදුන් " + DR("PName").ToString + " " + DR("PCategory").ToString + " අයිතමය සාදා අවසන් බැවින් එය ගෙවා රැගෙනයන මෙන් ඉල්ලා සිටින අතර එහි ගාස්තුව Rs." + DR("Charge").ToString + " වේ."
@@ -55,7 +55,7 @@ Public Class FormMessage
         '        grdMsgHistory.Item("TName", e.RowIndex).Value = DR("TName").ToString
         '        grdMsgHistory.Item("Status", e.RowIndex).Value = DR("Status").ToString
 
-        '        If DR("Status").ToString = "Hand Over to Technician" Then
+        '        If DR("Status").ToString = RepairSTatus.HandedOverTo Then
         '            grdMsgHistory.Item("BatchMessage", e.RowIndex).Value = DR("CuName").ToString + ", ඔබ LASER Electronics ආයතනයට ලබාදුන් " + DR("PName").ToString + " " + DR("PCategory").ToString + " අයිතමය Technician හට භාර දී ඇත."
         '        ElseIf DR("Status").ToString = "Repaired Not Delivered" Then
         '            grdMsgHistory.Item("BatchMessage", e.RowIndex).Value = DR("CuName").ToString + ", ඔබ LASER Electronics ආයතනයට ලබාදුන් " + DR("PName").ToString + " " + DR("PCategory").ToString + " අයිතමය සාදා අවසන් බැවින් එය ගෙවා රැගෙනයන මෙන් ඉල්ලා සිටින අතර එහි ගාස්තුව Rs." + DR("Charge").ToString + " වේ."

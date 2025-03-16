@@ -101,11 +101,12 @@ Public Class frmStockSticker
         dt.Columns.Add(New DataColumn("Barcode", GetType(Byte())))
         dt.Columns.Add("Rate")
 
-        Dim Barcode As New LinearCrystal()
-        Barcode.Type = BarcodeType.CODE128
-        Barcode.ShowText = False
-        Barcode.BarHeight = 50
-        Barcode.ImageFormat = Imaging.ImageFormat.Png
+        Dim Barcode As New LinearCrystal With {
+            .Type = BarcodeType.CODE128,
+            .ShowText = False,
+            .BarHeight = 50,
+            .ImageFormat = Imaging.ImageFormat.Png
+        }
         For Each row As DataGridViewRow In grdStock.Rows
             If row.Cells(0).Value Is Nothing Then Exit For
             For i As Integer = 1 To row.Cells(4).Value.ToString
