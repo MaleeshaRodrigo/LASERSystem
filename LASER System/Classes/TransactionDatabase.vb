@@ -5,6 +5,7 @@ Public Class TransactionDatabase
 
     Private Transaction As MySqlTransaction = Nothing
     Private Connection As MySqlConnection = Nothing
+    Private QueriesWithValues As New List(Of (Query As String, Parameters As MySqlParameter()))
 
     Public Sub BeginTransaction()
         If Connection Is Nothing Then
@@ -22,6 +23,7 @@ Public Class TransactionDatabase
     Public Sub CommitTransaction()
         If Transaction IsNot Nothing Then
             Transaction.Commit()
+            QueryLogManager.Instance.Log(QueriesWithValues.ToArray())
             Transaction.Dispose()
             Transaction = Nothing
             EndConnection()
@@ -52,8 +54,7 @@ Public Class TransactionDatabase
                     CommandUpdate.Parameters.AddRange(Parameters)
                 End If
                 CommandUpdate.ExecuteNonQuery()
-                QueryLogManager.Instance.Log(CommandUpdate)
-
+                QueriesWithValues.Add((Query, Parameters))
                 Return CommandUpdate.LastInsertedId
             End Using
         Catch ex As Exception
