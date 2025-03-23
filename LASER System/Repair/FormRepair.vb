@@ -440,12 +440,12 @@ Public Class FormRepair
 
         Dim AssignedTechnician = ControlTechnicianInfo.GetAssignedTechnician()
         If IsNothing(AssignedTechnician) = False AndAlso UpdateRepairField(Repair.AssignedToTNo, AssignedTechnician.No) Then
-            Activity.Add("Technician", AssignedTechnician.Name)
+            Activity.Add("Assigned Technician", AssignedTechnician.Name)
         End If
 
         Dim HandedOverTechnician = ControlTechnicianInfo.GetHandedOverTechnician()
         If IsNothing(HandedOverTechnician) = False AndAlso UpdateRepairField(Repair.HandedOverToTNo, HandedOverTechnician.No) Then
-            Activity.Add("Technician", HandedOverTechnician.Name)
+            Activity.Add("Handed Over Technician", HandedOverTechnician.Name)
         End If
 
         If {RepairStatus.AssignedTo, RepairStatus.HandedOverTo, RepairStatus.Pending}.Contains(cmbRepStatus.Text) Then
