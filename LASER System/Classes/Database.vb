@@ -15,16 +15,18 @@ Public Class Database
         If Settings.DBServer = "" Then
             Return (False, "Database Server එක ඇතුලත් කර නොමැත.")
         End If
+
         If Settings.DBUserName = "" Then
             Return (False, "Database User Name එක ඇතුලත් කර නොමැත.")
         End If
+
         If Settings.DBName = "" Then
             Return (False, "Database Name එක ඇතුලත් කර නොමැත.")
         End If
+
         Dim Connection As MySqlConnection = GetConenction()
         Try
             Connection.Open()
-
             Return (True, "")
         Catch ex As Exception
             Return (False, ex.Message)
@@ -105,6 +107,7 @@ Public Class Database
                 Next
                 Batch.ExecuteNonQuery()
             End Using
+
             Transaction.Commit()
         Catch ex As Exception
             Transaction.Rollback()
