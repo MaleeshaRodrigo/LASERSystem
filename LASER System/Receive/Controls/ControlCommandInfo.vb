@@ -89,8 +89,8 @@ Public Class ControlCommandInfo
                     ReportManager.SetPrinterName(My.Settings.BillPrinterName).SetPaperName(My.Settings.BillPrinterPaperName)
                     Dim Report = ReportManager.GenerateReport(ReceivedNo)
                     Dim FormReport = ReportManager.GetFormReport(Report, "Report - Received Receipt", True)
-                    Application.Run(FormReport)
                     ReportManager.Print(Report)
+                    Application.Run(FormReport)
                 Catch ex As Exception
                     MessageBox.Error("Receipt Invoice එක print කර ගැනීමට අපොහොසත් විය." + vbCrLf + "Error: " + ex.Message)
                 End Try
@@ -114,8 +114,8 @@ Public Class ControlCommandInfo
                     ReportManager.SetPrinterName(My.Settings.StickerPrinterName).SetPaperName(My.Settings.RepairStickerPrinterPaperName)
                     Dim Report = ReportManager.GenerateReport(ReceivedNo)
                     Dim FormReport = ReportManager.GetFormReport(Report, "Report - Repair Sticker", True)
-                    Application.Run(FormReport)
                     ReportManager.Print(Report)
+                    Application.Run(FormReport)
                 Catch ex As Exception
                     MessageBox.Error("Receipt Sticker එක print කර ගැනීමට අපොහොසත් විය." + vbCrLf + "Error: " + ex.Message)
                 End Try
