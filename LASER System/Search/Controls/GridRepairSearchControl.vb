@@ -87,6 +87,7 @@ Public Class GridRepairSearchControl
 
     Public Sub PerformQueryMapping(ByRef PoistionList As List(Of Object))
         Dim UpdatedPoistionList As New List(Of Object)(PoistionList)
+
         For Each Poistion As Object In PoistionList
             Select Case True
                 Case Poistion.GetType.Name = "String[]" AndAlso {"CuTelNo"}.Contains(Poistion(0))
@@ -103,6 +104,10 @@ Public Class GridRepairSearchControl
                     Dim PoistionIndex = UpdatedPoistionList.IndexOf(Poistion)
                     UpdatedPoistionList.Remove(Poistion)
                     UpdatedPoistionList.InsertRange(PoistionIndex, NewPoistionList)
+                Case Poistion.GetType.Name = "String[]" AndAlso Poistion(0) = GridColumns.AssignedTechnician
+                    Poistion(0) = "AT.TName"
+                Case Poistion.GetType.Name = "String[]" AndAlso Poistion(0) = GridColumns.HandedOverTechnician
+                    Poistion(0) = "HT.TName"
             End Select
         Next
         PoistionList = UpdatedPoistionList
