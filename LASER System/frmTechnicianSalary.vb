@@ -35,7 +35,7 @@ Public Class frmTechnicianSalary
         Cursor = Cursors.WaitCursor
         Dim x As String = ";"
         If chkPaidTSal.Checked = False Then x = " and (TSalNo is Null or TSalNo = 0);"
-        Dim DT1 As DataTable = Db.GetDataTable("Select Repair.RepNo,DDate,CuName,CuTelNo1,CuTelNo2,CuTelNo3,PCategory,PName,Qty,PaidPrice,Status,'' as RepRemarks1,'' as RepRemarks2, TSalNo from Receive,Customer,Deliver,Repair,Product,Technician Where Receive.RNo = Repair.RNo and Product.PNo = Repair.PNo and Repair.DNo = Deliver.DNo and Customer.CuNo = Receive.CuNo and Technician.TNo = Repair.TNo and TName='" & cmbTName.Text & "' and DDate BETWEEN '" & txtTSFrom.Value.Date & " 00:00:00' And '" & txtTSTo.Value.Date & " 23:59:59' " + x)
+        Dim DT1 As DataTable = Db.GetDataTable("Select Repair.RepNo, DDate, CuName, CuTelNo1, CuTelNo2, CuTelNo3, PCategory, PName, Qty, PaidPrice, Status, '' as RepRemarks1, '' as RepRemarks2, TSalNo from Receive, Customer, Deliver, Repair, Product, Technician Where Receive.RNo = Repair.RNo and Product.PNo = Repair.PNo and Repair.DNo = Deliver.DNo and Customer.CuNo = Receive.CuNo and Technician.TNo = Repair.HandedOverToTNo and TName='" & cmbTName.Text & "' and DDate BETWEEN '" & txtTSFrom.Value.Date & " 00:00:00' And '" & txtTSTo.Value.Date & " 23:59:59' " + x)
         For Each row As DataRow In DT1.Rows
             Dim DR1 = Db.GetDataList("Select Remarks from RepairRemarks1 Where RepNo=" & row.Item("RepNo"))
             row.Item("RepRemarks1") = ""
@@ -48,7 +48,7 @@ Public Class frmTechnicianSalary
         For Each Row As DataGridViewRow In grdRepair.Rows
             txtTotalRepair.Text = Val(txtTotalRepair.Text) + Val(Row.Cells("REPPaidPrice").Value)
         Next
-        Dim DT2 As DataTable = Db.GetDataTable("Select Return.RetNo, RepNo, DDate, CuName, CuTelNo1, CuTelNo2, CuTelNo3, PCategory, PName, Qty, PaidPrice,Status, '' as RetRemarks1,'' as RetRemarks2, TSalNo from Receive,Customer, Deliver, `Return`, Product, Technician Where Receive.RNo=Return.RNo and Product.PNo = Return.PNo And Return.DNo = Deliver.DNo And Customer.CuNo = Receive.CuNo And Technician.TNo = Return.TNo And TName='" & cmbTName.Text &
+        Dim DT2 As DataTable = Db.GetDataTable("Select Return.RetNo, RepNo, DDate, CuName, CuTelNo1, CuTelNo2, CuTelNo3, PCategory, PName, Qty, PaidPrice,Status, '' as RetRemarks1,'' as RetRemarks2, TSalNo from Receive, Customer, Deliver, `Return`, Product, Technician Where Receive.RNo=Return.RNo and Product.PNo = Return.PNo And Return.DNo = Deliver.DNo And Customer.CuNo = Receive.CuNo And Technician.TNo = Return.HandedOverToTNo And TName='" & cmbTName.Text &
                                               "' And DDate BETWEEN '" & txtTSFrom.Value.Date & " 00:00:00' And '" & txtTSTo.Value.Date & " 23:59:59' " + x)
         For Each row As DataRow In DT1.Rows
             Dim DR1 = Db.GetDataList("Select Remarks from RepairRemarks1 Where RepNo=" & row.Item("RepNo"))

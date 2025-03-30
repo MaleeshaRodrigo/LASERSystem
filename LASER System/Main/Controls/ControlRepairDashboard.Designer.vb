@@ -49,13 +49,13 @@ Partial Class ControlRepairDashboard
         Me.LabelHandedOverTo = New System.Windows.Forms.Label()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.GridTechnicianOverall = New System.Windows.Forms.DataGridView()
-        Me.TimerRefresh = New System.Windows.Forms.Timer(Me.components)
         Me.Technician = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.AssignedTo = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.HandedOverTo = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Pending = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Repaired = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Returned = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.TimerRefresh = New System.Windows.Forms.Timer(Me.components)
         Me.GroupBox1.SuspendLayout()
         Me.TableLayoutPanel1.SuspendLayout()
         Me.GroupBox6.SuspendLayout()
@@ -215,7 +215,7 @@ Partial Class ControlRepairDashboard
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(97, 45)
         Me.Label8.TabIndex = 0
-        Me.Label8.Text = RepairStatus.Repaired
+        Me.Label8.Text = "Repaired Undelivered"
         '
         'GroupBox3
         '
@@ -299,11 +299,6 @@ Partial Class ControlRepairDashboard
         Me.GridTechnicianOverall.Size = New System.Drawing.Size(660, 196)
         Me.GridTechnicianOverall.TabIndex = 2
         '
-        'TimerRefresh
-        '
-        Me.TimerRefresh.Enabled = True
-        Me.TimerRefresh.Interval = 60000
-        '
         'Technician
         '
         Me.Technician.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
@@ -323,7 +318,7 @@ Partial Class ControlRepairDashboard
         Me.AssignedTo.HeaderText = "Assigned To"
         Me.AssignedTo.Name = "AssignedTo"
         Me.AssignedTo.ReadOnly = True
-        Me.AssignedTo.Width = 97
+        Me.AssignedTo.Width = 89
         '
         'HandedOverTo
         '
@@ -353,7 +348,7 @@ Partial Class ControlRepairDashboard
         Me.Repaired.DataPropertyName = "Repaired"
         DataGridViewCellStyle5.Font = New System.Drawing.Font("Calibri", 12.0!)
         Me.Repaired.DefaultCellStyle = DataGridViewCellStyle5
-        Me.Repaired.HeaderText = RepairStatus.Repaired
+        Me.Repaired.HeaderText = "Repaired Undelivered"
         Me.Repaired.Name = "Repaired"
         Me.Repaired.ReadOnly = True
         Me.Repaired.Width = 139
@@ -368,6 +363,11 @@ Partial Class ControlRepairDashboard
         Me.Returned.Name = "Returned"
         Me.Returned.ReadOnly = True
         Me.Returned.Width = 139
+        '
+        'TimerRefresh
+        '
+        Me.TimerRefresh.Enabled = True
+        Me.TimerRefresh.Interval = 180000
         '
         'ControlRepairDashboard
         '
