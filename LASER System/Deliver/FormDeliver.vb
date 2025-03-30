@@ -270,6 +270,7 @@ Public Class FormDeliver
             grdRERepair.Rows.Add(Item("RetNo").ToString, Item("RepNo").ToString, Item("PCategory").ToString, Item("PName").ToString, Item("Qty").ToString, Item("PaidPrice").ToString, Item("TName").ToString, Item("Status").ToString)
         Next
     End Sub
+
     Private Sub grdRepair_EditingControlShowing(sender As Object, e As DataGridViewEditingControlShowingEventArgs) Handles grdRepair.EditingControlShowing
         Dim autoText As TextBox
         Dim DataCollection As New AutoCompleteStringCollection()
@@ -402,9 +403,9 @@ Public Class FormDeliver
                         grdRERepair.Item(5, grdRERepair.CurrentCell.RowIndex).Value = DataReader("Charge").ToString
                         grdRERepair.Item(6, grdRERepair.CurrentCell.RowIndex).Value = DataReader("TName").ToString
                         If DataReader("Status").ToString = RepairStatus.Returned Then
-                            grdRERepair.Item(7, grdRERepair.CurrentCell.RowIndex).Value = "Returned Delivered"
+                            grdRERepair.Item(7, grdRERepair.CurrentCell.RowIndex).Value = RepairStatus.ReturnedDelivered
                         Else
-                            grdRERepair.Item(7, grdRERepair.CurrentCell.RowIndex).Value = " Delivered"
+                            grdRERepair.Item(7, grdRERepair.CurrentCell.RowIndex).Value = RepairStatus.RepairedDelivered
                         End If
                         For Each row As DataGridViewRow In grdRERepair.Rows
                             If row.Index = grdRERepair.CurrentCell.RowIndex Then Continue For
