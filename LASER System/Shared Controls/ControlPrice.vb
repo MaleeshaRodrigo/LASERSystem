@@ -19,6 +19,14 @@
         End Set
     End Property
 
+    Public Property Minimum As Decimal
+        Get
+            Return TextPrice.Minimum
+        End Get
+        Set(value As Decimal)
+            TextPrice.Minimum = value
+        End Set
+    End Property
 
     Private Sub TextPrice_ValueChanged(sender As Object, e As EventArgs) Handles TextPrice.ValueChanged
         RaiseEvent ValueChanged()

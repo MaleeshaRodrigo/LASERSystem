@@ -166,7 +166,7 @@ Public Class frmTechnicianSalary
         Dim Connection = Db.GetConenction
         Try
             Connection.Open()
-            Dim DT1 As DataTable = Db.GetDataTable($"SELECT REPNO, DDATE, CUNAME, CUTELNO1, PCATEGORY, PNAME, PAIDPRICE, QTY FROM (((((Repair INNER JOIN Receive ON Receive.RNO = REPAIR.RNO) LEFT JOIN CUSTOMER ON CUSTOMER.CUNO=RECEIVE.CUNO) INNER JOIN DELIVER ON DELIVER.DNO=REPAIR.DNO) LEFT JOIN PRODUCT ON PRODUCT.PNO=REPAIR.PNO) INNER JOIN TECHNICIAN ON TECHNICIAN.TNO = REPAIR.TNO) WHERE TNAME = @TNAME And (DDate between @FROMDATE  And @TODATE) And Status='{RepairStatus.RepairedDelivered}' and (TSalNo Is Null Or TSalNo = 0)" & If(chkRepair.Checked = False, " AND 0", "") & " ORDER BY DDate", {
+            Dim DT1 As DataTable = Db.GetDataTable($"SELECT REPNO, DDATE, CUNAME, CUTELNO1, PCATEGORY, PNAME, PAIDPRICE, QTY FROM (((((Repair INNER JOIN Receive ON Receive.RNO = REPAIR.RNO) LEFT JOIN CUSTOMER ON CUSTOMER.CUNO=RECEIVE.CUNO) INNER JOIN DELIVER ON DELIVER.DNO=REPAIR.DNO) LEFT JOIN PRODUCT ON PRODUCT.PNO=REPAIR.PNO) INNER JOIN TECHNICIAN ON TECHNICIAN.TNO = REPAIR.HandedOverToTNo) WHERE TNAME = @TNAME And (DDate between @FROMDATE  And @TODATE) And Status='{RepairStatus.RepairedDelivered}' and (TSalNo Is Null Or TSalNo = 0)" & If(chkRepair.Checked = False, " AND 0", "") & " ORDER BY DDate", {
                 New MySqlParameter("TNAME", cmbTName.Text),
                 New MySqlParameter("FROMDATE", txtTSFrom.Value.Date & " 00:00:00"),
                 New MySqlParameter("TODATE", txtTSTo.Value.Date & " 23:59:59")
@@ -177,7 +177,7 @@ Public Class frmTechnicianSalary
                                                 LEFT JOIN CUSTOMER ON CUSTOMER.CUNO = RECEIVE.CUNO)
                                                 INNER JOIN DELIVER ON DELIVER.DNO =RETURN.DNO)
                                                 LEFT JOIN PRODUCT ON PRODUCT.PNO=RETURN.PNO)
-                                                INNER JOIN TECHNICIAN ON TECHNICIAN.TNO=RETURN.TNO) 
+                                                INNER JOIN TECHNICIAN ON TECHNICIAN.TNO=RETURN.HandedOverToTNo) 
                                                 WHERE TNAME = @TNAME And (DDate Between @FROMDATE And @TODATE) And Status='{RepairStatus.RepairedDelivered}' and (TSalNo Is Null Or TSalNo = 0)" & If(chkReturn.Checked = False, " AND 0", "") & ";", {
                 New MySqlParameter("TNAME", cmbTName.Text),
                 New MySqlParameter("FROMDATE", txtTSFrom.Value.Date & " 00:00:00"),
