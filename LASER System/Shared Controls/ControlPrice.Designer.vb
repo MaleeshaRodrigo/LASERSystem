@@ -47,6 +47,7 @@ Partial Class ControlPrice
         Me.TextPrice.Increment = New Decimal(New Integer() {50, 0, 0, 0})
         Me.TextPrice.Location = New System.Drawing.Point(26, 0)
         Me.TextPrice.Maximum = New Decimal(New Integer() {9999999, 0, 0, 0})
+        Me.TextPrice.Minimum = New Decimal(New Integer() {9999999, 0, 0, -2147483648})
         Me.TextPrice.Name = "TextPrice"
         Me.TextPrice.Size = New System.Drawing.Size(54, 22)
         Me.TextPrice.TabIndex = 94
