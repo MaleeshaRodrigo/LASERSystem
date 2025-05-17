@@ -26,6 +26,7 @@ Public Class FormRepair
 
     Private Sub FrmRepair_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         RepairController.SetDatabase(Db)
+        ControlReRepairView.SetDatabase(Db)
         CmbRepNo_DropDown(sender, e)
         CmbRetNo_DropDown(sender, e)
         CmbRepNo_SelectedIndexChanged(Nothing, Nothing)
@@ -103,7 +104,6 @@ Public Class FormRepair
             cmbRepStatus.Text = DataReaderRepair("Status").ToString
             SetBasicInfo()
 
-            ControlReRepairView = New ControlReRepairView().SetDatabase(Db)
             ControlReRepairView.Init(cmbRepNo.Text)
 
             ControlRemarks = New ControlRepairCollection1(Db, Me)

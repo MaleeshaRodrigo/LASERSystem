@@ -52,6 +52,7 @@ Partial Class ControlReRepairView
         Me.GridReRepairView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically
         Me.GridReRepairView.Location = New System.Drawing.Point(3, 18)
         Me.GridReRepairView.Name = "GridReRepairView"
+        Me.GridReRepairView.ReadOnly = True
         Me.GridReRepairView.Size = New System.Drawing.Size(288, 83)
         Me.GridReRepairView.TabIndex = 0
         '
@@ -65,12 +66,11 @@ Partial Class ControlReRepairView
         '
         'Status
         '
-        Me.Status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
+        Me.Status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
         Me.Status.DataPropertyName = "Status"
         Me.Status.HeaderText = "Status"
         Me.Status.Name = "Status"
         Me.Status.ReadOnly = True
-        Me.Status.Width = 66
         '
         'ControlReRepairView
         '
