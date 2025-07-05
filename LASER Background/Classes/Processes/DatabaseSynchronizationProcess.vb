@@ -67,7 +67,7 @@ Public Class DatabaseSynchronizationProcess
             End Try
         Next
 
-        If Date.Now.DayOfWeek = DayOfWeek.Sunday And Now.Hour > 15 And Date.Parse(My.Settings.DatabaseLastSynchronizedAt).Day < Now.Day Then
+        If Now.Hour > 18 And Date.Parse(My.Settings.DatabaseLastSynchronizedAt).Day < Now.Day Then
             FullSynchronizeLocalToRemote()
             My.Settings.DatabaseLastSynchronizedAt = Now
         End If

@@ -100,7 +100,7 @@ Public Class ControlTechnicianCostInfo
             Dim QueriesWithValues As New List(Of (Query As String, Parameters As MySqlParameter()))
             If UpdateMode = UpdateMode.New Then
                 QueriesWithValues.Add((
-                    "INSERT INTO TechnicianCost(TCDate, TNo, RepNo, RetNo, SNo, SCategory, SName, Rate, Qty, Total, TCRemarks, UNo) VALUES(@TCDATE, @TNO, @REPNO, @RETNO, @SNO, @SCATEGORY, @SNAME, @RATE, @QTY, @TOTAL, @REMARKS, @UNO);", Values.ToArray
+                    $"INSERT INTO {Tables.TechnicianCost}(TCDate, TNo, RepNo, RetNo, SNo, SCategory, SName, Rate, Qty, Total, TCRemarks, UNo) VALUES(@TCDATE, @TNO, @REPNO, @RETNO, @SNO, @SCATEGORY, @SNAME, @RATE, @QTY, @TOTAL, @REMARKS, @UNO);", Values.ToArray
                 ))
             Else
                 ' TODO: Implement stock update for edit mode
