@@ -105,7 +105,7 @@ Public Class ControlTechnicianCostInfo
             Else
                 ' TODO: Implement stock update for edit mode
                 Values.Add(New MySqlParameter("TCNO", TextTechnicianCostNo.Text))
-                Db.Execute($"UPDATE {Tables.TechnicianCost} SET TCDate=@TCDATE, TNo=@Rena, RepNo=@REPNO, RetNo=@RETNO, SNo=@SNO, SCategory=@SCATEGORY, SName=@SNAME, Rate=@RATE, Qty=@QTY, Total=@TOTAL, TCRemarks=@REMARKS, UNo=@UNO WHERE TCNo=@TCNO;", Values.ToArray)
+                Db.Execute($"UPDATE {Tables.TechnicianCost} SET TCDate=@TCDATE, TNo=@TNO, RepNo=@REPNO, RetNo=@RETNO, SNo=@SNO, SCategory=@SCATEGORY, SName=@SNAME, Rate=@RATE, Qty=@QTY, Total=@TOTAL, TCRemarks=@REMARKS, UNo=@UNO WHERE TCNo=@TCNO;", Values.ToArray)
             End If
             If ControlStockSelection.SCode <> Nothing Then
                 QueriesWithValues.Add(($"UPDATE {Tables.Stock} SET {Stock.AvailableUnits}=({Stock.AvailableUnits}-@UNITS) WHERE {Stock.Code}=@CODE;", {
