@@ -1,7 +1,7 @@
 ﻿Imports LASER_System.StructureDatabase
 Imports MySqlConnector
 
-Public Class frmTechnicianLoan
+Public Class FormTechnicianLoan
     Private Db As New Database
 
     Private Sub frmTechnicianLoan_Load(sender As Object, e As EventArgs) Handles MyBase.Load
