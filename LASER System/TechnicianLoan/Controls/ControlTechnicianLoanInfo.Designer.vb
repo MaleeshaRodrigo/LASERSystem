@@ -23,6 +23,7 @@ Partial Class ControlTechnicianLoanInfo
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.boxItem = New System.Windows.Forms.GroupBox()
+        Me.ControlTechnicianSelection = New LASER_System.ControlTechnicianSelection()
         Me.TextAmount = New System.Windows.Forms.NumericUpDown()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.ButtonDelete = New System.Windows.Forms.Button()
@@ -36,6 +37,7 @@ Partial Class ControlTechnicianLoanInfo
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.TextItemPrice = New System.Windows.Forms.NumericUpDown()
         Me.Label6 = New System.Windows.Forms.Label()
+        Me.ControlStockSelection = New LASER_System.ControlStockSelection()
         Me.TextQty = New System.Windows.Forms.NumericUpDown()
         Me.Label55 = New System.Windows.Forms.Label()
         Me.Label54 = New System.Windows.Forms.Label()
@@ -43,8 +45,6 @@ Partial Class ControlTechnicianLoanInfo
         Me.Label4 = New System.Windows.Forms.Label()
         Me.TextReason = New System.Windows.Forms.TextBox()
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
-        Me.ControlTechnicianSelection = New LASER_System.ControlTechnicianSelection()
-        Me.ControlStockSelection = New LASER_System.ControlStockSelection()
         Me.boxItem.SuspendLayout()
         CType(Me.TextAmount, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox2.SuspendLayout()
@@ -78,8 +78,19 @@ Partial Class ControlTechnicianLoanInfo
         Me.boxItem.TabStop = False
         Me.boxItem.Text = "Technician Loan Info"
         '
+        'ControlTechnicianSelection
+        '
+        Me.ControlTechnicianSelection.Font = New System.Drawing.Font("Calibri", 9.0!)
+        Me.ControlTechnicianSelection.Location = New System.Drawing.Point(6, 49)
+        Me.ControlTechnicianSelection.MaximumSize = New System.Drawing.Size(250, 29)
+        Me.ControlTechnicianSelection.MinimumSize = New System.Drawing.Size(200, 25)
+        Me.ControlTechnicianSelection.Name = "ControlTechnicianSelection"
+        Me.ControlTechnicianSelection.Size = New System.Drawing.Size(231, 25)
+        Me.ControlTechnicianSelection.TabIndex = 131
+        '
         'TextAmount
         '
+        Me.TextAmount.DecimalPlaces = 2
         Me.TextAmount.Font = New System.Drawing.Font("Calibri", 10.0!)
         Me.TextAmount.Increment = New Decimal(New Integer() {50, 0, 0, 0})
         Me.TextAmount.Location = New System.Drawing.Point(98, 357)
@@ -204,6 +215,7 @@ Partial Class ControlTechnicianLoanInfo
         '
         'TextItemPrice
         '
+        Me.TextItemPrice.DecimalPlaces = 2
         Me.TextItemPrice.Font = New System.Drawing.Font("Calibri", 10.0!)
         Me.TextItemPrice.Increment = New Decimal(New Integer() {50, 0, 0, 0})
         Me.TextItemPrice.Location = New System.Drawing.Point(97, 106)
@@ -222,6 +234,19 @@ Partial Class ControlTechnicianLoanInfo
         Me.Label6.TabIndex = 118
         Me.Label6.Text = "Rs."
         Me.Label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'ControlStockSelection
+        '
+        Me.ControlStockSelection.Font = New System.Drawing.Font("Calibri", 9.0!)
+        Me.ControlStockSelection.Location = New System.Drawing.Point(4, 16)
+        Me.ControlStockSelection.MaximumSize = New System.Drawing.Size(350, 90)
+        Me.ControlStockSelection.MinimumSize = New System.Drawing.Size(200, 90)
+        Me.ControlStockSelection.Name = "ControlStockSelection"
+        Me.ControlStockSelection.SCategory = ""
+        Me.ControlStockSelection.SCode = 0
+        Me.ControlStockSelection.Size = New System.Drawing.Size(340, 90)
+        Me.ControlStockSelection.SName = ""
+        Me.ControlStockSelection.TabIndex = 121
         '
         'TextQty
         '
@@ -299,29 +324,6 @@ Partial Class ControlTechnicianLoanInfo
         Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
         Me.TableLayoutPanel1.Size = New System.Drawing.Size(580, 575)
         Me.TableLayoutPanel1.TabIndex = 129
-        '
-        'ControlTechnicianSelection
-        '
-        Me.ControlTechnicianSelection.Font = New System.Drawing.Font("Calibri", 9.0!)
-        Me.ControlTechnicianSelection.Location = New System.Drawing.Point(6, 49)
-        Me.ControlTechnicianSelection.MaximumSize = New System.Drawing.Size(250, 29)
-        Me.ControlTechnicianSelection.MinimumSize = New System.Drawing.Size(200, 25)
-        Me.ControlTechnicianSelection.Name = "ControlTechnicianSelection"
-        Me.ControlTechnicianSelection.Size = New System.Drawing.Size(231, 25)
-        Me.ControlTechnicianSelection.TabIndex = 131
-        '
-        'ControlStockSelection
-        '
-        Me.ControlStockSelection.Font = New System.Drawing.Font("Calibri", 9.0!)
-        Me.ControlStockSelection.Location = New System.Drawing.Point(4, 16)
-        Me.ControlStockSelection.MaximumSize = New System.Drawing.Size(350, 90)
-        Me.ControlStockSelection.MinimumSize = New System.Drawing.Size(200, 90)
-        Me.ControlStockSelection.Name = "ControlStockSelection"
-        Me.ControlStockSelection.SCategory = ""
-        Me.ControlStockSelection.SCode = 0
-        Me.ControlStockSelection.Size = New System.Drawing.Size(340, 90)
-        Me.ControlStockSelection.SName = ""
-        Me.ControlStockSelection.TabIndex = 121
         '
         'ControlTechnicianLoanInfo
         '

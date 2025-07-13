@@ -1,6 +1,8 @@
 ﻿Imports MySqlConnector
 
 Public Class ControlTechnicianSelection
+    Public Event TechnicianChanged()
+
     Private Db As Database
 
     Public Sub SetDatabase(Db As Database)
@@ -36,5 +38,9 @@ Public Class ControlTechnicianSelection
         End If
 
         ComboBoxDropDown(Db, ComboTechnician, "SELECT TName FROM Technician WHERE TActive = 1 ORDER BY TName;")
+    End Sub
+
+    Private Sub ComboTechnician_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboTechnician.SelectedIndexChanged
+        RaiseEvent TechnicianChanged()
     End Sub
 End Class

@@ -10,6 +10,27 @@ Public Class FormTechnicianLoan
         ControlTechnicianSelection.SetDatabase(Db)
     End Sub
 
+    Public Sub PerformSearch() Handles ButtonSearch.Click, TextFromDate.ValueChanged, TextToDate.ValueChanged, ControlTechnicianSelection.TechnicianChanged
+        Dim dt As New DataTable
+        If ControlTechnicianSelection.GetTechnician() Is Nothing Then
+            GridTechnicianLoan.Rows.Clear()
+            Return
+        End If
+
+        GridTechnicianLoan.DataSource = Db.GetDataTable("SELECT TLNo, TLDate, SNo, SCategory, SName, TLReason, Rate, Qty, Total FROM TechnicianLoan WHERE TNo = @TNO and TLDate BETWEEN @DATEFROM AND @DATETO;", {
+            New MySqlParameter("TNO", ControlTechnicianSelection.GetTechnicianNo()),
+            New MySqlParameter("DATEFROM", TextFromDate.Value.Date & " 00:00:00"),
+            New MySqlParameter("DATETO", TextToDate.Value.Date & " 23:59:59")
+        })
+        GridTechnicianLoan.Refresh()
+
+        Dim Total As New Decimal
+        For Each Row As DataGridViewRow In GridTechnicianLoan.Rows
+            Total += Convert.ToDecimal(Row.Cells("Total").Value)
+        Next
+        TextTotal.Text = Total.ToString("N2")
+    End Sub
+
     Private Sub CalculateTotal()
         Dim Total As Decimal = 0
         For Each Row As DataGridViewRow In GridTechnicianLoan.Rows
@@ -36,24 +57,9 @@ Public Class FormTechnicianLoan
 
     Private Sub frmTechnicianLoan_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         MenuStrip1.Items.Add(mnustrpMENU)
-        TextFromDate.Value = "" & Date.Today.Year & "-" & Date.Today.Month & "-01"
+        TextFromDate.Value = Date.Today.Year & "-" & Date.Today.Month & "-01"
         TextToDate.Value = Date.Today
-        Call ButtonSearch_Click(sender, e)
-    End Sub
-
-    Private Sub ButtonSearch_Click(sender As Object, e As EventArgs) Handles ButtonSearch.Click, TextFromDate.ValueChanged, TextToDate.ValueChanged
-        Dim dt As New DataTable
-        If ControlTechnicianSelection.GetTechnician() Is Nothing Then
-            GridTechnicianLoan.Rows.Clear()
-            Return
-        End If
-
-        GridTechnicianLoan.DataSource = Db.GetDataTable("SELECT TLNo, TLDate, SCategory, SName, TLReason, Rate, Qty, Total FROM TechnicianLoan WHERE TNo = @TNO and TLDate BETWEEN @DATEFROM AND @DATETO;", {
-            New MySqlParameter("TNO", ControlTechnicianSelection.GetTechnicianNo()),
-            New MySqlParameter("DATEFROM", TextFromDate.Value.Date & " 00:00:00"),
-            New MySqlParameter("DATETO", TextToDate.Value.Date & " 23:59:59")
-        })
-        GridTechnicianLoan.Refresh()
+        Call PerformSearch()
     End Sub
 
     Private Sub grdTLSearch_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles GridTechnicianLoan.CellDoubleClick
@@ -62,8 +68,10 @@ Public Class FormTechnicianLoan
         End If
 
         ShowTechnicianLoanInfo(UpdateMode.Edit, New Dictionary(Of String, Object) From {
+            {Technician.TName, ControlTechnicianSelection.GetTechnician()},
             {TechnicianLoan.No, GridTechnicianLoan.Item(GridColumn.No, e.RowIndex).Value},
             {TechnicianLoan.TLDate, GridTechnicianLoan.Item(GridColumn.TLDate, e.RowIndex).Value},
+            {TechnicianLoan.SNo, GridTechnicianLoan.Item(GridColumn.ItemCode, e.RowIndex).Value},
             {TechnicianLoan.SCategory, GridTechnicianLoan.Item(GridColumn.ItemCategory, e.RowIndex).Value},
             {TechnicianLoan.SName, GridTechnicianLoan.Item(GridColumn.ItemName, e.RowIndex).Value},
             {TechnicianLoan.TCRemarks, GridTechnicianLoan.Item(GridColumn.Reason, e.RowIndex).Value},
@@ -71,10 +79,6 @@ Public Class FormTechnicianLoan
             {TechnicianLoan.Qty, GridTechnicianLoan.Item(GridColumn.Qty, e.RowIndex).Value},
             {TechnicianLoan.Total, GridTechnicianLoan.Item(GridColumn.Total, e.RowIndex).Value}
         })
-    End Sub
-
-    Private Sub cmbTName_SelectedIndexChanged(sender As Object, e As EventArgs)
-        ButtonSearch_Click(sender, e)
     End Sub
 
     Private Sub ButtonNew_Click(sender As Object, e As EventArgs) Handles ButtonNew.Click
@@ -86,6 +90,7 @@ Public Class FormTechnicianLoan
     Private Structure GridColumn
         Const No = "TLNo"
         Const TLDate = "TLDate"
+        Const ItemCode = "SNo"
         Const ItemCategory = "SCategory"
         Const ItemName = "SName"
         Const Reason = "TLReason"

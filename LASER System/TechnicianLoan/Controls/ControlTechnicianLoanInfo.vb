@@ -12,6 +12,7 @@ Public Class ControlTechnicianLoanInfo
     End Sub
 
     Public Sub SetUpdateMode(Mode As UpdateMode, Data As Dictionary(Of String, Object))
+        UpdateMode = Mode
         ControlTechnicianSelection.SetTechnician(Data(Technician.TName))
         If Mode = UpdateMode.New Then
             TextNo.Text = Db.GetNextKey("TechnicianLoan", "TLNo")
@@ -21,15 +22,17 @@ Public Class ControlTechnicianLoanInfo
 
         TextNo.Text = Data(TechnicianLoan.No)
         TextDate.Value = Data(TechnicianLoan.TLDate)
-        ControlStockSelection.SCode = Data(TechnicianLoan.SNo)
-        ControlStockSelection.SCategory = Data(TechnicianLoan.SCategory)
-        ControlStockSelection.SName = Data(TechnicianLoan.SName)
+        ControlStockSelection.SCode = If(IsDBNull(Data(TechnicianLoan.SNo)), 0, Data(TechnicianLoan.SNo))
+        ControlStockSelection.SCategory = Data(TechnicianLoan.SCategory).ToString
+        ControlStockSelection.SName = Data(TechnicianLoan.SName).ToString
         TextItemPrice.Value = Data(TechnicianLoan.Rate)
         TextQty.Text = Data(TechnicianLoan.Qty)
         TextAmount.Text = Data(TechnicianLoan.Total)
         TextReason.Text = Data(TechnicianLoan.TCRemarks)
         ButtonSave.Text = "Edit"
-        ButtonDelete.Enabled = True
+        If User.Instance.IsAdmin Then
+            ButtonDelete.Enabled = True
+        End If
     End Sub
 
     Private Function SaveValidation() As ([Error] As Boolean, Message As String)
@@ -69,7 +72,7 @@ Public Class ControlTechnicianLoanInfo
             }).ToArray()
         End If
 
-        Db.Execute($"INSERT INTO {Tables.TechnicianLoan}(TLNo,TNo,TLDate,SNo,SCategory,SName,TLReason,Rate,Qty,Total,UNo) Values(@TLNO,@TNO,@TLDATE,@SNO,@SCATEGORY,@SNAME,@TLREASON,@RATE,@QTY,@TOTAL,@UNO)", Parameters)
+        Db.Execute($"INSERT INTO {Tables.TechnicianLoan}(TLNo, TNo, TLDate, SNo, SCategory, SName, TLReason, Rate, Qty, Total, UNo) Values(@TLNO,@TNO,@TLDATE,@SNO,@SCATEGORY,@SNAME,@TLREASON,@RATE,@QTY,@TOTAL,@UNO)", Parameters)
     End Sub
 
     Private Sub EditTechnicianLoanRecord()
@@ -77,9 +80,6 @@ Public Class ControlTechnicianLoanInfo
             New MySqlParameter("NO", TextNo.Text),
             New MySqlParameter("TNO", ControlTechnicianSelection.GetTechnicianNo()),
             New MySqlParameter("DATE", TextDate.Value),
-            New MySqlParameter("SNO", ControlStockSelection.SCode),
-            New MySqlParameter("SCATEGORY", ControlStockSelection.SCategory),
-            New MySqlParameter("SNAME", ControlStockSelection.SName),
             New MySqlParameter("REASON", TextReason.Text),
             New MySqlParameter("RATE", TextItemPrice.Value),
             New MySqlParameter("QTY", TextQty.Value),
@@ -100,7 +100,7 @@ Public Class ControlTechnicianLoanInfo
             }).ToArray()
         End If
 
-        Db.Execute($"UPDATE {Tables.TechnicianLoan} SET TNo=@TNO, TLDate=@DATE, SNo=@SNO, SCategory=@SCATEGORY, SName=@SNAME, TLReason=@REASON, Rate=@RATE, Qty=@QTY, Total=@TOTAL, UNo=@UNO WHERE @TLNo=@NO;", Parameters)
+        Db.Execute($"UPDATE {Tables.TechnicianLoan} SET TNo=@TNO, TLDate=@DATE, SNo=@SNO, SCategory=@SCATEGORY, SName=@SNAME, TLReason=@REASON, Rate=@RATE, Qty=@QTY, Total=@TOTAL, UNo=@UNO WHERE TLNo=@NO;", Parameters)
     End Sub
 
     Private Function DeleteValidation() As ([Error] As Boolean, Message As String)
@@ -140,8 +140,13 @@ Public Class ControlTechnicianLoanInfo
                 SaveTechnicianLoanRecord()
                 MessageBox.Success("Save Successfull!")
             ElseIf UpdateMode = UpdateMode.Edit Then
-
+                EditTechnicianLoanRecord()
+                MessageBox.Success("Update Successfull!")
             End If
+
+            Dim Form As FormTechnicianLoan = ParentForm
+            Form.PerformSearch()
+            Dispose()
         Catch ex As Exception
             MessageBox.Error(ex.Message)
         End Try

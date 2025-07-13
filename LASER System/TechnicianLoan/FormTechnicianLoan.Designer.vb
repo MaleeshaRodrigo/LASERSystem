@@ -31,14 +31,6 @@ Partial Class FormTechnicianLoan
         Me.TextToDate = New System.Windows.Forms.DateTimePicker()
         Me.TextFromDate = New System.Windows.Forms.DateTimePicker()
         Me.GridTechnicianLoan = New System.Windows.Forms.DataGridView()
-        Me.TLNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.TLDate = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.SCategory = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.SName = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.TLReason = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Rate = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Qty = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Total = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.OPTIONToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -50,8 +42,17 @@ Partial Class FormTechnicianLoan
         Me.TechnicionInfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ItemInfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ButtonNew = New System.Windows.Forms.Button()
-        Me.ControlTechnicianSelection = New LASER_System.ControlTechnicianSelection()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.ControlTechnicianSelection = New LASER_System.ControlTechnicianSelection()
+        Me.TLNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.TLDate = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.SNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.SCategory = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.SName = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.TLReason = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Rate = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Qty = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Total = New System.Windows.Forms.DataGridViewTextBoxColumn()
         CType(Me.GridTechnicianLoan, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.MenuStrip1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -134,62 +135,13 @@ Partial Class FormTechnicianLoan
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.GridTechnicianLoan.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.GridTechnicianLoan.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.TLNo, Me.TLDate, Me.SCategory, Me.SName, Me.TLReason, Me.Rate, Me.Qty, Me.Total})
+        Me.GridTechnicianLoan.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.TLNo, Me.TLDate, Me.SNo, Me.SCategory, Me.SName, Me.TLReason, Me.Rate, Me.Qty, Me.Total})
         Me.GridTechnicianLoan.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically
         Me.GridTechnicianLoan.Location = New System.Drawing.Point(14, 113)
         Me.GridTechnicianLoan.Name = "GridTechnicianLoan"
         Me.GridTechnicianLoan.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.GridTechnicianLoan.Size = New System.Drawing.Size(688, 215)
         Me.GridTechnicianLoan.TabIndex = 109
-        '
-        'TLNo
-        '
-        Me.TLNo.DataPropertyName = "TLNo"
-        Me.TLNo.HeaderText = "No"
-        Me.TLNo.Name = "TLNo"
-        Me.TLNo.Visible = False
-        '
-        'TLDate
-        '
-        Me.TLDate.DataPropertyName = "TLDate"
-        Me.TLDate.HeaderText = "Date"
-        Me.TLDate.Name = "TLDate"
-        '
-        'SCategory
-        '
-        Me.SCategory.DataPropertyName = "SCategory"
-        Me.SCategory.HeaderText = "Item Category"
-        Me.SCategory.Name = "SCategory"
-        '
-        'SName
-        '
-        Me.SName.DataPropertyName = "SName"
-        Me.SName.HeaderText = "Item Name"
-        Me.SName.Name = "SName"
-        '
-        'TLReason
-        '
-        Me.TLReason.DataPropertyName = "TLReason"
-        Me.TLReason.HeaderText = "Reason"
-        Me.TLReason.Name = "TLReason"
-        '
-        'Rate
-        '
-        Me.Rate.DataPropertyName = "Rate"
-        Me.Rate.HeaderText = "Rate"
-        Me.Rate.Name = "Rate"
-        '
-        'Qty
-        '
-        Me.Qty.DataPropertyName = "Qty"
-        Me.Qty.HeaderText = "Qty"
-        Me.Qty.Name = "Qty"
-        '
-        'Total
-        '
-        Me.Total.DataPropertyName = "Total"
-        Me.Total.HeaderText = "Total"
-        Me.Total.Name = "Total"
         '
         'Label7
         '
@@ -283,18 +235,6 @@ Partial Class FormTechnicianLoan
         Me.ButtonNew.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.ButtonNew.UseVisualStyleBackColor = True
         '
-        'ControlTechnicianSelection
-        '
-        Me.ControlTechnicianSelection.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ControlTechnicianSelection.Font = New System.Drawing.Font("Calibri", 9.0!)
-        Me.ControlTechnicianSelection.Location = New System.Drawing.Point(6, 23)
-        Me.ControlTechnicianSelection.MaximumSize = New System.Drawing.Size(0, 29)
-        Me.ControlTechnicianSelection.MinimumSize = New System.Drawing.Size(200, 25)
-        Me.ControlTechnicianSelection.Name = "ControlTechnicianSelection"
-        Me.ControlTechnicianSelection.Size = New System.Drawing.Size(281, 25)
-        Me.ControlTechnicianSelection.TabIndex = 130
-        '
         'GroupBox1
         '
         Me.GroupBox1.Controls.Add(Me.ControlTechnicianSelection)
@@ -305,6 +245,90 @@ Partial Class FormTechnicianLoan
         Me.GroupBox1.TabIndex = 62
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Technician Info"
+        '
+        'ControlTechnicianSelection
+        '
+        Me.ControlTechnicianSelection.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ControlTechnicianSelection.Font = New System.Drawing.Font("Calibri", 9.0!)
+        Me.ControlTechnicianSelection.Location = New System.Drawing.Point(6, 23)
+        Me.ControlTechnicianSelection.MaximumSize = New System.Drawing.Size(300, 29)
+        Me.ControlTechnicianSelection.MinimumSize = New System.Drawing.Size(200, 25)
+        Me.ControlTechnicianSelection.Name = "ControlTechnicianSelection"
+        Me.ControlTechnicianSelection.Size = New System.Drawing.Size(281, 25)
+        Me.ControlTechnicianSelection.TabIndex = 130
+        '
+        'TLNo
+        '
+        Me.TLNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
+        Me.TLNo.DataPropertyName = "TLNo"
+        Me.TLNo.HeaderText = "No"
+        Me.TLNo.Name = "TLNo"
+        Me.TLNo.Visible = False
+        Me.TLNo.Width = 47
+        '
+        'TLDate
+        '
+        Me.TLDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
+        Me.TLDate.DataPropertyName = "TLDate"
+        Me.TLDate.HeaderText = "Date"
+        Me.TLDate.Name = "TLDate"
+        Me.TLDate.Width = 58
+        '
+        'SNo
+        '
+        Me.SNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
+        Me.SNo.DataPropertyName = "SNo"
+        Me.SNo.HeaderText = "Item Code"
+        Me.SNo.Name = "SNo"
+        Me.SNo.Width = 87
+        '
+        'SCategory
+        '
+        Me.SCategory.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
+        Me.SCategory.DataPropertyName = "SCategory"
+        Me.SCategory.HeaderText = "Item Category"
+        Me.SCategory.Name = "SCategory"
+        Me.SCategory.Width = 106
+        '
+        'SName
+        '
+        Me.SName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
+        Me.SName.DataPropertyName = "SName"
+        Me.SName.HeaderText = "Item Name"
+        Me.SName.Name = "SName"
+        Me.SName.Width = 92
+        '
+        'TLReason
+        '
+        Me.TLReason.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.TLReason.DataPropertyName = "TLReason"
+        Me.TLReason.HeaderText = "Reason"
+        Me.TLReason.Name = "TLReason"
+        '
+        'Rate
+        '
+        Me.Rate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
+        Me.Rate.DataPropertyName = "Rate"
+        Me.Rate.HeaderText = "Rate"
+        Me.Rate.Name = "Rate"
+        Me.Rate.Width = 57
+        '
+        'Qty
+        '
+        Me.Qty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
+        Me.Qty.DataPropertyName = "Qty"
+        Me.Qty.HeaderText = "Qty"
+        Me.Qty.Name = "Qty"
+        Me.Qty.Width = 49
+        '
+        'Total
+        '
+        Me.Total.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
+        Me.Total.DataPropertyName = "Total"
+        Me.Total.HeaderText = "Total"
+        Me.Total.Name = "Total"
+        Me.Total.Width = 59
         '
         'FormTechnicianLoan
         '
@@ -359,6 +383,7 @@ Partial Class FormTechnicianLoan
     Friend WithEvents GroupBox1 As GroupBox
     Friend WithEvents TLNo As DataGridViewTextBoxColumn
     Friend WithEvents TLDate As DataGridViewTextBoxColumn
+    Friend WithEvents SNo As DataGridViewTextBoxColumn
     Friend WithEvents SCategory As DataGridViewTextBoxColumn
     Friend WithEvents SName As DataGridViewTextBoxColumn
     Friend WithEvents TLReason As DataGridViewTextBoxColumn
