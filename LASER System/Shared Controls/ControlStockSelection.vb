@@ -36,6 +36,10 @@ Public Class ControlStockSelection
         Me.Db = Db
     End Sub
 
+    Public Function IsStockSelected() As Boolean
+        Return TextStockCode.Value > 0
+    End Function
+
     Private Sub ControlStockSelection_Load(sender As Object, e As EventArgs) Handles Me.Load
         If DesignMode Then
             Exit Sub

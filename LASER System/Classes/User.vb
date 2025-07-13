@@ -21,6 +21,10 @@
         Return UserType = Type.Admin
     End Function
 
+    Public Function IsNonAdmin() As Boolean
+        Return UserType <> Type.Admin
+    End Function
+
     Public Structure Type
         Const Admin = "Admin"
         Const Cashier = "Cashier"

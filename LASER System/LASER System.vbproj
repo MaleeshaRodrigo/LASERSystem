@@ -39,8 +39,8 @@
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>3</ApplicationRevision>
-    <ApplicationVersion>2.6.2.%2a</ApplicationVersion>
+    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationVersion>2.7.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -575,10 +575,16 @@
     <Compile Include="TechnicianCost\FormTechnicianCost.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmTechnicianLoan.Designer.vb">
-      <DependentUpon>frmTechnicianLoan.vb</DependentUpon>
+    <Compile Include="TechnicianLoan\Controls\ControlTechnicianLoanInfo.Designer.vb">
+      <DependentUpon>ControlTechnicianLoanInfo.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmTechnicianLoan.vb">
+    <Compile Include="TechnicianLoan\Controls\ControlTechnicianLoanInfo.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TechnicianLoan\FormTechnicianLoan.Designer.vb">
+      <DependentUpon>FormTechnicianLoan.vb</DependentUpon>
+    </Compile>
+    <Compile Include="TechnicianLoan\FormTechnicianLoan.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmTechnicianSalary.Designer.vb">
@@ -852,8 +858,11 @@
     <EmbeddedResource Include="TechnicianCost\FormTechnicianCost.resx">
       <DependentUpon>FormTechnicianCost.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmTechnicianLoan.resx">
-      <DependentUpon>frmTechnicianLoan.vb</DependentUpon>
+    <EmbeddedResource Include="TechnicianLoan\Controls\ControlTechnicianLoanInfo.resx">
+      <DependentUpon>ControlTechnicianLoanInfo.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TechnicianLoan\FormTechnicianLoan.resx">
+      <DependentUpon>FormTechnicianLoan.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmTechnicianSalary.resx">
       <DependentUpon>frmTechnicianSalary.vb</DependentUpon>
