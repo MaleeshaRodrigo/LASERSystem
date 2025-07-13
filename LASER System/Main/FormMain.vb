@@ -109,7 +109,7 @@ Public Class FormMain
     End Sub
 
     Public Sub cmdTechnicianLoan_Click(sender As Object, e As EventArgs) Handles cmdTechnicianLoan.Click
-        With frmTechnicianLoan
+        With FormTechnicianLoan
             .Show()
             .BringToFront()
             If .WindowState = FormWindowState.Minimized Then .WindowState = FormWindowState.Maximized

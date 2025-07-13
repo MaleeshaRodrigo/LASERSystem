@@ -118,14 +118,6 @@ Partial Class frmTechnicianSalary
         Me.txtTotalLoan = New System.Windows.Forms.TextBox()
         Me.Label9 = New System.Windows.Forms.Label()
         Me.grdLoan = New System.Windows.Forms.DataGridView()
-        Me.TLNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.TLDate = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.TLSCategory = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.TLSName = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.TLReason = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.TLRate = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.TLQty = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.TLTotal = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.cmdTSPrint = New System.Windows.Forms.Button()
         Me.ToolTip = New System.Windows.Forms.ToolTip(Me.components)
         Me.MenuStrip = New System.Windows.Forms.MenuStrip()
@@ -147,6 +139,15 @@ Partial Class frmTechnicianSalary
         Me.ControlTechnicianEarnedSalary = New LASER_System.ControlPrice()
         Me.ControlTechnicianSalary = New LASER_System.ControlPrice()
         Me.ControlTotalEarned = New LASER_System.ControlPrice()
+        Me.TLNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.TLDate = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.TLSCategory = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.TLSName = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.TLReason = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.TLRate = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.TLQty = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.TLTotal = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.TLTSalNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.boxItem.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.tabctrlSalary.SuspendLayout()
@@ -417,7 +418,7 @@ Partial Class frmTechnicianSalary
         Me.chkRepair.AutoSize = True
         Me.chkRepair.Checked = True
         Me.chkRepair.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkRepair.Location = New System.Drawing.Point(372, 188)
+        Me.chkRepair.Location = New System.Drawing.Point(372, 186)
         Me.chkRepair.Name = "chkRepair"
         Me.chkRepair.Size = New System.Drawing.Size(184, 18)
         Me.chkRepair.TabIndex = 100
@@ -428,7 +429,7 @@ Partial Class frmTechnicianSalary
         '
         Me.txtTotalRepair.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.txtTotalRepair.Enabled = False
-        Me.txtTotalRepair.Location = New System.Drawing.Point(252, 186)
+        Me.txtTotalRepair.Location = New System.Drawing.Point(252, 184)
         Me.txtTotalRepair.Name = "txtTotalRepair"
         Me.txtTotalRepair.Size = New System.Drawing.Size(114, 22)
         Me.txtTotalRepair.TabIndex = 5
@@ -437,7 +438,7 @@ Partial Class frmTechnicianSalary
         '
         Me.Label4.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(6, 189)
+        Me.Label4.Location = New System.Drawing.Point(6, 187)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(240, 14)
         Me.Label4.TabIndex = 4
@@ -456,7 +457,7 @@ Partial Class frmTechnicianSalary
         Me.grdRepair.Name = "grdRepair"
         Me.grdRepair.RowHeadersVisible = False
         Me.grdRepair.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.grdRepair.Size = New System.Drawing.Size(1191, 177)
+        Me.grdRepair.Size = New System.Drawing.Size(1191, 175)
         Me.grdRepair.TabIndex = 3
         '
         'RepNo
@@ -1035,7 +1036,7 @@ Partial Class frmTechnicianSalary
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.grdLoan.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.grdLoan.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.TLNo, Me.TLDate, Me.TLSCategory, Me.TLSName, Me.TLReason, Me.TLRate, Me.TLQty, Me.TLTotal})
+        Me.grdLoan.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.TLNo, Me.TLDate, Me.TLSCategory, Me.TLSName, Me.TLReason, Me.TLRate, Me.TLQty, Me.TLTotal, Me.TLTSalNo})
         Me.grdLoan.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically
         Me.grdLoan.Location = New System.Drawing.Point(3, 3)
         Me.grdLoan.Name = "grdLoan"
@@ -1043,54 +1044,6 @@ Partial Class frmTechnicianSalary
         Me.grdLoan.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.grdLoan.Size = New System.Drawing.Size(1191, 182)
         Me.grdLoan.TabIndex = 3
-        '
-        'TLNo
-        '
-        Me.TLNo.DataPropertyName = "TLNo"
-        Me.TLNo.HeaderText = "Technician Loan No"
-        Me.TLNo.Name = "TLNo"
-        '
-        'TLDate
-        '
-        Me.TLDate.DataPropertyName = "TLDate"
-        Me.TLDate.HeaderText = "Date"
-        Me.TLDate.Name = "TLDate"
-        '
-        'TLSCategory
-        '
-        Me.TLSCategory.DataPropertyName = "SCategory"
-        Me.TLSCategory.HeaderText = "Stock Category"
-        Me.TLSCategory.Name = "TLSCategory"
-        '
-        'TLSName
-        '
-        Me.TLSName.DataPropertyName = "SName"
-        Me.TLSName.HeaderText = "Stock Name"
-        Me.TLSName.Name = "TLSName"
-        '
-        'TLReason
-        '
-        Me.TLReason.DataPropertyName = "TLReason"
-        Me.TLReason.HeaderText = "Reason"
-        Me.TLReason.Name = "TLReason"
-        '
-        'TLRate
-        '
-        Me.TLRate.DataPropertyName = "Rate"
-        Me.TLRate.HeaderText = "Rate"
-        Me.TLRate.Name = "TLRate"
-        '
-        'TLQty
-        '
-        Me.TLQty.DataPropertyName = "Qty"
-        Me.TLQty.HeaderText = "Qty"
-        Me.TLQty.Name = "TLQty"
-        '
-        'TLTotal
-        '
-        Me.TLTotal.DataPropertyName = "Total"
-        Me.TLTotal.HeaderText = "Total"
-        Me.TLTotal.Name = "TLTotal"
         '
         'cmdTSPrint
         '
@@ -1224,6 +1177,7 @@ Partial Class frmTechnicianSalary
         Me.ControlTechnicianLoan.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.ControlTechnicianLoan.Font = New System.Drawing.Font("Calibri", 9.0!)
         Me.ControlTechnicianLoan.Location = New System.Drawing.Point(467, 379)
+        Me.ControlTechnicianLoan.Minimum = New Decimal(New Integer() {9999999, 0, 0, -2147483648})
         Me.ControlTechnicianLoan.MinimumSize = New System.Drawing.Size(76, 22)
         Me.ControlTechnicianLoan.Name = "ControlTechnicianLoan"
         Me.ControlTechnicianLoan.ReadOnlyText = False
@@ -1236,6 +1190,7 @@ Partial Class frmTechnicianSalary
         Me.ControlTechnicianEarnedSalary.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.ControlTechnicianEarnedSalary.Font = New System.Drawing.Font("Calibri", 9.0!)
         Me.ControlTechnicianEarnedSalary.Location = New System.Drawing.Point(600, 379)
+        Me.ControlTechnicianEarnedSalary.Minimum = New Decimal(New Integer() {9999999, 0, 0, -2147483648})
         Me.ControlTechnicianEarnedSalary.MinimumSize = New System.Drawing.Size(76, 22)
         Me.ControlTechnicianEarnedSalary.Name = "ControlTechnicianEarnedSalary"
         Me.ControlTechnicianEarnedSalary.ReadOnlyText = True
@@ -1248,6 +1203,7 @@ Partial Class frmTechnicianSalary
         Me.ControlTechnicianSalary.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.ControlTechnicianSalary.Font = New System.Drawing.Font("Calibri", 9.0!)
         Me.ControlTechnicianSalary.Location = New System.Drawing.Point(344, 379)
+        Me.ControlTechnicianSalary.Minimum = New Decimal(New Integer() {9999999, 0, 0, -2147483648})
         Me.ControlTechnicianSalary.MinimumSize = New System.Drawing.Size(76, 22)
         Me.ControlTechnicianSalary.Name = "ControlTechnicianSalary"
         Me.ControlTechnicianSalary.ReadOnlyText = True
@@ -1261,12 +1217,67 @@ Partial Class frmTechnicianSalary
         Me.ControlTotalEarned.Font = New System.Drawing.Font("Calibri", 9.0!)
         Me.ControlTotalEarned.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.ControlTotalEarned.Location = New System.Drawing.Point(125, 379)
+        Me.ControlTotalEarned.Minimum = New Decimal(New Integer() {9999999, 0, 0, -2147483648})
         Me.ControlTotalEarned.MinimumSize = New System.Drawing.Size(76, 22)
         Me.ControlTotalEarned.Name = "ControlTotalEarned"
         Me.ControlTotalEarned.ReadOnlyText = True
         Me.ControlTotalEarned.Size = New System.Drawing.Size(114, 22)
         Me.ControlTotalEarned.TabIndex = 103
         Me.ControlTotalEarned.Value = "0"
+        '
+        'TLNo
+        '
+        Me.TLNo.DataPropertyName = "TLNo"
+        Me.TLNo.HeaderText = "Technician Loan No"
+        Me.TLNo.Name = "TLNo"
+        '
+        'TLDate
+        '
+        Me.TLDate.DataPropertyName = "TLDate"
+        Me.TLDate.HeaderText = "Date"
+        Me.TLDate.Name = "TLDate"
+        '
+        'TLSCategory
+        '
+        Me.TLSCategory.DataPropertyName = "SCategory"
+        Me.TLSCategory.HeaderText = "Stock Category"
+        Me.TLSCategory.Name = "TLSCategory"
+        '
+        'TLSName
+        '
+        Me.TLSName.DataPropertyName = "SName"
+        Me.TLSName.HeaderText = "Stock Name"
+        Me.TLSName.Name = "TLSName"
+        '
+        'TLReason
+        '
+        Me.TLReason.DataPropertyName = "TLReason"
+        Me.TLReason.HeaderText = "Reason"
+        Me.TLReason.Name = "TLReason"
+        '
+        'TLRate
+        '
+        Me.TLRate.DataPropertyName = "Rate"
+        Me.TLRate.HeaderText = "Rate"
+        Me.TLRate.Name = "TLRate"
+        '
+        'TLQty
+        '
+        Me.TLQty.DataPropertyName = "Qty"
+        Me.TLQty.HeaderText = "Qty"
+        Me.TLQty.Name = "TLQty"
+        '
+        'TLTotal
+        '
+        Me.TLTotal.DataPropertyName = "Total"
+        Me.TLTotal.HeaderText = "Total"
+        Me.TLTotal.Name = "TLTotal"
+        '
+        'TLTSalNo
+        '
+        Me.TLTSalNo.DataPropertyName = "TSalNo"
+        Me.TLTSalNo.HeaderText = "Technician Salary No"
+        Me.TLTSalNo.Name = "TLTSalNo"
         '
         'frmTechnicianSalary
         '
@@ -1387,14 +1398,6 @@ Partial Class frmTechnicianSalary
     Friend WithEvents DataGridViewTextBoxColumn26 As DataGridViewTextBoxColumn
     Friend WithEvents DataGridViewTextBoxColumn28 As DataGridViewTextBoxColumn
     Friend WithEvents Column2 As DataGridViewTextBoxColumn
-    Friend WithEvents TLNo As DataGridViewTextBoxColumn
-    Friend WithEvents TLDate As DataGridViewTextBoxColumn
-    Friend WithEvents TLSCategory As DataGridViewTextBoxColumn
-    Friend WithEvents TLSName As DataGridViewTextBoxColumn
-    Friend WithEvents TLReason As DataGridViewTextBoxColumn
-    Friend WithEvents TLRate As DataGridViewTextBoxColumn
-    Friend WithEvents TLQty As DataGridViewTextBoxColumn
-    Friend WithEvents TLTotal As DataGridViewTextBoxColumn
     Friend WithEvents RepNo As DataGridViewTextBoxColumn
     Friend WithEvents DDate As DataGridViewTextBoxColumn
     Friend WithEvents CuName As DataGridViewTextBoxColumn
@@ -1448,4 +1451,13 @@ Partial Class frmTechnicianSalary
     Friend WithEvents Label10 As Label
     Friend WithEvents ControlTechnicianLoan As ControlPrice
     Friend WithEvents Label11 As Label
+    Friend WithEvents TLNo As DataGridViewTextBoxColumn
+    Friend WithEvents TLDate As DataGridViewTextBoxColumn
+    Friend WithEvents TLSCategory As DataGridViewTextBoxColumn
+    Friend WithEvents TLSName As DataGridViewTextBoxColumn
+    Friend WithEvents TLReason As DataGridViewTextBoxColumn
+    Friend WithEvents TLRate As DataGridViewTextBoxColumn
+    Friend WithEvents TLQty As DataGridViewTextBoxColumn
+    Friend WithEvents TLTotal As DataGridViewTextBoxColumn
+    Friend WithEvents TLTSalNo As DataGridViewTextBoxColumn
 End Class

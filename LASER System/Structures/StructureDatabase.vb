@@ -334,6 +334,20 @@
         Const UNo = "UNo"
     End Structure
 
+    Public Structure TechnicianLoan
+        Const No = "TLNo"
+        Const TNo = "TNo"
+        Const TLDate = "TLDate"
+        Const SNo = "SNo"
+        Const SCategory = "SCategory"
+        Const SName = "SName"
+        Const TCRemarks = "TLReason"
+        Const Qty = "Qty"
+        Const Rate = "Rate"
+        Const Total = "Total"
+        Const UNo = "UNo"
+    End Structure
+
     Public Structure User
         Const UNo = "UNo"
         Const Username = "Username"
