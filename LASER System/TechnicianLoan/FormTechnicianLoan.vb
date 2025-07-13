@@ -4,312 +4,95 @@ Imports MySqlConnector
 Public Class FormTechnicianLoan
     Private Db As New Database
 
+    Public Sub New()
+        InitializeComponent()
+
+        ControlTechnicianSelection.SetDatabase(Db)
+    End Sub
+
+    Private Sub CalculateTotal()
+        Dim Total As Decimal = 0
+        For Each Row As DataGridViewRow In GridTechnicianLoan.Rows
+            Total += Val(Row.Cells("Total").Value)
+        Next
+
+        TextTotal.Text = Total
+    End Sub
+
+    Private Sub ShowTechnicianLoanInfo(Mode As UpdateMode, Data As Dictionary(Of String, Object))
+        If ControlTechnicianSelection.IsTechnicianSelected() Then
+            MessageBox.Error("Technician කෙනෙක් නෝරා නොමැත.")
+            Return
+        End If
+
+        Dim Control As New ControlTechnicianLoanInfo
+        Control.SetDatabase(Db)
+        Control.SetUpdateMode(Mode, Data)
+
+        Controls.Add(Control)
+        Control.Dock = DockStyle.Fill
+        Control.BringToFront()
+    End Sub
+
     Private Sub frmTechnicianLoan_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         MenuStrip1.Items.Add(mnustrpMENU)
-        txtTLNo.Text = Db.GetNextKey("TechnicianLoan", "TLNo")
-        txtTLFrom.Value = "" & Date.Today.Year & "-" & Date.Today.Month & "-01"
-        txtTLTo.Value = Date.Today
-        Call cmdTLSearch_Click(sender, e)
-        cmbSCategory_DropDown(sender, e)
-        cmbSName_DropDown(sender, e)
-        cmbTName_DropDown(sender, e)
+        TextFromDate.Value = "" & Date.Today.Year & "-" & Date.Today.Month & "-01"
+        TextToDate.Value = Date.Today
+        Call ButtonSearch_Click(sender, e)
     End Sub
 
-    Private Sub cmbTName_DropDown(sender As Object, e As EventArgs) Handles cmbTName.DropDown
-        Call ComboBoxDropDown(Db, cmbTName, "Select TName from Technician Where TActive=True group by TName;")
-    End Sub
-
-    Private Sub cmdClose_Click(sender As Object, e As EventArgs)
-        Close()
-    End Sub
-
-    Private Sub cmdTLSearch_Click(sender As Object, e As EventArgs) Handles cmdTLSearch.Click
+    Private Sub ButtonSearch_Click(sender As Object, e As EventArgs) Handles ButtonSearch.Click, TextFromDate.ValueChanged, TextToDate.ValueChanged
         Dim dt As New DataTable
-        If cmbTName.Text = "" Then
-            grdTLSearch.Rows.Clear()
-            Exit Sub
+        If ControlTechnicianSelection.GetTechnician() Is Nothing Then
+            GridTechnicianLoan.Rows.Clear()
+            Return
         End If
-        grdTLSearch.DataSource = Db.GetDataTable("Select TLNo as `Technician Loan No`,TLDate as `Date`,SCategory as `Stock Category`,SName as `Stock Name`,TLReason as Reason,Rate,Qty,Total from (TechnicianLoan Inner Join Technician On Technician.TNO = TechnicianLoan.TNo) where TName='" & cmbTName.Text & "' and TLDate BETWEEN '" & txtTLFrom.Value.Date & " 00:00:00' AND '" &
-                                             txtTLTo.Value.Date & " 23:59:59'")
-        grdTLSearch.Refresh()
-        txtTLSubTotal.Text = "0"
-        For Each Row As DataGridViewRow In grdTLSearch.Rows
-            txtTLSubTotal.Text += Val(Row.Cells(7).Value.ToString)
-        Next
+
+        GridTechnicianLoan.DataSource = Db.GetDataTable("SELECT TLNo, TLDate, SCategory, SName, TLReason, Rate, Qty, Total FROM TechnicianLoan WHERE TNo = @TNO and TLDate BETWEEN @DATEFROM AND @DATETO;", {
+            New MySqlParameter("TNO", ControlTechnicianSelection.GetTechnicianNo()),
+            New MySqlParameter("DATEFROM", TextFromDate.Value.Date & " 00:00:00"),
+            New MySqlParameter("DATETO", TextToDate.Value.Date & " 23:59:59")
+        })
+        GridTechnicianLoan.Refresh()
     End Sub
 
-    Private Sub txtTLFrom_ValueChanged(sender As Object, e As EventArgs) Handles txtTLFrom.ValueChanged
-        Call cmdTLSearch_Click(sender, e)
-    End Sub
-
-    Private Sub txtTLTo_ValueChanged(sender As Object, e As EventArgs) Handles txtTLTo.ValueChanged
-        Call cmdTLSearch_Click(sender, e)
-    End Sub
-
-    Private Sub cmdTLSave_Click(sender As Object, e As EventArgs) Handles cmdTLSave.Click
-        If CheckEmptyControl(txtTLAmount, "Amount Field එක හිස්ව පවතියි. කරුණාකර එය සම්පූර්ණ කරන්න.") = False Then
-            Exit Sub
-        ElseIf CheckEmptyControl(cmbTName, "Technician ව තෝරා නොමැත. කරුණාකර අදාල Technician ව තොරා ගන්න.") = False Then
-            Exit Sub
-        ElseIf txtTLReason.Text = "" And txtSNo.Text = "" Then
-            MsgBox("ඔබ හේතුවක් හෝ Stock එකක් ඇතුලත් කර නොමැත. කරුණාකර නැවත පරික්ෂා කරන්න.")
-            Exit Sub
+    Private Sub grdTLSearch_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles GridTechnicianLoan.CellDoubleClick
+        If e.RowIndex < 0 Or e.RowIndex > (GridTechnicianLoan.Rows.Count - 1) Then
+            Return
         End If
-        Dim AdminPer As New AdminPermission(Db)
-        If User.Instance.UserType <> User.Type.Admin And txtTLDate.Value.Date <> Today.Date Then
-            AdminPer.AdminSend = True
-            AdminPer.Remarks = "අද දිනට නොමැති Technician Loan එකක් Update කෙරුණි."
-        End If
-        If txtTLDate.Value.Date = Today.Date Then txtTLDate.Value = DateAndTime.Now
-        Dim TNo As Integer = Int(Db.GetData("Select TNo,TName from Technician where TName='" &
-                                                        cmbTName.Text & "'"))
-        If cmdTLSave.Text = "Save" Then
-            If txtSNo.Text <> "" Then
-                Db.Execute($"INSERT INTO {Tables.TechnicianLoan}(TLNo,TNo,TLDate,SNo,SCategory,SName,TLReason,Rate,Qty,Total,UNo) Values(" & txtTLNo.Text & "," & TNo & ",'" & txtTLDate.Value & "'," & txtSNo.Text & ",'" &
-                        cmbSCategory.Text & "','" & cmbSName.Text & "','" & txtTLReason.Text &
-                        "'," & txtSUnitPrice.Text & "," & txtSQty.Text & "," & txtTLAmount.Text & ",'" & User.Instance.UserNo & "')", {}, AdminPer)
-            Else
-                Db.Execute($"INSERT INTO {Tables.TechnicianLoan}(TLNo,TNo,TLDate,TLReason,Total,UNo) Values(" & txtTLNo.Text & "," & TNo & ",'" & txtTLDate.Value & "','" & txtTLReason.Text & "'," &
-                        txtTLAmount.Text & ",'" & User.Instance.UserNo & "')", {}, AdminPer)
-            End If
-            MsgBox("Save Successfull!", vbExclamation + vbOKOnly)
-        ElseIf cmdTLSave.Text = "Edit" Then
-            Db.Execute($"UPDATE {Tables.TechnicianCost} SET TNo=" & TNo &
-                      ",TLDate='" & txtTLDate.Value &
-                      "',SNo=" & txtSNo.Text &
-                      ",SCategory='" & cmbSCategory.Text &
-                      "',SName='" & cmbSName.Text &
-                      "',TLReason='" & txtTLReason.Text &
-                      "',Rate=" & txtSUnitPrice.Text &
-                      ",Qty=" & txtSQty.Text &
-                      ",Total=" & txtTLAmount.Text &
-                      ",UNo=" & User.Instance.UserNo, {}, AdminPer)
-        End If
-        txtTLNo.Text = Db.GetNextKey("TechnicianLoan", "TLNo")
-        cmbSCategory.Text = ""
-        cmbSName.Text = ""
-        txtSNo.Text = ""
-        txtSQty.Text = ""
-        txtSUnitPrice.Text = ""
-        txtTLAmount.Text = ""
-        txtTLReason.Text = ""
-        Call cmdTLSearch_Click(sender, e)
+
+        ShowTechnicianLoanInfo(UpdateMode.Edit, New Dictionary(Of String, Object) From {
+            {TechnicianLoan.No, GridTechnicianLoan.Item(GridColumn.No, e.RowIndex).Value},
+            {TechnicianLoan.TLDate, GridTechnicianLoan.Item(GridColumn.TLDate, e.RowIndex).Value},
+            {TechnicianLoan.SCategory, GridTechnicianLoan.Item(GridColumn.ItemCategory, e.RowIndex).Value},
+            {TechnicianLoan.SName, GridTechnicianLoan.Item(GridColumn.ItemName, e.RowIndex).Value},
+            {TechnicianLoan.TCRemarks, GridTechnicianLoan.Item(GridColumn.Reason, e.RowIndex).Value},
+            {TechnicianLoan.Rate, GridTechnicianLoan.Item(GridColumn.Rate, e.RowIndex).Value},
+            {TechnicianLoan.Qty, GridTechnicianLoan.Item(GridColumn.Qty, e.RowIndex).Value},
+            {TechnicianLoan.Total, GridTechnicianLoan.Item(GridColumn.Total, e.RowIndex).Value}
+        })
     End Sub
 
-    Private Sub cmdTLNew_Click(sender As Object, e As EventArgs) Handles cmdTLNew.Click
-        'Prepare form for adding new values
-        txtTLNo.Text = Db.GetNextKey("TechnicianLoan", "TLNo")
-        txtTLDate.Value = Today
-        cmbTName.Text = ""
-        cmbSCategory.Text = ""
-        cmbSName.Text = ""
-        txtSNo.Text = ""
-        txtSQty.Text = ""
-        txtSUnitPrice.Text = ""
-        txtTLAmount.Text = ""
-        txtTLReason.Text = ""
-        cmdTLSave.Text = "Save"
-        cmdTLDelete.Enabled = False
-        Call cmdTLSearch_Click(sender, e)
+    Private Sub cmbTName_SelectedIndexChanged(sender As Object, e As EventArgs)
+        ButtonSearch_Click(sender, e)
     End Sub
 
-    Private Sub cmbSCategory_DropDown(sender As Object, e As EventArgs) Handles cmbSCategory.DropDown
-        ComboBoxDropDown(Db, cmbSCategory, "Select SCategory from Stock group by SCategory;")
+    Private Sub ButtonNew_Click(sender As Object, e As EventArgs) Handles ButtonNew.Click
+        ShowTechnicianLoanInfo(UpdateMode.New, New Dictionary(Of String, Object) From {
+            {Technician.TName, ControlTechnicianSelection.GetTechnician()}
+        })
     End Sub
 
-    Private Sub cmbSName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbSName.SelectedIndexChanged
-        Dim DR
-        If cmbSCategory.Text = "" Then
-            DR = Db.GetDataDictionary("Select * from Stock Where SName='" & cmbSName.Text & "'")
-        Else
-            DR = Db.GetDataDictionary("SElect * from Stock Where Scategory='" & cmbSCategory.Text & "' and SName ='" & cmbSName.Text & "'")
-        End If
-        If DR.Count Then
-
-            txtSNo.Text = DR("SNo").ToString
-            txtSUnitPrice.Text = Val(DR("SSAlePRice").ToString)
-            txtSQty.Text = "1"
-        Else
-            txtSNo.Text = ""
-            txtSUnitPrice.Text = "0"
-            txtSQty.Text = "1"
-            txtSQty_TextChanged(sender, e)
-        End If
-    End Sub
-
-    Private Sub cmbSName_DropDown(sender As Object, e As EventArgs) Handles cmbSName.DropDown
-        ComboBoxDropDown(Db, cmbSName, "Select SName from Stock Where SCategory='" & cmbSCategory.Text & "' group by SName;")
-    End Sub
-
-    Private Sub txtSUnitPrice_TextChanged(sender As Object, e As EventArgs) Handles txtSUnitPrice.TextChanged
-        If txtSUnitPrice.Text <> "" And txtSQty.Text <> "" Then
-            txtTLAmount.Text = Val(txtSQty.Text) * Val(txtSUnitPrice.Text)
-        End If
-    End Sub
-
-    Private Sub txtSQty_TextChanged(sender As Object, e As EventArgs) Handles txtSQty.TextChanged
-        If txtSUnitPrice.Text <> "" And txtSQty.Text <> "" Then
-            txtTLAmount.Text = Val(txtSQty.Text) * Val(txtSUnitPrice.Text)
-        End If
-    End Sub
-
-    Private Sub txtSUnitPrice_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtSUnitPrice.KeyPress
-        OnlynumberPrice(e)
-    End Sub
-
-    Private Sub txtSQty_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtSQty.KeyPress
-        OnlynumberQty(e)
-    End Sub
-
-    Private Sub txtTLAmount_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtTLAmount.KeyPress
-        OnlynumberPrice(e)
-    End Sub
-
-    Private Sub txtSNo_TextChanged(sender As Object, e As EventArgs) Handles txtSNo.TextChanged
-        If txtSNo.Text = "" Then
-            cmbSCategory.Text = ""
-            cmbSName.Text = ""
-            txtSUnitPrice.Text = "0"
-            txtSQty.Text = "1"
-            txtTLAmount.Text = "0"
-            Exit Sub
-        End If
-        Dim DR1 = Db.GetDataDictionary("SELECT SCategory,SName,SNo FROM Stock WHERE SNo =" & txtSNo.Text & ";")
-        If DR1 IsNot Nothing Then
-            cmbSCategory.Text = DR1("SCategory").ToString
-            cmbSName.Text = DR1("SName").ToString
-            Call cmbSName_SelectedIndexChanged(sender, e)
-        Else
-            cmbSCategory.Text = ""
-            cmbSName.Text = ""
-            txtSUnitPrice.Text = "0"
-            txtSQty.Text = "1"
-            txtTLAmount.Text = "0"
-        End If
-    End Sub
-
-    Private Sub txtSNo_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtSNo.KeyPress
-        OnlynumberQty(e)
-    End Sub
-
-    Private Sub txtSNo_KeyUp(sender As Object, e As KeyEventArgs) Handles txtSNo.KeyUp
-        If e.KeyCode = Keys.Enter Then
-            If txtSNo.Text = "" Then
-                cmbSCategory.Text = ""
-                cmbSName.Text = ""
-                txtSUnitPrice.Text = "0"
-                txtSQty.Text = "1"
-                txtTLAmount.Text = "0"
-                Exit Sub
-            End If
-            Dim DR = Db.GetDataDictionary("SELECT SNo from stock where SNo =" & txtSNo.Text)
-            If DR Is Nothing Then
-                cmbSCategory.Text = ""
-                cmbSName.Text = ""
-                txtSUnitPrice.Text = "0"
-                txtSQty.Text = "1"
-                txtTLAmount.Text = "0"
-                Exit Sub
-            End If
-            txtSQty.Text = "1"
-            txtSQty_TextChanged(sender, e)
-            cmdTLSave_Click(sender, e)
-            txtSNo.Focus()
-        End If
-    End Sub
-
-    Private Sub cmdIView_Click(sender As Object, e As EventArgs) Handles cmdIView.Click
-        FormStock.Tag = "TechnicianCost"
-        FormStock.Show()
-    End Sub
-
-    Private Sub cmdTView_Click(sender As Object, e As EventArgs) Handles cmdTView.Click
-        frmTechnician.Tag = "TechnicianCost"
-        frmTechnician.Show()
-    End Sub
-
-    Private Sub NewToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NewToolStripMenuItem.Click
-        Call cmdTLNew_Click(sender, e)
-    End Sub
-
-    Private Sub SaveToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveToolStripMenuItem.Click
-        Call cmdTLSave_Click(sender, e)
-    End Sub
-
-    Private Sub DeleteToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DeleteToolStripMenuItem.Click
-        If cmdTLDelete.Enabled = True Then Call cmdTLDelete_Click(sender, e)
-    End Sub
-
-    Private Sub TechnicionInfoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles TechnicionInfoToolStripMenuItem.Click
-        cmdTView_Click(sender, e)
-    End Sub
-
-    Private Sub ItemInfoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ItemInfoToolStripMenuItem.Click
-        Call cmdIView_Click(sender, e)
-    End Sub
-
-    Private Sub cmdTLDelete_Click(sender As Object, e As EventArgs) Handles cmdTLDelete.Click
-        If CheckEmptyControl(txtTLNo, "Technician Loan No එක හිස්ව පවතියි. ඔබට Technician Loan පොරමය Closed කර නැවත Open කල යුතුයි.") = False Then
-            Close()
-            FormMain.cmdTechnicianLoan.PerformClick()
-            Exit Sub
-        End If
-        Dim AdminPer As New AdminPermission(Db)
-        If User.Instance.UserType <> User.Type.Admin And txtTLDate.Value.Date <> Today.Date Then
-            AdminPer.AdminSend = True
-            AdminPer.Remarks = "අද දිනට නොමැති Technician Loan data එකක් ඉවත් කෙරුණි."
-        End If
-        Dim DR = Db.GetDataDictionary("Select * from TechnicianLoan Where TLNo=" & txtTLNo.Text)
-        If DR.Count Then
-
-            If DR("SNo").ToString <> "" And DR("SNo").ToString <> "0" Then
-                Dim Response = MsgBox("ඔබට මෙම Item එක Technician Cost තුලින් ඉවත් කිරිමට අවශ්‍ය බැවින්, එම Item එක නැවත Available Units තුලට පිරවීමට අවශ්‍යද? " +
-                                      vbCr + vbCr + "Yes - එසෙ නම් ඔබ 'Yes' යන Button එක Click කරන්න. " + vbCr + vbCr +
-                                      "No - නැතහොත්, ඔබට මෙම item එක Damaged Units වලට add කිරිමට අවශ්‍ය නම්, 'No' යන Button එක Click කරන්න." +
-                                      vbCr + vbCr + "Cancel - ඔබට ඉවත් වීමට අවශ්‍ය නම් 'Cancel' යන Button එක Click කරන්න.", vbYesNoCancel + vbExclamation)
-                If Response = vbYes Then
-                    Db.Execute($"UPDATE {Tables.Stock} SET SAvailablestocks=(SAvailableStocks + " & txtSQty.Text &
-                                                             ") where SNo=" & txtSNo.Text & "", {}, AdminPer)
-                    Db.Execute("DELETE from TechnicianCost where TCNo=" & txtTLNo.Text, {}, AdminPer)       'decrease unit from stock table 
-                ElseIf Response = vbNo Then
-                    Db.Execute($"UPDATE {Tables.Stock} SET SOutofStocks=(SOutofStocks + " & txtSQty.Text &
-                                                             ") where SNo=" & txtSNo.Text & "", {}, AdminPer)
-                    Db.Execute("DELETE from TechnicianCost where TCNo=" & txtTLNo.Text, {}, AdminPer)       'delete data from technician loan 
-                Else
-                    Exit Sub
-                End If
-            Else
-                If MsgBox("Are you sure delete this Technician Cost?", vbYesNo + vbExclamation) = vbYes Then
-                    Db.Execute("DELETE from TechnicianCost where TCNo=" & txtTLNo.Text, {}, AdminPer)       'delete data from technician loan 
-                End If
-            End If
-        Else
-            MsgBox("අදාල Technician Loan දත්තය Database එක තුලට ඇතුලත් කර නොමැත.", vbCritical)
-        End If
-        cmdTLNew_Click(sender, e)
-        cmdTLSearch_Click(sender, e)
-    End Sub
-
-    Private Sub cmbSCategory_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbSCategory.SelectedIndexChanged
-        cmbSName.Text = ""
-    End Sub
-
-    Private Sub grdTLSearch_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles grdTLSearch.CellDoubleClick
-        If e.RowIndex < 0 Or e.RowIndex > (grdTLSearch.Rows.Count - 1) Then Exit Sub
-        txtTLNo.Text = grdTLSearch.Item(0, e.RowIndex).Value
-        txtTLDate.Value = grdTLSearch.Item(1, e.RowIndex).Value
-        cmbSCategory.Text = grdTLSearch.Item(2, e.RowIndex).Value.ToString
-        cmbSName.Text = grdTLSearch.Item(3, e.RowIndex).Value.ToString
-        cmbSName_SelectedIndexChanged(sender, e)
-        txtTLReason.Text = grdTLSearch.Item(4, e.RowIndex).Value
-        txtSUnitPrice.Text = grdTLSearch.Item(5, e.RowIndex).Value
-        txtSQty.Text = grdTLSearch.Item(6, e.RowIndex).Value
-        txtTLAmount.Text = grdTLSearch.Item(7, e.RowIndex).Value
-        cmdTLSave.Text = "Edit"
-        cmdTLDelete.Enabled = True
-    End Sub
-
-    Private Sub cmbTName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbTName.SelectedIndexChanged
-        cmdTLSearch_Click(sender, e)
-    End Sub
+    Private Structure GridColumn
+        Const No = "TLNo"
+        Const TLDate = "TLDate"
+        Const ItemCategory = "SCategory"
+        Const ItemName = "SName"
+        Const Reason = "TLReason"
+        Const Rate = "Rate"
+        Const Qty = "Qty"
+        Const Total = "Total"
+    End Structure
 End Class
+
+

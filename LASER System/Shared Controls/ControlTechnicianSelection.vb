@@ -26,6 +26,10 @@ Public Class ControlTechnicianSelection
         Return TechnicianNo
     End Function
 
+    Public Function IsTechnicianSelected() As Boolean
+        Return GetTechnician() Is Nothing
+    End Function
+
     Private Sub ControlTechnicianSelection_Load(sender As Object, e As EventArgs) Handles Me.Load
         If DesignMode Then
             Exit Sub
