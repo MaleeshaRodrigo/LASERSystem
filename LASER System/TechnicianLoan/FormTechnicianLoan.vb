@@ -55,6 +55,10 @@ Public Class FormTechnicianLoan
         Control.BringToFront()
     End Sub
 
+    Private Sub ControlTechnicianLoanInfo_Submit()
+        ButtonSearch.PerformClick()
+    End Sub
+
     Private Sub frmTechnicianLoan_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         MenuStrip1.Items.Add(mnustrpMENU)
         TextFromDate.Value = Date.Today.Year & "-" & Date.Today.Month & "-01"
@@ -85,6 +89,15 @@ Public Class FormTechnicianLoan
         ShowTechnicianLoanInfo(UpdateMode.New, New Dictionary(Of String, Object) From {
             {Technician.TName, ControlTechnicianSelection.GetTechnician()}
         })
+    End Sub
+
+    Private Sub ButtonBulkInsert_Click(sender As Object, e As EventArgs) Handles ButtonBulkInsert.Click
+        Dim ControlBulkInsert As New ControlTechnicianLoanBulkInsert
+        ControlBulkInsert.Init(Db).SetTechnician(ControlTechnicianSelection.GetTechnician())
+        AddHandler ControlBulkInsert.SubmitEvent, AddressOf ControlTechnicianLoanInfo_Submit
+        Controls.Add(ControlBulkInsert)
+        ControlBulkInsert.BringToFront()
+        ControlBulkInsert.Dock = DockStyle.Fill
     End Sub
 
     Private Structure GridColumn

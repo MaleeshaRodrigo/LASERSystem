@@ -43,8 +43,8 @@ Partial Class FormTechnicianLoan
         Me.ItemInfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ButtonNew = New System.Windows.Forms.Button()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.ButtonBulkInsert = New System.Windows.Forms.Button()
         Me.ControlTechnicianSelection = New LASER_System.ControlTechnicianSelection()
-        Me.TLNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.TLDate = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.SNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.SCategory = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -135,7 +135,7 @@ Partial Class FormTechnicianLoan
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.GridTechnicianLoan.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.GridTechnicianLoan.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.TLNo, Me.TLDate, Me.SNo, Me.SCategory, Me.SName, Me.TLReason, Me.Rate, Me.Qty, Me.Total})
+        Me.GridTechnicianLoan.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.TLDate, Me.SNo, Me.SCategory, Me.SName, Me.TLReason, Me.Rate, Me.Qty, Me.Total})
         Me.GridTechnicianLoan.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically
         Me.GridTechnicianLoan.Location = New System.Drawing.Point(14, 113)
         Me.GridTechnicianLoan.Name = "GridTechnicianLoan"
@@ -246,6 +246,18 @@ Partial Class FormTechnicianLoan
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Technician Info"
         '
+        'ButtonBulkInsert
+        '
+        Me.ButtonBulkInsert.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ButtonBulkInsert.Image = Global.LASER_System.My.Resources.Resources.upload
+        Me.ButtonBulkInsert.Location = New System.Drawing.Point(526, 27)
+        Me.ButtonBulkInsert.Name = "ButtonBulkInsert"
+        Me.ButtonBulkInsert.Size = New System.Drawing.Size(94, 37)
+        Me.ButtonBulkInsert.TabIndex = 130
+        Me.ButtonBulkInsert.Text = "Bulk Insert"
+        Me.ButtonBulkInsert.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
+        Me.ButtonBulkInsert.UseVisualStyleBackColor = True
+        '
         'ControlTechnicianSelection
         '
         Me.ControlTechnicianSelection.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
@@ -257,15 +269,6 @@ Partial Class FormTechnicianLoan
         Me.ControlTechnicianSelection.Name = "ControlTechnicianSelection"
         Me.ControlTechnicianSelection.Size = New System.Drawing.Size(281, 25)
         Me.ControlTechnicianSelection.TabIndex = 130
-        '
-        'TLNo
-        '
-        Me.TLNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
-        Me.TLNo.DataPropertyName = "TLNo"
-        Me.TLNo.HeaderText = "No"
-        Me.TLNo.Name = "TLNo"
-        Me.TLNo.Visible = False
-        Me.TLNo.Width = 47
         '
         'TLDate
         '
@@ -335,6 +338,7 @@ Partial Class FormTechnicianLoan
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 14.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(714, 373)
+        Me.Controls.Add(Me.ButtonBulkInsert)
         Me.Controls.Add(Me.ButtonNew)
         Me.Controls.Add(Me.MenuStrip1)
         Me.Controls.Add(Me.Label7)
@@ -381,7 +385,7 @@ Partial Class FormTechnicianLoan
     Friend WithEvents ButtonNew As Button
     Friend WithEvents ControlTechnicianSelection As ControlTechnicianSelection
     Friend WithEvents GroupBox1 As GroupBox
-    Friend WithEvents TLNo As DataGridViewTextBoxColumn
+    Friend WithEvents ButtonBulkInsert As Button
     Friend WithEvents TLDate As DataGridViewTextBoxColumn
     Friend WithEvents SNo As DataGridViewTextBoxColumn
     Friend WithEvents SCategory As DataGridViewTextBoxColumn

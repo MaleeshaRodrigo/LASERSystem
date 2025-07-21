@@ -575,6 +575,12 @@
     <Compile Include="TechnicianCost\FormTechnicianCost.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="TechnicianLoan\Controls\ControlTechnicianLoanBulkInsert.Designer.vb">
+      <DependentUpon>ControlTechnicianLoanBulkInsert.vb</DependentUpon>
+    </Compile>
+    <Compile Include="TechnicianLoan\Controls\ControlTechnicianLoanBulkInsert.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="TechnicianLoan\Controls\ControlTechnicianLoanInfo.Designer.vb">
       <DependentUpon>ControlTechnicianLoanInfo.vb</DependentUpon>
     </Compile>
@@ -857,6 +863,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TechnicianCost\FormTechnicianCost.resx">
       <DependentUpon>FormTechnicianCost.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TechnicianLoan\Controls\ControlTechnicianLoanBulkInsert.resx">
+      <DependentUpon>ControlTechnicianLoanBulkInsert.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TechnicianLoan\Controls\ControlTechnicianLoanInfo.resx">
       <DependentUpon>ControlTechnicianLoanInfo.vb</DependentUpon>
