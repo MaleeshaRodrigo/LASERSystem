@@ -92,7 +92,7 @@ Public Class frmTechnicianSalary
         Call ComboBoxDropDown(Db, cmbTName, "Select TName from Technician WHERE TActive = 1 group by TName;")
     End Sub
 
-    Private Sub cmdTCDone_Click(sender As Object, e As EventArgs) Handles cmdTSDone.Click
+    Private Sub cmdTCDone_Click(sender As Object, e As EventArgs) Handles ButtonSubmit.Click
         If CheckEmptyControl(cmbTName, "This operation couldn't be performed because Technician was already empty. You should select any Technician and try again.") = False Then
             cmbTName.Focus()
             Exit Sub
@@ -102,34 +102,64 @@ Public Class frmTechnicianSalary
             Exit Sub
         End If
         If chkPaidTSal.Checked = True Then
-            MsgBox("You have marked checkbox called 'with Paid Technician Salary'. Therefore This operation couldn't be submitted. So you should unmark that and try agin", vbCritical + vbOKOnly)
+            MsgBox("You have marked checkbox called 'with Paid Technician Salary'. Therefore This operation couldn't be submitted. So you should unmark that and try again", vbCritical + vbOKOnly)
             Exit Sub
         End If
 
-        Dim TSalaryTNo As Integer
-        Dim DR = Db.GetDataDictionary("Select TNo, TName from Technician Where Tname='" & cmbTName.Text & "';")
-        If DR.Count Then
-            TSalaryTNo = DR("TNo").ToString
-        End If
-        Db.Execute($"INSERT INTO {Tables.TechnicianSalary}(TSalNo, TNo, TSDate, TotalRepair, TotalReRepair, TotalSalesRepair, TotalCost, TotalLoan, Earned, AddedLoan, Salary) Values(" & txtTSNo.Text & "," & TSalaryTNo.ToString & ",'" & txtTSDate.Value.Date & "'," & txtTotalRepair.Text & "," & txtTotalReRepair.Text & "," & txtTotalSalesRepair.Text & "," & txtTotalCost.Text & "," & txtTotalLoan.Text & "," & ControlTotalEarned.Value & "," & ControlTechnicianLoan.Value & "," & ControlTechnicianEarnedSalary.Value & ");")
-        For Each Row As DataGridViewRow In grdRepair.Rows
-            Db.Execute($"UPDATE {Tables.Repair} SET TSalNo =" & txtTSNo.Text & " WHERE RepNo=" & Row.Cells(0).Value.ToString)
-        Next
-        For Each Row As DataGridViewRow In grdReRepair.Rows
-            Db.Execute($"Update `{Tables.ReRepair}` set TSalNo =" & txtTSNo.Text & " WHERE RetNO=" & Row.Cells(0).Value.ToString)
-        Next
-        For Each Row As DataGridViewRow In grdSalesRepair.Rows
-            Db.Execute($"UPDATE {Tables.SalesRepair} SET TSalNo =" & txtTSNo.Text & " WHERE SaRepNo=" & Row.Cells(0).Value.ToString)
-        Next
-        For Each Row As DataGridViewRow In grdCost.Rows
-            Db.Execute($"UPDATE {Tables.TechnicianCost} SET TSalNo = " & txtTSNo.Text & " WHERE TCNo=" & Row.Cells(1).Value.ToString)
-        Next
-        For Each Row As DataGridViewRow In grdLoan.Rows
-            Db.Execute($"UPDATE {Tables.TechnicianLoan} SET TSalNo = " & txtTSNo.Text & " WHERE TLNo=" & Row.Cells(1).Value.ToString)
-        Next
-        MsgBox("Salary Submit Successful!", vbExclamation + vbOKOnly)
-        SetNextKey(Db, txtTSNo, "Select TSalNo from TechnicianSalary order by TSalNo desc LIMIT 1;", "TSalNo")
-        Call CmdTSSearch_Click(sender, e)
+        Dim QueriesWithValues As New List(Of (Query As String, Values As MySqlParameter()))
+        Try
+            Dim TechnicianNo As Integer = Db.GetData("Select TNo from Technician Where Tname='" & cmbTName.Text & "';")
+            QueriesWithValues.Add(($"INSERT INTO {Tables.TechnicianSalary}(TSalNo, TNo, TSDate, TotalRepair, TotalReRepair, TotalSalesRepair, TotalCost, TotalLoan, Earned, AddedLoan, Salary) Values(@SALNO, @TNO, @DATE, @TOTALREPAIR, @TOTALREREPAIR, @TOTALSALESREPAIR, @TOTALCOST, @TOTALLOAN, @EARNED, @ADDEDLOAN, @SALARY);", {
+                New MySqlParameter("SALNO", txtTSNo.Text),
+                New MySqlParameter("TNO", TechnicianNo),
+                New MySqlParameter("DATE", txtTSDate.Value.Date),
+                New MySqlParameter("TOTALREPAIR", txtTotalRepair.Text),
+                New MySqlParameter("TOTALREREPAIR", txtTotalReRepair.Text),
+                New MySqlParameter("TOTALSALESREPAIR", txtTotalSalesRepair.Text),
+                New MySqlParameter("TOTALCOST", txtTotalCost.Text),
+                New MySqlParameter("TOTALLOAN", txtTotalLoan.Text),
+                New MySqlParameter("EARNED", ControlTotalEarned.Value),
+                New MySqlParameter("ADDEDLOAN", ControlTechnicianLoan.Value),
+                New MySqlParameter("SALARY", ControlTechnicianEarnedSalary.Value)
+            }))
+            For Each Row As DataGridViewRow In grdRepair.Rows
+                QueriesWithValues.Add(($"UPDATE {Tables.Repair} SET TSalNo = @SALNO WHERE RepNo = " & Row.Cells(0).Value, {
+                    New MySqlParameter("SALNO", txtTSNo.Text)
+                }))
+            Next
+
+            For Each Row As DataGridViewRow In grdReRepair.Rows
+                QueriesWithValues.Add(($"Update `{Tables.ReRepair}` set TSalNo = @SALNO WHERE RetNo = " & Row.Cells(0).Value, {
+                    New MySqlParameter("SALNO", txtTSNo.Text)
+                }))
+            Next
+
+            For Each Row As DataGridViewRow In grdSalesRepair.Rows
+                QueriesWithValues.Add(($"UPDATE {Tables.SalesRepair} SET TSalNo = @SALNO WHERE SaRepNo = " & Row.Cells(0).Value, {
+                    New MySqlParameter("SALNO", txtTSNo.Text)
+                }))
+            Next
+
+            For Each Row As DataGridViewRow In grdCost.Rows
+                QueriesWithValues.Add(($"UPDATE {Tables.TechnicianCost} SET TSalNo = @SALNO WHERE TCNo = " & Row.Cells(1).Value, {
+                    New MySqlParameter("SALNO", txtTSNo.Text)
+                }))
+            Next
+
+            For Each Row As DataGridViewRow In grdLoan.Rows
+                QueriesWithValues.Add(($"UPDATE {Tables.TechnicianLoan} SET TSalNo = @SALNO WHERE TLNo = " & Row.Cells(0).Value, {
+                    New MySqlParameter("SALNO", txtTSNo.Text)
+                }))
+            Next
+
+            Db.ExecuteBatches(QueriesWithValues.ToArray())
+            MessageBox.Success("Salary Submit Successful!")
+        Catch ex As Exception
+            MessageBox.Error(ex.Message)
+        Finally
+            SetNextKey(Db, txtTSNo, "SELECT TSalNo FROM TechnicianSalary ORDER BY TSalNo DESC LIMIT 1;", "TSalNo")
+            Call CmdTSSearch_Click(sender, e)
+        End Try
     End Sub
 
     Private Sub cmdTSPrint_Click(sender As Object, e As EventArgs) Handles cmdTSPrint.Click

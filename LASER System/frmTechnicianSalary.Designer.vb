@@ -37,13 +37,12 @@ Partial Class frmTechnicianSalary
         Me.txtTSNo = New System.Windows.Forms.TextBox()
         Me.Label58 = New System.Windows.Forms.Label()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
-        Me.cmdTView = New System.Windows.Forms.Button()
         Me.cmbTName = New System.Windows.Forms.ComboBox()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label16 = New System.Windows.Forms.Label()
         Me.Label17 = New System.Windows.Forms.Label()
         Me.Label18 = New System.Windows.Forms.Label()
-        Me.cmdTSDone = New System.Windows.Forms.Button()
+        Me.ButtonSubmit = New System.Windows.Forms.Button()
         Me.cmdTSCancel = New System.Windows.Forms.Button()
         Me.tabctrlSalary = New System.Windows.Forms.TabControl()
         Me.Repair = New System.Windows.Forms.TabPage()
@@ -118,6 +117,15 @@ Partial Class frmTechnicianSalary
         Me.txtTotalLoan = New System.Windows.Forms.TextBox()
         Me.Label9 = New System.Windows.Forms.Label()
         Me.grdLoan = New System.Windows.Forms.DataGridView()
+        Me.TLNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.TLDate = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.TLSCategory = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.TLSName = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.TLReason = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.TLRate = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.TLQty = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.TLTotal = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.TLTSalNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.cmdTSPrint = New System.Windows.Forms.Button()
         Me.ToolTip = New System.Windows.Forms.ToolTip(Me.components)
         Me.MenuStrip = New System.Windows.Forms.MenuStrip()
@@ -139,15 +147,6 @@ Partial Class frmTechnicianSalary
         Me.ControlTechnicianEarnedSalary = New LASER_System.ControlPrice()
         Me.ControlTechnicianSalary = New LASER_System.ControlPrice()
         Me.ControlTotalEarned = New LASER_System.ControlPrice()
-        Me.TLNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.TLDate = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.TLSCategory = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.TLSName = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.TLReason = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.TLRate = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.TLQty = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.TLTotal = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.TLTSalNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.boxItem.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.tabctrlSalary.SuspendLayout()
@@ -286,25 +285,15 @@ Partial Class frmTechnicianSalary
         '
         'GroupBox1
         '
-        Me.GroupBox1.Controls.Add(Me.cmdTView)
         Me.GroupBox1.Controls.Add(Me.cmbTName)
         Me.GroupBox1.Controls.Add(Me.Label2)
         Me.GroupBox1.Font = New System.Drawing.Font("Calibri", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GroupBox1.Location = New System.Drawing.Point(698, 27)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(358, 79)
+        Me.GroupBox1.Size = New System.Drawing.Size(327, 79)
         Me.GroupBox1.TabIndex = 62
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Technician Info"
-        '
-        'cmdTView
-        '
-        Me.cmdTView.Location = New System.Drawing.Point(327, 21)
-        Me.cmdTView.Name = "cmdTView"
-        Me.cmdTView.Size = New System.Drawing.Size(26, 22)
-        Me.cmdTView.TabIndex = 24
-        Me.cmdTView.Text = "..."
-        Me.cmdTView.UseVisualStyleBackColor = True
         '
         'cmbTName
         '
@@ -356,18 +345,18 @@ Partial Class frmTechnicianSalary
         Me.Label18.TabIndex = 85
         Me.Label18.Text = "="
         '
-        'cmdTSDone
+        'ButtonSubmit
         '
-        Me.cmdTSDone.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.cmdTSDone.Image = Global.LASER_System.My.Resources.Resources.Save
-        Me.cmdTSDone.Location = New System.Drawing.Point(1052, 357)
-        Me.cmdTSDone.Name = "cmdTSDone"
-        Me.cmdTSDone.Size = New System.Drawing.Size(72, 56)
-        Me.cmdTSDone.TabIndex = 87
-        Me.cmdTSDone.Text = "Submit"
-        Me.cmdTSDone.TextAlign = System.Drawing.ContentAlignment.BottomCenter
-        Me.cmdTSDone.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
-        Me.cmdTSDone.UseVisualStyleBackColor = True
+        Me.ButtonSubmit.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ButtonSubmit.Image = Global.LASER_System.My.Resources.Resources.Save
+        Me.ButtonSubmit.Location = New System.Drawing.Point(1052, 357)
+        Me.ButtonSubmit.Name = "ButtonSubmit"
+        Me.ButtonSubmit.Size = New System.Drawing.Size(72, 56)
+        Me.ButtonSubmit.TabIndex = 87
+        Me.ButtonSubmit.Text = "Submit"
+        Me.ButtonSubmit.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        Me.ButtonSubmit.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
+        Me.ButtonSubmit.UseVisualStyleBackColor = True
         '
         'cmdTSCancel
         '
@@ -1045,6 +1034,60 @@ Partial Class frmTechnicianSalary
         Me.grdLoan.Size = New System.Drawing.Size(1191, 182)
         Me.grdLoan.TabIndex = 3
         '
+        'TLNo
+        '
+        Me.TLNo.DataPropertyName = "TLNo"
+        Me.TLNo.HeaderText = "Technician Loan No"
+        Me.TLNo.Name = "TLNo"
+        '
+        'TLDate
+        '
+        Me.TLDate.DataPropertyName = "TLDate"
+        Me.TLDate.HeaderText = "Date"
+        Me.TLDate.Name = "TLDate"
+        '
+        'TLSCategory
+        '
+        Me.TLSCategory.DataPropertyName = "SCategory"
+        Me.TLSCategory.HeaderText = "Stock Category"
+        Me.TLSCategory.Name = "TLSCategory"
+        '
+        'TLSName
+        '
+        Me.TLSName.DataPropertyName = "SName"
+        Me.TLSName.HeaderText = "Stock Name"
+        Me.TLSName.Name = "TLSName"
+        '
+        'TLReason
+        '
+        Me.TLReason.DataPropertyName = "TLReason"
+        Me.TLReason.HeaderText = "Reason"
+        Me.TLReason.Name = "TLReason"
+        '
+        'TLRate
+        '
+        Me.TLRate.DataPropertyName = "Rate"
+        Me.TLRate.HeaderText = "Rate"
+        Me.TLRate.Name = "TLRate"
+        '
+        'TLQty
+        '
+        Me.TLQty.DataPropertyName = "Qty"
+        Me.TLQty.HeaderText = "Qty"
+        Me.TLQty.Name = "TLQty"
+        '
+        'TLTotal
+        '
+        Me.TLTotal.DataPropertyName = "Total"
+        Me.TLTotal.HeaderText = "Total"
+        Me.TLTotal.Name = "TLTotal"
+        '
+        'TLTSalNo
+        '
+        Me.TLTSalNo.DataPropertyName = "TSalNo"
+        Me.TLTSalNo.HeaderText = "Technician Salary No"
+        Me.TLTSalNo.Name = "TLTSalNo"
+        '
         'cmdTSPrint
         '
         Me.cmdTSPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -1225,60 +1268,6 @@ Partial Class frmTechnicianSalary
         Me.ControlTotalEarned.TabIndex = 103
         Me.ControlTotalEarned.Value = "0"
         '
-        'TLNo
-        '
-        Me.TLNo.DataPropertyName = "TLNo"
-        Me.TLNo.HeaderText = "Technician Loan No"
-        Me.TLNo.Name = "TLNo"
-        '
-        'TLDate
-        '
-        Me.TLDate.DataPropertyName = "TLDate"
-        Me.TLDate.HeaderText = "Date"
-        Me.TLDate.Name = "TLDate"
-        '
-        'TLSCategory
-        '
-        Me.TLSCategory.DataPropertyName = "SCategory"
-        Me.TLSCategory.HeaderText = "Stock Category"
-        Me.TLSCategory.Name = "TLSCategory"
-        '
-        'TLSName
-        '
-        Me.TLSName.DataPropertyName = "SName"
-        Me.TLSName.HeaderText = "Stock Name"
-        Me.TLSName.Name = "TLSName"
-        '
-        'TLReason
-        '
-        Me.TLReason.DataPropertyName = "TLReason"
-        Me.TLReason.HeaderText = "Reason"
-        Me.TLReason.Name = "TLReason"
-        '
-        'TLRate
-        '
-        Me.TLRate.DataPropertyName = "Rate"
-        Me.TLRate.HeaderText = "Rate"
-        Me.TLRate.Name = "TLRate"
-        '
-        'TLQty
-        '
-        Me.TLQty.DataPropertyName = "Qty"
-        Me.TLQty.HeaderText = "Qty"
-        Me.TLQty.Name = "TLQty"
-        '
-        'TLTotal
-        '
-        Me.TLTotal.DataPropertyName = "Total"
-        Me.TLTotal.HeaderText = "Total"
-        Me.TLTotal.Name = "TLTotal"
-        '
-        'TLTSalNo
-        '
-        Me.TLTSalNo.DataPropertyName = "TSalNo"
-        Me.TLTSalNo.HeaderText = "Technician Salary No"
-        Me.TLTSalNo.Name = "TLTSalNo"
-        '
         'frmTechnicianSalary
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 14.0!)
@@ -1296,7 +1285,7 @@ Partial Class frmTechnicianSalary
         Me.Controls.Add(Me.cmdTSPrint)
         Me.Controls.Add(Me.tabctrlSalary)
         Me.Controls.Add(Me.cmdTSCancel)
-        Me.Controls.Add(Me.cmdTSDone)
+        Me.Controls.Add(Me.ButtonSubmit)
         Me.Controls.Add(Me.Label18)
         Me.Controls.Add(Me.Label17)
         Me.Controls.Add(Me.Label16)
@@ -1340,7 +1329,6 @@ Partial Class frmTechnicianSalary
     Friend WithEvents txtTSNo As System.Windows.Forms.TextBox
     Friend WithEvents Label58 As System.Windows.Forms.Label
     Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
-    Friend WithEvents cmdTView As System.Windows.Forms.Button
     Friend WithEvents cmbTName As System.Windows.Forms.ComboBox
     Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents Label3 As System.Windows.Forms.Label
@@ -1352,7 +1340,7 @@ Partial Class frmTechnicianSalary
     Friend WithEvents Label16 As System.Windows.Forms.Label
     Friend WithEvents Label17 As System.Windows.Forms.Label
     Friend WithEvents Label18 As System.Windows.Forms.Label
-    Friend WithEvents cmdTSDone As System.Windows.Forms.Button
+    Friend WithEvents ButtonSubmit As System.Windows.Forms.Button
     Friend WithEvents cmdTSCancel As System.Windows.Forms.Button
     Friend WithEvents Label8 As System.Windows.Forms.Label
     Friend WithEvents txtTSDate As System.Windows.Forms.DateTimePicker
