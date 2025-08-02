@@ -1,6 +1,4 @@
-﻿Imports System.IO
-Imports System.Text.RegularExpressions
-Imports MySqlConnector
+﻿Imports MySqlConnector
 Imports Newtonsoft.Json
 
 Public NotInheritable Class QueryLogManager
