@@ -95,6 +95,7 @@ Partial Class ControlTechnicianLoanInfo
         Me.TextAmount.Increment = New Decimal(New Integer() {50, 0, 0, 0})
         Me.TextAmount.Location = New System.Drawing.Point(98, 357)
         Me.TextAmount.Maximum = New Decimal(New Integer() {-1981284353, -1966660860, 0, 0})
+        Me.TextAmount.Minimum = New Decimal(New Integer() {-1981284353, -1966660860, 0, -2147483648})
         Me.TextAmount.Name = "TextAmount"
         Me.TextAmount.Size = New System.Drawing.Size(119, 24)
         Me.TextAmount.TabIndex = 122
