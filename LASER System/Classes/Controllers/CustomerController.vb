@@ -5,8 +5,7 @@ Public Class CustomerController
     Inherits AbstractController
 
     Public Function InsertCustomer(Data As Dictionary(Of String, Object)) As Integer
-        Return Db.Execute($"INSERT INTO {Tables.Customer}(CuNo,CuName,CuTelNo1,CuTelNo2,CutelNo3) VALUES(@CUNO, @CUNAME, @CUTELNO1, @CUTELNO2, @CUTELNO3);", {
-            New MySqlParameter("CUNO", Data(Customer.CuNo)),
+        Return Db.Execute($"INSERT INTO {Tables.Customer}(CuName,CuTelNo1,CuTelNo2,CutelNo3) VALUES(@CUNAME, @CUTELNO1, @CUTELNO2, @CUTELNO3);", {
             New MySqlParameter("CUNAME", Data(Customer.CuName)),
             New MySqlParameter("CUTELNO1", Data(Customer.CuTelNo1)),
             New MySqlParameter("CUTELNO2", Data(Customer.CuTelNo2)),

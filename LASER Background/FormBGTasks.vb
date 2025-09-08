@@ -66,6 +66,53 @@ Public Class FormBGTasks
         End If
     End Sub
 
+    Public Function FormatMessage(Text As String) As String
+        Dim Output As String = Text.ToString.Replace("LASER_Background.", "")
+        Output = Regex.Replace(Output, "[A-Z]", " $&")
+        Return Output
+    End Function
+
+    Public Function GetResponse(Path As String, postdata As String) As String
+        Try
+            Dim s As HttpWebRequest
+            Dim enc As UTF8Encoding
+            Dim postdatabytes As Byte()
+            s = WebRequest.Create(Path)
+            enc = New UTF8Encoding()
+
+            postdatabytes = enc.GetBytes(postdata)
+            s.Method = "POST"
+            s.ContentType = "application/x-www-form-urlencoded"
+            s.ContentLength = postdatabytes.Length
+
+            Using stream = s.GetRequestStream()
+                stream.Write(postdatabytes, 0, postdatabytes.Length)
+            End Using
+            Dim result = s.GetResponse()
+            Dim reader As New StreamReader(result.GetResponseStream)
+            Dim str As String = reader.ReadToEnd
+            Return str
+        Catch ex As Exception
+            Return "Error: " + ex.Message
+        End Try
+    End Function
+
+    Public Sub CreateMessagePanel(Title As String, Message As String, Optional Tag As String = "")
+        If flpMessage.InvokeRequired Then
+            flpMessage.Invoke(Sub() CreateMessagePanel(Title, Message, Tag))
+            Return
+        End If
+
+        Dim MessagePanel As New MessageBox With {
+              .Title = Title,
+              .Message = Message,
+              .Tag = Tag
+          }
+        flpMessage.Controls.Add(MessagePanel)
+
+        NotifyIcon.ShowBalloonTip(2000, Title, Message, ToolTipIcon.Info)
+    End Sub
+
     Private Sub FrmBGTasks_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.BelowNormal
         CheckForIllegalCrossThreadCalls = False
@@ -145,43 +192,43 @@ Public Class FormBGTasks
 
     Private Sub BgWorker_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles bgworker.RunWorkerCompleted
         lblLoad.Text = "Checking Error..."
-        tsProBar.Value = 65
+        tsProBar.Value = 95
 
-        If e.Cancelled And WorkerDatabaseSyncronize.IsBusy = False And Me.Tag = "Close" Then
+        If e.Cancelled And WorkerDatabaseSyncronize.IsBusy = False And Tag = "Close" Then
             End
         ElseIf e.Cancelled Then
-            Exit Sub
+            Return
         End If
 
-        If e.Result IsNot Nothing Then
-            Select Case e.Result(0)
+        If e.Result Is Nothing Then
+            Return
+        End If
+
+        Select Case e.Result(0)
                 'Case "AdminPermissionError"
                 '    CreateMessagePanel("Admin Confirmed කර Data Apply කිරීම බිඳවැටී ඇත.",
                 '    "Admin වෙත තහවුරු කිරීම සඳහා යවන ලද Data Database එකට Apply කිරිමේ පද්ධතිය බිඳවැටී ඇත." +
                 '    vbCrLf + vbCrLf + "Message: " + e.Result(1) + vbCrLf + "මේ පිළිබඳව Software Developer හට දැනුම් දෙන්න.", "AdminPermissionError")
                 '    Exit Sub
-                Case ErrorClass.SendSms
-                    CreateMessagePanel("ස්වයංක්‍රීයව යැවෙන SMS පණිවිඩ ක්‍රියාවිරහිත වී ඇත.",
-                                       "ස්වයංක්‍රීයව SMS යැවෙන පද්ධතියේ යම් දෝෂයක් නිසා ක්‍රියාවිරහිත වී ඇත." + vbCrLf + vbCrLf +
-                                       $"Message: {e.Result(1)}" + vbCrLf +
-                                       "මේ පිළිබඳව Software Developer හට දැනුම් දෙන්න.",
-                                      e.Result(0))
-                    Exit Sub
-                Case ErrorClass.SendEmail
-                    CreateMessagePanel("ස්වයංක්‍රීයව යැවෙන Emails ක්‍රියාවිරහිත වී ඇත.",
-                    "ස්වයංක්‍රීයව Emails යැවෙන පද්ධතියේ යම් දෝෂයක් නිසා ක්‍රියාවිරහිත වී ඇත." +
-                    vbCrLf + vbCrLf + "Message: " + e.Result(1) + vbCrLf + "මේ පිළිබඳව Software Developer හට දැනුම් දෙන්න.", e.Result(0))
-                    Exit Sub
-                Case ErrorClass.DatabaseBackup
-                    CreateMessagePanel("Database Backup පද්ධතිය බිද වැටී ඇත.", $"Message: {e.Result(1)}", e.Result(0))
-                    Exit Sub
-                Case Else
-                    CreateMessagePanel($"{e.Result(0)} Process එක Fail වී ඇත.", $"Process: {e.Result(0)}, Error: ${e.Result(1)}")
-                    Exit Sub
-            End Select
-        End If
-        lblLoad.Text = "Restarting..."
-        tsProBar.Value = 100
+            Case ErrorClass.SendSms
+                CreateMessagePanel("ස්වයංක්‍රීයව යැවෙන SMS පණිවිඩ ක්‍රියාවිරහිත වී ඇත.",
+                                   "ස්වයංක්‍රීයව SMS යැවෙන පද්ධතියේ යම් දෝෂයක් නිසා ක්‍රියාවිරහිත වී ඇත." + vbCrLf + vbCrLf +
+                                   $"Message: {e.Result(1)}" + vbCrLf +
+                                   "මේ පිළිබඳව Software Developer හට දැනුම් දෙන්න.",
+                                  e.Result(0))
+                Return
+            Case ErrorClass.SendEmail
+                CreateMessagePanel("ස්වයංක්‍රීයව යැවෙන Emails ක්‍රියාවිරහිත වී ඇත.",
+                "ස්වයංක්‍රීයව Emails යැවෙන පද්ධතියේ යම් දෝෂයක් නිසා ක්‍රියාවිරහිත වී ඇත." +
+                vbCrLf + vbCrLf + "Message: " + e.Result(1) + vbCrLf + "මේ පිළිබඳව Software Developer හට දැනුම් දෙන්න.", e.Result(0))
+                Return
+            Case ErrorClass.DatabaseBackup
+                CreateMessagePanel("Database Backup පද්ධතිය බිද වැටී ඇත.", $"Message: {e.Result(1)}", e.Result(0))
+                Return
+            Case Else
+                CreateMessagePanel($"{e.Result(0)} Process එක Fail වී ඇත.", $"Process: {e.Result(0)}, Error: ${e.Result(1)}")
+                Return
+        End Select
     End Sub
 
     Private Sub WorkerDatabaseSyncronize_DoWork(sender As Object, e As DoWorkEventArgs) Handles WorkerDatabaseSyncronize.DoWork
@@ -201,47 +248,15 @@ Public Class FormBGTasks
         WorkerDatabaseSyncronize.ReportProgress(100, $"Completed Synchronization")
     End Sub
 
-    Public Function FormatMessage(Text As String) As String
-        Dim Output As String = Text.ToString.Replace("LASER_Background.", "")
-        Output = Regex.Replace(Output, "[A-Z]", " $&")
-        Return Output
-    End Function
-
-    Public Function GetResponse(Path As String, postdata As String) As String
+    Private Function IsFileInUse(sFile As String) As Boolean
         Try
-            Dim s As HttpWebRequest
-            Dim enc As UTF8Encoding
-            Dim postdatabytes As Byte()
-            s = WebRequest.Create(Path)
-            enc = New UTF8Encoding()
-
-            postdatabytes = enc.GetBytes(postdata)
-            s.Method = "POST"
-            s.ContentType = "application/x-www-form-urlencoded"
-            s.ContentLength = postdatabytes.Length
-
-            Using stream = s.GetRequestStream()
-                stream.Write(postdatabytes, 0, postdatabytes.Length)
+            Using f As New FileStream(sFile, FileMode.Open, FileAccess.ReadWrite, FileShare.None)
             End Using
-            Dim result = s.GetResponse()
-            Dim reader As New StreamReader(result.GetResponseStream)
-            Dim str As String = reader.ReadToEnd
-            Return str
-        Catch ex As Exception
-            Return "Error: " + ex.Message
+        Catch Ex As Exception
+            Return True
         End Try
+        Return False
     End Function
-
-    Public Sub CreateMessagePanel(Title As String, Message As String, Optional ByVal Tag As String = "")
-        Dim MessagePanel As New MessageBox With {
-              .Title = Title,
-              .Message = Message,
-              .Tag = Tag
-          }
-        flpMessage.Controls.Add(MessagePanel)
-
-        NotifyIcon.ShowBalloonTip(2000, Title, Message, ToolTipIcon.Info)
-    End Sub
 
     Private Sub cmdApply_Click(sender As Object, e As EventArgs) Handles cmdApply.Click
         If CheckEmptyfield(TextDbServer, "Database Server Field එක හිස්ව පවතියි. කරුණාකර එය සම්පූර්ණ කරන්න.") = False OrElse
@@ -357,16 +372,6 @@ Public Class FormBGTasks
         End If
     End Sub
 
-    Private Function IsFileInUse(sFile As String) As Boolean
-        Try
-            Using f As New IO.FileStream(sFile, FileMode.Open, FileAccess.ReadWrite, FileShare.None)
-            End Using
-        Catch Ex As Exception
-            Return True
-        End Try
-        Return False
-    End Function
-
     Private Sub bgworker_ProgressChanged(sender As Object, e As ProgressChangedEventArgs) Handles bgworker.ProgressChanged
         lblLoad.Text = e.UserState
         tsProBar.Value = If(e.ProgressPercentage > 100, 100, e.ProgressPercentage)
@@ -375,6 +380,19 @@ Public Class FormBGTasks
     Private Sub bgworkerOnline_ProgressChanged(sender As Object, e As ProgressChangedEventArgs) Handles WorkerDatabaseSyncronize.ProgressChanged
         lblBGLoad.Text = e.UserState
         tsBGProBar.Value = If(e.ProgressPercentage > 100, 100, e.ProgressPercentage)
+    End Sub
+
+    Private Sub WorkerDatabaseSyncronize_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles WorkerDatabaseSyncronize.RunWorkerCompleted
+        lblBGLoad.Text = "Checking Error..."
+        tsBGProBar.Value = 95
+
+        If e.Cancelled And bgworker.IsBusy = False And Me.Tag = "Close" Then
+            End
+        ElseIf e.Cancelled Or e.Result Is Nothing Then
+            Return
+        End If
+
+        CreateMessagePanel($"{e.Result(0)} Process එක Fail වී ඇත.", $"Process: {e.Result(0)}, Error: ${e.Result(1)}")
     End Sub
 
     Private Sub PicStop_Click(sender As Object, e As EventArgs) Handles PicBGOStop.Click, PicBGStop.Click
@@ -404,11 +422,9 @@ Public Class FormBGTasks
     End Sub
 
     Private Function ErrorExist(ErrorName As String) As Boolean
-        For Each ControlObject As Control In flpMessage.Controls
-            If ControlObject.Tag = ErrorName Then
-                Return True
-            End If
-        Next
+        If flpMessage.Controls.Cast(Of Control)().Any(Function(Control) Control.Tag = ErrorName) Then
+            Return True
+        End If
 
         Select Case ErrorName
             Case ErrorClass.SendEmail
