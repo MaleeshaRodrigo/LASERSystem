@@ -25,9 +25,9 @@ Public Class DatabaseSynchronizationProcess
         Dim LocalQueryLog = LocalDatabase.GetDataTable("SELECT * FROM `query_log` WHERE `Location` = 'local' AND `Synchronized` = 0 AND `Error` IS NULL;")
         Dim RemoteQueryLog = RemoteDatabase.GetDataTable("SELECT * FROM `query_log` WHERE `Location` = 'cloud' AND `Synchronized` = 0 AND `Error` IS NULL;")
         LocalQueryLog.Merge(RemoteQueryLog, False)
-        LocalQueryLog.DefaultView.Sort = "created_at ASC"
+        LocalQueryLog.DefaultView.Sort = "created_at ASC, LogId ASC"
         LocalQueryLog = LocalQueryLog.DefaultView.ToTable
-        WorkerControl.ReportProgress(10, $"Retrieved Logs From Database")
+        WorkerControl.ReportProgress(10, "Retrieved Logs From Database")
         Dim RowsCount As Integer = LocalQueryLog.Rows.Count
         For Each Row As DataRow In LocalQueryLog.Rows
             If WorkerControl.CancellationPending Then
@@ -176,33 +176,30 @@ Public Class DatabaseSynchronizationProcess
         })
     End Sub
 
-    Private Sub MarkSyncronizedLocalQueryLog()
-        Try
-            LocalDatabase.BeginTransaction()
-            LocalDatabase.Execute("UPDATE `query_log` SET `Synchronized` = 1 WHERE `Synchronized` = 0 AND Location = @LOCATION;", {
-                New MySqlParameter("LOCATION", DatabaseLocation.LOCAL)
-            })
-            LocalDatabase.CommitTransaction()
-        Catch ex As Exception
-            LocalDatabase.RollbackTransaction()
-            Throw ex
-        End Try
+    Private Sub MarkSyncronizedLocalQueryLog(Database As TransactionDatabase)
+        Database.Execute("UPDATE `query_log` SET `Synchronized` = 1 WHERE `Synchronized` = 0 AND Location = @LOCATION;", {
+            New MySqlParameter("LOCATION", DatabaseLocation.LOCAL)
+        })
     End Sub
 
     Private Sub FullSynchronizeLocalToRemote()
-        Dim LocalDatabaseConnection As MySqlConnection = LocalDatabase.GetConenction()
-        Dim RemoteDatabaseConnection As MySqlConnection = RemoteDatabase.GetConenction()
+        Dim LocalDatabaseConnection As MySqlConnection = LocalDatabase.GetConenction().Clone()
+        Dim RemoteDatabaseConnection As MySqlConnection = RemoteDatabase.GetConenction().Clone()
         Try
-            LocalDatabaseConnection.Open()
-            RemoteDatabaseConnection.Open()
+            LocalDatabase.BeginTransaction()
+            MarkSyncronizedLocalQueryLog(LocalDatabase)
 
-            MarkSyncronizedLocalQueryLog()
+            LocalDatabaseConnection.Open()
             Dim LocalBackup As New MySqlBackup(New MySqlCommand With {.Connection = LocalDatabaseConnection})
             LocalBackup.ExportToFile(Path.Combine(SpecialDirectories.MyDocuments, "LASER System Data", "LASER Background", "Database Back Up.sql"))
 
+            RemoteDatabaseConnection.Open()
             Dim RemoteBakcup As New MySqlBackup(New MySqlCommand With {.Connection = RemoteDatabaseConnection})
             RemoteBakcup.ImportFromFile(Path.Combine(SpecialDirectories.MyDocuments, "LASER System Data", "LASER Background", "Database Back Up.sql"))
+
+            LocalDatabase.CommitTransaction()
         Catch ex As Exception
+            LocalDatabase.RollbackTransaction()
             Throw ex
         Finally
             LocalDatabaseConnection.Close()

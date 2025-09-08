@@ -18,7 +18,6 @@ Public MustInherit Class AbstractRepairController : Inherits AbstractController
         Dim CustomerNo As Integer = CustomerController.GetCustomerNo(Data(Customer.CuName), Data(Customer.CuTelNo1), Data(Customer.CuTelNo2), Data(Customer.CuTelNo3))
         If CustomerNo = 0 Then
             CustomerNo = CustomerController.InsertCustomer(New Dictionary(Of String, Object) From {
-                {Customer.CuNo, CustomerNo},
                 {Customer.CuName, Data(Customer.CuName)},
                 {Customer.CuTelNo1, Data(Customer.CuTelNo1)},
                 {Customer.CuTelNo2, Data(Customer.CuTelNo2)},
