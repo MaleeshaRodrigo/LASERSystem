@@ -190,14 +190,19 @@ Public Class DatabaseSynchronizationProcess
             MarkSyncronizedLocalQueryLog(LocalDatabase)
 
             LocalDatabaseConnection.Open()
+            Dim DatabaseBackUpPath = Path.Combine(SpecialDirectories.MyDocuments, "LASER System Data", "LASER Background", $"backup-{Now:yyyy-MM-dd_HH-mm-ss}.sql")
             Dim LocalBackup As New MySqlBackup(New MySqlCommand With {.Connection = LocalDatabaseConnection})
-            LocalBackup.ExportToFile(Path.Combine(SpecialDirectories.MyDocuments, "LASER System Data", "LASER Background", "Database Back Up.sql"))
+            LocalBackup.ExportToFile(DatabaseBackUpPath)
 
             RemoteDatabaseConnection.Open()
             Dim RemoteBakcup As New MySqlBackup(New MySqlCommand With {.Connection = RemoteDatabaseConnection})
-            RemoteBakcup.ImportFromFile(Path.Combine(SpecialDirectories.MyDocuments, "LASER System Data", "LASER Background", "Database Back Up.sql"))
+            RemoteBakcup.ImportFromFile(DatabaseBackUpPath)
 
             LocalDatabase.CommitTransaction()
+
+            If File.Exists(DatabaseBackUpPath) Then
+                File.Delete(DatabaseBackUpPath)
+            End If
         Catch ex As Exception
             LocalDatabase.RollbackTransaction()
             Throw ex
