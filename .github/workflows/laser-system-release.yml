@@ -8,24 +8,53 @@ permissions:
     contents: write
 
 jobs:
-  create-release:
-    runs-on: ubuntu-latest
+  release:
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Extract version from LASER System.vbproj
-        id: laser_system_get_version
+      # --- Extract LASER System version ---
+      - name: Extract LASER System version
+        id: sys_version
         shell: pwsh
         run: |
           cd "LASER System"
           [xml]$proj = Get-Content "LASER System.vbproj"
+          cd ..
           $appVersion = $proj.Project.PropertyGroup.ApplicationVersion
           $revision   = $proj.Project.PropertyGroup.ApplicationRevision
-
-          # Replace * or %2a with the revision number
           $version = $appVersion -replace '\*|%2a', $revision
+          echo "system_version=$version" | Out-File -FilePath $env:GITHUB_ENV -Append
 
-          echo "version=$version" | Out-File -FilePath $env:GITHUB_ENV -Append
+      # --- Extract LASER Background version ---
+      - name: Extract LASER Background version
+        id: bg_version
+        shell: pwsh
+        run: |
+          cd "LASER Background"
+          [xml]$proj = Get-Content "LASER Background.vbproj"
+          cd ..
+          $appVersion = $proj.Project.PropertyGroup.ApplicationVersion
+          $revision   = $proj.Project.PropertyGroup.ApplicationRevision
+          $version = $appVersion -replace '\*|%2a', $revision
+          echo "background_version=$version" | Out-File -FilePath $env:GITHUB_ENV -Append
 
-      - name: Show version
-        run: echo "Version is ${{ env.version }}"
+      # --- Release LASER System ---
+      - name: Create Release for LASER System
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: laser-system-v${{ env.system_version }}
+          name: "LASER System v${{ env.system_version }}"
+          body: "Release for LASER System"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # --- Release LASER Background ---
+      - name: Create Release for LASER Background
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: laser-background-v${{ env.background_version }}
+          name: "LASER Background v${{ env.background_version }}"
+          body: "Release for LASER Background"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
