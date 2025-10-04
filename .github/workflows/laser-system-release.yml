@@ -1,0 +1,60 @@
+name: 🏷️ Create LASER System Release 
+on:
+    push:
+        branches:
+            - "main"
+            
+permissions:
+    contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # --- Extract LASER System version ---
+      - name: Extract LASER System version
+        id: sys_version
+        shell: pwsh
+        run: |
+          cd "LASER System"
+          [xml]$proj = Get-Content "LASER System.vbproj"
+          cd ..
+          $appVersion = $proj.Project.PropertyGroup.ApplicationVersion
+          $revision   = $proj.Project.PropertyGroup.ApplicationRevision
+          $version = $appVersion -replace '\*|%2a', $revision
+          echo "system_version=$version" | Out-File -FilePath $env:GITHUB_ENV -Append
+
+      # --- Extract LASER Background version ---
+      - name: Extract LASER Background version
+        id: bg_version
+        shell: pwsh
+        run: |
+          cd "LASER Background"
+          [xml]$proj = Get-Content "LASER Background.vbproj"
+          cd ..
+          $appVersion = $proj.Project.PropertyGroup.ApplicationVersion
+          $revision   = $proj.Project.PropertyGroup.ApplicationRevision
+          $version = $appVersion -replace '\*|%2a', $revision
+          echo "background_version=$version" | Out-File -FilePath $env:GITHUB_ENV -Append
+
+      # --- Release LASER System ---
+      - name: Create Release for LASER System
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: laser-system-v${{ env.system_version }}
+          name: "LASER System v${{ env.system_version }}"
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # --- Release LASER Background ---
+      - name: Create Release for LASER Background
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: laser-background-v${{ env.background_version }}
+          name: "LASER Background v${{ env.background_version }}"
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
