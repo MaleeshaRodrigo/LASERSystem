@@ -2,7 +2,7 @@ name: 🏷️ Create LASER System Release
 on:
     push:
         branches:
-            - "32"
+            - "main"
             
 permissions:
     contents: write
@@ -45,7 +45,7 @@ jobs:
         with:
           tag_name: laser-system-v${{ env.system_version }}
           name: "LASER System v${{ env.system_version }}"
-          body: "Release for LASER System"
+          generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -55,6 +55,6 @@ jobs:
         with:
           tag_name: laser-background-v${{ env.background_version }}
           name: "LASER Background v${{ env.background_version }}"
-          body: "Release for LASER Background"
+          generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
