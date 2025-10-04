@@ -19,9 +19,12 @@ jobs:
         run: |
           cd "LASER System"
           [xml]$proj = Get-Content "LASER System.vbproj"
-          $version = $proj.Project.PropertyGroup.Version
-          if (-not $version) { $version = $proj.Project.PropertyGroup.AssemblyVersion }
-          if (-not $version) { $version = $proj.Project.PropertyGroup.FileVersion }
+          $appVersion = $proj.Project.PropertyGroup.ApplicationVersion
+          $revision   = $proj.Project.PropertyGroup.ApplicationRevision
+
+          # Replace * or %2a with the revision number
+          $version = $appVersion -replace '\*|%2a', $revision
+
           echo "version=$version" | Out-File -FilePath $env:GITHUB_ENV -Append
 
       - name: Show version
