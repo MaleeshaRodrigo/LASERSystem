@@ -1,0 +1,26 @@
+name: 🏷️ Create LASER System Release 
+on:
+    push:
+        branches:
+            - "32"
+            
+permissions:
+    contents: write
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Extract version from vbproj
+        id: get_version
+        run: |
+          VERSION=$(xmllint --xpath "string(//Version)" "LASER System.vbproj")
+          if [ -z "$VERSION" ]; then
+            VERSION=$(xmllint --xpath "string(//AssemblyVersion)" "LASER System.vbproj")
+          fi
+          echo "version=$VERSION" >> $GITHUB_ENV
+
+      - name: Show version
+        run: echo "Version is ${{ env.version }}"
