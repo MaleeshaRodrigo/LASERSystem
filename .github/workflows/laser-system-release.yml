@@ -13,14 +13,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Extract version from vbproj
-        id: get_version
+      - name: Extract version from LASER System.vbproj
+        id: laser_system_get_version
+        shell: pwsh
         run: |
-          VERSION=$(xmllint --xpath "string(//Version)" "LASER System.vbproj")
-          if [ -z "$VERSION" ]; then
-            VERSION=$(xmllint --xpath "string(//AssemblyVersion)" "LASER System.vbproj")
-          fi
-          echo "version=$VERSION" >> $GITHUB_ENV
+          cd "LASER System"
+          [xml]$proj = Get-Content "LASER System.vbproj"
+          $version = $proj.Project.PropertyGroup.Version
+          if (-not $version) { $version = $proj.Project.PropertyGroup.AssemblyVersion }
+          if (-not $version) { $version = $proj.Project.PropertyGroup.FileVersion }
+          echo "version=$version" | Out-File -FilePath $env:GITHUB_ENV -Append
 
       - name: Show version
         run: echo "Version is ${{ env.version }}"
