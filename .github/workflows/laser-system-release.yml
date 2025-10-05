@@ -22,7 +22,7 @@ jobs:
           [xml]$proj = Get-Content "LASER System.vbproj"
           cd ..
           $appVersion = $proj.Project.PropertyGroup.ApplicationVersion
-          $revision   = $proj.Project.PropertyGroup.ApplicationRevision
+          $revision   = [math]::Max(0, ([int]$proj.Project.PropertyGroup.ApplicationRevision[0] - 1)).ToString()
           $version = $appVersion -replace '\*|%2a', $revision
           echo "system_version=$version" | Out-File -FilePath $env:GITHUB_ENV -Append
 
@@ -35,7 +35,7 @@ jobs:
           [xml]$proj = Get-Content "LASER Background.vbproj"
           cd ..
           $appVersion = $proj.Project.PropertyGroup.ApplicationVersion
-          $revision   = $proj.Project.PropertyGroup.ApplicationRevision
+          $revision   = [math]::Max(0, ([int]$proj.Project.PropertyGroup.ApplicationRevision[0] - 1)).ToString()
           $version = $appVersion -replace '\*|%2a', $revision
           echo "background_version=$version" | Out-File -FilePath $env:GITHUB_ENV -Append
 
