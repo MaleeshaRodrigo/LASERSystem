@@ -195,7 +195,7 @@ Public Class frmTechnicianSalary
             ReportTechnicianSalary.SetDataSource(DS5)
             ReportTechnicianSalary.SetParameterValue("fromDate", txtTSFrom.Value.Date.ToString)
             ReportTechnicianSalary.SetParameterValue("ToDate", txtTSTo.Value.Date.ToString)
-            ReportTechnicianSalary.SetParameterValue("Title", cmbTName.Text.ToUpper.ToString + "'S PAYSHEET")
+            ReportTechnicianSalary.SetParameterValue("Title", "REPAIR OPERATIONS : " + cmbTName.Text.ToUpper.ToString)
             ReportTechnicianSalary.SetParameterValue("TotalofRepair", txtTotalRepair.Text)
             ReportTechnicianSalary.SetParameterValue("TotalofReRepair", txtTotalReRepair.Text)
             ReportTechnicianSalary.SetParameterValue("TotalofCost", txtTotalCost.Text)
