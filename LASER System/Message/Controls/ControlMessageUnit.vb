@@ -110,11 +110,11 @@ Public Class ControlMessageUnit
         Dim DicRepair As Dictionary(Of String, Object) = Nothing
         Try
             If ControlRepairReRepairSelection.RepairMode = RepairMode.Repair Then
-                DicRepair = Db.GetDataDictionary("SELECT CONCAT('R', RepNo) AS 'RepNo', RDate, CuName, CuTelNo1,CuTelNo2, CuTelNo3, PCategory, PName, PModelNo, PDetails, PSerialNo, Problem, Qty, Charge, PaidPrice, TName, Status, RepDate, DDate, Location from (((((Repair REP INNER JOIN RECEIVE R ON R.RNO = REP.RNO) INNER JOIN PRODUCT  P ON P.PNO = REP.PNO) INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = REP.TNO) LEFT JOIN DELIVER D ON D.DNO = REP.DNO) Where Rep.Repno = @REPNO;", {
+                DicRepair = Db.GetDataDictionary("SELECT CONCAT('R', RepNo) AS 'RepNo', RDate, CuName, CuTelNo1,CuTelNo2, CuTelNo3, PCategory, PName, PModelNo, PDetails, PSerialNo, Problem, Qty, Charge, PaidPrice, TName, Status, RepDate, DDate, Location from (((((Repair REP INNER JOIN RECEIVE R ON R.RNO = REP.RNO) INNER JOIN PRODUCT  P ON P.PNO = REP.PNO) INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = REP.HandedOverToTNo) LEFT JOIN DELIVER D ON D.DNO = REP.DNO) Where Rep.Repno = @REPNO;", {
                 New MySqlParameter("REPNO", ControlRepairReRepairSelection.Value)
             })
             ElseIf ControlRepairReRepairSelection.RepairMode = RepairMode.ReRepair Then
-                DicRepair = Db.GetDataDictionary("SELECT CONCAT('RE', Ret.RetNo) AS 'RetNo', CONCAT('R', RepNo) AS 'RepNo', RDate, CuName, CuTelNo1, CuTelNo2, CuTelNo3, CuRemarks,  PCategory, PName, PModelNo, PDetails, PSerialNo, Problem, Location, Qty, TName, Status, Charge, PaidPrice, RepDate, DDate FROM `Return` Ret inner join Receive R On Ret.RNo = R.RNo INNER JOIN Customer Cu On R.CuNo = Cu.CuNo INNER JOIN Product P On Ret.PNo = P.PNo LEFT JOIN Technician T On Ret.TNo = T.TNo LEFT JOIN Deliver D On D.DNo=Ret.DNo WHERE Ret.RetNo = @RETNO;", {
+                DicRepair = Db.GetDataDictionary("SELECT CONCAT('RE', Ret.RetNo) AS 'RetNo', CONCAT('R', RepNo) AS 'RepNo', RDate, CuName, CuTelNo1, CuTelNo2, CuTelNo3, CuRemarks,  PCategory, PName, PModelNo, PDetails, PSerialNo, Problem, Location, Qty, TName, Status, Charge, PaidPrice, RepDate, DDate FROM `Return` Ret inner join Receive R On Ret.RNo = R.RNo INNER JOIN Customer Cu On R.CuNo = Cu.CuNo INNER JOIN Product P On Ret.PNo = P.PNo LEFT JOIN Technician T On Ret.HandedOverToTNo = T.TNo LEFT JOIN Deliver D On D.DNo=Ret.DNo WHERE Ret.RetNo = @RETNO;", {
                 New MySqlParameter("RETNO", ControlRepairReRepairSelection.Value)
             })
             End If

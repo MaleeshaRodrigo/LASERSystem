@@ -143,8 +143,8 @@ Public Class ControlPopUp
             If Row1.Index = FormParent.grdRepair.Rows.Count - 1 Then Continue For
             Dim DrRepStatus = Db.GetDataDictionary("Select Status,RepNo from Repair where RepNo=" & Row1.Cells(0).Value)
             If DrRepStatus IsNot Nothing Then
-                If DrRepStatus("Status").ToString = "Received" Or DrRepStatus("Status").ToString = "Hand Over to Technician" Or
-                        DrRepStatus("Status").ToString = "Repairing" Then
+                If DrRepStatus("Status").ToString = RepairStatus.Received Or DrRepStatus("Status").ToString = RepairStatus.HandedOverTo Or
+                        DrRepStatus("Status").ToString = RepairStatus.Pending Then
                     Db.Execute($"Update {Tables.Repair} set RepDate = @REPDATE,Charge=@CHARGE where RepNo=@REPNO;", {
                             New MySqlParameter("REPDATE", FormParent.txtDDate.Value),
                             New MySqlParameter("CHARGE", Row1.Cells(4).Value),
@@ -152,7 +152,7 @@ Public Class ControlPopUp
                         }, AdminPer)
                 End If
             End If
-            Db.Execute($"UPDATE {Tables.Repair} SET PaidPrice = @PAIDPRICE,TNo = (SELECT TNo FROM Technician WHERE TName = @TNAME),Status=@STATUS,DNo = @DNO WHERE RepNo=@REPNO;", {
+            Db.Execute($"UPDATE {Tables.Repair} SET PaidPrice = @PAIDPRICE,HandedOverToTNo = (SELECT TNo FROM {Tables.Technician} WHERE TName = @TNAME),Status=@STATUS,DNo = @DNO WHERE RepNo=@REPNO;", {
                            New MySqlParameter("PAIDPRICE", Row1.Cells(4).Value),
                            New MySqlParameter("TNAME", Row1.Cells(5).Value),
                            New MySqlParameter("STATUS", Row1.Cells(6).Value.ToString),
@@ -164,15 +164,15 @@ Public Class ControlPopUp
             If Row.Index = FormParent.grdRERepair.Rows.Count - 1 Then Continue For
             Dim DrRetStatus = Db.GetDataDictionary("Select Status,RetNo from `Return` where RetNo=" & Row.Cells(0).Value)
             If DrRetStatus IsNot Nothing Then
-                If DrRetStatus("Status").ToString = "Received" Or DrRetStatus("Status").ToString = "Hand Over to Technician" Or DrRetStatus("Status").ToString = "Repairing" Then
-                    Db.Execute($"UPDATE {Tables.ReRepair} SET RepDate = @REPDATE,Charge= @CHARGE where RetNo= @RETNO;", {
+                If DrRetStatus("Status").ToString = RepairStatus.Received Or DrRetStatus("Status").ToString = RepairStatus.HandedOverTo Or DrRetStatus("Status").ToString = RepairStatus.Pending Then
+                    Db.Execute($"UPDATE `{Tables.ReRepair}` SET RepDate = @REPDATE,Charge= @CHARGE where RetNo= @RETNO;", {
                             New MySqlParameter("REPDATE", FormParent.txtDDate.Value),
                             New MySqlParameter("CHARGE", Row.Cells(5).Value.ToString),
                             New MySqlParameter("RETNO", Row.Cells(0).Value.ToString)
                         }, AdminPer)
                 End If
             End If
-            Db.Execute($"Update {Tables.ReRepair} set PaidPrice = @PAIDPRICE,TNo = (SELECT TNo FROM Technician WHERE TName = @TNAME),Status= @STATUS,DNo = @DNO where RetNo= @RETNO", {
+            Db.Execute($"Update `{Tables.ReRepair}` set PaidPrice = @PAIDPRICE, HandedOverToTNo = (SELECT TNo FROM {Tables.Technician} WHERE TName = @TNAME),Status= @STATUS,DNo = @DNO where RetNo= @RETNO", {
                             New MySqlParameter("PAIDPRICE", Row.Cells(5).Value.ToString),
                             New MySqlParameter("TNAME", Row.Cells(6).Value.ToString),
                             New MySqlParameter("STATUS", Row.Cells(7).Value.ToString),
@@ -223,46 +223,51 @@ Public Class ControlPopUp
     End Function
 
     Private Sub EditDeliverRecord(AdminPer As AdminPermission)
-        If FormParent.cmdSave.Text = "Edit" Then
-            AdminPer.Keys.Item("DNo") = FormParent.txtDNo.Text
-            Dim DrDeliver = Db.GetDataDictionary("SELECT * from Deliver where DNo=" & FormParent.txtDNo.Text & ";")
-            If DrDeliver IsNot Nothing Then
-                If DrDeliver("CuLNo").ToString <> "0" And txtCuLNo.Text = "0" Then
-                    Db.Execute($"DELETE from {Tables.CustomerLoan} where CuLNo=" & DrDeliver("CuLNO").ToString, {}, AdminPer)
-                ElseIf DrDeliver("CuLNo").ToString <> "0" And txtCuLNo.Text <> "0" Then
-                    Db.Execute($"Update {Tables.CustomerLoan} set CuLNo = " & DrDeliver("CuLNO").ToString &
-                                                      "CuNo = " & CuNo &
-                                                      ",CuLAmount = " & txtCuLAmount.Text &
-                                                      ",DNo = " & FormParent.txtDNo.Text &
-                                                      ",CuLDate = '" & FormParent.txtDDate.Value &
-                                                      "' where CuLNo=" & DrDeliver("CuLNO").ToString, {}, AdminPer)
-                    txtCuLNo.Text = DrDeliver("CuLNo").ToString
-                ElseIf DrDeliver("CuLNo").ToString = "0" And txtCuLNo.Text <> "0" Then
-                    Db.Execute($"Insert into {Tables.CustomerLoan}(CuLNO,CuLAmount,CuNo,DNo,CulDate,Status) values(?NewKey?CustomerLoan?CuLNo?," &
-                              txtCuLAmount.Text & "," & CuNo & "," & FormParent.txtDNo.Text & ",'" & FormParent.txtDDate.Value & "','Not Paid')", {}, AdminPer)
-                End If
-                Dim DR1 = Db.GetDataList("SELECT RepNo,REP.PNo,PCategory,PName,Qty,Status,REP.TNo, TName,PaidPrice from (((Repair REP INNER JOIN PRODUCT  P ON P.PNO = REP.PNO) LEFT JOIN Technician T ON T.TNO = REP.TNO) LEFT JOIN DELIVER D ON D.DNO = REP.DNO) Where D.DNo=" & FormParent.txtDNo.Text)
-                For Each Item In DR1
-                    Db.Execute($"Update {Tables.Repair} Set " & If(Item("Status").ToString = "Repaired Delivered", "Status='Repaired Not Delivered'",
-                              "Status='Returned Not Delivered'") & ",PaidPrice=0,DNo=0 Where DNo=?Key?DNo?", {}, AdminPer)
-                Next
-
-                Dim DRReturn = Db.GetDataDictionary("SELECT RetNo,RepNo,RET.PNo,PCategory,PName,Qty,Status,RET.TNo, TName,PaidPrice from (( `RETURN` RET INNER JOIN PRODUCT  P ON P.PNO = RET.PNO) LEFT JOIN Technician T ON T.TNO = RET.TNO) LEFT JOIN DELIVER D ON D.DNO = RET.DNO) Where D.DNo=" & FormParent.txtDNo.Text)
-                For Each Item In DR1
-                    Db.Execute($"Update {Tables.ReRepair} Set {If(Item("Status").ToString = "Repaired Delivered", "Status='Repaired Not Delivered'",
-                              "Status='Returned Not Delivered'")},PaidPrice=0,DNo=0 Where DNo={FormParent.txtDNo.Text}", {}, AdminPer)
-                Next
-                Db.Execute($"DELETE FROM {Tables.Deliver} WHERE DNo={FormParent.txtDNo.Text}", {}, AdminPer)
-            End If
+        If FormParent.cmdSave.Text <> "Edit" Then
+            Return
         End If
 
+        AdminPer.Keys.Item("DNo") = FormParent.txtDNo.Text
+        Dim DrDeliver = Db.GetDataDictionary("SELECT * from Deliver where DNo=" & FormParent.txtDNo.Text & ";")
+        If DrDeliver Is Nothing Then
+            Return
+        End If
+
+        If DrDeliver("CuLNo").ToString <> "0" And txtCuLNo.Text = "0" Then
+            Db.Execute($"DELETE from {Tables.CustomerLoan} where CuLNo=" & DrDeliver("CuLNO").ToString, {}, AdminPer)
+        ElseIf DrDeliver("CuLNo").ToString <> "0" And txtCuLNo.Text <> "0" Then
+            Db.Execute($"Update {Tables.CustomerLoan} set CuLNo = " & DrDeliver("CuLNO").ToString &
+                                                  "CuNo = " & CuNo &
+                                                  ",CuLAmount = " & txtCuLAmount.Text &
+                                                  ",DNo = " & FormParent.txtDNo.Text &
+                                                  ",CuLDate = '" & FormParent.txtDDate.Value &
+                                                  "' where CuLNo=" & DrDeliver("CuLNO").ToString, {}, AdminPer)
+            txtCuLNo.Text = DrDeliver("CuLNo").ToString
+        ElseIf DrDeliver("CuLNo").ToString = "0" And txtCuLNo.Text <> "0" Then
+            Db.Execute($"Insert into {Tables.CustomerLoan}(CuLNO,CuLAmount,CuNo,DNo,CulDate,Status) values(?NewKey?CustomerLoan?CuLNo?," &
+                          txtCuLAmount.Text & "," & CuNo & "," & FormParent.txtDNo.Text & ",'" & FormParent.txtDDate.Value & "','Not Paid')", {}, AdminPer)
+        End If
+
+        Dim DR1 = Db.GetDataList("SELECT RepNo,REP.PNo,PCategory,PName,Qty,Status,REP.HandedOverToTNo, TName,PaidPrice from (((Repair REP INNER JOIN PRODUCT  P ON P.PNO = REP.PNO) LEFT JOIN Technician T ON T.TNO = REP.HandedOverToTNo) LEFT JOIN DELIVER D ON D.DNO = REP.DNO) Where D.DNo=" & FormParent.txtDNo.Text)
+        For Each Item In DR1
+            Db.Execute($"Update {Tables.Repair} Set " & If(Item("Status").ToString = RepairStatus.RepairedDelivered, $"Status='{RepairStatus.Repaired}'",
+                          $"Status='{RepairStatus.Returned}'") & ",PaidPrice=0,DNo=0 Where DNo=?Key?DNo?", {}, AdminPer)
+        Next
+
+        Dim DRReturn = Db.GetDataDictionary("SELECT RetNo,RepNo,RET.PNo,PCategory,PName,Qty,Status,RET.HandedOverToTNO, TName,PaidPrice from (( `RETURN` RET INNER JOIN PRODUCT  P ON P.PNO = RET.PNO) LEFT JOIN Technician T ON T.TNO = RET.HandedOverToTNO) LEFT JOIN DELIVER D ON D.DNO = RET.DNO) Where D.DNo=" & FormParent.txtDNo.Text)
+        For Each Item In DR1
+            Db.Execute($"Update `{Tables.ReRepair}` Set {If(Item("Status").ToString = RepairStatus.RepairedDelivered, $"Status='{RepairStatus.Repaired}'",
+                          $"Status='{RepairStatus.Returned}'")},PaidPrice=0,DNo=0 Where DNo={FormParent.txtDNo.Text}", {}, AdminPer)
+        Next
+
+        Db.Execute($"DELETE FROM {Tables.Deliver} WHERE DNo={FormParent.txtDNo.Text}", {}, AdminPer)
     End Sub
 
     Private Sub SendDeliverEmail(DNo As String)
         Try
             If My.Settings.DeliveredEmailtoT = False Then Exit Sub
 
-            Dim DRAutoD = Db.GetDataList($"SELECT RepNo,DDate, CuName, CuTelNo1, PCategory, PName, Qty, PaidPrice, TEmail, TName, `Status` from ((((Repair Rep Inner Join Deliver D On D.DNo=Rep.DNo) Inner Join Technician T On T.TNo = Rep.TNo) Left Join Product P On P.Pno = Rep.PNo) Left Join Customer Cu On Cu.CuNo = D.CuNo) Where TEmail IS NOT NULL and `Status` <> 'Returned Delivered' and TActive = 1 AND TBlockEmails <> 1 and D.DNo = {DNo}")
+            Dim DRAutoD = Db.GetDataList($"SELECT RepNo,DDate, CuName, CuTelNo1, PCategory, PName, Qty, PaidPrice, TEmail, TName, `Status` from ((((Repair Rep Inner Join Deliver D On D.DNo=Rep.DNo) Inner Join Technician T On T.TNo = Rep.HandedOverToTNo) Left Join Product P On P.Pno = Rep.PNo) Left Join Customer Cu On Cu.CuNo = D.CuNo) Where TEmail IS NOT NULL and `Status` <> 'Returned Delivered' and TActive = 1 AND TBlockEmails <> 1 and D.DNo = {DNo}")
             For Each Item In DRAutoD
                 Db.Execute($"Insert Into {Tables.Mail}(MailNo,MailDate,EmailTo,Subject,Body,Status) Values(?NewKey?Mail?MailNo?, NOW(), @EMAILTO, @SUBJECT, @BODY, 'Waiting');", {
                     New MySqlParameter("EMAILTO", Item("TEmail").ToString),
@@ -281,7 +286,7 @@ Public Class ControlPopUp
                             "මෙම Message එක ස්වයංක්‍රීයව LASER System එකෙන් පැමිණෙන්නක් බැවින් ඉහත දත්ත සඳහා යම් ගැටලුවක් පවතියි නම්, කරුණාකර දත්ත කළමනාකරු අමතන්න")
                 })
             Next
-            DRAutoD = Db.GetDataList($"SELECT RetNo,RepNo,DDate, CuName, CuTelNo1, PCategory, PName, Qty, PaidPrice, TEmail, TName, `Status` from ((( `Return` Ret Inner Join Deliver D On D.DNo=Ret.DNo) Inner Join Technician T On T.TNo = Ret.TNo) Left Join Product P On P.Pno = Ret.PNo) Left Join Customer Cu On Cu.CuNo = D.CuNo Where TEmail IS NOT NULL and `Status` <>'Returned Delivered' and TActive = 1 AND TBlockEmails <> 1 and D.DNo = {DNo}")
+            DRAutoD = Db.GetDataList($"SELECT RetNo,RepNo,DDate, CuName, CuTelNo1, PCategory, PName, Qty, PaidPrice, TEmail, TName, `Status` from ((( `Return` Ret Inner Join Deliver D On D.DNo=Ret.DNo) Inner Join Technician T On T.TNo = Ret.HandedOverToTNo) Left Join Product P On P.Pno = Ret.PNo) Left Join Customer Cu On Cu.CuNo = D.CuNo Where TEmail IS NOT NULL and `Status` <>'Returned Delivered' and TActive = 1 AND TBlockEmails <> 1 and D.DNo = {DNo}")
             For Each Item In DRAutoD
                 Db.Execute($"Insert Into {Tables.Mail}(MailNo,MailDate,EmailTo,Subject,Body,Status) Values(?NewKey?Mail?MailNo?, NOW(), @EMAILTO, @SUBJECT, @BODY, 'Waiting');", {
                     New MySqlParameter("EMAILTO", Item("TEmail").ToString),

@@ -1,21 +1,22 @@
 ﻿Imports System.Threading
 Imports LASER_System.StructureDatabase
 Imports MySqlConnector
+Imports Newtonsoft.Json
 
 Public Class FormRepair
     Public DataReaderRepair As Dictionary(Of String, Object)
     Public Mode As RepairMode
-    Public ControlReRepairView As ControlReRepairView
-    Public ControlActivityInfo As ControlActivityInfo
+    Public ControlActivityInfo As ControlRepairCollection3
     Public ControlAdvancePayInfo As ControlAdvancePayInfo
-    Public ControlRemarks As ControlRemarks
-    Public ControlRepairDeliverInfo As ControlRepairDeliverInfo
-    Public ControlTaskInfo As ControlTaskInfo
-    Public ControlTechnicianCostListInfo As ControlTechnicianCostListInfo
-    Public ControlTechnicianInfo As ControlTechnicianInfo
+    Public ControlRemarks As ControlRepairCollection1
+    Public ControlRepairDeliverInfo As ControlRepairCollection6
+    Public ControlTaskInfo As ControlRepairCollection2
+    Public ControlTechnicianCostListInfo As ControlRepairCollection5
+    Public ControlTechnicianInfo As ControlRepairCollection4
 
     Private Db As New Database
-    Private ReportPrintManager As New ReportPrintManager
+    Private TransactionDatabase As TransactionDatabase
+    Private RepairController As New RepairController
 
     Public Sub New()
         InitializeComponent()
@@ -24,6 +25,8 @@ Public Class FormRepair
     End Sub
 
     Private Sub FrmRepair_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        RepairController.SetDatabase(Db)
+        ControlReRepairView.SetDatabase(Db)
         CmbRepNo_DropDown(sender, e)
         CmbRetNo_DropDown(sender, e)
         CmbRepNo_SelectedIndexChanged(Nothing, Nothing)
@@ -34,7 +37,6 @@ Public Class FormRepair
             cmdDone.Enabled = True
         End If
 
-        Enabled = True
         If tabRepair.SelectedIndex = 0 Then
             Mode = RepairMode.Repair
             cmbRepNo.Focus()
@@ -42,6 +44,8 @@ Public Class FormRepair
             Mode = RepairMode.ReRepair
             cmbRetNo.Focus()
         End If
+
+        Enabled = True
     End Sub
 
     Private Sub frmRepair_Move(sender As Object, e As EventArgs) Handles Me.Move
@@ -82,13 +86,16 @@ Public Class FormRepair
             tabRepair.SelectedTab.TabIndex = 0
             ClearControls()
 
-            If cmbRepNo.Text = "" Then Exit Try
-            DataReaderRepair = Db.GetDataDictionary("SELECT RepNo,REP.RNo,RDate, R.CuNo, CuName, CuTelNo1,CuTelNo2, CuTelNo3, REP.PNo,PCategory,PName, PModelNo, PDetails, PSerialNo,Problem,Qty,Charge, PaidPrice,REP.TNo, TName, Status, RepDate,REP.DNo, DDate, Location from (((((Repair REP INNER JOIN RECEIVE R ON R.RNO = REP.RNO) INNER JOIN PRODUCT  P ON P.PNO = REP.PNO) INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = REP.TNO) LEFT JOIN DELIVER D ON D.DNO = REP.DNO) Where Rep.Repno = " & cmbRepNo.Text)
+            If cmbRepNo.Text = "" Then
+                Return
+            End If
+
+            DataReaderRepair = Db.GetDataDictionary("SELECT RepNo, REP.RNo, RDate,  R.CuNo, CuName, CuTelNo1, CuTelNo2, CuTelNo3, REP.PNo, PCategory, PName, PModelNo, PDetails, PSerialNo, Problem, Qty, Charge, PaidPrice, REP.AssignedToTNo, REP.HandedOverToTNo, T1.TName AS 'AssignedToTechnician', T2.TName AS 'HandedOverToTechnician', Status, RepDate,REP.DNo, DDate, Location from Repair REP INNER JOIN RECEIVE R ON R.RNO = REP.RNO INNER JOIN PRODUCT  P ON P.PNO = REP.PNO INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO LEFT JOIN Technician T1 ON T1.TNO = REP.AssignedToTNo LEFT JOIN Technician T2 ON T2.TNo = REP.HandedOverToTNo LEFT JOIN DELIVER D ON D.DNO = REP.DNO Where Rep.Repno = " & cmbRepNo.Text)
             If DataReaderRepair Is Nothing Then
                 MsgBox("මෙම Repair No එක Database එක තුල නොපවතියි.", vbCritical + vbOKOnly)
-                Exit Sub
+                Return
             End If
-            For Each ctrl As Control In {boxReceive, boxCustomer, boxProduct, lblPProblem, txtPProblem}
+            For Each ctrl As Control In {boxReceive, boxCustomer, boxProduct, lblPProblem, txtPProblem, ControlReRepairView}
                 ctrl.Visible = True
             Next
             For Each ctrl As Control In {boxReceive, boxProduct, boxCustomer, txtPProblem}
@@ -97,50 +104,48 @@ Public Class FormRepair
             cmbRepStatus.Text = DataReaderRepair("Status").ToString
             SetBasicInfo()
 
-            ControlReRepairView = New ControlReRepairView(Db)
             ControlReRepairView.Init(cmbRepNo.Text)
-            PanelMain.Controls.Add(ControlReRepairView)
 
-            ControlRemarks = New ControlRemarks(Db, Me)
+            ControlRemarks = New ControlRepairCollection1(Db, Me)
             ControlRemarks.InitForRepair(cmbRepNo.Text)
             PanelMain.Controls.Add(ControlRemarks)
 
-            ControlTaskInfo = New ControlTaskInfo(Db, Me)
+            ControlTaskInfo = New ControlRepairCollection2(Db, Me)
             ControlTaskInfo.InitForRepair(cmbRepNo.Text)
             PanelMain.Controls.Add(ControlTaskInfo)
 
-            ControlActivityInfo = New ControlActivityInfo(Db)
+            ControlActivityInfo = New ControlRepairCollection3(Db)
             ControlActivityInfo.InitForRepair(cmbRepNo.Text)
             PanelMain.Controls.Add(ControlActivityInfo)
-            If cmbRepStatus.Text = "Received" Then
-                Exit Try
+            If cmbRepStatus.Text = RepairStatus.Received Then
+                Return
             End If
 
-            ControlTechnicianInfo = New ControlTechnicianInfo(Db, Me)
-            ControlTechnicianInfo.Init()
+            ControlTechnicianInfo = New ControlRepairCollection4(Db, Me)
+            ControlTechnicianInfo.Init(DataReaderRepair(Repair.Status))
             PanelMain.Controls.Add(ControlTechnicianInfo)
             PanelMain.Controls.SetChildIndex(ControlTechnicianInfo, 2)
-            If cmbRepStatus.Text = "Hand Over to Technician" Then
-                Exit Try
+            If {RepairStatus.HandedOverTo, RepairStatus.AssignedTo}.Contains(cmbRepStatus.Text) Then
+                Return
             End If
 
-            ControlTechnicianCostListInfo = New ControlTechnicianCostListInfo(Db, Me)
+            ControlTechnicianCostListInfo = New ControlRepairCollection5(Db, Me)
             ControlTechnicianCostListInfo.InitForRepair(cmbRepNo.Text)
             PanelMain.Controls.Add(ControlTechnicianCostListInfo)
             PanelMain.Controls.SetChildIndex(ControlTechnicianCostListInfo, 3)
-            If cmbRepStatus.Text = "Repairing" Then
-                Exit Try
+            If cmbRepStatus.Text = RepairStatus.Pending Then
+                Return
             End If
 
-            ControlRepairDeliverInfo = New ControlRepairDeliverInfo(Db)
+            ControlRepairDeliverInfo = New ControlRepairCollection6(Db)
             ControlRepairDeliverInfo.SetRepDetails(
                 DataReaderRepair("Charge").ToString,
                 DataReaderRepair("RepDate").ToString
                 ).SetDeliverInfoVisibility(False)
             PanelMain.Controls.Add(ControlRepairDeliverInfo)
             PanelMain.Controls.SetChildIndex(ControlRepairDeliverInfo, 4)
-            If cmbRepStatus.Text = "Repaired Not Delivered" Or cmbRepStatus.Text = "Returnd Then Not Delivered" Then
-                Exit Try
+            If {RepairStatus.Repaired, RepairStatus.Returned}.Contains(cmbRepStatus.Text) Then
+                Return
             End If
 
             ControlRepairDeliverInfo.SetDeliverDetails(
@@ -148,7 +153,7 @@ Public Class FormRepair
                 DataReaderRepair("PaidPrice").ToString,
                 DataReaderRepair("DDate").ToString
                 ).SetDeliverInfoVisibility(True)
-            If (cmbRepStatus.Text = "Repaired Delivered" Or cmbRepStatus.Text = "Returned Delivered") And User.Instance.UserType <> User.Type.Admin And DateValue(DataReaderRepair("DDate").ToString).Month <> Today.Month Then
+            If ({RepairStatus.RepairedDelivered, RepairStatus.ReturnedDelivered}.Contains(cmbRepStatus.Text)) And User.Instance.UserType <> User.Type.Admin And DateValue(DataReaderRepair("DDate").ToString).Month <> Today.Month Then
                 For Each Item As Control In {boxReceive, boxProduct, boxCustomer, txtPProblem, ControlActivityInfo, ControlAdvancePayInfo, ControlRemarks, ControlRepairDeliverInfo, ControlReRepairView, ControlTaskInfo, ControlTechnicianCostListInfo, ControlTechnicianInfo}
                     If Item Is Nothing Then
                         Continue For
@@ -191,11 +196,11 @@ Public Class FormRepair
         For Each Item As Control In {cmbRetRepNo, cmbRetStatus, cmbRepStatus, txtRNo, txtRDate, txtCuNo, TextCuName, txtCuTelNo1, txtCuTelNo2, txtCuTelNo3, txtPNo, cmbPCategory, cmbPName, txtPModelNo, txtPSerialNo, txtPDetails, txtPQty, txtPProblem}
             Item.Text = ""
         Next
+        ControlReRepairView?.Clear()
         ControlActivityInfo?.Clear()
         ControlAdvancePayInfo?.Clear()
         ControlRemarks?.Clear()
         ControlRepairDeliverInfo?.Clear()
-        ControlReRepairView?.Clear()
         ControlTaskInfo?.Clear()
         ControlTechnicianCostListInfo?.Clear()
         ControlTechnicianInfo?.Clear()
@@ -212,7 +217,7 @@ Public Class FormRepair
             ClearControls()
 
             If cmbRetNo.Text = "" Then Exit Try
-            DataReaderRepair = Db.GetDataDictionary($"Select Ret.RetNo, RepNo, Ret.RNo, RDate,  R.CuNo, CuName, CuTelNo1, CuTelNo2, CuTelNo3, CuRemarks,  Ret.PNo, PCategory, PName, PModelNo, PDetails, PSerialNo, Problem, Location, Qty, Ret.TNo, TName, Status, Charge, PaidPrice, RepDate, Ret.DNo, DDate FROM `Return` Ret inner join Receive R On Ret.RNo = R.RNo INNER JOIN Customer Cu On R.CuNo = Cu.CuNo INNER JOIN Product P On Ret.PNo = P.PNo LEFT JOIN Technician T On Ret.TNo = T.TNo LEFT JOIN Deliver D On D.DNo=Ret.DNo WHERE Ret.RetNo = @RETNO", {
+            DataReaderRepair = Db.GetDataDictionary($"Select Ret.RetNo, RepNo, Ret.RNo, RDate,  R.CuNo, CuName, CuTelNo1, CuTelNo2, CuTelNo3, CuRemarks,  Ret.PNo, PCategory, PName, PModelNo, PDetails, PSerialNo, Problem, Location, Qty, Ret.AssignedToTNo, Ret.HandedOverToTNo, T1.TName AS 'AssignedToTechnician', T2.TName AS 'HandedOverToTechnician', Status, Charge, PaidPrice, RepDate, Ret.DNo, DDate FROM `Return` Ret inner join Receive R On Ret.RNo = R.RNo INNER JOIN Customer Cu On R.CuNo = Cu.CuNo INNER JOIN Product P On Ret.PNo = P.PNo LEFT JOIN Technician T1 On Ret.AssignedToTNo = T1.TNo LEFT JOIN Technician T2 ON Ret.HandedOverToTNo = T2.TNo LEFT JOIN Deliver D On D.DNo=Ret.DNo WHERE Ret.RetNo = @RETNO", {
                 New MySqlParameter("RETNO", cmbRetNo.Text)
             })
             If DataReaderRepair Is Nothing Then
@@ -225,48 +230,48 @@ Public Class FormRepair
                 ctrl.Enabled = True
             Next
             cmbRetRepNo.Text = DataReaderRepair("RepNo").ToString
-            cmbRetStatus.Text = DataReaderRepair("Status").ToString
+            cmbRetStatus.Text = DataReaderRepair(ReRepair.Status).ToString
             SetBasicInfo()
 
-            ControlRemarks = New ControlRemarks(Db, Me)
+            ControlRemarks = New ControlRepairCollection1(Db, Me)
             ControlRemarks.InitForReRepair(cmbRetNo.Text)
             PanelMain.Controls.Add(ControlRemarks)
 
-            ControlTaskInfo = New ControlTaskInfo(Db, Me)
+            ControlTaskInfo = New ControlRepairCollection2(Db, Me)
             ControlTaskInfo.InitForReRepair(cmbRetNo.Text)
             PanelMain.Controls.Add(ControlTaskInfo)
 
-            ControlActivityInfo = New ControlActivityInfo(Db)
+            ControlActivityInfo = New ControlRepairCollection3(Db)
             ControlActivityInfo.InitForReRepair(cmbRetNo.Text)
             PanelMain.Controls.Add(ControlActivityInfo)
-            If cmbRetStatus.Text = "Received" Then
+            If cmbRetStatus.Text = RepairStatus.Received Then
                 Exit Try
             End If
 
-            ControlTechnicianInfo = New ControlTechnicianInfo(Db, Me)
-            ControlTechnicianInfo.Init()
+            ControlTechnicianInfo = New ControlRepairCollection4(Db, Me)
+            ControlTechnicianInfo.Init(DataReaderRepair(ReRepair.Status))
             PanelMain.Controls.Add(ControlTechnicianInfo)
             PanelMain.Controls.SetChildIndex(ControlTechnicianInfo, 1)
-            If cmbRetStatus.Text = "Hand Over To Technician" Then
+            If {RepairStatus.HandedOverTo, RepairStatus.AssignedTo}.Contains(cmbRetStatus.Text) Then
                 Exit Try
             End If
 
-            ControlTechnicianCostListInfo = New ControlTechnicianCostListInfo(Db, Me)
+            ControlTechnicianCostListInfo = New ControlRepairCollection5(Db, Me)
             ControlTechnicianCostListInfo.InitForReRepair(cmbRetRepNo.Text)
             PanelMain.Controls.Add(ControlTechnicianCostListInfo)
             PanelMain.Controls.SetChildIndex(ControlTechnicianCostListInfo, 2)
-            If cmbRetStatus.Text = "Repairing" Then
+            If cmbRetStatus.Text = RepairStatus.Pending Then
                 Exit Try
             End If
 
-            ControlRepairDeliverInfo = New ControlRepairDeliverInfo(Db)
+            ControlRepairDeliverInfo = New ControlRepairCollection6(Db)
             ControlRepairDeliverInfo.SetRepDetails(
                 DataReaderRepair("Charge"),
                 DataReaderRepair("RepDate")
                 ).SetDeliverInfoVisibility(False)
             PanelMain.Controls.Add(ControlRepairDeliverInfo)
             PanelMain.Controls.SetChildIndex(ControlRepairDeliverInfo, 3)
-            If cmbRetStatus.Text = "Repaired Not Delivered" Or cmbRetStatus.Text = "Returned Not Delivered" Then
+            If {RepairStatus.Repaired, RepairStatus.Returned}.Contains(cmbRetStatus.Text) Then
                 Exit Try
             End If
 
@@ -275,7 +280,7 @@ Public Class FormRepair
                 DataReaderRepair("PaidPrice"),
                 DataReaderRepair("DDate")
                 ).SetDeliverInfoVisibility(True)
-            If (cmbRepStatus.Text = "Repaired Delivered" Or cmbRepStatus.Text = "Returned Delivered") And User.Instance.UserType <> User.Type.Admin And DateValue(DataReaderRepair("DDate").ToString).Month <> Today.Month Then
+            If ({RepairStatus.RepairedDelivered, RepairStatus.ReturnedDelivered}.Contains(cmbRepStatus.Text)) And User.Instance.UserType <> User.Type.Admin And DateValue(DataReaderRepair("DDate").ToString).Month <> Today.Month Then
                 For Each Item As Control In {boxReceive, boxProduct, boxCustomer, txtPProblem, ControlActivityInfo, ControlAdvancePayInfo, ControlRemarks, ControlRepairDeliverInfo, ControlReRepairView, ControlTaskInfo, ControlTechnicianCostListInfo, ControlTechnicianInfo}
                     If Item Is Nothing Then
                         Continue For
@@ -290,214 +295,53 @@ Public Class FormRepair
 
     Private Sub CmdSave_Click(sender As Object, e As EventArgs) Handles cmdSave.Click, UpdateToolStripMenuItem.Click
         Try
-            If CheckEmptyControl(txtCuNo, "මෙම Repair එක සඳහා ඔබ Customer කෙනෙකු තෝරා නොමැත. කරුණාකර එය ඇතුලත් කර නැවත උත්සහ කරන්න!") = False Then
-                Return
-            ElseIf CheckEmptyControl(txtPNo, "මෙම Repair එක සඳහා ඔබ Product එකක් තෝරා නොමැත. කරුණාකර එය ඇතුලත් කර නැවත උත්සහ කරන්න!!") = False Then
-                Return
-            End If
-            Dim ControlRepStatus As ComboBox = If(Mode = RepairMode.Repair, cmbRepStatus, cmbRetStatus)
-            Dim TechnicianMustStatuses = New String() {"Hand Over To Technician", "Repairing", "Repaired Not Delivered", "Repaired Delivered"}
-            If TechnicianMustStatuses.Contains(ControlRepStatus.Text) AndAlso CheckEmptyControl(ControlTechnicianInfo.cmbTName, "Technician කෙනෙකු තොරා නොමැත. කරුණාකර අදාළ Technician ව තෝරා දෙන්න.") = False Then
+            If Not SaveValidateInputs() Then
                 Return
             End If
 
-            Dim RepairPriceMushStatuses = New String() {"Repaired Not Delivered", "Repaired Delivered", "Returned Not Delivered", "Returned Delivered"}
-            If RepairPriceMushStatuses.Contains(ControlRepStatus.Text) AndAlso String.IsNullOrEmpty(ControlRepairDeliverInfo.txtRepPrice.Text) Then
-                MessageBox.Error("Repair Price එකක් ඇතුලත් කර නොමැත කරුණාකර Repair Price එක ඇතුලත් කරන්න.")
-                Return
-            End If
-
-            Dim DeliveredStatuses = New String() {"Repaired Delivered", "Returned Delivered", "Canceled"}
-            If (Not DeliveredStatuses.Contains(DataReaderRepair("Status").ToString)) And DeliveredStatuses.Contains(ControlRepStatus.Text) Then
-                MessageBox.Error("මෙම Repair Form තුලින් මෙය සිදු කිරීමට නොහැකිය. Deliver Form එක භාවිතා කරන්න.")
-                Return
-            End If
-
-            If User.Instance.UserType <> User.Type.Admin AndAlso DeliveredStatuses.Contains(DataReaderRepair("Status").ToString) AndAlso DataReaderRepair("Status").ToString <> cmbRepStatus.Text Then
-                MessageBox.Error("Delivered හෝ  Canceled Product එකක් නැවත Status එක වෙනස් කිරීමට ඔබ්ට Permission නොමැත.")
-                Return
-            End If
+            TransactionDatabase = New TransactionDatabase()
+            TransactionDatabase.BeginTransaction()
             Select Case Mode
                 Case RepairMode.Repair
-                    If DataReaderRepair("Status").ToString <> cmbRepStatus.Text Then
-                        Db.Execute($"UPDATE {Tables.Repair} SET status ='" & cmbRepStatus.Text & "' where repno=" & cmbRepNo.Text & ";")
-                        Db.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RepNo,RepADate,Activity,UNo) Values(" & Db.GetNextKey("RepairActivity", "RepANo") & "," &
-                                  cmbRepNo.Text & ",NOW(),'Status -> " & cmbRepStatus.Text & "'," & User.Instance.UserNo & ")")
-                    End If
-
-                    If DataReaderRepair("CuNo").ToString <> txtCuNo.Text Then
-                        Db.Execute($"UPDATE {Tables.Receive} SET cuno =" & txtCuNo.Text & " where rno = " & txtRNo.Text)
-                        Db.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RepNo,RepADate,Activity,UNo) Values(" & Db.GetNextKey("RepairActivity", "RepANo") & "," &
-                                  cmbRepNo.Text & ",NOW(),'Customer -> Name= " & TextCuName.Text & ", Telephone No 1= " & txtCuTelNo1.Text &
-                                  ", Telephone No 2= " & txtCuTelNo2.Text & ", Telephone No 3= " & txtCuTelNo3.Text & "'," & User.Instance.UserNo & ")")
-                    End If
-
-                    If DataReaderRepair("RDate").ToString <> txtRDate.Value.ToString Then
-                        Db.Execute($"UPDATE {Tables.Receive} SET RDate='" & txtRDate.Value.Date.ToString & "' where rno = " & txtRNo.Text)
-                        Db.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RepNo,RepADate,Activity,UNo) Values(" & Db.GetNextKey("RepairActivity", "RepANo") & "," &
-                                  cmbRepNo.Text & ",NOW(),'Received Date -> " & txtRDate.Value.ToString & "'," & User.Instance.UserNo & ")")
-                    End If
-                    If DataReaderRepair("PNo").ToString <> txtPNo.Text Then
-                        Db.Execute($"UPDATE {Tables.Repair} SET pno = " & txtPNo.Text & " where repno = " & cmbRepNo.Text)
-                        Db.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RepNo,RepADate,Activity,UNo) Values(" & Db.GetNextKey("RepairActivity", "RepANo") & "," &
-                                  cmbRepNo.Text & ",NOW(),'Product -> Category= " & cmbPCategory.Text & ", Name= " & cmbPName.Text &
-                                  ", Model No= " & txtPModelNo.Text & ", Qty= " & txtPQty.Text & "'," & User.Instance.UserNo & ")")
-                    End If
-                    If DataReaderRepair("PSerialNo").ToString <> txtPSerialNo.Text Then
-                        Db.Execute($"UPDATE {Tables.Repair} SET pserialno ='" & txtPSerialNo.Text & "' where repno = " & cmbRepNo.Text)
-                        Db.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RepNo,RepADate,Activity,UNo) Values(" & Db.GetNextKey("RepairActivity", "RepANo") & "," &
-                                  cmbRepNo.Text & ",NOW(),'Product Serial No -> " & txtPSerialNo.Text & "'," & User.Instance.UserNo & ")")
-                    End If
-                    If DataReaderRepair("Problem").ToString <> txtPProblem.Text Then
-                        Db.Execute($"UPDATE {Tables.Repair} SET Problem ='" & txtPProblem.Text & "' where repno = " & cmbRepNo.Text)
-                        Db.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RepNo,RepADate,Activity,UNo) Values(" & Db.GetNextKey("RepairActivity", "RepANo") & "," &
-                                  cmbRepNo.Text & ",NOW(),'Problem -> " & txtPProblem.Text & "'," & User.Instance.UserNo & ")")
-                    End If
-                    If DataReaderRepair("Location").ToString <> ControlRemarks.cmbLocation.Text Then
-                        Db.Execute($"UPDATE {Tables.Repair} SET Location= '" & ControlRemarks.cmbLocation.Text & "' where repno = " & cmbRepNo.Text)
-                        Db.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RepNo,RepADate,Activity,UNo) Values(" & Db.GetNextKey("RepairActivity", "RepANo") & "," &
-                                  cmbRepNo.Text & ",NOW(),'Location -> " & ControlRemarks.cmbLocation.Text & "'," & User.Instance.UserNo & ")")
-                    End If
-                    If cmbRepStatus.Text = "Received" Or cmbRepStatus.Text = "Canceled" Then
-                        MsgBox("Update successful!", vbInformation + vbOKOnly)
-                        Return
-                    End If
-                    Dim TNo As Integer = Db.GetData("SELECT TNo FROM Technician WHERE TName='" & ControlTechnicianInfo.cmbTName.Text & "'")
-                    If DataReaderRepair("TNo").ToString <> TNo.ToString Then
-                        Db.Execute($"UPDATE {Tables.Repair} SET tno =" & TNo & " where repno=" & cmbRepNo.Text & ";")
-                        Db.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RepNo,RepADate,Activity,UNo) Values(" & Db.GetNextKey("RepairActivity", "RepANo") & "," &
-                                  cmbRepNo.Text & ",NOW(),'Technician -> " & ControlTechnicianInfo.cmbTName.Text & "'," & User.Instance.UserNo & ")")
-                    End If
-
-                    If cmbRepStatus.Text.ToString = "Hand Over to Technician" Or cmbRepStatus.Text = "Repairing" Then
-                        MsgBox("Update successful!", vbInformation + vbOKOnly)
-                        Return
-                    End If
-
-                    If DataReaderRepair("Charge").ToString <> ControlRepairDeliverInfo.txtRepPrice.Text Then
-                        Db.Execute($"UPDATE {Tables.Repair} SET charge=" & ControlRepairDeliverInfo.txtRepPrice.Text & " where repno=" & cmbRepNo.Text & ";")
-                        Db.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RepNo,RepADate,Activity,UNo) Values(" & Db.GetNextKey("RepairActivity", "RepANo") & "," &
-                                  cmbRepNo.Text & ",NOW(),'Repair Charge -> " & ControlRepairDeliverInfo.txtRepPrice.Text & "'," & User.Instance.UserNo & ")")
-                    End If
-                    If DataReaderRepair("RepDate").ToString <> ControlRepairDeliverInfo.txtRepDate.Value.ToString Then
-                        Db.Execute($"UPDATE {Tables.Repair} SET RepDate=@REPDATE WHERE RepNo=@REPNO;", {
-                            New MySqlParameter("REPDATE", ControlRepairDeliverInfo.txtRepDate.Value),
-                            New MySqlParameter("REPNO", cmbRepNo.Text)
-                        })
-                        Db.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RepNo,RepADate,Activity,UNo) Values(" & Db.GetNextKey("RepairActivity", "RepANo") & "," &
-                                  cmbRepNo.Text & ",NOW(),'Repaired Date -> " & ControlRepairDeliverInfo.txtRepDate.Value.ToString & "'," & User.Instance.UserNo & ")")
-                    End If
-
-                    If Tag = "" Then MsgBox("Update successful!", vbInformation + vbOKOnly)
-
-                    Return
+                    UpdateRepair()
                 Case RepairMode.ReRepair
-                    If DataReaderRepair("Status").ToString <> cmbRetStatus.Text Then
-                        Db.Execute("update `Return` set status ='" & cmbRetStatus.Text & "' where retno=" & cmbRetNo.Text & ";")
-                        Db.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RetNo,RepADate,Activity,UNo) Values(" & Db.GetNextKey("RepairActivity", "RepANo") & "," &
-                                  cmbRetNo.Text & ",NOW(),'Status -> " & cmbRetStatus.Text & "'," & User.Instance.UserNo & ")")
-                    End If
-
-                    If DataReaderRepair("CuNo").ToString <> txtCuNo.Text Then
-                        Db.Execute($"UPDATE {Tables.Receive} SET Cuno =" & txtCuNo.Text & " where rno = " & txtRNo.Text)
-                        Db.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RetNo,RepADate,Activity,UNo) Values(" & Db.GetNextKey("RepairActivity", "RepANo") & "," &
-                                  cmbRetNo.Text & ",NOW(),'Customer -> Name= " & TextCuName.Text & ", Telephone No 1= " & txtCuTelNo1.Text &
-                                  ", Telephone No 2= " & txtCuTelNo2.Text & ", Telephone No 3= " & txtCuTelNo3.Text & "'," & User.Instance.UserNo & ")")
-                    End If
-
-                    If DataReaderRepair("RDate").ToString <> txtRDate.Value.ToString Then
-                        Db.Execute($"UPDATE {Tables.Receive} SET RDate='" & txtRDate.Value.Date.ToString & "' where rno = " & txtRNo.Text)
-                        Db.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RetNo,RepADate,Activity,UNo) Values(" & Db.GetNextKey("RepairActivity", "RepANo") & "," &
-                                  cmbRetNo.Text & ",NOW(),'Received Date -> " & txtRDate.Value.ToString & "'," & User.Instance.UserNo & ")")
-                    End If
-
-                    If DataReaderRepair("PNo").ToString <> txtPNo.Text Then
-                        Db.Execute("update `Return` set pno = " & txtPNo.Text & " where RetNo = " & cmbRetNo.Text)
-                        Db.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RetNo,RepADate,Activity,UNo) Values(" & Db.GetNextKey("RepairActivity", "RepANo") & "," &
-                                  cmbRetNo.Text & ",NOW(),'Product -> Category= " & cmbPCategory.Text & ", Name= " & cmbPName.Text &
-                                  ", Model No= " & txtPModelNo.Text & ", Qty= " & txtPQty.Text & "'," & User.Instance.UserNo & ")")
-                    End If
-
-                    If DataReaderRepair("PSerialNo").ToString <> txtPSerialNo.Text Then
-                        Db.Execute("update `Return` set pserialno ='" & txtPSerialNo.Text & "' where retno = " & cmbRetNo.Text)
-                        Db.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RetNo,RepADate,Activity,UNo) Values(" & Db.GetNextKey("RepairActivity", "RepANo") & "," &
-                                  cmbRetNo.Text & ",NOW(),'Product Serial No -> " & txtPSerialNo.Text & "'," & User.Instance.UserNo & ")")
-                    End If
-
-                    If DataReaderRepair("Problem").ToString <> txtPProblem.Text Then
-                        Db.Execute("update `Return` set problem ='" & txtPProblem.Text & "' where retno = " & cmbRetNo.Text)
-                        Db.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RetNo,RepADate,Activity,UNo) Values(" & Db.GetNextKey("RepairActivity", "RepANo") & "," &
-                                  cmbRetNo.Text & ",NOW(),'Problem -> " & txtPProblem.Text & "'," & User.Instance.UserNo & ")")
-                    End If
-
-                    If DataReaderRepair("Location").ToString <> ControlRemarks.cmbLocation.Text Then
-                        Db.Execute("update `Return` set Location= '" & ControlRemarks.cmbLocation.Text & "' where RetNo = " & cmbRetNo.Text)
-                        Db.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RetNo,RepADate,Activity,UNo) Values(" & Db.GetNextKey("RepairActivity", "RepANo") & "," &
-                                  cmbRetNo.Text & ",NOW(),'Location -> " & ControlRemarks.cmbLocation.Text & "'," & User.Instance.UserNo & ")")
-                    End If
-
-                    If cmbRetStatus.Text = "Received" Or cmbRetStatus.Text = "Canceled" Then
-                        MsgBox("Update successful!", vbInformation + vbOKOnly)
-                        Return
-                    End If
-
-                    Dim TNo As Integer = Db.GetData("SELECT TNo FROM Technician WHERE TName='" & ControlTechnicianInfo.cmbTName.Text & "'")
-                    If DataReaderRepair("TName").ToString <> ControlTechnicianInfo.cmbTName.Text Then
-                        Db.Execute("update `Return` set tno =" & TNo & " where retno=" & cmbRetNo.Text & ";")
-                        Db.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RetNo,RepADate,Activity,UNo) Values(" & Db.GetNextKey("RepairActivity", "RepANo") & "," &
-                                  cmbRetNo.Text & ",NOW(),'Technician -> " & ControlTechnicianInfo.cmbTName.Text & "'," & User.Instance.UserNo & ")")
-                    End If
-
-                    If cmbRetStatus.Text = "Hand Over to Technician" Or cmbRetStatus.Text = "Repairing" Then
-                        MsgBox("Update successful!", vbInformation + vbOKOnly)
-                        Return
-                    End If
-
-                    If DataReaderRepair("Charge").ToString <> ControlRepairDeliverInfo.txtRepPrice.Text Then
-                        Db.Execute("update `Return` set charge=" & ControlRepairDeliverInfo.txtRepPrice.Text & " where retno=" & cmbRetNo.Text & ";")
-                        Db.Execute($"INSERT INTO {Tables.RepairActivity}(RepANo,RetNo,RepADate,Activity,UNo) Values(" & Db.GetNextKey("RepairActivity", "RepANo") & "," &
-                                  cmbRetNo.Text & ",NOW(),'Repair Charge -> " & ControlRepairDeliverInfo.txtRepPrice.Text & "'," & User.Instance.UserNo & ")")
-                    End If
-                    If DataReaderRepair("RepDate").ToString <> ControlRepairDeliverInfo.txtRepDate.Value.ToString Then
-                        Db.Execute($"UPDATE `Return` SET RepDate=@REPDATE WHERE RetNo=@RETNO;", {
-                            New MySqlParameter("REPDATE", ControlRepairDeliverInfo.txtRepDate.Value),
-                            New MySqlParameter("RETNO", cmbRetNo.Text)
-                        })
-                        Db.Execute($"INSERT INTO RepairActivity(RepANo,RetNo,RepADate,Activity,UNo) VALUES({Db.GetNextKey("RepairActivity", "RepANo")},{cmbRetNo.Text},NOW(),'Repaired Date -> {ControlRepairDeliverInfo.txtRepDate.Value}',{User.Instance.UserNo})")
-                    End If
-                    If Tag = "" Then
-                        MsgBox("Update Successful!", vbInformation + vbOKOnly)
-                    End If
-                    If tabRepair.SelectedTab.TabIndex = 0 Then
-                        CmbRepNo_SelectedIndexChanged(sender, e)
-                    End If
+                    UpdateReRepair()
             End Select
+            TransactionDatabase.CommitTransaction()
+            MsgBox("Update successful!", vbInformation + vbOKOnly)
         Catch Exception As Exception
             MessageBox.Error(Exception.Message)
+            TransactionDatabase.RollbackTransaction()
+        Finally
+            TransactionDatabase = Nothing
         End Try
     End Sub
 
     Public Sub CmbRepStatus_SelectionChangeCommitted(sender As Object, e As EventArgs) Handles cmbRepStatus.SelectionChangeCommitted, cmbRetStatus.SelectionChangeCommitted
         If sender Is cmbRepStatus And (cmbRepNo.Text = "" Or cmbRepStatus.Text = "") Then
-            Exit Sub
+            Return
         End If
         If sender Is cmbRetStatus And (cmbRetNo.Text = "" Or cmbRetStatus.Text = "") Then
-            Exit Sub
+            Return
         End If
 
         PanelMain.Controls.Remove(ControlTechnicianInfo)
         PanelMain.Controls.Remove(ControlTechnicianCostListInfo)
         PanelMain.Controls.Remove(ControlRepairDeliverInfo)
-        If sender.Text = "Received" Or sender.Text = "Canceled" Then
-            Exit Sub
+        If sender.Text = RepairStatus.Received Or sender.Text = RepairStatus.Canceled Then
+            Return
         End If
 
-        ControlTechnicianInfo = New ControlTechnicianInfo(Db, Me)
+        ControlTechnicianInfo = New ControlRepairCollection4(Db, Me)
         PanelMain.Controls.Add(ControlTechnicianInfo)
         PanelMain.Controls.SetChildIndex(ControlTechnicianInfo, 2)
-        ControlTechnicianInfo.Init()
+        ControlTechnicianInfo.Init(If(sender Is cmbRepStatus, cmbRepStatus.Text, cmbRetStatus.Text))
 
-        ControlTechnicianCostListInfo = New ControlTechnicianCostListInfo(Db, Me)
+        If sender.text = RepairStatus.AssignedTo Then
+            Return
+        End If
+
+        ControlTechnicianCostListInfo = New ControlRepairCollection5(Db, Me)
         PanelMain.Controls.Add(ControlTechnicianCostListInfo)
         PanelMain.Controls.SetChildIndex(ControlTechnicianCostListInfo, 3)
         If sender Is cmbRepStatus Then
@@ -505,29 +349,238 @@ Public Class FormRepair
         Else
             ControlTechnicianCostListInfo.InitForReRepair(cmbRetNo.Text)
         End If
-        If sender.Text = "Hand Over to Technician" Or sender.Text = "Repairing" Then
-            ControlTechnicianInfo.cmbTName.Focus()
-            Exit Sub
+        If sender.Text = RepairStatus.HandedOverTo Or sender.Text = RepairStatus.Pending Then
+            ControlTechnicianInfo.ComboHandOverToTechnician.Focus()
+            Return
         End If
 
-        ControlRepairDeliverInfo = New ControlRepairDeliverInfo(Db)
+        ControlRepairDeliverInfo = New ControlRepairCollection6(Db)
         PanelMain.Controls.Add(ControlRepairDeliverInfo)
         PanelMain.Controls.SetChildIndex(ControlRepairDeliverInfo, 4)
         ControlRepairDeliverInfo.SetDeliverInfoVisibility(False)
     End Sub
 
+    Private Function SaveValidateInputs() As Boolean
+        If CheckEmptyControl(txtCuNo, "මෙම Repair එක සඳහා ඔබ Customer කෙනෙකු තෝරා නොමැත. කරුණාකර එය ඇතුලත් කර නැවත උත්සහ කරන්න!") = False Then
+            Return False
+        End If
+
+        If CheckEmptyControl(txtPNo, "මෙම Repair එක සඳහා ඔබ Product එකක් තෝරා නොමැත. කරුණාකර එය ඇතුලත් කර නැවත උත්සහ කරන්න!!") = False Then
+            Return False
+        End If
+
+        Dim ControlRepStatus As ComboBox = If(Mode = RepairMode.Repair, cmbRepStatus, cmbRetStatus)
+        Dim TechnicianMustStatuses = New String() {RepairStatus.AssignedTo, RepairStatus.HandedOverTo, RepairStatus.Pending, RepairStatus.Repaired, RepairStatus.Returned, RepairStatus.RepairedDelivered, RepairStatus.ReturnedDelivered}
+        If TechnicianMustStatuses.Contains(ControlRepStatus.Text) AndAlso CheckEmptyControl(ControlTechnicianInfo.ComboAssignedToTechnician, "Assigned Technician කෙනෙකු තොරා නොමැත. කරුණාකර අදාළ Technician ව තෝරා දෙන්න.") = False Then
+            Return False
+        End If
+
+        If TechnicianMustStatuses.Except({RepairStatus.AssignedTo}).Contains(ControlRepStatus.Text) AndAlso CheckEmptyControl(ControlTechnicianInfo.ComboHandOverToTechnician, "Handed Over Technician කෙනෙකු තොරා නොමැත. කරුණාකර අදාළ Technician ව තෝරා දෙන්න.") = False Then
+            Return False
+        End If
+
+        Dim RepairPriceMushStatuses = New String() {RepairStatus.Repaired, RepairStatus.RepairedDelivered, RepairStatus.Returned, RepairStatus.ReturnedDelivered}
+        If RepairPriceMushStatuses.Contains(ControlRepStatus.Text) AndAlso String.IsNullOrEmpty(ControlRepairDeliverInfo.txtRepPrice.Text) Then
+            MessageBox.Error("Repair Price එකක් ඇතුලත් කර නොමැත කරුණාකර Repair Price එක ඇතුලත් කරන්න.")
+            Return False
+        End If
+
+        Dim DeliveredStatuses = New String() {RepairStatus.RepairedDelivered, RepairStatus.ReturnedDelivered, RepairStatus.Canceled}
+        If (Not DeliveredStatuses.Contains(DataReaderRepair("Status").ToString)) And DeliveredStatuses.Contains(ControlRepStatus.Text) Then
+            MessageBox.Error("මෙම Repair Form තුලින් මෙය සිදු කිරීමට නොහැකිය. Deliver Form එක භාවිතා කරන්න.")
+            Return False
+        End If
+
+        If User.Instance.UserType <> User.Type.Admin AndAlso DeliveredStatuses.Contains(DataReaderRepair("Status").ToString) AndAlso DataReaderRepair("Status").ToString <> cmbRepStatus.Text Then
+            MessageBox.Error("Delivered හෝ  Canceled Product එකක් නැවත Status එක වෙනස් කිරීමට ඔබ්ට Permission නොමැත.")
+            Return False
+        End If
+
+        Return True
+    End Function
+
+    Private Sub UpdateRepair()
+        Dim Activity As New Dictionary(Of String, Object)
+        If UpdateRepairField(Repair.Status, cmbRepStatus.Text) Then
+            Activity.Add("Status", cmbRepStatus.Text)
+        End If
+
+        If UpdateOtherField(Receive.RDate, txtRDate.Value.Date, Tables.Receive, Receive.RNo, txtRNo.Text) Then
+            Activity.Add("Received Date", txtRDate.Value.Date)
+        End If
+
+        If UpdateOtherField(Receive.CuNo, txtCuNo.Text, Tables.Receive, Receive.RNo, txtRNo.Text) Then
+            Activity.Add("Customer Name", TextCuName.Text)
+            Activity.Add("Telephone No 1", txtCuTelNo1.Text)
+            Activity.Add("Telephone No 2", txtCuTelNo2.Text)
+            Activity.Add("Telephone No 3", txtCuTelNo3.Text)
+        End If
+
+        If UpdateRepairField(Repair.PNo, txtPNo.Text) Then
+            Activity.Add("Product", cmbPCategory.Text + " " + cmbPName.Text)
+            Activity.Add("Model No", txtPModelNo.Text)
+            Activity.Add("Details", txtPDetails.Text)
+        End If
+
+        If UpdateRepairField(Repair.PSerialNo, txtPSerialNo.Text) Then
+            Activity.Add("Product Serial No", txtPSerialNo.Text)
+        End If
+
+        If UpdateRepairField(Repair.Problem, txtPProblem.Text) Then
+            Activity.Add("Problem", txtPProblem.Text)
+        End If
+
+        If UpdateRepairField(Repair.Location, ControlRemarks.cmbLocation.Text) Then
+            Activity.Add("Location", ControlRemarks.cmbLocation.Text)
+        End If
+
+        If {RepairStatus.Received, RepairStatus.Canceled}.Contains(cmbRepStatus.Text) Then
+            Return
+        End If
+
+        Dim AssignedTechnician = ControlTechnicianInfo.GetAssignedTechnician()
+        If IsNothing(AssignedTechnician) = False AndAlso UpdateRepairField(Repair.AssignedToTNo, AssignedTechnician.No) Then
+            Activity.Add("Assigned Technician", AssignedTechnician.Name)
+        End If
+
+        Dim HandedOverTechnician = ControlTechnicianInfo.GetHandedOverTechnician()
+        If IsNothing(HandedOverTechnician) = False AndAlso UpdateRepairField(Repair.HandedOverToTNo, HandedOverTechnician.No) Then
+            Activity.Add("Handed Over Technician", HandedOverTechnician.Name)
+        End If
+
+        If {RepairStatus.AssignedTo, RepairStatus.HandedOverTo, RepairStatus.Pending}.Contains(cmbRepStatus.Text) Then
+            Return
+        End If
+
+        If UpdateRepairField(Repair.Charge, ControlRepairDeliverInfo.txtRepPrice.Text) Then
+            Activity.Add("Repair Charge", ControlRepairDeliverInfo.txtRepPrice.Text)
+        End If
+
+        If UpdateRepairField(Repair.RepDate, ControlRepairDeliverInfo.txtRepDate.Value) Then
+            Activity.Add("Repaired Date", ControlRepairDeliverInfo.txtRepDate.Value)
+        End If
+
+        If Activity.Count < 1 Then
+            Return
+        End If
+
+        RepairController.SetDatabase(TransactionDatabase)
+        RepairController.InsertRepairActivity(Mode, cmbRepNo.Text, "UPDATE: " + JsonConvert.SerializeObject(Activity))
+    End Sub
+
+    Private Sub UpdateReRepair()
+        Dim Activity As New Dictionary(Of String, Object)
+        If UpdateRepairField(ReRepair.Status, cmbRetStatus.Text) Then
+            Activity.Add("Status", cmbRetStatus.Text)
+        End If
+
+        If UpdateOtherField(Receive.RDate, txtRDate.Value.Date, Tables.Receive, Receive.RNo, txtRNo.Text) Then
+            Activity.Add("Received Date", txtRDate.Value.Date)
+        End If
+
+        If UpdateOtherField(Receive.CuNo, txtCuNo.Text, Tables.Receive, Receive.RNo, txtRNo.Text) Then
+            Activity.Add("Customer Name", TextCuName.Text)
+            Activity.Add("Telephone No 1", txtCuTelNo1.Text)
+            Activity.Add("Telephone No 2", txtCuTelNo2.Text)
+            Activity.Add("Telephone No 3", txtCuTelNo3.Text)
+        End If
+
+        If UpdateRepairField(ReRepair.PNo, txtPNo.Text) Then
+            Activity.Add("Product", cmbPCategory.Text + " " + cmbPName.Text)
+            Activity.Add("Model No", txtPModelNo.Text)
+            Activity.Add("Details", txtPDetails.Text)
+        End If
+
+        If UpdateRepairField(ReRepair.PSerialNo, txtPSerialNo.Text) Then
+            Activity.Add("Product Serial No", txtPSerialNo.Text)
+        End If
+
+        If UpdateRepairField(ReRepair.Problem, txtPProblem.Text) Then
+            Activity.Add("Problem", txtPProblem.Text)
+        End If
+
+        If UpdateRepairField(ReRepair.Location, ControlRemarks.cmbLocation.Text) Then
+            Activity.Add("Location", ControlRemarks.cmbLocation.Text)
+        End If
+
+        If {RepairStatus.Received, RepairStatus.Canceled}.Contains(cmbRetStatus.Text) Then
+            Return
+        End If
+
+        Dim AssignedTechnician = ControlTechnicianInfo.GetAssignedTechnician()
+        If IsNothing(AssignedTechnician) = False AndAlso UpdateRepairField(Repair.AssignedToTNo, AssignedTechnician.No) Then
+            Activity.Add("Assigned To Technician", AssignedTechnician.Name)
+        End If
+
+        If {RepairStatus.AssignedTo}.Contains(cmbRetStatus.Text) Then
+            Return
+        End If
+
+        Dim HandedOverTechnician = ControlTechnicianInfo.GetHandedOverTechnician()
+        If IsNothing(HandedOverTechnician) = False AndAlso UpdateRepairField(Repair.HandedOverToTNo, HandedOverTechnician.No) Then
+            Activity.Add("Handed Over To Technician", HandedOverTechnician.Name)
+        End If
+
+        If {RepairStatus.HandedOverTo, RepairStatus.Pending}.Contains(cmbRetStatus.Text) Then
+            Return
+        End If
+
+        If UpdateRepairField(ReRepair.Charge, ControlRepairDeliverInfo.txtRepPrice.Text) Then
+            Activity.Add("Repair Charge", ControlRepairDeliverInfo.txtRepPrice.Text)
+        End If
+
+        If UpdateRepairField(ReRepair.RepDate, ControlRepairDeliverInfo.txtRepDate.Value) Then
+            Activity.Add("Repaired Date", ControlRepairDeliverInfo.txtRepDate.Value)
+        End If
+
+        If Activity.Count < 1 Then
+            Return
+        End If
+
+        RepairController.SetDatabase(TransactionDatabase)
+        RepairController.InsertRepairActivity(Mode, cmbRetNo.Text, "UPDATE: " + JsonConvert.SerializeObject(Activity))
+    End Sub
+
+    Private Function UpdateRepairField(FieldName As String, NewValue As Object) As Boolean
+        Dim TableName As String = If(Mode = RepairMode.Repair, Tables.Repair, Tables.ReRepair)
+        Dim IdField As String = If(Mode = RepairMode.Repair, "RepNo", "RetNo")
+        Dim IdValue As String = If(Mode = RepairMode.Repair, cmbRepNo.Text, cmbRetNo.Text)
+
+        If DataReaderRepair(FieldName).ToString <> NewValue.ToString Then
+            TransactionDatabase.Execute($"UPDATE `{TableName}` SET `{FieldName}` = @NEWVALUE WHERE `{IdField}` = @ID;", {
+                New MySqlParameter("NEWVALUE", NewValue),
+                New MySqlParameter("ID", IdValue)
+            })
+            Return True
+        End If
+
+        Return False
+    End Function
+
+    Private Function UpdateOtherField(FieldName As String, NewValue As Object, TableName As String, IdField As String, IdValue As Integer) As Boolean
+        If DataReaderRepair(FieldName).ToString <> NewValue.ToString Then
+            TransactionDatabase.Execute($"UPDATE {TableName} SET {FieldName} = @NEWVALUE WHERE {IdField} = @ID;", {
+                New MySqlParameter("NEWVALUE", NewValue),
+                New MySqlParameter("ID", IdValue)
+            })
+            Return True
+        End If
+
+        Return False
+    End Function
+
     Private Sub CmdRepView_Click(sender As Object, e As EventArgs) Handles cmdRepView.Click
-        Dim frmSearchRepair As New frmSearch With {
-            .Tag = "Repair",
-            .Name = "frmSearch" + NextfrmNo(frmSearch).ToString
+        Dim frmSearchRepair As New FormSearch With {
+            .Name = "FormSearch" + NextFormNo(FormSearch).ToString,
+            .RequestSource = FormSearchRequestSource.Repair
         }
         frmSearchRepair.Show()
     End Sub
 
     Private Sub CmdReRepView_Click(sender As Object, e As EventArgs) Handles cmdReRepView.Click
-        Dim frmSearchReRepair As New frmSearch With {
-            .Tag = "ReRepair",
-            .Name = "frmSearch" + NextfrmNo(frmSearch).ToString
+        Dim frmSearchReRepair As New FormSearch With {
+            .Name = "FormSearch" + NextFormNo(FormSearch).ToString,
+            .RequestSource = FormSearchRequestSource.ReRepair
         }
         frmSearchReRepair.Show()
     End Sub
@@ -548,14 +601,14 @@ Public Class FormRepair
                     Call .grdRERepair_CellEndEdit(sender, E1)
                 End With
             Case "RepairAdvanced"
-                With frmRepairAdvanced
-                    .cmbRepNo.Text = cmbRepNo.Text
-                    If tabRepair.SelectedTab.TabIndex = 0 Then
-                        .rbRep.Checked = True
-                    Else
-                        .rbRERep.Checked = True
-                    End If
-                End With
+                'With FormRepairAdvance
+                '    .cmbRepNo.Text = cmbRepNo.Text
+                '    If tabRepair.SelectedTab.TabIndex = 0 Then
+                '        .rbRep.Checked = True
+                '    Else
+                '        .rbRERep.Checked = True
+                '    End If
+                'End With
         End Select
         Call FrmRepair_Leave(sender, e)
     End Sub
@@ -614,11 +667,29 @@ Public Class FormRepair
     End Sub
 
     Private Sub PrintRepairStickerToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PrintRepairStickerToolStripMenuItem.Click
-        ReportPrintManager.PrintRepairSticker(txtRNo.Text, False, False, "RepairStickerReceipt")
+        Dim Form As New FormReport
+        Try
+            Dim ReportManager As New RepairStickerReport()
+            ReportManager.SetPrinterName(My.Settings.StickerPrinterName).SetPaperName(My.Settings.RepairStickerPrinterPaperName)
+            Dim Report = ReportManager.GenerateReport(txtRNo.Text)
+            Dim FormReport = ReportManager.GetFormReport(Report, "Report - Repair Sticker", False)
+            FormReport.Show(Me)
+        Catch ex As Exception
+            MessageBox.Error("Receipt Sticker එක print කර ගැනීමට අපොහොසත් විය." + vbCrLf + "Error: " + ex.Message)
+        End Try
     End Sub
 
     Private Sub PrintReceivedReceiptToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PrintReceivedReceiptToolStripMenuItem.Click
-        ReportPrintManager.PrintReceivedReceipt(txtRNo.Text, False, False, "RepairReceivedReceipt")
+        Dim Form As New FormReport
+        Try
+            Dim ReportManager As New ReceivedInvoiceReport()
+            ReportManager.SetPrinterName(My.Settings.BillPrinterName).SetPaperName(My.Settings.BillPrinterPaperName)
+            Dim Report = ReportManager.GenerateReport(txtRNo.Text)
+            Dim FormReport = ReportManager.GetFormReport(Report, "Report - Received Receipt", False)
+            FormReport.Show(Me)
+        Catch ex As Exception
+            MessageBox.Error("Receipt Invoice එක print කර ගැනීමට අපොහොසත් විය." + vbCrLf + "Error: " + ex.Message)
+        End Try
     End Sub
 
     Private Sub PrintDeliverReceiptToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PrintDeliverReceiptToolStripMenuItem.Click

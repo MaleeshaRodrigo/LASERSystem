@@ -57,9 +57,9 @@ Public NotInheritable Class FrmSplash
                 End If
             Case 40
                 txtLoad.Text = "Optimizing Report Viewer for printing..."
-                frmReport.WindowState = FormWindowState.Minimized
-                frmReport.Show()
-                frmReport.Hide()
+                FormReport.WindowState = FormWindowState.Minimized
+                FormReport.Show()
+                FormReport.Hide()
             Case 60
                 txtLoad.Text = "Setting Main Menu..."
                 With FormMain
@@ -72,8 +72,6 @@ Public NotInheritable Class FrmSplash
                     .tabChart.TabPages.Remove(.pageReceivedRepvsDate)
                     .tabChart.TabPages.Remove(.pageCashier)
                     .tabChart.TabPages.Add(.pageCashier)
-                    .GrdActivity.Width = .tabChart.Width
-                    .GrdActivity.Left = .tabChart.Left
                 End With
             Case 70
                 With FormMain

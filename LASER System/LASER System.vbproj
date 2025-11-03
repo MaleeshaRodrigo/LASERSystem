@@ -39,8 +39,8 @@
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>2</ApplicationRevision>
-    <ApplicationVersion>2.3.0.%2a</ApplicationVersion>
+    <ApplicationRevision>6</ApplicationRevision>
+    <ApplicationVersion>2.7.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -99,9 +99,6 @@
     <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BarcodeLib.Barcode.CrystalReports">
-      <HintPath>..\packages\BarcodeLib.Barcode.CrystalReports.dll</HintPath>
-    </Reference>
     <Reference Include="CrystalDecisions.CrystalReports.Engine">
       <HintPath>..\..\..\..\..\program files (x86)\sap businessobjects\crystal reports for .net framework 4.0\common\sap businessobjects enterprise xi 4.0\win64_x64\dotnet\CrystalDecisions.CrystalReports.Engine.dll</HintPath>
     </Reference>
@@ -114,51 +111,51 @@
     <Reference Include="CrystalDecisions.Windows.Forms">
       <HintPath>..\..\..\..\..\program files (x86)\sap businessobjects\crystal reports for .net framework 4.0\common\sap businessobjects enterprise xi 4.0\win64_x64\dotnet\CrystalDecisions.Windows.Forms.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.8.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    <Reference Include="log4net, Version=3.2.0.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.3.2.0\lib\net462\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=8.0.0.1, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.8.0.1\lib\net462\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=9.0.0.9, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.9.0.9\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=8.0.0.1, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.8.0.1\lib\net462\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=9.0.0.9, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.9.0.9\lib\net462\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=9.0.0.9, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.9.0.9\lib\net462\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="MySqlConnector, Version=2.0.0.0, Culture=neutral, PublicKeyToken=d33d3e53aa5f8c92, processorArchitecture=MSIL">
-      <HintPath>..\packages\MySqlConnector.2.3.7\lib\net48\MySqlConnector.dll</HintPath>
+      <HintPath>..\packages\MySqlConnector.2.4.0\lib\net48\MySqlConnector.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.13.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System">
       <HintPath>..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\System.dll</HintPath>
     </Reference>
-    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    <Reference Include="System.Buffers, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.6.1\lib\net462\System.Buffers.dll</HintPath>
     </Reference>
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.Odbc, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Data.Odbc.8.0.0\lib\net462\System.Data.Odbc.dll</HintPath>
-    </Reference>
     <Reference Include="System.Deployment" />
-    <Reference Include="System.Diagnostics.DiagnosticSource, Version=8.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.8.0.1\lib\net462\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=9.0.0.9, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.9.0.9\lib\net462\System.Diagnostics.DiagnosticSource.dll</HintPath>
     </Reference>
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
+    <Reference Include="System.Memory, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.6.3\lib\net462\System.Memory.dll</HintPath>
     </Reference>
     <Reference Include="System.Numerics" />
-    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    <Reference Include="System.Numerics.Vectors, Version=4.1.6.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.6.1\lib\net462\System.Numerics.Vectors.dll</HintPath>
     </Reference>
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.1.2\lib\net462\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
-    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.4.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.6.3\lib\net462\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="System.Transactions" />
     <Reference Include="System.Web" />
@@ -172,11 +169,11 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Net.Http" />
     <Reference Include="WindowsBase" />
-    <Reference Include="zxing, Version=0.16.9.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
-      <HintPath>..\packages\ZXing.Net.0.16.9\lib\net48\zxing.dll</HintPath>
+    <Reference Include="zxing, Version=0.16.10.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZXing.Net.0.16.10\lib\net48\zxing.dll</HintPath>
     </Reference>
-    <Reference Include="zxing.presentation, Version=0.16.9.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
-      <HintPath>..\packages\ZXing.Net.0.16.9\lib\net48\zxing.presentation.dll</HintPath>
+    <Reference Include="zxing.presentation, Version=0.16.10.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZXing.Net.0.16.10\lib\net48\zxing.presentation.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -210,7 +207,10 @@
     <Compile Include="Classes\Controllers\RepairController.vb" />
     <Compile Include="Classes\Models\ProductModel.vb" />
     <Compile Include="Classes\Controllers\TechnicianController.vb" />
-    <Compile Include="Classes\ReportPrintManager.vb" />
+    <Compile Include="Classes\ReportPrinter\ReceivedInvoiceReport.vb" />
+    <Compile Include="Classes\ReportPrinter\AbstractReportManager.vb" />
+    <Compile Include="Classes\ReportPrinter\RepairStickerReport.vb" />
+    <Compile Include="Classes\ReportPrinter\StockStickerReport.vb" />
     <Compile Include="Classes\TransactionDatabase.vb" />
     <Compile Include="Classes\User.vb" />
     <Compile Include="Classes\Validators\CustomValidator.vb" />
@@ -231,6 +231,8 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Enums\UpdateMode.vb" />
+    <Compile Include="Interfaces\GridSearchControl.vb" />
+    <Compile Include="Interfaces\ReportPrint.vb" />
     <Compile Include="Main\Controls\ControlCashierDashboard.Designer.vb">
       <DependentUpon>ControlCashierDashboard.vb</DependentUpon>
     </Compile>
@@ -241,6 +243,12 @@
       <DependentUpon>ControlCashierDashboardLogin.vb</DependentUpon>
     </Compile>
     <Compile Include="Main\Controls\ControlCashierDashboardLogin.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Main\Controls\ControlRepairDashboard.Designer.vb">
+      <DependentUpon>ControlRepairDashboard.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Main\Controls\ControlRepairDashboard.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Main\FormMain.Designer.vb">
@@ -269,10 +277,10 @@
     <Compile Include="RepairAdvance\Controls\ControlRepairAdvanceInfo.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Repair\Controls\ControlActivityInfo.Designer.vb">
-      <DependentUpon>ControlActivityInfo.vb</DependentUpon>
+    <Compile Include="Repair\Controls\ControlRepairCollection3.Designer.vb">
+      <DependentUpon>ControlRepairCollection3.vb</DependentUpon>
     </Compile>
-    <Compile Include="Repair\Controls\ControlActivityInfo.vb">
+    <Compile Include="Repair\Controls\ControlRepairCollection3.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Repair\Controls\ControlAdvancePayInfo.Designer.vb">
@@ -281,16 +289,16 @@
     <Compile Include="Repair\Controls\ControlAdvancePayInfo.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Repair\Controls\ControlRemarks.Designer.vb">
-      <DependentUpon>ControlRemarks.vb</DependentUpon>
+    <Compile Include="Repair\Controls\ControlRepairCollection1.Designer.vb">
+      <DependentUpon>ControlRepairCollection1.vb</DependentUpon>
     </Compile>
-    <Compile Include="Repair\Controls\ControlRemarks.vb">
+    <Compile Include="Repair\Controls\ControlRepairCollection1.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Repair\Controls\ControlRepairDeliverInfo.Designer.vb">
-      <DependentUpon>ControlRepairDeliverInfo.vb</DependentUpon>
+    <Compile Include="Repair\Controls\ControlRepairCollection6.Designer.vb">
+      <DependentUpon>ControlRepairCollection6.vb</DependentUpon>
     </Compile>
-    <Compile Include="Repair\Controls\ControlRepairDeliverInfo.vb">
+    <Compile Include="Repair\Controls\ControlRepairCollection6.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Repair\Controls\ControlReRepairView.Designer.vb">
@@ -299,22 +307,22 @@
     <Compile Include="Repair\Controls\ControlReRepairView.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Repair\Controls\ControlTaskInfo.Designer.vb">
-      <DependentUpon>ControlTaskInfo.vb</DependentUpon>
+    <Compile Include="Repair\Controls\ControlRepairCollection2.Designer.vb">
+      <DependentUpon>ControlRepairCollection2.vb</DependentUpon>
     </Compile>
-    <Compile Include="Repair\Controls\ControlTaskInfo.vb">
+    <Compile Include="Repair\Controls\ControlRepairCollection2.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Repair\Controls\ControlTechnicianCostListInfo.Designer.vb">
-      <DependentUpon>ControlTechnicianCostListInfo.vb</DependentUpon>
+    <Compile Include="Repair\Controls\ControlRepairCollection5.Designer.vb">
+      <DependentUpon>ControlRepairCollection5.vb</DependentUpon>
     </Compile>
-    <Compile Include="Repair\Controls\ControlTechnicianCostListInfo.vb">
+    <Compile Include="Repair\Controls\ControlRepairCollection5.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Repair\Controls\ControlTechnicianInfo.Designer.vb">
-      <DependentUpon>ControlTechnicianInfo.vb</DependentUpon>
+    <Compile Include="Repair\Controls\ControlRepairCollection4.Designer.vb">
+      <DependentUpon>ControlRepairCollection4.vb</DependentUpon>
     </Compile>
-    <Compile Include="Repair\Controls\ControlTechnicianInfo.vb">
+    <Compile Include="Repair\Controls\ControlRepairCollection4.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Interfaces\Validator.vb" />
@@ -323,6 +331,42 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>rptReceive.rpt</DependentUpon>
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Search\Controls\ControlGridRemarks.Designer.vb">
+      <DependentUpon>ControlGridRemarks.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Search\Controls\ControlGridRemarks.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Search\Controls\GridDeliverSearchControl.Designer.vb">
+      <DependentUpon>GridDeliverSearchControl.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Search\Controls\GridDeliverSearchControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Search\Controls\GridRepairSearchControl.Designer.vb">
+      <DependentUpon>GridRepairSearchControl.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Search\Controls\GridRepairSearchControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Search\Controls\GridSaleSearchControl.Designer.vb">
+      <DependentUpon>GridSaleSearchControl.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Search\Controls\GridSaleSearchControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Search\Controls\GridSupplySearchControl.Designer.vb">
+      <DependentUpon>GridSupplySearchControl.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Search\Controls\GridSupplySearchControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Search\FormSearch.Designer.vb">
+      <DependentUpon>FormSearch.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Search\FormSearch.vb">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Shared Controls\ControlCustomer.Designer.vb">
       <DependentUpon>ControlCustomer.vb</DependentUpon>
@@ -346,6 +390,12 @@
       <DependentUpon>ControlPrice.vb</DependentUpon>
     </Compile>
     <Compile Include="Shared Controls\ControlPrice.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Shared Controls\ControlRemarks.Designer.vb">
+      <DependentUpon>ControlRemarks.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Shared Controls\ControlRemarks.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Shared Controls\ControlRepairReRepairSelection.Designer.vb">
@@ -444,10 +494,10 @@
     <Compile Include="RepairAdvance\FormRepairAdvance.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmReport.Designer.vb">
-      <DependentUpon>frmReport.vb</DependentUpon>
+    <Compile Include="FormReport.Designer.vb">
+      <DependentUpon>FormReport.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmReport.vb">
+    <Compile Include="FormReport.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmSale.Designer.vb">
@@ -460,12 +510,6 @@
       <DependentUpon>frmSalesRepair.vb</DependentUpon>
     </Compile>
     <Compile Include="frmSalesRepair.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmSearch.Designer.vb">
-      <DependentUpon>frmSearch.vb</DependentUpon>
-    </Compile>
-    <Compile Include="frmSearch.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmSettings.Designer.vb">
@@ -535,10 +579,16 @@
     <Compile Include="TechnicianCost\FormTechnicianCost.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmTechnicianLoan.Designer.vb">
-      <DependentUpon>frmTechnicianLoan.vb</DependentUpon>
+    <Compile Include="TechnicianLoan\Controls\ControlTechnicianLoanInfo.Designer.vb">
+      <DependentUpon>ControlTechnicianLoanInfo.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmTechnicianLoan.vb">
+    <Compile Include="TechnicianLoan\Controls\ControlTechnicianLoanInfo.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TechnicianLoan\FormTechnicianLoan.Designer.vb">
+      <DependentUpon>FormTechnicianLoan.vb</DependentUpon>
+    </Compile>
+    <Compile Include="TechnicianLoan\FormTechnicianLoan.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmTechnicianSalary.Designer.vb">
@@ -653,6 +703,10 @@
     <EmbeddedResource Include="Main\Controls\ControlCashierDashboardLogin.resx">
       <DependentUpon>ControlCashierDashboardLogin.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Main\Controls\ControlRepairDashboard.resx">
+      <DependentUpon>ControlRepairDashboard.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Main\FormMain.resx">
       <DependentUpon>FormMain.vb</DependentUpon>
     </EmbeddedResource>
@@ -665,29 +719,29 @@
     <EmbeddedResource Include="RepairAdvance\Controls\ControlRepairAdvanceInfo.resx">
       <DependentUpon>ControlRepairAdvanceInfo.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Repair\Controls\ControlActivityInfo.resx">
-      <DependentUpon>ControlActivityInfo.vb</DependentUpon>
+    <EmbeddedResource Include="Repair\Controls\ControlRepairCollection3.resx">
+      <DependentUpon>ControlRepairCollection3.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Repair\Controls\ControlAdvancePayInfo.resx">
       <DependentUpon>ControlAdvancePayInfo.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Repair\Controls\ControlRemarks.resx">
-      <DependentUpon>ControlRemarks.vb</DependentUpon>
+    <EmbeddedResource Include="Repair\Controls\ControlRepairCollection1.resx">
+      <DependentUpon>ControlRepairCollection1.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Repair\Controls\ControlRepairDeliverInfo.resx">
-      <DependentUpon>ControlRepairDeliverInfo.vb</DependentUpon>
+    <EmbeddedResource Include="Repair\Controls\ControlRepairCollection6.resx">
+      <DependentUpon>ControlRepairCollection6.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Repair\Controls\ControlReRepairView.resx">
       <DependentUpon>ControlReRepairView.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Repair\Controls\ControlTaskInfo.resx">
-      <DependentUpon>ControlTaskInfo.vb</DependentUpon>
+    <EmbeddedResource Include="Repair\Controls\ControlRepairCollection2.resx">
+      <DependentUpon>ControlRepairCollection2.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Repair\Controls\ControlTechnicianCostListInfo.resx">
-      <DependentUpon>ControlTechnicianCostListInfo.vb</DependentUpon>
+    <EmbeddedResource Include="Repair\Controls\ControlRepairCollection5.resx">
+      <DependentUpon>ControlRepairCollection5.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Repair\Controls\ControlTechnicianInfo.resx">
-      <DependentUpon>ControlTechnicianInfo.vb</DependentUpon>
+    <EmbeddedResource Include="Repair\Controls\ControlRepairCollection4.resx">
+      <DependentUpon>ControlRepairCollection4.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmCustomer.resx">
       <DependentUpon>frmCustomer.vb</DependentUpon>
@@ -716,8 +770,8 @@
     <EmbeddedResource Include="RepairAdvance\FormRepairAdvance.resx">
       <DependentUpon>FormRepairAdvance.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmReport.resx">
-      <DependentUpon>frmReport.vb</DependentUpon>
+    <EmbeddedResource Include="FormReport.resx">
+      <DependentUpon>FormReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmSale.resx">
       <DependentUpon>frmSale.vb</DependentUpon>
@@ -725,14 +779,12 @@
     <EmbeddedResource Include="frmSalesRepair.resx">
       <DependentUpon>frmSalesRepair.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmSearch.resx">
-      <DependentUpon>frmSearch.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="frmSettings.resx">
       <DependentUpon>frmSettings.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmSettlement.resx">
       <DependentUpon>frmSettlement.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="frmSplash.resx">
       <DependentUpon>frmSplash.vb</DependentUpon>
@@ -752,6 +804,28 @@
     <EmbeddedResource Include="frmTechnician.resx">
       <DependentUpon>frmTechnician.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Reports\rptReceive.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptReceive1.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Search\Controls\ControlGridRemarks.resx">
+      <DependentUpon>ControlGridRemarks.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Search\Controls\GridDeliverSearchControl.resx">
+      <DependentUpon>GridDeliverSearchControl.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Search\Controls\GridRepairSearchControl.resx">
+      <DependentUpon>GridRepairSearchControl.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Search\Controls\GridSaleSearchControl.resx">
+      <DependentUpon>GridSaleSearchControl.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Search\Controls\GridSupplySearchControl.resx">
+      <DependentUpon>GridSupplySearchControl.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Search\FormSearch.resx">
+      <DependentUpon>FormSearch.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Shared Controls\ControlCustomer.resx">
       <DependentUpon>ControlCustomer.vb</DependentUpon>
     </EmbeddedResource>
@@ -763,6 +837,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Shared Controls\ControlPrice.resx">
       <DependentUpon>ControlPrice.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Shared Controls\ControlRemarks.resx">
+      <DependentUpon>ControlRemarks.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Shared Controls\ControlRepairReRepairSelection.resx">
       <DependentUpon>ControlRepairReRepairSelection.vb</DependentUpon>
@@ -788,8 +865,11 @@
     <EmbeddedResource Include="TechnicianCost\FormTechnicianCost.resx">
       <DependentUpon>FormTechnicianCost.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmTechnicianLoan.resx">
-      <DependentUpon>frmTechnicianLoan.vb</DependentUpon>
+    <EmbeddedResource Include="TechnicianLoan\Controls\ControlTechnicianLoanInfo.resx">
+      <DependentUpon>ControlTechnicianLoanInfo.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TechnicianLoan\FormTechnicianLoan.resx">
+      <DependentUpon>FormTechnicianLoan.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmTechnicianSalary.resx">
       <DependentUpon>frmTechnicianSalary.vb</DependentUpon>
@@ -803,10 +883,6 @@
     <EmbeddedResource Include="Reports\rptDeliver.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>rptDeliver.vb</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\rptReceive.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>rptReceive.vb</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\rptRepairAdvanced.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

@@ -1,4 +1,5 @@
-﻿Imports LASER_System.StructureDatabase
+﻿Imports System.Threading
+Imports LASER_System.StructureDatabase
 Imports MySqlConnector
 
 Public Class ControlCommandInfo
@@ -48,12 +49,11 @@ Public Class ControlCommandInfo
     Private Sub CmdReceiptSticker_Click(sender As Object, e As EventArgs) Handles cmdReceiptSticker.Click, cmdReceipt.Click, cmdSticker.Click, cmdSaveOnly.Click
         Try
             Dim RNo As Integer = SaveReceivedRepair()
-            Dim ReportPrintManager As New ReportPrintManager()
             If sender Is cmdReceipt Or sender Is cmdReceiptSticker Then
-                ReportPrintManager.PrintReceivedReceipt(RNo, True, True, "ReceivedReceipt")
+                ReceivedInvoicePrint(RNo)
             End If
             If sender Is cmdSticker Or sender Is cmdReceiptSticker Then
-                ReportPrintManager.PrintRepairSticker(RNo, True, True, "ReceivedSticker")
+                RepairStickerPrint(RNo)
             End If
         Catch ex As Exception
             MessageBox.Error("Received Repair Save and Print Section එකෙහි දෝෂයක් පවතියි." + vbCrLf + "Message: " + ex.Message)
@@ -75,4 +75,53 @@ Public Class ControlCommandInfo
         End Try
     End Function
 
+    Private Sub ReceivedInvoicePrint(ReceivedNo As Integer)
+        If IsNumeric(ReceivedNo) = False Then
+            Exit Sub
+        End If
+
+        Dim UserName As String = User.Instance.UserName
+        Dim ThreadInvoice As New Thread(
+            Sub()
+                Dim Form As New FormReport
+                Try
+                    Dim ReportManager As New ReceivedInvoiceReport()
+                    ReportManager.SetPrinterName(My.Settings.BillPrinterName).SetPaperName(My.Settings.BillPrinterPaperName)
+                    Dim Report = ReportManager.GenerateReport(ReceivedNo)
+                    Dim FormReport = ReportManager.GetFormReport(Report, "Report - Received Receipt", True)
+                    ReportManager.Print(Report)
+                    Application.Run(FormReport)
+                Catch ex As Exception
+                    MessageBox.Error("Receipt Invoice එක print කර ගැනීමට අපොහොසත් විය." + vbCrLf + "Error: " + ex.Message)
+                End Try
+            End Sub) With {.Name = "ShowInvoiceReport", .IsBackground = False}
+        ThreadInvoice.SetApartmentState(ApartmentState.STA)
+        ThreadInvoice.Priority = ThreadPriority.Highest
+        ThreadInvoice.Start()
+    End Sub
+
+    Private Sub RepairStickerPrint(ReceivedNo As Integer)
+        If IsNumeric(ReceivedNo) = False Then
+            Exit Sub
+        End If
+
+        Dim UserName As String = User.Instance.UserName
+        Dim ThreadInvoice As New Thread(
+            Sub()
+                Dim Form As New FormReport
+                Try
+                    Dim ReportManager As New RepairStickerReport()
+                    ReportManager.SetPrinterName(My.Settings.StickerPrinterName).SetPaperName(My.Settings.RepairStickerPrinterPaperName)
+                    Dim Report = ReportManager.GenerateReport(ReceivedNo)
+                    Dim FormReport = ReportManager.GetFormReport(Report, "Report - Repair Sticker", True)
+                    ReportManager.Print(Report)
+                    Application.Run(FormReport)
+                Catch ex As Exception
+                    MessageBox.Error("Receipt Sticker එක print කර ගැනීමට අපොහොසත් විය." + vbCrLf + "Error: " + ex.Message)
+                End Try
+            End Sub) With {.Name = "ShowRepairStickerReport", .IsBackground = False}
+        ThreadInvoice.SetApartmentState(ApartmentState.STA)
+        ThreadInvoice.Priority = ThreadPriority.Highest
+        ThreadInvoice.Start()
+    End Sub
 End Class

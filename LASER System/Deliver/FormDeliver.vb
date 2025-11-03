@@ -132,12 +132,12 @@ Public Class FormDeliver
     Public Sub PrintDeliveryReceipt(DNo As Integer, Optional boolPrint As Boolean = False)
         Try
             Dim RPT As New rptDeliver
-            Dim Form As New frmReport
+            Dim Form As New FormReport
             Dim DT1 As New DataTable
-            Dim TableRepair As DataTable = Db.GetDataTable("SELECT Repair.RepNo,Repair.PNo,Product.PCategory,Product.PName,Repair.Qty,Repair.PaidPrice,Repair.TNo from Repair,Product,Deliver where Deliver.DNO = Repair.DNo And Repair.PNo = Product.PNo And Deliver.DNo = " & DNo & ";")
+            Dim TableRepair As DataTable = Db.GetDataTable("SELECT Repair.RepNo,Repair.PNo,Product.PCategory,Product.PName,Repair.Qty,Repair.PaidPrice,Repair.HandedOverToTNo from Repair,Product,Deliver where Deliver.DNO = Repair.DNo And Repair.PNo = Product.PNo And Deliver.DNo = " & DNo & ";")
             RPT.Subreports.Item("rptDeliverRepair.rpt").SetDataSource(TableRepair)
             Dim DT2 As New DataTable
-            Dim TableReReapir = Db.GetDataTable("Select Return.RetNo,Return.RepNo,Return.PNo,Product.PCategory,Product.Pname,Return.Qty,Return.PaidPrice,Return.TNo from `Return`,Product,Deliver where Deliver.DNO = Return.DNo And Return.PNo = Product.PNo And Deliver.DNO  = " & DNo & ";")
+            Dim TableReReapir = Db.GetDataTable("Select Return.RetNo,Return.RepNo,Return.PNo,Product.PCategory,Product.Pname,Return.Qty,Return.PaidPrice,Return.HandedOverToTNo from `Return`,Product,Deliver where Deliver.DNO = Return.DNo And Return.PNo = Product.PNo And Deliver.DNO  = " & DNo & ";")
             RPT.Subreports.Item("rptDeliverReturn.rpt").SetDataSource(TableReReapir)
             Dim TableDeliver As DataTable = Db.GetDataTable("SELECT Deliver.DNo, Deliver.DDate,Deliver.CuNo,Customer.CuName,Customer.CuTelNo1,Customer.CuTelNo2,Customer.CuTelNo3,Deliver.DGrandTotal,Deliver.CReceived,Deliver.CBalance,Deliver.CAmount,Deliver.CPInvoiceNO,Deliver.CPAmount,Deliver.CuLNo,Deliver.CuLAmount,Deliver.DRemarks from Deliver,Customer where Deliver.CuNo = Customer.CuNo And Deliver.DNo = " & DNo & ";")
             RPT.SetDataSource(TableDeliver)
@@ -172,9 +172,9 @@ Public Class FormDeliver
                     grdRepair.Rows.RemoveAt(grdRepair.CurrentCell.RowIndex)
                     Exit Sub
                 End If
-                Dim DRD = Db.GetDataDictionary("Select RepNo,PCategory,PName,PMOdelNO,PSerialNo,PDetails,Qty,Charge,TName,Status,CuName,CuTelNo1,CuTelNo2,CuTelNo3 from ((((Repair REP INNER JOIN RECEIVE R ON R.RNO = REP.RNO) INNER JOIN PRODUCT P ON P.PNO = REP.PNO) INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = REP.TNO AND TActive=1) Where RepNo = " & grdRepair.Item(0, grdRepair.CurrentCell.RowIndex).Value)
+                Dim DRD = Db.GetDataDictionary("Select RepNo,PCategory,PName,PMOdelNO,PSerialNo,PDetails,Qty,Charge,TName,Status,CuName,CuTelNo1,CuTelNo2,CuTelNo3 from ((((Repair REP INNER JOIN RECEIVE R ON R.RNO = REP.RNO) INNER JOIN PRODUCT P ON P.PNO = REP.PNO) INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = REP.HandedOverToTNo AND TActive=1) Where RepNo = " & grdRepair.Item(0, grdRepair.CurrentCell.RowIndex).Value)
                 If DRD IsNot Nothing Then
-                    If DRD("Status").ToString = "Repaired Delivered" Or DRD("Status").ToString = "Returned Delivered" Then
+                    If DRD("Status").ToString = RepairStatus.RepairedDelivered Or DRD("Status").ToString = RepairStatus.ReturnedDelivered Then
                         If MsgBox("මෙම Repair එක දැනටමත් Customer විසින් රැගෙන ගොස් ඇත." + vbCrLf + "ඔබට එම Repair එක විවෘත කිරිමට අවශ්‍යද?",
                                   vbInformation + vbYesNo) = vbYes Then
                             Dim frm As New FormRepair
@@ -220,10 +220,10 @@ Public Class FormDeliver
                         'Else
                         grdRepair.Item(5, grdRepair.CurrentCell.RowIndex).Value = DRD("TName").ToString
                         'End If
-                        If DRD("Status").ToString = "Returned Not Delivered" Then
-                            grdRepair.Item(6, grdRepair.CurrentCell.RowIndex).Value = "Returned Delivered"
+                        If DRD("Status").ToString = RepairStatus.Returned Then
+                            grdRepair.Item(6, grdRepair.CurrentCell.RowIndex).Value = RepairStatus.ReturnedDelivered
                         Else
-                            grdRepair.Item(6, grdRepair.CurrentCell.RowIndex).Value = "Repaired Delivered"
+                            grdRepair.Item(6, grdRepair.CurrentCell.RowIndex).Value = RepairStatus.RepairedDelivered
                         End If
                         For Each row As DataGridViewRow In grdRepair.Rows
                             If row.Index = grdRepair.CurrentCell.RowIndex Then Continue For
@@ -238,11 +238,37 @@ Public Class FormDeliver
                 If grdRepair.CurrentCell IsNot grdRepair.Item(0, grdRepair.Rows.Count - 1) Then grdRepair.CurrentCell = grdRepair.Item(0, grdRepair.Rows.Count - 1)
             Case 4
                 If grdRepair.Item(4, e.RowIndex).Value = "0" Then
-                    grdRepair.Item(6, grdRepair.CurrentCell.RowIndex).Value = "Returned Delivered"
+                    grdRepair.Item(6, grdRepair.CurrentCell.RowIndex).Value = RepairStatus.ReturnedDelivered
                 Else
-                    grdRepair.Item(6, grdRepair.CurrentCell.RowIndex).Value = "Repaired Delivered"
+                    grdRepair.Item(6, grdRepair.CurrentCell.RowIndex).Value = RepairStatus.RepairedDelivered
                 End If
         End Select
+    End Sub
+
+    Public Sub SetEditMode(DeliverNo As Integer)
+        txtDNo.Text = DeliverNo
+        cmdSave.Text = "Edit"
+        Dim DR = Db.GetDataDictionary($"Select D.*,CuName,CuTelNo1,CuTelNo2,CuTelNo3 from (Deliver D Inner Join Customer Cu On Cu.CuNo = D.CuNo) Where DNo={DeliverNo}")
+        If DR Is Nothing Then
+            Return
+        End If
+
+        txtDDate.Value = DR("DDate").ToString
+        cmbCuName.Text = DR("CuName").ToString
+        txtCuTelNo1.Text = DR("CuTelNo1").ToString
+        txtCuTelNo2.Text = DR("CuTelNo2").ToString
+        txtCuTelNo3.Text = DR("CuTelNo3").ToString
+        txtDRemarks.Text = DR("DRemarks").ToString
+        Dim DR1 = Db.GetDataList($"SELECT RepNo, REP.PNo, PCategory, PName, Qty, Status, REP.HandedOverToTNo, TName, PaidPrice FROM (((Repair REP INNER JOIN PRODUCT  P On P.PNO = REP.PNO) LEFT JOIN Technician T On T.TNO = REP.HandedOverToTNo) LEFT JOIN DELIVER D On D.DNO = REP.DNO) WHERE D.DNo={DeliverNo}")
+        grdRepair.Rows.Clear()
+        For Each Item In DR1
+            grdRepair.Rows.Add(Item("RepNo").ToString, Item("PCategory").ToString, Item("PName").ToString, Item("Qty").ToString, Item("PaidPrice").ToString, Item("TName").ToString, Item("Status").ToString)
+        Next
+        DR1 = Db.GetDataList("SELECT RetNo, RepNo, RET.PNo, PCategory, PName, Qty, Status, RET.HandedOverToTNo, TName, PaidPrice FROM (((`Return` RET INNER JOIN PRODUCT  P On P.PNO = RET.PNO) LEFT JOIN Technician T On T.TNO = RET.HandedOverToTNo) LEFT JOIN DELIVER D On D.DNO = RET.DNO) WHERE D.DNo=" & DeliverNo)
+        grdRERepair.Rows.Clear()
+        For Each Item In DR1
+            grdRERepair.Rows.Add(Item("RetNo").ToString, Item("RepNo").ToString, Item("PCategory").ToString, Item("PName").ToString, Item("Qty").ToString, Item("PaidPrice").ToString, Item("TName").ToString, Item("Status").ToString)
+        Next
     End Sub
 
     Private Sub grdRepair_EditingControlShowing(sender As Object, e As DataGridViewEditingControlShowingEventArgs) Handles grdRepair.EditingControlShowing
@@ -266,7 +292,7 @@ Public Class FormDeliver
                     autoText.AutoCompleteMode = AutoCompleteMode.Suggest
                     autoText.AutoCompleteSource = AutoCompleteSource.CustomSource
                     DataCollection.Clear()
-                    Dim DR = Db.GetDataList("Select RepNo from Repair where Status <> 'Repaired Delivered' and Status <> 'Returned Delivered' and Status <> 'Canceled' order by RepNo Desc;")
+                    Dim DR = Db.GetDataList($"Select RepNo from Repair where Status <> '{RepairStatus.RepairedDelivered}' and Status <> '{RepairStatus.ReturnedDelivered}' and Status <> '{RepairStatus.Canceled}' order by RepNo Desc;")
                     For Each Item In DR
                         DataCollection.Add(Item("RepNo").ToString)
                     Next
@@ -341,9 +367,9 @@ Public Class FormDeliver
                     grdRERepair.Rows.RemoveAt(grdRERepair.CurrentCell.RowIndex)
                     Exit Sub
                 End If
-                Dim DataReader = Db.GetDataDictionary("Select RetNo,RepNo,PCategory,PName,PModelNo,PSerialNo,PDetails,Qty,Charge,TName,Status,CuName,CuTelNo1,CuTelNo2,CuTelNo3 from ((((`Return` RET INNER JOIN RECEIVE R ON R.RNO = RET.RNO) INNER JOIN PRODUCT  P ON P.PNO = RET.PNO) INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = RET.TNO) Where RetNo = " & grdRERepair.Item(0, grdRERepair.CurrentCell.RowIndex).Value)
+                Dim DataReader = Db.GetDataDictionary("Select RetNo,RepNo,PCategory,PName,PModelNo,PSerialNo,PDetails,Qty,Charge,TName,Status,CuName,CuTelNo1,CuTelNo2,CuTelNo3 from ((((`Return` RET INNER JOIN RECEIVE R ON R.RNO = RET.RNO) INNER JOIN PRODUCT  P ON P.PNO = RET.PNO) INNER JOIN CUSTOMER CU ON CU.CUNO = R.CUNO) LEFT JOIN Technician T ON T.TNO = RET.HandedOverToTNo) Where RetNo = " & grdRERepair.Item(0, grdRERepair.CurrentCell.RowIndex).Value)
                 If DataReader IsNot Nothing Then
-                    If DataReader("Status").ToString = "Repaired Delivered" Or DataReader("Status").ToString = "Returned Delivered" Then
+                    If DataReader("Status").ToString = RepairStatus.RepairedDelivered Or DataReader("Status").ToString = RepairStatus.ReturnedDelivered Then
                         If MsgBox("මෙම RERepair එක දැනටමත් Customer විසින් රැගෙන ගොස් ඇත." + vbCrLf + "ඔබට එම RERepair එක විවෘත කිරිමට අවශ්‍යද?", vbInformation + vbYesNo) = vbYes Then
                             Dim frm As New FormRepair
                             With frm
@@ -376,10 +402,10 @@ Public Class FormDeliver
                         grdRERepair.Item(4, grdRERepair.CurrentCell.RowIndex).Value = DataReader("Qty").ToString
                         grdRERepair.Item(5, grdRERepair.CurrentCell.RowIndex).Value = DataReader("Charge").ToString
                         grdRERepair.Item(6, grdRERepair.CurrentCell.RowIndex).Value = DataReader("TName").ToString
-                        If DataReader("Status").ToString = "Returned Not Delivered" Then
-                            grdRERepair.Item(7, grdRERepair.CurrentCell.RowIndex).Value = "Returned Delivered"
+                        If DataReader("Status").ToString = RepairStatus.Returned Then
+                            grdRERepair.Item(7, grdRERepair.CurrentCell.RowIndex).Value = RepairStatus.ReturnedDelivered
                         Else
-                            grdRERepair.Item(7, grdRERepair.CurrentCell.RowIndex).Value = "Repaired Delivered"
+                            grdRERepair.Item(7, grdRERepair.CurrentCell.RowIndex).Value = RepairStatus.RepairedDelivered
                         End If
                         For Each row As DataGridViewRow In grdRERepair.Rows
                             If row.Index = grdRERepair.CurrentCell.RowIndex Then Continue For
@@ -400,7 +426,7 @@ Public Class FormDeliver
                 Else
                     If MsgBox("එම Repair එක සඳහා RERepair එකක් විවෘත කර නොමැත. ඔබට මෙය ඇතුලත් කිරිමට අවශ්‍ය ද?", vbYesNo + vbInformation) = vbYes Then
                         Dim frm As New FormReceive
-                        frm.Name = "frmReceive" + NextfrmNo(FormReceive).ToString
+                        frm.Name = "frmReceive" + NextFormNo(FormReceive).ToString
                         frm.Caller = Name
                         frm.Show(Me)
                         frm.grdReRepair.Rows.Add("", grdRERepair.Item(1, e.RowIndex).Value)
@@ -458,7 +484,7 @@ Public Class FormDeliver
     Private Sub ReceiveInfoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ReceiveInfoToolStripMenuItem.Click
         Dim frmNewReceive As New FormReceive
         With frmNewReceive
-            .Name = "frmReceive" + NextfrmNo(FormReceive).ToString
+            .Name = "frmReceive" + NextFormNo(FormReceive).ToString
             .Caller = Name
             .Show(Me)
             .Tag = "Deliver"
@@ -474,11 +500,10 @@ Public Class FormDeliver
     End Sub
 
     Private Sub GetDataToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles GetDataToolStripMenuItem.Click
-        Dim frmNewSearch As New frmSearch
-        With frmNewSearch
-            .Name = "frmSearch" + NextfrmNo(frmSearch).ToString
-            .Key = Name
-            .Tag = "Deliver"
+        Dim FormDeliverSearch As New FormSearch
+        With FormDeliverSearch
+            .Name = FormSearch.Name + NextFormNo(FormSearch).ToString
+            .RequestSource = FormSearchRequestSource.Deliver
             .Show(Me)
         End With
     End Sub

@@ -100,7 +100,7 @@ Public Class ControlCashierDashboard
     End Sub
 
     Private Sub ShowCommissionControls(Visiable As Boolean)
-        Dim Controls = {LabelCommision, GridCashierSales, LabelFrom, PickerFrom, LabelTo, PickerTo}
+        Dim Controls = {LabelLessAmount, LabelCommision, GridCashierSales, LabelFrom, PickerFrom, LabelTo, PickerTo}
         For Each Control As Control In Controls
             Control.Visible = Visiable
         Next

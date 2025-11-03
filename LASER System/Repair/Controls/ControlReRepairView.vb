@@ -1,12 +1,12 @@
 ﻿Imports MySqlConnector
 
 Public Class ControlReRepairView
-    Private ReadOnly DB As Database
-    Public Sub New(DB As Database)
-        InitializeComponent()
+    Private DB As Database
 
-        Me.DB = DB
-    End Sub
+    Public Function SetDatabase(Db As Database) As ControlReRepairView
+        Me.DB = Db
+        Return Me
+    End Function
 
     Public Sub Init(RepNo As Integer)
         Dim DataTable = DB.GetDataTable($"SELECT RetNo, Status FROM `Return` WHERE RepNo=@REPNO;", {

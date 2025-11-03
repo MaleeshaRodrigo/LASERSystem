@@ -76,8 +76,8 @@ Public Class frmSettlement
                 End If
             Next
             RPT.Subreports("rptSettlementSale.rpt").SetDataSource(DT1)
-            Dim DT2 As DataTable = Db.GetDataTable("SELECT RepNo,Repair.PNo,PCategory,PName, PaidPrice, Qty, Status, Repair.TNo,TName, Repair.Dno, DDate, Deliver.CuNo, CuName, CuTelNo1,DGrandTotal, CAmount, CReceived, CBalance, CPInvoiceNo, CPAmount, CuLNo, CuLAmount, 'Repair' as `TableName`  from Deliver, Customer,Repair,Technician, Product where Product.Pno = Repair.Pno and Repair.TNo = Technician.TNo and Customer.Cuno = Deliver.CuNo and Repair.Dno = Deliver.Dno and Deliver.DDate Between '" & Today.Date & " 00:00:00' and '" & Today.Date &
-                                                      " 23:59:59' UNION Select RetNo, Return.PNo,PCategory,PName, PaidPrice, Qty, Status, Return.TNo, TName, Return.Dno, DDate, Deliver.CuNo, CuName, CuTelNo1,DGrandTotal, CAmount, CReceived, CBalance, CPInvoiceNo, CPAmount, CuLNo, CuLAmount, 'Re-Repair' as `TableName` from Deliver, Customer,Return,Product, Technician where Product.Pno = Return.Pno and Return.TNo = Technician.TNo and Customer.Cuno = Deliver.CuNo and Return.Dno = Deliver.Dno and Deliver.DDate Between '" & Today.Date & " 00:00:00' and '" & Today.Date &
+            Dim DT2 As DataTable = Db.GetDataTable("SELECT RepNo,Repair.PNo,PCategory,PName, PaidPrice, Qty, Status, Repair.HandedOverToTNo,TName, Repair.Dno, DDate, Deliver.CuNo, CuName, CuTelNo1,DGrandTotal, CAmount, CReceived, CBalance, CPInvoiceNo, CPAmount, CuLNo, CuLAmount, 'Repair' as `TableName`  from Deliver, Customer,Repair,Technician, Product where Product.Pno = Repair.Pno and Repair.HandedOverToTNo = Technician.TNo and Customer.Cuno = Deliver.CuNo and Repair.Dno = Deliver.Dno and Deliver.DDate Between '" & Today.Date & " 00:00:00' and '" & Today.Date &
+                                                      " 23:59:59' UNION Select RetNo, Return.PNo,PCategory,PName, PaidPrice, Qty, Status, Return.HandedOverToTNo, TName, Return.Dno, DDate, Deliver.CuNo, CuName, CuTelNo1,DGrandTotal, CAmount, CReceived, CBalance, CPInvoiceNo, CPAmount, CuLNo, CuLAmount, 'Re-Repair' as `TableName` from Deliver, Customer,Return,Product, Technician where Product.Pno = Return.Pno and Return.HandedOverToTNo = Technician.TNo and Customer.Cuno = Deliver.CuNo and Return.Dno = Deliver.Dno and Deliver.DDate Between '" & Today.Date & " 00:00:00' and '" & Today.Date &
                                                       " 23:59:59';")
             RepTotal = 0
             For Each row As DataRow In DT2.Rows
@@ -121,7 +121,7 @@ Public Class frmSettlement
             Dim unused4 = DA5.Fill(DS1, "TECHNICIAN")
             RPT1.SetDataSource(DS1)
             Dim RPT2 As New rptTechnicianLoan
-            Dim frm2 As New frmReport
+            Dim frm2 As New FormReport
             Dim DS2 As New DataSet
             Dim DA6 As MySqlDataAdapter = Db.GetDataAdapter(Connection, "SELECT TLNO,TL.TNO,TNAME,TLDATE,SNO,SCATEGORY,SNAME,TLREASON,QTY,RATE,TOTAL FROM (TECHNICIANLOAN TL INNER JOIN TECHNICIAN T ON T.TNO = TL.TNO) WHERE TLDATE Between '" & Today.Date & " 00:00:00' and '" & Today.Date & " 23:59:59';")
             Dim unused3 = DA6.Fill(DS2, "TECHNICIANLOAN")
@@ -277,7 +277,7 @@ Public Class frmSettlement
                 New MySqlParameter("TODATE", txtFrom.Value.Date & " 23:59:59")
             })
             RPT.Subreports("rptSettlementSale.rpt").SetDataSource(DT1)
-            Dim DT2 As DataTable = Db.GetDataTable("SELECT RepNo,Repair.PNo,PCategory,PName, PaidPrice, Qty, Status, Repair.TNo,TName, Repair.Dno, DDate, Deliver.CuNo, CuName, CuTelNo1,DGrandTotal, CAmount, CReceived, CBalance, CPInvoiceNo, CPAmount, CuLNo, CuLAmount, 'Repair' as `TableName`  from Deliver, Customer,Repair,Technician, Product WHERE Product.Pno = Repair.Pno AND Repair.TNo = Technician.TNo AND Customer.Cuno = Deliver.CuNo AND Repair.Dno = Deliver.Dno AND Deliver.DDate BETWEEN @FROMDATE AND @TODATE UNION Select RetNo, Return.PNo,PCategory, PName, PaidPrice, Qty, Status, Return.TNo, TName, Return.Dno, DDate, Deliver.CuNo, CuName, CuTelNo1,DGrandTotal, CAmount, CReceived, CBalance, CPInvoiceNo, CPAmount, CuLNo, CuLAmount, 'Re-Repair' as `TableName` from Deliver, Customer,`Return`,Product, Technician WHERE Product.Pno = Return.Pno AND Return.TNo = Technician.TNo AND Customer.Cuno = Deliver.CuNo AND Return.Dno = Deliver.Dno AND Deliver.DDate BETWEEN @FROMDATE AND @TODATE;", {
+            Dim DT2 As DataTable = Db.GetDataTable("SELECT RepNo,Repair.PNo,PCategory,PName, PaidPrice, Qty, Status, Repair.HandedOverToTNo,TName, Repair.Dno, DDate, Deliver.CuNo, CuName, CuTelNo1,DGrandTotal, CAmount, CReceived, CBalance, CPInvoiceNo, CPAmount, CuLNo, CuLAmount, 'Repair' as `TableName`  from Deliver, Customer,Repair,Technician, Product WHERE Product.Pno = Repair.Pno AND Repair.HandedOverToTNo = Technician.TNo AND Customer.Cuno = Deliver.CuNo AND Repair.Dno = Deliver.Dno AND Deliver.DDate BETWEEN @FROMDATE AND @TODATE UNION Select RetNo, Return.PNo,PCategory, PName, PaidPrice, Qty, Status, Return.HandedOverToTNo, TName, Return.Dno, DDate, Deliver.CuNo, CuName, CuTelNo1,DGrandTotal, CAmount, CReceived, CBalance, CPInvoiceNo, CPAmount, CuLNo, CuLAmount, 'Re-Repair' as `TableName` from Deliver, Customer,`Return`,Product, Technician WHERE Product.Pno = Return.Pno AND Return.HandedOverToTNo = Technician.TNo AND Customer.Cuno = Deliver.CuNo AND Return.Dno = Deliver.Dno AND Deliver.DDate BETWEEN @FROMDATE AND @TODATE;", {
                 New MySqlParameter("FROMDATE", txtFrom.Value.Date & " 00:00:00"),
                 New MySqlParameter("TODATE", txtFrom.Value.Date & " 23:59:59")
             })
@@ -304,10 +304,10 @@ Public Class frmSettlement
             RPT.SetParameterValue("GrandTotal", txtIncome.Text)
             RPT.SetParameterValue("CashinLocker", txtLockerCash.Text)
             RPT.SetParameterValue("Change", txtChange.Text)
-            frmReport.ReportViewer.ReportSource = RPT
-            frmReport.Show(Me)
+            FormReport.ReportViewer.ReportSource = RPT
+            FormReport.Show(Me)
 
-            Dim frm1 As New frmReport
+            Dim frm1 As New FormReport
             Dim RPT1 As New rptTechnicianCost
             Dim DS1 As New DataSet
             Dim DA5 As MySqlDataAdapter = Db.GetDataAdapter(Connection, "SELECT TCNO,TCDATE,TECHNICIANCOST.TNO,TNAME,REPNO,RETNO,TECHNICIANCOST.SNO,SCATEGORY,SNAME, RATE,QTY,TOTAL,TCREMARKS FROM (TECHNICIANCOST INNER JOIN TECHNICIAN  ON TECHNICIAN.TNO = TECHNICIANCOST.TNO) WHERE TCDATE Between @FROMDATE and @TODATE;", {
@@ -322,7 +322,7 @@ Public Class frmSettlement
             frm1.Show(Me)
 
             Dim RPT2 As New rptTechnicianLoan
-            Dim frm2 As New frmReport
+            Dim frm2 As New FormReport
             Dim DS2 As New DataSet
             Dim DA6 As MySqlDataAdapter = Db.GetDataAdapter(Connection, "SELECT TLNo, TL.TNo, TName, TLDate, TL.SNO, Tl.SCategory, Tl.SName, TLReason, Qty, Rate, Total FROM ((TechnicianLoan TL INNER JOIN Technician T ON T.TNO = TL.TNO) LEFT JOIN Stock S ON S.SNO = TL.SNO) WHERE TlDate BETWEEN @FROMDATE AND @TODATE;", {
                 New MySqlParameter("FROMDATE", txtFrom.Value.Date & " 00:00:00"),
@@ -373,14 +373,14 @@ Public Class frmSettlement
 
         Select Case cmdTASave.Text
             Case "Save"
-                Db.Execute("INSERT INTO `Transaction`(TADate,TADetails, TAAmount, UNo) VALUES(@TADATE, @TADETAILS, @TAAMOUNT, @UNO);", {
+                Db.Execute($"INSERT INTO `{Tables.Transaction}`(TADate,TADetails, TAAmount, UNo) VALUES(@TADATE, @TADETAILS, @TAAMOUNT, @UNO);", {
                     New MySqlParameter("TADATE", dtpTADate.Value),
                     New MySqlParameter("TADETAILS", txtTADetails.Text),
                     New MySqlParameter("TAAMOUNT", txtTAAmount.Text),
                     New MySqlParameter("UNO", User.Instance.UserNo)
                 })
             Case "Edit"
-                Db.Execute("UPDATE `Transaction` SET TADate = @TADATE, TADetails = @TADETAILS, TAAmount = @TAAMOUNT, UNo = @UNO WHERE TANO = @TANO;", {
+                Db.Execute($"UPDATE `{Tables.Transaction}` SET TADate = @TADATE, TADetails = @TADETAILS, TAAmount = @TAAMOUNT, UNo = @UNO WHERE TANO = @TANO;", {
                     New MySqlParameter("TADATE", dtpTADate.Value),
                     New MySqlParameter("TADETAILS", txtTADetails.Text),
                     New MySqlParameter("TAAMOUNT", txtTAAmount.Text),
@@ -402,7 +402,7 @@ Public Class frmSettlement
             Exit Sub
         End If
         If MsgBox("ගණුදෙනුව ඉවත් කිරීමට ඔබ එකඟද?", vbInformation + vbYesNo) = vbYes Then
-            Db.Execute("DELETE from `Transaction` where TANO = @TANO", {
+            Db.Execute($"DELETE from `{Tables.Transaction}` where TANO = @TANO", {
                 New MySqlParameter("TANO", txtTANo.Text)
             })
         End If
@@ -434,10 +434,10 @@ Public Class frmSettlement
     Private Sub grdDeliver_SelectionChanged(sender As Object, e As EventArgs) Handles grdDeliver.SelectionChanged
         If grdDeliver.CurrentCell Is Nothing Then Exit Sub
         Dim dgv As New DataGridView
-        Dim DT1 As DataTable = Db.GetDataTable("SELECT rep.RepNo as `Repair No`,PCategory as `Product Category`,PName as `Product Name`,Qty, PaidPrice as `Paid Charge`,TName as `Technician Name`,Status from Repair Rep,Technician T, Product P Where P.Pno = Rep.Pno and Rep.TNo = T.TNo and DNo = " & grdDeliver.Item(0, grdDeliver.CurrentCell.RowIndex).Value)
+        Dim DT1 As DataTable = Db.GetDataTable("SELECT rep.RepNo as `Repair No`,PCategory as `Product Category`,PName as `Product Name`,Qty, PaidPrice as `Paid Charge`,TName as `Technician Name`,Status from Repair Rep,Technician T, Product P Where P.Pno = Rep.Pno and Rep.HandedOverToTNo = T.TNo and DNo = " & grdDeliver.Item(0, grdDeliver.CurrentCell.RowIndex).Value)
         grdRepair.DataSource = DT1
         grdRepair.Refresh()
-        Dim DT2 As DataTable = Db.GetDataTable("SELECT Ret.RetNo as `RERepair No`,RepNo as `Repair No`,PCategory as `Product Category`,PName as `Product Name`,Qty, PaidPrice as `Paid Charge`,TName as `Technician Name`,Status from `Return` Ret,Technician T, Product P Where P.Pno = Ret.Pno and Ret.TNo = T.TNo and DNo = " & grdDeliver.Item(0, grdDeliver.CurrentCell.RowIndex).Value)
+        Dim DT2 As DataTable = Db.GetDataTable("SELECT Ret.RetNo as `RERepair No`,RepNo as `Repair No`,PCategory as `Product Category`,PName as `Product Name`,Qty, PaidPrice as `Paid Charge`,TName as `Technician Name`,Status from `Return` Ret,Technician T, Product P Where P.Pno = Ret.Pno and Ret.HandedOverToTNo = T.TNo and DNo = " & grdDeliver.Item(0, grdDeliver.CurrentCell.RowIndex).Value)
         grdRERepair.DataSource = DT2
         grdRERepair.Refresh()
     End Sub

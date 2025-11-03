@@ -92,50 +92,16 @@ Public Class frmStockSticker
     End Sub
 
     Public Sub btnShow_Click(sender As Object, e As EventArgs) Handles btnShow.Click
-        Dim dt As New DataTable
-        dt.Clear()
-        dt.Columns.Add("SNo")
-        dt.Columns.Add("SCategory")
-        dt.Columns.Add("SName")
-        dt.Columns.Add("Qty")
-        dt.Columns.Add(New DataColumn("Barcode", GetType(Byte())))
-        dt.Columns.Add("Rate")
-
-        Dim Barcode As New LinearCrystal()
-        Barcode.Type = BarcodeType.CODE128
-        Barcode.ShowText = False
-        Barcode.BarHeight = 50
-        Barcode.ImageFormat = Imaging.ImageFormat.Png
-        For Each row As DataGridViewRow In grdStock.Rows
-            If row.Cells(0).Value Is Nothing Then Exit For
-            For i As Integer = 1 To row.Cells(4).Value.ToString
-                '        Dim imgStream As MemoryStream = New MemoryStream()
-                '        Dim img As Image = row.Cells(6).Value
-                '        img.Save(imgStream, Imaging.ImageFormat.Png)
-                '        imgStream.Close()
-                '        Dim byteArray As Byte() = imgStream.ToArray()
-
-                Barcode.Data = row.Cells(0).Value.ToString
-                Dim imageData As Byte() = Barcode.drawBarcodeAsBytes()
-                dt.Rows.Add(row.Cells.Item(0).Value, row.Cells.Item(1).Value, row.Cells.Item(2).Value, row.Cells.Item(4).Value, imageData, $"Rs.{row.Cells.Item(5).Value}")
-            Next
-        Next
-
-        Dim rpt As New rptStockSticker
-        rpt.SetDataSource(dt)
-        Dim c As Integer
-        Dim doctoprint As New System.Drawing.Printing.PrintDocument()
-        doctoprint.PrinterSettings.PrinterName = My.Settings.StickerPrinterName
-        Dim rawKind As Integer
-        For c = 0 To doctoprint.PrinterSettings.PaperSizes.Count - 1
-            If doctoprint.PrinterSettings.PaperSizes(c).PaperName = My.Settings.StockStickerPaperName Then
-                rawKind = CInt(doctoprint.PrinterSettings.PaperSizes(c).GetType().GetField("kind", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic).GetValue(doctoprint.PrinterSettings.PaperSizes(c)))
-                Exit For
-            End If
-        Next
-        rpt.PrintOptions.PaperOrientation = CrystalDecisions.Shared.PaperOrientation.Portrait
-        rpt.PrintOptions.PaperSize = CType(rawKind, CrystalDecisions.Shared.PaperSize)
-        rptViewer.ReportSource = rpt
+        Dim Form As New FormReport
+        Try
+            Dim ReportManager As New StockStickerReport()
+            ReportManager.SetPrinterName(My.Settings.StickerPrinterName).SetPaperName(My.Settings.StockStickerPaperName)
+            Dim Report = ReportManager.GenerateReport(grdStock)
+            Dim FormReport = ReportManager.GetFormReport(Report, "Report - Stock Sticker", False)
+            FormReport.Show(Me)
+        Catch ex As Exception
+            MessageBox.Error("Stock Sticker එක print කර ගැනීමට අපොහොසත් විය." + vbCrLf + "Error: " + ex.Message)
+        End Try
     End Sub
 
     Private Sub frmStockSticker_Resize(sender As Object, e As EventArgs) Handles Me.Resize

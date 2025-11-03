@@ -1,5 +1,4 @@
-﻿Imports Str
-Imports System.IO
+﻿Imports System.IO
 Imports MySqlConnector
 Imports LASER_System.StructureDatabase
 Imports CrystalDecisions.Shared
@@ -36,7 +35,7 @@ Public Class frmTechnicianSalary
         Cursor = Cursors.WaitCursor
         Dim x As String = ";"
         If chkPaidTSal.Checked = False Then x = " and (TSalNo is Null or TSalNo = 0);"
-        Dim DT1 As DataTable = Db.GetDataTable("Select Repair.RepNo,DDate,CuName,CuTelNo1,CuTelNo2,CuTelNo3,PCategory,PName,Qty,PaidPrice,Status,'' as RepRemarks1,'' as RepRemarks2, TSalNo from Receive,Customer,Deliver,Repair,Product,Technician Where Receive.RNo = Repair.RNo and Product.PNo = Repair.PNo and Repair.DNo = Deliver.DNo and Customer.CuNo = Receive.CuNo and Technician.TNo = Repair.TNo and TName='" & cmbTName.Text & "' and DDate BETWEEN '" & txtTSFrom.Value.Date & " 00:00:00' And '" & txtTSTo.Value.Date & " 23:59:59' " + x)
+        Dim DT1 As DataTable = Db.GetDataTable("Select Repair.RepNo, DDate, CuName, CuTelNo1, CuTelNo2, CuTelNo3, PCategory, PName, Qty, PaidPrice, Status, '' as RepRemarks1, '' as RepRemarks2, TSalNo from Receive, Customer, Deliver, Repair, Product, Technician Where Receive.RNo = Repair.RNo and Product.PNo = Repair.PNo and Repair.DNo = Deliver.DNo and Customer.CuNo = Receive.CuNo and Technician.TNo = Repair.HandedOverToTNo and TName='" & cmbTName.Text & "' and DDate BETWEEN '" & txtTSFrom.Value.Date & " 00:00:00' And '" & txtTSTo.Value.Date & " 23:59:59' " + x)
         For Each row As DataRow In DT1.Rows
             Dim DR1 = Db.GetDataList("Select Remarks from RepairRemarks1 Where RepNo=" & row.Item("RepNo"))
             row.Item("RepRemarks1") = ""
@@ -49,7 +48,7 @@ Public Class frmTechnicianSalary
         For Each Row As DataGridViewRow In grdRepair.Rows
             txtTotalRepair.Text = Val(txtTotalRepair.Text) + Val(Row.Cells("REPPaidPrice").Value)
         Next
-        Dim DT2 As DataTable = Db.GetDataTable("Select Return.RetNo, RepNo, DDate, CuName, CuTelNo1, CuTelNo2, CuTelNo3, PCategory, PName, Qty, PaidPrice,Status, '' as RetRemarks1,'' as RetRemarks2, TSalNo from Receive,Customer, Deliver, `Return`, Product, Technician Where Receive.RNo=Return.RNo and Product.PNo = Return.PNo And Return.DNo = Deliver.DNo And Customer.CuNo = Receive.CuNo And Technician.TNo = Return.TNo And TName='" & cmbTName.Text &
+        Dim DT2 As DataTable = Db.GetDataTable("Select Return.RetNo, RepNo, DDate, CuName, CuTelNo1, CuTelNo2, CuTelNo3, PCategory, PName, Qty, PaidPrice,Status, '' as RetRemarks1,'' as RetRemarks2, TSalNo from Receive, Customer, Deliver, `Return`, Product, Technician Where Receive.RNo=Return.RNo and Product.PNo = Return.PNo And Return.DNo = Deliver.DNo And Customer.CuNo = Receive.CuNo And Technician.TNo = Return.HandedOverToTNo And TName='" & cmbTName.Text &
                                               "' And DDate BETWEEN '" & txtTSFrom.Value.Date & " 00:00:00' And '" & txtTSTo.Value.Date & " 23:59:59' " + x)
         For Each row As DataRow In DT1.Rows
             Dim DR1 = Db.GetDataList("Select Remarks from RepairRemarks1 Where RepNo=" & row.Item("RepNo"))
@@ -70,35 +69,21 @@ Public Class frmTechnicianSalary
             If Row.Cells("TCTotal").Value Is Nothing Then Continue For
             txtTotalCost.Text = Val(txtTotalCost.Text) + Val(Row.Cells("TCTotal").Value)
         Next
-        Dim DT4 As DataTable = Db.GetDataTable("Select  TLNo, TLDate, SCategory, SName, TLReason, Rate, Qty,Total from (TechnicianLoan TL Inner Join Technician T on T.TNo = TL.TNo) Where TName='" & cmbTName.Text & "' And TLDate BETWEEN '" &
-                                              txtTSFrom.Value.Date & " 00:00:00' And '" & txtTSTo.Value.Date & " 23:59:59' ")
-        DR = Db.GetDataList("Select * from `TechnicianLoan` as TL Where TL.TLDate BETWEEN '" & txtTSFrom.Value.Date & " 00:00:00' and '" &
-                                     txtTSTo.Value.Date & " 23:59:59';")
-        Dim ArrearsLoan As Integer = 0
-        For Each Item In DR
-            If Item("Total").ToString <> "" Then ArrearsLoan += Int(Item("Total").ToString)
-        Next
-        If ArrearsLoan <> 0 Then
-            Dim newRow As DataRow = DT4.NewRow()
-            newRow(0) = "0"
-            newRow(1) = txtTSFrom.Value.Date.ToString
-            newRow(4) = "Arrears loan before " & txtTSFrom.Value.Date.ToString
-            newRow(7) = ArrearsLoan.ToString
-            DT4.Rows.InsertAt(newRow, 0)
-        End If
-        grdLoan.DataSource = DT4
+        Dim TechnicianLoanDataTable As DataTable = Db.GetDataTable("SELECT TLNo, TLDate, SCategory, SName, TLReason, Rate, Qty,Total, TSalNo FROM (TechnicianLoan TL INNER JOIN Technician T ON T.TNo = TL.TNo) WHERE TName = @TNAME AND TLDate BETWEEN @DATEFROM AND @DATETO;", {
+            New MySqlParameter("TNAME", cmbTName.Text),
+            New MySqlParameter("DATEFROM", txtTSFrom.Value.Date & " 00:00:00"),
+            New MySqlParameter("DATETO", txtTSTo.Value.Date & " 23:59:59")
+        })
+        grdLoan.DataSource = TechnicianLoanDataTable
         grdLoan.Refresh()
         For Each Row As DataGridViewRow In grdLoan.Rows
-            If Row.Cells("TLTotal").Value.ToString = "" Then Continue For
-            txtTotalLoan.Text = Int(txtTotalLoan.Text) + Int(Row.Cells("TLTotal").Value)
+            If Row.Cells("TLTotal").Value.ToString = "" Then
+                Continue For
+            End If
+
+            txtTotalLoan.Text = Convert.ToDecimal(txtTotalLoan.Text) + Convert.ToDecimal(Row.Cells("TLTotal").Value)
         Next
-        'grdSalesRepair.DataSource = Db.GetDataTable("Select SaRepNo, SaRepDate, SCategory, SName, Rate, Qty, Total, TSalNo from SalesRepair,Stock,Technician where Technician.TNo = SalesRepair.TNo And Stock.SNo = SalesRepair.Sno And  TName = '" & cmbTName.Text & "' And SaRepDate Between '" &
-        '                                      txtTSFrom.Value.Date & " 00:00:00' and '" & txtTSTo.Value.Date & " 23:59:59'" + x)
-        'grdSalesRepair.Refresh()
-        'For Each Row As DataGridViewRow In grdSalesRepair.Rows
-        '    txtTotalSalesRepair.Text = Int(txtTotalSalesRepair.Text) + Int(Row.Cells("Total").Value.ToString)
-        'Next
-        'calculator part for making salary
+
         Call TechnicianSalaryCalculator()
         Cursor = Cursors.Default()
     End Sub
@@ -128,33 +113,27 @@ Public Class frmTechnicianSalary
         End If
         Db.Execute($"INSERT INTO {Tables.TechnicianSalary}(TSalNo, TNo, TSDate, TotalRepair, TotalReRepair, TotalSalesRepair, TotalCost, TotalLoan, Earned, AddedLoan, Salary) Values(" & txtTSNo.Text & "," & TSalaryTNo.ToString & ",'" & txtTSDate.Value.Date & "'," & txtTotalRepair.Text & "," & txtTotalReRepair.Text & "," & txtTotalSalesRepair.Text & "," & txtTotalCost.Text & "," & txtTotalLoan.Text & "," & ControlTotalEarned.Value & "," & ControlTechnicianLoan.Value & "," & ControlTechnicianEarnedSalary.Value & ");")
         For Each Row As DataGridViewRow In grdRepair.Rows
-            Db.Execute($"UPDATE {Tables.Repair} SET TSalNo =" & txtTSNo.Text & " where RepNo=" & Row.Cells(0).Value.ToString)
+            Db.Execute($"UPDATE {Tables.Repair} SET TSalNo =" & txtTSNo.Text & " WHERE RepNo=" & Row.Cells(0).Value.ToString)
         Next
         For Each Row As DataGridViewRow In grdReRepair.Rows
-            Db.Execute("Update `Return` set TSalNo =" & txtTSNo.Text & " where RetNO=" & Row.Cells(0).Value.ToString)
+            Db.Execute($"Update `{Tables.ReRepair}` set TSalNo =" & txtTSNo.Text & " WHERE RetNO=" & Row.Cells(0).Value.ToString)
         Next
         For Each Row As DataGridViewRow In grdSalesRepair.Rows
-            Db.Execute($"UPDATE {Tables.SalesRepair} SET TSalNo =" & txtTSNo.Text & " where SaRepNo=" & Row.Cells(0).Value.ToString)
+            Db.Execute($"UPDATE {Tables.SalesRepair} SET TSalNo =" & txtTSNo.Text & " WHERE SaRepNo=" & Row.Cells(0).Value.ToString)
         Next
         For Each Row As DataGridViewRow In grdCost.Rows
-            Db.Execute($"UPDATE {Tables.TechnicianCost} SET TSalNo = " & txtTSNo.Text & " where TCNo=" & Row.Cells(1).Value.ToString)
+            Db.Execute($"UPDATE {Tables.TechnicianCost} SET TSalNo = " & txtTSNo.Text & " WHERE TCNo=" & Row.Cells(1).Value.ToString)
         Next
-        Dim TLNo As String
-        DR = Db.GetDataDictionary("Select TLNo from TechnicianLoan order by TLNo desc LIMIT 1;")
-        If DR.Count Then
-
-            TLNo = Int(DR.Item("TLNo")) + 1
-        Else
-            TLNo = "1"
-        End If
-        Db.Execute($"INSERT INTO {Tables.TechnicianLoan}(TLNo,TNo,TLDate,TLReason,Total) Values(" & TLNo & "," & TSalaryTNo.ToString & ",'" & txtTSDate.Value & "', 'This Loan was paid from Technician Salary No called " & txtTSNo.Text & "',-" & ControlTechnicianLoan.Value & ");")
+        For Each Row As DataGridViewRow In grdLoan.Rows
+            Db.Execute($"UPDATE {Tables.TechnicianLoan} SET TSalNo = " & txtTSNo.Text & " WHERE TLNo=" & Row.Cells(1).Value.ToString)
+        Next
         MsgBox("Salary Submit Successful!", vbExclamation + vbOKOnly)
         SetNextKey(Db, txtTSNo, "Select TSalNo from TechnicianSalary order by TSalNo desc LIMIT 1;", "TSalNo")
         Call CmdTSSearch_Click(sender, e)
     End Sub
 
     Private Sub cmdTSPrint_Click(sender As Object, e As EventArgs) Handles cmdTSPrint.Click
-        Dim FormTechnicianSalaryReport, FormTechnicianCostReport As New frmReport
+        Dim FormTechnicianSalaryReport, FormTechnicianCostReport As New FormReport
         FormTechnicianSalaryReport.ReportViewer.ReportSource = TechnicianSalaryReport()
         FormTechnicianSalaryReport.Show(Me)
 
@@ -167,19 +146,19 @@ Public Class frmTechnicianSalary
         Dim Connection = Db.GetConenction
         Try
             Connection.Open()
-            Dim DT1 As DataTable = Db.GetDataTable("SELECT REPNO, DDATE, CUNAME, CUTELNO1, PCATEGORY, PNAME, PAIDPRICE, QTY FROM (((((Repair INNER JOIN Receive ON Receive.RNO = REPAIR.RNO) LEFT JOIN CUSTOMER ON CUSTOMER.CUNO=RECEIVE.CUNO) INNER JOIN DELIVER ON DELIVER.DNO=REPAIR.DNO) LEFT JOIN PRODUCT ON PRODUCT.PNO=REPAIR.PNO) INNER JOIN TECHNICIAN ON TECHNICIAN.TNO = REPAIR.TNO) WHERE TNAME = @TNAME And (DDate between @FROMDATE  And @TODATE) And Status='Repaired Delivered' and (TSalNo Is Null Or TSalNo = 0)" & If(chkRepair.Checked = False, " AND 0", "") & " ORDER BY DDate", {
+            Dim DT1 As DataTable = Db.GetDataTable($"SELECT REPNO, DDATE, CUNAME, CUTELNO1, PCATEGORY, PNAME, PAIDPRICE, QTY FROM (((((Repair INNER JOIN Receive ON Receive.RNO = REPAIR.RNO) LEFT JOIN CUSTOMER ON CUSTOMER.CUNO=RECEIVE.CUNO) INNER JOIN DELIVER ON DELIVER.DNO=REPAIR.DNO) LEFT JOIN PRODUCT ON PRODUCT.PNO=REPAIR.PNO) INNER JOIN TECHNICIAN ON TECHNICIAN.TNO = REPAIR.HandedOverToTNo) WHERE TNAME = @TNAME And (DDate between @FROMDATE  And @TODATE) And Status='{RepairStatus.RepairedDelivered}' and (TSalNo Is Null Or TSalNo = 0)" & If(chkRepair.Checked = False, " AND 0", "") & " ORDER BY DDate", {
                 New MySqlParameter("TNAME", cmbTName.Text),
                 New MySqlParameter("FROMDATE", txtTSFrom.Value.Date & " 00:00:00"),
                 New MySqlParameter("TODATE", txtTSTo.Value.Date & " 23:59:59")
             })
             ReportTechnicianSalary.Subreports("rptTechnicianSalaryRepair.rpt").SetDataSource(DT1)
-            Dim DT2 As DataTable = Db.GetDataTable("SELECT RETNO, REPNO, DDATE, CUNAME,CUTELNO1, PCATEGORY, PNAME, PAIDPRICE, QTY FROM 
+            Dim DT2 As DataTable = Db.GetDataTable($"SELECT RETNO, REPNO, DDATE, CUNAME,CUTELNO1, PCATEGORY, PNAME, PAIDPRICE, QTY FROM 
                                                 (((((`RETURN` INNER JOIN RECEIVE ON RECEIVE.RNO=RETURN.RNO) 
                                                 LEFT JOIN CUSTOMER ON CUSTOMER.CUNO = RECEIVE.CUNO)
                                                 INNER JOIN DELIVER ON DELIVER.DNO =RETURN.DNO)
                                                 LEFT JOIN PRODUCT ON PRODUCT.PNO=RETURN.PNO)
-                                                INNER JOIN TECHNICIAN ON TECHNICIAN.TNO=RETURN.TNO) 
-                                                WHERE TNAME = @TNAME And (DDate Between @FROMDATE And @TODATE) And Status='Repaired Delivered' and (TSalNo Is Null Or TSalNo = 0)" & If(chkReturn.Checked = False, " AND 0", "") & ";", {
+                                                INNER JOIN TECHNICIAN ON TECHNICIAN.TNO=RETURN.HandedOverToTNo) 
+                                                WHERE TNAME = @TNAME And (DDate Between @FROMDATE And @TODATE) And Status='{RepairStatus.RepairedDelivered}' and (TSalNo Is Null Or TSalNo = 0)" & If(chkReturn.Checked = False, " AND 0", "") & ";", {
                 New MySqlParameter("TNAME", cmbTName.Text),
                 New MySqlParameter("FROMDATE", txtTSFrom.Value.Date & " 00:00:00"),
                 New MySqlParameter("TODATE", txtTSTo.Value.Date & " 23:59:59")
@@ -266,7 +245,7 @@ Public Class frmTechnicianSalary
     End Sub
 
     Private Sub SendTechnicianSalaryToTechnicianToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SendTechnicianSalaryToTechnicianToolStripMenuItem.Click
-        Dim frm As New frmReport
+        Dim frm As New FormReport
         Dim RPT As rptTechnicianSalary = TechnicianSalaryReport()
         frm.ReportViewer.ReportSource = RPT
         Dim DR = Db.GetDataDictionary("Select * from Technician Where TNAME ='" & cmbTName.Text & "';")

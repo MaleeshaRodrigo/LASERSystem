@@ -61,7 +61,6 @@ Partial Class FormBGTasks
         Me.TextDbPassword = New MaterialSkin.Controls.MaterialTextBox2()
         Me.Label12 = New MaterialSkin.Controls.MaterialLabel()
         Me.pnlMain = New System.Windows.Forms.Panel()
-        Me.GridActivity = New System.Windows.Forms.DataGridView()
         Me.BtnOpenAdvDB = New MaterialSkin.Controls.MaterialButton()
         Me.MaterialTabControl = New MaterialSkin.Controls.MaterialTabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
@@ -103,7 +102,6 @@ Partial Class FormBGTasks
         Me.Guna2GroupBox1.SuspendLayout()
         Me.Guna2GroupBox2.SuspendLayout()
         Me.pnlMain.SuspendLayout()
-        CType(Me.GridActivity, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.MaterialTabControl.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -830,7 +828,6 @@ Partial Class FormBGTasks
         Me.pnlMain.AutoScroll = True
         Me.pnlMain.AutoScrollMargin = New System.Drawing.Size(20, 0)
         Me.pnlMain.BackColor = System.Drawing.Color.FromArgb(CType(CType(42, Byte), Integer), CType(CType(42, Byte), Integer), CType(CType(41, Byte), Integer))
-        Me.pnlMain.Controls.Add(Me.GridActivity)
         Me.pnlMain.Controls.Add(Me.BtnOpenAdvDB)
         Me.pnlMain.Controls.Add(Me.MaterialTabControl)
         Me.pnlMain.Controls.Add(Me.TableLayoutPanel1)
@@ -843,23 +840,6 @@ Partial Class FormBGTasks
         Me.pnlMain.Size = New System.Drawing.Size(636, 733)
         Me.pnlMain.TabIndex = 1
         '
-        'GridActivity
-        '
-        Me.GridActivity.AllowUserToAddRows = False
-        Me.GridActivity.AllowUserToDeleteRows = False
-        Me.GridActivity.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.GridActivity.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.GridActivity.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically
-        Me.GridActivity.Location = New System.Drawing.Point(14, 565)
-        Me.GridActivity.Name = "GridActivity"
-        Me.GridActivity.ReadOnly = True
-        Me.GridActivity.RowHeadersWidth = 51
-        Me.GridActivity.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.GridActivity.Size = New System.Drawing.Size(602, 148)
-        Me.GridActivity.TabIndex = 79
-        '
         'BtnOpenAdvDB
         '
         Me.BtnOpenAdvDB.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -868,7 +848,7 @@ Partial Class FormBGTasks
         Me.BtnOpenAdvDB.Depth = 0
         Me.BtnOpenAdvDB.HighEmphasis = True
         Me.BtnOpenAdvDB.Icon = Nothing
-        Me.BtnOpenAdvDB.Location = New System.Drawing.Point(325, 520)
+        Me.BtnOpenAdvDB.Location = New System.Drawing.Point(329, 691)
         Me.BtnOpenAdvDB.Margin = New System.Windows.Forms.Padding(4, 6, 4, 6)
         Me.BtnOpenAdvDB.MouseState = MaterialSkin.MouseState.HOVER
         Me.BtnOpenAdvDB.Name = "BtnOpenAdvDB"
@@ -897,7 +877,7 @@ Partial Class FormBGTasks
         Me.MaterialTabControl.Multiline = True
         Me.MaterialTabControl.Name = "MaterialTabControl"
         Me.MaterialTabControl.SelectedIndex = 0
-        Me.MaterialTabControl.Size = New System.Drawing.Size(604, 324)
+        Me.MaterialTabControl.Size = New System.Drawing.Size(604, 499)
         Me.MaterialTabControl.TabIndex = 77
         '
         'TabPage1
@@ -908,7 +888,7 @@ Partial Class FormBGTasks
         Me.TabPage1.Location = New System.Drawing.Point(4, 39)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(596, 281)
+        Me.TabPage1.Size = New System.Drawing.Size(596, 456)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Local Database"
         '
@@ -932,7 +912,7 @@ Partial Class FormBGTasks
         Me.GroupBox1.MouseState = MaterialSkin.MouseState.HOVER
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Padding = New System.Windows.Forms.Padding(14)
-        Me.GroupBox1.Size = New System.Drawing.Size(590, 275)
+        Me.GroupBox1.Size = New System.Drawing.Size(590, 450)
         Me.GroupBox1.TabIndex = 69
         Me.GroupBox1.Text = "Local Database Info"
         '
@@ -1513,7 +1493,7 @@ Partial Class FormBGTasks
         Me.cmdApply.Depth = 0
         Me.cmdApply.HighEmphasis = True
         Me.cmdApply.Icon = Nothing
-        Me.cmdApply.Location = New System.Drawing.Point(551, 520)
+        Me.cmdApply.Location = New System.Drawing.Point(555, 691)
         Me.cmdApply.Margin = New System.Windows.Forms.Padding(4, 6, 4, 6)
         Me.cmdApply.MouseState = MaterialSkin.MouseState.HOVER
         Me.cmdApply.Name = "cmdApply"
@@ -1565,7 +1545,6 @@ Partial Class FormBGTasks
         Me.Guna2GroupBox2.PerformLayout()
         Me.pnlMain.ResumeLayout(False)
         Me.pnlMain.PerformLayout()
-        CType(Me.GridActivity, System.ComponentModel.ISupportInitialize).EndInit()
         Me.MaterialTabControl.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
         Me.GroupBox1.ResumeLayout(False)
@@ -1644,7 +1623,6 @@ Partial Class FormBGTasks
     Friend WithEvents PicBGOStop As PictureBox
     Friend WithEvents PicBGStop As PictureBox
     Friend WithEvents BtnOpenAdvDB As MaterialSkin.Controls.MaterialButton
-    Friend WithEvents GridActivity As DataGridView
     Friend WithEvents TextPort As MaterialSkin.Controls.MaterialTextBox2
     Friend WithEvents TextHost As MaterialSkin.Controls.MaterialTextBox2
     Friend WithEvents TextDbPort As MaterialSkin.Controls.MaterialTextBox2

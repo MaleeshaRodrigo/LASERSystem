@@ -75,7 +75,7 @@ Public Class FormReceive
         grdRepair.CurrentCell = grdRepair.Rows(grdRepair.Rows.Count - 1).Cells(0)
         ComboBoxDropDown(Db, cmbCuName, "SELECT CuName FROM Customer GROUP BY CuName;")
 
-        Dim DataTableTechnician As DataTable = Db.GetDataTable("SELECT TName FROM Technician WHERE TActive=1 GROUP BY TName;")
+        Dim DataTableTechnician As DataTable = Db.GetDataTable($"SELECT TName FROM {Tables.Technician} WHERE TActive=1 GROUP BY TName;")
         Dim newRow As DataRow = DataTableTechnician.NewRow()
         newRow("TName") = "None"
         DataTableTechnician.Rows.InsertAt(newRow, 0)
@@ -413,8 +413,8 @@ Public Class FormReceive
     End Sub
 
     Private Sub RepairInfoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RepairInfoToolStripMenuItem.Click
-        frmSearch.Tag = "Receive"
-        frmSearch.Show()
+        FormSearch.Tag = "Receive"
+        FormSearch.Show()
     End Sub
 
     Private Sub txtCuTelNo1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtCuTelNo1.KeyPress, txtCuTelNo2.KeyPress, txtCuTelNo3.KeyPress
@@ -428,7 +428,7 @@ Public Class FormReceive
             If cmbCuMr.Text + cmbCuName.Text = SaDR("CuName").ToString Then Exit Sub
             Dim frm As New frmCustomer
             With frm
-                frm.Name = "frmCustomer" + NextfrmNo(frmCustomer).ToString
+                frm.Name = "frmCustomer" + NextFormNo(frmCustomer).ToString
                 frm.Caller = Name
                 frm.Tag = "Receive"
                 frm.Show(Me)

@@ -133,7 +133,8 @@
         Const Qty = "Qty"
         Const Charge = "Charge"
         Const PaidPrice = "PaidPrice"
-        Const TNo = "TNo"
+        Const AssignedToTNo = "AssignedToTNo"
+        Const HandedOverToTNo = "HandedOverToTNo"
         Const Status = "Status"
         Const RepDate = "RepDate"
         Const DNo = "DNo"
@@ -330,6 +331,20 @@
         Const Total = "Total"
         Const TCRemarks = "TCRemarks"
         Const TSalNo = "TSalNo"
+        Const UNo = "UNo"
+    End Structure
+
+    Public Structure TechnicianLoan
+        Const No = "TLNo"
+        Const TNo = "TNo"
+        Const TLDate = "TLDate"
+        Const SNo = "SNo"
+        Const SCategory = "SCategory"
+        Const SName = "SName"
+        Const TCRemarks = "TLReason"
+        Const Qty = "Qty"
+        Const Rate = "Rate"
+        Const Total = "Total"
         Const UNo = "UNo"
     End Structure
 

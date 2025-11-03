@@ -1,0 +1,183 @@
+﻿Imports LASER_System.StructureDatabase
+Imports MySqlConnector
+
+Public Class ControlRemarks
+    Public Property ControlRemarkOption As ControlRemarksOption
+
+    Private Db As Database
+    Private GridCellPreviousValue As Object
+    Private ReadOnly DtpDate As New DateTimePicker
+    Private RepairMode As RepairMode
+    Private PrimaryNo As Integer
+
+    Public Sub Init(Db As Database, RepairMode As RepairMode, PrimaryNo As Integer)
+        Me.Db = Db
+        Me.RepairMode = RepairMode
+        Me.PrimaryNo = PrimaryNo
+        Dim WhereBlock As String = If(RepairMode = RepairMode.Repair, "RepNo=@PRIMARYNO", "RetNo=@PRIMARYNO")
+        Dim Query As String = If(
+            ControlRemarkOption = ControlRemarksOption.RemarksByCustomer,
+            $"Select Rem1No As 'RemNo', Rem1Date AS 'RemDate', Remarks, UserName FROM RepairRemarks1 RepRem LEFT JOIN `User` U ON U.UNo=RepRem.UNo WHERE {WhereBlock};",
+            $"SELECT Rem2No AS 'RemNo', Rem2Date AS 'RemDate', Remarks, UserName FROM RepairRemarks2 RepRem LEFT JOIN `User` U ON U.UNo=RepRem.UNo WHERE {WhereBlock};"
+        )
+        Dim DataTable As DataTable = Db.GetDataTable(Query, {
+                New MySqlParameter("PRIMARYNO", PrimaryNo)
+            })
+        GridRemarks.DataSource = DataTable
+    End Sub
+
+    Private Sub GridRemarks_CellBeginEdit(sender As Object, e As DataGridViewCellCancelEventArgs) Handles GridRemarks.CellBeginEdit
+        If GridRemarks.Rows(e.RowIndex).IsNewRow Then
+            Return
+        End If
+
+        Dim GridDateCellValue As Object = GridRemarks.Item(GridRemarksColumns.Date, e.RowIndex).Value
+        Dim GridRemarksCellValue As Object = GridRemarks.Item(GridRemarksColumns.UserName, e.RowIndex).Value
+        Dim DateValidationFailed As Boolean = IsDate(GridDateCellValue) = False OrElse DateValue(GridDateCellValue).Date <> Today.Date
+        Dim UserValidationFailed As Boolean = IsDBNull(GridRemarksCellValue) OrElse GridRemarksCellValue <> User.Instance.UserName
+        If DateValidationFailed Or UserValidationFailed Then
+            e.Cancel = True
+            Return
+        End If
+
+        GridCellPreviousValue = GridRemarks.Item(e.ColumnIndex, e.RowIndex).Value
+        If e.ColumnIndex <> GridRemarks.Columns(GridRemarksColumns.Date).Index Then
+            Return
+        End If
+
+        GridRemarks.Controls.Add(DtpDate)
+        DtpDate.Location = GridRemarks.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, False).Location
+        DtpDate.Size = New Size(GridRemarks.Columns.Item(e.ColumnIndex).Width, GridRemarks.Rows.Item(e.RowIndex).Height)
+        DtpDate.Format = DateTimePickerFormat.Custom
+        DtpDate.CustomFormat = "yyyy-MM-dd hh:mm:ss tt"
+        DtpDate.Visible = True
+        If GridRemarks.CurrentCell.Value Is Nothing Then
+            DtpDate.Value = Date.Now
+            Return
+        End If
+
+        DtpDate.Value = Convert.ToDateTime(GridRemarks.CurrentCell.Value)
+    End Sub
+
+    Private Sub GridRemarks_EditingControlShowing(sender As Object, e As DataGridViewEditingControlShowingEventArgs) Handles GridRemarks.EditingControlShowing
+        If GridRemarks.CurrentCell.RowIndex < 0 Then
+            Exit Sub
+        End If
+
+        If GridRemarks.Focused And GridRemarks.CurrentCell.ColumnIndex = GridRemarks.Columns(GridRemarksColumns.Date).Index Then
+            DtpDate.Location = GridRemarks.GetCellDisplayRectangle(GridRemarks.CurrentCell.ColumnIndex, GridRemarks.CurrentCell.RowIndex, True).Location
+            DtpDate.Size = New Size(GridRemarks.Columns.Item(GridRemarks.CurrentCell.ColumnIndex).Width, GridRemarks.Rows.Item(GridRemarks.CurrentCell.RowIndex).Height)
+        End If
+    End Sub
+
+    Private Sub GridRemarks_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs) Handles GridRemarks.CellEndEdit
+        If GridRemarks.Rows(e.RowIndex).IsNewRow OrElse GridRemarks.Item(GridRemarksColumns.Remarks, e.RowIndex).Value.Equals(GridCellPreviousValue) Then
+            Return
+        End If
+
+        Dim Remarks As String = GridRemarks.Item(GridRemarksColumns.Remarks, e.RowIndex).Value
+        Dim TableName As String
+        Dim PrimaryKey As String
+        Dim DateColumnName As String
+        If ControlRemarkOption = ControlRemarksOption.RemarksByCustomer Then
+            TableName = Tables.RepairRemarks1
+            PrimaryKey = RepairRemarks1.Rem1No
+            DateColumnName = RepairRemarks1.Rem1Date
+        Else
+            TableName = Tables.RepairRemarks2
+            PrimaryKey = RepairRemarks2.Rem2No
+            DateColumnName = RepairRemarks2.Rem2Date
+        End If
+
+        Select Case e.ColumnIndex
+            Case GridRemarks.Columns(GridRemarksColumns.Date).Index
+                GridRemarks.CurrentCell.Value = DtpDate.Value.ToString
+                DtpDate.Visible = False
+            Case GridRemarks.Columns(GridRemarksColumns.Remarks).Index
+                If IsDBNull(GridRemarks.Item(GridRemarksColumns.Date, e.RowIndex).Value) Then
+                    GridRemarks.Item(GridRemarksColumns.Date, e.RowIndex).Value = Date.Now
+                End If
+
+                If IsDBNull(GridRemarks.Item(GridRemarksColumns.UserName, e.RowIndex).Value) Then
+                    GridRemarks.Item(GridRemarksColumns.UserName, e.RowIndex).Value = User.Instance.UserName
+                End If
+
+                If IsNothing(GridRemarks.Item(GridRemarksColumns.Remarks, e.RowIndex).Value) OrElse
+                    String.IsNullOrWhiteSpace(GridRemarks.Item(GridRemarksColumns.Remarks, e.RowIndex).Value) Then
+                    GridRemarks.Rows.RemoveAt(e.RowIndex)
+                    Return
+                End If
+
+                If IsDBNull(GridRemarks.Item(GridRemarksColumns.No, e.RowIndex).Value) Then
+                    GridRemarks.Item(GridRemarksColumns.No, e.RowIndex).Value = Db.GetNextKey(TableName, PrimaryKey)
+                End If
+        End Select
+
+        If Db.CheckDataExists(TableName, PrimaryKey, GridRemarks.Item(GridRemarksColumns.No, e.RowIndex).Value) = True Then
+            Db.Execute($"UPDATE {TableName} SET " & If(RepairMode = RepairMode.Repair, "RepNo", "RetNo") & $"=@PRIMARYNO, {DateColumnName}=@REMDATE, Remarks=@REMARKS, UNo=@UNO WHERE {PrimaryKey}=@REM1NO;", {
+                    New MySqlParameter("PRIMARYNO", PrimaryNo),
+                    New MySqlParameter("REMDATE", GridRemarks.Item(GridRemarksColumns.Date, e.RowIndex).Value),
+                    New MySqlParameter("REMARKS", GridRemarks.Item(GridRemarksColumns.Remarks, e.RowIndex).Value),
+                    New MySqlParameter("UNO", User.Instance.UserNo),
+                    New MySqlParameter("REM1NO", GridRemarks.Item(GridRemarksColumns.No, e.RowIndex).Value)
+                })
+        Else
+            Db.Execute($"INSERT INTO {TableName}({PrimaryKey}," & If(RepairMode = RepairMode.Repair, "RepNo", "RetNo") & $", {DateColumnName}, Remarks, UNo) VALUES(@REMNO, @PRIMARYNO, @REMDATE, @REMARKS, @UNO);", {
+                    New MySqlParameter("REMNO", GridRemarks.Item(GridRemarksColumns.No, e.RowIndex).Value),
+                    New MySqlParameter("PRIMARYNO", PrimaryNo),
+                    New MySqlParameter("REMDATE", GridRemarks.Item(GridRemarksColumns.Date, e.RowIndex).Value),
+                    New MySqlParameter("REMARKS", GridRemarks.Item(GridRemarksColumns.Remarks, e.RowIndex).Value),
+                    New MySqlParameter("UNO", User.Instance.UserNo)
+                })
+        End If
+    End Sub
+
+    Private Sub GridRemarks_UserDeletingRow(sender As Object, e As DataGridViewRowCancelEventArgs) Handles GridRemarks.UserDeletingRow
+        If e.Row.Index < 0 Or e.Row.IsNewRow Then
+            Exit Sub
+        End If
+
+        If Convert.ToDateTime(GridRemarks.Item(1, e.Row.Index).Value).Date <> Date.Today.Date And User.Instance.UserType <> User.Type.Admin Then
+            e.Cancel = True
+            Return
+        End If
+
+        Db.Execute($"Delete from {Tables.RepairRemarks1} Where Rem1No=@REM1NO", {
+            New MySqlParameter("REM1NO", GridRemarks.Item(GridRemarksColumns.No, e.Row.Index).Value)
+        })
+    End Sub
+
+    Private Sub GridRemarks_RowValidating(sender As Object, e As DataGridViewCellCancelEventArgs) Handles GridRemarks.RowValidating
+        If GridRemarks.Rows(e.RowIndex).IsNewRow Then
+            Return
+        End If
+
+        If GridRemarks.Item(GridRemarksColumns.No, e.RowIndex).Value Is Nothing Then
+            Return
+        End If
+
+        Dim DR1 = Db.GetDataDictionary($"SELECT Rem1No, Rem1Date, Remarks, UserName FROM RepairRemarks1 RepRem1 LEFT JOIN `User` U ON U.UNo=RepRem1.UNo WHERE Rem1No={GridRemarks.Item(GridRemarksColumns.No, e.RowIndex).Value};")
+        If DR1 IsNot Nothing Then
+            GridRemarks.Item(GridRemarksColumns.Date, e.RowIndex).Value = DR1("Rem1Date").ToString
+            GridRemarks.Item(GridRemarksColumns.Remarks, e.RowIndex).Value = DR1("Remarks").ToString
+            GridRemarks.Item(GridRemarksColumns.UserName, e.RowIndex).Value = DR1("UserName").ToString
+            'Else
+            'GridRemarks.Rows.RemoveAt(e.RowIndex)
+        End If
+    End Sub
+
+    Private Structure GridRemarksColumns
+        Public Const No As String = "RemNo"
+        Public Const [Date] As String = "RemDate"
+        Public Const Remarks As String = "Remarks"
+        Public Const UserName As String = "RemUser"
+    End Structure
+End Class
+
+Public Enum ControlRemarksOption
+    RemarksByCustomer
+    RemarksByTechnician
+End Enum
+
+
+

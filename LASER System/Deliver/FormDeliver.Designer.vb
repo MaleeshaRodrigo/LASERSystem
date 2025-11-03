@@ -382,7 +382,7 @@ Partial Class FormDeliver
         '
         Me.DataGridViewTextBoxColumn10.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
         Me.DataGridViewTextBoxColumn10.HeaderText = "Status"
-        Me.DataGridViewTextBoxColumn10.Items.AddRange(New Object() {"Repaired Delivered", "Returned Delivered"})
+        Me.DataGridViewTextBoxColumn10.Items.AddRange(New Object() {RepairStatus.RepairedDelivered, RepairStatus.ReturnedDelivered})
         Me.DataGridViewTextBoxColumn10.MinimumWidth = 6
         Me.DataGridViewTextBoxColumn10.Name = "DataGridViewTextBoxColumn10"
         Me.DataGridViewTextBoxColumn10.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
@@ -460,7 +460,7 @@ Partial Class FormDeliver
         'Status
         '
         Me.Status.HeaderText = "Status"
-        Me.Status.Items.AddRange(New Object() {"Repaired Delivered", "Returned Delivered"})
+        Me.Status.Items.AddRange(New Object() {RepairStatus.RepairedDelivered, RepairStatus.ReturnedDelivered})
         Me.Status.MinimumWidth = 6
         Me.Status.Name = "Status"
         Me.Status.Width = 125
