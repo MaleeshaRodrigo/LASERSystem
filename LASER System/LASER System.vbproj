@@ -231,6 +231,12 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Enums\UpdateMode.vb" />
+    <Compile Include="HRM\ControlTechnicianProfile.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="HRM\FormHRMCenter.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Interfaces\GridSearchControl.vb" />
     <Compile Include="Interfaces\ReportPrint.vb" />
     <Compile Include="Main\Controls\ControlCashierDashboard.Designer.vb">

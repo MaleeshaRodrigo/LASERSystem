@@ -25,9 +25,14 @@
         Return UserType <> Type.Admin
     End Function
 
+    Public Function IsHrAdmin() As Boolean
+        Return UserType = Type.HRAdmin OrElse UserType = Type.Admin
+    End Function
+
     Public Structure Type
         Const Admin = "Admin"
         Const Cashier = "Cashier"
+        Const HRAdmin = "HR Admin"
     End Structure
 
 End Class
