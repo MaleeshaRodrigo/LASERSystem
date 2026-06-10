@@ -39,8 +39,8 @@
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>6</ApplicationRevision>
-    <ApplicationVersion>2.7.0.%2a</ApplicationVersion>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>2.7.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -500,12 +500,6 @@
     <Compile Include="frmSale.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmSalesRepair.Designer.vb">
-      <DependentUpon>frmSalesRepair.vb</DependentUpon>
-    </Compile>
-    <Compile Include="frmSalesRepair.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="frmSettings.Designer.vb">
       <DependentUpon>frmSettings.vb</DependentUpon>
     </Compile>
@@ -583,12 +577,6 @@
       <DependentUpon>FormTechnicianLoan.vb</DependentUpon>
     </Compile>
     <Compile Include="TechnicianLoan\FormTechnicianLoan.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmTechnicianSalary.Designer.vb">
-      <DependentUpon>frmTechnicianSalary.vb</DependentUpon>
-    </Compile>
-    <Compile Include="frmTechnicianSalary.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Structures\StructureDatabase.vb" />
@@ -767,9 +755,6 @@
     <EmbeddedResource Include="frmSale.resx">
       <DependentUpon>frmSale.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmSalesRepair.resx">
-      <DependentUpon>frmSalesRepair.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="frmSettings.resx">
       <DependentUpon>frmSettings.vb</DependentUpon>
     </EmbeddedResource>
@@ -861,9 +846,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TechnicianLoan\FormTechnicianLoan.resx">
       <DependentUpon>FormTechnicianLoan.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmTechnicianSalary.resx">
-      <DependentUpon>frmTechnicianSalary.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>

@@ -116,16 +116,8 @@ Public Class FormMain
         End With
     End Sub
 
-    Public Sub cmdTechnicianSalary_Click(sender As Object, e As EventArgs) Handles cmdTechnicianSalary.Click
-        frmTechnicianSalary.Show()
-    End Sub
-
     Public Sub cmdCustomerLoan_Click(sender As Object, e As EventArgs) Handles cmdCustomerLoan.Click
         frmCustomerLoan.Show()
-    End Sub
-
-    Public Sub cmdSalesRepair_Click(sender As Object, e As EventArgs) Handles cmdSalesRepair.Click
-        frmSalesRepair.Show()
     End Sub
 
     Private Sub CmdSale_Click(sender As Object, e As EventArgs) Handles cmdSale.Click
@@ -222,20 +214,12 @@ Public Class FormMain
         cmdDeliver_Click(sender, e)
     End Sub
 
-    Private Sub SalesRepairToolStripMenuItem_Click(sender As Object, e As EventArgs)
-        If cmdSalesRepair.Enabled = True Then cmdSalesRepair_Click(sender, e)
-    End Sub
-
     Private Sub TechnicianCostToolStripMenuItem_Click(sender As Object, e As EventArgs)
         cmdTechnicianCost_Click(sender, e)
     End Sub
 
     Private Sub TechnicianLoanToolStripMenuItem_Click(sender As Object, e As EventArgs)
         cmdTechnicianLoan_Click(sender, e)
-    End Sub
-
-    Private Sub TechnicianSalaryToolStripMenuItem_Click(sender As Object, e As EventArgs)
-        cmdTechnicianSalary_Click(sender, e)
     End Sub
 
     Private Sub CustomerLoanToolStripMenuItem_Click(sender As Object, e As EventArgs)

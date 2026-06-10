@@ -67,7 +67,6 @@ Public NotInheritable Class FrmSplash
                     .Show()
                     .Hide()
                     .WindowState = FormWindowState.Maximized
-                    .cmdSalesRepair.Enabled = False
                     .tabChart.TabPages.Remove(.pageIncomevsDate)
                     .tabChart.TabPages.Remove(.pageReceivedRepvsDate)
                     .tabChart.TabPages.Remove(.pageCashier)

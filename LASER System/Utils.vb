@@ -162,12 +162,10 @@ Module Utils
         AddHandler cmdRepair.Click, AddressOf FormMain.cmdRepair_Click
         cmdDeliver.ShortcutKeys = Keys.F5
         AddHandler cmdDeliver.Click, AddressOf FormMain.cmdDeliver_Click
-        AddHandler cmdSalesRepair.Click, AddressOf FormMain.cmdSalesRepair_Click
         cmdTechnicianCost.ShortcutKeys = Keys.F6
         AddHandler cmdTechnicianCost.Click, AddressOf FormMain.cmdTechnicianCost_Click
         cmdTechnicianLoan.ShortcutKeys = Keys.F7
         AddHandler cmdTechnicianLoan.Click, AddressOf FormMain.cmdTechnicianLoan_Click
-        AddHandler cmdTechnicianSalary.Click, AddressOf FormMain.cmdTechnicianSalary_Click
         AddHandler cmdCustomerLoan.Click, AddressOf FormMain.cmdCustomerLoan_Click
         AddHandler cmdSettlement.Click, AddressOf FormMain.CmdSettlement_Click
         AddHandler cmdBarCodeGenerator.Click, AddressOf FormMain.BarCodeGeneratorToolStripMenuItem_Click
