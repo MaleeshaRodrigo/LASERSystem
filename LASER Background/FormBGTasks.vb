@@ -434,21 +434,24 @@ Public Class FormBGTasks
         End Select
     End Function
 
-    Private Sub ButtonRunFullSynchronization_Click(sender As Object, e As EventArgs) Handles ButtonRunFullSynchronization.Click
-        Dim TaskRunFullSynchronise As Task = Task.Run(
+    Private Async Sub ButtonRunFullSynchronization_Click(sender As Object, e As EventArgs) _
+    Handles ButtonRunFullSynchronization.Click
+
+        Dim ButtonText As String = ButtonRunFullSynchronization.Text  ' ✅ UI thread
+        ButtonRunFullSynchronization.Text = "Running..."              ' ✅ UI thread
+        ButtonRunFullSynchronization.Enabled = False                  ' ✅ UI thread
+
+        Try
+            Await Task.Run(
             Sub()
-                Dim ButtonText As String = ButtonRunFullSynchronization.Text
-                ButtonRunFullSynchronization.Text = "Running..."
-                ButtonRunFullSynchronization.Enabled = False
-                Try
-                    Dim Process As New DatabaseSynchronizationProcess()
-                    Process.PerformFullSyncroniationLocalToRemote()
-                Catch Ex As Exception
-                    CreateMessagePanel("Database Synchronization Process එක ගැටලුවක් පවතියි.", Ex.Message)
-                Finally
-                    ButtonRunFullSynchronization.Text = ButtonText
-                    ButtonRunFullSynchronization.Enabled = True
-                End Try
+                Dim SyncProcess As New DatabaseSynchronizationProcess()
+                SyncProcess.PerformFullSyncroniationLocalToRemote()
             End Sub)
+        Catch Ex As Exception
+            CreateMessagePanel("Database Synchronization Process...", Ex.Message)  ' ✅ UI thread
+        Finally
+            ButtonRunFullSynchronization.Text = ButtonText  ' ✅ UI thread
+            ButtonRunFullSynchronization.Enabled = True     ' ✅ UI thread
+        End Try
     End Sub
 End Class
